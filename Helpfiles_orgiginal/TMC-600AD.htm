@@ -1,0 +1,25 @@
+
+<HTML>
+<Title>A/D Input and Real Time Clock</Title>
+<BODY>
+<h2>A/D Input</h2>
+<p>
+Two A/D Input functions can be simulated with the emulator:<br>
+A/DI: Converting input voltage -99 to 999 mv<br>
+A/DS: Converting input voltage 0 to 1500 mv
+</p>
+<p>
+Both functions are only available when expansion ROM 151182 is loaded and can be used for channel 0 to E (or to F for A/DS).
+</p>
+<p>
+For an example of the use if the A/DI function see the demo2.txt program in the TMC-600 directory (Temperature part).
+</p>
+<h2>Real Time Clock</h2>
+<p>
+Real Time Clock simulation can be enabled by checking the 'Real Time Clock' check box. After this command in expansion ROM 151182 like STARTCL, STIME, RDCLOCKH etc will be emulated correctly.
+</p>
+<p>
+SBASIC commands for the Real Time Clock are only available when expansion ROM 151182 is loaded.
+</p>
+</BODY>
+</HTML>

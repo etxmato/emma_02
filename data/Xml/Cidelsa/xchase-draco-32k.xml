@@ -8,10 +8,10 @@
         <config>Xchase on Draco HW, 32K ROM</config>
         <clock>3.579</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <statusbar>cidelsa</statusbar>
         <dirname>Cidelsa</dirname>
     </system>
@@ -35,8 +35,9 @@
         <charsize type="ram">0x7ff</charsize>
         <pcbmask>0xff</pcbmask>
         <maxcharlines>8</maxcharlines>
+        <charlines>8</charlines>
         <maxscreenlines>27</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
-        <mode>ntsc</mode>
+        <mode>pal</mode>
         <ef type="display" pol="rev" write="enable">1</ef>
         <clock>5.626</clock>
         <colorram type="cidelsa" />
@@ -55,15 +56,15 @@
         <ef4>65</ef4>
     </efbuttons>
 
-    <bitkeypad pad="a">
+    <keypad type="bit" pad="a">
         <in>1</in>
         <bit0>49</bit0>     <!-- 1 player -->
         <bit1>50</bit1>     <!-- 2 player -->
         <bit3>84</bit3>     <!-- T = Tilt -->
         <bit5>32</bit5>     <!-- space / fire -->
-    </bitkeypad>
+    </keypad>
 
-    <bitkeypad pad="b">
+    <keypad type="bit" pad="b">
         <in>4</in>
         <bit0>73</bit0>     <!-- I = up 2 -->
         <bit1>77</bit1>     <!-- M = down 2 -->
@@ -73,7 +74,7 @@
         <bit5>317</bit5>    <!-- down 1 -->
         <bit6>316</bit6>    <!-- right 1 -->
         <bit7>314</bit7>    <!-- left 1 -->
-    </bitkeypad>
+    </keypad>
 
     <debugger>
         <scrt mode="on">

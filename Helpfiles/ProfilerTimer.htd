@@ -9,7 +9,7 @@ The profiler can also measure a specific time between two triggers. The first ti
 <IMG SRC="images/profiler_timer.png" BORDER="0">
 </p>
 <p>
-The trigger type can be set with the 'Interval trigger' selector (yellow ellipse) and the interval time is shown below (orange ellipse).
+The trigger type can be set with the 'Interval trigger' selector (highlighted in yellow) and the interval time is shown below (highlighted in orange).
 </p>
 </body>
 </html>

@@ -1,0 +1,22 @@
+
+<HTML>
+<Title>Ram Card</Title>
+<BODY>
+<h1>Ram Card</h1>
+<p>
+To run the COMX emulator with the 32KB Ram Card, select check button '32K Ram Card' (orange ellipse), after this it is possible to select the expansion box slot you want to use for the Ram Card (blue ellipse). If no expansion box is available be sure to select CARD 1 for the Ram Card. The slot used for the Ram Card can NOT be used for any other interface card (yellow ellipse).
+</p>
+<p>
+<IMG SRC="images/comx_32kram.png" BORDER="0">
+</p>
+<p>
+For use of the RAM card with expansion box command please see the <a href="ComxExpansion.htm">Expansion Box</a> help.
+</p>
+<p>
+If no expansion box is available the RAM card will be placed from address hex C000-DFFF, this is only one 8KB bank of the available 32K at a time. To switch to a different 8K bank use the OUT 1 instruction within 1802 assembler code. Bit 5 and 6 are used for the RAM bank selection (bit 1 to 4 are used for the expansion box slot selection).
+</p>
+<p>
+When using the Ram Card the RAM will not be available as normal BASIC RAM, i.e. PRINT MEM will still only show 30934 Bytes.
+</p>
+</BODY>
+</HTML>

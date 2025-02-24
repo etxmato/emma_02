@@ -1,0 +1,25 @@
+TABLE TENNIS 
+
+This is a monochrome game for two people, which may be a little difficult to play if you are using a hex keypad. Each player controls his/her bat with four keys, as follows: 
+
+
+Player 1 (left) 
+
+up slow — key 0 
+down slow — key 8 
+up fast — key 1 
+down fast — key 9 
+
+Player 2 (right) 
+
+up slow — key 6 
+down slow — key E 
+up fast — key 7 
+down fast — key F 
+
+
+Player 1 serves first, by pressing either ‘slow’ key. Service alternates as in the real game and (wait for it!) you can ‘spin’ the ball viciously, gently or not at all by appropriate use of the bat! 
+
+Scoring is like the real game in that misses or shots off the edge of the ‘table’ give a point to the opposing player. 
+
+Messages appear to announce change of service and the winner of the game.

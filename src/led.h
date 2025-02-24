@@ -4,7 +4,7 @@
 class Led  
 {
 public:
-    Led(wxDC& dc, int x, int y, int computerType);
+    Led(wxDC& dc, int x, int y, int computerType, bool reversePol=false);
     ~Led();
 
     void onPaint(wxDC& dc);
@@ -22,6 +22,7 @@ private:
     int    status_;
     int    x_;
     int    y_;
+    bool reversePol_;
 };
 
 #endif  // LED_H

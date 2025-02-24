@@ -1,0 +1,87 @@
+
+<html>
+<title>Program Configuration - Example</title>
+<body>
+<h1>Program Configuration - Example</h1>
+<p>
+This section gives a simple example on how to use the 'program configuration' in the Direct Assembler. It will also show the basics for the insert and delete functions. For all details please see section <a href="DirectMain.htm">Direct Assembler</a>.
+</p>
+<p>
+To get started:
+</p>
+<p>
+<UL>
+<LI>Start a computer of your choice
+<LI>Decide what your code start and end address will be, let's take an example start at 0000 and end at 1000 (Numbers are all in hexadecimal). Note that the end address can be changed at anytime.
+<LI>Fill in the start and end fields, as well as a file name, e.g. test.bin. So you have something like:
+<p>
+<IMG SRC="images/assembler_conf_ex.png" BORDER="0">
+</p>
+<LI>Now press the red '<FONT COLOR="RED">Store</FONT>' button (note on Windows and Linux this button will have red text)
+</UL>
+</p>
+<p>
+Your configuration is ready!
+</p>
+<p>
+Write some code, for example a short counter going down from 10 to 0:
+</p>
+<p>
+<IMG SRC="images/assembler_conf_ex_code1.png" BORDER="0">
+</p>
+<p>
+After writing this counter you realise you need to make the counter large, i.e. > FF, say 110.
+</p>
+<p>
+<IMG SRC="images/assembler_conf_ex_insert.png" BORDER="0">
+</p>
+<p>
+To do this go to address 0 and press 'insert' (yellow ellipse) 3 times. When doing that also look at what happens to the BNZ <FONT COLOR="#fc5900">03</FONT> code. It will change on every 'insert'!
+</p>
+<p>
+<IMG SRC="images/assembler_conf_ex_code2.png" BORDER="0">
+</p>
+<p>
+After the 3 inserts you have room to add: LDI 02 / PHI RA on address 0000 and 0002. Also add a check on RA.1 in the end and you get:
+</p>
+<p>
+<IMG SRC="images/assembler_conf_ex_code3.png" BORDER="0">
+</p>
+<p>
+Delete works the same where it deletes the current instruction and changes all branches.
+</p>
+<p>
+The reason to define program boundaries is so that the assembler 'knows' which parts of memory to check for branches. In the above address 0000 to 1000 will be checked.
+</p>
+<p>
+Another nice feature of the insert/delete functions is that all short branches are converted to long branches if needed and if possible. Also long branches that can be converted to short branches will be changed.
+</p>
+<p>
+To have a look how this works write something like:
+</p>
+<p>
+<IMG SRC="images/assembler_conf_ex_code4.png" BORDER="0">
+</p>
+<p>
+Do an insert on address 00FDh, the BR <FONT COLOR="#fc5900">FF</FONT> will change to a LBR <FONT COLOR="#fc5900">0101</FONT>. 
+</p>
+<p>
+The direct assembler has inserted a NOP on 00FD but also added an extra byte to fit the LBR instead of the BR. 
+</p>
+<p>
+<IMG SRC="images/assembler_conf_ex_code5.png" BORDER="0">
+</p>
+<p>
+The same will happen with a 'delete' if no LBR is needed anymore it will be replaced by a BR. Note in the example above deleting the NOP on 00FE will not change to a BR. The LBR will still be to 0100 which means a BR doesn't fit so an extra delete for example on 00F5 would do the trick and change the LBR to a BR.
+</p>
+<p>
+<IMG SRC="images/assembler_conf_ex_code6.png" BORDER="0">
+</p>
+<p>
+To save all 'debug' data, make sure to use the 'Save' button on the direct assembler tab. This will save the test.bin, test.debug and the configuration files. The '.debug' file includes info where branches and code are located. The configuration '.config' file includes info about the specified configuration. The whole configuration can be loaded back with a 'Load'. See section <a href="DirectConfiguration.htm">Program Configuration</a> for more details.
+</p>
+<p>
+If you start a COMX with the SB active, it is possible to load all SB FW configuration and debug data by pressing the 'SB' button. The SB configuration has a complex structure, consisting of 15 parts to handle the different ROM locations as well as different banks.
+</p>
+</body>
+</html>

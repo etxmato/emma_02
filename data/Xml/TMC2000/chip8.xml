@@ -8,10 +8,10 @@
         <config>Chip-8 (select Chip-8 file in RAM field or use LOAD after Start)</config>
         <clock>1.75</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>Chip-8/Chip-8 Games</dirname>
     </system>
     
@@ -58,7 +58,7 @@
         <out type="back">1</out>
         <out type="color_tone">4</out>
         <ef>1</ef>
-        <colorram mask="0x3ff">0x8000-0x83ff</colorram>
+        <colorram>0x8000-0x83ff</colorram>
         <height>192</height>
         <graphics>
             <interrupt>74</interrupt>

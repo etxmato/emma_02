@@ -18,10 +18,8 @@ private:
     void onUart1854(wxCommandEvent&event);
     void onUart16450(wxCommandEvent&event);
 
-     wxString computerTypeStr_;
-    int computerType_;
     bitset<32> SetUpFeature_;
-    ElfConfiguration elfConfiguration_;
+    ComputerConfiguration currentComputerConfiguration;
 
     bool originalUartValue_;
     

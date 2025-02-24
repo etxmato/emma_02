@@ -1,0 +1,38 @@
+BLOCK MOVE 
+
+Tzu-Pei Chen, Mulgrave Vic. 
+
+Have you ever entered a 500 byte program only to discover that you had left out one byte right up the front? Block Move’ allows you to salvage this situation by letting you insert that missing line of code without retyping the rest of the program. What the program does is move chunks of memory around. For instance; say you wanted to enter this program: 
+	0600 16B6 3D 7D 1655 00 00 
+But you entered this; 
+	0600 16 B6 16 55 00 00 
+
+You would proceed thus; 
+	0700 06 06 ; 606 is the byte after the chunk of memory to be moved. 
+	0702 06 02 ; 602 is the beginning of the chunk of memory to be moved. 
+	0704 07 30 ; 730 is somewhere convenient to put it for the meantime. 
+
+Then you type RESET 0 0706 RESET 6 (execute machine code at 706). The 660's memory will now look like this; 
+	0600 16 B6 16 55 00 00 
+	0730 16 55 00 00 
+Then you enter; 
+	0700 07 34 ; 734 is the byte after the chunk of memory to be moved back. 
+	0702 07 30 ; 730 is the start of the chunk of memory to be moved back. 
+	0704 06 04 ; 604 is where to replace the code 
+leaving two bytes for the missing code. 
+
+Then you again type RESET 0 0706 RESET 6. The 660’s memory should now be; 
+
+	0600 16 B6 16 55 16 55 00 00 
+Then you just enter the missing code and there it is, 
+	0600 16B6 3D 7D 16 55 00 00 
+
+This was a silly example but imagine if it had been 500 bytes long ... 
+
+NOTE: 
+If you use Block Move to move memory up, i.e: 
+
+	NEWPOS (eeff) > START (ccdd) 
+then you must make sure that 
+	NEWPOS (eeff) >= FINISH (aabb) 
+otherwise Block Move will not work correctly. 

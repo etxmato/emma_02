@@ -32,7 +32,7 @@
 #include "main.h"
 #include "guixml.h"
 
-BEGIN_EVENT_TABLE(GuiXml, GuiPico)
+BEGIN_EVENT_TABLE(GuiXml, GuiVipII)
 
     EVT_TEXT(XRCID("RomRam1Xml"), GuiXml::onRomRom1TextXml)
     EVT_COMBOBOX(XRCID("RomRam1Xml"), GuiXml::onRomRom1ComboXml)
@@ -48,9 +48,9 @@ BEGIN_EVENT_TABLE(GuiXml, GuiPico)
 
     EVT_CHOICE(XRCID("MainDirXml"), GuiXml::onMainDirComboXml)
 
-    EVT_TEXT(XRCID("KeyFileXml"), GuiMain::onKeyFileText)
-    EVT_BUTTON(XRCID("KeyFileButtonXml"), GuiMain::onKeyFile)
-    EVT_BUTTON(XRCID("EjectKeyFileXml"), GuiMain::onKeyFileEject)
+    EVT_TEXT(XRCID("KeyFileXml"), GuiXml::onKeyFileText)
+    EVT_BUTTON(XRCID("KeyFileButtonXml"), GuiXml::onKeyFile)
+    EVT_BUTTON(XRCID("EjectKeyFileXml"), GuiXml::onKeyFileEject)
 
     EVT_CHOICE(XRCID("VTTypeXml"), GuiXml::onVT100)
 
@@ -62,9 +62,9 @@ BEGIN_EVENT_TABLE(GuiXml, GuiPico)
     EVT_TEXT(XRCID("ZoomValueVtXml"), GuiMain::onZoomValueVt)
     EVT_CHECKBOX(XRCID("InterlaceXml"), GuiMain::onInterlace)
     EVT_CHECKBOX(XRCID("StretchDotXml"), GuiMain::onStretchDot)
-    EVT_BUTTON(XRCID("ScreenDumpFileButtonXml"), GuiMain::onScreenDumpFile)
-    EVT_TEXT(XRCID("ScreenDumpFileXml"), GuiMain::onScreenDumpFileText)
-    EVT_COMBOBOX(XRCID("ScreenDumpFileXml"), GuiMain::onScreenDumpFileText)
+    EVT_BUTTON(XRCID("ScreenDumpFileButtonXml"), GuiXml::onScreenDumpFile)
+    EVT_TEXT(XRCID("ScreenDumpFileXml"), GuiXml::onScreenDumpFileText)
+    EVT_COMBOBOX(XRCID("ScreenDumpFileXml"), GuiXml::onScreenDumpFileText)
     EVT_BUTTON(XRCID("ScreenDumpF5Xml"), GuiMain::onScreenDump)
     EVT_BUTTON(XRCID("SaveButtonXml"), GuiMain::onSaveButton)
     EVT_BUTTON(XRCID("VtSetupXml"), GuiMain::onVtSetup)
@@ -78,7 +78,8 @@ BEGIN_EVENT_TABLE(GuiXml, GuiPico)
     EVT_TEXT(XRCID("PrintFileXml"), GuiXml::onXmlPrintFileText)
     EVT_BUTTON(XRCID("PrintButtonXml"), GuiXml::onXmlPrintButton)
     EVT_CHOICE(XRCID("PrintModeXml"), GuiXml::onXmlPrintMode)
-    EVT_BUTTON(XRCID("PrintFileButtonXml"), GuiMain::onPrintFile)
+
+    EVT_BUTTON(XRCID("PrintFileButtonXml"), GuiXml::onPrintFile)
         
     EVT_CHOICE(XRCID("VTBaudTChoiceXml"), GuiXml::onXmlBaudT)
     EVT_CHOICE(XRCID("VTBaudRChoiceXml"), GuiXml::onXmlBaudR)
@@ -86,34 +87,34 @@ BEGIN_EVENT_TABLE(GuiXml, GuiPico)
     EVT_CHECKBOX(XRCID("ControlWindowsXml"), GuiXml::onXmlControlWindows)
     EVT_BUTTON(XRCID("KeyMapXml"), Main::onHexKeyDef)
 
-    EVT_BUTTON(XRCID("FDC0_ButtonXml"), GuiMain::onUpdDisk0)
-    EVT_TEXT(XRCID("FDC0_FileXml"), GuiMain::onUpdDiskText0)
-    EVT_BUTTON(XRCID("Eject_FDC0Xml"), GuiMain::onUpdDiskEject0)
-    EVT_BUTTON(XRCID("FDC0_SwitchXml"), GuiMain::onUpdDiskDirSwitch0)
-    EVT_BUTTON(XRCID("FDC1_ButtonXml"), GuiMain::onUpdDisk1)
-    EVT_TEXT(XRCID("FDC1_FileXml"), GuiMain::onUpdDiskText1)
-    EVT_BUTTON(XRCID("Eject_FDC1Xml"), GuiMain::onUpdDiskEject1)
-    EVT_BUTTON(XRCID("FDC1_SwitchXml"), GuiMain::onUpdDiskDirSwitch1)
-    EVT_BUTTON(XRCID("FDC2_ButtonXml"), GuiMain::onUpdDisk2)
-    EVT_TEXT(XRCID("FDC2_FileXml"), GuiMain::onUpdDiskText2)
-    EVT_BUTTON(XRCID("Eject_FDC2Xml"), GuiMain::onUpdDiskEject2)
-    EVT_BUTTON(XRCID("FDC2_SwitchXml"), GuiMain::onUpdDiskDirSwitch2)
-    EVT_BUTTON(XRCID("FDC3_ButtonXml"), GuiMain::onUpdDisk3)
-    EVT_TEXT(XRCID("FDC3_FileXml"), GuiMain::onUpdDiskText3)
-    EVT_BUTTON(XRCID("Eject_FDC3Xml"), GuiMain::onUpdDiskEject3)
-    EVT_BUTTON(XRCID("FDC3_SwitchXml"), GuiMain::onUpdDiskDirSwitch3)
+    EVT_BUTTON(XRCID("FDC0_ButtonXml"), GuiXml::onDisk0)
+    EVT_TEXT(XRCID("FDC0_FileXml"), GuiXml::onDiskText0)
+    EVT_BUTTON(XRCID("Eject_FDC0Xml"), GuiXml::onDiskEject0)
+    EVT_BUTTON(XRCID("FDC0_SwitchXml"), GuiXml::onDiskDirSwitch0)
+    EVT_BUTTON(XRCID("FDC1_ButtonXml"), GuiXml::onDisk1)
+    EVT_TEXT(XRCID("FDC1_FileXml"), GuiXml::onDiskText1)
+    EVT_BUTTON(XRCID("Eject_FDC1Xml"), GuiXml::onDiskEject1)
+    EVT_BUTTON(XRCID("FDC1_SwitchXml"), GuiXml::onDiskDirSwitch1)
+    EVT_BUTTON(XRCID("FDC2_ButtonXml"), GuiXml::onDisk2)
+    EVT_TEXT(XRCID("FDC2_FileXml"), GuiXml::onDiskText2)
+    EVT_BUTTON(XRCID("Eject_FDC2Xml"), GuiXml::onDiskEject2)
+    EVT_BUTTON(XRCID("FDC2_SwitchXml"), GuiXml::onDiskDirSwitch2)
+    EVT_BUTTON(XRCID("FDC3_ButtonXml"), GuiXml::onDisk3)
+    EVT_TEXT(XRCID("FDC3_FileXml"), GuiXml::onDiskText3)
+    EVT_BUTTON(XRCID("Eject_FDC3Xml"), GuiXml::onDiskEject3)
+    EVT_BUTTON(XRCID("FDC3_SwitchXml"), GuiXml::onDiskDirSwitch3)
 
-    EVT_BUTTON(XRCID("CasButtonXml"), GuiMain::onCassette)
-    EVT_BUTTON(XRCID("EjectCasXml"), GuiMain::onCassetteEject)
-    EVT_TEXT(XRCID("WavFileXml"), GuiMain::onCassetteText)
+    EVT_BUTTON(XRCID("CasButtonXml"), GuiXml::onCassette)
+    EVT_BUTTON(XRCID("EjectCasXml"), GuiXml::onCassetteEject)
+    EVT_TEXT(XRCID("WavFileXml"), GuiXml::onCassetteText)
 
-    EVT_BUTTON(XRCID("CasButton1Xml"), GuiMain::onCassette1)
-    EVT_BUTTON(XRCID("EjectCas1Xml"), GuiMain::onCassette1Eject)
-    EVT_TEXT(XRCID("WavFile1Xml"), GuiMain::onCassette1Text)
+    EVT_BUTTON(XRCID("CasButton1Xml"), GuiXml::onCassette1)
+    EVT_BUTTON(XRCID("EjectCas1Xml"), GuiXml::onCassette1Eject)
+    EVT_TEXT(XRCID("WavFile1Xml"), GuiXml::onCassette1Text)
 
-    EVT_BUTTON(XRCID("XmodemButtonXml"), GuiMain::onXmodem)
-    EVT_BUTTON(XRCID("EjectXmodemXml"), GuiMain::onXmodemEject)
-    EVT_TEXT(XRCID("XmodemFileXml"), GuiMain::onXmodemText)
+    EVT_BUTTON(XRCID("XmodemButtonXml"), GuiXml::onXmodem)
+    EVT_BUTTON(XRCID("EjectXmodemXml"), GuiXml::onXmodemEject)
+    EVT_TEXT(XRCID("XmodemFileXml"), GuiXml::onXmodemText)
 
     EVT_BUTTON(XRCID("RealCasLoadXml"), GuiMain::onRealCas)
     EVT_BUTTON(XRCID("CasStopXml"), GuiMain::onCassetteStop)
@@ -149,11 +150,8 @@ BEGIN_EVENT_TABLE(GuiXml, GuiPico)
     END_EVENT_TABLE()
 
 GuiXml::GuiXml(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
-: GuiPico(title, pos, size, mode, dataDir, iniDir)
+: GuiVipII(title, pos, size, mode, dataDir, iniDir)
 {
-    tapeOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/tick.png", wxBITMAP_TYPE_PNG);
-    tapeOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/minus.png", wxBITMAP_TYPE_PNG);
-    
     dropdownUpdateOngoing_ = false;
     xmlFileComboSelection = 0;
     xmlDirComboSelection = 0;
@@ -163,26 +161,20 @@ GuiXml::GuiXml(const wxString& title, const wxPoint& pos, const wxSize& size, Mo
 
 void GuiXml::readXmlConfig()
 {
-    selectedComputer_ = XML; // *** to be removed
-    elfConfiguration[XML].ioConfiguration.emsOutput.resize(1);
+    selectedTab_ = XML;
 
-//    wxString defaultTimer;
-//    defaultTimer.Printf("%d", 100);
-//    conf[XML].ledTime_ = configPointer->Read("Xmlemu/Led_Update_Frequency", defaultTimer);
-
-    xmlDirComboSelection = (int)configPointer->Read("Xmlemu/XmlDirComboSelection", 2);
-    xmlDirComboString = configPointer->Read("Xmlemu/XmlDirComboString", "Comx");
-    conf[XML].xmlMainDir_ = readConfigDir("Dir/Xmlemu/XmlFile", dataDir_ + "Xml" + pathSeparator_);
+    xmlDirComboSelection = (int)configPointer->Read("Computer/XmlDirComboSelection", 2);
+    xmlDirComboString = configPointer->Read("Computer/XmlDirComboString", "Comx");
+    computerConfiguration.xmlFileConfiguration.mainDirectory = readConfigDir("Dir/Computer/XmlFile", dataDir_ + "Xml" + pathSeparator_);
     
     setXmlDirDropDown();
     setXmlSubDir(xmlDirComboString);
-    conf[XML].xmlDir_ = conf[XML].xmlMainDir_ + conf[XML].xmlSubDir_ + pathSeparator_;
+    computerConfiguration.xmlFileConfiguration.directory = computerConfiguration.xmlFileConfiguration.mainDirectory + computerConfiguration.xmlFileConfiguration.subDirectory + pathSeparator_;
     setXmlDropDown();
 
     dropdownUpdateOngoing_ = false;
 
-    clearXmlData(XML);
-    parseXmlFile(XML,conf[XML].xmlDir_, conf[XML].xmlFile_);
+    parseXmlFile(computerConfiguration.xmlFileConfiguration.directory, computerConfiguration.xmlFileConfiguration.fileName);
     
     setRomRamButtonOrder();
     
@@ -196,95 +188,80 @@ void GuiXml::readXmlConfig()
     setRomRamDropDown(romRamButton0_, "0");
     setRomRamDropDown(romRamButton1_, "1");
 
-    selectedComputer_ = XML;
+    computerConfiguration.videoTerminalConfiguration.terminalFiles.Add(computerConfiguration.videoTerminalConfiguration.xmodemFileName);
+    computerConfiguration.videoTerminalConfiguration.terminalPaths.Add(computerConfiguration.videoTerminalConfiguration.xmodemDirectory+computerConfiguration.videoTerminalConfiguration.xmodemFileName);
+    computerConfiguration.videoTerminalConfiguration.numberOfTerminalFiles = 1;
 
-    conf[XML].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + computerInfo[XML].gui + pathSeparator_;
+    computerConfiguration.memAccessConfiguration.saveEndString = "";
+    computerConfiguration.memAccessConfiguration.saveExecString = "";
 
-    conf[XML].terminalFiles_.Add(conf[XML].xmodemFile_);
-    conf[XML].terminalPaths_.Add(conf[XML].xmodemFileDir_+conf[XML].xmodemFile_);
-    conf[XML].numberOfTerminalFiles_ = 1;
+    configPointer->Read("Computer/SerialLog", &computerConfiguration.videoTerminalConfiguration.serialLog, false);
+    configPointer->Read("Computer/ESCError", &computerConfiguration.videoTerminalConfiguration.escError, false);
+    computerConfiguration.clearRam = false;
+    computerConfiguration.clearRtc = false;
 
-    conf[XML].saveEndString_ = "";
-    conf[XML].saveExecString_ = "";
-
-    elfConfiguration[XML].vt52SetUpFeature_ = configPointer->Read("Xmlemu/VT52Setup", 0x4092l);
-    elfConfiguration[XML].vt100SetUpFeature_ = configPointer->Read("Xmlemu/VT100Setup", 0xcad2l);
-    elfConfiguration[XML].vtExternalSetUpFeature_ = configPointer->Read("Xmlemu/VTExternalSetup", 0xcad2l);
-    
-    elfConfiguration[XML].vtCharactersPerRow = (int)configPointer->Read("Xmlemu/VT100CharPerRow", 80);
-    elfConfiguration[XML].vt100CharWidth = (int)configPointer->Read("Xmlemu/VT100CharWidth", 10);
-    elfConfiguration[XML].vt52CharWidth = (int)configPointer->Read("Xmlemu/VT52CharWidth", 9);
-
-    elfConfiguration[XML].bellFrequency_ = (int)configPointer->Read("Xmlemu/Bell_Frequency", 800);
-    configPointer->Read("Xmlemu/SerialLog", &elfConfiguration[XML].serialLog, false);
-    configPointer->Read("Xmlemu/ESCError", &elfConfiguration[XML].escError, false);
-    elfConfiguration[XML].clearRam = false;
-    elfConfiguration[XML].clearRtc = false;
-
-    configPointer->Read("Xmlemu/Enable_Vt_Stretch_Dot", &conf[XML].stretchDot_, false);
-    configPointer->Read("Xmlemu/Enable_Vt_External", &elfConfiguration[XML].vtExternal, false);
-    conf[XML].printMode_ = (int)configPointer->Read("Xmlemu/Print_Mode", 1l);
+    configPointer->Read("Computer/Enable_Vt_Stretch_Dot", &computerConfiguration.videoTerminalConfiguration.stretchDot, false);
+    configPointer->Read("Computer/Enable_Vt_External", &computerConfiguration.videoTerminalConfiguration.external, false);
+    configPointer->Read("Computer/Enable_Vt_LoopBack", &computerConfiguration.videoTerminalConfiguration.loop_back, false);
+    computerConfiguration.printMode_ = (int)configPointer->Read("Computer/Print_Mode", 1l);
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 1.0);
-    conf[XML].zoomVt_ = convertLocale(configPointer->Read("Xmlemu/Vt_Zoom", defaultZoom));
-//    wxString defaultScale;
-//    defaultScale.Printf("%i", 3);
-//    conf[XML].xScale_ = convertLocale(configPointer->Read("Xmlemu/Window_Scale_Factor_X", defaultScale));
+    computerConfiguration.videoTerminalConfiguration.zoom = convertLocale(configPointer->Read("Computer/Vt_Zoom", defaultZoom));
 
-        conf[XML].turboClock_ = configPointer->Read("Xmlemu/Turbo_Clock_Speed", "50");
-    elfConfiguration[XML].packetSize = (int)configPointer->Read("Xmlemu/Ymodem_PacketSize", 0l);
-    configPointer->Read("Xmlemu/Enable_Real_Cassette", &conf[XML].realCassetteLoad_, false);
-    conf[XML].volume_ = (int)configPointer->Read("Xmlemu/Volume", 25l);
+    computerConfiguration.turboClock_ = configPointer->Read("Computer/Turbo_Clock_Speed", "15");
+    computerConfiguration.videoTerminalConfiguration.packetSize = (int)configPointer->Read("Computer/Ymodem_PacketSize", 0l);
+    configPointer->Read("Computer/Enable_Real_Cassette", &computerConfiguration.realCassetteLoad_, false);
+    computerConfiguration.soundConfiguration.volume = (int)configPointer->Read("Computer/Volume", 25l);
 
     hwTapeState_ = HW_TAPE_STATE_PLAY;
         
-//    configPointer->Read("Xmlemu/DisableNvRam", &elfConfiguration[XML].nvRamDisable, elfConfiguration[XML].nvRamDisableDefault);
-
-    setRealCas(XML);
+    setRealCas();
     setXmlGui();
     
-    conf[XML].tempo_ = (int)configPointer->Read("/Xmlemu/Tempo", 100l);
+    computerConfiguration.soundConfiguration.tempo = (int)configPointer->Read("/Computer/Tempo", 100l);
 
     if (mode_.gui)
     {
-        correctZoomVtAndValue(XML, "Xml", SET_SPIN);
+        correctZoomVtAndValue(SET_SPIN);
             
-        XRCCTRL(*this, "StretchDotXml", wxCheckBox)->SetValue(conf[XML].stretchDot_);
+        XRCCTRL(*this, "StretchDotXml", wxCheckBox)->SetValue(computerConfiguration.videoTerminalConfiguration.stretchDot);
 
-        XRCCTRL(*this, "PrintModeXml", wxChoice)->SetSelection(conf[XML].printMode_);
+        XRCCTRL(*this, "PrintModeXml", wxChoice)->SetSelection(computerConfiguration.printMode_);
 
-        XRCCTRL(*this, "TurboClockXml", wxTextCtrl)->SetValue(conf[XML].turboClock_);
+        XRCCTRL(*this, "TurboClockXml", wxTextCtrl)->SetValue(computerConfiguration.turboClock_);
 
-        XRCCTRL(*this, "VolumeXml", wxSlider)->SetValue(conf[XML].volume_);
+        XRCCTRL(*this, "VolumeXml", wxSlider)->SetValue(computerConfiguration.soundConfiguration.volume);
     }
 
-    conf[XML].loadFileNameFull_ = "";
-    conf[XML].loadFileName_ = "";
+    computerConfiguration.memAccessConfiguration.fullFileName = "";
+    computerConfiguration.memAccessConfiguration.fileName = "";
 }
 
 void GuiXml::writeXmlDirConfig()
 {
     wxString number, type;
     
-    writeConfigDir("/Dir/Xmlemu/XmlFile", conf[XML].xmlMainDir_);
-    writeConfigDir("/Dir/Xmlemu/Key_File", conf[XML].keyFileDir_);
-    writeConfigDir("/Dir/Xmlemu/Video_Dump_File", conf[XML].screenDumpFileDir_);
-    writeConfigDir("/Dir/Xmlemu/Print_File", conf[XML].printFileDir_);
-    writeConfigDir("/Dir/Xmlemu/Xmodem_File", conf[XML].xmodemFileDir_);
+    writeConfigDir("/Dir/Computer/XmlFile", computerConfiguration.xmlFileConfiguration.mainDirectory);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/"+computerConfiguration.memoryConfiguration[romRamButton0_].filename+"/Dir/GuiRomRam0", computerConfiguration.memoryConfiguration[romRamButton0_].dirname);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/"+computerConfiguration.memoryConfiguration[romRamButton1_].filename+"/Dir/GuiRomRam1", computerConfiguration.memoryConfiguration[romRamButton1_].dirname);
+    writeConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Key_File", computerConfiguration.keyFileConfiguration.directory);
+    writeConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Video_Dump_File", computerConfiguration.screenDumpFileConfiguration.directory);
+    writeConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Print_File", computerConfiguration.printerFileConfiguration.directory);
+    writeConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Xmodem_File", computerConfiguration.videoTerminalConfiguration.xmodemDirectory);
+    for (int tape=0; tape<2; tape++)
+    {
+        number.Printf("%d", tape);
+        writeConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Wav_File" + number, computerConfiguration.wavConfiguration[tape].directory);
+    }
     for (int fdcType = 0; fdcType<FDCTYPE_MAX; fdcType++)
     {
         type.Printf("%d", fdcType);
         for (int disk=0; disk<4; disk++)
         {
             number.Printf("%d", disk);
-            writeConfigDir("/Dir/Xmlemu/FDC" + number + "_File_" + type, floppyDir_[fdcType][disk]);
+            writeConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/FDC" + number + "_File_" + type, floppyDir_[fdcType][disk]);
         }
-    }
-    for (int tape=0; tape<2; tape++)
-    {
-        number.Printf("%d", tape);
-        writeConfigDir("/Dir/Xmlemu/Wav_File" + number, conf[XML].wavFileDir_[tape]);
     }
 }
 
@@ -292,36 +269,36 @@ void GuiXml::writeXmlConfig()
 {
     wxString buffer, numberStr, type;
 
-    configPointer->Write("Xmlemu/XmlDirComboSelection", xmlDirComboSelection);
-    configPointer->Write("Xmlemu/XmlDirComboString", xmlDirComboString);
+    configPointer->Write("Computer/XmlDirComboSelection", xmlDirComboSelection);
+    configPointer->Write("Computer/XmlDirComboString", xmlDirComboString);
 
     for (size_t number=0; number < dirNameList_.GetCount(); number++)
     {
         if (dirNameListDefaultFile_.GetCount() > 0)
-            configPointer->Write("/Xmlemu/XmlFile/"+dirNameList_[number], dirNameListDefaultFile_[number]);
+            configPointer->Write("/Computer/XmlFile/"+dirNameList_[number], dirNameListDefaultFile_[number]);
         if (dirNameListGui_.GetCount() > 0)
         {
-            configPointer->Write("/Xmlemu/XmlGui/"+dirNameList_[number], dirNameListGui_[number]);
-            configPointer->Write("/Xmlemu/XmlDir/"+dirNameListGui_[number], dirNameList_[number]);
+            configPointer->Write("/Computer/XmlGui/"+dirNameList_[number], dirNameListGui_[number]);
+            configPointer->Write("/Computer/XmlDir/"+dirNameListGui_[number], dirNameList_[number]);
         }
     }
 
-    configPointer->Write("/Xmlemu/GuiRomRam0/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton0_].filename);
-    configPointer->Write("/Xmlemu/GuiRomRam1/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton1_].filename);
-    configPointer->Write("/Xmlemu/Led_Update_Frequency/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].ledTime_);
-    configPointer->Write("/Xmlemu/Enable_Turbo_Cassette/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].turbo_);
-    configPointer->Write("/Xmlemu/Enable_Auto_Cassette/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].autoCassetteLoad_);
-    configPointer->Write("/Xmlemu/UseLoadLocation/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].useLoadLocation_);
-    configPointer->Write("/Xmlemu/SaveStart/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].saveStartString_);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/GuiRomRam0", computerConfiguration.memoryConfiguration[romRamButton0_].filename);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/GuiRomRam1", computerConfiguration.memoryConfiguration[romRamButton1_].filename);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Led_Update_Frequency", computerConfiguration.ledTime_);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Enable_Turbo_Cassette", computerConfiguration.turbo_);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Enable_Auto_Cassette", computerConfiguration.autoCassetteLoad_);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/UseLoadLocation", computerConfiguration.memAccessConfiguration.useLocation);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/SaveStart", computerConfiguration.memAccessConfiguration.saveStartString);
 
-    configPointer->Write("/Xmlemu/Key_File", conf[XML].keyFile_);
-    configPointer->Write("/Xmlemu/Video_Dump_File", conf[XML].screenDumpFile_);
-    configPointer->Write("/Xmlemu/Print_File", conf[XML].printFile_);
-    configPointer->Write("/Xmlemu/Xmodem_File", conf[XML].xmodemFile_);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Key_File", computerConfiguration.keyFileConfiguration.fileName);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Video_Dump_File", computerConfiguration.screenDumpFileConfiguration.fileName);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Print_File", computerConfiguration.printerFileConfiguration.fileName);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Xmodem_File", computerConfiguration.videoTerminalConfiguration.xmodemFileName);
     for (int tape=0; tape<2; tape++)
     {
         numberStr.Printf("%d", tape);
-        configPointer->Write("/Xmlemu/Wav_File" + numberStr, conf[XML].wavFile_[tape]);
+        configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Wav_File" + numberStr, computerConfiguration.wavConfiguration[tape].fileName);
     }
     for (int fdcType = 0; fdcType<FDCTYPE_MAX; fdcType++)
     {
@@ -329,246 +306,784 @@ void GuiXml::writeXmlConfig()
         for (int disk=0; disk<4; disk++)
         {
             numberStr.Printf("%d", disk);
-            configPointer->Write("/Xmlemu/FDC" + numberStr + "_File_" + type, floppy_[fdcType][disk]);
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/FDC" + numberStr + "_File_" + type, floppy_[fdcType][disk]);
         }
     }
 
-    buffer.Printf("%04X", (unsigned int)startRam_[XML]);
-    configPointer->Write("Xmlemu/Ram_Start_Address", buffer);
-    buffer.Printf("%04X", (unsigned int)endRam_[XML]);
-    configPointer->Write("Xmlemu/Ram_End_Address", buffer);
+    configPointer->Write("Computer/SerialLog", computerConfiguration.videoTerminalConfiguration.serialLog);
+    configPointer->Write("Computer/ESCError", computerConfiguration.videoTerminalConfiguration.escError);
+    configPointer->Write("Computer/Vt_Zoom", computerConfiguration.videoTerminalConfiguration.zoom);
 
-    long value = elfConfiguration[XML].vt52SetUpFeature_.to_ulong();
-    configPointer->Write("Xmlemu/VT52Setup", value);
-    value = elfConfiguration[XML].vt100SetUpFeature_.to_ulong();
-    configPointer->Write("Xmlemu/VT100Setup", value);
-    value = elfConfiguration[XML].vtExternalSetUpFeature_.to_ulong();
-    configPointer->Write("Xmlemu/VTExternalSetup", value);
-    configPointer->Write("Xmlemu/VT100CharPerRow", elfConfiguration[XML].vtCharactersPerRow);
-    configPointer->Write("Xmlemu/VT100CharWidth", elfConfiguration[XML].vt100CharWidth);
-    configPointer->Write("Xmlemu/VT52CharWidth", elfConfiguration[XML].vt52CharWidth);
+    configPointer->Write("Computer/Enable_Printer", computerConfiguration.printerOn_);
+    configPointer->Write("Computer/Print_Mode", computerConfiguration.printMode_);
 
-    configPointer->Write("Xmlemu/Bell_Frequency", elfConfiguration[XML].bellFrequency_);
-    configPointer->Write("Xmlemu/SerialLog", elfConfiguration[XML].serialLog);
-    configPointer->Write("Xmlemu/ESCError", elfConfiguration[XML].escError);
-    configPointer->Write("Xmlemu/Vt_Zoom", conf[XML].zoomVt_);
-
-    configPointer->Write("Xmlemu/Enable_Printer", conf[XML].printerOn_);
-    configPointer->Write("Xmlemu/Print_Mode", conf[XML].printMode_);
-
-    configPointer->Write("Xmlemu/Enable_Vt_Stretch_Dot", conf[XML].stretchDot_);
-    configPointer->Write("Xmlemu/Enable_Vt_External", elfConfiguration[XML].vtExternal);
-
-    configPointer->Write("Xmlemu/Turbo_Clock_Speed", conf[XML].turboClock_);
-    configPointer->Write("Xmlemu/Enable_Real_Cassette", conf[XML].realCassetteLoad_);
-    configPointer->Write("Xmlemu/DisableNvRam", elfConfiguration[XML].nvRamDisable);
-    configPointer->Write("Xmlemu/Ymodem_PacketSize", elfConfiguration[XML].packetSize);
-    configPointer->Write("Xmlemu/Volume", conf[XML].volume_);
-    configPointer->Write("/Xmlemu/Tempo", conf[XML].tempo_);
+    configPointer->Write("Computer/Enable_Vt_Stretch_Dot", computerConfiguration.videoTerminalConfiguration.stretchDot);
+    configPointer->Write("Computer/Enable_Vt_External", computerConfiguration.videoTerminalConfiguration.external);
+    configPointer->Write("Computer/Enable_Vt_LoopBack", computerConfiguration.videoTerminalConfiguration.loop_back);
+    
+    configPointer->Write("Computer/Turbo_Clock_Speed", computerConfiguration.turboClock_);
+    configPointer->Write("Computer/Enable_Real_Cassette", computerConfiguration.realCassetteLoad_);
+    configPointer->Write("Computer/DisableNvRam", computerConfiguration.nvRamConfiguration.disable);
+    configPointer->Write("Computer/Ymodem_PacketSize", computerConfiguration.videoTerminalConfiguration.packetSize);
+    configPointer->Write("Computer/Volume", computerConfiguration.soundConfiguration.volume);
+    configPointer->Write("/Computer/Tempo", computerConfiguration.soundConfiguration.tempo);
 }
 
 void GuiXml::readXmlWindowConfig()
 {
-    conf[XML].coinX_ = (int)configPointer->Read("Xmlemu/Window_Position_CoinVideo_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defCoinX_);
-    conf[XML].coinY_ = (int)configPointer->Read("Xmlemu/Window_Position_CoinVideo_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defCoinY_);
-    conf[XML].pixieX_ = (int)configPointer->Read("Xmlemu/Window_Position_Pixie_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defPixieX_);
-    conf[XML].pixieY_ = (int)configPointer->Read("Xmlemu/Window_Position_Pixie_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defPixieY_);
-    conf[XML].cdp1864X_ = (int)configPointer->Read("Xmlemu/Window_Position_CDP1864_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defCdp1864X_);
-    conf[XML].cdp1864Y_ = (int)configPointer->Read("Xmlemu/Window_Position_CDP1864_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defCdp1864Y_);
-    conf[XML].st4X_ = (int)configPointer->Read("Xmlemu/Window_Position_ST4_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defSt4X_);
-    conf[XML].st4Y_ = (int)configPointer->Read("Xmlemu/Window_Position_ST4_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defSt4Y_);
-    conf[XML].vip2KX_ = (int)configPointer->Read("Xmlemu/Window_Position_VIP2K_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defVip2KX_);
-    conf[XML].vip2KY_ = (int)configPointer->Read("Xmlemu/Window_Position_VIP2K_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defVip2KY_);
-    conf[XML].fredX_ = (int)configPointer->Read("Xmlemu/Window_Position_FRED_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defFredX_);
-    conf[XML].fredY_ = (int)configPointer->Read("Xmlemu/Window_Position_FRED_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defFredY_);
-    conf[XML].tmsX_ = (int)configPointer->Read("Xmlemu/Window_Position_Tms_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defTmsX_);
-    conf[XML].tmsY_ = (int)configPointer->Read("Xmlemu/Window_Position_Tms_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defTmsY_);
-    conf[XML].mc6845X_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6845_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defMc6845X_);
-    conf[XML].mc6845Y_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6845_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defMc6845Y_);
-    conf[XML].mc6847X_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6847_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defMc6847X_);
-    conf[XML].mc6847Y_ = (int)configPointer->Read("Xmlemu/Window_Position_MC6847_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defMc6847Y_);
-    conf[XML].i8275X_ = (int)configPointer->Read("Xmlemu/Window_Position_I8275_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defi8275X_);
-    conf[XML].i8275Y_ = (int)configPointer->Read("Xmlemu/Window_Position_I8275_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defi8275Y_);
-    conf[XML].v1870X_ = (int)configPointer->Read("Xmlemu/Window_Position_v1870_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defv1870X_);
-    conf[XML].v1870Y_ = (int)configPointer->Read("Xmlemu/Window_Position_v1870_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defv1870Y_);
-    conf[XML].SN76430NX_ = (int)configPointer->Read("Xmlemu/Window_Position_SN76430N_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defSN76430NX_);
-    conf[XML].SN76430NY_ = (int)configPointer->Read("Xmlemu/Window_Position_SN76430N_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defSN76430NY_);
+    computerConfiguration.coinConfiguration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_CoinVideo_X", computerConfiguration.coinConfiguration.defaultX);
+    computerConfiguration.coinConfiguration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_CoinVideo_Y", computerConfiguration.coinConfiguration.defaultY);
+    computerConfiguration.cdp1861Configuration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Pixie_X", computerConfiguration.cdp1861Configuration.defaultX);
+    computerConfiguration.cdp1861Configuration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Pixie_Y", computerConfiguration.cdp1861Configuration.defaultY);
+    computerConfiguration.cdp1864Configuration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_CDP1864_X", computerConfiguration.cdp1864Configuration.defaultX);
+    computerConfiguration.cdp1864Configuration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_CDP1864_Y", computerConfiguration.cdp1864Configuration.defaultY);
+    computerConfiguration.studio4VideoConfiguration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_ST4_X", computerConfiguration.studio4VideoConfiguration.defaultX);
+    computerConfiguration.studio4VideoConfiguration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_ST4_Y", computerConfiguration.studio4VideoConfiguration.defaultY);
+    computerConfiguration.vip2KVideoConfiguration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_VIP2K_X", computerConfiguration.vip2KVideoConfiguration.defaultX);
+    computerConfiguration.vip2KVideoConfiguration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_VIP2K_Y", computerConfiguration.vip2KVideoConfiguration.defaultY);
+    computerConfiguration.fredVideoConfiguration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_FRED_X", computerConfiguration.fredVideoConfiguration.defaultX);
+    computerConfiguration.fredVideoConfiguration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_FRED_Y", computerConfiguration.fredVideoConfiguration.defaultY);
+    computerConfiguration.tmsConfiguration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Tms_X", computerConfiguration.tmsConfiguration.defaultX);
+    computerConfiguration.tmsConfiguration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Tms_Y", computerConfiguration.tmsConfiguration.defaultY);
+    computerConfiguration.mc6845Configuration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_MC6845_X", computerConfiguration.mc6845Configuration.defaultX);
+    computerConfiguration.mc6845Configuration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_MC6845_Y", computerConfiguration.mc6845Configuration.defaultY);
+    computerConfiguration.mc6847Configuration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_MC6847_X", computerConfiguration.mc6847Configuration.defaultX);
+    computerConfiguration.mc6847Configuration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_MC6847_Y", computerConfiguration.mc6847Configuration.defaultY);
+    computerConfiguration.i8275Configuration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_I8275_X", computerConfiguration.i8275Configuration.defaultX);
+    computerConfiguration.i8275Configuration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_I8275_Y", computerConfiguration.i8275Configuration.defaultY);
+    computerConfiguration.vis1870Configuration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_v1870_X", computerConfiguration.vis1870Configuration.defaultX);
+    computerConfiguration.vis1870Configuration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_v1870_Y", computerConfiguration.vis1870Configuration.defaultY);
+    computerConfiguration.sn76430NConfiguration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_SN76430N_X", computerConfiguration.sn76430NConfiguration.defaultX);
+    computerConfiguration.sn76430NConfiguration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_SN76430N_Y", computerConfiguration.sn76430NConfiguration.defaultY);
     int num=0;
     wxString numStr;
-    for (std::vector<Cdp1851>::iterator cdp1851 = elfConfiguration[XML].ioConfiguration.cdp1851.begin (); cdp1851 != elfConfiguration[XML].ioConfiguration.cdp1851.end (); ++cdp1851)
+    for (std::vector<Cdp1851Configuration>::iterator cdp1851 = computerConfiguration.cdp1851Configuration.begin (); cdp1851 != computerConfiguration.cdp1851Configuration.end (); ++cdp1851)
     {
-        numStr.Printf("%d",num);
-        cdp1851->pos.x = (int)configPointer->Read("Xmlemu/Window_Position_Cdp1851_"+numStr+"_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, cdp1851->defaultPos.x);
-        cdp1851->pos.y = (int)configPointer->Read("Xmlemu/Window_Position_Cdp1851_"+numStr+"_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, cdp1851->defaultPos.y);
+        numStr.Printf("%d",num++);
+        cdp1851->pos.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Cdp1851_"+numStr+"_X", cdp1851->defaultPos.x);
+        cdp1851->pos.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Cdp1851_"+numStr+"_Y", cdp1851->defaultPos.y);
     }
-    for (std::vector<Cdp1852>::iterator cdp1852 = elfConfiguration[XML].ioConfiguration.cdp1852.begin (); cdp1852 != elfConfiguration[XML].ioConfiguration.cdp1852.end (); ++cdp1852)
+    num=0;
+    for (std::vector<Cdp1852Configuration>::iterator cdp1852 = computerConfiguration.cdp1852Configuration.begin (); cdp1852 != computerConfiguration.cdp1852Configuration.end (); ++cdp1852)
     {
-        numStr.Printf("%d",num);
-        cdp1852->pos.x = (int)configPointer->Read("Xmlemu/Window_Position_Cdp1852_"+numStr+"_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, cdp1852->defaultPos.x);
-        cdp1852->pos.y = (int)configPointer->Read("Xmlemu/Window_Position_Cdp1852_"+numStr+"_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, cdp1852->defaultPos.y);
+        numStr.Printf("%d",num++);
+        cdp1852->pos.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Cdp1852_"+numStr+"_X", cdp1852->defaultPos.x);
+        cdp1852->pos.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Cdp1852_"+numStr+"_Y", cdp1852->defaultPos.y);
     }
-    conf[XML].vtX_ = (int)configPointer->Read("Xmlemu/Window_Position_Vt_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defVtX_);
-    conf[XML].vtY_ = (int)configPointer->Read("Xmlemu/Window_Position_Vt_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].defVtY_);
-    conf[XML].mainX_ = (int)configPointer->Read("Xmlemu/Window_Position_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, mainWindowX_);
-    conf[XML].mainY_ = (int)configPointer->Read("Xmlemu/Window_Position_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
-    ledModuleX_ = (int)configPointer->Read("Xmlemu/Window_Position_Led_Module_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, mainWindowX_+346+windowInfo.xBorder2);
-    ledModuleY_ = (int)configPointer->Read("Xmlemu/Window_Position_Led_Module_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, mainWindowY_+windowInfo.mainwY+229+windowInfo.yBorder2);
-    conf[XML].keypadX_ = (int)configPointer->Read("Xmlemu/Window_Position_Keypad_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, mainWindowX_+346+windowInfo.xBorder2);
-    conf[XML].keypadY_ = (int)configPointer->Read("Xmlemu/Window_Position_Keypad_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
+    num=0;
+    for (std::vector<FrontPanelConfiguration>::iterator frontpanel = computerConfiguration.frontPanelConfiguration.begin (); frontpanel != computerConfiguration.frontPanelConfiguration.end (); ++frontpanel)
+    {
+        numStr.Printf("%d",num++);
+        frontpanel->pos.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_FrontPanel_"+numStr+"_X", frontpanel->defaultPos.x);
+        frontpanel->pos.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_FrontPanel_"+numStr+"_Y", frontpanel->defaultPos.y);
+    }
+    computerConfiguration.videoTerminalConfiguration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Vt_X", computerConfiguration.videoTerminalConfiguration.defaultX);
+    computerConfiguration.videoTerminalConfiguration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Vt_Y", computerConfiguration.videoTerminalConfiguration.defaultY);
 }
 
 void GuiXml::writeXmlWindowConfig()
 {
-    if (conf[XML].mainX_ > 0)
-        configPointer->Write("Xmlemu/MainX/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].mainX_);
-    if (conf[XML].mainY_ > 0)
-        configPointer->Write("Xmlemu/MainY/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].mainY_);
-    if (elfConfiguration[XML].useCoinVideo)
+    writeCoinWindowConfig();
+
+    if (computerConfiguration.cdp1861Configuration.defined)
     {
-        if (conf[XML].coinX_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_Pixie_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].coinX_);
-        if (conf[XML].coinY_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_Pixie_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].coinY_);
+        if (computerConfiguration.cdp1861Configuration.x > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Pixie_X", computerConfiguration.cdp1861Configuration.x);
+        if (computerConfiguration.cdp1861Configuration.y > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Pixie_Y", computerConfiguration.cdp1861Configuration.y);
     }
-    if (elfConfiguration[XML].usePixie)
+    if (computerConfiguration.cdp1864Configuration.defined)
     {
-        if (conf[XML].pixieX_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_Pixie_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].pixieX_);
-        if (conf[XML].pixieY_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_Pixie_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].pixieY_);
+        if (computerConfiguration.cdp1864Configuration.x > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_CDP1864_X", computerConfiguration.cdp1864Configuration.x);
+        if (computerConfiguration.cdp1864Configuration.y > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_CDP1864_Y", computerConfiguration.cdp1864Configuration.y);
     }
-    if (elfConfiguration[XML].use1864)
+    if (computerConfiguration.studio4VideoConfiguration.defined)
     {
-        if (conf[XML].cdp1864X_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_CDP1864_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].cdp1864X_);
-        if (conf[XML].cdp1864Y_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_CDP1864_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].cdp1864Y_);
+        if (computerConfiguration.studio4VideoConfiguration.x > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_ST4_X", computerConfiguration.studio4VideoConfiguration.x);
+        if (computerConfiguration.studio4VideoConfiguration.y > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_ST4_Y", computerConfiguration.studio4VideoConfiguration.y);
     }
-    if (elfConfiguration[XML].useSt4Video)
+    if (computerConfiguration.vip2KVideoConfiguration.defined)
     {
-        if (conf[XML].st4X_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_ST4_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].st4X_);
-        if (conf[XML].st4Y_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_ST4_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].st4Y_);
+        if (computerConfiguration.vip2KVideoConfiguration.x > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_VIP2K_X", computerConfiguration.vip2KVideoConfiguration.x);
+        if (computerConfiguration.vip2KVideoConfiguration.y > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_VIP2K_Y", computerConfiguration.vip2KVideoConfiguration.y);
     }
-    if (elfConfiguration[XML].useVip2KVideo)
+    if (computerConfiguration.fredVideoConfiguration.defined)
     {
-        if (conf[XML].vip2KX_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_VIP2K_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].vip2KX_);
-        if (conf[XML].vip2KY_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_VIP2K_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].vip2KY_);
+        if (computerConfiguration.fredVideoConfiguration.x > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_FRED_X", computerConfiguration.fredVideoConfiguration.x);
+        if (computerConfiguration.fredVideoConfiguration.y > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_FRED_Y", computerConfiguration.fredVideoConfiguration.y);
     }
-    if (elfConfiguration[XML].useFredVideo)
+    if (computerConfiguration.tmsConfiguration.defined)
     {
-        if (conf[XML].fredX_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_FRED_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].fredX_);
-        if (conf[XML].fredY_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_FRED_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].fredY_);
+        if (computerConfiguration.tmsConfiguration.x > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Tms_X", computerConfiguration.tmsConfiguration.x);
+        if (computerConfiguration.tmsConfiguration.y > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Tms_Y", computerConfiguration.tmsConfiguration.y);
     }
-    if (elfConfiguration[XML].useTMS9918)
+    if (computerConfiguration.mc6845Configuration.defined)
     {
-        if (conf[XML].tmsX_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_Tms_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].tmsX_);
-        if (conf[XML].tmsY_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_Tms_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].tmsY_);
+        if (computerConfiguration.mc6845Configuration.x > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_MC6845_X", computerConfiguration.mc6845Configuration.x);
+        if (computerConfiguration.mc6845Configuration.y > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_MC6845_Y", computerConfiguration.mc6845Configuration.y);
     }
-    if (elfConfiguration[XML].use6845)
+    if (computerConfiguration.mc6847Configuration.defined)
     {
-        if (conf[XML].mc6845X_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_MC6845_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].mc6845X_);
-        if (conf[XML].mc6845Y_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_MC6845_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].mc6845Y_);
+        if (computerConfiguration.mc6847Configuration.x > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_MC6847_X", computerConfiguration.mc6847Configuration.x);
+        if (computerConfiguration.mc6847Configuration.y > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_MC6847_Y", computerConfiguration.mc6847Configuration.y);
     }
-    if (elfConfiguration[XML].use6847)
+    if (computerConfiguration.i8275Configuration.defined)
     {
-        if (conf[XML].mc6847X_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_MC6847_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].mc6847X_);
-        if (conf[XML].mc6847Y_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_MC6847_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].mc6847Y_);
+        if (computerConfiguration.i8275Configuration.x > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_I8275_X", computerConfiguration.i8275Configuration.x);
+        if (computerConfiguration.i8275Configuration.y > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_I8275_Y", computerConfiguration.i8275Configuration.y);
     }
-    if (elfConfiguration[XML].use8275)
+    if (computerConfiguration.vis1870Configuration.defined)
     {
-        if (conf[XML].i8275X_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_I8275_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].i8275X_);
-        if (conf[XML].i8275Y_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_I8275_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].i8275Y_);
+        if (computerConfiguration.vis1870Configuration.x > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_v1870_X", computerConfiguration.vis1870Configuration.x);
+        if (computerConfiguration.vis1870Configuration.y > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_v1870_Y", computerConfiguration.vis1870Configuration.y);
     }
-    if (elfConfiguration[XML].usev1870)
+    if (computerConfiguration.sn76430NConfiguration.defined)
     {
-        if (conf[XML].v1870X_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_v1870_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].v1870X_);
-        if (conf[XML].v1870Y_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_v1870_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].v1870Y_);
-    }
-    if (elfConfiguration[XML].useSN76430N)
-    {
-        if (conf[XML].SN76430NX_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_SN76430N_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].SN76430NX_);
-        if (conf[XML].SN76430NY_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_SN76430N_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].SN76430NY_);
+        if (computerConfiguration.sn76430NConfiguration.x > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_SN76430N_X", computerConfiguration.sn76430NConfiguration.x);
+        if (computerConfiguration.sn76430NConfiguration.y > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_SN76430N_Y", computerConfiguration.sn76430NConfiguration.y);
     }
     int num=0;
     wxString numStr;
-    for (std::vector<Cdp1851>::iterator cdp1851 = elfConfiguration[XML].ioConfiguration.cdp1851.begin (); cdp1851 != elfConfiguration[XML].ioConfiguration.cdp1851.end (); ++cdp1851)
+    for (std::vector<Cdp1851Configuration>::iterator cdp1851 = computerConfiguration.cdp1851Configuration.begin (); cdp1851 != computerConfiguration.cdp1851Configuration.end (); ++cdp1851)
     {
-        numStr.Printf("%d",num);
+        numStr.Printf("%d",num++);
         if (cdp1851->pos.x > 0)
-            configPointer->Write("Xmlemu/Window_Position_Cdp1851_"+numStr+"_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, cdp1851->pos.x);
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Cdp1851_"+numStr+"_X", cdp1851->pos.x);
         if (cdp1851->pos.y > 0)
-            configPointer->Write("Xmlemu/Window_Position_Cdp1851_"+numStr+"_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, cdp1851->pos.y);
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Cdp1851_"+numStr+"_Y", cdp1851->pos.y);
     }
-    for (std::vector<Cdp1852>::iterator cdp1852 = elfConfiguration[XML].ioConfiguration.cdp1852.begin (); cdp1852 != elfConfiguration[XML].ioConfiguration.cdp1852.end (); ++cdp1852)
+    num=0;
+    for (std::vector<Cdp1852Configuration>::iterator cdp1852 = computerConfiguration.cdp1852Configuration.begin (); cdp1852 != computerConfiguration.cdp1852Configuration.end (); ++cdp1852)
     {
-        numStr.Printf("%d",num);
+        numStr.Printf("%d",num++);
         if (cdp1852->pos.x > 0)
-            configPointer->Write("Xmlemu/Window_Position_Cdp1852_"+numStr+"_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, cdp1852->pos.x);
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Cdp1852_"+numStr+"_X", cdp1852->pos.x);
         if (cdp1852->pos.y > 0)
-            configPointer->Write("Xmlemu/Window_Position_Cdp1852_"+numStr+"_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, cdp1852->pos.y);
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Cdp1852_"+numStr+"_Y", cdp1852->pos.y);
     }
-    if (elfConfiguration[XML].vtType == VT52 || elfConfiguration[XML].vtType == VT100)
+    num=0;
+    for (std::vector<FrontPanelConfiguration>::iterator frontpanel = computerConfiguration.frontPanelConfiguration.begin (); frontpanel != computerConfiguration.frontPanelConfiguration.end (); ++frontpanel)
     {
-        if (conf[XML].vtX_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_Vt_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].vtX_);
-        if (conf[XML].vtY_ > 0)
-            configPointer->Write("Xmlemu/Window_Position_Vt_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].vtY_);
+        numStr.Printf("%d",num++);
+        if (frontpanel->pos.x > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_FrontPanel_"+numStr+"_X", frontpanel->pos.x);
+        if (frontpanel->pos.y > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_FrontPanel_"+numStr+"_Y", frontpanel->pos.y);
     }
-    if (((elfConfiguration[XML].panelType_ == PANEL_COSMAC || elfConfiguration[XML].panelType_ == PANEL_COSMICOS) && elfConfiguration[XML].useHexKeyboard) || (elfConfiguration[XML].panelType_ == PANEL_ELF2K &&  elfConfiguration[XML].useHex))
+    if (computerConfiguration.videoTerminalConfiguration.type == VT52 || computerConfiguration.videoTerminalConfiguration.type == VT100)
     {
-        if (conf[XML].keypadX_ > 0)
-            configPointer->Write("Xmlemu//Window_Position_Keypad_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].keypadX_);
-        if (conf[XML].keypadY_ > 0)
-            configPointer->Write("Xmlemu//Window_Position_Keypad_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, conf[XML].keypadY_);
+        if (computerConfiguration.videoTerminalConfiguration.x > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Vt_X", computerConfiguration.videoTerminalConfiguration.x);
+        if (computerConfiguration.videoTerminalConfiguration.y > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Vt_Y", computerConfiguration.videoTerminalConfiguration.y);
     }
-    if (elfConfiguration[XML].useLedModule)
+}
+
+void GuiXml::writeCoinWindowConfig()
+{
+    if (!computerConfiguration.coinConfiguration.defined)
+        return;
+
+    if (computerConfiguration.coinConfiguration.x > 0)
+        configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_CoinVideo_X", computerConfiguration.coinConfiguration.x);
+    if (computerConfiguration.coinConfiguration.y > 0)
+        configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_CoinVideo_Y", computerConfiguration.coinConfiguration.y);
+}
+
+void GuiXml::readDefaultVtConfig()
+{
+    long value = computerConfiguration.videoTerminalConfiguration.vt52DefaultSetUpFeature.to_ulong();
+    computerConfiguration.videoTerminalConfiguration.vt52SetUpFeature = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VT52Setup", value);
+    value = computerConfiguration.videoTerminalConfiguration.vt100DefaultSetUpFeature.to_ulong();
+    computerConfiguration.videoTerminalConfiguration.vt100SetUpFeature = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VT100Setup", value);
+    value = computerConfiguration.videoTerminalConfiguration.vtExternalDefaultSetUpFeature.to_ulong();
+    computerConfiguration.videoTerminalConfiguration.vtExternalSetUpFeature = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VTExternalSetup", value);
+    computerConfiguration.videoTerminalConfiguration.vtLoopBackSetUpFeature = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VTLoopBackSetup", value);
+    computerConfiguration.videoTerminalConfiguration.bellFrequency = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Bell_Frequency", computerConfiguration.videoTerminalConfiguration.defaultBellFrequency);
+    computerConfiguration.videoTerminalConfiguration.charactersPerRow = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharactersPerRow", computerConfiguration.videoTerminalConfiguration.defaultCharactersPerRow);
+    computerConfiguration.videoTerminalConfiguration.characterWidth = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharacterWidth", computerConfiguration.videoTerminalConfiguration.defaultCharacterWidth);
+}
+
+void GuiXml::writeDefaultVtConfig()
+{
+    long value = computerConfiguration.videoTerminalConfiguration.vt52SetUpFeature.to_ulong();
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VT52Setup", value);
+    value = computerConfiguration.videoTerminalConfiguration.vt100SetUpFeature.to_ulong();
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VT100Setup", value);
+    value = computerConfiguration.videoTerminalConfiguration.vtExternalSetUpFeature.to_ulong();
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VTExternalSetup", value);
+    value = computerConfiguration.videoTerminalConfiguration.vtLoopBackSetUpFeature.to_ulong();
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VTLoopBackSetup", value);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Bell_Frequency", computerConfiguration.videoTerminalConfiguration.bellFrequency);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharactersPerRow", computerConfiguration.videoTerminalConfiguration.charactersPerRow);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharacterWidth", computerConfiguration.videoTerminalConfiguration.characterWidth);
+}
+
+bool GuiXml::showSplashScreen()
+{
+    bool showSplashScreen = false;
+    
+    configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/ShowSplashScreen", &showSplashScreen, true);
+    return showSplashScreen;
+}
+
+void GuiXml::hideSplashScreen()
+{
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/ShowSplashScreen", false);
+}
+
+void GuiXml::onKeyFile(wxCommandEvent& WXUNUSED(event) )
+{
+    wxString fileName;
+
+    fileName = wxFileSelector( "Select the Key file to load",
+                               computerConfiguration.keyFileConfiguration.directory, XRCCTRL(*this, "KeyFileXml", wxTextCtrl)->GetValue(),
+                               "txt",
+                               wxString::Format
+                              (
+                                    "Text File (*.txt)|*.txt|All files (%s)|%s",
+                                    wxFileSelectorDefaultWildcardStr,
+                                    wxFileSelectorDefaultWildcardStr
+                               ),
+                               wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
+                               this
+                              );
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    computerConfiguration.keyFileConfiguration.directory = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    computerConfiguration.keyFileConfiguration.fileName = FullPath.GetFullName();
+
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Key_File", computerConfiguration.keyFileConfiguration.fileName);
+    writeConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Key_File", computerConfiguration.keyFileConfiguration.directory);
+    XRCCTRL(*this, "KeyFileXml", wxTextCtrl)->SetValue(computerConfiguration.keyFileConfiguration.fileName);
+}
+
+void GuiXml::onKeyFileText(wxCommandEvent&WXUNUSED(event))
+{
+    computerConfiguration.keyFileConfiguration.fileName = XRCCTRL(*this, "KeyFileXml", wxTextCtrl)->GetValue();
+    
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Key_File", computerConfiguration.keyFileConfiguration.fileName);
+}
+
+void GuiXml::onKeyFileEject(wxCommandEvent& WXUNUSED(event) )
+{
+    XRCCTRL(*this, "KeyFileXml", wxTextCtrl)->SetValue("");
+    computerConfiguration.keyFileConfiguration.fileName = "";
+
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Key_File", computerConfiguration.keyFileConfiguration.fileName);
+
+    if (!computerRunning_)
+        return;
+
+    p_Computer->closeKeyFile();
+}
+
+void GuiXml::onScreenDumpFile(wxCommandEvent& WXUNUSED(event))
+{
+     wxString fileName;
+
+    fileName = wxFileSelector( "Select the Video Dump Output File",
+                               computerConfiguration.screenDumpFileConfiguration.directory, XRCCTRL(*this, "ScreenDumpFileXml", wxComboBox)->GetValue(),
+                               "",
+                               wxString::Format
+                              (
+                                   "Portable Network Graphics Image (*.png)|*.png|JPEG Image (*.jpeg)|*.jpeg|Bitmap Image (*.bmp)|*.bmp|Paintbrush Image (*.pcx)|*.pcx|All files (%s)|%s",
+                                   wxFileSelectorDefaultWildcardStr,
+                                   wxFileSelectorDefaultWildcardStr
+                               ),
+                               wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
+                               this
+                              );
+
+
+    if (!fileName)
+        return;
+
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    computerConfiguration.screenDumpFileConfiguration.directory = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    computerConfiguration.screenDumpFileConfiguration.fileName = FullPath.GetFullName();
+
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Video_Dump_File", computerConfiguration.screenDumpFileConfiguration.fileName);
+    writeConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Video_Dump_File", computerConfiguration.screenDumpFileConfiguration.directory);
+    XRCCTRL(*this, "ScreenDumpFileXml", wxComboBox)->SetValue(computerConfiguration.screenDumpFileConfiguration.fileName);
+}
+
+void GuiXml::onScreenDumpFileText(wxCommandEvent& WXUNUSED(event))
+{
+    computerConfiguration.screenDumpFileConfiguration.fileName = XRCCTRL(*this, "ScreenDumpFileXml", wxComboBox)->GetValue();
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Video_Dump_File", computerConfiguration.screenDumpFileConfiguration.fileName);
+}
+
+void GuiXml::onXmodem(wxCommandEvent& WXUNUSED(event))
+{
+    wxFileDialog openFileDialog(this,
+                                "Select the XMODEM file(s) to save/load",
+                                computerConfiguration.videoTerminalConfiguration.xmodemDirectory,
+                                computerConfiguration.videoTerminalConfiguration.xmodemFileName,
+                                "All files (*.*)|*.*",
+                                wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW|wxFD_MULTIPLE
+                               );
+
+    if (openFileDialog.ShowModal() == wxID_CANCEL)
+        return;     // the user changed idea...
+
+    computerConfiguration.videoTerminalConfiguration.terminalPaths.Clear();
+    computerConfiguration.videoTerminalConfiguration.terminalFiles.Clear();
+    openFileDialog.GetPaths(computerConfiguration.videoTerminalConfiguration.terminalPaths);
+    openFileDialog.GetFilenames(computerConfiguration.videoTerminalConfiguration.terminalFiles);
+
+    computerConfiguration.videoTerminalConfiguration.numberOfTerminalFiles = computerConfiguration.videoTerminalConfiguration.terminalPaths.GetCount();
+    
+    wxFileName FullPath;
+    computerConfiguration.videoTerminalConfiguration.xmodemFullFileName = "";
+    for (int i=0; i<(int)computerConfiguration.videoTerminalConfiguration.numberOfTerminalFiles; i++)
     {
-        if (ledModuleX_ > 0)
-            configPointer->Write("Xmlemu//Window_Position_Led_Module_X/"+conf[XML].xmlDir_+conf[XML].xmlFile_, ledModuleX_);
-        if (ledModuleY_ > 0)
-            configPointer->Write("Xmlemu//Window_Position_Led_Module_Y/"+conf[XML].xmlDir_+conf[XML].xmlFile_, ledModuleY_);
+        FullPath = wxFileName(computerConfiguration.videoTerminalConfiguration.terminalPaths[i], wxPATH_NATIVE);
+        if (i == 0)
+        {
+            computerConfiguration.videoTerminalConfiguration.xmodemDirectory = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+            computerConfiguration.videoTerminalConfiguration.xmodemFileName = FullPath.GetFullName();
+        }
+        computerConfiguration.videoTerminalConfiguration.xmodemFullFileName += computerConfiguration.videoTerminalConfiguration.terminalFiles[i];
+        computerConfiguration.videoTerminalConfiguration.xmodemFullFileName += " ";
     }
+
+    writeConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Xmodem_File", computerConfiguration.videoTerminalConfiguration.xmodemDirectory);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Xmodem_File", computerConfiguration.videoTerminalConfiguration.xmodemFileName);
+    if (mode_.gui)
+        XRCCTRL(*this, "XmodemFileXml", wxTextCtrl)->ChangeValue(computerConfiguration.videoTerminalConfiguration.xmodemFullFileName);
+}
+
+void GuiXml::onXmodemText(wxCommandEvent&event)
+{
+    computerConfiguration.videoTerminalConfiguration.xmodemFileName = event.GetString();
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Xmodem_File", computerConfiguration.videoTerminalConfiguration.xmodemFileName);
+}
+
+void GuiXml::onXmodemEject(wxCommandEvent& WXUNUSED(event) )
+{
+    computerConfiguration.videoTerminalConfiguration.xmodemFileName = "";
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Xmodem_File", computerConfiguration.videoTerminalConfiguration.xmodemFileName);
+
+    if (mode_.gui)
+        XRCCTRL(*this, "XmodemFileXml", wxTextCtrl)->SetValue(computerConfiguration.videoTerminalConfiguration.xmodemFileName);
+}
+
+void GuiXml::startAutoTerminalSave(int protocol)
+{
+    if (!computerRunning_)
+        return;
+
+    if (computerConfiguration.autoCassetteLoad_)
+        startTerminalSave(protocol);
+}
+
+void GuiXml::startTerminalSave(int protocol)
+{
+    if (terminalSave_ || terminalLoad_)
+    {
+        stopTerminal();
+        p_Computer->terminalStop();
+    }
+
+    wxString filePath, fileName;
+    
+    filePath = computerConfiguration.videoTerminalConfiguration.xmodemDirectory;
+    fileName = computerConfiguration.videoTerminalConfiguration.xmodemFileName;
+    filePath.operator += (fileName);
+    
+    if (fileName.Len() == 0)
+    {
+        fileName = p_Main->eventShowFileSelector( "Select the terminal file to save",
+                                                 computerConfiguration.wavConfiguration[0].directory, fileName,
+                                                 "",
+                                                 "All files (*.*)|*.*",
+                                                 wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_PREVIEW
+                                                 );
+        if (!fileName)
+            return;
+        
+        wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+        computerConfiguration.videoTerminalConfiguration.xmodemFileName = FullPath.GetFullName();
+        computerConfiguration.videoTerminalConfiguration.xmodemDirectory = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+        
+        writeConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Xmodem_File", computerConfiguration.videoTerminalConfiguration.xmodemDirectory);
+        configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Xmodem_File", computerConfiguration.videoTerminalConfiguration.xmodemFileName);
+        p_Main->eventSetTextValue("XmodemFileXml", computerConfiguration.videoTerminalConfiguration.xmodemFileName);
+        
+        filePath = computerConfiguration.videoTerminalConfiguration.xmodemDirectory;
+        filePath.operator += (computerConfiguration.videoTerminalConfiguration.xmodemFileName);
+    }
+    if (wxFile::Exists(filePath))
+    {
+        p_Main->eventShowMessageBox( fileName+" already exists.\n"+"Do you want to replace it?",
+                                    "Confirm Save As", wxICON_EXCLAMATION | wxYES_NO);
+        
+        if (messageBoxAnswer_ == wxNO)
+        {
+            fileName = p_Main->eventShowFileSelector( "Select the terminal file to save",
+                                                     computerConfiguration.wavConfiguration[0].directory, fileName,
+                                                     "",
+                                                     "All files (*.*)|*.*",
+                                                     wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_PREVIEW|wxFD_OVERWRITE_PROMPT
+                                                     );
+            if (!fileName)
+                return;
+            
+            wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+            computerConfiguration.videoTerminalConfiguration.xmodemFileName = FullPath.GetFullName();
+            computerConfiguration.videoTerminalConfiguration.xmodemDirectory = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+            
+            writeConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Xmodem_File", computerConfiguration.videoTerminalConfiguration.xmodemDirectory);
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Xmodem_File", computerConfiguration.videoTerminalConfiguration.xmodemFileName);
+            p_Main->eventSetTextValue("XmodemFileXml", computerConfiguration.videoTerminalConfiguration.xmodemFileName);
+            
+            filePath = computerConfiguration.videoTerminalConfiguration.xmodemDirectory;
+            filePath.operator += (computerConfiguration.videoTerminalConfiguration.xmodemFileName);
+        }
+//        if (messageBoxAnswer_ == wxYES)
+  //          wxRemoveFile(filePath);
+    }
+    terminalSave_ = true;
+
+    p_Main->eventSetTapeState(TAPE_RECORD, "");
+    p_Computer->terminalSave(filePath, protocol);
+}
+
+void GuiXml::onCassette(wxCommandEvent& WXUNUSED(event))
+{
+    onCassetteFileSelector();
+}
+
+void GuiXml::onCassetteFileSelector()
+{
+    wxString fileName;
+    wxString typeStr = "WAV";
+    wxString formatStr = "WAV File (*.wav)|*.wav|All files (%s)|%s";
+        
+    wxString oldFile = computerConfiguration.wavConfiguration[0].fileName;
+    wxString oldFileDir = computerConfiguration.wavConfiguration[0].directory;
+
+    fileName = wxFileSelector( "Select the "+typeStr+" file to save/load",
+                               computerConfiguration.wavConfiguration[0].directory, computerConfiguration.wavConfiguration[0].fileName,
+                               "wav",
+                               wxString::Format
+                              (
+                                   formatStr,
+                                   wxFileSelectorDefaultWildcardStr,
+                                   wxFileSelectorDefaultWildcardStr
+                               ),
+                               wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
+                               this
+                              );
+
+
+    if (!fileName)
+        return;
+
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    computerConfiguration.wavConfiguration[0].directory = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    computerConfiguration.wavConfiguration[0].fileName = FullPath.GetFullName();
+
+    if (oldFileDir != computerConfiguration.wavConfiguration[0].directory || oldFile != computerConfiguration.wavConfiguration[0].fileName)
+    {
+        if (computerRunning_)
+            p_Computer->resetTape();
+    }
+    
+    writeConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Wav_File0", computerConfiguration.wavConfiguration[0].directory);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Wav_File0", computerConfiguration.wavConfiguration[0].fileName);
+    if (mode_.gui)
+        XRCCTRL(*this, "WavFileXml", wxTextCtrl)->SetValue(computerConfiguration.wavConfiguration[0].fileName);
+    
+    checkWavFileDownload();
+}
+
+void GuiXml::onCassette1(wxCommandEvent& WXUNUSED(event))
+{
+    wxString fileName;
+    
+    fileName = wxFileSelector( "Select the WAV file to save/load",
+                              computerConfiguration.wavConfiguration[1].directory, computerConfiguration.wavConfiguration[1].fileName,
+                              "wav",
+                              wxString::Format
+                              (
+                               "WAV File (*.wav)|*.wav|All files (%s)|%s",
+                               wxFileSelectorDefaultWildcardStr,
+                               wxFileSelectorDefaultWildcardStr
+                               ),
+                              wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
+                              this
+                              );
+    
+    
+    if (!fileName)
+        return;
+    
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    computerConfiguration.wavConfiguration[1].directory = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    computerConfiguration.wavConfiguration[1].fileName = FullPath.GetFullName();
+    
+    writeConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Wav_File1", computerConfiguration.wavConfiguration[1].directory);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Wav_File1", computerConfiguration.wavConfiguration[1].fileName);
+    if (mode_.gui)
+        XRCCTRL(*this, "WavFile1Xml", wxTextCtrl)->SetValue(computerConfiguration.wavConfiguration[1].fileName);
+}
+
+void GuiXml::onCassetteEject(wxCommandEvent& WXUNUSED(event) )
+{
+    if (computerRunning_)
+        p_Computer->resetTape();
+    
+    computerConfiguration.wavConfiguration[0].fileName = "";
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Wav_File0", computerConfiguration.wavConfiguration[0].fileName);
+    if (mode_.gui)
+        XRCCTRL(*this, "WavFileXml", wxTextCtrl)->SetValue(computerConfiguration.wavConfiguration[0].fileName);
+}
+
+void GuiXml::onCassette1Eject(wxCommandEvent& WXUNUSED(event) )
+{
+    computerConfiguration.wavConfiguration[1].fileName = "";
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Wav_File1", computerConfiguration.wavConfiguration[1].fileName);
+    if (mode_.gui)
+        XRCCTRL(*this, "WavFile1Xml", wxTextCtrl)->SetValue(computerConfiguration.wavConfiguration[1].fileName);
+}
+
+void GuiXml::onCassetteText(wxCommandEvent&event)
+{
+    wxString newFile = event.GetString();
+    
+    if (newFile != computerConfiguration.wavConfiguration[0].fileName)
+    {
+        if (computerRunning_)
+            p_Computer->resetTape();
+
+        computerConfiguration.wavConfiguration[0].fileName = newFile;
+        configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Wav_File0", computerConfiguration.wavConfiguration[0].fileName);
+
+        checkWavFileDownload();
+    }
+}
+
+void GuiXml::onCassette1Text(wxCommandEvent&event)
+{
+    computerConfiguration.wavConfiguration[1].fileName = event.GetString();
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Wav_File1", computerConfiguration.wavConfiguration[1].fileName);
+}
+
+void GuiXml::onDisk0(wxCommandEvent& WXUNUSED(event) )
+{
+    onDisk(0);
+}
+
+void GuiXml::onDisk1(wxCommandEvent& WXUNUSED(event) )
+{
+    onDisk(1);
+}
+
+void GuiXml::onDisk2(wxCommandEvent& WXUNUSED(event) )
+{
+    onDisk(2);
+}
+
+void GuiXml::onDisk3(wxCommandEvent& WXUNUSED(event) )
+{
+    onDisk(3);
+}
+
+void GuiXml::onDisk(int diskNumber)
+{
+    wxString diskNumberString;
+    diskNumberString.Printf("%d", diskNumber);
+
+    if (directoryMode_[computerConfiguration.fdcType_][diskNumber])
+    {
+        wxString dirName = wxDirSelector( "Select the disk "+diskNumberString+" Directory", floppyDirSwitched_[computerConfiguration.fdcType_][diskNumber]);
+        if (!dirName)
+            return;
+        
+        floppyDirSwitched_[computerConfiguration.fdcType_][diskNumber] = dirName + pathSeparator_;
+        
+        if (mode_.gui)
+        {
+            wxFileName setectedDirFile = wxFileName(floppyDirSwitched_[computerConfiguration.fdcType_][diskNumber]);
+            wxArrayString dirArray = setectedDirFile.GetDirs();
+            dirName = dirArray.Last();
+            XRCCTRL(*this, "FDC"+diskNumberString+"_FileXml", wxTextCtrl)->SetValue(dirName);
+        }
+    }
+    else
+    {
+        wxString fileName;
+        
+        fileName = wxFileSelector( "Select the disk "+diskNumberString+" file to load",
+                                  floppyDir_[computerConfiguration.fdcType_][diskNumber], floppy_[computerConfiguration.fdcType_][diskNumber],
+                                  "img",
+                                  wxString::Format
+                                  (
+                                   "FDC Image (*.img)|*.img|All files (%s)|%s",
+                                   wxFileSelectorDefaultWildcardStr,
+                                   wxFileSelectorDefaultWildcardStr
+                                   ),
+                                  wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
+                                  this
+                                  );
+        if (!fileName)
+            return;
+        
+        wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+        floppyDir_[computerConfiguration.fdcType_][diskNumber] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+        floppy_[computerConfiguration.fdcType_][diskNumber] = FullPath.GetFullName();
+        
+        wxString type;
+        type.Printf("%d", computerConfiguration.fdcType_);
+        writeConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/FDC"+diskNumberString+"_File_" + type, floppyDir_[computerConfiguration.fdcType_][diskNumber]);
+        configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/FDC"+diskNumberString+"_File_" + type, floppy_[computerConfiguration.fdcType_][diskNumber]);
+        if (mode_.gui)
+            XRCCTRL(*this, "FDC"+diskNumberString+"_FileXml", wxTextCtrl)->SetValue(floppy_[computerConfiguration.fdcType_][diskNumber]);
+    }
+}
+
+void GuiXml::onDiskText0(wxCommandEvent&event)
+{
+    onDiskText(0, event.GetString());
+}
+
+void GuiXml::onDiskText1(wxCommandEvent&event)
+{
+    onDiskText(1, event.GetString());
+}
+
+void GuiXml::onDiskText2(wxCommandEvent&event)
+{
+    onDiskText(2, event.GetString());
+}
+
+void GuiXml::onDiskText3(wxCommandEvent&event)
+{
+    onDiskText(3, event.GetString());
+}
+
+void GuiXml::onDiskText(int diskNumber, wxString eventString)
+{
+    wxString diskNumberString;
+    diskNumberString.Printf("%d", diskNumber);
+
+    if (directoryMode_[computerConfiguration.fdcType_][diskNumber])
+    {
+        if (p_Computer == NULL)
+            return;
+
+        p_Computer->changeDiskName(diskNumber, floppyDirSwitched_[computerConfiguration.fdcType_][diskNumber], "");
+        return;
+    }
+    
+    floppy_[computerConfiguration.fdcType_][diskNumber] = eventString;
+    wxString type;
+    type.Printf("%d", computerConfiguration.fdcType_);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/FDC"+diskNumberString+"_File_" + type, floppy_[computerConfiguration.fdcType_][diskNumber]);
+
+    if (p_Computer == NULL)
+        return;
+
+    if (floppy_[computerConfiguration.fdcType_][diskNumber].Len() == 0)
+        p_Computer->changeDiskName(diskNumber, floppyDir_[computerConfiguration.fdcType_][diskNumber], "");
+    else
+        p_Computer->changeDiskName(diskNumber, floppyDir_[computerConfiguration.fdcType_][diskNumber], floppy_[computerConfiguration.fdcType_][diskNumber]);
+}
+
+void GuiXml::onDiskEject0(wxCommandEvent& WXUNUSED(event))
+{
+    onDiskEject(0);
+}
+
+void GuiXml::onDiskEject1(wxCommandEvent& WXUNUSED(event))
+{
+    onDiskEject(1);
+}
+
+void GuiXml::onDiskEject2(wxCommandEvent& WXUNUSED(event))
+{
+    onDiskEject(2);
+}
+
+void GuiXml::onDiskEject3(wxCommandEvent& WXUNUSED(event))
+{
+    onDiskEject(3);
+}
+
+void GuiXml::onDiskEject(int diskNumber)
+{
+    wxString diskNumberString;
+    diskNumberString.Printf("%d", diskNumber);
+    wxString type;
+    type.Printf("%d", computerConfiguration.fdcType_);
+
+    floppy_[computerConfiguration.fdcType_][diskNumber] = "";
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/FDC"+diskNumberString+"_File_" + type, floppy_[computerConfiguration.fdcType_][diskNumber]);
+
+    if (mode_.gui)
+        XRCCTRL(*this, "FDC"+diskNumberString+"_FileXml", wxTextCtrl)->SetValue(floppy_[computerConfiguration.fdcType_][diskNumber]);
+}
+
+void GuiXml::onDiskDirSwitch0(wxCommandEvent&WXUNUSED(event))
+{
+    onDiskDirSwitch(0);
+}
+
+void GuiXml::onDiskDirSwitch1(wxCommandEvent&WXUNUSED(event))
+{
+    onDiskDirSwitch(1);
+}
+
+void GuiXml::onDiskDirSwitch2(wxCommandEvent&WXUNUSED(event))
+{
+    onDiskDirSwitch(2);
+}
+
+void GuiXml::onDiskDirSwitch3(wxCommandEvent&WXUNUSED(event))
+{
+    onDiskDirSwitch(3);
+}
+
+void GuiXml::onDiskDirSwitch(int diskNumber)
+{
+    directoryMode_[computerConfiguration.fdcType_][diskNumber] = !directoryMode_[computerConfiguration.fdcType_][diskNumber];
+    setUpdFloppyGui(diskNumber);
 }
 
 void GuiXml::onXmlControlWindows(wxCommandEvent&event)
 {
-    elfConfiguration[selectedComputer_].useElfControlWindows = event.IsChecked();
+    computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show = event.IsChecked();
 
     if (mode_.gui)
     {
-        XRCCTRL(*this,"ShowAddress"+computerInfo[selectedComputer_].gui,wxTextCtrl)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows);
-        XRCCTRL(*this,"AddressText1"+computerInfo[selectedComputer_].gui,wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows);
-        XRCCTRL(*this,"AddressText2"+computerInfo[selectedComputer_].gui,wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows);
+        XRCCTRL(*this,"ShowAddressXml",wxTextCtrl)->Enable(computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show);
+        XRCCTRL(*this,"AddressText1Xml",wxStaticText)->Enable(computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show);
+        XRCCTRL(*this,"AddressText2Xml",wxStaticText)->Enable(computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show);
     }
     
     if (computerRunning_)
-    {
-        p_Xmlemu->Show(elfConfiguration[runningComputer_].useElfControlWindows);
-        if (elfConfiguration[runningComputer_].panelType_ == PANEL_COSMAC)
-            p_Xmlemu->showModules(elfConfiguration[runningComputer_].useElfControlWindows);
-        if (elfConfiguration[runningComputer_].panelType_ == PANEL_ELF2K)
-            p_Xmlemu->showModules(elfConfiguration[runningComputer_].useElfControlWindows, elfConfiguration[runningComputer_].useSwitch, elfConfiguration[runningComputer_].useHex);
-        if (elfConfiguration[runningComputer_].panelType_ == PANEL_COSMICOS)
-            p_Xmlemu->showModules(elfConfiguration[runningComputer_].useElfControlWindows);
-    }
+        p_Computer->showPanel();
 }
 
 void GuiXml::onLedTimerXml(wxCommandEvent&event)
@@ -579,31 +1094,31 @@ void GuiXml::onLedTimerXml(wxCommandEvent&event)
     if (!stringMs.ToLong(&ms, 10))
         return;
     
-    conf[selectedComputer_].ledTime_ = stringMs;
-    conf[selectedComputer_].ledTimeMs_ = ms;
+    computerConfiguration.ledTime_ = stringMs;
+    computerConfiguration.ledTimeMs_ = ms;
     
-    if (computerRunning_ && (selectedComputer_ == runningComputer_))
+    if (computerRunning_ && (selectedTab_ == XMLTAB))
         p_Computer->setLedMs(ms);
 
-    configPointer->Write("/Xmlemu/Led_Update_Frequency/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].ledTime_);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Led_Update_Frequency", computerConfiguration.ledTime_);
     configPointer->Flush();
 }
 
 void GuiXml::onAutoLoadXml(wxCommandEvent&event)
 {
-    conf[selectedComputer_].autoCassetteLoad_ = event.IsChecked();
-    if (computerRunning_ && (selectedComputer_ == runningComputer_))
+    computerConfiguration.autoCassetteLoad_ = event.IsChecked();
+    if (computerRunning_ && (selectedTab_ == XMLTAB))
     {
-        XRCCTRL(*this, "CasLoad"+computerInfo[XML].gui, wxButton)->Enable(!conf[XML].autoCassetteLoad_);
-        XRCCTRL(*this, "CasSave"+computerInfo[XML].gui, wxButton)->Enable(!conf[XML].autoCassetteLoad_ && !elfConfiguration[XML].useHexModem);
-        if (elfConfiguration[XML].useTapeMicro)
+        XRCCTRL(*this, "CasLoadXml", wxButton)->Enable(!computerConfiguration.autoCassetteLoad_);
+        XRCCTRL(*this, "CasSaveXml", wxButton)->Enable(!computerConfiguration.autoCassetteLoad_ && !computerConfiguration.videoTerminalConfiguration.hexModem_defined);
+        if (computerConfiguration.swTapeConfiguration.twoDecks || computerConfiguration.hwTapeConfiguration.twoDecks)
         {
-            XRCCTRL(*this, "CasLoad1"+computerInfo[XML].gui, wxButton)->Enable(!conf[XML].autoCassetteLoad_);
-            XRCCTRL(*this, "CasSave1"+computerInfo[XML].gui, wxButton)->Enable(!conf[XML].autoCassetteLoad_);
+            XRCCTRL(*this, "CasLoad1Xml", wxButton)->Enable(!computerConfiguration.autoCassetteLoad_);
+            XRCCTRL(*this, "CasSave1Xml", wxButton)->Enable(!computerConfiguration.autoCassetteLoad_);
         }
     }
 
-    configPointer->Write("/Xmlemu/Enable_Auto_Cassette/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].autoCassetteLoad_);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Enable_Auto_Cassette", computerConfiguration.autoCassetteLoad_);
     configPointer->Flush();
 }
 
@@ -612,19 +1127,19 @@ void GuiXml::onTurboXml(wxCommandEvent&event)
     if (computerRunning_ && turboOn_)
         turboOff();
     
-    conf[XML].turbo_ = event.IsChecked();
-    turboGui(computerInfo[XML].gui);
+    computerConfiguration.turbo_ = event.IsChecked();
+    turboGui();
 
-    configPointer->Write("/Xmlemu/Enable_Turbo_Cassette/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].turbo_);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Enable_Turbo_Cassette", computerConfiguration.turbo_);
     configPointer->Flush();
 }
 
 void GuiXml::onUseLocationXml(wxCommandEvent&event)
 {
-    conf[runningComputer_].useLoadLocation_ = event.IsChecked();
+    computerConfiguration.memAccessConfiguration.useLocation = event.IsChecked();
     enableLocationGui();
 
-    configPointer->Write("/Xmlemu/UseLoadLocation/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].useLoadLocation_);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/UseLoadLocation", computerConfiguration.memAccessConfiguration.useLocation);
     configPointer->Flush();
 }
 
@@ -642,14 +1157,14 @@ void GuiXml::romRamXml(int romRamButton, wxString romRamButtonString)
 {
     wxString fileName, romRam = "ROM";
 
-    if (conf[selectedComputer_].memConfig_[romRamButton].type == RAM)
+    if (computerConfiguration.memoryConfiguration[romRamButton].type == RAM)
         romRam = "RAM";
     
-    if (conf[selectedComputer_].memConfig_[romRamButton].type == NVRAM)
+    if (computerConfiguration.memoryConfiguration[romRamButton].type == NVRAM)
         romRam = "NVR";
 
     fileName = wxFileSelector( "Select the " + romRam + " file to load",
-                              conf[selectedComputer_].memConfig_[romRamButton].dirname, XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->GetValue(),
+                              computerConfiguration.memoryConfiguration[romRamButton].dirname, XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->GetValue(),
                                "",
                                wxString::Format
                               (
@@ -664,12 +1179,12 @@ void GuiXml::romRamXml(int romRamButton, wxString romRamButtonString)
         return;
 
     wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-    conf[selectedComputer_].memConfig_[romRamButton].dirname = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-    conf[selectedComputer_].memConfig_[romRamButton].filename = FullPath.GetFullName();
+    computerConfiguration.memoryConfiguration[romRamButton].dirname = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    computerConfiguration.memoryConfiguration[romRamButton].filename = FullPath.GetFullName();
 
-    XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->SetValue(conf[selectedComputer_].memConfig_[romRamButton].filename);
+    XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->SetValue(computerConfiguration.memoryConfiguration[romRamButton].filename);
 
-    configPointer->Write("/Xmlemu/GuiRomRam"+romRamButtonString+"/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton].filename);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/GuiRomRam"+romRamButtonString, computerConfiguration.memoryConfiguration[romRamButton].filename);
     configPointer->Flush();
 }
 
@@ -688,9 +1203,9 @@ void GuiXml::romRomTextXml(int romRamButton, wxString romRamButtonString)
     if (dropdownUpdateOngoing_)
         return;
 
-    conf[selectedComputer_].memConfig_[romRamButton].filename = XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->GetValue();
+    computerConfiguration.memoryConfiguration[romRamButton].filename = XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->GetValue();
 
-    configPointer->Write("/Xmlemu/GuiRomRam"+romRamButtonString+"/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton].filename);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/GuiRomRam"+romRamButtonString, computerConfiguration.memoryConfiguration[romRamButton].filename);
     configPointer->Flush();
 }
 
@@ -716,10 +1231,10 @@ void GuiXml::onRomRom1ComboXml(wxCommandEvent& event)
 
 void GuiXml::romRomComboXml(int romRamButton, wxString romRamButtonString)
 {
-    conf[selectedComputer_].memConfig_[romRamButton].dirname = romRamDirNameListGui_[romRamButton][romRamFileComboSelection[romRamButton]];
-    conf[selectedComputer_].memConfig_[romRamButton].filename = XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->GetValue();
+    computerConfiguration.memoryConfiguration[romRamButton].dirname = romRamDirNameListGui_[romRamButton][romRamFileComboSelection[romRamButton]];
+    computerConfiguration.memoryConfiguration[romRamButton].filename = XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->GetValue();
 
-    configPointer->Write("/Xmlemu/GuiRomRam"+romRamButtonString+"/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton].filename);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/GuiRomRam"+romRamButtonString, computerConfiguration.memoryConfiguration[romRamButton].filename);
     configPointer->Flush();
 }
 
@@ -727,14 +1242,14 @@ void GuiXml::onMainXmlXml(wxCommandEvent& WXUNUSED(event) )
 {
     wxString fileName;
 
-    wxString dirName = wxDirSelector( "Select main XML folder", conf[selectedComputer_].xmlMainDir_);
+    wxString dirName = wxDirSelector( "Select main XML folder", computerConfiguration.xmlFileConfiguration.mainDirectory);
     if (!dirName)
         return;
     
-    conf[selectedComputer_].xmlMainDir_ = dirName + pathSeparator_;
+    computerConfiguration.xmlFileConfiguration.mainDirectory = dirName + pathSeparator_;
     
     setXmlDirDropDown();
-    conf[XML].xmlDir_ = conf[XML].xmlMainDir_ + conf[XML].xmlSubDir_ + pathSeparator_;
+    computerConfiguration.xmlFileConfiguration.directory = computerConfiguration.xmlFileConfiguration.mainDirectory + computerConfiguration.xmlFileConfiguration.subDirectory + pathSeparator_;
     setXmlDropDown();
 
     dropdownUpdateOngoing_ = false;
@@ -745,7 +1260,7 @@ void GuiXml::onMainXmlTextXml(wxCommandEvent& WXUNUSED(event))
     if (dropdownUpdateOngoing_)
         return;
 
-    conf[selectedComputer_].xmlFile_ = XRCCTRL(*this, "MainXmlXml", wxComboBox)->GetValue();
+    computerConfiguration.xmlFileConfiguration.fileName = XRCCTRL(*this, "MainXmlXml", wxComboBox)->GetValue();
     
     setXmlDirFileGui();
     setRomRamDropDown(romRamButton0_, "0");
@@ -756,9 +1271,9 @@ void GuiXml::onMainXmlComboXml(wxCommandEvent& event)
 {
     xmlFileComboSelection = event.GetSelection();
 
-    conf[selectedComputer_].xmlFile_ = event.GetString();
+    computerConfiguration.xmlFileConfiguration.fileName = event.GetString();
     if (dirNameListDefaultFile_.GetCount() > 0)
-        dirNameListDefaultFile_[xmlDirComboSelection] = conf[selectedComputer_].xmlFile_;
+        dirNameListDefaultFile_[xmlDirComboSelection] = computerConfiguration.xmlFileConfiguration.fileName;
 
     setXmlDirFileGui();
     setRomRamDropDown(romRamButton0_, "0");
@@ -771,8 +1286,8 @@ void GuiXml::onMainDirComboXml(wxCommandEvent& event)
     xmlDirComboString = dirNameList_[xmlDirComboSelection];
     
     if (dirNameList_.GetCount() > 0)
-        conf[selectedComputer_].xmlSubDir_ = dirNameList_[xmlDirComboSelection];
-    conf[selectedComputer_].xmlDir_ = conf[selectedComputer_].xmlMainDir_ + conf[selectedComputer_].xmlSubDir_ + pathSeparator_;
+        computerConfiguration.xmlFileConfiguration.subDirectory = dirNameList_[xmlDirComboSelection];
+    computerConfiguration.xmlFileConfiguration.directory = computerConfiguration.xmlFileConfiguration.mainDirectory + computerConfiguration.xmlFileConfiguration.subDirectory + pathSeparator_;
  
     setXmlDropDown();
     setXmlDirFileGui();
@@ -790,13 +1305,13 @@ void GuiXml::setXmlDirFileGui()
     }
     dropdownUpdateOngoing_ = false;
     
-    parseXmlFile(selectedComputer_, conf[selectedComputer_].xmlDir_, conf[selectedComputer_].xmlFile_);
-    if (conf[selectedComputer_].xmlFile_ != "")
+    parseXmlFile(computerConfiguration.xmlFileConfiguration.directory, computerConfiguration.xmlFileConfiguration.fileName);
+    if (computerConfiguration.xmlFileConfiguration.fileName != "")
         if (dirNameListGui_.GetCount() > 0)
-            dirNameListGui_[xmlDirComboSelection] = computerInfo[selectedComputer_].name;
+            dirNameListGui_[xmlDirComboSelection] = computerInfo.name;
     setXmlGui();
 
-    checkWavFileDownload(selectedComputer_, true);
+    checkWavFileDownload(true);
 }
 
 void GuiXml::setXmlDropDown()
@@ -805,7 +1320,7 @@ void GuiXml::setXmlDropDown()
 
     if (mode_.gui)
         XRCCTRL(*this, "MainXmlXml", wxComboBox)->Clear();
-    conf[selectedComputer_].xmlFile_ = "";
+    computerConfiguration.xmlFileConfiguration.fileName = "";
     xmlFileComboSelection = 0;
     
     wxArrayString fileNameList;
@@ -813,7 +1328,7 @@ void GuiXml::setXmlDropDown()
     fileNameList.Clear();
     
     wxDir *dir;
-    dir = new wxDir (conf[selectedComputer_].xmlDir_);
+    dir = new wxDir (computerConfiguration.xmlFileConfiguration.directory);
     
     bool dirFound = dir->GetFirst(&fileName,  wxEmptyString, wxDIR_FILES);
     while (dirFound)
@@ -831,14 +1346,14 @@ void GuiXml::setXmlDropDown()
         {
             if (dirNameListDefaultFile_[xmlDirComboSelection] == fileNameList[number])
             {
-                conf[selectedComputer_].xmlFile_ = dirNameListDefaultFile_[xmlDirComboSelection];
+                computerConfiguration.xmlFileConfiguration.fileName = dirNameListDefaultFile_[xmlDirComboSelection];
                 xmlFileComboSelection =  number;
             }
         }
     }
     
     if (mode_.gui)
-        XRCCTRL(*this, "MainXmlXml", wxComboBox)->SetValue(conf[selectedComputer_].xmlFile_);
+        XRCCTRL(*this, "MainXmlXml", wxComboBox)->SetValue(computerConfiguration.xmlFileConfiguration.fileName);
 
     dropdownUpdateOngoing_ = false;
     delete dir;
@@ -846,7 +1361,7 @@ void GuiXml::setXmlDropDown()
 
 void GuiXml::setRomRamDropDown(int romRamButton, wxString romRamButtonString)
 {
-    if (conf[XML].memConfig_[romRamButton].pulldownDir.Count() == 0)
+    if (computerConfiguration.memoryConfiguration[romRamButton].pulldownDir.Count() == 0)
         return;
     
     dropdownUpdateOngoing_ = true;
@@ -865,28 +1380,28 @@ void GuiXml::setRomRamDropDown(int romRamButton, wxString romRamButtonString)
     fileNameList.Add("");
     romRamFileNameListGui_[romRamButton].Add("");
     lowerCaseFileNameList.Add("");
-    dirNameList.Add(conf[XML].memConfig_[romRamButton].pulldownDir[0]);
-    romRamDirNameListGui_[romRamButton].Add(conf[XML].memConfig_[romRamButton].pulldownMask[0]);
+    dirNameList.Add(computerConfiguration.memoryConfiguration[romRamButton].pulldownDir[0]);
+    romRamDirNameListGui_[romRamButton].Add(computerConfiguration.memoryConfiguration[romRamButton].pulldownMask[0]);
 
-    for (size_t number=0; number < conf[XML].memConfig_[romRamButton].pulldownDir.GetCount(); number++)
+    for (size_t number=0; number < computerConfiguration.memoryConfiguration[romRamButton].pulldownDir.GetCount(); number++)
     {
-        if (!dir->Open(conf[XML].memConfig_[romRamButton].pulldownDir[number]))
+        if (!dir->Open(computerConfiguration.memoryConfiguration[romRamButton].pulldownDir[number]))
         {
             dropdownUpdateOngoing_ = false;
             delete dir;
             return;
         }
-        dirFound = dir->GetFirst(&fileName, conf[XML].memConfig_[romRamButton].pulldownMask[number], wxDIR_FILES);
+        dirFound = dir->GetFirst(&fileName, computerConfiguration.memoryConfiguration[romRamButton].pulldownMask[number], wxDIR_FILES);
         while (dirFound)
         {
-            if ((conf[XML].memConfig_[romRamButton].pulldownExclude[number] == "" || fileName.Find(conf[XML].memConfig_[romRamButton].pulldownExclude[number]) == wxNOT_FOUND) && (conf[XML].memConfig_[romRamButton].pulldownExclude2[number] == "" || fileName.Find(conf[XML].memConfig_[romRamButton].pulldownExclude2[number]) == wxNOT_FOUND))
+            if ((computerConfiguration.memoryConfiguration[romRamButton].pulldownExclude[number] == "" || fileName.Find(computerConfiguration.memoryConfiguration[romRamButton].pulldownExclude[number]) == wxNOT_FOUND) && (computerConfiguration.memoryConfiguration[romRamButton].pulldownExclude2[number] == "" || fileName.Find(computerConfiguration.memoryConfiguration[romRamButton].pulldownExclude2[number]) == wxNOT_FOUND))
             {
                 fileNameList.Add(fileName);
                 romRamFileNameListGui_[romRamButton].Add(fileName);
                 fileName.LowerCase();
                 lowerCaseFileNameList.Add(fileName);
-                dirNameList.Add(conf[XML].memConfig_[romRamButton].pulldownDir[number]);
-                romRamDirNameListGui_[romRamButton].Add(conf[XML].memConfig_[romRamButton].pulldownMask[number]);
+                dirNameList.Add(computerConfiguration.memoryConfiguration[romRamButton].pulldownDir[number]);
+                romRamDirNameListGui_[romRamButton].Add(computerConfiguration.memoryConfiguration[romRamButton].pulldownMask[number]);
             }
             dirFound = dir->GetNext(&fileName);
         }
@@ -926,7 +1441,7 @@ void GuiXml::setXmlDirDropDown()
     dirNameListGui_.Clear();
 
     wxDir *dir;
-    dir = new wxDir (conf[XML].xmlMainDir_);
+    dir = new wxDir (computerConfiguration.xmlFileConfiguration.mainDirectory);
     
     bool dirFound = dir->GetFirst(&dirName, wxEmptyString, wxDIR_DIRS);
     while (dirFound)
@@ -936,9 +1451,9 @@ void GuiXml::setXmlDirDropDown()
             number += 3;
         
         if (defaultComputerList_[number] != "")
-            dirNameListGui_.Add(configPointer->Read("Xmlemu/XmlGui/"+dirName, defaultComputerList_[number+1]));
+            dirNameListGui_.Add(configPointer->Read("Computer/XmlGui/"+dirName, defaultComputerList_[number+1]));
         else
-            dirNameListGui_.Add(configPointer->Read("Xmlemu/XmlGui/"+dirName, dirName));
+            dirNameListGui_.Add(configPointer->Read("Computer/XmlGui/"+dirName, dirName));
 
         dirNameList_.Add("");
         dirNameListDefaultFile_.Add("");
@@ -954,20 +1469,20 @@ void GuiXml::setXmlDirDropDown()
             defaultNumber += 3;
         
         if (defaultComputerList_[defaultNumber] != "")
-            dirNameList_[number] = configPointer->Read("/Xmlemu/XmlDir/"+dirNameListGui_[number], defaultComputerList_[defaultNumber-1]);
+            dirNameList_[number] = configPointer->Read("/Computer/XmlDir/"+dirNameListGui_[number], defaultComputerList_[defaultNumber-1]);
         else
-            dirNameList_[number] = configPointer->Read("/Xmlemu/XmlDir/"+dirNameListGui_[number], dirNameListGui_[number]);
+            dirNameList_[number] = configPointer->Read("/Computer/XmlDir/"+dirNameListGui_[number], dirNameListGui_[number]);
 
-        dirNameListDefaultFile_[number] = configPointer->Read("/Xmlemu/XmlFile/"+dirNameList_[number], defaultComputerList_[defaultNumber+1]);
+        dirNameListDefaultFile_[number] = configPointer->Read("/Computer/XmlFile/"+dirNameList_[number], defaultComputerList_[defaultNumber+1]);
 
         if (mode_.gui)
             XRCCTRL(*this, "MainDirXml", wxChoice)->Append(dirNameListGui_[number]);
     }
     
     if (dirNameList_.GetCount() > 0)
-        conf[XML].xmlSubDir_ = dirNameList_[xmlDirComboSelection];
+        computerConfiguration.xmlFileConfiguration.subDirectory = dirNameList_[xmlDirComboSelection];
     else
-        conf[XML].xmlSubDir_ = "";
+        computerConfiguration.xmlFileConfiguration.subDirectory = "";
     
     if (mode_.gui)
     {
@@ -985,7 +1500,7 @@ void GuiXml::setXmlSubDir(wxString directory)
 {
     if (dirNameListGui_.GetCount() <= 0)
     {
-        conf[XML].xmlSubDir_ = "";
+        computerConfiguration.xmlFileConfiguration.subDirectory = "";
         return;
     }
 
@@ -996,7 +1511,7 @@ void GuiXml::setXmlSubDir(wxString directory)
     if (dirNameList_[xmlDirComboSelection] != directory)
         xmlDirComboSelection = 0;
     
-    conf[XML].xmlSubDir_ = dirNameList_[xmlDirComboSelection];
+    computerConfiguration.xmlFileConfiguration.subDirectory = dirNameList_[xmlDirComboSelection];
 
     if (mode_.gui)
         XRCCTRL(*this, "MainDirXml", wxChoice)->SetSelection((int)xmlDirComboSelection);
@@ -1004,10 +1519,10 @@ void GuiXml::setXmlSubDir(wxString directory)
 
 void GuiXml::setPrintModeXml()
 {
-    if (conf[selectedComputer_].printerOn_)
+    if (computerConfiguration.printerOn_)
     {
         XRCCTRL(*this, "PrintModeXml", wxChoice)->Enable(true);
-        if (computerRunning_)
+        if (computerRunning_ && computerConfiguration.printMode_ != PRINTFILE )
             XRCCTRL(*this, "PrintButtonXml", wxBitmapButton)->Enable(true);
         else
             XRCCTRL(*this, "PrintButtonXml", wxBitmapButton)->Enable(false);
@@ -1017,15 +1532,15 @@ void GuiXml::setPrintModeXml()
         XRCCTRL(*this, "PrintModeXml", wxChoice)->Enable(false);
         XRCCTRL(*this, "PrintButtonXml", wxBitmapButton)->Enable(false);
     }
-    if (conf[selectedComputer_].printMode_ != PRINTFILE || !conf[selectedComputer_].printerOn_)
+    if (computerConfiguration.printMode_ != PRINTFILE || !computerConfiguration.printerOn_)
     {
-        XRCCTRL(*this, "PrintFileButton"+computerInfo[selectedComputer_].gui, wxButton)->Enable(false);
-        XRCCTRL(*this, "PrintFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(false);
+        XRCCTRL(*this, "PrintFileButtonXml", wxButton)->Enable(false);
+        XRCCTRL(*this, "PrintFileXml", wxTextCtrl)->Enable(false);
     }
     else
     {
-        XRCCTRL(*this, "PrintFileButton"+computerInfo[selectedComputer_].gui, wxButton)->Enable(true);
-        XRCCTRL(*this, "PrintFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(true);
+        XRCCTRL(*this, "PrintFileButtonXml", wxButton)->Enable(true);
+        XRCCTRL(*this, "PrintFileXml", wxTextCtrl)->Enable(true);
     }
 }
 
@@ -1034,12 +1549,12 @@ void GuiXml::setRomRamButtonOrder()
     romRamButton0_ = 0;
     romRamButton1_ = 1;
 
-    bool romRamButtonEnable0 = (conf[XML].memConfig_[romRamButton0_].type & 0xff) != UNDEFINED;
-    bool romRamButtonEnable1 = (conf[XML].memConfig_[romRamButton1_].type & 0xff) != UNDEFINED;
+    bool romRamButtonEnable0 = (computerConfiguration.memoryConfiguration[romRamButton0_].type & 0xff) != UNDEFINED;
+    bool romRamButtonEnable1 = (computerConfiguration.memoryConfiguration[romRamButton1_].type & 0xff) != UNDEFINED;
 
     if (romRamButtonEnable0 && romRamButtonEnable1)
     {
-        if (conf[XML].memConfig_[romRamButton0_].start > conf[XML].memConfig_[romRamButton1_].start)
+        if (computerConfiguration.memoryConfiguration[romRamButton0_].start > computerConfiguration.memoryConfiguration[romRamButton1_].start)
         {
             romRamButton0_ = 1;
             romRamButton1_ = 0;
@@ -1058,106 +1573,140 @@ void GuiXml::setRomRamButtonOrder()
 void GuiXml::setXmlGui()
 {
     readXmlWindowConfig();
-    
-    setVtType("Xml", XML, elfConfiguration[XML].vtType, false);
+    readDefaultVtConfig();
+
+    setVtType(computerConfiguration.videoTerminalConfiguration.type, false);
     
     setRomRamButtonOrder();
     if (isXmlRomRamOptionGui())
     {
-        conf[XML].memConfig_[romRamButton0_].filename = configPointer->Read("/Xmlemu/GuiRomRam0/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton0_].filename);
-        conf[XML].memConfig_[romRamButton1_].filename = configPointer->Read("/Xmlemu/GuiRomRam1/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].memConfig_[romRamButton1_].filename);
+        computerConfiguration.memoryConfiguration[romRamButton0_].dirname = readConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/"+computerConfiguration.memoryConfiguration[romRamButton0_].filename+"/Dir/GuiRomRam0", computerConfiguration.memoryConfiguration[romRamButton0_].dirname);
+        computerConfiguration.memoryConfiguration[romRamButton1_].dirname = readConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/"+computerConfiguration.memoryConfiguration[romRamButton1_].filename+"/Dir/GuiRomRam1", computerConfiguration.memoryConfiguration[romRamButton1_].dirname);
+        computerConfiguration.memoryConfiguration[romRamButton0_].filename = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/GuiRomRam0", computerConfiguration.memoryConfiguration[romRamButton0_].filename);
+        computerConfiguration.memoryConfiguration[romRamButton1_].filename = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/GuiRomRam1", computerConfiguration.memoryConfiguration[romRamButton1_].filename);
     }
-    conf[XML].ledTime_ = configPointer->Read("/Xmlemu/Led_Update_Frequency/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].ledTime_);
-    configPointer->Read("/Xmlemu/Enable_Turbo_Cassette/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], &conf[XML].turbo_, conf[XML].turbo_);
-    configPointer->Read("/Xmlemu/Enable_Auto_Cassette/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], &conf[XML].autoCassetteLoad_, conf[XML].autoCassetteLoad_);
-    configPointer->Read("/Xmlemu/UseLoadLocation/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], &conf[XML].useLoadLocation_, conf[XML].useLoadLocation_);
-    conf[XML].saveStartString_ = configPointer->Read("/Xmlemu/SaveStart/"+dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection], conf[XML].saveStartString_);
+    computerConfiguration.ledTime_ = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Led_Update_Frequency", computerConfiguration.ledTime_);
+    configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Enable_Turbo_Cassette", &computerConfiguration.turbo_, computerConfiguration.turbo_);
+    configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Enable_Auto_Cassette", &computerConfiguration.autoCassetteLoad_, computerConfiguration.autoCassetteLoad_);
+    configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/UseLoadLocation", &computerConfiguration.memAccessConfiguration.useLocation, computerConfiguration.memAccessConfiguration.useLocation);
+    computerConfiguration.memAccessConfiguration.saveStartString = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/SaveStart", computerConfiguration.memAccessConfiguration.saveStartString);
+    
+    computerConfiguration.keyFileConfiguration.fileName = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Key_File", computerConfiguration.keyFileConfiguration.fileName);
+    computerConfiguration.keyFileConfiguration.directory = readConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Key_File", computerConfiguration.keyFileConfiguration.directory);
+    computerConfiguration.printerFileConfiguration.fileName = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Print_File", computerConfiguration.printerFileConfiguration.fileName);
+    computerConfiguration.printerFileConfiguration.directory = readConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Print_File", computerConfiguration.printerFileConfiguration.directory);
+    computerConfiguration.screenDumpFileConfiguration.fileName = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Video_Dump_File", computerConfiguration.screenDumpFileConfiguration.fileName);
+    computerConfiguration.screenDumpFileConfiguration.directory = readConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Video_Dump_File", computerConfiguration.screenDumpFileConfiguration.directory);
+    computerConfiguration.videoTerminalConfiguration.xmodemFileName = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Xmodem_File", computerConfiguration.videoTerminalConfiguration.xmodemFileName);
+    computerConfiguration.videoTerminalConfiguration.xmodemDirectory = readConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Xmodem_File", computerConfiguration.videoTerminalConfiguration.xmodemDirectory);
+
+    wxString number, type;
+    for (int tape=0; tape<2; tape++)
+    {
+        number.Printf("%d", tape);
+        
+        computerConfiguration.wavConfiguration[tape].fileName = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Wav_File" + number, computerConfiguration.wavConfiguration[tape].fileName);
+        computerConfiguration.wavConfiguration[tape].directory = readConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Wav_File" + number, computerConfiguration.wavConfiguration[tape].directory);
+    }
+    for (int fdcType = 0; fdcType<FDCTYPE_MAX; fdcType++)
+    {
+        type.Printf("%d", fdcType);
+        
+        for (int disk=0; disk<4; disk++)
+        {
+            number.Printf("%d", disk);
+
+            floppy_[fdcType][disk] = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/FDC" + number + "_File_" + type, floppy_[fdcType][disk]);
+            floppyDir_[fdcType][disk] = readConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/FDC" + number + "_File_" + type, floppyDir_[fdcType][disk]);
+        }
+    }
+
     long value;
-    if (!conf[XML].saveStartString_.ToLong(&value, 16))
+    if (!computerConfiguration.memAccessConfiguration.saveStartString.ToLong(&value, 16))
         value = 0;
-    conf[XML].saveStart_ = value;
+    computerConfiguration.memAccessConfiguration.saveStart = value;
 
     if (!mode_.gui)
         return;
   
-    XRCCTRL(*this, "AutoCasLoadXml", wxCheckBox)->SetValue(conf[XML].autoCassetteLoad_);
-    XRCCTRL(*this, "TurboXml", wxCheckBox)->SetValue(conf[XML].turbo_);
+    XRCCTRL(*this, "AutoCasLoadXml", wxCheckBox)->SetValue(computerConfiguration.autoCassetteLoad_);
+    XRCCTRL(*this, "TurboXml", wxCheckBox)->SetValue(computerConfiguration.turbo_);
 
-    XRCCTRL(*this, "ShowAddressXml", wxTextCtrl)->ChangeValue(conf[XML].ledTime_);
+    XRCCTRL(*this, "ShowAddressXml", wxTextCtrl)->ChangeValue(computerConfiguration.ledTime_);
 
-    bool ramButtonEnable = (conf[XML].memConfig_[romRamButton1_].type & 0xff) != UNDEFINED;
+    bool ramButtonEnable = (computerConfiguration.memoryConfiguration[romRamButton1_].type & 0xff) != UNDEFINED;
     wxString buttonText = "....";
     if (ramButtonEnable)
     {
-        if ((conf[XML].memConfig_[romRamButton1_].type & 0xff) == RAM)
-            buttonText.Printf("RAM @%04X", conf[XML].memConfig_[romRamButton1_].start);
-        if ((conf[XML].memConfig_[romRamButton1_].type & 0xff) == ROM)
-            buttonText.Printf("ROM @%04X", conf[XML].memConfig_[romRamButton1_].start);
-        if ((conf[XML].memConfig_[romRamButton1_].type & 0xff) == NVRAM)
-            buttonText.Printf("NVR @%04X", conf[XML].memConfig_[romRamButton1_].start);
+        if ((computerConfiguration.memoryConfiguration[romRamButton1_].type & 0xff) == RAM)
+            buttonText.Printf("RAM @%04X", computerConfiguration.memoryConfiguration[romRamButton1_].start);
+        if ((computerConfiguration.memoryConfiguration[romRamButton1_].type & 0xff) == ROM)
+            buttonText.Printf("ROM @%04X", computerConfiguration.memoryConfiguration[romRamButton1_].start);
+        if ((computerConfiguration.memoryConfiguration[romRamButton1_].type & 0xff) == NVRAM)
+            buttonText.Printf("NVR @%04X", computerConfiguration.memoryConfiguration[romRamButton1_].start);
     }
     XRCCTRL(*this,"RomRamButton1Xml", wxButton)->SetLabel(buttonText);
     XRCCTRL(*this,"RomRam1Xml", wxComboBox)->Enable(ramButtonEnable);
     XRCCTRL(*this,"RomRamButton1Xml", wxButton)->Enable(ramButtonEnable);
         
-    bool romButtonEnable = (conf[XML].memConfig_[romRamButton0_].type & 0xff) != UNDEFINED;
+    bool romButtonEnable = (computerConfiguration.memoryConfiguration[romRamButton0_].type & 0xff) != UNDEFINED;
     buttonText = "....";
     if (romButtonEnable)
     {
-        if ((conf[XML].memConfig_[romRamButton0_].type & 0xff) == RAM)
-            buttonText.Printf("RAM @%04X", conf[XML].memConfig_[romRamButton0_].start);
-        if ((conf[XML].memConfig_[romRamButton0_].type & 0xff) == ROM)
-            buttonText.Printf("ROM @%04X", conf[XML].memConfig_[romRamButton0_].start);
-        if ((conf[XML].memConfig_[romRamButton0_].type & 0xff) == NVRAM)
-            buttonText.Printf("NVR @%04X", conf[XML].memConfig_[romRamButton0_].start);
+        if ((computerConfiguration.memoryConfiguration[romRamButton0_].type & 0xff) == RAM)
+            buttonText.Printf("RAM @%04X", computerConfiguration.memoryConfiguration[romRamButton0_].start);
+        if ((computerConfiguration.memoryConfiguration[romRamButton0_].type & 0xff) == ROM)
+            buttonText.Printf("ROM @%04X", computerConfiguration.memoryConfiguration[romRamButton0_].start);
+        if ((computerConfiguration.memoryConfiguration[romRamButton0_].type & 0xff) == NVRAM)
+            buttonText.Printf("NVR @%04X", computerConfiguration.memoryConfiguration[romRamButton0_].start);
     }
     XRCCTRL(*this,"RomRamButton0Xml", wxButton)->SetLabel(buttonText);
     XRCCTRL(*this,"RomRam0Xml", wxComboBox)->Enable(romButtonEnable);
     XRCCTRL(*this,"RomRamButton0Xml", wxButton)->Enable(romButtonEnable);
 
-    XRCCTRL(*this, "RomRam1Xml", wxComboBox)->SetValue(conf[XML].memConfig_[romRamButton1_].filename);
-    XRCCTRL(*this, "RomRam0Xml", wxComboBox)->SetValue(conf[XML].memConfig_[romRamButton0_].filename);
+    XRCCTRL(*this, "RomRam1Xml", wxComboBox)->SetValue(computerConfiguration.memoryConfiguration[romRamButton1_].filename);
+    XRCCTRL(*this, "RomRam0Xml", wxComboBox)->SetValue(computerConfiguration.memoryConfiguration[romRamButton0_].filename);
     
-    XRCCTRL(*this, "WavFileXml", wxTextCtrl)->SetValue(conf[XML].wavFile_[0]);
-    XRCCTRL(*this, "WavFile1Xml", wxTextCtrl)->SetValue(conf[XML].wavFile_[1]);
-    XRCCTRL(*this, "XmodemFileXml", wxTextCtrl)->SetValue(conf[XML].xmodemFile_);
+    XRCCTRL(*this, "WavFileXml", wxTextCtrl)->SetValue(computerConfiguration.wavConfiguration[0].fileName);
+    XRCCTRL(*this, "WavFile1Xml", wxTextCtrl)->SetValue(computerConfiguration.wavConfiguration[1].fileName);
+    XRCCTRL(*this, "XmodemFileXml", wxTextCtrl)->SetValue(computerConfiguration.videoTerminalConfiguration.xmodemFileName);
 
-    XRCCTRL(*this, "CasButtonXml", wxButton)->Enable(elfConfiguration[XML].useTape || elfConfiguration[XML].useTapeHw);
-    XRCCTRL(*this, "WavFileXml", wxTextCtrl)->Enable(elfConfiguration[XML].useTape || elfConfiguration[XML].useTapeHw);
-    XRCCTRL(*this, "EjectCasXml", wxBitmapButton)->Enable(elfConfiguration[XML].useTape || elfConfiguration[XML].useTapeHw);
+    XRCCTRL(*this, "CasButtonXml", wxButton)->Enable(computerConfiguration.swTapeConfiguration.defined || computerConfiguration.hwTapeConfiguration.defined);
+    XRCCTRL(*this, "WavFileXml", wxTextCtrl)->Enable(computerConfiguration.swTapeConfiguration.defined || computerConfiguration.hwTapeConfiguration.defined);
+    XRCCTRL(*this, "EjectCasXml", wxBitmapButton)->Enable(computerConfiguration.swTapeConfiguration.defined || computerConfiguration.hwTapeConfiguration.defined);
 
-    XRCCTRL(*this, "CasButton1Xml", wxButton)->Enable(elfConfiguration[XML].useTape1);
-    XRCCTRL(*this, "WavFile1Xml", wxTextCtrl)->Enable(elfConfiguration[XML].useTape1);
-    XRCCTRL(*this, "EjectCas1Xml", wxBitmapButton)->Enable(elfConfiguration[XML].useTape1);
+    XRCCTRL(*this, "CasButton1Xml", wxButton)->Enable(computerConfiguration.swTapeConfiguration.twoDecks || computerConfiguration.hwTapeConfiguration.twoDecks);
+    XRCCTRL(*this, "WavFile1Xml", wxTextCtrl)->Enable(computerConfiguration.swTapeConfiguration.twoDecks || computerConfiguration.hwTapeConfiguration.twoDecks);
+    XRCCTRL(*this, "EjectCas1Xml", wxBitmapButton)->Enable(computerConfiguration.swTapeConfiguration.twoDecks || computerConfiguration.hwTapeConfiguration.twoDecks);
 
-    XRCCTRL(*this, "XmodemButtonXml", wxButton)->Enable(elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem);
-    XRCCTRL(*this, "XmodemFileXml", wxTextCtrl)->Enable(elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem);
-    XRCCTRL(*this, "EjectXmodemXml", wxBitmapButton)->Enable(elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem);
+    XRCCTRL(*this, "XmodemButtonXml", wxButton)->Enable(computerConfiguration.videoTerminalConfiguration.xModem_defined || computerConfiguration.videoTerminalConfiguration.hexModem_defined);
+    XRCCTRL(*this, "XmodemFileXml", wxTextCtrl)->Enable(computerConfiguration.videoTerminalConfiguration.xModem_defined || computerConfiguration.videoTerminalConfiguration.hexModem_defined);
+    XRCCTRL(*this, "EjectXmodemXml", wxBitmapButton)->Enable(computerConfiguration.videoTerminalConfiguration.xModem_defined || computerConfiguration.videoTerminalConfiguration.hexModem_defined);
 
-    XRCCTRL(*this, "PrintFileXml", wxTextCtrl)->ChangeValue(conf[XML].printFile_);
-    XRCCTRL(*this, "KeyFileXml", wxTextCtrl)->ChangeValue(conf[XML].keyFile_);
-    XRCCTRL(*this, "ScreenDumpFileXml", wxComboBox)->ChangeValue(conf[XML].screenDumpFile_);
+    XRCCTRL(*this, "PrintFileXml", wxTextCtrl)->ChangeValue(computerConfiguration.printerFileConfiguration.fileName);
+    XRCCTRL(*this, "KeyFileXml", wxTextCtrl)->ChangeValue(computerConfiguration.keyFileConfiguration.fileName);
+    XRCCTRL(*this, "ScreenDumpFileXml", wxComboBox)->ChangeValue(computerConfiguration.screenDumpFileConfiguration.fileName);
 
-    if (elfConfiguration[XML].useHexModem)
+    if (computerConfiguration.videoTerminalConfiguration.hexModem_defined)
         XRCCTRL(*this, "XmodemButtonXml", wxButton)->SetLabel("HEX");
     else
         XRCCTRL(*this, "XmodemButtonXml", wxButton)->SetLabel("XMODEM");
     
     for (int drive=0; drive <4; drive++)
-        setUpdFloppyGui(drive, XML);
+        setUpdFloppyGui(drive);
 
-    setBaudChoice(XML);
+    setBaudChoice();
     setPrintModeXml();
     
-    XRCCTRL(*this, "AutoCasLoadXml", wxCheckBox)->Enable((elfConfiguration[XML].useTape || elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem || isTapeHwFred(XML)) && !conf[XML].realCassetteLoad_ && !isTapeHwCybervision(XML));
-    XRCCTRL(*this, "TurboXml", wxCheckBox)->Enable((elfConfiguration[XML].useTape || elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem || elfConfiguration[XML].useTapeHw) && !conf[XML].realCassetteLoad_);
-    XRCCTRL(*this, "TurboClockXml", wxTextCtrl)->Enable((elfConfiguration[XML].useTape || elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem || elfConfiguration[XML].useTapeHw) && conf[XML].turbo_);
-    XRCCTRL(*this, "TurboMhzTextXml", wxStaticText)->Enable((elfConfiguration[XML].useTape || elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem || elfConfiguration[XML].useTapeHw) && conf[XML].turbo_);
+    XRCCTRL(*this, "AutoCasLoadXml", wxCheckBox)->Enable((computerConfiguration.swTapeConfiguration.defined || computerConfiguration.videoTerminalConfiguration.xModem_defined || computerConfiguration.videoTerminalConfiguration.hexModem_defined || isTapeHwFred()) && !computerConfiguration.realCassetteLoad_ && !isTapeHwCybervision());
+    XRCCTRL(*this, "TurboXml", wxCheckBox)->Enable((computerConfiguration.swTapeConfiguration.defined || computerConfiguration.videoTerminalConfiguration.xModem_defined || computerConfiguration.videoTerminalConfiguration.hexModem_defined || computerConfiguration.hwTapeConfiguration.defined) && !computerConfiguration.realCassetteLoad_);
+    XRCCTRL(*this, "TurboClockXml", wxTextCtrl)->Enable((computerConfiguration.swTapeConfiguration.defined || computerConfiguration.videoTerminalConfiguration.xModem_defined || computerConfiguration.videoTerminalConfiguration.hexModem_defined || computerConfiguration.hwTapeConfiguration.defined) && computerConfiguration.turbo_);
+    XRCCTRL(*this, "TurboMhzTextXml", wxStaticText)->Enable((computerConfiguration.swTapeConfiguration.defined || computerConfiguration.videoTerminalConfiguration.xModem_defined || computerConfiguration.videoTerminalConfiguration.hexModem_defined || computerConfiguration.hwTapeConfiguration.defined) && computerConfiguration.turbo_);
 #if defined(__WXMSW__)
-    XRCCTRL(*this, "RealCasLoadXml", wxBitmapButton)->Enable(elfConfiguration[XML].useTape && !elfConfiguration[XML].useXmodem || elfConfiguration[XML].useHexModem || elfConfiguration[XML].useTapeHw);
+    XRCCTRL(*this, "RealCasLoadXml", wxBitmapButton)->Enable(computerConfiguration.swTapeConfiguration.defined && !computerConfiguration.videoTerminalConfiguration.xModem_defined || computerConfiguration.videoTerminalConfiguration.hexModem_defined || computerConfiguration.hwTapeConfiguration.defined);
 #endif
 
-    XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->Enable(elfConfiguration[XML].useTapeHw);
+    XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->Enable(computerConfiguration.hwTapeConfiguration.defined);
     if (hwTapeState_ == HW_TAPE_STATE_FF)
         XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->SetBitmapLabel(forwardDarkGreenBitmap);
     else
@@ -1166,7 +1715,7 @@ void GuiXml::setXmlGui()
         XRCCTRL(*this, "CasRewindXml", wxBitmapButton)->SetBitmapLabel(rewindDarkGreenBitmap);
     else
         XRCCTRL(*this, "CasRewindXml", wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
-    if (elfConfiguration[XML].useTapeHw)
+    if (computerConfiguration.hwTapeConfiguration.defined)
     {
         XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->Enable(true);
         if (hwTapeState_ == HW_TAPE_STATE_PLAY)
@@ -1174,38 +1723,43 @@ void GuiXml::setXmlGui()
         else
             XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
     }
-    if (elfConfiguration[XML].useTapeHw)
+    if (computerConfiguration.hwTapeConfiguration.defined)
     {
         XRCCTRL(*this, "CasLoadXml", wxButton)->Enable(false);
         XRCCTRL(*this, "CasForwardXml", wxButton)->Enable(false);
         XRCCTRL(*this, "CasRewindXml", wxButton)->Enable(false);
     }
 
-    XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->SetSelection(elfConfiguration[XML].baudR);
-    XRCCTRL(*this, "VTBaudTChoiceXml", wxChoice)->SetSelection(elfConfiguration[XML].baudT);
-    if (elfConfiguration[XML].vtExternal)
+    XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->SetSelection(computerConfiguration.videoTerminalConfiguration.baudR);
+    XRCCTRL(*this, "VTBaudTChoiceXml", wxChoice)->SetSelection(computerConfiguration.videoTerminalConfiguration.baudT);
+    if (computerConfiguration.videoTerminalConfiguration.external)
         XRCCTRL(*this, "VTTypeXml", wxChoice)->SetSelection(EXTERNAL_TERMINAL);
     else
-        XRCCTRL(*this, "VTTypeXml", wxChoice)->SetSelection(elfConfiguration[XML].vtType);
-  
-    XRCCTRL(*this, "ControlWindowsXml", wxCheckBox)->SetValue(elfConfiguration[XML].useElfControlWindows);
-    XRCCTRL(*this,"AddressText1Xml", wxStaticText)->Enable((elfConfiguration[XML].useElfControlWindows && elfConfiguration[XML].panelType_ != PANEL_NONE) || elfConfiguration[XML].ioConfiguration.statusBarType == STATUSBAR_VIP2);
-    XRCCTRL(*this,"AddressText2Xml", wxStaticText)->Enable((elfConfiguration[XML].useElfControlWindows && elfConfiguration[XML].panelType_ != PANEL_NONE) || elfConfiguration[XML].ioConfiguration.statusBarType == STATUSBAR_VIP2);
-    XRCCTRL(*this,"ShowAddressXml", wxTextCtrl)->Enable((elfConfiguration[XML].useElfControlWindows && elfConfiguration[XML].panelType_ != PANEL_NONE) || elfConfiguration[XML].ioConfiguration.statusBarType == STATUSBAR_VIP2);
-
-    XRCCTRL(*this,"ControlWindowsXml", wxCheckBox)->Enable(elfConfiguration[XML].panelType_ != PANEL_NONE);
-
-    XRCCTRL(*this, "InterlaceXml", wxCheckBox)->SetValue(conf[XML].interlace_);
-    XRCCTRL(*this, "InterlaceXml", wxCheckBox)->Enable(elfConfiguration[XML].use6845 || elfConfiguration[XML].use8275);
-
-    if (clockTextCtrl[XML] != NULL)
-        clockTextCtrl[XML]->ChangeValue(conf[XML].clock_);
-
-    conf[XML].videoNumber_ = VIDEOMAIN;
-    
-    if (conf[XML].numberOfVideoTypes_ > 0)
     {
-        XRCCTRL(*this, "ZoomTextXml", wxStaticText)->SetLabel(conf[XML].videoName_[conf[XML].videoNumber_] + ", zoom:");
+        if (computerConfiguration.videoTerminalConfiguration.loop_back)
+            XRCCTRL(*this, "VTTypeXml", wxChoice)->SetSelection(LOOP_BACK);
+        else
+            XRCCTRL(*this, "VTTypeXml", wxChoice)->SetSelection(computerConfiguration.videoTerminalConfiguration.type);
+    }
+
+    XRCCTRL(*this, "ControlWindowsXml", wxCheckBox)->SetValue(computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show);
+    XRCCTRL(*this,"AddressText1Xml", wxStaticText)->Enable((computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show && computerConfiguration.frontPanelConfiguration[PANEL_MAIN].defined) || computerConfiguration.vis1870Configuration.statusBarType == STATUSBAR_VIP2);
+    XRCCTRL(*this,"AddressText2Xml", wxStaticText)->Enable((computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show && computerConfiguration.frontPanelConfiguration[PANEL_MAIN].defined) || computerConfiguration.vis1870Configuration.statusBarType == STATUSBAR_VIP2);
+    XRCCTRL(*this,"ShowAddressXml", wxTextCtrl)->Enable((computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show && computerConfiguration.frontPanelConfiguration[PANEL_MAIN].defined) || computerConfiguration.vis1870Configuration.statusBarType == STATUSBAR_VIP2);
+
+    XRCCTRL(*this,"ControlWindowsXml", wxCheckBox)->Enable(computerConfiguration.frontPanelConfiguration[PANEL_MAIN].defined);
+
+    XRCCTRL(*this, "InterlaceXml", wxCheckBox)->SetValue(computerConfiguration.interlace_);
+    XRCCTRL(*this, "InterlaceXml", wxCheckBox)->Enable(computerConfiguration.videoTerminalConfiguration.defined || computerConfiguration.fredVideoConfiguration.defined || computerConfiguration.mc6845Configuration.defined || computerConfiguration.i8275Configuration.defined);
+
+    if (clockTextCtrl != NULL)
+        clockTextCtrl->ChangeValue(computerConfiguration.clock_);
+
+    computerConfiguration.videoNumber_ = VIDEOMAIN;
+    
+    if (computerConfiguration.numberOfVideoTypes_ > 0)
+    {
+        XRCCTRL(*this, "ZoomTextXml", wxStaticText)->SetLabel(computerConfiguration.videoName_[computerConfiguration.videoNumber_] + ", zoom:");
         XRCCTRL(*this, "ZoomTextXml", wxStaticText)->Enable(true);
         XRCCTRL(*this, "ZoomValueXml", wxTextCtrl)->Enable(true);
         XRCCTRL(*this, "ZoomSpinXml", wxSpinButton)->Enable(true);
@@ -1220,41 +1774,41 @@ void GuiXml::setXmlGui()
         XRCCTRL(*this, "FullScreenF3Xml", wxBitmapButton)->Enable(false);
     }
     
-    if (conf[XML].numberOfVideoTypes_ > 1)
+    if (computerConfiguration.numberOfVideoTypes_ > 1)
         XRCCTRL(*this, "VideoNumberXml", wxBitmapButton)->Enable(true);
     else
         XRCCTRL(*this, "VideoNumberXml", wxBitmapButton)->Enable(false);
     
-    if (conf[XML].numberOfVideoTypes_ > 0)
-        correctZoomAndValue(XML, "Xml", SET_SPIN, conf[XML].videoNumber_);
+    if (computerConfiguration.numberOfVideoTypes_ > 0)
+        correctZoomAndValue(SET_SPIN, computerConfiguration.videoNumber_);
     
-    XRCCTRL(*this, "BatchButtonXml", wxButton)->Enable(conf[XML].useBatchWav_);
-    XRCCTRL(*this, "BatchFileXml", wxStaticText)->Enable(conf[XML].useBatchWav_);
+    XRCCTRL(*this, "BatchButtonXml", wxButton)->Enable(computerConfiguration.useBatchWav_);
+    XRCCTRL(*this, "BatchFileXml", wxStaticText)->Enable(computerConfiguration.useBatchWav_);
 
-    XRCCTRL(*this, "TextClearXml", wxStaticText)->Enable(elfConfiguration[XML].useRtcDS12887 || elfConfiguration[XML].useNvRam);
+    XRCCTRL(*this, "TextClearXml", wxStaticText)->Enable(computerConfiguration.rtcDs12887Configuration.defined || computerConfiguration.nvRamConfiguration.defined);
 
-    XRCCTRL(*this, "XmlClearRtc", wxCheckBox)->Enable(elfConfiguration[XML].useRtcDS12887);
-    XRCCTRL(*this, "XmlClearRtc", wxCheckBox)->SetValue(elfConfiguration[XML].clearRtc);
+    XRCCTRL(*this, "XmlClearRtc", wxCheckBox)->Enable(computerConfiguration.rtcDs12887Configuration.defined);
+    XRCCTRL(*this, "XmlClearRtc", wxCheckBox)->SetValue(computerConfiguration.clearRtc);
 
-    XRCCTRL(*this, "XmlClearRam", wxCheckBox)->Enable(elfConfiguration[XML].useNvRam);
-    XRCCTRL(*this, "XmlClearRam", wxCheckBox)->SetValue(elfConfiguration[XML].clearRam);
+    XRCCTRL(*this, "XmlClearRam", wxCheckBox)->Enable(computerConfiguration.nvRamConfiguration.defined);
+    XRCCTRL(*this, "XmlClearRam", wxCheckBox)->SetValue(computerConfiguration.clearRam);
 
-    XRCCTRL(*this, "UseLocationXml", wxCheckBox)->SetValue(conf[XML].useLoadLocation_);
+    XRCCTRL(*this, "UseLocationXml", wxCheckBox)->SetValue(computerConfiguration.memAccessConfiguration.useLocation);
     
-    if (conf[XML].saveStart_ != 0)
-        XRCCTRL(*this, "SaveStartXml", wxTextCtrl)->SetValue(conf[XML].saveStartString_);
+    if (computerConfiguration.memAccessConfiguration.saveStart != 0)
+        XRCCTRL(*this, "SaveStartXml", wxTextCtrl)->SetValue(computerConfiguration.memAccessConfiguration.saveStartString);
     else
     {
-        if (conf[XML].useLoadLocation_)
+        if (computerConfiguration.memAccessConfiguration.useLocation)
             XRCCTRL(*this, "SaveStartXml", wxTextCtrl)->SetValue("0000");
         else
             XRCCTRL(*this, "SaveStartXml", wxTextCtrl)->SetValue("");
     }
 
-    XRCCTRL(*this,"DebugSCRT", wxCheckBox)->SetValue(conf[XML].scrtMode_);
+    XRCCTRL(*this,"DebugSCRT", wxCheckBox)->SetValue(computerConfiguration.debuggerConfiguration.mode);
 
     XRCCTRL(*this,"DebugSCRT",wxCheckBox)->Enable(true);
-    if (conf[XML].scrtMode_)
+    if (computerConfiguration.debuggerConfiguration.mode)
     {
         XRCCTRL(*this,"DebugCallText",wxStaticText)->Enable(true);
         XRCCTRL(*this,"DebugCallReg",wxTextCtrl)->Enable(true);
@@ -1266,31 +1820,31 @@ void GuiXml::setXmlGui()
     
     wxString valueString;
     
-    if (conf[XML].debugCallReg_ == -1)
+    if (computerConfiguration.debuggerConfiguration.callRegister == -1)
         valueString = "";
     else
-        valueString.Printf("%01X", (int)conf[XML].debugCallReg_);
+        valueString.Printf("%01X", (int)computerConfiguration.debuggerConfiguration.callRegister);
     XRCCTRL(*this,"DebugCallReg",wxTextCtrl)->ChangeValue(valueString);
     
-    if (conf[XML].debugCallAddress_ == -1)
+    if (computerConfiguration.debuggerConfiguration.callAddress == -1)
         valueString = "";
     else
-        valueString.Printf("%04X", (int)conf[XML].debugCallAddress_);
+        valueString.Printf("%04X", (int)computerConfiguration.debuggerConfiguration.callAddress);
     XRCCTRL(*this,"DebugCallAddress",wxTextCtrl)->ChangeValue(valueString);
     
-    if (conf[XML].debugRetReg_ == -1)
+    if (computerConfiguration.debuggerConfiguration.returnRegister == -1)
         valueString = "";
     else
-        valueString.Printf("%01X", (int)conf[XML].debugRetReg_);
+        valueString.Printf("%01X", (int)computerConfiguration.debuggerConfiguration.returnRegister);
     
     XRCCTRL(*this,"DebugRetReg",wxTextCtrl)->ChangeValue(valueString);
-    if (conf[XML].debugRetAddress_ == -1)
+    if (computerConfiguration.debuggerConfiguration.returnAddress == -1)
         valueString = "";
     else
-        valueString.Printf("%04X", (int)conf[XML].debugRetAddress_);
+        valueString.Printf("%04X", (int)computerConfiguration.debuggerConfiguration.returnAddress);
     XRCCTRL(*this,"DebugRetAddress",wxTextCtrl)->ChangeValue(valueString);
 
-    if (conf[XML].soundType_ == SOUND_SUPER_VP550 || conf[XML].soundType_ == SOUND_SUPER_VP551)
+    if (computerConfiguration.soundConfiguration.type == SOUND_SUPER_VP550 || computerConfiguration.soundConfiguration.type == SOUND_SUPER_VP551)
     {
         XRCCTRL(*this,"TempoTextXml", wxStaticText)->Enable(true);
         XRCCTRL(*this,"TempoXml", wxSlider)->Enable(true);
@@ -1300,71 +1854,107 @@ void GuiXml::setXmlGui()
         XRCCTRL(*this,"TempoTextXml", wxStaticText)->Enable(false);
         XRCCTRL(*this,"TempoXml", wxSlider)->Enable(false);
     }
-    XRCCTRL(*this, "TempoXml", wxSlider)->SetValue(conf[XML].tempo_);
+    XRCCTRL(*this, "TempoXml", wxSlider)->SetValue(computerConfiguration.soundConfiguration.tempo);
+    
+    XRCCTRL(*this, "DebugExpansionSlot", SlotEdit)->Enable(computerConfiguration.slotConfiguration.maxSlotNumber_ > 0);
+    XRCCTRL(*this, "DebugExpansionBank", SlotEdit)->Enable(computerConfiguration.slotConfiguration.banksInUse_);
+
+    if (computerConfiguration.slotConfiguration.maxSlotNumber_ > 0)
+        XRCCTRL(*this, "DebugExpansionSlot", SlotEdit)->setRange(0, computerConfiguration.slotConfiguration.maxSlotNumber_-1);
 }
 
 void GuiXml::onVideoNumber(wxCommandEvent&WXUNUSED(event))
 {
-    conf[XML].videoNumber_++;
-    if (conf[XML].videoNumber_ == conf[XML].numberOfVideoTypes_)
-        conf[XML].videoNumber_ = 0;
+    computerConfiguration.videoNumber_++;
+    if (computerConfiguration.videoNumber_ == computerConfiguration.numberOfVideoTypes_)
+        computerConfiguration.videoNumber_ = 0;
     
-    XRCCTRL(*this, "ZoomTextXml", wxStaticText)->SetLabel(conf[XML].videoName_[conf[XML].videoNumber_] + ", zoom:");
-    correctZoomAndValue(XML, "Xml", SET_SPIN, conf[XML].videoNumber_);
+    XRCCTRL(*this, "ZoomTextXml", wxStaticText)->SetLabel(computerConfiguration.videoName_[computerConfiguration.videoNumber_] + ", zoom:");
+    correctZoomAndValue(SET_SPIN, computerConfiguration.videoNumber_);
 }
 
+void GuiXml::onPrintFile(wxCommandEvent& WXUNUSED(event))
+{
+     wxString fileName;
+
+    fileName = wxFileSelector( "Select the Printer Output File",
+                               computerConfiguration.printerFileConfiguration.directory, XRCCTRL(*this, "PrintFileXml", wxTextCtrl)->GetValue(),
+                               "txt",
+                               wxString::Format
+                              (
+                                   "Text File (*.txt)|*.txt|All files (%s)|%s",
+                                   wxFileSelectorDefaultWildcardStr,
+                                   wxFileSelectorDefaultWildcardStr
+                               ),
+                               wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
+                               this
+                              );
+
+
+    if (!fileName)
+        return;
+
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    computerConfiguration.printerFileConfiguration.directory = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    computerConfiguration.printerFileConfiguration.fileName = FullPath.GetFullName();
+
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Print_File", computerConfiguration.printerFileConfiguration.fileName);
+    writeConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Print_File", computerConfiguration.printerFileConfiguration.directory);
+    XRCCTRL(*this, "PrintFileXml", wxTextCtrl)->SetValue(computerConfiguration.printerFileConfiguration.fileName);
+}
 
 void GuiXml::onXmlPrintFileText(wxCommandEvent&WXUNUSED(event))
 {
-    conf[XML].printFile_ = XRCCTRL(*this, "PrintFileXml", wxTextCtrl)->GetValue();
+    computerConfiguration.printerFileConfiguration.fileName = XRCCTRL(*this, "PrintFileXml", wxTextCtrl)->GetValue();
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Print_File", computerConfiguration.printerFileConfiguration.fileName);
 
-    if (runningComputer_ == XML)
+    if (computerRunning_)
     {
-        if (conf[XML].useBasicPrinter_)
+        if (computerConfiguration.basicPrinterConfiguration.defined)
         {
-            if (conf[XML].printFile_.Len() == 0)
+            if (computerConfiguration.printerFileConfiguration.fileName.Len() == 0)
                 p_PrinterParallel->setPrintfileName("");
             else
-                p_PrinterParallel->setPrintfileName(conf[XML].printFileDir_ + conf[XML].printFile_);
+                p_PrinterParallel->setPrintfileName(computerConfiguration.printerFileConfiguration.directory + computerConfiguration.printerFileConfiguration.fileName);
         }
-        if (conf[XML].useParallelPrinter_)
+        if (computerConfiguration.parallelPrinterConfiguration.defined)
         {
-            if (conf[XML].printFile_.Len() == 0)
+            if (computerConfiguration.printerFileConfiguration.fileName.Len() == 0)
                 p_PrinterParallel->setPrintfileName("");
             else
-                p_PrinterParallel->setPrintfileName(conf[XML].printFileDir_ + conf[XML].printFile_);
+                p_PrinterParallel->setPrintfileName(computerConfiguration.printerFileConfiguration.directory + computerConfiguration.printerFileConfiguration.fileName);
         }
-        if (conf[XML].useSerialPrinter_)
+        if (computerConfiguration.serialPrinterConfiguration.defined)
         {
-            if (conf[XML].printFile_.Len() == 0)
+            if (computerConfiguration.printerFileConfiguration.fileName.Len() == 0)
                 p_PrinterSerial->setPrintfileName("");
             else
-                p_PrinterSerial->setPrintfileName(conf[XML].printFileDir_ + conf[XML].printFile_);
+                p_PrinterSerial->setPrintfileName(computerConfiguration.printerFileConfiguration.directory + computerConfiguration.printerFileConfiguration.fileName);
         }
-        if (conf[XML].useThermalPrinter_)
+        if (computerConfiguration.thermalPrinterConfiguration.defined)
         {
-            if (conf[XML].printFile_.Len() == 0)
+            if (computerConfiguration.printerFileConfiguration.fileName.Len() == 0)
                 p_PrinterThermal->setPrintfileName("");
             else
-                p_PrinterThermal->setPrintfileName(conf[XML].printFileDir_ + conf[XML].printFile_);
+                p_PrinterThermal->setPrintfileName(computerConfiguration.printerFileConfiguration.directory + computerConfiguration.printerFileConfiguration.fileName);
         }
     }
 }
 
 void GuiXml::onXmlPrintMode(wxCommandEvent&event)
 {
-    conf[XML].printMode_ = event.GetSelection();
+    computerConfiguration.printMode_ = event.GetSelection();
     setPrintMode();
 
-    if (runningComputer_ == XML)
+    if (computerRunning_)
     {
-        if (conf[XML].useParallelPrinter_)
+        if (computerConfiguration.parallelPrinterConfiguration.defined)
         {
-            p_PrinterParallel->setPrintMode(conf[XML].printMode_);
+            p_PrinterParallel->setPrintMode(computerConfiguration.printMode_);
         }
-        if (conf[XML].useSerialPrinter_)
+        if (computerConfiguration.serialPrinterConfiguration.defined)
         {
-            p_PrinterSerial->setPrintMode(conf[XML].printMode_);
+            p_PrinterSerial->setPrintMode(computerConfiguration.printMode_);
         }
     }
 }
@@ -1377,14 +1967,14 @@ void GuiXml::onXmlPrintButton(wxCommandEvent&WXUNUSED(event))
 
 void GuiXml::onXmlF4(bool forceStart)
 {
-    if (runningComputer_ == XML)
+    if (computerRunning_)
     {
-        p_Xmlemu->onXmlF4(forceStart);
-        if (conf[runningComputer_].printMode_ == PRINTFILE)
+        p_Computer->onXmlF4(forceStart);
+        if (computerConfiguration.printMode_ == PRINTFILE)
         {
-            conf[runningComputer_].printMode_ = PRINTPLOTTER;
+            computerConfiguration.printMode_ = PRINTWINDOW;
             if (mode_.gui)
-                XRCCTRL(*this, "PrintModeXml", wxChoice)->SetSelection(conf[runningComputer_].printMode_);
+                XRCCTRL(*this, "PrintModeXml", wxChoice)->SetSelection(computerConfiguration.printMode_);
             setPrintMode();
         }
     }
@@ -1392,33 +1982,33 @@ void GuiXml::onXmlF4(bool forceStart)
 
 void GuiXml::onXmlBaudR(wxCommandEvent&event)
 {
-    if (elfConfiguration[XML].baudR != event.GetSelection())
+    if (computerConfiguration.videoTerminalConfiguration.baudR != event.GetSelection())
     {
         XRCCTRL(*this, "XmlClearRam", wxCheckBox)->SetValue(true);
-        elfConfiguration[XML].clearRam = true;
-        elfConfiguration[XML].baudR = event.GetSelection();
+        computerConfiguration.clearRam = true;
+        computerConfiguration.videoTerminalConfiguration.baudR = event.GetSelection();
     }
 }
 
 void GuiXml::onXmlBaudT(wxCommandEvent&event)
 {
-    if (elfConfiguration[XML].baudT != event.GetSelection())
+    if (computerConfiguration.videoTerminalConfiguration.baudT != event.GetSelection())
     {
         XRCCTRL(*this, "XmlClearRam", wxCheckBox)->SetValue(true);
-        elfConfiguration[XML].clearRam = true;
-        elfConfiguration[XML].baudT = event.GetSelection();
-        if (!elfConfiguration[XML].useUart && !elfConfiguration[selectedComputer_].useUart16450)
+        computerConfiguration.clearRam = true;
+        computerConfiguration.videoTerminalConfiguration.baudT = event.GetSelection();
+        if (!computerConfiguration.videoTerminalConfiguration.uart1854_defined && !computerConfiguration.videoTerminalConfiguration.uart16450_defined)
         {
-            elfConfiguration[XML].baudR = event.GetSelection();
-            XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->SetSelection(elfConfiguration[XML].baudR);
+            computerConfiguration.videoTerminalConfiguration.baudR = event.GetSelection();
+            XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->SetSelection(computerConfiguration.videoTerminalConfiguration.baudR);
         }
     }
 }
 
 void GuiXml::onTempo(wxScrollEvent&event)
 {
-    conf[selectedComputer_].tempo_ = event.GetPosition();
+    computerConfiguration.soundConfiguration.tempo = event.GetPosition();
     if (computerRunning_)
-        p_Computer->setTempo(conf[selectedComputer_].tempo_);
+        p_Computer->setTempo(computerConfiguration.soundConfiguration.tempo);
 }
 

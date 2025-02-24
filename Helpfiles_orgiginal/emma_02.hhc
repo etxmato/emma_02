@@ -1,0 +1,1898 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="HelpBlocks">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<OBJECT type="text/site properties">
+</OBJECT>
+<UL>
+  <LI><OBJECT type="text/sitemap">
+      <param name="Name" value="General">
+      <param name="Local" value="GeneralMain.htm">
+      <param name="ID" value=1000>
+      </OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="The RCA 1802">
+        <param name="Local" value="Main1802.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="FAQ">
+        <param name="Local" value="FaqMain.htm">
+        </OBJECT>
+    <UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="How do I load my SW into an emulated computer?">
+          <param name="Local" value="Faq1.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="I have a tape with old SW how do I load that into Emma 02?">
+          <param name="Local" value="Faq2.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="How do I run a game or program on the COMX emulator?">
+          <param name="Local" value="FaqComx1.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="When I select the 32K RAM card the COMX still states 30K at PR MEM">
+          <param name="Local" value="FaqComx2.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="The COMX restarts when I give a DOS command">
+          <param name="Local" value="FaqComx3.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="How do I start COMX BASIC, I just see a large COMX logo">
+          <param name="Local" value="FaqComx4.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Why do I see F&M BASIC and not COMX BASIC?">
+          <param name="Local" value="FaqComx5.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Why do I just get a black screen when I start the Cidelsa emulator?">
+          <param name="Local" value="FaqCidelsa1.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="How do I trace just a section of my code?">
+          <param name="Local" value="FaqDebug1.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="How do I emulate an Elf with sound support using the Q flag?">
+          <param name="Local" value="FaqElf1.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="How do I start a Pico/Elf V2 emulator?">
+          <param name="Local" value="FaqComputer1.htm">
+          </OBJECT>
+    </UL>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Global Settings & Menu">
+        <param name="Local" value="MenuMain.htm">
+        </OBJECT>
+    <UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="File">
+          <param name="Local" value="MenuFile.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Settings">
+          <param name="Local" value="MenuSettings.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Help">
+          <param name="Local" value="MenuHelp.htm">
+          </OBJECT>
+    </UL>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Directory and File Structure">
+        <param name="Local" value="MainFile.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Configuration">
+        <param name="Local" value="MainConfigurations.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Machine Code Syntax">
+        <param name="Local" value="MachineCodeSyntax.htm">
+        <param name="ID" value=1001>
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Pseudo Code Syntax">
+        <param name="Local" value="PseudoCodeSyntax.htm">
+        <param name="ID" value=1001>
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="XML Code Syntax">
+        <param name="Local" value="XMLCodeSyntax.htm">
+        <param name="ID" value=1001>
+        </OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap">
+      <param name="Name" value="Computer">
+      <param name="Local" value="ComputerMain.htm">
+      </OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="ROM, RAM, NVR">
+        <param name="Local" value="ComputerMemoryFiles.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Key File">
+        <param name="Local" value="MainKeyFile.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Printer Support">
+        <param name="Local" value="ElfPrinter.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Common Features">
+        <param name="Local" value="MainGeneral.htm">
+        </OBJECT>
+    <UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Sound">
+          <param name="Local" value="MainSound.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Memory Access">
+          <param name="Local" value="MainMemAccess.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Video Setup">
+          <param name="Local" value="MainColour.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Video Terminal">
+          <param name="Local" value="TerminalMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Terminal Setup">
+            <param name="Local" value="TerminalSetup.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Terminal Load & Save">
+            <param name="Local" value="TerminalLoad.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="VT100 Setup & Key Mapping">
+            <param name="Local" value="TerminalVT100.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="External Terminal Software">
+            <param name="Local" value="TerminalExternal.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Video Dump">
+          <param name="Local" value="MainScreendump.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Clock Speed">
+          <param name="Local" value="MainClock.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Zoom Level and Full Screen Mode">
+          <param name="Local" value="MainZoom.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Disk File and HD Directory">
+          <param name="Local" value="ComputerDisk.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Cassette Support">
+          <param name="Local" value="MainCassette.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Real Cassette Support">
+          <param name="Local" value="MainRealCassette.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Key Mapping">
+          <param name="Local" value="KeyMappingMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Keypad Mapping">
+            <param name="Local" value="KeyMappingKeypad.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Auto and Arcade Key Definition">
+            <param name="Local" value="KeyMappingArcade.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Second Keypad">
+            <param name="Local" value="KeyMappingSecond.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Default Keyboard">
+            <param name="Local" value="KeyMappingDefault.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Function and Hot Keys">
+          <param name="Local" value="MainFunctionKeys.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Window Settings">
+          <param name="Local" value="MainWindow.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Command Line">
+          <param name="Local" value="MainCommandLine.htm">
+          </OBJECT>
+    </UL>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Computers">
+        <param name="Local" value="ComputersMain.htm">
+        </OBJECT>
+    <UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="CDP18S020 Evaluation Kit">
+          <param name="Local" value="Cdp18s020Main.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="Cdp18s020Rom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Pre SW load">
+            <param name="Local" value="Cdp18s020SW.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Dump">
+            <param name="Local" value="MainScreendump.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="RAM Size and Memory Protect">
+            <param name="Local" value="Cdp18s020Ram.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Terminal">
+            <param name="Local" value="TerminalMain.htm">
+            </OBJECT>
+        <UL>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="Terminal Setup">
+              <param name="Local" value="TerminalSetup.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="Terminal Load & Save">
+              <param name="Local" value="TerminalLoad.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="VT100 Setup & Key Mapping">
+              <param name="Local" value="TerminalVT100.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="External Terminal Software">
+              <param name="Local" value="TerminalExternal.htm">
+              </OBJECT>
+        </UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Zoom Level and Full Screen Mode">
+            <param name="Local" value="MainZoom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Setup">
+            <param name="Local" value="MainColour.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Memory Access">
+            <param name="Local" value="MainMemAccess.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Control Window">
+            <param name="Local" value="Cdp18s020Windows.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Auto Boot">
+            <param name="Local" value="Cdp18s020Boot.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Clock Speed">
+            <param name="Local" value="MainClock.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Cidelsa">
+          <param name="Local" value="CidelsaMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Key Definition">
+            <param name="Local" value="CidelsaKeys.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Dump">
+            <param name="Local" value="MainScreendump.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Zoom Level and Full Screen Mode">
+            <param name="Local" value="MainZoom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Setup">
+            <param name="Local" value="MainColour.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Sound">
+            <param name="Local" value="MainSound.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="HW Configuration">
+            <param name="Local" value="CidelsaHwConf.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Game Settings">
+            <param name="Local" value="CidelsaGame.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Clock Speed">
+            <param name="Local" value="MainClock.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="COMX-35">
+          <param name="Local" value="ComxMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="COMX-35 and PC1">
+            <param name="Local" value="ComxInfo.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Did You Know...?">
+            <param name="Local" value="ComxDidYouKnow.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="ComxRom.htm">
+            <param name="ID" value=1004>
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Super Board">
+            <param name="Local" value="ComxSb.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Expansion Box">
+            <param name="Local" value="ComxExpansion.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Disk Support">
+            <param name="Local" value="ComxDisk.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Parallel Printer Support">
+            <param name="Local" value="ComxPrinter.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Serial Printer Support">
+            <param name="Local" value="ComxSerialPrinter.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Thermal Printer Support">
+            <param name="Local" value="ComxThermal.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="PL-80 Plotter Simulation">
+            <param name="Local" value="ComxPlotter.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="F&M Joy Card">
+            <param name="Local" value="ComxJoy.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Dump">
+            <param name="Local" value="MainScreendump.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Cassette Support">
+            <param name="Local" value="ComxCassette.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Real Cassette Support">
+            <param name="Local" value="MainRealCassette.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Key File">
+            <param name="Local" value="ComxKeyFile.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Mode, Setup and Log">
+            <param name="Local" value="ComxVideo.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="80 Column Support">
+            <param name="Local" value="Comx80Column.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Zoom Level and Full Screen Mode">
+            <param name="Local" value="MainZoom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Sound">
+            <param name="Local" value="MainSound.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="F&M EPROM Switchboard Support">
+            <param name="Local" value="ComxEprom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Diagnostic Board">
+            <param name="Local" value="ComxDiag.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="RAM Card">
+            <param name="Local" value="ComxRamCard.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Memory Access">
+            <param name="Local" value="MainMemAccess.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Clock Speed">
+            <param name="Local" value="MainClock.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="COMIX-35">
+          <param name="Local" value="ComixMain.htm">
+          </OBJECT>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Cosmac Elf">
+          <param name="Local" value="CosmacMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Front Panel">
+            <param name="Local" value="CosmacFront.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Hex Keypad">
+            <param name="Local" value="CosmacKeypad.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Led Module">
+            <param name="Local" value="CosmacLed.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM and RAM Files">
+            <param name="Local" value="ElfRom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Disk Types">
+            <param name="Local" value="ElfDisk.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Key File">
+            <param name="Local" value="MainKeyFile.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Dump">
+            <param name="Local" value="MainScreenDump.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Cassette Support">
+            <param name="Local" value="ElfCassette.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="XMODEM Support">
+            <param name="Local" value="ElfXmodem.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Device Ports">
+            <param name="Local" value="ElfPorts.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Terminal">
+            <param name="Local" value="TerminalMain.htm">
+            </OBJECT>
+        <UL>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="Terminal Setup">
+              <param name="Local" value="TerminalSetup.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="Terminal Load & Save">
+              <param name="Local" value="TerminalLoad.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="VT100 Setup & Key Mapping">
+              <param name="Local" value="TerminalVT100.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="External Terminal Software">
+              <param name="Local" value="TerminalExternal.htm">
+              </OBJECT>
+        </UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Types">
+            <param name="Local" value="ElfVideo.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Setup">
+            <param name="Local" value="MainColour.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Keyboard Mapping and Types">
+            <param name="Local" value="ElfKey.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Memory">
+            <param name="Local" value="ElfRam.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Auto Boot">
+            <param name="Local" value="ElfBoot.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Sound">
+            <param name="Local" value="MainSound.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Zoom Level and Full Screen Mode">
+            <param name="Local" value="MainZoom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Memory Access">
+            <param name="Local" value="MainMemAccess.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Control Windows">
+            <param name="Local" value="CosmacWindows.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Clock Speed">
+            <param name="Local" value="MainClock.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Quest Super Basic">
+            <param name="Local" value="ElfSuperBasic.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="RCA Basic">
+            <param name="Local" value="ElfRcaBasic.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Installation Elf/Os 2.5 via Biosio">
+            <param name="Local" value="ElfInstElfOsIo.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Installation Elf/Os 2.8">
+            <param name="Local" value="ElfInstElfOs.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Installation Biosio">
+            <param name="Local" value="ElfInstBiosio.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Cosmac Elf 2000">
+          <param name="Local" value="Elf2KMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="Elf2KRom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Disk File">
+            <param name="Local" value="Elf2KDisk.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Key File">
+            <param name="Local" value="MainKeyFile.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Dump">
+            <param name="Local" value="MainScreenDump.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="HEX and XMODEM Support">
+            <param name="Local" value="Elf2K_XMODEM.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Device Ports">
+            <param name="Local" value="Elf2KPorts.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Terminal">
+            <param name="Local" value="TerminalMain.htm">
+            </OBJECT>
+        <UL>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="Terminal Setup">
+              <param name="Local" value="TerminalSetup.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="Terminal Load & Save">
+              <param name="Local" value="TerminalLoad.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="VT100 Setup & Key Mapping">
+              <param name="Local" value="TerminalVT100.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="External Terminal Software">
+              <param name="Local" value="TerminalExternal.htm">
+              </OBJECT>
+        </UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Types">
+            <param name="Local" value="Elf2KVideo.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Setup">
+            <param name="Local" value="MainColour.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Keyboard Mapping and Types">
+            <param name="Local" value="Elf2KKey.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Zoom Level and Full Screen Mode">
+            <param name="Local" value="MainZoom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Sound">
+            <param name="Local" value="MainSound.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Boot Method">
+            <param name="Local" value="Elf2KBoot.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="NVR and RTC">
+            <param name="Local" value="Elf2KNvrRtc.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Memory Access">
+            <param name="Local" value="MainMemAccess.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Control Windows">
+            <param name="Local" value="Elf2KWindows.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Clock Speed">
+            <param name="Local" value="MainClock.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Installation Elf/Os 2.8">
+            <param name="Local" value="Elf2KElfOs.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Installation Elf/Os 3.0">
+            <param name="Local" value="Elf2KElfOs_3.0.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Cosmac VIP">
+          <param name="Local" value="VipMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="VipRom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Pre SW load">
+            <param name="Local" value="VipSW.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Printer Support">
+            <param name="Local" value="VipPrinter.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Dump">
+            <param name="Local" value="MainScreenDump.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Cassette Support">
+            <param name="Local" value="VipCassette.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Colour Board">
+            <param name="Local" value="VipColour.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Keyboard">
+            <param name="Local" value="VipKeyboard.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="RAM Size">
+            <param name="Local" value="VipRam.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Terminal">
+            <param name="Local" value="TerminalMain.htm">
+            </OBJECT>
+        <UL>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="Terminal Setup">
+              <param name="Local" value="TerminalSetup.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="Terminal Load & Save">
+              <param name="Local" value="TerminalLoad.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="VT100 Setup & Key Mapping">
+              <param name="Local" value="TerminalVT100.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="External Terminal Software">
+              <param name="Local" value="TerminalExternal.htm">
+              </OBJECT>
+        </UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Zoom Level and Full Screen Mode">
+            <param name="Local" value="MainZoom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Setup">
+            <param name="Local" value="MainColour.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Sound">
+            <param name="Local" value="MainSound.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Memory Access">
+            <param name="Local" value="MainMemAccess.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Clock Speed">
+            <param name="Local" value="MainClock.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Fixed Point Basic">
+            <param name="Local" value="VipFpb.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Cosmac VIP II">
+          <param name="Local" value="VipIIMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="VipIIRom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Keyboard">
+            <param name="Local" value="VipIIKeyboard.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Pre SW load">
+            <param name="Local" value="VipIISW.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Cassette Support">
+            <param name="Local" value="VipIICassette.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Cosmicos">
+          <param name="Local" value="CosmicosMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="RAM Size">
+            <param name="Local" value="CosmicosRam.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Control Windows">
+            <param name="Local" value="CosmicosWindows.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Types">
+            <param name="Local" value="CosmicosVideo.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Keyboard Mapping and Types">
+            <param name="Local" value="CosmicosKey.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Boot Method">
+            <param name="Local" value="CosmicosBoot.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Cassette Support">
+            <param name="Local" value="CosmicosCassette.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ASCII Monitor">
+            <param name="Local" value="CosmicosAscii.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Hex Monitor & UT4">
+            <param name="Local" value="CosmicosHex.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="MOPS & Hexmops">
+            <param name="Local" value="CosmicosMops.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="FRED 1">
+          <param name="Local" value="Fred1Main.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="RAM Files and Size">
+            <param name="Local" value="Fred1Ram.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Control Windows">
+            <param name="Local" value="Fred1Windows.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Keyboard Mapping">
+            <param name="Local" value="Fred1Key.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Boot Method">
+            <param name="Local" value="Fred1Boot.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Cassette Support">
+            <param name="Local" value="Fred1Cassette.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Software">
+            <param name="Local" value="Fred1Software.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="FRED 1.5">
+          <param name="Local" value="Fred1.5Main.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="RAM Files and Size">
+            <param name="Local" value="Fred1.5Ram.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Control Windows">
+            <param name="Local" value="Fred1.5Windows.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Keyboard Mapping">
+            <param name="Local" value="Fred1.5Key.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Boot Method">
+            <param name="Local" value="Fred1.5Boot.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Cassette Support">
+            <param name="Local" value="Fred1.5Cassette.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Software">
+            <param name="Local" value="Fred1.5Software.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="HUG1802/ETI-660">
+          <param name="Local" value="doc-0947.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="doc-0948.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Pre SW load">
+            <param name="Local" value="doc-0949.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ETI 660 Monitor">
+            <param name="Local" value="doc-0950.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Cassette Support">
+            <param name="Local" value="doc-0951.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Infinite UC1800">
+          <param name="Local" value="Uc1800Main.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Pre SW Load">
+            <param name="Local" value="Uc1800Sw.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Auto Boot">
+            <param name="Local" value="Uc1800Boot.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Front Panel">
+            <param name="Local" value="Uc1800Front.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="MCDS">
+          <param name="Local" value="McdsMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="McdsRom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Boot Method">
+            <param name="Local" value="McdsBoot.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Cassette Support">
+            <param name="Local" value="McdsCassette.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Membership Card">
+          <param name="Local" value="MembershipMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM and RAM Files">
+            <param name="Local" value="MembershipRom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Memory">
+            <param name="Local" value="MembershipRam.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="NVR">
+            <param name="Local" value="MembershipNvr.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Control Windows">
+            <param name="Local" value="MembershipWindows.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Boot Method">
+            <param name="Local" value="MembershipBoot.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Microboard System">
+          <param name="Local" value="MicroboardMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S600: CPU 1805, UART & PIO CDP1851">
+            <param name="Local" value="MicroboardCdp18s600.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S601: CPU 1802, Q/F & PIO CDP1851">
+            <param name="Local" value="MicroboardCdp18s601.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S602: CPU 1802, UART & CDP1852">
+            <param name="Local" value="MicroboardCdp18s602.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S603: CPU 1802, Q/F & PIO CDP1851">
+            <param name="Local" value="MicroboardCdp18s603.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S603A: CPU 1802, Q/F & PIO CDP1851">
+            <param name="Local" value="MicroboardCdp18s603a.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S604B: CPU 1802 & CDP1852">
+            <param name="Local" value="MicroboardCdp18s604b.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S605: CPU 1802 & UART">
+            <param name="Local" value="MicroboardCdp18s605.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S606: CPU 1805, Q/F & PIO CDP1851">
+            <param name="Local" value="MicroboardCdp18s606.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S607: CPU 1805, UART & CDP1852">
+            <param name="Local" value="MicroboardCdp18s607.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S608: CPU 1805, Q/F & PIO CDP1851">
+            <param name="Local" value="MicroboardCdp18s608.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S609: CPU 1805 & CDP1852">
+            <param name="Local" value="MicroboardCdp18s609.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S610: CPU 1805 & UART">
+            <param name="Local" value="MicroboardCdp18s610.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S620: 4K RAM">
+            <param name="Local" value="MicroboardCdp18s620.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S621: 16K RAM">
+            <param name="Local" value="MicroboardCdp18s621.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S623A: 8K RAM">
+            <param name="Local" value="MicroboardCdp18s623a.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S625: 8/16/32K ROM">
+            <param name="Local" value="MicroboardCdp18s625.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S626: 32/64K RAM/ROM">
+            <param name="Local" value="MicroboardCdp18s626.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S627: 4K ROM">
+            <param name="Local" value="MicroboardCdp18s627.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S628: 32K RAM/ROM">
+            <param name="Local" value="MicroboardCdp18s628.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S629: 32K RAM/ROM">
+            <param name="Local" value="MicroboardCdp18s629.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S640: A/A1 Display">
+            <param name="Local" value="MicroboardCdp18s640.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S641: UART">
+            <param name="Local" value="MicroboardCdp18s641.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S646: Printer">
+            <param name="Local" value="MicroboardCdp18s646.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S651: FDC">
+            <param name="Local" value="MicroboardCdp18s651.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S652: Memory & Tape">
+            <param name="Local" value="MicroboardCdp18s652.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S660: Memory & I/O">
+            <param name="Local" value="MicroboardCdp18s660.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S661B: Video (NTSC)">
+            <param name="Local" value="MicroboardCdp18s661b.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S661V1: Video (NTSC)">
+            <param name="Local" value="MicroboardCdp18s661v1.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="CDP18S661V3: Video (PAL)">
+            <param name="Local" value="MicroboardCdp18s661v3.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Auto Boot">
+            <param name="Local" value="MicroboardBoot.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="IO Window">
+            <param name="Local" value="MicroboardIo.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Microtutor">
+          <param name="Local" value="MicrotutorMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Pre SW Load">
+            <param name="Local" value="MicrotutorSw.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Auto Boot">
+            <param name="Local" value="MicrotutorBoot.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Microtutor II">
+          <param name="Local" value="Microtutor2Main.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Pre SW Load">
+            <param name="Local" value="Microtutor2Sw.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Auto Boot">
+            <param name="Local" value="Microtutor2Boot.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="MS2000">
+          <param name="Local" value="MS2000Main.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="MS2000Rom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Boot Method">
+            <param name="Local" value="MS2000Boot.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Cassette Support">
+            <param name="Local" value="MS2000Cassette.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="MicroDos and Software">
+            <param name="Local" value="MS2000MicroDos.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Netronics Elf II">
+          <param name="Local" value="ElfIIMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Front Panel">
+            <param name="Local" value="ElfIIFront.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM and RAM Files">
+            <param name="Local" value="ElfRom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Disk Types">
+            <param name="Local" value="ElfDisk.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Key File">
+            <param name="Local" value="MainKeyFile.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Printer Support">
+            <param name="Local" value="ElfPrinter.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Dump">
+            <param name="Local" value="MainScreenDump.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Cassette Support">
+            <param name="Local" value="ElfCassette.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="XMODEM Support">
+            <param name="Local" value="ElfXmodem.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Device Ports">
+            <param name="Local" value="ElfPorts.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Terminal">
+            <param name="Local" value="TerminalMain.htm">
+            </OBJECT>
+        <UL>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="Terminal Setup">
+              <param name="Local" value="TerminalSetup.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="Terminal Load & Save">
+              <param name="Local" value="TerminalLoad.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="VT100 Setup & Key Mapping">
+              <param name="Local" value="TerminalVT100.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="External Terminal Software">
+              <param name="Local" value="TerminalExternal.htm">
+              </OBJECT>
+        </UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Types">
+            <param name="Local" value="ElfVideo.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Setup">
+            <param name="Local" value="MainColour.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Keyboard Mapping and Types">
+            <param name="Local" value="ElfKey.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Memory">
+            <param name="Local" value="ElfRam.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Auto Boot">
+            <param name="Local" value="ElfBoot.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Sound">
+            <param name="Local" value="MainSound.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Zoom Level and Full Screen Mode">
+            <param name="Local" value="MainZoom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Memory Access">
+            <param name="Local" value="MainMemAccess.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Control Windows">
+            <param name="Local" value="ElfIIWindows.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Clock Speed">
+            <param name="Local" value="MainClock.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Quest Super Basic">
+            <param name="Local" value="ElfSuperBasic.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="RCA Basic">
+            <param name="Local" value="ElfRcaBasic.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Giant Board">
+            <param name="Local" value="ElfGiant.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Installation Elf/Os 2.5 via Biosio">
+            <param name="Local" value="ElfInstElfOsIo.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Installation Elf/Os 2.8">
+            <param name="Local" value="ElfInstElfOs.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Installation Biosio">
+            <param name="Local" value="ElfInstBiosio.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Oscom Nano">
+          <param name="Local" value="NanoMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="NanoRom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Pre SW load">
+            <param name="Local" value="NanoSW.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Cassette Support">
+            <param name="Local" value="NanoCassette.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Pecom 32/64">
+          <param name="Local" value="PecomMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="PecomRom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Keyboard Mapping">
+            <param name="Local" value="PecomKeyMapping.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Printer Support">
+            <param name="Local" value="PecomPrinter.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Cassette Support">
+            <param name="Local" value="PecomCassette.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Pico/Elf V2">
+          <param name="Local" value="PicoMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="PicoRom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Disk Types">
+            <param name="Local" value="PicoDisk.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Printer Support">
+            <param name="Local" value="PicoPrinter.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Dump">
+            <param name="Local" value="MainScreendump.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="XMODEM Support">
+            <param name="Local" value="PicoXmodem.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Device Ports">
+            <param name="Local" value="PicoPorts.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Terminal">
+            <param name="Local" value="TerminalMain.htm">
+            </OBJECT>
+        <UL>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="Terminal Setup">
+              <param name="Local" value="TerminalSetup.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="Terminal Load & Save">
+              <param name="Local" value="TerminalLoad.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="VT100 Setup & Key Mapping">
+              <param name="Local" value="TerminalVT100.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="External Terminal Software">
+              <param name="Local" value="TerminalExternal.htm">
+              </OBJECT>
+        </UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Types">
+            <param name="Local" value="PicoVideo.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Setup">
+            <param name="Local" value="MainColour.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Zoom Level and Full Screen Mode">
+            <param name="Local" value="MainZoom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Sound">
+            <param name="Local" value="MainSound.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="NVR and RTC">
+            <param name="Local" value="PicoNvrRtc.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Memory Access">
+            <param name="Local" value="MainMemAccess.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Clock Speed">
+            <param name="Local" value="MainClock.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Quest Super Elf">
+          <param name="Local" value="SuperMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Front Panel">
+            <param name="Local" value="SuperFront.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM and RAM Files">
+            <param name="Local" value="ElfRom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Disk Types">
+            <param name="Local" value="ElfDisk.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Key File">
+            <param name="Local" value="MainKeyFile.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Printer Support">
+            <param name="Local" value="ElfPrinter.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Dump">
+            <param name="Local" value="MainScreenDump.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Cassette Support">
+            <param name="Local" value="ElfCassette.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="XMODEM Support">
+            <param name="Local" value="ElfXmodem.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Device Ports">
+            <param name="Local" value="ElfPorts.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Terminal">
+            <param name="Local" value="TerminalMain.htm">
+            </OBJECT>
+        <UL>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="Terminal Setup">
+              <param name="Local" value="TerminalSetup.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="Terminal Load & Save">
+              <param name="Local" value="TerminalLoad.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="VT100 Setup & Key Mapping">
+              <param name="Local" value="TerminalVT100.htm">
+              </OBJECT>
+          <LI><OBJECT type="text/sitemap">
+              <param name="Name" value="External Terminal Software">
+              <param name="Local" value="TerminalExternal.htm">
+              </OBJECT>
+        </UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Types">
+            <param name="Local" value="ElfVideo.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Setup">
+            <param name="Local" value="MainColour.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Keyboard Mapping and Types">
+            <param name="Local" value="ElfKey.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Memory">
+            <param name="Local" value="ElfRam.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Auto Boot">
+            <param name="Local" value="ElfBoot.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Sound">
+            <param name="Local" value="MainSound.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Zoom Level and Full Screen Mode">
+            <param name="Local" value="MainZoom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Memory Access">
+            <param name="Local" value="MainMemAccess.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Control Windows">
+            <param name="Local" value="SuperWindows.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Clock Speed">
+            <param name="Local" value="MainClock.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Quest Super Basic">
+            <param name="Local" value="ElfSuperBasic.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="RCA Basic">
+            <param name="Local" value="ElfRcaBasic.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Installation Elf/Os 2.5 via Biosio">
+            <param name="Local" value="ElfInstElfOsIo.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Installation Elf/Os 2.8">
+            <param name="Local" value="ElfInstElfOs.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Installation Biosio">
+            <param name="Local" value="ElfInstBiosio.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="RCA Studio II">
+          <param name="Local" value="StudioMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Key Definition">
+            <param name="Local" value="StudioKeys.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="StudioRom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Built In Games">
+            <param name="Local" value="StudioBuiltInGames.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Studio II Cartridges">
+            <param name="Local" value="StudioCartridges.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Homebrew">
+            <param name="Local" value="StudioHomebrew.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Chip 8 Interpreter">
+            <param name="Local" value="StudioChip8.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="40th Anniversary Multi-cart">
+            <param name="Local" value="StudioMultiCart.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="RCA Studio III / Victory MPT-02">
+          <param name="Local" value="VictoryMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Key Definition">
+            <param name="Local" value="VictoryKeys.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="VictoryRom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Mode">
+            <param name="Local" value="VictoryVideo.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="MPT-02 Cartridges">
+            <param name="Local" value="VictoryCartridges.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Chip 8 Interpreter">
+            <param name="Local" value="VictoryChip8.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="40th Anniversary Multi-cart">
+            <param name="Local" value="VictoryMultiCart.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="RCA Studio IV">
+          <param name="Local" value="StudioIVMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Key Definition">
+            <param name="Local" value="StudioIVKeys.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="StudioIVRom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Video Mode">
+            <param name="Local" value="StudioIVVideo.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="RCA Video Coin Arcade">
+          <param name="Local" value="CoinMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Key Definition">
+            <param name="Local" value="CoinKeys.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="CoinRom.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Telmac TMC-600">
+          <param name="Local" value="TMC-600Main.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="TMC-600Rom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="RAM Size">
+            <param name="Local" value="TMC-600Ram.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Keyboard Mapping">
+            <param name="Local" value="TMC-600KeyMapping.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Printer Support">
+            <param name="Local" value="TMC-600Printer.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Cassette Support">
+            <param name="Local" value="TMC-600Cassette.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Key File">
+            <param name="Local" value="TMC-600KeyFile.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="A/D Input and Real Time Clock">
+            <param name="Local" value="TMC-600AD.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Telmac 1800/2000">
+          <param name="Local" value="TMC-2000Main.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="TMC-2000Rom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="RAM Size">
+            <param name="Local" value="TMC-2000Ram.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Keyboard">
+            <param name="Local" value="TMC-2000Keyboard.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Pre SW load">
+            <param name="Local" value="TMC-2000SW.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Cassette Support">
+            <param name="Local" value="TMC-2000Cassette.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="VELF">
+          <param name="Local" value="VelfMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Rom Files">
+            <param name="Local" value="VelfRom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Pre SW Load">
+            <param name="Local" value="VelfSw.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Auto Boot">
+            <param name="Local" value="VelfBoot.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Printer Support">
+            <param name="Local" value="VelfPrinter.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Cassette Support">
+            <param name="Local" value="VelfCassette.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="VELF Mode">
+            <param name="Local" value="VelfVelf.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="J-VIP Mode">
+            <param name="Local" value="VelfJvip.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="VIP2K Membership Card">
+          <param name="Local" value="Vip2KMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="Vip2KRom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Pre SW Load">
+            <param name="Local" value="Vip2KSW.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Keyboard Mapping">
+            <param name="Local" value="Vip2KKey.htm">
+            </OBJECT>
+      </UL>
+      <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="Visicom COM-100">
+          <param name="Local" value="VisicomMain.htm">
+          </OBJECT>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Key Definition">
+            <param name="Local" value="VisicomKeys.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="ROM Files">
+            <param name="Local" value="VisicomRom.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Built In Games">
+            <param name="Local" value="VisicomBuiltInGames.htm">
+            </OBJECT>
+        <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Cartridges">
+            <param name="Local" value="VisicomCartridges.htm">
+            </OBJECT>
+      </UL>
+    </UL>
+  </UL>
+  <LI><OBJECT type="text/sitemap">
+      <param name="Name" value="Direct Assembler">
+      <param name="Local" value="DirectMain.htm">
+      </OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Navigation">
+        <param name="Local" value="DirectNavigation.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Data View">
+        <param name="Local" value="DirectData.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Assembler">
+        <param name="Local" value="DirectAssembler.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Disassembler">
+        <param name="Local" value="DirectDisassembler.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Changing Address Usage">
+        <param name="Local" value="DirectMarking.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Program Configuration">
+        <param name="Local" value="DirectConfiguration.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Program Configuration - Example">
+        <param name="Local" value="DirectExampleConfig.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Insert & Delete Code">
+        <param name="Local" value="DirectInsert.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Copy">
+        <param name="Local" value="DirectCopy.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Search">
+        <param name="Local" value="DirectSearch.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Branch Data">
+        <param name="Local" value="DirectBranchData.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Reversed branch data">
+        <param name="Local" value="DirectRevBranchData.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="LDL, LDRL, LDV and RLDL Instructions">
+        <param name="Local" value="DirectLdl.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Branching to COMX slots and Elf EMS pages">
+        <param name="Local" value="DirectSlots.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Switch Mnemonic">
+        <param name="Local" value="DirectMnemonic.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Clear">
+        <param name="Local" value="DirectClear.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Debbuging Existing Code - Example">
+        <param name="Local" value="DirectExistingCode.htm">
+        </OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap">
+      <param name="Name" value="Profiler">
+      <param name="Local" value="ProfilerMain.htm">
+      </OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Navigation">
+        <param name="Local" value="ProfilerNavigation.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Data View">
+        <param name="Local" value="ProfilerView.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Linear & Logarithmic Counters">
+        <param name="Local" value="ProfilerLinear.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Hot Code Spots">
+        <param name="Local" value="ProfilerHotSpots.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Dead Code Spots">
+        <param name="Local" value="ProfilerDeadCode.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Code Coverage">
+        <param name="Local" value="ProfilerCodeCoverage.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Interval Timer">
+        <param name="Local" value="ProfilerTimer.htm">
+        </OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap">
+      <param name="Name" value="Memory Dump">
+      <param name="Local" value="DumpMain.htm">
+      </OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Memory Type">
+        <param name="Local" value="DumpMemoryType.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="COMX Memory Map">
+        <param name="Local" value="DumpComx.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Elf Memory Map">
+        <param name="Local" value="DumpElf.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Save">
+        <param name="Local" value="DumpSave.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Copy">
+        <param name="Local" value="DumpCopy.htm">
+        </OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap">
+      <param name="Name" value="Debugger">
+      <param name="Local" value="DebuggerMain.htm">
+      </OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Debug 1802">
+        <param name="Local" value="DebuggerTrace.htm">
+        </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Debug Pseudo">
+        <param name="Local" value="DebuggerChip8.htm">
+        </OBJECT>
+  </UL>
+</UL>
+</BODY></HTML>

@@ -7,10 +7,10 @@
         <name>JVIP</name>
         <config>Chip-8 (select Chip-8X file in RAM field or use LOAD after Start)</config>
         <clock>1.79</clock>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>Chip-8/Chip-8X</dirname>
     </system>
 
@@ -33,10 +33,219 @@
         <start_cas_load>0x80c2</start_cas_load>
     </locations>
     
-    <frontpanel type="velf" init="on">
+    <frontpanel init="on">
         <out>4</out>
         <in>4</in>
         <ef type="in">4</ef>
+        <size>310, 180</size>
+        <item>
+            <type>text</type>
+            <label size="14">IN</label>
+            <pos>20, 18</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="14">LOAD</label>
+            <pos>48, 18</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="14">VIP</label>
+            <pos>184, 18</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="14">MP</label>
+            <pos>222, 18</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="14">RUN</label>
+            <pos>256, 18</pos>
+        </item>
+        <item>
+            <type form="round" color="red">push</type>
+            <init>up</init>
+            <function>in_switch</function>
+            <pos>18, 40</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>load</function>
+            <init>down</init>
+            <pos>52, 40</pos>
+        </item>
+        <item>
+            <type form="311">til</type>
+            <value>0</value>
+            <function>datatil</function>
+            <pos>104, 40</pos>
+        </item>
+        <item>
+            <type form="311">til</type>
+            <value>1</value>
+            <function>datatil</function>
+            <pos>129, 40</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>velf</function>
+            <init>up</init>
+            <pos>188, 40</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>mp</function>
+            <init>down</init>
+            <pos>222, 40</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function type="velf">run</function>
+            <init>down</init>
+            <pos>256, 40</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="14">ELF</label>
+            <pos>184, 66</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="14">0</label>
+            <pos>262, 142</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>0</value>
+            <function>bitswitch</function>
+            <pos>256, 116</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>0</value>
+            <function>switchled</function>
+            <pos>262, 100</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="14">1</label>
+            <pos>228, 142</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>1</value>
+            <function>bitswitch</function>
+            <pos>222, 116</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>1</value>
+            <function>switchled</function>
+            <pos>228, 100</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="14">2</label>
+            <pos>194, 142</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>2</value>
+            <function>bitswitch</function>
+            <pos>188, 116</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>2</value>
+            <function>switchled</function>
+            <pos>194, 100</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="14">3</label>
+            <pos>160, 142</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>3</value>
+            <function>bitswitch</function>
+            <pos>154, 116</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>3</value>
+            <function>switchled</function>
+            <pos>160, 100</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="14">4</label>
+            <pos>126, 142</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>4</value>
+            <function>bitswitch</function>
+            <pos>120, 116</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>4</value>
+            <function>switchled</function>
+            <pos>126, 100</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="14">5</label>
+            <pos>92, 142</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>5</value>
+            <function>bitswitch</function>
+            <pos>86, 116</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>5</value>
+            <function>switchled</function>
+            <pos>92, 100</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="14">6</label>
+            <pos>58, 142</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>6</value>
+            <function>bitswitch</function>
+            <pos>52, 116</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>6</value>
+            <function>switchled</function>
+            <pos>58, 100</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="14">7</label>
+            <pos>24, 142</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>7</value>
+            <function>bitswitch</function>
+            <pos>18, 116</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>7</value>
+            <function>switchled</function>
+            <pos>24, 100</pos>
+        </item>
     </frontpanel>
 
     <bootstrap>

@@ -1,12 +1,12 @@
 [DEBREATE-0.7.13]
 <<CTRL>>
 Package: emma-02
-Version: 1.48
+Version: 1.48.1
 Maintainer: Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 Homepage: http://www.emma02.hobby-site.com
 Architecture: arm64
 Priority: standard
-Depends: libc6, libcurl3-gnutls, libsdl1.2debian, libcurl3 | libcurl4, libwxgtk3.0-gtk3-0v5 | libwxgtk3.0-0v5 | libwxgtk3.0-0, libwxbase3.0-gtk3-0v5 | libwxbase3.0-0v5 | libwxbase3.0-0, libserialport0
+Depends: libc6, libcurl3-gnutls, libsdl1.2debian, libcurl3 | libcurl4, libserialport0, libwxgtk3.2-1
 Description: Emma 02, the RCA 1802 Emulator
  Emma 02 is emulating the CDP18S020 Evaluation Kit, COMIX-35, COMX-35,
  Cosmac Elf, Cosmac Elf 2000, Cosmac Microtutor I, Cosmac Microtutor II,
@@ -235,16 +235,16 @@ fi
 <</SCRIPTS>>
 <<CHANGELOG>>
 <<DEST>>DEFAULT<</DEST>>
-emma-02 (1.48) xenial; urgency=medium
+emma-02 (1.48.1) xenial; urgency=medium
 
   * See http://www.emma02.hobby-site.com
 
- -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>, 17 Apr 2024 21:43:15 +0200
+ -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>, 9 Sep 2024 21:36:45 +0200
 
 <</CHANGELOG>>
 <<COPYRIGHT>>
 Emma 02 Emulator 
-Copyright (C) 2007-2023 Marcel van Tongeren, core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley
+Copyright (C) 2007-2024 Marcel van Tongeren, core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley
 
 ElfOS BIOS, Edt/Asm, Rc/Forth, Rc/Lisp and Rc/Basic
 Copyright (C) 2004 by Michael H Riley

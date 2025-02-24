@@ -25,6 +25,13 @@ public:
     uint64_t* executed_;
 };
 
+class MemoryDefinition
+{
+public:
+    vector<Byte> data;
+    long mask;
+};
+
 class Memory
 {
 public:
@@ -35,9 +42,11 @@ public:
     void defineMemoryType(long address, int type); 
     void defineXmlBankMemoryType(int slot, int bank, long start, long end, int type);
     void defineXmlBankMemoryType(int slot, int bank, long address, int type);
+    Byte getXmlBankMemoryType(int slot, int bank, long address);
     void defineXmlSlotMemoryType(int slot, long start, long end, int type);
     void defineXmlSlotMemoryType(int slot, long address, int type);
     Byte getXmlSlotMemoryType(int slot, long address);
+    void defineMcrMapMemoryType(int map, long start, long end, int type);
     void defineExpansionMemoryType(int slot, long start, long end, int type);
     void defineExpansionMemoryType(int slot, long address, int type); 
     void defineBankMemoryType(int bank, long address, int type); 
@@ -52,18 +61,21 @@ public:
     void allocPagerMemoryCommon();
     void allocComxExpansionMemory();
     void allocSlotMemory();
+    void allocMcrMemory(Word size, int type);
+    void allocMcrMapMemory(int type);
     wxFileOffset allocRomMapperMemory(size_t number, wxFileOffset length);
     void allocEmsMemorySegment(size_t number);
     size_t allocMultiCartMemory(size_t memorySize);
     void allocTestCartMemory();
     void setEmsPage(size_t number, Byte value);
+    void setEmsPage(std::vector<EmsMemoryConfiguration>::iterator emsConfig, Byte value);
     void setPager(int page, Byte value);
     void initRam(long start, long end);
     void initCpuRam();
 
     virtual Byte readMem(Word address) = 0;
     virtual void writeMem(Word address, Byte value, bool writeRom) = 0;
-    virtual Byte readMemDebug(Word address) = 0;
+    virtual Byte readMemDebug(Word address, int function = 0) = 0;
     virtual void writeMemDebug(Word address, Byte value, bool writeRom) = 0;
 
     Byte readSequencerRom(Word address);
@@ -73,11 +85,12 @@ public:
     void writeSequencer(Word address, Byte value);
     
 
-    Byte getRam(long address) {return mainMemory_[address];};
-    void setRam(long address, Byte value) {mainMemory_[address] = value;};
+    Byte getMainMemory(long address) {return mainMemory_[address];};
+    void setMainMemory(long address, Byte value) {mainMemory_[address] = value;};
     Byte getEmsPage(size_t emsNumber);
+    Byte getEmsPage(std::vector<EmsMemoryConfiguration>::iterator emsConfig);
     Byte getPager(int port) {return pager_[port];};
-    int getMemoryType(int i) {return memoryType_[i];};
+    int getMemoryType(int i);
     int getExpansionMemoryType(int slot, int i) {return expansionMemoryType_[slot*32 + i];};
     int getBankMemoryType(int bank, int i) {return bankMemoryType_[bank*32 + i];};
     int getEpromBankMemoryType(int bank, int i) {return epromBankMemoryType_[bank*32 + i];};
@@ -86,10 +99,10 @@ public:
     void setDynamicRandomByte();
     wxString getMultiCartGame();
 
-    int getEmsMemoryType(int i, size_t emsNumber) {return emsMemory_[emsNumber].memoryType_[((i - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))/256];};
+    int getEmsMemoryType(int i, size_t emsNumber) {return emsMemory_[emsNumber].memoryType_[((i - currentComputerConfiguration.emsMemoryConfiguration[emsNumber].startAddress) |(currentComputerConfiguration.emsMemoryConfiguration[emsNumber].page << currentComputerConfiguration.emsMemoryConfiguration[emsNumber].maskBits))/256];};
 
 protected: 
-    Conf computerConfiguration;
+    ComputerConfiguration currentComputerConfiguration;
 
     Word address_;
     int profilerCounter_;
@@ -107,13 +120,15 @@ protected:
     Byte* pagerMemoryDataType_;
     Byte* pagerMemoryLabelType_;
     Byte* pagerMemoryType_;
-    int colorMemory1862_[1024];
+    int colorMemory1862_[255];
     int colorMemory1864_[1024];
     Byte mc6845ram_[16383];
     Byte mc6845CharRom_[2048];
     Byte diagRomReplacement_[4096];
-    Byte sequencerMemory_[2048];
     
+    MemoryDefinition sequencerMemory;
+    MemoryDefinition tilFontMemory;
+
     Byte* expansionRom_;
     Byte* expansionRomDataType_;
     Byte* expansionRomLabelType_;
@@ -136,6 +151,16 @@ protected:
     vector<Byte*> slotMemoryType_;
     vector<uint64_t*> slotMemoryExecuted_;
     int numberOfSlots_;
+
+    vector<Byte*> mcrMemory_;
+    vector<Byte*> mcrMemoryDataType_;
+    vector<Byte*> mcrMemoryLabelType_;
+    vector<Byte*> mcrMemoryType_;
+    vector<uint64_t*> mcrMemoryExecuted_;
+    int numberOfMcrs_;
+    int numberOfMcrMaps_;
+
+    vector<Word> mcrSize_;
 
     Byte* multiCartRom_;
     Byte* multiCartRomDataType_;
@@ -173,6 +198,7 @@ protected:
     bool emsRomDefined_;
     bool comxExpansionMemoryDefined_;
     bool slotMemoryDefined_;
+    bool mcrMemoryDefined_;
 
     wxUint32 pagerSize_;
 

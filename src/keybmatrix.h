@@ -7,10 +7,10 @@ public:
     KeybMatrix();
     ~KeybMatrix() {};
 
-    void configure(IoConfiguration portConf, wxString saveCommand);
+    void configure(MatrixKeyboardConfiguration matrixKeyboardConfiguration, wxString saveCommand);
     void charEvent(int keycode);
     bool keyDownExtended(int keycode, wxKeyEvent& event);
-    void keyUpExtended(int keycode, wxKeyEvent& event);
+    void keyUpExtended(int keycode);
     void keyDownFile();
     void keyUpFile();
     void clearReturn();
@@ -30,12 +30,13 @@ public:
     void checkCaps();
 
 private:
+    MatrixKeyboardConfiguration matrixKeyboardConfiguration_;
+    
     Byte keyValue_[255];
     Byte efKeyValue_[5];
 
     bool capsPressed_;
 
-    IoConfiguration ioConfiguration_;
     wxString saveCommand_;
     int cycleValue_;
 

@@ -7,7 +7,7 @@ public:
     KeybLatch();
     ~KeybLatch() {};
 
-    void configure(IoConfiguration portConf, Locations addressLocations, wxString type, wxString saveCommand, int pad);
+    void configure(KeyLatchConfiguration keyLatchConfiguration, AddressLocationConfiguration addressLocationConfiguration, wxString type, wxString saveCommand);
     void reDefineHexKeys(int hexKeyDef1[], int hexKeyDef2[], bool simDef2);
     void keyDown(int keycode, wxKeyEvent& event);
     void keyDown(int keycode);
@@ -31,8 +31,8 @@ public:
     void switchCaps();
 
 private:
-    IoConfiguration ioConfiguration_;
-    Locations addressLocations_;
+    KeyLatchConfiguration keyLatchConfiguration_;
+    AddressLocationConfiguration addressLocations_;
 
     Byte keyState_[255];
     int keyLatch_;
@@ -64,7 +64,6 @@ private:
     wxString commandText_;
 
     wxString saveCommand_;
-    int pad_;
 };
 
 #endif  // KEYBLATCH_H

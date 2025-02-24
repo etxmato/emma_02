@@ -1,0 +1,13 @@
+SQUASH
+
+Tim Parish 
+
+Just like the original pub game! This program draws a squash court on the screen and you play the ball with a mind of its own. Your bat is on the left and the ball is served from the court area. The object is to keep it bouncing around the court. If you miss, it passes off screen to the right and you get another ball The game starts off with five balls. The ball commences moving rather slowly (and you overshoot with the bat!), but each time you hit it. it speeds up. reaching maximum speed after 18 hits. 
+
+Below and to the left of the court, your score is displayed, progressively updated each time you hit the ball. At the lower right, the number of balls left is displayed 
+
+Sound effects are included, the pitch of each bounce of the ball rising as the ball speeds up 
+The game ends once you miss the last ball Press 8 to start a new game % 
+
+MOVE BAT UP KEY 5 
+MOVE BAT DOWN KEY D 

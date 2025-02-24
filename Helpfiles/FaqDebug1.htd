@@ -3,7 +3,7 @@
 <BODY>
 <h1>How do I trace just a section of my code?</h1>
 <p>
-Set a break point (field and button in yellow ellipse) at the start and end of your section. Emulation will stop when the break point is hit, delete the break point in the break point area (orange ellipse) and turn on the trace ('Trace:' button in red ellipse). To start the actual trace press RUN (blue ellipse) and when it stops again turn off the trace (red ellipse).
+Set a break point (field and button highlighted in yellow) at the start and end of your section. Emulation will stop when the break point is hit, delete the break point in the break point area (highlighted in orange) and turn on the trace ('Trace:' button highlighted in red). To start the actual trace press RUN (highlighted in blue) and when it stops again turn off the trace (highlighted in red).
 </p>
 <p>
 <IMG SRC="images/debugger_trace_section.png" BORDER="0">
@@ -18,7 +18,7 @@ Above example would stop at address 0x10 and 0x100 whichever is detected first.
 Other trace options that can be used are the 'Register Trap' for a register reaching a specific value or the 'Instr. Trap' for a specific instruction being executed.
 </p>
 <p>
-For more details see also chapter <a href="DebuggerTrace.htm">Debug 1802</a>
+For more details see also section <a href="DebuggerTrace.htm">Debug 1802</a>
 </p>
 </BODY>
 </HTML> 

@@ -3,7 +3,7 @@
 <BODY>
 <h1>Video Mode Setup and Log</h1>
 <p>
-To change video mode to PAL or NTSC use the video selector (yellow ellipse):
+To change video mode to PAL or NTSC use the video selector (highlighted in yellow):
 </p>
 <p>
 <IMG SRC="images/comx_video.png" BORDER="0">
@@ -21,11 +21,9 @@ Main differences between PAL and NTSC video system for the COMX:
 <LI>Vertical Video frequency: PAL: 50 Hz, NTSC: 60 Hz.
 </UL>
 </p>
+
 <p>
-For configuration of colours and screen border via the VideoSetup button (orange ellipse) see chapter <a href="MainColour.htm">Video Setup</a>
-</p>
-<p>
-Selecting the 'Log' checkbox (blue ellipse) will switch on a video log. All output to video will also be recorded in a debug.log file stored in the application data directory (see <a href="MainFile.htm">Directory and File Structure</a>). If the indicated log file already exists a new file is created with the next sequence number. (i.e. debug.log, debug.1.log, debug.2.log etc.)
+Selecting the 'Log' checkbox (highlighted in blue) will switch on a video log. All output to video will also be recorded in a debug.log file stored in the application data directory (see <a href="MainFile.htm">Directory and File Structure</a>). If the indicated log file already exists a new file is created with the next sequence number. (i.e. debug.log, debug.1.log, debug.2.log etc.)
 </p>
 </BODY>
 </HTML>

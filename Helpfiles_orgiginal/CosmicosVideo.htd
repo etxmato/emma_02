@@ -1,0 +1,13 @@
+<HTML>
+<Title>Video Types</Title>
+<BODY>
+<h2>Video Types</h2>
+<p>
+To select the specific Cosmicos video type use the choice button 'Video'. Currently only 1 type is supported: CDP 1864 graphics.
+</p>
+<h3>CDP 1864</h3>
+<p>
+CDP 1864 graphic chip is similar to the CDP 1861 graphic system used for the Studio II and Elf computers giving a black and white screen of max 64 by 192 large pixels, normally 64 * 32 or 64 * 64 is used. The CDP 1864 is able to handle colour support which was never used for the Cosmicos video board.
+</p>
+</BODY>
+</HTML>

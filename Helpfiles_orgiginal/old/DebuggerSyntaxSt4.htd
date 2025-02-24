@@ -1,0 +1,636 @@
+<html>
+<title>ST4 Syntax</title>
+<body>
+<h1>ST4 Syntax</h1>
+<h2>Information</h2>
+<p>
+The following tables show the definition of the Studio IV pseudo code.
+</p>
+<p>
+During startup the Studio IV will check if hex address 800 or 1000 contains AA. If so the interpreter will do a JP to hex address 802 or 1002 where it will expect the cartridge pseudo code.        
+</p>
+<p>
+This info is also available online on the <a href="https://emma02.hobby-site.com/pseudo_st4.html">Emma 02 site</a>.
+</p>
+<h2>Definitions</h2>
+<table>
+<TR>
+<TD WIDTH="70">aaa</TD>
+<TD WIDTH="400">12 bit address</TD>
+</TR>
+<TR>
+<TD WIDTH="70">kk</TD>
+<TD WIDTH="400">8 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">n</TD>
+<TD WIDTH="400">4 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">x</TD>
+<TD WIDTH="400">Register number Vx (x = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">y</TD>
+<TD WIDTH="400">Register number Vy (y = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">I</TD>
+<TD WIDTH="400">Register I (16 bit)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">[I]</TD>
+<TD WIDTH="400">Memory value of address in register I</TD>
+</TR>
+<TR>
+<TD WIDTH="70">[Vy]</TD>
+<TD WIDTH="400">Memory value of address in register Vy within in page 27 (RAM)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">.</TD>
+<TD WIDTH="400">Not used, value doesn't matter</TD>
+</TR>
+<TR>
+<TD WIDTH="70">1..9, A..F</TD>
+<TD WIDTH="400">Hexadecimal digits</TD>
+</TR>
+</table>
+<h2>Syntax</h2>
+<table>
+<TR>
+<TD WIDTH="55">6754</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">[V0V1], [V2V3]<br>V0V1, V2V3</TD>
+<TD WIDTH="250">Add decimal values [V0V1] and [V2V3] store result on [V0V1]. Number of digits stored in V9. LSD is on V0V1 and V2V3, following digit is on one address lower. Each address (byte) only contains one decimal digit</TD>
+</TR>
+<TR>
+<TD WIDTH="55">62kk</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">I, kk</TD>
+<TD WIDTH="250">Add kk to Low byte of I; no carry to high byte is done</TD>
+</TR>
+<TR>
+<TD WIDTH="55">678E</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">I, V9</TD>
+<TD WIDTH="250">I = I + V9</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7xkk</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = Vx + kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4x4y</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx + Vy, VB is carry / not borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4xAy</TD>
+<TD WIDTH="40">ADDN</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">ADD Nibbles, Vx-n0 = Vx-n0 + Vy-n0 and Vx-n1 = Vx-n1 + Vy-n1 (Vx-n0 is the lower 4 bits of Vx, Vx-n1 the higher 4 bits)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4x2y</TD>
+<TD WIDTH="40">AND</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx + Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">66kk</TD>
+<TD WIDTH="40">CALL</TD>
+<TD WIDTH="100">06kk</TD>
+<TD WIDTH="250">Call subroutine on 6kk, return with 6B..</TD>
+</TR>
+<TR>
+<TD WIDTH="55">67kk</TD>
+<TD WIDTH="40">CALL</TD>
+<TD WIDTH="100">07kk</TD>
+<TD WIDTH="250">Call subroutine on 7kk, return with 6B..</TD>
+</TR>
+<TR>
+<TD WIDTH="55">68kk</TD>
+<TD WIDTH="40">CALL</TD>
+<TD WIDTH="100">08kk</TD>
+<TD WIDTH="250">Call subroutine on 8kk, return with 6B..</TD>
+</TR>
+<TR>
+<TD WIDTH="55">60kk</TD>
+<TD WIDTH="40">CALL</TD>
+<TD WIDTH="100">10kk</TD>
+<TD WIDTH="250">Call subroutine on 10kk, return with 6B..</TD>
+</TR>
+<TR>
+<TD WIDTH="55">61kk</TD>
+<TD WIDTH="40">CALL</TD>
+<TD WIDTH="100">11kk</TD>
+<TD WIDTH="250">Call subroutine on 11kk, return with 6B..</TD>
+</TR>
+<TR>
+<TD WIDTH="55">69kk</TD>
+<TD WIDTH="40">CALL</TD>
+<TD WIDTH="100">I, kk</TD>
+<TD WIDTH="250">Call subroutine on I, V9=kk, return with 6B..</TD>
+</TR>
+<TR>
+<TD WIDTH="55">662E</TD>
+<TD WIDTH="40">CHAR</TD>
+<TD WIDTH="100">[V2V3], V0, V1<br>[V2V3]</TD>
+<TD WIDTH="250">Print character stored on [V2V3] on screen position horizontal V0, vertical V1
+</TD>
+</TR>
+<TR>
+<TD WIDTH="55">662C</TD>
+<TD WIDTH="40">CHAR</TD>
+<TD WIDTH="100">[I], V0, V1<br>[I]</TD>
+<TD WIDTH="250">Print character stored on [I] on screen position horizontal V0, vertical V1</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6688</TD>
+<TD WIDTH="40">CLR</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Colour 2 blocks on the screen with CLR Vx, Vy, address following subroutine call contains:<br>
+Byte 1/2: Screen position first CLR command (Vx and Vx+1)<br>
+Byte 3/4: Screen position second CLR command (Vx and Vx+1)<br>
+Byte 5: Colour first CLR command (Vy)<br>
+Byte 6: Colour second CLR command (Vy)<br>
+If byte 6 highest nibble is not 0 then 2 more blocks in following 6 bytes will be coloured.</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5x6c</TD>
+<TD WIDTH="40">CLR</TD>
+<TD WIDTH="100">Vx, c</TD>
+<TD WIDTH="250">Store colour c in colour RAM.<br>Size: 8*4 (w*h)<br>Repeat horizontal: Vx high nibble<br>Repeat vertical: Vx+1 high nibble<br>Screen position: Vx, Vx+1 low nibble<br>Positions: 16x16</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5x5y</TD>
+<TD WIDTH="40">CLR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Store colour Vy (lowest 4 bit) in colour RAM.<br>Size: 8*4 (w*h)<br>Repeat horizontal: Vx high nibble<br>Repeat vertical: Vx+1 high nibble<br>Screen position: Vx, Vx+1 low nibble<br>Positions: 16x16</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6612</TD>
+<TD WIDTH="40">CLS</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Print 8*4 pattern from 0575-0578 (zeros) on screen with DRWR I, Vx, address following subroutine call contains:<br>
+Byte 1: Vx value<br>
+Byte 2: Vx+1 value</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6690</TD>
+<TD WIDTH="40">CP</TD>
+<TD WIDTH="100">[I]<br>I</TD>
+<TD WIDTH="250">Copy to [I] from memory after subroutine call, number of bytes stored in V9</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5xDy</TD>
+<TD WIDTH="40">CP</TD>
+<TD WIDTH="100">[I], Vx, Vy<br>I, Vx, Vy</TD>
+<TD WIDTH="250">Copy value [I] until [I+y] to Vx until Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5xCy</TD>
+<TD WIDTH="40">CP</TD>
+<TD WIDTH="100">Vx, Vy, [I]<br>Vx, Vy, I</TD>
+<TD WIDTH="250">Copy value Vx until Vy to [I] until [I+y]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4xEn</TD>
+<TD WIDTH="40">DRW</TD>
+<TD WIDTH="100">I, Vx, n</TD>
+<TD WIDTH="250">Draw pattern from [I] on screen position Vx, V(x+1)<br>Size: 8*n<br>Positions: 128x64</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5x2.</TD>
+<TD WIDTH="40">DRW</TD>
+<TD WIDTH="100">I, Vx</TD>
+<TD WIDTH="250">Draw patterns from [I] on screen.<br>Size: 8*4 (w*h)<br>Repeat horizontal: Vx high nibble<br>Repeat vertical: Vx+1 high nibble<br>Screen position: Vx, Vx+1 low nibble<br>Positions:  16x16</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5x7.</TD>
+<TD WIDTH="40">DRWR</TD>
+<TD WIDTH="100">I, Vx</TD>
+<TD WIDTH="250">Draw pattern from [I] on screen and repeat the same pattern.<br>Size: 8*4 (w*h)<br>Repeat horizontal: Vx high nibble<br>Repeat vertical: Vx+1 high nibble<br>Screen position: Vx, Vx+1 low nibble<br>Positions: 16x16
+</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Axkk</TD>
+<TD WIDTH="40">JE</TD>
+<TD WIDTH="100">I, Vx, kk<br>Vx, kk</TD>
+<TD WIDTH="250">Jump to I if Vx = kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5x3y</TD>
+<TD WIDTH="40">JE</TD>
+<TD WIDTH="100">I, Vx, Vy<br>Vx, Vy</TD>
+<TD WIDTH="250">IF Vx = Vy THEN jump to I</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5xAy</TD>
+<TD WIDTH="40">JG</TD>
+<TD WIDTH="100">I, Vx, Vy<br>Vx, Vy</TD>
+<TD WIDTH="250">IF Vx greater than Vy THEN jump to I</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5.8y</TD>
+<TD WIDTH="40">JK</TD>
+<TD WIDTH="100">I, Vy<br>Vy</TD>
+<TD WIDTH="250">IF KEY Vy is pressed THEN jump to I. VA contains keypad (0 key pad player 1, 1 keypad player 2)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Bxkk</TD>
+<TD WIDTH="40">JNE</TD>
+<TD WIDTH="100">I, Vx, kk<br>Vx, kk</TD>
+<TD WIDTH="250">Jump to I if Vx != kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5.9y</TD>
+<TD WIDTH="40">JNK</TD>
+<TD WIDTH="100">I, Vy<br>Vy</TD>
+<TD WIDTH="250">IF KEY Vy not pressed THEN jump to I. VA contains keypad (0 key pad player 1, 1 keypad player 2)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9xkk</TD>
+<TD WIDTH="40">JNZ</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Jump if variable Vx is not zero to current page with offset kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">65kk</TD>
+<TD WIDTH="40">JP</TD>
+<TD WIDTH="100">kk</TD>
+<TD WIDTH="250">Jump to kk in same page </TD>
+</TR>
+<TR>
+<TD WIDTH="55">4.B.</TD>
+<TD WIDTH="40">JP I</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Jump to address I</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5xBy</TD>
+<TD WIDTH="40">JS</TD>
+<TD WIDTH="100">I, Vx, Vy<br>Vx, Vy</TD>
+<TD WIDTH="250">IF Vx smaller than Vy THEN jump to I</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5x4y</TD>
+<TD WIDTH="40">JU</TD>
+<TD WIDTH="100">I, Vx, Vy<br>Vx, Vy</TD>
+<TD WIDTH="250">IF Vx!=Vy THEN jump to I</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xkk</TD>
+<TD WIDTH="40">JZ</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Jump if variable Vx is zero to current page with offset kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">671C</TD>
+<TD WIDTH="40">KEY</TD>
+<TD WIDTH="100">SWITCH</TD>
+<TD WIDTH="250">Key switch subroutine. Following bytes are used as input:<br>
+Byte 1: First key<br>
+Byte 2: Last key<br>
+Byte 3/4: return address if no key pressed<br>
+Following bytes contain jump table for the pressed keys, first two bytes key 0, next 2 key 1 etc. </TD>
+</TR>
+<TR>
+<TD WIDTH="55">4.Fy</TD>
+<TD WIDTH="40">KEY</TD>
+<TD WIDTH="100">Vy</TD>
+<TD WIDTH="250">Check if key is pressed, if so return key in Vy and VB=1 (VB=0, no key pressed). VA contains keypad (0 key pad player 1, 1 keypad player 2).</TD>
+</TR>
+<TR>
+<TD WIDTH="55">67AA</TD>
+<TD WIDTH="40">KEY</TD>
+<TD WIDTH="100">WAIT</TD>
+<TD WIDTH="250">Wait for key from either keypad and return key in V9, VA indicates keypad</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4x7y</TD>
+<TD WIDTH="40">KEYP</TD>
+<TD WIDTH="100">Vy</TD>
+<TD WIDTH="250">Wait for key and return key in Vy. <br>VA contains keypad (0 key pad player 1, 1 keypad player 2).VC = x shift left 3</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4x8y</TD>
+<TD WIDTH="40">KEYR</TD>
+<TD WIDTH="100">Vy</TD>
+<TD WIDTH="250">Wait for key press/release and return key in Vy. VA contains keypad (0 key pad player 1, 1 keypad player 2). VC = x shift left 3</TD>
+</TR>
+<TR>
+<TD WIDTH="55">64kk</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">[27kk], I</TD>
+<TD WIDTH="250">LD I high byte to [27kk] and low byte to [27kk+1]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Dxkk</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">[27kk], Vx</TD>
+<TD WIDTH="250">Load address [27kk] with Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4x0y</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">B, [Vy], Vx<br>B, Vy, Vx</TD>
+<TD WIDTH="250">Convert Vx to 3 digit decimal at [Vy+2700], [Vy+2701], [Vy+2702]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">679E</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">I, [I]</TD>
+<TD WIDTH="250">I = [I]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">679C</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">I, [I+V9]</TD>
+<TD WIDTH="250">I = [I+V9]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0aaa</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">I, 0aaa</TD>
+<TD WIDTH="250">Load I with address 0000 to 0FFF</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1aaa</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">I, 1aaa</TD>
+<TD WIDTH="250">Load I with address 1000 to 1FFF</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2aaa</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">I, 2aaa</TD>
+<TD WIDTH="250">Load I with address 2000 to 2FFF</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3aaa</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">I, 3aaa</TD>
+<TD WIDTH="250">Load I with address 3000 to 3FFF</TD>
+</TR>
+<TR>
+<TD WIDTH="55">63kk</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">I, [27kk]</TD>
+<TD WIDTH="250">LD I with high byte from [27kk] and low byte from [27kk+1]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">63Ey</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">I, Vy, Vy+1<br>I, Vy</TD>
+<TD WIDTH="250">LD I with high byte from Vy and low byte from Vy+1</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Exkk</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, [27kk]</TD>
+<TD WIDTH="250">Load Vx with value on address [27kk]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Fxkk</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5xFy</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, [Vy]</TD>
+<TD WIDTH="250">Vx = [VyV(y+1)]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">DxEy<br>ExEy</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5xEy</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">[Vy], Vx</TD>
+<TD WIDTH="250">[VyV(y+1)] = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">64Ey</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vy, Vy+1, I<br>Vy, I</TD>
+<TD WIDTH="250">LD Vy with high byte from I and Vy+1 with low byte from I</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4x1y</TD>
+<TD WIDTH="40">OR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx OR Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6Fkk</TD>
+<TD WIDTH="40">OUT4</TD>
+<TD WIDTH="100">kk</TD>
+<TD WIDTH="250">OUT 4 with value kk, address 27F4 = kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6E.y</TD>
+<TD WIDTH="40">OUT4</TD>
+<TD WIDTH="100">Vy</TD>
+<TD WIDTH="250">OUT 4 with value Vx, address 27F4 = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">660A</TD>
+<TD WIDTH="40">POP</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">POP (get) V0 to V9 from 2702-270B</TD>
+</TR>
+<TR>
+<TD WIDTH="55">660A</TD>
+<TD WIDTH="40">POP</TD>
+<TD WIDTH="100">V0-V9</TD>
+<TD WIDTH="250">POP (get) V0 to V9 from 2702-270B</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6C..</TD>
+<TD WIDTH="40">POP</TD>
+<TD WIDTH="100">I</TD>
+<TD WIDTH="250">Load I from stack</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6648</TD>
+<TD WIDTH="40">PRINT</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Print characters on screen, address following subroutine call contains:<br>
+Byte 1: horizontal position on screen (0 to 128)<br>
+Byte 2: vertical position on screen (0 to 64)<br>
+Byte 3 and onwards: character number as on 05nn see 0500-052F table.<br>
+Last byte hex FF</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6682</TD>
+<TD WIDTH="40">PRINT</TD>
+<TD WIDTH="100">D, 1</TD>
+<TD WIDTH="250">Print decimal value of V9 (1 digit) on screen, address following subroutine call contains:<br>
+Byte 1: horizontal position on screen (0 to 128)<br>
+Byte 2: vertical position on screen (0 to 64)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">667C</TD>
+<TD WIDTH="40">PRINT</TD>
+<TD WIDTH="100">D, 2</TD>
+<TD WIDTH="250">Print decimal value of V9 (2 digit) on screen</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6660</TD>
+<TD WIDTH="40">PRINT</TD>
+<TD WIDTH="100">D, 3</TD>
+<TD WIDTH="250">Print decimal value of V9 (3 digit) on screen</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6656</TD>
+<TD WIDTH="40">PRINT</TD>
+<TD WIDTH="100">[I]<br>I</TD>
+<TD WIDTH="250">Print characters on screen, [I] contains:<br>
+Byte 1: horizontal position on screen (0 to 128)<br>
+Byte 2: vertical position on screen (0 to 64)<br>
+Byte 3 and onwards: character number as on 05nn see 0500-052F table.<br>
+Last byte hex FF</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6600</TD>
+<TD WIDTH="40">PUSH</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">PUSH (save) V0 to V9 on 2702-270B</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6600</TD>
+<TD WIDTH="40">PUSH</TD>
+<TD WIDTH="100">V0-V9</TD>
+<TD WIDTH="250">PUSH (save) V0 to V9 on 2702-270B</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6A..</TD>
+<TD WIDTH="40">PUSH</TD>
+<TD WIDTH="100">I</TD>
+<TD WIDTH="250">Store value I on stack</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6700</TD>
+<TD WIDTH="40">RESET</TD>
+<TD WIDTH="100">RAM</TD>
+<TD WIDTH="250">Reset 2700-279F to 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6B..</TD>
+<TD WIDTH="40">RETURN</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Return from subroutine (any CALL)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">67BC</TD>
+<TD WIDTH="40">RND</TD>
+<TD WIDTH="100">[270B],V8,V9<br>V8, V9</TD>
+<TD WIDTH="250">Store random number between V8 and V9 on [270B]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">67B6</TD>
+<TD WIDTH="40">RND</TD>
+<TD WIDTH="100">[270B], V9<br>V9</TD>
+<TD WIDTH="250">Store random number between 0 and V9 on [270B]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cxkk</TD>
+<TD WIDTH="40">RND</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = random byte masked by kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6612</TD>
+<TD WIDTH="40">SCR</TD>
+<TD WIDTH="100">CLS</TD>
+<TD WIDTH="250">Print 8*4 pattern from 0575-0578 (zeros) on screen with DRWR I, Vx, address following subroutine call contains:<br>
+Byte 1: Vx value<br>
+Byte 2: Vx+1 value</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6626</TD>
+<TD WIDTH="40">SCR</TD>
+<TD WIDTH="100">FILL</TD>
+<TD WIDTH="250">Print 8*4 pattern from 05FC-05FF (#ff) on screen with DRWR I, Vx, address following subroutine call contains:<br>
+Byte 1: Vx value<br>
+Byte 2: Vx+1 value</TD>
+</TR>
+<TR>
+<TD WIDTH="55">670B</TD>
+<TD WIDTH="40">SCR</TD>
+<TD WIDTH="100">XOR</TD>
+<TD WIDTH="250">XOR Screen memory with hex FF</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4x6n</TD>
+<TD WIDTH="40">SHL</TD>
+<TD WIDTH="100">Vx, n</TD>
+<TD WIDTH="250">Vx = Vx SHL n times, VB will contains bits shifted 'out of Vx'</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4x9n</TD>
+<TD WIDTH="40">SHR</TD>
+<TD WIDTH="100">Vx, n</TD>
+<TD WIDTH="250">Vx = Vx SHR n times, VB will contains bits shifted 'out of Vx'</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4xCy</TD>
+<TD WIDTH="40">SHR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = (Vx SHR 3) AND hex F, Vy =(Vy SHR 2) AND hex F</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4.D.</TD>
+<TD WIDTH="40">STOP</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Wait in endless loop</TD>
+</TR>
+<TR>
+<TD WIDTH="55">675A</TD>
+<TD WIDTH="40">SUB</TD>
+<TD WIDTH="100">[V0V1], [V2V3]<br>V0V1, V2V3</TD>
+<TD WIDTH="250">Subtract decimal values [V2V3] from [V0V1] store result on [V0V1]. Number of digits stored in V9. LSD is on V0V1 and V2V3, following digit is on one address lower. Each address (byte) only contains one decimal digit</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4x5y</TD>
+<TD WIDTH="40">SUB</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx - Vy, VB is carry / not borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5x1y</TD>
+<TD WIDTH="40">SWAP</TD>
+<TD WIDTH="100">Vx, Vy, [I]<br>Vx, Vy, I</TD>
+<TD WIDTH="250">Switch value [I] and onwards with Vx until Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5.0.</TD>
+<TD WIDTH="40">SYS</TD>
+<TD WIDTH="100">I</TD>
+<TD WIDTH="250">Call 1802 routine at address I, end routine with SEP R4</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6D..</TD>
+<TD WIDTH="40">WAIT</TD>
+<TD WIDTH="100">[I], kk<br>I, kk</TD>
+<TD WIDTH="250">WAIT with a value kk, using [I] towards a table on 049h and 048l where hl is the byte on [I]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4x3y</TD>
+<TD WIDTH="40">XOR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx XOR Vy</TD>
+</TR>
+</table>
+</body>
+</html>
+

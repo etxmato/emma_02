@@ -1,0 +1,15 @@
+IAGO FOR TWO Frank Rees, Boort, Vic. 
+
+This program is a translation to CHIP 8 of a popular board game program, also known as Reversi or Othello. from an original by Milton Collins of South Australia. 
+
+IAGO is an old game, similar to draughts. You play on a board divided into a grid. Each player has buttons or pieces. The object is, in placing your pieces on the board grid intersections, you bracket one or more of your opponent s pieces between two of your pieces in a straight line running vertically, horizontally or diagonally. Here, the computer not only provides a board and pieces, but also shows your scores and who goes next. This will run on a minimum 660 — B&W, with 1K of memory. 
+
+At the start of the game, each player has two pieces placed on the board. Opponent's pieces are shown to the right of the board, scores to the right of them. One of the pieces will be flashing, indicating whose turn it is — the computer randomly chooses which piece will flash at the start of the game. 
+
+To enter a move, you have to look where you want to locate your piece. The spots on the board are numbered in rows (X) and columns (Y). Commencing at the top left hand corner is 0,0 (X.Y). The bottom right hand corner is 0.7. You enter the X position first by pressing the appropriate number, then the required Y position. If the move is valid, your piece will appear flashing in the position chosen. Press key F to enter your move or another key. except C. to abort the move and try again. If you wish to concede a move to your opponent, press C. If you make an invalid move, your piece flashes once in the illegal location, you get a beep and have to try again. 
+
+Strategy and planning ahead are all-important in this game, but it is possible to come out with equal scores!
+
+When entering your move, the computer will signify each X and Y value has been entered by sounding a beep. The same goes for other keys used, too. If you 6 don t get a beep, just hold your finger on the key until the beep sounds. 7 
+
+This program will run as is on machines running CHIP 8 dialects 2 and 3. For those running CHIP 8. D1 and D2 with memory at 0600 to 0800, put a GOTO instruction of 1600 at location 0200. For other machines, see Dialect Translation in Hints for CHIP 8 Programmers, ETI December 82, page 110. 

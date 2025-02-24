@@ -3,7 +3,7 @@
 <BODY>
 <h1>Video Types</h1>
 <p>
-To select the specific Cosmac Elf 2000 video type use the choice button 'Video' (yellow ellipse). Currently 2 types are supported: 1861 Pixie graphics and Intel 8275.
+To select the specific Cosmac Elf 2000 video type use the choice button 'Video' (highlighted in yellow). Currently 2 types are supported: 1861 Pixie graphics and Intel 8275.
 </p>
 <p>
 <IMG SRC="images/elf2000_video.png" BORDER="0">
@@ -14,7 +14,7 @@ To select the specific Cosmac Elf 2000 video type use the choice button 'Video' 
 </p>
 <h2>Intel 8275</h2>
 <p>
-The intel 8275 is a video chip for text based output. Different screen sizes can be emulated via software setings of the intel 8275 registers. The Elf 2000 firmware supports this video type but only when a PS2 keyboard is emulated at the same time. Character font ROM is specified and changeable via the 'Intel8275' button (orange ellipse).
+The intel 8275 is a video chip for text based output. Different screen sizes can be emulated via software setings of the intel 8275 registers. The Elf 2000 firmware supports this video type but only when a PS2 keyboard is emulated at the same time. Character font ROM is specified and changeable via the 'Intel8275' button (highlighted in orange).
 </p>
 </BODY>
 </HTML>

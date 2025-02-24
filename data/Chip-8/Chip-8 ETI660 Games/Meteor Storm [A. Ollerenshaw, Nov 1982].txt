@@ -1,0 +1,13 @@
+METEOR STORM 
+
+Adrian Ollerenshaw, O’Sullivan Beach SA. 
+
+Dodge the meteors! Here you are, hurtling through space and dirty great meteors bear down on you — what to do, duck out of the way or shoot them down? Well, that depends on the position in which you find yourself. Getting hit means your ship is destroyed. Blasting meteors wins you points. Here’s how to control your ship: 
+
+MOVE UP press KEY 0 
+MOVE DOWN press KEY 1 
+TO FIRE press KEY F 
+
+When the game starts, your ship appears on the centre left of the screen. Meteors rush at you from the right hand side of the screen. You can only afford to lose three ships in crashes, at which point the game ends. If you successfully destroy 20 or more meteors you get another ship. The score is displayed at the end of the game (i.e: after three crashes). Note that, after firing, you can direct you missile by moving your ship up and down. 
+
+To start a new game, simply press any key. 

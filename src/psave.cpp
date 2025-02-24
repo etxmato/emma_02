@@ -85,7 +85,7 @@ void PsaveDialog::onuseXml(wxCommandEvent&event)
 
 void PsaveDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 {
-    if (p_Main->isSaving())
+    if (p_Computer->isSaving())
         return;
 
     p_Main->setPsaveData(0, XRCCTRL(*this, "PsaveVolume", wxSpinCtrl)->GetValue());

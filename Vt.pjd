@@ -2812,7 +2812,7 @@
                       <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
                       <bool name="proxy-Separate files">0</bool>
                       <long name="proxy-Stretch factor">0</long>
-                      <string name="proxy-Strings">"80|132"</string>
+                      <string name="proxy-Strings">"64|80|132"</string>
                       <string name="proxy-Tooltip text">""</string>
                       <long name="proxy-Width">-1</long>
                       <bool name="proxy-wxADJUST_MINSIZE">0</bool>

@@ -124,7 +124,6 @@ public:
     void writeDumpFile(wxTextFile* file);
     void deleteBackup(wxFileName dir, wxString name, wxString ext, int flags);
     void deleteAllBackup(wxString dir, bool sub);
-    void onBackupYes(wxString dir, bool sub);
     void convertSyncToScores();
     int getSwId(int sw_id);
     wxString getName(int pos, int length);

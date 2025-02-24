@@ -4,8 +4,8 @@
 #include "wx/xml/xml.h"
 #include "computerconfig.h"
 
-#define NO_COMPUTER 34
-#define LAST_ELF_TYPE 19
+#define NO_COMPUTER 1
+#define DELETED_COMPUTERS 0
 
 #define MAINROM1 0
 
@@ -28,59 +28,10 @@
 #define CARTROM3 4
 #define CARTROM4 5
 
-// CDP18S600
-#define U21ROM 0
-#define U20ROM 1
-#define U19ROM 2
-#define U18ROM 3
-#define U17ROM 4
-
-#define ONE_SOCKET 0
-#define FOUR_SOCKET 1
-
-#define FOUR_SOCKET_ROM1 1
-#define FOUR_SOCKET_ROM2 2
-
-#define XU27ROM 1
-#define XU26ROM 2
-#define XU25ROM 3
-#define XU24ROM 4
-
-#define XU23ROM 0
-#define XU22ROM 1
-#define XU21ROM 2
-#define XU20ROM 3
-
-#define CDP626_SEC1 0
-#define CDP626_SEC2 1
-#define CDP626_SEC3 2
-#define CDP626_SEC4 3
-
-//MICROBOARD CARD TYPES
-#define CARD_EMPTY 0
-#define CARD_CDP18S620 1
-#define CARD_CDP18S621 2
-#define CARD_CDP18S623A 3
-#define CARD_CDP18S625 4
-#define CARD_CDP18S626 5
-#define CARD_CDP18S627 6
-#define CARD_CDP18S628 7
-#define CARD_CDP18S629 8
-#define CARD_CDP18S640 9
-#define CARD_CDP18S641 10
-#define CARD_CDP18S646 11
-#define CARD_CDP18S651 12
-#define CARD_CDP18S652 13
-#define CARD_CDP18S660 14
-#define CARD_CDP18S661B 15
-#define CARD_CDP18S661V1 16
-#define CARD_CDP18S661V3 17
-#define CARD_LAST 17
-
-#define FDCTYPE_MS2000 0
 #define FDCTYPE_17XX 0
-#define FDCTYPE_MICROBOARD 1
-#define FDCTYPE_MAX 2
+#define FDCTYPE_UPD765 1
+#define FDCTYPE_TU58_IDE 2
+#define FDCTYPE_MAX 3
 
 // CDP18S626
 #define MEM_SECTION0 0
@@ -130,46 +81,16 @@ public:
 
     WindowInfo getWinSizeInfo(wxString appDir, wxString fontSizeString);
 
-    void readElfPortConfig(int elfType, wxString elfTypeStr);
-    void writeElfPortConfig(int elfType, wxString elfTypeStr);
-
     wxString readConfigDir(const wxString& key, const wxString& defVal = wxEmptyString);
     void writeConfigDir(const wxString& key, const wxString& value);
 
-    void onMainRom1(wxCommandEvent& event);
-    void onMainRom1Text(wxCommandEvent& event);
-
-    void onMainRom2(wxCommandEvent& event);
-    void onMainRom2Text(wxCommandEvent& event);
-
-    void onMainRom3(wxCommandEvent& event);
-    void onMainRom3Text(wxCommandEvent& event);
-
-    void onCartRom(wxCommandEvent& event);
-    void onCartRomText(wxCommandEvent& event);
-
-    void onRamSW(wxCommandEvent& event);
-    void onRamSWText(wxCommandEvent& event);
-
-    void onChip8SW(wxCommandEvent& event);
-    void onChip8SWText(wxCommandEvent& event);
-    void onEjectChip8SW(wxCommandEvent& event);
-    void onPrintFile(wxCommandEvent& event);
-    void onPrintFileText(wxCommandEvent& event);
-    void onPrintButton(wxCommandEvent& event);
     void onPrintMode(wxCommandEvent& event);
     void openPrinterFrame(wxCommandEvent &event);
     void onF4();
     void setPrintMode();
     int getPrintMode();
-    void onIde(wxCommandEvent& event);
-    void onIdeEject(wxCommandEvent& event);
-    void onIdeText(wxCommandEvent& event);
     void onCharRom(wxCommandEvent& event);
     void onCharRomText(wxCommandEvent& event);
-    void onKeyFile(wxCommandEvent& event);
-    void onKeyFileText(wxCommandEvent& event);
-    void onKeyFileEject(wxCommandEvent& event);
     void onVT100(wxCommandEvent& event);
     void onZoom(wxSpinEvent& event);
     void onZoom(int direction);
@@ -180,26 +101,10 @@ public:
     void onInterlace(wxCommandEvent& event);
     void onUpperCase(wxCommandEvent& event);
     void onStretchDot(wxCommandEvent& event);
-    void onScreenDumpFile(wxCommandEvent& event);
-    void onScreenDumpFileText(wxCommandEvent& event);
     void onScreenDump(wxCommandEvent& event);
-    void onDp(wxCommandEvent& event);
     void onVolume(wxScrollEvent&event);
-    void onCassette(wxCommandEvent& event);
-    void onCassetteFileDialog();
-    void onCassetteFileSelector();
-    void onCassette1(wxCommandEvent& event);
-    void onXmodem(wxCommandEvent& event);
-    void onTerminalFile(wxCommandEvent& event);
-    void onCassetteEject(wxCommandEvent& event);
-    void onCassette1Eject(wxCommandEvent& event);
-    void onCassetteText(wxCommandEvent& event);
-    void onCassette1Text(wxCommandEvent& event);
-    void onXmodemText(wxCommandEvent& event);
-    void onXmodemEject(wxCommandEvent& event);
     void onAutoLoad(wxCommandEvent& event);
     void onRealCas(wxCommandEvent& event);
-    void onWavFile(wxCommandEvent& event);
     void onTurbo(wxCommandEvent&event);
     void onTurboClock(wxCommandEvent& event);
     void onUseLocation(wxCommandEvent& event);
@@ -213,7 +118,6 @@ public:
     void onCassettePause(wxCommandEvent& event);
     void startHwSave();
     void startHwLoad();
-    void onKeyboard(wxCommandEvent& event);
     void onPsave(wxString fileName);
     void onDataSaveButton(wxCommandEvent& event);
     void onLoadRunButton(wxCommandEvent& event);
@@ -230,71 +134,43 @@ public:
     void onBaudT(wxCommandEvent& event);
     void onClearRam(wxCommandEvent& event);
     void onClearRtc(wxCommandEvent& event);
-    void onBootAddress(wxCommandEvent& event);
-    long getBootAddress(wxString computerTypeStr, int computerType);
-    void onChoiceRam(wxCommandEvent&event);
     void onChoiceCpu(wxCommandEvent&event);
 
-    int getHwTapeState() {return hwTapeState_;}
+    bool getClearRamState() {return computerConfiguration.clearRam;};
+    bool getClearRtcState() {return computerConfiguration.clearRtc;};
+    void resetClearRamState();
+    void resetClearRtcState();
+    int getHwTapeState() {return hwTapeState_;};
 
     void onPsaveMenu(wxCommandEvent& event);
     void onVtSetup(wxCommandEvent& event);
-    void onBeepFrequency(wxCommandEvent&event);
 
     wxString convertLocale(wxString input);
 
     bool toDouble(wxString stringName, double* result);
-    wxString getMainDir() {return conf[runningComputer_].mainDir_;};
+    wxString getMainDir() {return computerConfiguration.mainDir_;};
     bool getGuiMode() {return mode_.gui;};
 
-    wxString getRomDir(int computerType, int romType) {return conf[computerType].romDir_[romType];};
-    wxString getRamDir(int computerType) {return conf[computerType].ramDir_;};
-    wxString getChip8Dir(int computerType){return conf[computerType].chip8SWDir_;};
-    wxString getIdeDir(int computerType) {return conf[computerType].ideDir_;};
-    wxString getCharRomDir(int computerType) {return conf[computerType].charRomDir_;};
-    wxString getVt52CharRomDir(int computerType) {return elfConfiguration[computerType].vt52CharRomDir_;};
-    wxString getVt100CharRomDir(int computerType) {return elfConfiguration[computerType].vt100CharRomDir_;};
-    wxString getWaveDir(int computerType) {return conf[computerType].wavFileDir_[0];};
-    void setWaveDir(int computerType, wxString fileDir) {conf[computerType].wavFileDir_[0] = fileDir;};
-    wxArrayString getTerminalPaths(int computerType) {return conf[computerType].terminalPaths_;}
-    wxString getTerminalPath(int computerType, int filenumber) {return conf[computerType].terminalPaths_[filenumber];}
-    wxArrayString getTerminalFiles(int computerType) {return conf[computerType].terminalFiles_;}
-    size_t getNumberOfTerminalFiles(int computerType) {return conf[computerType].numberOfTerminalFiles_;}
-    bool getAutCassetteLoad() {return conf[runningComputer_].autoCassetteLoad_;};
-    bool getPrinterStatus(int computerType) {return conf[computerType].printerOn_;};
-    PixieGraphics getPixieGraphics(int computerType) {return elfConfiguration[computerType].ioConfiguration.pixieGraphics;};
-    int getVideoHeight(int computerType) {return elfConfiguration[computerType].ioConfiguration.videoHeight;};
-    int getVideoWidth(int computerType) {return elfConfiguration[computerType].ioConfiguration.videoWidth;};
-    int getPixieHighRes(int computerType) {return elfConfiguration[computerType].ioConfiguration.pixieHighRes;};
-    int getFrontPanelRevision() {return elfConfiguration[runningComputer_].frontType;};
+    wxString getCharRomDir() {return computerConfiguration.characterRomConfiguration.directory;};
+    wxString getVtCharRomDir() {return computerConfiguration.videoTerminalConfiguration.vtCharRomDirectory;};
+    void setWaveDir(wxString fileDir) {computerConfiguration.wavConfiguration[0].directory = fileDir;};
+    wxString getTerminalPath(int filenumber) {return computerConfiguration.videoTerminalConfiguration.terminalPaths[filenumber];}
+    wxArrayString getTerminalFiles() {return computerConfiguration.videoTerminalConfiguration.terminalFiles;}
+    size_t getNumberOfTerminalFiles() {return computerConfiguration.videoTerminalConfiguration.numberOfTerminalFiles;}
+    int getIoMask(size_t number) {return computerConfiguration.ioMask[number];};
 
-    wxString getSplashDialog(int computerType) {return conf[computerType].splashDialog_;};
-    wxString getSplashText(int computerType) {return conf[computerType].splashText_;};
+    wxString getSplashDialog() {return computerConfiguration.splashConfiguration.dialog;};
+    wxString getSplashText() {return computerConfiguration.splashConfiguration.text;};
 
-    wxString getSelectedComputerStr() {return computerInfo[selectedComputer_].gui;};
-    wxString getRunningComputerStr() {return computerInfo[runningComputer_].gui;};
-    wxString getSelectedComputerText() {return computerInfo[selectedComputer_].name;};
-    wxString getRunningComputerText() {return computerInfo[runningComputer_].name;};
-    wxString getRunningComputerPloadExtension() {return computerInfo[runningComputer_].ploadExtension;};
-    int getSelectedComputerId() {return selectedComputer_;};
-    int getRunningComputerId() {return runningComputer_;};
-    int getVolume(int computerType) {return conf[computerType].volume_;};
-    int getVideoMode(int computerType) {return conf[computerType].videoMode_;};
-    int getComputerVersion(int computerType) {return conf[computerType].computerVersion_;};
-    bool getInterlace(int computerType) {return conf[computerType].interlace_;};
-    bool getStretchDot(int computerType) {return conf[computerType].stretchDot_;};
-    int getSound(int computerType) {return conf[computerType].soundType_;};
-    int getRamType(int computerType) {return conf[computerType].ramType_;};
-    bool getUseKeyboard(int computerType) {return conf[computerType].useKeyboard_;}; 
-    bool getUseLoadLocation(int computerType) {return conf[computerType].useLoadLocation_;}; 
-    wxString getSaveStartString(int computerType) {return conf[computerType].saveStartString_;}; 
-    wxString getSaveEndString(int computerType) {return conf[computerType].saveEndString_;}; 
-    wxString getSaveExecString(int computerType) {return conf[computerType].saveExecString_;}; 
-    bool getUseMultiCart(int computerType) { return conf[computerType].multiCart_; };
-    bool getDisableSystemRom(int computerType) { return conf[computerType].disableSystemRom_; };
-    Byte getMultiCartLsb(int computerType) {return conf[computerType].lsb_;};
-    Byte getMultiCartMsb(int computerType) {return conf[computerType].msb_;};
-    int getFdcType(int computerType) {return elfConfiguration[computerType].fdcType_;};
+    wxString getSelectedComputerText() {return computerInfo.name;};
+    wxString getRunningComputerText() {return computerInfo.name;};
+    wxString getRunningComputerPloadExtension() {return computerInfo.ploadExtension;};
+    int getVolume() {return computerConfiguration.soundConfiguration.volume;};
+    bool getInterlace() {return computerConfiguration.interlace_;};
+    bool getUseLoadLocation() {return computerConfiguration.memAccessConfiguration.useLocation;};
+    wxString getSaveStartString() {return computerConfiguration.memAccessConfiguration.saveStartString;}; 
+    wxString getSaveEndString() {return computerConfiguration.memAccessConfiguration.saveEndString;}; 
+    wxString getSaveExecString() {return computerConfiguration.memAccessConfiguration.saveExecString;}; 
     int getBarLedPosX1() {return windowInfo.ledPosX1;};
     int getBarLedPosX2() {return windowInfo.ledPosX2;};
     int getBarLedSpacing() {return windowInfo.ledSpacing;};
@@ -306,53 +182,29 @@ public:
     wxString getBarLeaderCidelsa() {return windowInfo.statusBarLeaderCidelsa;};
     int getPrintX() {return printX_;};
 
-    wxString getLedTime(int computerType) {return conf[computerType].ledTime_;}; 
-    long getLedTimeMs(int computerType) {return conf[computerType].ledTimeMs_;}; 
-
-    wxString getRomFile(int computerType, int romType) {return conf[computerType].rom_[romType];};
-    wxString getRamFile(int computerType) {return conf[computerType].ram_;};
-    wxString getChip8SW(int computerType){return conf[computerType].chip8SW_;};
-    wxString getIdeFile(int computerType) {return conf[computerType].ide_;};
-    wxString getCharRomFile(int computerType) {return conf[computerType].charRom_;};
-    wxString getVt100CharRomFile(int computerType) {return elfConfiguration[computerType].vt100CharRom_;};
-    wxString getVt52CharRomFile(int computerType) {return elfConfiguration[computerType].vt52CharRom_;};
-    wxString getWaveFile(int computerType) {return conf[computerType].wavFile_[0];};
-    wxString getXmodemFile(int computerType) {return conf[computerType].xmodemFile_;};
-    wxString getXmodemFileFullStr(int computerType) {return conf[computerType].xmodemFileFullStr_;};
-    void setWaveFile(int computerType, wxString fileName) {conf[computerType].wavFile_[0] = fileName;};
-    wxString getWaveFile1(int computerType) {return conf[computerType].wavFile_[1];};
+    wxString getCharRomFile() {return computerConfiguration.characterRomConfiguration.fileName;};
+    wxString getVtCharRomFile() {return computerConfiguration.videoTerminalConfiguration.vtCharRomFileName;};
+    wxString getXmodemFile() {return computerConfiguration.videoTerminalConfiguration.xmodemFileName;};
+    wxString getXmodemFileFullStr() {return computerConfiguration.videoTerminalConfiguration.xmodemFullFileName;};
+    void setWaveFile(wxString fileName) {computerConfiguration.wavConfiguration[0].fileName = fileName;};
+    wxString getWaveFile(int number) {return computerConfiguration.wavConfiguration[number].fileName;};
     wxString getKeyFile();
     wxString getKeyFileDir();
     wxString getScreenDumpFile();
     wxString getPrintFile();
-    ElfConfiguration getElfConfiguration(int computer);
-    ElfConfiguration getElfConfiguration();
-    void setElfConfiguration(ElfConfiguration elfConf);
-    void setSerialPorts(wxString port);
 
-    void setConfiguration(int computerType, Conf configuration) { conf[computerType] = configuration;};
-    Conf getConfiguration(int computerType){ return conf[computerType];};
-    void setElfConfiguration(int computerType, ElfConfiguration elfConf) { elfConfiguration[computerType] = elfConf;};
-    int getMicroChipType(int computerType, int romType) {return conf[computerType].microChipType_[romType];};
-    void setMicroChipType(int computerType, int romType, int chipType) { conf[computerType].microChipType_[romType] = chipType;};
-    int getMicroChipLocation(int computerType, int romType) {return conf[computerType].microChipLocation_[romType];};
-    void setMicroChipLocation(int computerType, int romType, int chipLocation) { conf[computerType].microChipLocation_[romType] = chipLocation;};
-    int getMicroChipMemory(int computerType, int romType) {return conf[computerType].microChipMemory_[romType];};
-    void setMicroChipMemory(int computerType, int romType, int memType) { conf[computerType].microChipMemory_[romType] = memType;};
-    bool getMicroChipDisable(int computerType, int romType) {return conf[computerType].microChipDisable_[romType];};
-    void setMicroChipDisable(int computerType, int romType, bool disableSocket) { conf[computerType].microChipDisable_[romType] = disableSocket;};
-    wxString getMicroChipBlock(int computerType, int romType) {return conf[computerType].microChipBlock_[romType];};
+    void setConfiguration(ComputerConfiguration computerConfig) { computerConfiguration = computerConfig;};
+    ComputerConfiguration getConfiguration(){ return computerConfiguration;};
 
     long getBitValue(wxString reference);
     long get8BitValue(wxString reference);
     long get12BitValue(wxString reference);
     long get16BitValue(wxString reference);
 
-    void setClock(int computerType);
-    void setBeepFrequency(int computerType);
+    void setClock();
     void setClockRate();
-    void setPloadFileName(wxString fileName) {conf[runningComputer_].loadFileName_ = fileName;};
-    void setPloadFileNameFull(wxString fileName) {conf[runningComputer_].loadFileNameFull_ = fileName;};
+    void setPloadFileName(wxString fileName) {computerConfiguration.memAccessConfiguration.fileName = fileName;};
+    void setPloadFullFileName(wxString fileName) {computerConfiguration.memAccessConfiguration.fullFileName = fileName;};
 
     int getConfigItem(wxString Item, long DefaultValue);
     void setConfigItem(wxString Item, int Value);
@@ -362,63 +214,44 @@ public:
     bool getConfigBool(wxString Item, bool DefaultValue);
     void setConfigBool(wxString Item, bool Value);
     int getChoiceSelection(wxString info);
-    void setSpinCtrl(wxString info, int value);
     void setTextCtrl(wxString info, wxString value);
-    void setComboBox(wxString info, wxString value);
     void setCheckBox(wxString info, bool status);
-//    int showMessageBox(wxString message, wxString caption, int style);
-//    wxString showFileSelector(wxString message, wxString default_path, wxString default_filename, wxString default_extension, wxString wildcard, int flags, wxWindow *parent);
     void onHexKeyDef(wxCommandEvent&event);
-    void onColoursDef(wxCommandEvent&event);
 
-    void setScale(wxString scale);
-    double getScale();
     double getZoom(int videoNumber);
     double getZoomVt();
-    wxSize getMainSize(int computerType);
-    void setMainSize(int computerType, wxSize size);
-    wxSize get6845Size(int computerType);
-    void set6845Size(int computerType, wxSize size);
-    wxPoint getMainPos(int computerType);
-    void setMainPos(int computerType, wxPoint position);
-    wxPoint getCoinPos(int computerType);
-    void setCoinPos(int computerType, wxPoint position);
-    wxPoint getPixiePos(int computerType);
-    void setPixiePos(int computerType, wxPoint position);
-    wxPoint getCdp1864Pos(int computerType);
-    void setCdp1864Pos(int computerType, wxPoint position);
-    wxPoint getSt4Pos(int computerType);
-    void setSt4Pos(int computerType, wxPoint position);
-    wxPoint getVip2KPos(int computerType);
-    void setVip2KPos(int computerType, wxPoint position);
-    wxPoint getFredPos(int computerType);
-    void setFredPos(int computerType, wxPoint position);
-    wxPoint getTmsPos(int computerType);
-    void setTmsPos(int computerType, wxPoint position);
-    wxPoint getVtPos(int computerType);
-    void setVtPos(int computerType, wxPoint position);
-    wxPoint getVtUart2Pos(int computerType);
-    void setVtUart2Pos(int computerType, wxPoint position);
-    wxPoint get6845Pos(int computerType);
-    void set6845Pos(int computerType, wxPoint position);
-    wxPoint get6847Pos(int computerType);
-    void set6847Pos(int computerType, wxPoint position);
-    wxPoint get8275Pos(int computerType);
-    void set8275Pos(int computerType, wxPoint position);
-    wxPoint getKeypadPos(int computerType);
-    void setKeypadPos(int computerType, wxPoint position);
-    wxPoint getSecondFramePos(int computerType);
-    void setSecondFramePos(int computerType, wxPoint position);
-    wxPoint getThirdFramePos(int computerType);
-    void setThirdFramePos(int computerType, wxPoint position);
-    wxPoint getFourthFramePos(int computerType);
-    void setFourthFramePos(int computerType, wxPoint position);
-    wxPoint getV1870Pos(int computerType);
-    void setV1870Pos(int computerType, wxPoint position);
-    wxPoint getSN76430NPos(int computerType);
-    void setSN76430NPos(int computerType, wxPoint position);
-    void setCdp1851Pos(int computerType, wxPoint position, int number);
-    void setCdp1852Pos(int computerType, wxPoint position, int number);
+    wxPoint getCoinPos();
+    void setCoinPos(wxPoint position);
+    wxPoint getPixiePos();
+    void setPixiePos(wxPoint position);
+    wxPoint getCdp1864Pos();
+    void setCdp1864Pos(wxPoint position);
+    wxPoint getSt4Pos();
+    void setSt4Pos(wxPoint position);
+    wxPoint getVip2KPos();
+    void setVip2KPos(wxPoint position);
+    wxPoint getFredPos();
+    void setFredPos(wxPoint position);
+    wxPoint getTmsPos();
+    void setTmsPos(wxPoint position);
+    wxPoint getVtPos();
+    void setVtPos(wxPoint position);
+    wxPoint get6845Pos();
+    void set6845Pos(wxPoint position);
+    wxPoint get6847Pos();
+    void set6847Pos(wxPoint position);
+    wxPoint get8275Pos();
+    void set8275Pos(wxPoint position);
+    wxPoint getV1870Pos();
+    void setV1870Pos(wxPoint position);
+    wxPoint getSN76430NPos();
+    void setSN76430NPos(wxPoint position);
+    wxPoint getCdp1851Pos(int number);
+    void setCdp1851Pos(wxPoint position, int number);
+    wxPoint getCdp1852Pos(int number);
+    void setCdp1852Pos(wxPoint position, int number);
+    wxPoint getFrontPanelPos(int number);
+    void setFrontPanelPos(wxPoint position, int number);
 
     wxString getDataDir() {return dataDir_;};
     wxString getApplicationDir() {return applicationDirectory_;};
@@ -439,37 +272,33 @@ public:
     void startTerminalLoad(int protocol);
     void stopAutoTerminal();
     void stopTerminal();
-    void startAutoTerminalSave(int protocol);
-    void startTerminalSave(int protocol);
     void startYsTerminalSave(int protocol);
     void turboOn();
     void turboOff();
     void enableStartButtonGui(bool status);
     void enableLocationGui();
     void enableMemAccessGui(bool status);
-    void enableTapeGui(bool status, int computerType);
+    void enableTapeGui(bool status);
     void enableLoadGui(bool status);
     void setTapeState(int tapeState, wxString tapeNumber);
-    void turboGui(wxString computerString);
-    void setComputerInfo(int id, wxString gui, wxString name, wxString ploadExtension);
-    void setScreenInfo(int id, int start, int end, wxString colour[]);
-    void setScreenInfo(int id, int start, int end, wxString colour[], int numberVideo, int borderX[], int borderY[]);
-    void setVtType(wxString elfTypeStr, int elfType, int Selection, bool GuiChange);
-    void setBaudChoice(int computerType);
-    void setRealCas(int computerType);
-    void setRealCas2(int computerType);
-    void setRealCasOff(int computerType);
-    void setPrinterState(int computerType);
+    void turboGui();
+    void setComputerInfo(wxString name, wxString ploadExtension);
+    void setScreenInfo(int start, int end, wxString colour[]);
+    void setScreenInfo(int start, int end, wxString colour[], int numberVideo, int borderX[], int borderY[]);
+    void setVtType(int Selection, bool GuiChange);
+    void setBaudChoice();
+    void setRealCas();
+    void setRealCas2();
+    void setRealCasOff();
     void setBaud(int baudR, int baudT);
-    void saveSetup(int baudR, int baudT, bitset<32> setupFeature, int vtCharactersPerRow, int charWidth);
-    ScreenInfo getScreenInfo(int id);
+    void saveSetup(int baudR, int baudT, bitset<32> setupFeature, int charactersPerRow, int charWidth);
+    ScreenInfo getScreenInfo();
     bool isFullScreenFloat() {return fullScreenFloat_;};
     void onFullScreenFloat(wxCommandEvent&event);
-    void correctZoomAndValue(int computerType, wxString computerTypeString, bool setSpin, int videoNumber);
-    void correctZoom(int computerType, wxString computerTypeString, bool setSpin, int videoNumber);
-    void correctZoomVtAndValue(int computerType, wxString computerTypeString, bool setSpin);
-    void correctZoomVt(int computerType, wxString computerTypeString, bool setSpin);
-    void onLedTimer(wxCommandEvent&event);
+    void correctZoomAndValue(bool setSpin, int videoNumber);
+    void correctZoom(bool setSpin, int videoNumber);
+    void correctZoomVtAndValue(bool setSpin);
+    void correctZoomVt(bool setSpin);
     int getCpuType();
     void setCpuType(wxString type);
     bool isXmlRomRamOptionGui() {return XmlRomRamOptionGui_;};
@@ -482,44 +311,18 @@ public:
 
     bool showSoundError();
     void hideSoundError();
-    bool showSplashScreen();
-    void hideSplashScreen();
-    
-    bool repairIde();
-    
-    void onUpdDisk0(wxCommandEvent& event);
-    void onUpdDiskText0(wxCommandEvent& event);
-    void onUpdDiskEject0(wxCommandEvent& event);
-    void onUpdDiskDirSwitch0(wxCommandEvent& event);
-    void onUpdDisk1(wxCommandEvent& event);
-    void onUpdDiskText1(wxCommandEvent& event);
-    void onUpdDiskEject1(wxCommandEvent& event);
-    void onUpdDiskDirSwitch1(wxCommandEvent& event);
-    void onUpdDisk2(wxCommandEvent& event);
-    void onUpdDiskText2(wxCommandEvent& event);
-    void onUpdDiskEject2(wxCommandEvent& event);
-    void onUpdDiskDirSwitch2(wxCommandEvent& event);
-    void onUpdDisk3(wxCommandEvent& event);
-    void onUpdDiskText3(wxCommandEvent& event);
-    void onUpdDiskEject3(wxCommandEvent& event);
-    void onUpdDiskDirSwitch3(wxCommandEvent& event);
+        
     bool getDirectoryMode(int fdcType, int drive);
     void setDirectoryMode(int fdcType, int drive, bool state);
-    wxString getUpdFloppyDirSwitched(int fdcType, int drive);
-    wxString getUpdFloppyDir(int fdcType, int drive);
-    wxString getUpdFloppyFile(int fdcType, int drive);
-    void setUpdFloppyGui(int drive, int computerType);
+    wxString getFloppyDirSwitched(int fdcType, int drive);
+    wxString getFloppyDir(int fdcType, int drive);
+    wxString getFloppyFile(int fdcType, int drive);
+    void setUpdFloppyGui(int drive);
 
     int getMessageBoxAnswer() {return messageBoxAnswer_;};
     wxColour getGuiTextColour(int colour) {return guiTextColour[colour];};
 
-    int isDiagOn(int computer);
-    int getDiagRomChecksum(int computer) {return conf[computer].diagRomChecksum_;};
-    int getDiagFactory(int computer) {return conf[computer].diagFactory_;};
-    void setDiagRomChecksum(int computer, int diagRomChecksum) { conf[computer].diagRomChecksum_ = diagRomChecksum;};
-    void setDiagFactory(int computer, int diagFactory) { conf[computer].diagFactory_ = diagFactory;};
-    int getDiagCassetteCables(int computer) {return conf[computer].diagCassetteCables_;};
-    void setDiagCassetteCables(int computer, int diagCassetteCables) { conf[computer].diagCassetteCables_ = diagCassetteCables;};
+    bool isDiagOn();
 
     void onBatchConvertStart(wxCommandEvent&event);
     void batchConvertStop();
@@ -532,53 +335,15 @@ public:
     bool isBatchConvertActive() {return batchConvertActive_;};
     bool isTurboOn() {return turboOn_;};
 
-    bool isTapeHwFred(int computer) {return (elfConfiguration[computer].tapeFormat_ != TAPE_FORMAT_CV && elfConfiguration[computer].useTapeHw);}
-    bool isTapeHwCybervision(int computer) {return (elfConfiguration[computer].tapeFormat_ == TAPE_FORMAT_CV && elfConfiguration[computer].useTapeHw);}
+    bool isTapeHwFred() {return (computerConfiguration.hwTapeConfiguration.format != TAPE_FORMAT_CV && computerConfiguration.hwTapeConfiguration.defined);}
+    bool isTapeHwCybervision() {return (computerConfiguration.hwTapeConfiguration.format == TAPE_FORMAT_CV && computerConfiguration.hwTapeConfiguration.defined);}
 
-    void downloadWavFiles(int computer);
-    void checkWavFileDownload(int computer, bool downloadIfMissing = false);
+    void downloadWavFiles();
+    void checkWavFileDownload(bool downloadIfMissing = false);
 
 protected:
     Mode mode_;
 
-    Vip *p_Vip;
-    VipII *p_Vip2;
-    Vip2K *p_Vip2K;
-    Velf *p_Velf;
-    Cdp18s020 *p_Cdp18s020;
-    Cdp18s600 *p_Cdp18s600;
-    Cdp18s601 *p_Cdp18s601;
-    Cdp18s602 *p_Cdp18s602;
-    Cdp18s603a *p_Cdp18s603a;
-    Cdp18s604b *p_Cdp18s604b;
-    Rcasbc *p_Rcasbc;
-    Nano *p_Nano;
-    Tmc1800 *p_Tmc1800;
-    Tmc2000 *p_Tmc2000;
-    StudioII *p_Studio2;
-    CoinArcade *p_CoinArcade;
-    Fred *p_Fred;
-    Visicom *p_Visicom;
-    Victory *p_Victory;
-    StudioIV *p_StudioIV;
-    Eti *p_Eti;
-    Cidelsa *p_Cidelsa;
-    Comx *p_Comx;
-    Tmc600 *p_Tmc600;
-    Pecom *p_Pecom;
-    Elf2 *p_Elf2;
-    Super *p_Super;
-    Xmlemu *p_Xmlemu;
-    Pico *p_Pico;
-    Elf2K *p_Elf2K;
-    Ms2000 *p_Ms2000;
-    Mcds *p_Mcds;
-    Cosmicos *p_Cosmicos;
-    Membership *p_Membership;
-    Uc1800 *p_Uc1800;
-    Microtutor *p_Microtutor;
-    MicrotutorII *p_Microtutor2;
-    Elf *p_Elf;
     wxConfigBase *regPointer;
     wxMenu *configurationMenu;
     wxMenu *configurationDeleteMenu;
@@ -587,13 +352,12 @@ protected:
     size_t configurationMenuInfoNumber_;
     vector<ConfigurationMenuInfo> configurationMenuInfo_;
     
-    ElfConfiguration elfConfiguration[NO_COMPUTER];
     wxConfigBase *configPointer;
     Byte portExtender_;
 
-    Conf conf[NO_COMPUTER];
-    ComputerInfo computerInfo[NO_COMPUTER];
-    ScreenInfo screenInfo[NO_COMPUTER];
+    ComputerConfiguration computerConfiguration;
+    ComputerInfo computerInfo;
+    ScreenInfo screenInfo;
 
     wxString comxPalClock_;
     wxString comxNtscClock_;
@@ -609,13 +373,8 @@ protected:
     wxString fontSizeString_;
 
     bool guiInitialized_;
-    int elfChoice_;
-    int rcaChoice_;
     int debuggerChoice_;
-    int studioChoice_;
-    int telmacChoice_;
-    int selectedComputer_;
-    int runningComputer_;
+    int selectedTab_;
     bool fullScreenFloat_;
     bool useNumPad_;
     int cpuType_;
@@ -650,11 +409,11 @@ protected:
 
     bool computerRunning_;
 
-    wxStaticText *clockText[NO_COMPUTER];
-    FloatEdit *clockTextCtrl[NO_COMPUTER];
-    wxStaticText *mhzText[NO_COMPUTER];
-    wxButton *startButton[NO_COMPUTER];
-    wxButton *stopButton[NO_COMPUTER];
+    wxStaticText *clockText;
+    FloatEdit *clockTextCtrl;
+    wxStaticText *mhzText;
+    wxButton *startButton;
+    wxButton *stopButton;
 
     wxTimer *traceTimeoutPointer;
     wxTimer *keyDebounceTimeoutPointer;

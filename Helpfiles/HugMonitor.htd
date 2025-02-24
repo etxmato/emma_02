@@ -1,0 +1,45 @@
+
+<html>
+<title>HUG1802/ETI-660 Monitor</title>
+<body>
+<h2>HUG1802/ETI-660 Monitor</h2>
+<p>
+Pressing the RESET button (F12 or 'Reset' on the emulator window) will get you back to the state where you were when the machine was first started. So if after the monitor has passed control to the CHIP-8 interpreter, things start to go wrong (it gets into an endless loop, for example), then all you have to do is to press the RESET button and you'll be back in the monitor again.
+</p>
+<p>
+When you press RESET, four digits will appear on the screen. This four-digit number is an 'address' the number corresponds to a 'location' of RAM. Each 'pigeon hole' in the ETI-660 RAM memory has a four-digit number allocated to it.
+</p>
+<p>
+The 'Memory Inspect and Modify' (MI&M) is started by pressing key 0 followed by four digits for the desired address. This only works if the machine just has been RESET.  
+</p>
+<p>
+Once you have done that, you can find out what the contents of the memory locations are by pressing one of the STEP buttons ('Insert', '+' or 'numpad +'). The two digit number that appears is the value held in the location whose address you entered.
+</p>
+<p>
+Pressing the STEP button again will show you the next location. Pressing it repeatedly will 'step' you through memory.
+</p>
+<p>
+You can change the contents of any location by putting its address on the screen, and then entering the value that you want using the keyboard.
+</p>
+<p>
+You can enter a series of values into successive memory locations by pressing STEP between entries. So to enter 12 into location hex 600, 34 into hex 601, and 56 into hex 602, you would press RESET, then 0, then 0600, then STEP, then 12, STEP, 34, STEP, 56.
+</p>
+<p>
+You can get out of MI&M mode by pressing RESET - this will not affect the values that you've put into memory. 
+</p>
+<p>
+So, after you've worked out what the various bytes of your CHIP-8 program are to be, you can enter them in memory using MI&M.
+</p>
+<p>
+Once you have entered them, you can pass control to the CHIP-8 interpreter by pressing key 8 (after the machine has been RESET).
+</p>
+<p>
+The CHIP-8 interpreter will look for the first CHIP-8 instruction at memory location hex 600. The locations available to you to use for a CHIP-8 program are from hex 600-FFF.
+</p>
+<p>
+Key 2 and 4 are used for storing on cassette, see <a href="EtiCassette.htm">Cassette Support</a><br>
+</p>
+<p>
+There is a further command, key 6, and this allows you to execute a machine code program at the address shown on the screen. 
+</p>
+</body></html>

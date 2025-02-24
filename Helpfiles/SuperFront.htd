@@ -9,37 +9,37 @@ The front panel includes all buttons, LEDs and TIL displays:
 <IMG SRC="images/elfsuper_front.png" BORDER="0">
 </p>
 <p>
-For details about how to show or open the front panel see chapter <a href="SuperWindows.htm">Control Windows</a>.
+For details about how to show or open the front panel see section <a href="SuperWindows.htm">Control Windows</a>.
 </p>
 <p>
-L (orange ellipse): Places the computer into Load mode.
+L (highlighted in orange): Places the computer into Load mode.
 </p>
 <p>
-R (grey ellipse): Places the CPU into the reset state.
+R (highlighted in grey): Places the CPU into the reset state.
 </p>
 <p>
-G (red ellipse): Go, this starts the processor running.
+G (highlighted in red): Go, this starts the processor running.
 </p>
 <p>
-W (black ellipse): Enter Wait mode. This also removes memory protection in Load mode.
+W (highlighted in black): Enter Wait mode. This also removes memory protection in Load mode.
 </p>
 <p>
-M (purple ellipse): Enable 32 byte mini monitor, this is in address hex 00-1F<br>
+M (highlighted in purple): Enable 32 byte mini monitor, this is in address hex 00-1F<br>
 Note: If the superboard (stored at hex 8000) or giantboard (stored at hex F000) monitor is loaded the 'M' button will execute that monitor instead of enabling the mini monitor.
 </p>
 <p>
-S (brown ellipse): Single step the processor, will execute next instruction and then enter Wait mode.
+S (highlighted in brown): Single step the processor, will execute next instruction and then enter Wait mode.
 </p>
 <p>
-P (blue ellipse): Enables memory Protection in Load mode.
+P (highlighted in blue): Enables memory Protection in Load mode.
 </p>
 <p>
 IN (yellow elippse): Input, this is connected to DMA_IN in Load mode, or EF4 in run mode.
 </p>
 <p>
-ON/OFF (magenta ellipse): Turning this switch down will end the Quest Super Elf emulator.
+ON/OFF (highlighted in purple): Turning this switch down will end the Quest Super Elf emulator.
 </p>
 <p>
-Leds (white ellipse): Shows CPU status.
+Leds (highlighted in white): Shows CPU status.
 </p></body>
 </html>

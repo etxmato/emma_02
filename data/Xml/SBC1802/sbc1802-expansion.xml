@@ -1,0 +1,461 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>SBC1802</name>
+        <config>Expansion board</config>
+        <clock>2.5</clock>
+        <boot>0</boot>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <dirname>SBC1802</dirname>
+    </system>
+        
+    <frontpanel init="on">
+        <size>780, 205</size>
+        <out>4</out>
+        <iogroup>0, 1</iogroup>
+        <int>0</int>
+        <in type="direct">4</in>
+        <ef type="in">1</ef>
+        <item>
+            <type>png</type>
+            <filename dirname="images">sbc1802.png</filename>
+        </item>
+        <item>
+            <type form="round" color="red" size="large">push</type>
+            <function type="full">reset</function>
+            <init>up</init>
+            <pos>21, 138</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type form="round" color="green" size="large">push</type>
+            <function>in</function>
+            <init>up</init>
+            <pos>316, 138</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type form="largegreen">led</type>
+            <function pol="rev">clearled</function>
+            <pos>21, 45</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <function>runled</function>
+            <pos>68, 45</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <function>diskled</function>
+            <pos>114, 45</pos>
+        </item>
+        <item>
+            <type form="largegreen">led</type>
+            <function>qled</function>
+            <pos>316, 45</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>0</value>
+            <function>bitled</function>
+            <pos>734, 45</pos>
+        </item>
+        <item>
+            <type color="green">switch</type>
+            <value>0</value>
+            <function>bitswitch</function>
+            <pos>734, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>1</value>
+            <function>bitled</function>
+            <pos>687, 45</pos>
+        </item>
+        <item>
+            <type color="green">switch</type>
+            <value>1</value>
+            <function>bitswitch</function>
+            <pos>687, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>2</value>
+            <function>bitled</function>
+            <pos>640, 45</pos>
+        </item>
+        <item>
+            <type color="green">switch</type>
+            <value>2</value>
+            <function>bitswitch</function>
+            <pos>640, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>3</value>
+            <function>bitled</function>
+            <pos>595, 45</pos>
+        </item>
+        <item>
+            <type color="green">switch</type>
+            <value>3</value>
+            <function>bitswitch</function>
+            <pos>595, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>4</value>
+            <function>bitled</function>
+            <pos>548, 45</pos>
+        </item>
+        <item>
+            <type color="red">switch</type>
+            <value>4</value>
+            <function>bitswitch</function>
+            <pos>548, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>5</value>
+            <function>bitled</function>
+            <pos>501, 45</pos>
+        </item>
+        <item>
+            <type color="red">switch</type>
+            <value>5</value>
+            <function>bitswitch</function>
+            <pos>501, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>6</value>
+            <function>bitled</function>
+            <pos>454, 45</pos>
+        </item>
+        <item>
+            <type color="red">switch</type>
+            <value>6</value>
+            <function>bitswitch</function>
+            <pos>454, 137</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>7</value>
+            <function>bitled</function>
+            <pos>407, 45</pos>
+        </item>
+        <item>
+            <type color="red">switch</type>
+            <value>7</value>
+            <function>bitswitch</function>
+            <pos>407, 137</pos>
+        </item>
+    </frontpanel>
+
+    <memory>
+        <rom type="gui" mem_num="0">
+            <mcr />
+            <start>0</start>
+            <end>0x7FFF</end>
+            <pulldown mask="*.bin">SBC1802</pulldown>
+            <filename verify="true">sbc1802.bin</filename>
+        </rom>
+        
+        <nvram type="gui" mem_num="1">
+            <mcr />
+            <start>0</start>
+            <end>0x7FFF</end>
+            <dump>ramdump0.bin</dump>
+        </nvram>
+
+        <nvram mem_num="2">
+            <mcr />
+            <start>0</start>
+            <end>0x7FFF</end>
+            <dump>ramdump1.bin</dump>
+        </nvram>
+        
+        <mcr max="8">
+            <start>0</start>
+            <end>0xFFFF</end>
+            <out type="mcr" mask="0x7">0xfee7</out>
+            <in type="bbat" mask="0x40">0xfee7</in>
+            <map map_num="0"> <!-- BOOT -->
+                <rom mem_num="0">
+                    <start>0</start>
+                    <end>0x7FFF</end>
+                </rom>
+                <rom mem_num="0">
+                    <start>0x8000</start>
+                    <end>0xFDFF</end>
+                </rom>
+                <nvram mem_num="2">
+                    <start>0xFE00</start>
+                    <end>0xFEDF</end>
+                </nvram>
+                <io mem_num="2">
+                    <start>0xFEE0</start>
+                    <end>0xFEFF</end>
+                </io>
+                <rom mem_num="0">
+                    <start>0xFF00</start>
+                    <end>0xFFFF</end>
+                </rom>
+            </map>
+            <map map_num="5"> <!-- ROM1 -->
+                <nvram mem_num="2">
+                    <start>0</start>
+                    <end>0x7FFF</end>
+                </nvram>
+                <rom mem_num="0">
+                    <start>0x8000</start>
+                    <end>0xFDFF</end>
+                </rom>
+                <nvram mem_num="2">
+                    <start>0xFE00</start>
+                    <end>0xFEDF</end>
+                </nvram>
+                <rom mem_num="0">
+                    <start>0xFF00</start>
+                    <end>0xFFFF</end>
+                </rom>
+            </map>
+            <map map_num="4"> <!-- ROM0 -->
+                <nvram mem_num="1">
+                    <start>0</start>
+                    <end>0x7FFF</end>
+                </nvram>
+                <rom mem_num="0">
+                    <start>0x8000</start>
+                    <end>0xFDFF</end>
+                </rom>
+                <nvram mem_num="2">
+                    <start>0xFE00</start>
+                    <end>0xFEDF</end>
+                </nvram>
+                <rom mem_num="0">
+                    <start>0xFF00</start>
+                    <end>0xFFFF</end>
+                </rom>
+            </map>
+            <map map_num="7"> <!-- ELFOS -->
+                <nvram mem_num="1">
+                    <start>0</start>
+                    <end>0x7FFF</end>
+                </nvram>
+                <nvram mem_num="2">
+                    <start>0x8000</start>
+                    <end>0xEFFF</end>
+                </nvram>
+                <rom mem_num="0">
+                    <start>0xF000</start>
+                    <end>0xFDFF</end>
+                </rom>
+                <nvram mem_num="2">
+                    <start>0xFE00</start>
+                    <end>0xFEDF</end>
+                </nvram>
+                <rom mem_num="0">
+                    <start>0xFF00</start>
+                    <end>0xFFFF</end>
+                </rom>
+            </map>
+            <map map_num="6"> <!-- MICRODOS -->
+                <nvram mem_num="1">
+                    <start>0</start>
+                    <end>0x7FFF</end>
+                </nvram>
+                <rom mem_num="0">
+                    <start>0x8000</start>
+                    <end>0x87FF</end>
+                </rom>
+                <nvram mem_num="2">
+                    <start>0x8800</start>
+                    <end>0xFDFF</end>
+                </nvram>
+                <rom mem_num="0">
+                    <start>0xF000</start>
+                    <end>0xFFFF</end>
+                </rom>
+                <nvram mem_num="2">
+                    <start>0xFE00</start>
+                    <end>0xFEDF</end>
+                </nvram>
+                <rom mem_num="0">
+                    <start>0xFF00</start>
+                    <end>0xFFFF</end>
+                </rom>
+            </map>
+        </mcr>
+    </memory>
+  
+    <iogroup>
+        <io>1</io>
+    </iogroup>
+        
+    <xmodem>
+    </xmodem>
+
+    <cdp1851 init="off">
+        <init type="a">0xff</init>
+        <init type="b">0xff</init>
+        <iogroup>5</iogroup>
+        <pos>310, 0</pos>
+        <out type="a">4</out>
+        <out type="b">6</out>
+        <in type="a">4</in>
+        <in type="b">6</in>
+        <out type="control">2</out>
+        <in type="status">2</in>
+        <ef type="a">1</ef>
+        <ef type="b">2</ef>
+        <ef type="irq" pol="rev">3</ef>
+        <int>6</int>
+    </cdp1851>
+
+    <cdp1854 connection="vt100">
+        <iogroup>0, 1</iogroup>
+        <out type="register">2</out>
+        <out type="control">3</out>
+        <in type="register">2</in>
+        <in type="status">3</in>
+        <int>4</int>
+        <ef type="int">3</ef>
+        <ef pol="rev">4</ef>
+        <baud type="receive">9600</baud>
+        <baud type="transmit">9600</baud>
+    </cdp1854>
+
+    <vt type="vt100" connection="uart1854">
+        <font>vt100.bin</font>
+        <baud type="receive">9600</baud>
+        <baud type="transmit">9600</baud>
+    </vt>
+
+    <cdp1854 connection="tu58">
+        <iogroup>4</iogroup>
+        <out type="register">2</out>
+        <out type="control">3</out>
+        <in type="register">2</in>
+        <in type="status">3</in>
+        <int>7</int>
+        <ef type="int">3</ef>
+        <ef pol="rev">4</ef>
+        <baud type="receive">9600</baud>
+        <baud type="transmit">9600</baud>
+    </cdp1854>
+
+    <disk type="tu58">
+        <filename disk="0">microdos.img</filename>
+        <filename disk="1">basic3.img</filename>
+    </disk>
+    
+    <cdp1855 num="4">
+        <iogroup>4</iogroup>
+        <io type="x">4</io>
+        <io type="z">5</io>
+        <io type="y">6</io>
+        <ef>2</ef>
+        <out type="control">7</out>
+        <in type="status">7</in>
+    </cdp1855>
+
+    <cdp1877>
+        <out type="mien" mask="0x80">0xfee7</out>
+        <out type="mask" addressmask="0xfffc">0xfef0</out>
+        <out type="control" addressmask="0xfffc">0xfef4</out>
+        <out type="page" addressmask="0xfffc">0xfef8</out>
+        <in type="irq" mask="0x8">0xfee7</in>
+        <in type="status" addressmask="0xfffc">0xfef0</in>
+        <in type="polling" addressmask="0xfffc">0xfef4</in>
+        <in type="vector" addressmask="0xfffc">0xfef8</in>
+    </cdp1877>
+    
+    <cdp1878>
+        <iogroup>6</iogroup>
+        <clock counter="a">2.5</clock>
+        <clock counter="b">1.2288</clock>
+        <io type="low" counter="a">2</io>
+        <io type="low" counter="b">3</io>
+        <in type="interrupt" counter="a">4</in>
+        <in type="interrupt" counter="b">5</in>
+        <out type="control" counter="a">4</out>
+        <out type="control" counter="b">5</out>
+        <io type="high" counter="a">6</io>
+        <io type="high" counter="b">7</io>
+        <ef>3</ef>
+        <int>5</int>
+    </cdp1878>
+    
+    <rtc type="cdp1879">
+        <iogroup>0, 1</iogroup>
+        <ef>2</ef>
+        <base>0xfee8</base>
+        <int>1</int>
+    </rtc>
+    
+    <disk type="ide">
+        <iogroup>0, 1</iogroup>
+        <filename drive="0">ElfOSv5.dsk</filename>
+        <out type="select">5</out>
+        <out type="write">6</out>
+        <in type="status">5</in>
+        <in type="read">6</in>
+        <int>3</int>
+        <tracks>512</tracks>
+        <heads>4</heads>
+        <sectors>26</sectors>
+    </disk>
+    
+    <sound type="8912">
+        <iogroup>7</iogroup>
+        <out type="register" ay="1">2</out>
+        <out type="register" ay="2">6</out>
+        <io type="data">3</io>
+        <channel type="a">left</channel>
+        <channel type="b">right</channel>
+        <channel type="c">centre</channel>
+    </sound>
+
+    <xmodem>
+    </xmodem>
+
+    <locations>
+        <start_xmodem_save address="0x80, 0x81, 0x82, 0x83" value="0x78, 0x73, 0x62, 0x20">0x2079</start_xmodem_save> <!-- xsb -->
+        <start_xmodem_load address="0x80, 0x81, 0x82, 0x83" value="0x78, 0x72, 0x62, 0x20">0x2093</start_xmodem_load> <!-- xrb -->
+        <start_xmodem_load address="0x80, 0x81, 0x82" value="0x78, 0x72, 0x20">0x2119</start_xmodem_load> <!-- xr -->
+        <start_ymodem_save address="0x80, 0x81, 0x82" value="0x79, 0x73, 0x20">0x2186</start_ymodem_save> <!-- ys -->
+
+        <start_xmodem_load>0xefe6, 0xA11C</start_xmodem_load>
+        <start_xmodem_save>0xefe3, 0xA140</start_xmodem_save>
+    </locations>
+    
+    <basic>
+        <pload>RCA</pload>
+        <defus>0x281</defus>
+        <eop>0x283</eop>
+        <string>0x292</string>
+        <array>0x294</array>
+        <eod>0x299</eod>
+        <ram>0x400</ram>
+    </basic>
+
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0xFFC6</call>
+            <return reg="5">0xFFD8</return>
+        </scrt>
+        
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0</code_start>
+            <code_end>0x7FF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

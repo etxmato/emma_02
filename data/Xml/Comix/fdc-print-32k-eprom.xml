@@ -8,9 +8,9 @@
         <config>FDC, Standard Printer, 32K RAM &amp; F&amp;M Eprom Board</config>
         <clock>2.813</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
         <statusbar>comx</statusbar>
         <dirname>Comx</dirname>
     </system>
@@ -38,6 +38,27 @@
         <start_cas_load>0x0e00</start_cas_load>
         <start_cas_dload>0x0e03</start_cas_dload>
 
+        <!-- Start F&M BASIC BSAVE, BLOAD -->
+        <start_cas_save address="0x428b" value="0x53">0x4dc3</start_cas_save>
+        <start_cas_load address="0x428b" value="0x53">0x4daa</start_cas_load>
+
+        <!-- F&M BASIC Activation -->
+        <start_fm_basic address="0x428b" value="0x53">0x505f</start_fm_basic>
+        <stop_fm_basic address="0x428b" value="0x14">0x1047</stop_fm_basic>
+
+        <!-- Start TURBO PSAVE/PLOAD V1.00 -->
+        <start_cas_save address="0xbfd0, 0xbfd1, 0xbf02, 0xbfac" value="0x54, 0x41, 0xc3, 0x91">0xbf00</start_cas_save>
+        <start_cas_load address="0xbfd0, 0xbfd1, 0xbf02, 0xbfac" value="0x54, 0x41, 0xc3, 0x91">0xbf70</start_cas_load>
+
+        <!-- Start TURBO PSAVE/PLOAD V2.00 -->
+        <start_cas_save address="0xbfe3, 0xbfe4, 0xbe93, 0xbe94" value="0x54, 0x41, 0x4c, 0x4f">0xbee7</start_cas_save>
+        <start_cas_load address="0xbfe3, 0xbfe4, 0xbe93, 0xbe94" value="0x54, 0x41, 0x4c, 0x4f">0xbf78</start_cas_load>
+
+        <!-- Start TOS V2.00 -->
+        <start_cas_save address="0xbd52, 0xbd53, 0xb934, 0xb935" value="0x54, 0x4f, 0x3a, 0xb6">0xbae7, 0xbce1</start_cas_save>
+        <start_cas_load address="0xbd52, 0xbd53, 0xb934, 0xb935" value="0x54, 0x4f, 0x3a, 0xb6">0xbb78</start_cas_load>
+        <start_cas_dload address="0xbd52, 0xbd53, 0xb934, 0xb935" value="0x54, 0x4f, 0x3a, 0xb6">0xbcf4</start_cas_dload>
+ 
         <!-- Start Printer ROM PSAVE/DSAVE/PLOAD/DLOAD/+  -->
         <start_cas_save address="0xc001" value="0x1">0xcbe2, 0xcde2, 0xccb1, 0xceb1</start_cas_save>
         <start_cas_load address="0xc001" value="0x1">0xcc41, 0xce41</start_cas_load>
@@ -98,10 +119,10 @@
             <end>0x43FF</end>
          </ram>
 
-         <guiram>
+         <ram type="gui">
             <start>0x4400</start>
             <end>0xBFFF</end>
-         </guiram>
+         </ram>
 
          <copy start="0xdd0" end="0xddf" slot="0">0xc000</copy>
          <copy start="0x1000" end="0x17ff" slot="-1">0xD000</copy>
@@ -162,7 +183,7 @@
         <maxcharlines>16</maxcharlines>
         <maxscreenlines>24</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
         <mode>pal</mode>
-        <int>2</int>
+        <int_mode>2</int_mode>
         <ef type="display">1</ef>
         <ef type="mode">2</ef> <!-- only active until first Q pulse -->
         <clock>5.626</clock>
@@ -204,10 +225,12 @@
         <sectors>16</sectors>
         <sectorlength>128</sectorlength>
         <maxfmtcount>2740</maxfmtcount>
+        <clearaddress>0xbe68</clearaddress>
     </disk>
 
     <cassette decks="1">
         <ef>4</ef>
+        <keyclear />
     </cassette>
 
     <printer type="parallel">

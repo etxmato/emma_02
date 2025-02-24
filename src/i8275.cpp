@@ -22,8 +22,6 @@
 #include "app_icon.xpm"
 #endif
 
-#define I8275CHARW 8
-
 #define C_NONE 0
 #define C_RESET 1
 #define C_START_DISPLAY 2
@@ -49,38 +47,28 @@ BEGIN_EVENT_TABLE(i8275, wxFrame)
     EVT_SIZE(i8275::onSize)
 END_EVENT_TABLE()
 
-i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, int videoNumber)
+i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, I8275Configuration i8275Configuration)
 : Video(title, pos, size)
 {
-    computerType_ = computerType;
     clock_ = clock;
     colourIndex_ = 0;
-    videoNumber_ = videoNumber;
+    videoNumber_ = i8275Configuration.videoNumber;;
+    i8275Configuration_ = i8275Configuration;
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
 #endif
 
-    if (computerType_ == XML)
-    {
-        videoType_ = VIDEOXMLI8275;
-        colourIndex_ = COL_I8275_FORE-2;
-    }
-    else
-    {
-        videoType_ = VIDEOI8275;
-    }
+    videoType_ = VIDEOXMLI8275;
+    colourIndex_ = COL_I8275_FORE-2;
     
-    readCharRomFile(p_Main->getCharRomDir(computerType_), p_Main->getCharRomFile(computerType_));
-    interlace_ = p_Main->getInterlace(computerType_);
-
-    if (computerType_ == ELF2K)
-        videoType_ = VIDEO2KI8275;
+    readCharRomFile(p_Main->getCharRomDir(), p_Main->getCharRomFile());
+    interlace_ = p_Main->getInterlace();
 
     offsetX_ = 0;
     offsetY_ = 0;
 
-    defineColours(computerType_);
+    defineColours();
     backGround_ = BACKGROUND8275;
 
     fullScreenSet_ = false;
@@ -89,17 +77,12 @@ i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     double intPart;
     zoomFraction_ = (modf(zoom_, &intPart) != 0);
 
-    horizontalCharactersPerRow_ = 80;
-    verticalRowsPerFrame_ = 24;
-    linesPerCharacterRow_ = 10;
-    verticalRetraceRowCount_ = 2;
-    horizontalRetraceCount_ = 16;
     burstCountCode_ = 8;
     burstSpaceCode_ = 0;
     lineCounterMode_ = 1;
 
-    videoWidth_ = horizontalCharactersPerRow_*I8275CHARW;
-    videoHeight_ = verticalRowsPerFrame_*linesPerCharacterRow_*2;
+    videoWidth_ = i8275Configuration_.screenSize.x*i8275Configuration_.charSize.x;
+    videoHeight_ = i8275Configuration_.screenSize.y*i8275Configuration_.charSize.y*2;
 
     screenCopyPointer = new wxBitmap(videoWidth_*zoom_, videoHeight_*zoom_);
     dcMemory.SelectObject(*screenCopyPointer);
@@ -112,7 +95,7 @@ i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     setColour(colourIndex_+backGround_);
     drawRectangle(0, 0, videoWidth_, videoHeight_);
 
-    videoScreenPointer = new VideoScreen(this, size, zoom, computerType, videoNumber_);
+    videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_);
 
     setCycle();
 
@@ -135,10 +118,14 @@ i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     blinkCount_ = 16;
     videoM_ = 2;
     status_ = 0;
-    ef_ = 1;
+    rowEf_ = 1;
+    frameEf_ = 1;
     cursorCharPosition_ = 0;
     cursorRowPosition_ = 0;
     cursorAddress_ = 0;
+    displayOn_ = false;
+    dmaOn_ = false;
+    interruptOn_ = false;
     switch (p_Main->getCpuStartupVideoRam())
     {
         case STARTUP_ZEROED:
@@ -164,6 +151,7 @@ i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, doub
         underlineScr_[i] = false;
         highlightScr_[i] = false;
         blinkScr_[i] = false;
+        graphicLineScr_[i] = false;
         gpaScr_[i] = 0;
     }
 
@@ -193,32 +181,18 @@ i8275::~i8275()
     }
 }
 
-void i8275::configure8275(IoConfiguration ioConfiguration)
+void i8275::configure8275()
 {
-    wxString runningComp = p_Main->getRunningComputerStr();
-
-//    int i8275WriteCommand = p_Main->getConfigItem(runningComp+"/I8275WriteCommand", 5l);
-//    int i8275ReadStatus = p_Main->getConfigItem(runningComp+"/I8275ReadStatus", 5l);
-//    int i8275WriteParameter = p_Main->getConfigItem(runningComp+"/I8275WriteParameter", 1l);
-//    int i8275ReadParameter = p_Main->getConfigItem(runningComp+"/I8275ReadParameter", 1l);
-//    int i8275VerticalRetrace = p_Main->getConfigItem(runningComp+"/I8275VerticalRetrace", 1l);
-
-    p_Computer->setCycleType(VIDEOCYCLE_I8275, I8275CYCLE);
-    p_Computer->setOutType(ioConfiguration.i8275WriteParameter, I8275PREGWRITE);
-    p_Computer->setOutType(ioConfiguration.i8275WriteCommand, I8275CREGWRITE);
-    p_Computer->setInType(ioConfiguration.i8275ReadParameter, I8275PREGREAD);
-    p_Computer->setInType(ioConfiguration.i8275ReadStatus, I8275SREGREAD);
-    p_Computer->setEfType(ioConfiguration.i8275VerticalRetrace, I8275EF);
-
-    p_Main->message("Configuring intel 8275");
-
-    wxString printBuffer;
-    printBuffer.Printf("	Output %d write command, input %d read status", ioConfiguration.i8275WriteCommand, ioConfiguration.i8275ReadStatus);
-    p_Main->message(printBuffer);
-    printBuffer.Printf("	Output %d write parameter, input %d read parameter", ioConfiguration.i8275WriteParameter, ioConfiguration.i8275ReadParameter);
-    p_Main->message(printBuffer);
-    printBuffer.Printf("	EF %d: vertical retrace\n", ioConfiguration.i8275VerticalRetrace);
-    p_Main->message(printBuffer);
+    p_Main->configureMessage(&i8275Configuration_.ioGroupVector, "intel 8275");
+    p_Computer->setOutType(&i8275Configuration_.ioGroupVector, i8275Configuration_.writeParameter, "write parameter");
+    p_Computer->setOutType(&i8275Configuration_.ioGroupVector, i8275Configuration_.writeCommandOutput, "write command");
+    p_Computer->setInType(&i8275Configuration_.ioGroupVector, i8275Configuration_.readParameter, "read parameter");
+    p_Computer->setInType(&i8275Configuration_.ioGroupVector, i8275Configuration_.readStatus, "read status");
+    p_Computer->setEfType(&i8275Configuration_.ioGroupVector, i8275Configuration_.efVerticalRetrace, "vertical retrace");
+    p_Computer->setEfType(&i8275Configuration_.ioGroupVector, i8275Configuration_.efHorizontalRetrace, "horizontal retrace");
+    p_Computer->setCycleType(CYCLE_TYPE_VIDEO_I8275, I8275_CYCLE);
+    
+    p_Main->message("");
 }
 
 void i8275::init8275()
@@ -228,12 +202,22 @@ void i8275::init8275()
     reBlink_ = false;
     newBackGround_ = false;
     updateCharacter8275_ = 0;
-
 }
 
-Byte i8275::ef8275()
+Byte i8275::frameEf8275()
 {
-    return ef_;
+    return frameEf_^i8275Configuration_.efVerticalRetrace.reverse;
+}
+
+Byte i8275::rowEf8275()
+{
+    return rowEf_^i8275Configuration_.efHorizontalRetrace.reverse;
+}
+
+void i8275::setRowEf8275(Byte value)
+{
+    status_ &= 0xc4;
+    rowEf_ = value;
 }
 
 void i8275::pRegWrite(Byte value)
@@ -253,33 +237,33 @@ void i8275::pRegWrite(Byte value)
                     spacedRows_ = ((value & 0x80) == 1);
                     value = (value & 0x7f) + 1;
                     if (value >= 80)  value = 80;
-                    horizontalCharactersPerRow_ = value;
-                    videoWidth_ = horizontalCharactersPerRow_ * I8275CHARW;
+                    i8275Configuration_.screenSize.x = value;
+                    videoWidth_ = i8275Configuration_.screenSize.x * i8275Configuration_.charSize.x;
                     setScreenSize();
 //                    p_Main->message("Column:");
-//                    p_Main->messageInt(horizontalCharactersPerRow_);
+//                    p_Main->messageInt(i8275Configuration_.screenSize.x);
                 break;
 
                 case 3:
                     verticalRetraceRowCount_ = ((value & 0xc0) >> 6) + 1;
-                    verticalRowsPerFrame_ = (value & 0x3f) + 1;
-                    videoHeight_ = verticalRowsPerFrame_*linesPerCharacterRow_*2;
+                    i8275Configuration_.screenSize.y = (value & 0x3f) + 1;
+                    videoHeight_ = i8275Configuration_.screenSize.y*i8275Configuration_.charSize.y*2;
                     setScreenSize();
 //                    p_Main->message("Rows:");
-//                    p_Main->messageInt(verticalRowsPerFrame_);
+//                    p_Main->messageInt(i8275Configuration_.screenSize.y);
 //                    p_Main->message("Vertical Retrace Row Count:");
 //                    p_Main->messageInt(verticalRetraceRowCount_);
                 break;
 
                 case 2:
-                    underLinePlacement_ = ((value & 0xf0) >> 4) + 1;
-                    linesPerCharacterRow_ = (value & 0x0f) + 1;
-                    videoHeight_ = verticalRowsPerFrame_*linesPerCharacterRow_*2;
+                    underLinePlacement_ = ((value & 0xf0) >> 4);
+                    i8275Configuration_.charSize.y = (value & 0x0f) + 1;
+                    videoHeight_ = i8275Configuration_.screenSize.y*i8275Configuration_.charSize.y*2;
                     setScreenSize();
 //                    p_Main->message("Under Line Placement");
 //                    p_Main->messageInt(underLinePlacement_);
 //                    p_Main->message("ScanLine:");
-//                    p_Main->messageInt(linesPerCharacterRow_);
+//                    p_Main->messageInt(i8275Configuration_.charSize.y);
                 break;
 
                 case 1:
@@ -346,6 +330,7 @@ void i8275::cRegWrite(Byte value)
 
     if (value == 0x40) // STOP_DISPLAY
     {
+        displayOn_ = false;
         cycleValue8275_ = -1;
         dmaCycleValue8275_ = -1;
         status_ &= 0xfb;
@@ -376,6 +361,7 @@ void i8275::cRegWrite(Byte value)
 
     if ((value & 0xf0) == 0x20)  // START DISPLAY
     {
+        displayOn_ = true;
         burstSpaceCode_ = SSS[(value & 0x1c) >> 2];
         burstCountCode_ = BB[(value & 0x3)];
 //        p_Main->message("Burst Space Code:");
@@ -390,6 +376,15 @@ void i8275::cRegWrite(Byte value)
         status_ |= 0x44;
     }
 
+    if ((value & 0xf0) == 0xA0)  // START INTERRUPT
+    {
+        interruptOn_ = true;
+    }
+    
+    if ((value & 0xf0) == 0xC0)  // STOP INTERRUPT
+    {
+        interruptOn_ = false;
+    }
 }
 
 Byte i8275::pRegRead()
@@ -399,16 +394,19 @@ Byte i8275::pRegRead()
 
 Byte i8275::sRegRead()
 {
+    dmaOn_ = true;
+    p_Computer->requestInterrupt(INTERRUPT_TYPE_I8275_1, false, i8275Configuration_.picInterrupt);
+
     Byte ret = status_;
     status_ &= 0xc4;
 
-    ef_ = 1;
+    frameEf_ = 1;
     return ret;
 }
 
 void i8275::cycle8275()
 {
-    if (cycleValue8275_ < 0) 
+    if (!displayOn_)
     {
         cycleBlankValue8275_--;
         if (cycleBlankValue8275_ <= 0)
@@ -427,6 +425,7 @@ void i8275::cycle8275()
 
             copyScreen();
             videoSyncCount_++;
+            dmaCycleValue8275_ = -1;
             reDraw_ = true;
         }
         return;
@@ -446,19 +445,13 @@ void i8275::cycle8275()
             if (dmaCycleValue8275_ > 0)
             {
                 dmaCycleValue8275_ = -1;
-                screenLocation_ = screenLocation_ + horizontalCharactersPerRow_ - bufferLocation_;
+                screenLocation_ = screenLocation_ + i8275Configuration_.screenSize.x - bufferLocation_;
                 status_ |= 0x2;
             }
             retrace_ = true;
-            if ((status_ & 0x40) == 0x40)
-            {
-                status_ |= 0x20;
-                p_Computer->pixieInterrupt();
-                p_Computer->setCycle0();
-            }
 
             cycleValue8275_ = horizontalRetraceCycleSize8275_;
-            if (screenLocation_ == (verticalRowsPerFrame_*horizontalCharactersPerRow_))
+            if (screenLocation_ == (i8275Configuration_.screenSize.y*i8275Configuration_.screenSize.x))
             {
                 attributeChange_ = false;
                 reverse_ = false;
@@ -467,7 +460,9 @@ void i8275::cycle8275()
                 gpa_ = 0;
                 blink_ = false;
                 cycleValue8275_ = verticalRetraceCycleSize8275_;
-                ef_ = 0;
+                if (interruptOn_)
+                    p_Computer->requestInterrupt(INTERRUPT_TYPE_I8275_1, true, i8275Configuration_.picInterrupt);
+                frameEf_ = 0;
                 screenLocation_ = 0;
                 blinkCount_--;
                 if (blinkCount_ <= 0)
@@ -494,7 +489,8 @@ void i8275::cycle8275()
         }
     }
 
-    if (dmaCycleValue8275_ < 0)  return;
+    if (!dmaOn_ || dmaCycleValue8275_ < 0)
+        return;
 //    if (p_Computer->getProgramCounter() == 0)
 //    {
 //        p_Main->eventShowTextMessage("DMA request while R0 is Program Counter");
@@ -504,30 +500,45 @@ void i8275::cycle8275()
     if (dmaCycleValue8275_ <= 0)
     {
         int i=1;
-        while (((i <= burstCountCode_) || (dmaCycleSize8275_ == 0)) && (bufferLocation_ != horizontalCharactersPerRow_))
+        while (((i <= burstCountCode_) || (dmaCycleSize8275_ == 0)) && (bufferLocation_ != i8275Configuration_.screenSize.x))
         {
             Byte value = p_Computer->pixieDmaOut();
             cycleValue8275_--;
+            graphicLine_ = false;
             if ((value & 0xc0) == 0x80)
             {
                 underline_ = ((value &0x20) == 0x20);
                 reverse_ = ((value &0x10) == 0x10);
                 blink_ = ((value &0x2) == 0x2);
-                gpa_ = (value &0xc) << 9;
+                if (i8275Configuration_.gpaSwitched)
+                    gpa_ = (value &0x8) << 8 | (value &0x4) << 10;
+                else
+                    gpa_ = (value &0xc) << 9;
                 highlight_ = ((value &0x1) == 0x1);
             }
-            if ((i8275ram_[screenLocation_] != value) || (highlightScr_[screenLocation_] != highlight_) || (gpaScr_[screenLocation_] != gpa_) || (blinkScr_[screenLocation_] != blink_) || (reverseScr_[screenLocation_] != reverse_) || (underlineScr_[screenLocation_] != underline_) || (screenLocation_ == cursorAddress_) || cursorReset_[screenLocation_])
+            if ((value & 0xc0) == 0xc0)
+            {
+                Byte attribute = (value &0x3c) >> 2;
+                if (attribute <= 10)
+                {
+                    blink_ = ((value &0x2) == 0x2);
+                    highlight_ = ((value &0x1) == 0x1);
+                    graphicLine_ = true;
+                }
+            }
+            if ((i8275ram_[screenLocation_] != value) || (highlightScr_[screenLocation_] != highlight_) || (gpaScr_[screenLocation_] != gpa_) || (blinkScr_[screenLocation_] != blink_) || (reverseScr_[screenLocation_] != reverse_) || (underlineScr_[screenLocation_] != underline_) || (graphicLineScr_[screenLocation_] != graphicLine_) || (screenLocation_ == cursorAddress_) || cursorReset_[screenLocation_])
             {
             /*    if ((value & 0xc0) == 0x80)
                 {
                     attributeChange_ = true;
-            //        reDraw_ = true;
+                    reDraw_ = true;
                 }*/
                 underlineScr_[screenLocation_] = underline_;
                 reverseScr_[screenLocation_] = reverse_;
                 blinkScr_[screenLocation_] = blink_;
                 gpaScr_[screenLocation_] = gpa_;
                 highlightScr_[screenLocation_] = highlight_;
+                graphicLineScr_[screenLocation_] = graphicLine_;
                 draw8275(screenLocation_, value);
             }
 
@@ -535,8 +546,17 @@ void i8275::cycle8275()
             bufferLocation_++;
             screenLocation_++;
         }
-        if (bufferLocation_ == horizontalCharactersPerRow_)
+        if (bufferLocation_ == i8275Configuration_.screenSize.x)
+        {
+            if ((status_ & 0x40) == 0x40)
+            {
+                status_ |= 0x20;
+                if (interruptOn_)
+                    p_Computer->requestInterrupt(INTERRUPT_TYPE_I8275_4, true, i8275Configuration_.picInterruptHorizontal);
+                rowEf_ = 0;
+            }
             dmaCycleValue8275_ = -1;
+        }
         else
             dmaCycleValue8275_ = dmaCycleSize8275_;
     }
@@ -549,17 +569,18 @@ void i8275::setClock(double clock)
 }
 
 void i8275::setCycle()
-{   // DOT = 12
-    float clockPeriod = (float)1/12 * 8;
+{
+    float clockPeriod = (float)1/i8275Configuration_.videoClock * i8275Configuration_.charSize.x;
 
-    float characterCycleSize8275_ = (float)(clockPeriod * linesPerCharacterRow_ / ((1/clock_) * 8));
+    float characterCycleSize8275_ = (float)(clockPeriod * i8275Configuration_.charSize.y / ((1/clock_) * 8));
     horizontalRetraceCycleSize8275_ = (int) (characterCycleSize8275_ * horizontalRetraceCount_);
-    float fullRowCycleSize8275_ = (float) (characterCycleSize8275_ * (horizontalCharactersPerRow_ + horizontalRetraceCount_));
-    rowCycleSize8275_ = (int) (characterCycleSize8275_ * horizontalCharactersPerRow_);
+    float fullRowCycleSize8275_ = (float) (characterCycleSize8275_ * (i8275Configuration_.screenSize.x + horizontalRetraceCount_));
+    rowCycleSize8275_ = (int) (characterCycleSize8275_ * i8275Configuration_.screenSize.x);
 //    verticalRetraceCycleSize8275_ = (int) (fullRowCycleSize8275_ * verticalRetraceRowCount_);
-    fullCycleSize8275_ = (int) (fullRowCycleSize8275_ * (verticalRowsPerFrame_ + verticalRetraceRowCount_));
-    verticalRetraceCycleSize8275_ = (int) (fullCycleSize8275_ - (verticalRowsPerFrame_ * (horizontalRetraceCycleSize8275_ + rowCycleSize8275_)));
-    dmaCycleSize8275_ = (int) (characterCycleSize8275_ * burstSpaceCode_);
+    fullCycleSize8275_ = (int) (fullRowCycleSize8275_ * (i8275Configuration_.screenSize.y + verticalRetraceRowCount_));
+    verticalRetraceCycleSize8275_ = (int) (fullCycleSize8275_ - (i8275Configuration_.screenSize.y * (horizontalRetraceCycleSize8275_ + rowCycleSize8275_)));
+    dmaCycleSize8275_ = (float)(clockPeriod * burstSpaceCode_ / ((1/clock_) * 8));
+       // dmaCycleSize8275_ = (int) (characterCycleSize8275_ * burstSpaceCode_); This is too slow, above might be more correct?
 
     reCycle_ = false;
 }
@@ -646,7 +667,7 @@ void i8275::copyScreen()
 
     if (reBlit_ || reBlitAfterReDraw || reBlink_)
     {
-        videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, verticalRowsPerFrame_*linesPerCharacterRow_*videoM_+2*offsetY_, &dcMemory, 0, 0);
+        videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, i8275Configuration_.screenSize.y*i8275Configuration_.charSize.y*videoM_+2*offsetY_, &dcMemory, 0, 0);
         reBlit_ = false;
         reBlink_ = false;
         if (updateCharacter8275_ > 0)
@@ -665,7 +686,7 @@ void i8275::copyScreen()
         updateCharacter8275_ = 0;
         while(characterListPointer8275 != NULL)
         {
-            videoScreenPointer->blit(offsetX_+(characterListPointer8275->x), offsetY_+(characterListPointer8275->y), I8275CHARW, linesPerCharacterRow_*videoM_, &dcMemory, offsetX_+characterListPointer8275->x, offsetY_+characterListPointer8275->y);
+            videoScreenPointer->blit(offsetX_+(characterListPointer8275->x), offsetY_+(characterListPointer8275->y), i8275Configuration_.charSize.x, i8275Configuration_.charSize.y*videoM_, &dcMemory, offsetX_+characterListPointer8275->x, offsetY_+characterListPointer8275->y);
             temp = characterListPointer8275;
             characterListPointer8275 = temp->nextCharacter;
             delete temp;
@@ -681,7 +702,7 @@ void i8275::drawScreen()
     setColour(colourIndex_+backGround_);
     drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
 
-    for (int i=0; i<(horizontalCharactersPerRow_*verticalRowsPerFrame_); i++)
+    for (int i=0; i<(i8275Configuration_.screenSize.x*i8275Configuration_.screenSize.y); i++)
     {
         draw8275(addr, i8275ram_[addr]);
 
@@ -693,7 +714,7 @@ void i8275::drawScreen()
 void i8275::blinkScreen8275()
 {
     int addr = 0;
-    for (int i=0; i<(horizontalCharactersPerRow_*verticalRowsPerFrame_); i++)
+    for (int i=0; i<(i8275Configuration_.screenSize.x*i8275Configuration_.screenSize.y); i++)
     {
         if (blinkScr_[addr])
             draw8275(addr, i8275ram_[addr]);
@@ -710,14 +731,18 @@ void i8275::draw8275(Word addr, Byte value)
         p_Main->updateDebugMemory(addr);
     cursorReset_[addr] = (addr == cursorAddress_);
 
-    int y = (addr/horizontalCharactersPerRow_)*linesPerCharacterRow_*videoM_;
-     int x = (addr%horizontalCharactersPerRow_)*I8275CHARW;
-     drawCharacter8275(x, y, value, cursorReset_[addr], addr);
+    int y = (addr/i8275Configuration_.screenSize.x)*i8275Configuration_.charSize.y*videoM_;
+    int x = (addr%i8275Configuration_.screenSize.x)*i8275Configuration_.charSize.x;
+    drawCharacter8275(x, y, value, cursorReset_[addr], addr);
 }
 
 void i8275::drawCharacter8275(wxCoord x, wxCoord y, Byte v, bool cursor, Word addr)
 {
     int line_byte, line, drawLine;
+    Byte graphicLineCodes[] =
+    {
+        0x3, 0x6, 0x9, 0xc, 0x7, 0xe, 0xb, 0xd, 0x5, 0xa, 0xf, 0xf
+    };
 
 #if defined(__WXMAC__) || defined(__linux__)
     reBlit_ = true;
@@ -750,11 +775,11 @@ void i8275::drawCharacter8275(wxCoord x, wxCoord y, Byte v, bool cursor, Word ad
         {
             setColour(colourIndex_+FOREGROUND8275);
         }
-        drawRectangle(x+offsetX_, y+offsetY_, I8275CHARW, linesPerCharacterRow_*videoM_);
+        drawRectangle(x+offsetX_, y+offsetY_, i8275Configuration_.charSize.x, i8275Configuration_.charSize.y*videoM_);
         if ((cursor && cursorBlinkOn_) && cursorLine_)
         {
             setColour(colourIndex_+FOREGROUND8275);
-            drawRectangle(x+offsetX_, y+offsetY_+(underLinePlacement_-2), I8275CHARW, videoM_);
+            drawRectangle(x+offsetX_, y+offsetY_+(underLinePlacement_-1), i8275Configuration_.charSize.x, videoM_);
         }
 
         return;
@@ -770,14 +795,14 @@ void i8275::drawCharacter8275(wxCoord x, wxCoord y, Byte v, bool cursor, Word ad
         {
             setColour(colourIndex_+FOREGROUND8275);
         }
-        drawRectangle(x+offsetX_, y+offsetY_, I8275CHARW, linesPerCharacterRow_*videoM_);
+        drawRectangle(x+offsetX_, y+offsetY_, i8275Configuration_.charSize.x, i8275Configuration_.charSize.y*videoM_);
 
         setColour(colourIndex_+backGround_);
     }
     else
     {
         setColour(colourIndex_+backGround_);
-        drawRectangle(x+offsetX_, y+offsetY_, I8275CHARW, linesPerCharacterRow_*videoM_);
+        drawRectangle(x+offsetX_, y+offsetY_, i8275Configuration_.charSize.x, i8275Configuration_.charSize.y*videoM_);
 
         if (highlightScr_[addr])
         {
@@ -794,25 +819,71 @@ void i8275::drawCharacter8275(wxCoord x, wxCoord y, Byte v, bool cursor, Word ad
         return;
     }
 
+    if (graphicLineScr_[addr])
+    {
+        Byte attribute = (v &0x3c) >> 2;
+        if ((graphicLineCodes[attribute] & 1) == 1)
+        {
+            for (wxCoord i=x+(i8275Configuration_.charSize.x/2); i<x+i8275Configuration_.charSize.x; i++)
+            {
+                if (interlace_ & !(videoM_ == 1))
+                    drawRectangle(i+offsetX_, y+underLinePlacement_+offsetY_, 1, videoM_);
+                else
+                    drawPoint(i+offsetX_, y+underLinePlacement_+offsetY_);
+            }
+        }
+        if ((graphicLineCodes[attribute] & 2) == 2)
+        {
+            for (wxCoord i=y+underLinePlacement_; i<y+i8275Configuration_.charSize.y*videoM_; i+=videoM_)
+            {
+                if (interlace_ & !(videoM_ == 1))
+                    drawRectangle(x+(i8275Configuration_.charSize.x/2)+offsetX_, i+offsetY_, 1, videoM_);
+                else
+                    drawPoint(x+(i8275Configuration_.charSize.x/2)+offsetX_, i+offsetY_);
+            }
+        }
+        if ((graphicLineCodes[attribute] & 4) == 4)
+        {
+            for (wxCoord i=x; i<x+(i8275Configuration_.charSize.x/2); i++)
+            {
+                if (interlace_ & !(videoM_ == 1))
+                    drawRectangle(i+offsetX_, y+underLinePlacement_+offsetY_, 1, videoM_);
+                else
+                    drawPoint(i+offsetX_, y+underLinePlacement_+offsetY_);
+            }
+        }
+        if ((graphicLineCodes[attribute] & 8) == 8)
+        {
+            for (wxCoord i=y; i<y+underLinePlacement_; i+=videoM_)
+            {
+                if (interlace_ & !(videoM_ == 1))
+                    drawRectangle(x+(i8275Configuration_.charSize.x/2)+offsetX_, i+offsetY_, 1, videoM_);
+                else
+                    drawPoint(x+(i8275Configuration_.charSize.x/2)+offsetX_, i+offsetY_);
+            }
+        }
+        return;
+    }
+    
     drawLine = 0;
     if (lineCounterMode_ == 0)
         line = 0;
     else
-        line = linesPerCharacterRow_-1;
+        line = i8275Configuration_.charSize.y-1;
 
-    for (wxCoord j=y; j<y+(linesPerCharacterRow_*videoM_); j+=videoM_)
+    for (wxCoord j=y; j<y+(i8275Configuration_.charSize.y*videoM_); j+=videoM_)
     {
-        if ((underLinePlacement_ > 7) && ((drawLine == 0) || (drawLine == (linesPerCharacterRow_-1))))
+        if ((underLinePlacement_ > 7) && ((drawLine == 0) || (drawLine == (i8275Configuration_.charSize.y-1))))
             line_byte = 0;
         else
         {
             if (line >= 8)
-                line_byte =    i8275CharRom_[v*8+line-8+0x400+gpaScr_[addr]];
+                line_byte = i8275CharRom_[v*8+line-8+0x400+gpaScr_[addr]];
             else
-                line_byte =    i8275CharRom_[v*8+line+gpaScr_[addr]];
+                line_byte = i8275CharRom_[v*8+line+gpaScr_[addr]];
         }
 
-        for (wxCoord i=x; i<x+I8275CHARW; i++)
+        for (wxCoord i=x; i<x+i8275Configuration_.charSize.x; i++)
         {
             if ((line_byte & 1) || ((drawLine == underLinePlacement_) && ((underlineScr_[addr] && !((cursor && cursorBlinkOn_) && cursorLine_)) || ((cursor && cursorBlinkOn_) && cursorLine_ && !underlineScr_[addr]))))
             {
@@ -825,7 +896,7 @@ void i8275::drawCharacter8275(wxCoord x, wxCoord y, Byte v, bool cursor, Word ad
         }
         drawLine++;
         line++;
-        if (line >= linesPerCharacterRow_)
+        if (line >= i8275Configuration_.charSize.y)
             line = 0;
     }
 }

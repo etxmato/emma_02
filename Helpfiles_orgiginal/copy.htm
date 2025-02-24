@@ -1,0 +1,102 @@
+
+<html>
+<title>XML - system</title>
+<body>
+<h1>XML - system</h1>
+<p>
+This mandatory tag defines basic system settings and information for the emulated machine like, name, configuration, cpu type, clock speed etc.
+</p>
+<table>
+<thead>
+<tr>
+<th>child element</th>
+<th>attribute</th>
+<th>value</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boot</td>
+<td>start, dma</td>
+<td>Boot address (16 bit)</td>
+<td>Atribute start="yes" (default) triggers the emulated machine to boot, start="no" will not trigger a boot until a run button is pressed (on the front panel). Attribute dma="out" triggers a dmaOut on booting (used for the Cosmac Game System), dma="zero" will do the same but only if address 0 contains byte 0 (used for the FRED 1.5).
+</td>
+</tr>
+<tr>
+<td>clock</td>
+<td></td>
+<td>number / fraction (0 > value > 500)</td>
+<td>System clock speed in MHz (mandatory). </td>
+</tr>
+<tr>
+<td>config</td>
+<td></td>
+<td>configuration description (text)</td>
+<td>One line description of the xml configuration. This tag is used as description on the top line of the GUI when selected.</td>
+</tr>
+<tr>
+<td>cpu</td>
+<td></td>
+<td>system, 1801, 1802, 1804 or 1805 (alternatives: system00, cpu1801, cpu1802, cpu1804 or cpu1805, rca1801, rca1802, rca1804 or rca1805)</td>
+<td>CPU type</td>
+</tr>
+<tr>
+<td>dirname</td>
+<td></td>
+<td>directory name (text)</td>
+<td>Main machine directory (mandatory). This tag is used as default directory for all load or save actions unless a dedicated dirname tag is used within other main tags.</td>
+</tr>
+<tr>
+<td>dma</td>
+<td>out</td>
+<td>number of cpu cycles</td>
+<td>Generate a dmaOut every specificed number of cpu cycles. When no attribute is specified dmaOut cycles are started on startup. When out="q" is specified it will start after the first Q pulse. When out="x" is specified it will start after the first OUT x (x=1 to 7).</td>
+</tr>
+<tr>
+<td>dma_in</td>
+<td>-</td>
+<td>reset</td>
+<td>Used to execute a dmaIn even when cpuMode is reset or pause (used in FRED machines)</td>
+</tr>
+<tr>
+<td>f12</td>
+<td>-</td>
+<td>stop</td>
+<td>Change behavior of F12 to stop emulated machine instead of reseting it.</td>
+</tr>
+<tr>
+<td>init</td>
+<td>ef</td>
+<td>0 or 1</td>
+<td>Set initialization value of (unused) EF flags, ef="x" can be 1 to 4.
+</td>
+</tr>
+<tr>
+<td>int</td>
+<td>-</td>
+<td>number of cpu cycles</td>
+<td>After every specified number of cpu cycles generate an interrupt</td>
+</tr>
+<tr>
+<td>monitor</td>
+<td>-</td>
+<td>EF flag (1 to 4)</td>
+<td>Used for Oscom Nano monitor delay</td>
+</tr>
+<tr>
+<td>name</td>
+<td></td>
+<td>name (text)</td>
+<td>Machine name (mandatory). This tag is used as window title (during emulation) as well as in the GUI machine pull down menu. It is strongly recommended to use one directory per machine and within that directory use one and the same machine name for all files.</td>
+</tr>
+<tr>
+<td>statusbar</td>
+<td>out</td>
+<td>comx, diag, vip2 or cidelsa</td>
+<td>Use statusbar on main video window. Out="x" value defines statusbar LED output number for the Cidelsa statusbar.</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,108 @@
+
+<HTML>
+<Title>Cassette Support</Title>
+<BODY>
+<h1>Cassette Support</h1>
+<h2>Real Cassette</h2>
+For details on how to use a real cassette player connected to a PC and Emma 02 please see the section: <a href="ComputerRealCassette.htm">Real Cassette Support</a>
+<h2>Wave Files</h2>
+<p>
+<IMG SRC="images/cassette_file.png" border="0" width="443" height ="376">
+</p>
+<p>
+For easy and fast loading or saving .wav files check options: 'Auto' (highlighted in brown) and 'Turbo' (highlighted in green). This is the default setting for most XML configurtations with cassette support:
+</p>
+<p>
+Specify the .wav filename in the text field (highlighted in orange) next to the Cassette button (highlighted in blue). To change the directory location of the file (and/or the file name) use the Cassette button and select another directory (and/or file name) in the file selector window that opens.
+</p>
+<p>
+After starting the emulators the specified .wav file will be used for any of the load or save commands. For instructions about computer specific commands and both automatic and manual options see the Cassette Support section for each computer.
+</p>
+<p>
+To remove the file use the eject button (highlighted in yellow). 
+</p>
+<p>
+Default file location is the specific computer directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>)
+</p>
+<p>
+Changing the wave file settings might impact the usability of the wav files on a real computer as well as the possibility to load computer generated wav files into the emulator. See also section 'Wave File Settings' below for more details.
+</p>
+<p>
+To allow faster and easier loading in the future save any code with a <a href="ComputerMemAccess.htm">Memory Access</a> SAVE after you successfully load a wav file. 
+</p>
+<p>
+The black bar (highlighted in red) will show the cassete led VU-meter.
+</p>
+<h3>Turbo LOAD/SAVE</h3>
+<p>
+When the 'Turbo' option (highlighted in green) is selected the emulator will increase the CPU speed during wav file access to allow faster LOAD and SAVE possibility in the emulator.
+</p>
+<p>
+The speed of the Turbo LOAD/SAVE can be changed; default is 15 MHz (highlighted in purple), which works well on my Mac Studio (running 3.2 GHz, 20 CPU/48 GCPU, Apple M1 Ultra) as well as previous Mac pro (running a 3.5 GHz, 6-Core, Intel Xeon E5). On the Mac Studio Emma 02 still works well when using 50 MHz. For an older or slower computer, especially when having one core, consider using a lower value. Too high values will not run on slower PCs as all CPU power will be used by the emulator.
+</p>
+<h3>Wave File Settings</h3>
+<p>
+To change the Wave File settings used for loading or saving .wav files open the 'Wav File and Real Cassette Settings' via the menu below: 
+<p>
+<IMG SRC="images/wav_settings_menu.png" border="0" width="443" height ="283">
+</p>
+<p>
+The following subsections describe applicable settings in more detail. Settings for saving to a file are the 'Wave volume' (highlighted in orange), 'Bit Rate' (highlighted in green) and 'Bits per sample' (highlighted in blue), setting for loading a wav file are the 'Wav file conversion' (highlighted in purple) and 'Reversed Polarity' (highlighted in red). The 'Cassette conversion' and 'Input Channel' are only used for Real Cassette loading and 'Threshold' and 'Frequency check' are only used for the FRED emulator.
+</p>
+<p>
+<IMG SRC="images/wav_settings.png" border="0" width="443" height ="370">
+</p>
+<p>
+To save any of the settings press the save button (highlighted in yellow).
+</p>
+<p>
+Note: when using the F&M TOS or Turbo loaders, leave the volume on 15 and the bits per sample on 16!
+</p>
+<h4>Wave volume (highlighted in orange)</h4>
+<p>
+1 to 15 (where 15 is the loudest)
+</p>
+<h4>Bit Rate (highlighted in green)</h4> 
+<p>
+11025, 22050, 44100 or 88200 (samples per second)
+</p>
+<h4>Bits per sample (highlighted in blue)</h4>
+<p>
+8 or 16
+</p>
+<h4>Input channel (highlighted in grey)</h4>
+<p>
+Used in <a href="ComputerRealCassette.htm">Real Cassette Support</a>
+</p>
+<h4>Wav file conversion (highlighted in purple)</h4> 
+<p>
+Two conversion types can be used:<br>
+1. <B>Amplitude</B>: where the signal is converted to a 1 on positive amplitude and a 0 on a negative amplitude.<br>
+2. <B>Sinus</B>: where the signal is converted to a 1 on an upward sinus and a 0 on a downward sinus
+</p>
+<p>
+Default this is set to 'Amplitude' which works for all my wav files. Depending on the emulated computer this might need to be changed if loading does not work or gives tape errors.
+</p>
+<h4>Cassette Conversion (highlighted in brown)</h4>
+<p>
+Used in <a href="ComputerRealCassette.htm">Real Cassette Support</a>
+</p>
+<h4>Reversed Polarity (highlighted in red)</h4> 
+<p>
+Switch converted signal polarity (1->0 and 0->1) as described for conversion types above.
+</p>
+<h2>Batch wav conversion</h2>
+<p>
+The 'Batch - wav' feature converts a number of selected files to wav files by instructing the emulator to save one by one. To use this function first select the files that need to be converted via the multi file selector window that will open after clicking the 'Batch - wav' button (highlighted in blue):
+</p>
+<p>
+<IMG SRC="images/wav_batch.png" border="0" width="443" height ="376">
+</p>
+<p>
+The number of files selected should show to the right of the Convert button (highlighted in yellow). Before starting the conversion make sure an emultator is started and then press the 'Convert' button (highlighted in orange) and wait until the emultator finalizes all needed SAVE commands.
+</p>
+<p>
+Note: not all files are supported, for example COMX machine code .comx files (first byte = 1) are not supported (as they are not possible to save with PSAVE).
+</p>
+</BODY>
+</HTML>

@@ -3,7 +3,7 @@
 <BODY>
 <h1>Video Types</h1>
 <p>
-To select the specific Pico video board use the choice button 'Video' (yellow ellipse). Currently 2 types are supported: 1861 Pixie graphics and TMS 9918.
+To select the specific Pico video board use the choice button 'Video' (highlighted in yellow). Currently 2 types are supported: 1861 Pixie graphics and TMS 9918.
 </p>
 <p>
 <IMG SRC="images/pico_video.png" BORDER="0">

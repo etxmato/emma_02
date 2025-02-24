@@ -8,10 +8,10 @@
         <config>40th Anniversary Multi-Cart, with system rom disabled</config>
         <clock>1.76</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>StudioII</dirname>
     </system>
     
@@ -53,10 +53,8 @@
     
     <memory mask="0xfff">
         <ems type="multicart">
-            <start>0</start>
-            <end>0x7ff</end>
-            <start2>0xc00</start2>
-            <end2>0xfff</end2>
+            <range>0-0x7ff</range>
+            <range>0xc00-0xfff</range>
             <filename>39sf040.auto.bin</filename>
         </ems>
 
@@ -80,7 +78,7 @@
         <ef pol="rev">3</ef>
         <auto>on</auto>
 
-        <keydef type="file" check="rom">keydefinition_studio.txt</keydef>
+        <keydef type="file">keydefinition_studio.txt</keydef>
         
         <diagonal key1="2" key2="4">1</diagonal>
         <diagonal key1="2" key2="6">3</diagonal>

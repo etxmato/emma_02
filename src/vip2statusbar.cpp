@@ -42,7 +42,7 @@ VipIIStatusBar::VipIIStatusBar(wxWindow *parent)
     leaderString_ = p_Main->getBarLeaderCidelsa();
     statusBarElementMeasure0_ = p_Main->getStatusBarElementMeasure(0);
     statusBarElementMeasure1_ = p_Main->getStatusBarElementMeasure(1);
-    ledSpacing_ = p_Main->getBarLedSpacing();
+    ledSpacing_ = 2; //p_Main->getBarLedSpacing();
 
     led_pos_y_ = p_Main->getBarLedPosVip2Y();
 }
@@ -64,7 +64,7 @@ void VipIIStatusBar::initVipIIBar(bool runLed)
     displayText();
 }
 
-void VipIIStatusBar::updateLedStatus(int led, bool status)
+void VipIIStatusBar::updateLedStatus(bool status, int led, int WXUNUSED(i))
 {
     if (!ledsDefined_)
         return;

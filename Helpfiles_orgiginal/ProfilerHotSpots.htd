@@ -1,0 +1,27 @@
+<html>
+<title>Hot Code Spots</title>
+<body>
+<h1>Hot Code Spots</h1>
+<p>
+On the left of the scrollbar a number is shown per executed instruction (yellow ellipse). This number indicates the number of times that specific instruction is executed. Any value larger than 1 will be shown in a colour ranging from green to red (orange ellipse), with green indicating a lower number of executions and red a higher number. The colour indication is calculated using a logarithmic scale. Note that the any <font color="#9932cc">purple colour</font> indicates a branch location, either as part of a branch instruction or that a branch ended up at that address. The <FONT COLOR="SALMON">salmon</FONT> colour (address 0180, 01A4 & 01A8 in screenshots) indicates that a SEP Rx instruction ended up at that address.
+</p>
+<p>
+<IMG SRC="images/profiler_hot_code.png" BORDER="0">
+</p>
+<p>
+On the profiler tab only a small number of locations are shown at anyone time, to be able to scan through memory quicker for hot code spots the profiler on the Memory Dump tab can be used:
+</p>
+<p>
+<IMG SRC="images/profiler_memory_dump.png" BORDER="0">
+</p>
+<p>
+To select the memory dump profiler, first select the Memory Dump tab and then as 'Memory' select 'Profiler' (yellow ellipse). Then 256 addresses will be shown (red ellipse) each containing one counter value between 1 and 255 in the same colour as used on the profiler tab with 'redder' colour instructions being executed more frequently. The shown counter uses the same logarithmic scale as the colour definition. Formula used is 5*ln(number of executions).
+</p>
+<p>
+To change to the previous or next page use the buttons in the orange ellipse, alternatively specify a specific address in the field in the blue ellipse.
+</p>
+<p>
+For additional details about the Memory Dump tab see also the <a href="DumpMain.htm">Memory Dump</a> section.
+</p>
+</body>
+</html>

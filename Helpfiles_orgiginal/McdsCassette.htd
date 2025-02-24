@@ -1,0 +1,71 @@
+<HTML>
+<Title>Cassette</Title>
+<BODY>
+<h2>Cassette Support (wave Files)</h2>
+<h3>Real Cassette</h3>
+For details on how to use a real cassette player connected to a PC and Emma 02 please see the section: <a href="MainRealCassette.htm">Real Cassette Support</a>
+<h3>Wave Files</h3>
+<p>
+The easiest and fastest way use .wav file in the MCDS emulator is by making sure both options 'Turbo LOAD/SAVE' and 'Auto LOAD/SAVE' are checked, this should be the default setting when the Emma 02 Emulator is started for the first time. Depending on which type you choose, i.e. automatic or manual please follow the instructions below.
+</p>
+<p>
+Note that we have not tried to use any of the saved wav files on a real MCDS. If you have/need that option, please let me know and we can do some trouble shooting on this. Changing the wave file settings might impact the usability of the wav files on a real MCDS, see also below.
+</p>
+<h4>Auto LOAD/SAVE</h4>
+<p>
+Default settings, to use this make sure 'Auto LOAD/SAVE' is checked.
+</p>
+<p>
+To load a .wav file into the MCDS, start the Emma 02 emulator and then the MCDS emulator (start button on MCDS tab). Select a .wav file in the Emma 02 window by selecting the 'Cassette' button. Depending on what type of loading is needed, either use PLOAD or DLOAD (and return) from within BASIC3 or R or C from within the UT62. Both command need to be given in the MCDS emulator window after which the cassette PLAY button should go green.
+</p>
+<p>
+To save a .wav file from the MCDS, Select a .wav file in the Emma 02 window by selecting the 'Cassette' button. Depending on what type of loading is needed, either use PSAVE or DSAVE (and return) from within BASIC3 or W from within the UT62. Both command need to be given in the MCDS emulator window and the cassette REC button should go red. 
+</p>
+<p>
+For both save and load make sure a .wav file is selected in the Emma 02 window before using the save and load instructions otherwise the MCDS emulator will hang on the PLOAD, C or R (until you manually start a .wav file) or with a PSAVE or W the wav sound will not be written to any file.
+</p>
+<h4>Manual LOAD/SAVE</h4>
+<p>
+To use this make sure 'Auto LOAD/SAVE' is NOT checked. 
+</p>
+<p>
+To load a .wav file into the MCDS, start the Emma 02 emulator and then the MCDS emulator (start button on MCDS tab). Select a .wav file in the Emma 02 window by selecting the 'Cassette' button. Press play and after that as soon as possible give a load command on the MCDS.
+</p>
+<p>
+To save a .wav file from the MCDS, Select a .wav file in the Emma 02 window by selecting the 'Cassette' button after that Press the dark red recording button and give a save command in the MCDS.
+</p>
+<h4>Turbo LOAD/SAVE</h4>
+<p>
+When Turbo LOAD/SAVE is selected the emulator will increase speed when a wav file is played to allow faster LOAD and SAVE possibility in the emulator. The speed of the Turbo LOAD/SAVE can be changed; default is 15 MHz, which works ok on both my desktop and laptop. Too high values will not run ok on slower PCs as all CPU power will be used by the emulator. On my vista desktop vista limits CPU usage to 50% max but on my windows 2000 laptop CPU usage gets up to 100% and can possibly hang the laptop for the duration of the LOAD or SAVE command.
+</p>
+<h4>Wave File Settings</h4>
+<p>
+Via the 'Settings' drop down menu select 'Wav File and Real Cassette Settings' to change the wave file settings used for saving or loading a '.wav' file. . The following subsections describe applicable settings in more detail. Settings for saving to a file are the 'Wave volume', 'Bit Rate' and 'Bits per sample', setting for loading a wav file are the 'Wav file conversion' and 'Reversed Polarity'. The 'Cassette conversion' and 'Input Channel' are only used for Real Cassette loading.
+</p>
+<h5>Wave volume</h5>
+<p>
+1 to 15 (where 15 is the loudest)
+</p>
+<h5>Bit Rate</h5> 
+<p>
+11025, 22050, 44100 or 88200 (samples per second)
+</p>
+<h5>Bits per sample</h5>
+<p>
+8 or 16
+</p>
+<h5>Wav file conversion</h5> 
+<p>
+Two conversion types can be used:<br>
+1. <B>Amplitude</B>: where the signal is converted to a 1 on positive amplitude and a 0 on a negative amplitude.<br>
+2. <B>Sinus</B>: where the signal is converted to a 1 on an upward sinus and a 0 on a downward sinus
+</p>
+<p>
+Default this is set to 'Amplitude' which works for all my wav files. Depending on the emulated computer this might need to be changed if loading does not work or gives tape errors.
+</p>
+<h5>Reversed Polarity</h5> 
+<p>
+Switch converted signal polarity (1->0 and 0->1) as described for conversion types above.
+</p>
+</BODY>
+</HTML>

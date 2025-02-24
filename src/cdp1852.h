@@ -20,7 +20,7 @@
 class Cdp1852Screen : public Panel
 {
 public:
-    Cdp1852Screen(wxWindow *parent, const wxSize& size, int cdp1852Number, int tilType);
+    Cdp1852Screen(wxWindow *parent, const wxSize& size, int cdp1852Number);
     ~Cdp1852Screen();
     
     void init();

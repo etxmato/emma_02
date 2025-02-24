@@ -8,11 +8,12 @@
         <config>Prog. Apt. Test</config>
         <clock>1.00</clock>
         <cpu>system</cpu> 
-        <boot dma="on" start="no">0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <boot dma="out" start="no">0</boot>
+        <dma_in>reset</dma_in>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>FRED1</dirname>
     </system>
 
@@ -79,7 +80,7 @@
         </item>
        <item>
             <type>switch</type>
-            <function>power</function>
+            <function>stop</function>
             <init>up</init>
             <pos>235, 60</pos>
         </item>

@@ -1,0 +1,39 @@
+<HTML>
+<Title>CDP18S605: CPU 1802 & UART</Title>
+<BODY>
+<h2>CDP18S605: CPU 1802 & UART</h2>
+<p>
+The CDP18S605 board includes:
+<UL>
+<LI>CDP1802 CPU with a 0.3072, 0.6144, 1.2288 or 2.4576 MHz crystal clock (default Emma 02 uses 2.4576 MHz)
+<LI>A maximum of 2 KB RAM and 4 KB ROM
+<LI>CDP1854A UART driven serial I/O with baud rates: 50 to 19200
+</UL>
+</p>
+<p>
+To define a system using the CDP18S605 select 'CDP18S605 1802 & UART' from the CARD 1 Choice box. CPU boards are only supported in slot 1.
+</p>
+<p>
+To specify the memory configuration and UART group press the CARD 1 button and the CDP18S605 Setup window will open. Press 'SAVE' to save the configuration.
+</p>
+<p>
+A default CDP18S605 configuration can be loaded, see also <a href="MainConfigurations.htm">Configurations</a>. This configuration includes the CDP18S605 CPU board and a CDP18S640 A/A1 Display board.
+</p>
+<h3>Memory Configuration and ROM/RAM Files</h3>
+<p>
+The CDP18S605 Microboard has a ROM and RAM socket. For details see the CDP18S605 manual. In the CDP18S605 setup window the size of the ROM socket chips can be selected (1Kx8, 2Kx8). Both ROM chips will have the same size. The RAM socket and total chip size is always 2Kx8.
+</p>
+<p>
+The RAM and ROM locations can be selected by specifying a 2K or 4K block (2K for RAM and 2 or 4K for ROM depending on chip size).
+</p>
+<p>
+Default configuration of the CDP18S605 is using a 2 KB RAM socket, from hex 0-7FF. ROM chips are disabled. In this same configuration the CDP18S640 board includes the ut71.bin ROM at hex 8000 and an additional 1 KB RAM at hex 8C00.
+</p>
+<p>
+Default CDP18S605 ROM/RAM file location is the Microboard directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>). To change the location use the 'ROM XU9', 'ROM XU10' or 'RAM U15-U18' buttons to browse for the file, do the same to change the filename or type in a new file name in the text field. Data can be loaded via files in either ROM or RAM. Files can also be loaded into RAM in run time by using the Memory Access buttons.
+</p>
+<p>
+The binary, Intel hex and RCS Elf Emulator hex format are supported.
+</p>
+</BODY>
+</HTML>

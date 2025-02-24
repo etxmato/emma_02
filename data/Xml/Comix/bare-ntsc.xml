@@ -8,10 +8,9 @@
         <config>Bare, NTSC</config>
         <clock>2.835</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <statusbar>comx</statusbar>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
         <dirname>Comx</dirname>
     </system>
     
@@ -45,7 +44,7 @@
         <maxcharlines>16</maxcharlines>
         <maxscreenlines>24</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
         <mode>ntsc</mode>
-        <int>2</int>
+        <int_mode>2</int_mode>
         <ef type="display">1</ef>
         <ef type="mode">2</ef> <!-- only active until first Q pulse -->
         <clock>5.670</clock>
@@ -77,6 +76,7 @@
 
     <cassette decks="1">
         <ef>4</ef>
+        <keyclear />
     </cassette>
     
     <locations>
@@ -93,9 +93,6 @@
         <basic_state address="0x42a0" value="0">0x39a, 0x5344</basic_state>
         <run_state>0x1f76, 0x2c00</run_state>
 
-        <!-- Stop thermal printer output -->
-        <stop_thermal address="0x428b" value="0x14">0x1047</stop_thermal>
-        
         <!-- Stop cassette -->
         <stop_cas>0x1047</stop_cas>
         
@@ -107,6 +104,10 @@
         <!-- Start F&M BASIC BSAVE, BLOAD -->
         <start_cas_save address="0x428b" value="0x53">0x4dc3</start_cas_save>
         <start_cas_load address="0x428b" value="0x53">0x4daa</start_cas_load>
+
+        <!-- F&M BASIC Activation -->
+        <start_fm_basic address="0x428b" value="0x53">0x505f</start_fm_basic>
+        <stop_fm_basic address="0x428b" value="0x14">0x1047</stop_fm_basic>
 
         <!-- Start TURBO PSAVE/PLOAD V1.00 -->
         <start_cas_save address="0xbfd0, 0xbfd1, 0xbf02, 0xbfac" value="0x54, 0x41, 0xc3, 0x91">0xbf00</start_cas_save>

@@ -107,10 +107,9 @@ Cdp1802::Cdp1802()
 {
 }
 
-void Cdp1802::initCpu(int computerType)
+void Cdp1802::initCpu()
 {
     cpuType_ = p_Main->getCpuType();
-    computerType_ = computerType;
 
     if (p_Main->getCpuStartupRegisters() == STARTUP_ZEROED)
     {
@@ -141,8 +140,6 @@ void Cdp1802::initCpu(int computerType)
     wait_ = 1;
     initIo();
     steps_ = -1;
-    baseGiantBoard_ = 0x10000;
-    baseQuestLoader_ = 0x10000;
 
     for (int i=0; i<8; i++) outValues_[i] = 0;
     for (int i=0; i<8; i++) inValues_[i] = 0;
@@ -156,6 +153,11 @@ void Cdp1802::initCpu(int computerType)
     skipTrace_ = false;
     singleStateStep_ = false;
     interruptRequested_ = false;
+    for (int type=0; type<INTERRUPT_TYPE_MAX; type++)
+    {
+        interruptRequested[type] = false;
+        interruptRequestedCounter[type] = 0;
+    }
     stopHiddenTrace_ = false;
     startHiddenTrace_ = false;
 }
@@ -181,10 +183,15 @@ void Cdp1802::resetCpu()
     address_ = 0;
     colourMask_ = 0;
     bus_ = 0;
-    for (int video=0; video<computerConfiguration.numberOfVideoTypes_; video++)
+    for (int video=0; video<currentComputerConfiguration.numberOfVideoTypes_; video++)
     {
         if (p_Video[video] != NULL)
             p_Video[video]->reset();
+    }
+    for (int type=0; type<INTERRUPT_TYPE_MAX; type++)
+    {
+        interruptRequested[type] = false;
+        interruptRequestedCounter[type] = 0;
     }
 }
 
@@ -193,7 +200,7 @@ void Cdp1802::resetEffectiveClock()
     p_Main->startTime();
     cpuCycles_ = 0;
     instructionCounter_ = 0;
-    for (int video=0; video<computerConfiguration.numberOfVideoTypes_; video++)
+    for (int video=0; video<currentComputerConfiguration.numberOfVideoTypes_; video++)
     {
         if (p_Video[video] != NULL)
             p_Video[video]->resetVideoSyncCount();
@@ -204,12 +211,12 @@ void Cdp1802::machineCycle()
 {
     for (int i=1; i<5; i++)
     {
-        setEf(i, ef(i));
+        setEf(i, p_Computer->ef(i));
     }
 
-    for (int i=0; i<MAXCYCLE; i++)
+    for (int i=0; i<CYCLE_TYPE_MAX; i++)
     {
-        cycle(i);
+        p_Computer->cycle(i);
     }
     if (ctrRunning_ == 1)
     {
@@ -238,62 +245,41 @@ void Cdp1802::machineCycle()
         soundCycle();
 }
 
-void Cdp1802::setMode()
-{
-    if (clear_ == 0 && wait_==1)
-    {
-        cpuMode_ = RESET;
-        if (cpuType_ > CPU1801)
-            resetCpu();
-    }
-    if (clear_ == 1 && wait_==1) cpuMode_ = RUN;
-    if (clear_ == 0 && wait_==0) cpuMode_ = LOAD;
-    if (clear_ == 1 && wait_==0) cpuMode_ = PAUSE;
-
-    if (cpuMode_ != RUN)
-    {
-        for (int video=0; video<computerConfiguration.numberOfVideoTypes_; video++)
-        {
-            if (p_Video[video] != NULL)
-                p_Video[video]->reset();
-        }
-    }
-}
-
 void Cdp1802::setCpuMode(int mode)
 {
     clear_ = (mode>>1)&1;
     wait_ = mode&1;
-    setMode();
+    p_Computer->setMode();
 }
 
 void Cdp1802::setClear(int value)
 {
     clear_= (value)?1:0;
-    setMode();
+    p_Computer->setMode();
 }
 
 void Cdp1802::setWait(int value)
 {
     wait_= (value)?1:0;
-    setMode();
+    p_Computer->setMode();
 }
 
-void Cdp1802::dmaIn(Byte value)
+Byte Cdp1802::dmaIn(Byte value)
 {
-    showDmaLed();
+    Byte dmaInValue = 0;
+    p_Computer->showDmaLed();
     if (traceDma_)
     {
         wxString traceText;
         traceText.Printf("----  DMA in    R0=%04X", scratchpadRegister_[0]);
         p_Main->debugTrace(traceText);
     }
-    if (cpuMode_ != RUN && cpuMode_ != LOAD)
-    {
-        if (computerType_ != FRED1 && computerType_ != FRED1_5)
-            return;
-    }
+    
+    if (cpuMode_ != RUN && cpuMode_ != LOAD && !currentComputerConfiguration.dmaInReset_defined)
+        return dmaInValue;
+
     writeMem(scratchpadRegister_[0], value, false);
+    dmaInValue = readMem(scratchpadRegister_[0]);
     address_ = scratchpadRegister_[0]++;
     idle_=0;
     cpuState_ = STATE_FETCH_1;
@@ -302,10 +288,11 @@ void Cdp1802::dmaIn(Byte value)
 //    machineCycle(); // Using this will crash Elfs when tying in keys with Q sound on 'Hardware'
     if (singleStateStep_)
     {
-        showCycleAddress(address_);
-        showCycleData(value);
+        p_Computer->showCycleAddress(address_);
+        p_Computer->showCycleData(value);
         singleStateStep();
     }
+    return dmaInValue;
 }
 
 Byte Cdp1802::dmaOut()
@@ -328,8 +315,8 @@ Byte Cdp1802::dmaOut()
     
     if (singleStateStep_)
     {
-        showCycleAddress(address_);
-        showCycleData(ret);
+        p_Computer->showCycleAddress(address_);
+        p_Computer->showCycleData(ret);
         singleStateStep();
     }
 
@@ -338,7 +325,7 @@ Byte Cdp1802::dmaOut()
 
 Byte Cdp1802::pixieDmaOut(int *color, int colourType)
 {
-    showDmaLed();
+    p_Computer->showDmaLed();
     Byte ret;
     ret = 255;
     if (traceDma_)
@@ -348,99 +335,62 @@ Byte Cdp1802::pixieDmaOut(int *color, int colourType)
         p_Main->debugTrace(traceText);
     }
     ret=readMem(scratchpadRegister_[0]);
-    switch (computerType_)
+
+    switch (colourType)
     {
-        case ETI:
+        case PIXIE_COLOR_ETI_1864:
             *color = colorMemory1864_[((scratchpadRegister_[0] >> 1) & 0xf8) + (scratchpadRegister_[0] & 0x7)] & 0x7;
         break;
-        case VIP:
-        case VIPII:
-        case VIP2K:
+            
+        case PIXIE_COLOR_ETI_1862:
+            *color = colorMemory1862_[((scratchpadRegister_[0] >> 1) & 0xf8) + (scratchpadRegister_[0] & 0x7)] & 0x7;
+        break;
+            
+        case PIXIE_COLOR_VIP_1862:
+            if (colourMask_ == 0)
+                *color = 7;
+            else
+                *color = colorMemory1862_[scratchpadRegister_[0] & colourMask_] & 0x7;
+        break;
+            
+        case PIXIE_COLOR_VIP_1864:
             if (colourMask_ == 0)
                 *color = 7;
             else
                 *color = colorMemory1864_[scratchpadRegister_[0] & colourMask_] & 0x7;
         break;
-        case VICTORY:
+
+        case PIXIE_COLOR_VICTORY_1862:
+            if (colourMask_ == 0)
+                *color = 7;
+            else
+                *color = colorMemory1862_[((scratchpadRegister_[0] >> 2) & 0x38) + (scratchpadRegister_[0] & 0x7)] & 0x7;
+        break;
+
+        case PIXIE_COLOR_VICTORY_1864:
             if (colourMask_ == 0)
                 *color = 7;
             else
                 *color = colorMemory1864_[((scratchpadRegister_[0] >> 2) & 0x38) + (scratchpadRegister_[0] & 0x7)] & 0x7;
         break;
-        case VELF:
-        case STUDIO:
-        case COINARCADE:
-        case FRED1:
-        case FRED1_5:
-        case ELF:
-        case ELFII:
-        case SUPERELF:
-        case PICO:
-            *color = 0;
-        break;
-        case STUDIOIV:
+
+        case PIXIE_COLOR_STUDIOIV:
             *color = colorMemory1864_[(scratchpadRegister_[0]&0xf) +  ((scratchpadRegister_[0]&0x3c0) >> 2)] & 0x7;
         break;
-        case XML:
-            switch (colourType)
-            {
-                case PIXIE_COLOR_ETI_1864:
-                    *color = colorMemory1864_[((scratchpadRegister_[0] >> 1) & 0xf8) + (scratchpadRegister_[0] & 0x7)] & 0x7;
-                break;
-                    
-                case PIXIE_COLOR_ETI_1862:
-                    *color = colorMemory1862_[((scratchpadRegister_[0] >> 1) & 0xf8) + (scratchpadRegister_[0] & 0x7)] & 0x7;
-                break;
-                    
-                case PIXIE_COLOR_VIP_1862:
-                    if (colourMask_ == 0)
-                        *color = 7;
-                    else
-                        *color = colorMemory1862_[scratchpadRegister_[0] & colourMask_] & 0x7;
-                break;
-                    
-                case PIXIE_COLOR_VIP_1864:
-                    if (colourMask_ == 0)
-                        *color = 7;
-                    else
-                        *color = colorMemory1864_[scratchpadRegister_[0] & colourMask_] & 0x7;
-                break;
 
-                case PIXIE_COLOR_VICTORY_1862:
-                    if (colourMask_ == 0)
-                        *color = 7;
-                    else
-                        *color = colorMemory1862_[((scratchpadRegister_[0] >> 2) & 0x38) + (scratchpadRegister_[0] & 0x7)] & 0x7;
-                break;
-
-                case PIXIE_COLOR_VICTORY_1864:
-                    if (colourMask_ == 0)
-                        *color = 7;
-                    else
-                        *color = colorMemory1864_[((scratchpadRegister_[0] >> 2) & 0x38) + (scratchpadRegister_[0] & 0x7)] & 0x7;
-                break;
-
-                case PIXIE_COLOR_STUDIOIV:
-                    *color = colorMemory1864_[(scratchpadRegister_[0]&0xf) +  ((scratchpadRegister_[0]&0x3c0) >> 2)] & 0x7;
-                break;
-
-                case PIXIE_COLOR_TMC2000_1862:
-                    *color = colorMemory1862_[scratchpadRegister_[0] & 0x3ff] & 0x7;
-                break;
-
-                case PIXIE_COLOR_TMC2000_1864:
-                    *color = colorMemory1864_[scratchpadRegister_[0] & 0x3ff] & 0x7;
-                break;
-
-                default:
-                    *color = 0;
-                break;
-            }
+        case PIXIE_COLOR_TMC2000_1862:
+            *color = colorMemory1862_[scratchpadRegister_[0] & 0x3ff] & 0x7;
         break;
-        default:
+
+        case PIXIE_COLOR_TMC2000_1864:
             *color = colorMemory1864_[scratchpadRegister_[0] & 0x3ff] & 0x7;
         break;
+
+        default:
+            *color = 0;
+        break;
     }
+
     address_ = scratchpadRegister_[0]++;
     idle_=0;
     cpuState_ = STATE_FETCH_1;
@@ -450,8 +400,8 @@ Byte Cdp1802::pixieDmaOut(int *color, int colourType)
 
     if (singleStateStep_)
     {
-        showCycleAddress(address_);
-        showCycleData(ret);
+        p_Computer->showCycleAddress(address_);
+        p_Computer->showCycleData(ret);
         singleStateStep();
     }
 
@@ -479,7 +429,7 @@ void Cdp1802::visicomDmaOut(Byte *vram1, Byte *vram2)
 
 Byte Cdp1802::pixieDmaOut()
 {
-    showDmaLed();
+    p_Computer->showDmaLed();
     Byte ret;
     ret = 255;
     if (traceDma_)
@@ -498,8 +448,8 @@ Byte Cdp1802::pixieDmaOut()
 
     if (singleStateStep_)
     {
-        showCycleAddress(address_);
-        showCycleData(ret);
+        p_Computer->showCycleAddress(address_);
+        p_Computer->showCycleData(ret);
         singleStateStep();
     }
 
@@ -585,31 +535,26 @@ void Cdp1802::setEf(int flag,int value)
     }
 }
 
-void Cdp1802::interrupt()
+bool Cdp1802::interrupt()
 {
     interruptRequested_ = false;
-    showIntLed();
+    p_Computer->showIntLed();
     
-    switch (computerType_)
+    if (p_Main->isDiagActive())
     {
-        case COMX:
-        case XML:
-            if (p_Main->isDiagActive(computerType_))
-            {
-                if (interruptEnable_ && (clear_ == 1))
-                {
-                    p_Main->eventUpdateDiagLedStatus(3, false); //INT
-                    p_Main->eventUpdateDiagLedStatus(4, true); //INTACK
-                }
-                else
-                {
-                    p_Main->eventUpdateDiagLedStatus(3, true); //INT
-                    p_Main->eventUpdateDiagLedStatus(4, false); //INTACK
-                }
-            }
-        break;
+        if (interruptEnable_ && (clear_ == 1))
+        {
+            p_Main->eventUpdateLedStatus(false, 3); //INT
+            p_Main->eventUpdateLedStatus(true, 4); //INTACK
+        }
+        else
+        {
+            p_Main->eventUpdateLedStatus(true, 3); //INT
+            p_Main->eventUpdateLedStatus(false, 4); //INTACK
+        }
     }
-    if (interruptEnable_ && (clear_ == 1) && (getDmaCounter() != -100))
+
+    if (interruptEnable_ && clear_ == 1)
     {
         if (traceInt_)
         {
@@ -631,12 +576,15 @@ void Cdp1802::interrupt()
         
         if (singleStateStep_)
         {
-            showCycleAddress(scratchpadRegister_[programCounter_]);
-            showCycleData(0);
+            p_Computer->showCycleAddress(scratchpadRegister_[programCounter_]);
+            p_Computer->showCycleData(0);
             singleStateStep();
         }
+        idle_=0;
+        return true;
     }
     idle_=0;
+    return false;
 }
 
 void Cdp1802::requestInterrupt()
@@ -644,9 +592,26 @@ void Cdp1802::requestInterrupt()
     interruptRequested_ = true;
 }
 
+void Cdp1802::requestInterrupt(int type, bool state, int picNumber)
+{
+    if (traceInt_)
+    {
+        if (type != INTERRUPT_TYPE_I8275_1 && type != INTERRUPT_TYPE_I8275_4)
+        {
+            if (state && !interruptRequested[type])
+                p_Main->debugTrace("----  Int. request: " + interruptTypeList_[type]);
+            if (!state && interruptRequested[type])
+                p_Main->debugTrace("----  Int. cleared: " + interruptTypeList_[type]);
+        }
+    }
+    interruptRequested[type]= state;
+    picInterruptNumber[type]= picNumber;
+    p_Computer->picInterruptRequest(type, state, picNumber);
+}
+
 void Cdp1802::pixieInterrupt()
 {
-    showIntLed();
+    p_Computer->showIntLed();
     if (interruptEnable_)
     {
         if (traceInt_)
@@ -1571,7 +1536,7 @@ void Cdp1802::cpuCycleStep()
                 if (instructionCode_ == 0x68 && (cpuType_ == CPU1805 || cpuType_ == CPU1804))
                     numberOfCycles = numberOfCycles1805[readMemDebug(scratchpadRegister_[programCounter_]+1)] - 1;
                 else
-                    numberOfCycles = numberOfCycles1802[readMemDebug(scratchpadRegister_[programCounter_])] - 1;
+                    numberOfCycles = numberOfCycles1802[readMemDebug(scratchpadRegister_[programCounter_], READ_FUNCTION_FREEZE_PIC_VECTOR | READ_FUNCTION_NOT_DEBUG)] - 1;
                
                 cycle0_=0;
                 machineCycle();
@@ -1600,7 +1565,7 @@ void Cdp1802::cpuCycleStep()
                     cpuCycleFetch();
                 }
             
-                showState(STATE_FETCH);
+                p_Computer->showState(STATE_FETCH);
             }
  //           else
   //              soundCycle();
@@ -1612,12 +1577,12 @@ void Cdp1802::cpuCycleStep()
             
         case STATE_EXECUTE_1:
             cpuCycleExecute1();
-            showState(STATE_EXECUTE);
+            p_Computer->showState(STATE_EXECUTE);
         break;
             
         case STATE_EXECUTE_1_LBR:
             cpuCycleExecute1_LBR();
-            showState(STATE_EXECUTE);
+            p_Computer->showState(STATE_EXECUTE);
         break;
             
         case STATE_EXECUTE_2_LBR:
@@ -1626,7 +1591,7 @@ void Cdp1802::cpuCycleStep()
             
         case STATE_EXECUTE_1_1805:
             cpuState_ = startCpuState1804_1805[instructionCode_];
-            showState(STATE_EXECUTE);
+            p_Computer->showState(STATE_EXECUTE);
             
             if (cpuState_ == STATE_FETCH_1)
                 cpuCycleExecute2_1805();
@@ -1671,8 +1636,8 @@ void Cdp1802::cpuCycleStep()
     if (resetPressed_)
         p_Computer->resetPressed();
     
-    showCycleAddress(address_);
-    showCycleData(bus_);
+    p_Computer->showCycleAddress(address_);
+    p_Computer->showCycleData(bus_);
     
     if (singleStateStep_)
         singleStateStep();
@@ -1682,7 +1647,7 @@ void Cdp1802::singleStateStep()
 {
     setWait(0);
     setCpuMode(PAUSE);
-    setGoTimer();
+    p_Computer->setGoTimer();
 }
 
 void Cdp1802::cpuCycleFetch()
@@ -2247,7 +2212,7 @@ void Cdp1802::cpuCycleExecute1()
                     case 6:
                     case 7:
                         bus_ = readMem(scratchpadRegister_[dataPointer_]++);
-                        out(n, scratchpadRegister_[dataPointer_]-1, bus_);
+                        p_Computer->out(n, scratchpadRegister_[dataPointer_]-1, bus_);
                         if (trace_)
                         {
                             buffer.Printf("OUT  %X    [%02X]",n,bus_);
@@ -2256,7 +2221,7 @@ void Cdp1802::cpuCycleExecute1()
                     break;
                         
                     case 8:
-                        bus_=in((Byte)(n-8), scratchpadRegister_[dataPointer_]);
+                        bus_= p_Computer->in((Byte)(n-8), scratchpadRegister_[dataPointer_]);
                         writeMem(scratchpadRegister_[dataPointer_], bus_, false);
 //                      SYSTEM 00 doesn't load INP byte in D
                         if (trace_)
@@ -2297,45 +2262,36 @@ void Cdp1802::cpuCycleExecute1()
             if (n <= 7)
             {
                 bus_ = readMem(scratchpadRegister_[dataPointer_]++);
-                out(n, scratchpadRegister_[dataPointer_]-1, bus_);
+                p_Computer->out(n, scratchpadRegister_[dataPointer_]-1, bus_);
                 if (p_Main->getLapTimeTrigger() == (LAPTIME_OUT - 1 + n))
                     p_Main->lapTime();
                 if (trace_)
                 {
-                    switch (computerType_)
+                    if (currentComputerConfiguration.vis1870Configuration.defined)
                     {
-                        case COMX:
-                        case CIDELSA:
-                        case PECOM:
-                            if (n>3)
-                                buffer.Printf("OUT  %X    [%04X]",n,scratchpadRegister_[dataPointer_]-1);
-                            else
-                                buffer.Printf("OUT  %X    [%02X]",n,bus_);
-                        break;
-
-                        case TMC600:
+                        if (currentComputerConfiguration.vis1870Configuration.outputWrite.portNumber[0] != -1)
+                        {
                             if (n==5 && (p_Computer->getOutValue(7) != 0x20) && (p_Computer->getOutValue(7) != 0x30))
                                 buffer.Printf("OUT  %X    [%04X]",n,scratchpadRegister_[dataPointer_]-1);
                             else
                                 buffer.Printf("OUT  %X    [%02X]",n,bus_);
-                        break;
-
-                        case MICROBOARD:
-                            if (n>3 && elfConfiguration.usev1870)
+                        }
+                        else
+                        {
+                            if (n>3)
                                 buffer.Printf("OUT  %X    [%04X]",n,scratchpadRegister_[dataPointer_]-1);
                             else
                                 buffer.Printf("OUT  %X    [%02X]",n,bus_);
-                        break;
-
-                        default:
-                            buffer.Printf("OUT  %X    [%02X]",n,bus_);
-                        break;
+                        }
                     }
+                    else
+                        buffer.Printf("OUT  %X    [%02X]",n,bus_);
+
                     traceBuffer_ = traceBuffer_ + buffer;
                 }
                 break;
             }
-            bus_=in((Byte)(n-8), scratchpadRegister_[dataPointer_]);
+            bus_= p_Computer->in((Byte)(n-8), scratchpadRegister_[dataPointer_]);
             writeMem(scratchpadRegister_[dataPointer_], bus_, false);
             if (cpuType_ != CPU1801)  // 1801 doesn't load INP x byte in D
                 accumulator_=bus_;
@@ -2593,9 +2549,8 @@ void Cdp1802::cpuCycleExecute1()
                             traceBuffer_ = traceBuffer_ + "REQ";
                         }
                         address_=scratchpadRegister_[programCounter_];
-                        switchQ(0);
-                        if (computerType_ != MS2000 && computerType_ != FRED1 && computerType_ != FRED1_5)
-                            psaveAmplitudeChange(0);
+                        p_Computer->switchQ(0);
+                        psaveAmplitudeChange(0);
                     }
                 break;
                 case 0xb:
@@ -2616,11 +2571,10 @@ void Cdp1802::cpuCycleExecute1()
                             traceBuffer_ = traceBuffer_ + "SEQ";
                         }
                         address_=scratchpadRegister_[programCounter_];
-                        switchQ(1);
+                        p_Computer->switchQ(1);
                         if (p_Main->getLapTimeTrigger() == LAPTIME_Q)
                             p_Main->lapTime();
-                        if (computerType_ != MS2000 && computerType_ != FRED1 && computerType_ != FRED1_5)
-                            psaveAmplitudeChange(1);
+                        psaveAmplitudeChange(1);
                     }
                 break;
                 case 0xc:
@@ -2826,23 +2780,23 @@ void Cdp1802::cpuCycleExecute1()
                 buffer.Printf("SEP  R%X",n);
                 traceBuffer_ = traceBuffer_ + buffer;
                 
-                if (p_Main->getDebugScrtMode(computerType_))
+                if (p_Main->getDebugScrtMode())
                 {
                     if (n == scrtProgramCounter_ && skipTrace_)
                     {
-                        if (programCounter_ == p_Main->getDebugRetReg(computerType_) && scratchpadRegister_[p_Main->getDebugRetReg(computerType_)] == p_Main->getDebugRetAddress(computerType_))
+                        if (programCounter_ == p_Main->getDebugRetReg() && scratchpadRegister_[p_Main->getDebugRetReg()] == p_Main->getDebugRetAddress())
                             stopHiddenTrace_ = true;
-                        if (programCounter_ == p_Main->getDebugCallReg(computerType_) && scratchpadRegister_[p_Main->getDebugCallReg(computerType_)] == p_Main->getDebugCallAddress(computerType_))
+                        if (programCounter_ == p_Main->getDebugCallReg() && scratchpadRegister_[p_Main->getDebugCallReg()] == p_Main->getDebugCallAddress())
                             stopHiddenTrace_ = true;
                     }
-                    if (n == p_Main->getDebugCallReg(computerType_) && scratchpadRegister_[n] == p_Main->getDebugCallAddress(computerType_))
+                    if (n == p_Main->getDebugCallReg() && scratchpadRegister_[n] == p_Main->getDebugCallAddress())
                     {
                         scrtProgramCounter_ = programCounter_;
                         startHiddenTrace_ = true;
                         buffer.Printf("   CALL %02X%02X", readMem(scratchpadRegister_[programCounter_]), readMem(scratchpadRegister_[programCounter_]+1));
                         traceBuffer_ = traceBuffer_ + buffer;
                     }
-                    if (n == p_Main->getDebugRetReg(computerType_) && scratchpadRegister_[n] == p_Main->getDebugRetAddress(computerType_))
+                    if (n == p_Main->getDebugRetReg() && scratchpadRegister_[n] == p_Main->getDebugRetAddress())
                     {
                         scrtProgramCounter_ = programCounter_;
                         startHiddenTrace_ = true;
@@ -3483,7 +3437,7 @@ void Cdp1802::cpuCycleFinalize()
 
         machineCycle();
         cpuCycles_ ++;
-        if (elfConfiguration.useVip2KVideo || computerType_ == VIP2K)
+        if (currentComputerConfiguration.vip2KVideoConfiguration.defined)
             skipMachineCycleAfterIdle_=true;
 
         if (cpuState_ != STATE_EXECUTE_1) 
@@ -3498,98 +3452,6 @@ void Cdp1802::cpuCycleFinalize()
         skipTrace_ = false;
     if (startHiddenTrace_)
         skipTrace_ = true;
-}
-
-bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, long inhibitStart, long inhibitEnd)
-{
-    wxTextFile inFile;
-    wxString line, strValue;
-    long count;
-    long address;
-    long value;
-    int spaces;
-    Word start = 0xffff;
-    Word last = 0;
-    
-    if (inFile.Open(fileName))
-    {
-        for (line=inFile.GetFirstLine(); !inFile.Eof(); line=inFile.GetNextLine())
-        {
-            spaces = 0;
-            int maxSpaces = 6;
-            if (line.Len() < 6)  maxSpaces = (int)line.Len();
-            for (int i=0; i<maxSpaces; i++) if (line[i] == 32) spaces++;
-            if (spaces == 0)
-            {
-                strValue = line.Mid(1, 2);
-                if (!strValue.ToLong(&count, 16))
-                    count = 0;
-                
-                strValue = line.Mid(3, 4);
-                strValue.ToLong(&address, 16);
-                
-                strValue = line.Mid(7, 2);
-                strValue.ToLong(&value, 16);
-                
-                if (value == 1)
-                {
-                    inFile.Close();
-                    checkLoadedSoftware();
-                    return true;
-                }
-                if (address < start)
-                    start = address;
-                for (int i=0; i<count; i++)
-                {
-                    strValue = line.Mid((i*2)+9, 2);
-                    strValue.ToLong(&value, 16);
-                    if (address < end && !(address >= inhibitStart && address <= inhibitEnd))
-                    {
-                        writeMemDebug(address,(Byte)value, true);
-                        if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
-                            defineMemoryType(address, memoryType);
-                    }
-                    address++;
-                }
-                if (address > last)
-                    last = address;
-            }
-            else
-            {
-                strValue = line.Mid(1, 4);
-                strValue.ToLong(&address, 16);
-                for (size_t i=5; i<line.Len(); i++)
-                {
-                    if ((line[i] >= '0' && line [i] <= '9') ||
-                        (line[i] >= 'A' && line [i] <= 'F') ||
-                        (line[i] >= 'a' && line [i] <= 'f'))
-                    {
-                        strValue = line.Mid(i, 2);
-                        if (strValue.ToLong(&value, 16))
-                        {
-                            value &= 255;
-                            if (address < end && !(address >= inhibitStart && address <= inhibitEnd))
-                            {
-                                writeMemDebug(address,(Byte)value, true);
-                                if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
-                                    defineMemoryType(address, memoryType);
-                            }
-                            address++;
-                            i++;
-                        }
-                    }
-                }
-            }
-        }
-        inFile.Close();
-        checkLoadedSoftware();
-        return true;
-    }
-    else
-    {
-        p_Main->errorMessage("Error reading " + fileName);
-        return false;
-    }
 }
 
 bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool showFilename)
@@ -3608,6 +3470,9 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
     {
         for (line=inFile.GetFirstLine(); !inFile.Eof(); line=inFile.GetNextLine())
         {
+            line.Replace("O", "0");
+            line.Replace("I", "1");
+            line.Replace("l", "1");
             spaces = 0;
             int maxSpaces = 6;
             if (line.Len() < 6)  maxSpaces = (int)line.Len();
@@ -3631,8 +3496,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
                     {
                         wxString endStr;
                         endStr.Printf("%04X", (int)end);
-                        if (computerType_ != MICROBOARD)
-                            p_Main->errorMessage("Attempt to load after address " + endStr);
+                        p_Main->errorMessage("Attempt to load after address " + endStr);
                     }
                     setAddress(showFilename, start, last-1);
                     return true;
@@ -3698,26 +3562,31 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
     }
 }
 
-bool Cdp1802::readIntelFile(wxString fileName, int memoryType, Word* lastAddress, long end, bool showFilename)
+bool Cdp1802::readIntelFile(wxString fileName, MemoryDefinition* memoryDefintion, long romSize)
 {
     wxTextFile inFile;
     wxString line, strValue;
     long count;
-    long address=1;
+    long address;
     long value;
     int spaces;
-    bool overloaded = false;
     Word start = 0xffff;
     Word last = 0;
 
+    if (romSize != -1)
+        memoryDefintion->data.resize(romSize);
+    
     if (inFile.Open(fileName))
     {
-        for (line = inFile.GetFirstLine(); !inFile.Eof(); line = inFile.GetNextLine())
+        for (line=inFile.GetFirstLine(); !inFile.Eof(); line=inFile.GetNextLine())
         {
+            line.Replace("O", "0");
+            line.Replace("I", "1");
+            line.Replace("l", "1");
             spaces = 0;
             int maxSpaces = 6;
             if (line.Len() < 6)  maxSpaces = (int)line.Len();
-            for (int i = 0; i<maxSpaces; i++) if (line[i] == 32) spaces++;
+            for (int i=0; i<maxSpaces; i++) if (line[i] == 32) spaces++;
             if (spaces == 0)
             {
                 strValue = line.Mid(1, 2);
@@ -3733,28 +3602,21 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, Word* lastAddress
                 if (value == 1)
                 {
                     inFile.Close();
-                    if (overloaded)
-                    {
-                        wxString endStr;
-                        endStr.Printf("%04X", (int)end);
-                        p_Main->errorMessage("Attempt to load after address " + endStr);
-                    }
-                    setAddress(showFilename, start, last-1);
-                    *lastAddress = address - 1;
+                    memoryDefintion->mask = setRomMask(romSize);
                     return true;
                 }
                 if (address < start)
                     start = address;
-                for (int i = 0; i<count; i++)
+                for (int i=0; i<count; i++)
                 {
-                    strValue = line.Mid((i * 2) + 9, 2);
+                    strValue = line.Mid((i*2)+9, 2);
                     strValue.ToLong(&value, 16);
-                    if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
-                        defineMemoryType(address, memoryType);
-                    if (address < end)
-                        writeMemDebug(address, (Byte)value, true);
-                    else
-                        overloaded = true;
+                    if (address >= romSize)
+                    {
+                        romSize = address + 1;
+                        memoryDefintion->data.resize(romSize);
+                    }
+                    memoryDefintion->data[address] = value;
                     address++;
                 }
                 if (address > last)
@@ -3764,22 +3626,22 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, Word* lastAddress
             {
                 strValue = line.Mid(1, 4);
                 strValue.ToLong(&address, 16);
-                for (size_t i = 5; i<line.Len(); i++)
+                for (size_t i=5; i<line.Len(); i++)
                 {
-                    if ((line[i] >= '0' && line[i] <= '9') ||
-                        (line[i] >= 'A' && line[i] <= 'F') ||
-                        (line[i] >= 'a' && line[i] <= 'f'))
+                    if ((line[i] >= '0' && line [i] <= '9') ||
+                        (line[i] >= 'A' && line [i] <= 'F') ||
+                        (line[i] >= 'a' && line [i] <= 'f'))
                     {
                         strValue = line.Mid(i, 2);
                         if (strValue.ToLong(&value, 16))
                         {
                             value &= 255;
-                            if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
-                                defineMemoryType(address, memoryType);
-                            if (address < end)
-                                writeMemDebug(address, (Byte)value, true);
-                            else
-                                overloaded = true;
+                            if (address >= romSize)
+                            {
+                                romSize = address + 1;
+                                memoryDefintion->data.resize(romSize);
+                            }
+                            memoryDefintion->data[address] = value;
                             address++;
                             i++;
                         }
@@ -3788,14 +3650,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, Word* lastAddress
             }
         }
         inFile.Close();
-        *lastAddress = address - 1;
-        if (overloaded)
-        {
-            wxString endStr;
-            endStr.Printf("%04X", (int)end);
-            p_Main->errorMessage("Attempt to load after address " + endStr);
-        }
-        setAddress(showFilename, start, last-1);
+        memoryDefintion->mask = setRomMask(romSize);
         return true;
     }
     else
@@ -3819,6 +3674,9 @@ bool Cdp1802::readLstFile(wxString fileName, int memoryType, long end, bool show
     {
         for (line=inFile.GetFirstLine(); !inFile.Eof(); line=inFile.GetNextLine())
         {
+            line.Replace("O", "0");
+            line.Replace("I", "1");
+            line.Replace("l", "1");
             if (line.GetChar(0) != ' ')
             {
                 strValue = line.Mid(0, 4);
@@ -3885,8 +3743,7 @@ bool Cdp1802::readLstFile(wxString fileName, int memoryType, long end, bool show
         {
             wxString endStr;
             endStr.Printf("%04X", (int)end);
-            if (computerType_ != MICROBOARD)
-                p_Main->errorMessage("Attempt to load after address " + endStr);
+            p_Main->errorMessage("Attempt to load after address " + endStr);
         }
         setAddress(showFilename, start, last);
         return true;
@@ -3898,84 +3755,12 @@ bool Cdp1802::readLstFile(wxString fileName, int memoryType, long end, bool show
     }
 }
 
-bool Cdp1802::readIntelSequencerFile(wxString fileName)
+long Cdp1802::setRomMask(long romSize)
 {
-    wxTextFile inFile;
-    wxString line, strValue;
-    long count;
-    long address;
-    long value;
-    int spaces;
-    Word start = 0xffff;
-    Word last = 0;
-
-    if (inFile.Open(fileName))
-    {
-        for (line=inFile.GetFirstLine(); !inFile.Eof(); line=inFile.GetNextLine())
-        {
-            spaces = 0;
-            int maxSpaces = 6;
-            if (line.Len() < 6)  maxSpaces = (int)line.Len();
-            for (int i=0; i<maxSpaces; i++) if (line[i] == 32) spaces++;
-            if (spaces == 0)
-            {
-                strValue = line.Mid(1, 2);
-                if (!strValue.ToLong(&count, 16))
-                    count = 0;
-
-                strValue = line.Mid(3, 4);
-                strValue.ToLong(&address, 16);
-
-                strValue = line.Mid(7, 2);
-                strValue.ToLong(&value, 16);
-
-                if (value == 1)
-                {
-                    inFile.Close();
-                    return true;
-                }
-                if (address < start)
-                    start = address;
-                for (int i=0; i<count; i++)
-                {
-                    strValue = line.Mid((i*2)+9, 2);
-                    strValue.ToLong(&value, 16);
-                    sequencerMemory_[address&0x7ff] = value;
-                    address++;
-                }
-                if (address > last)
-                    last = address;
-            }
-            else
-            {
-                strValue = line.Mid(1, 4);
-                strValue.ToLong(&address, 16);
-                for (size_t i=5; i<line.Len(); i++)
-                {
-                    if ((line[i] >= '0' && line [i] <= '9') ||
-                        (line[i] >= 'A' && line [i] <= 'F') ||
-                        (line[i] >= 'a' && line [i] <= 'f'))
-                    {
-                        strValue = line.Mid(i, 2);
-                        if (strValue.ToLong(&value, 16))
-                        {
-                            value &= 255;
-                            sequencerMemory_[address&0x7ff] = value;
-                            address++;
-                            i++;
-                        }
-                    }
-                }
-            }
-        }
-        inFile.Close();
-        return true;
-    }
-    else
-    {
-        p_Main->errorMessage("Error reading " + fileName);
-        return false;
-    }
+    long mask=1;
+    while (mask < (romSize-1))
+        mask = mask | (mask << 1);
+    return mask;
 }
 
 void Cdp1802::saveIntelFile(wxString fileName, long start, long end)
@@ -4049,37 +3834,6 @@ void Cdp1802::saveBinFile(wxString fileName, long start, long end)
     }
 }
 
-bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word start, long end, long inhibitStart, long inhibitEnd)
-{
-    wxFFile inFile;
-    size_t length;
-    char buffer[65535];
-    Word address = start;
-    
-    if (inFile.Open(fileName, _("rb")))
-    {
-        length = inFile.Read(buffer, end-start);
-        for (size_t i=0; i<length; i++)
-        {
-            if (address < (start+length) && !(address >= inhibitStart && address <= inhibitEnd))
-            {
-                writeMemDebug(address,(Byte)buffer[i], true);
-                if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
-                    defineMemoryType(address, memoryType);
-            }
-            address++;
-        }
-        inFile.Close();
-        checkLoadedSoftware();
-        return true;
-    }
-    else
-    {
-        p_Main->errorMessage("Error reading " + fileName);
-        return false;
-    }
-}
-
 bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, long end, bool showFilename, bool showAddressPopup, Word specifiedStartAddress)
 {
     wxFFile inFile;
@@ -4119,17 +3873,13 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, long 
             else
                 overloaded = true;
             address++;
-            
-            if (computerType_ == STUDIO && address == 0x800 && start == 0x300)
-                address = 0xc00;
         }
         inFile.Close();
         if (overloaded)
         {
             wxString endStr;
             endStr.Printf("%04X", (int)end);
-            if (computerType_ != MICROBOARD)
-                p_Main->errorMessage("Attempt to load after address " + endStr);
+            p_Main->errorMessage("Attempt to load after address " + endStr);
         }
         setAddress(showFilename, start, address-1);
         return true;
@@ -4185,47 +3935,6 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, long 
                 address += loadOffSet.offSet;
         }
         inFile.Close();
-        if (overloaded)
-        {
-            wxString endStr;
-            endStr.Printf("%04X", (int)end);
-            if (computerType_ != MICROBOARD)
-                p_Main->errorMessage("Attempt to load after address " + endStr);
-        }
-        setAddress(showFilename, start, address-1);
-        return true;
-    }
-    else
-    {
-        p_Main->errorMessage("Error reading " + fileName);
-        return false;
-    }
-}
-
-bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, Word* lastAddress, long end, bool showFilename)
-{
-    wxFFile inFile;
-    size_t length;
-    char buffer[65535];
-    bool overloaded = false;
-    Word start;
-
-    start = address;
-    if (inFile.Open(fileName, _("rb")))
-    {
-        length = inFile.Read(buffer, 65535);
-        for (size_t i=0; i<length; i++)
-        {
-            if ((memoryType&0xff) != NOCHANGE && (memoryType&0xff) != RAM)
-                defineMemoryType(address, memoryType);
-            if (address < end)
-                writeMemDebug(address,(Byte)buffer[i], true);
-            else
-                overloaded = true;
-            address++;
-        }
-        inFile.Close();
-        *lastAddress = address-1;
         if (overloaded)
         {
             wxString endStr;
@@ -4298,394 +4007,23 @@ void Cdp1802::setAddress(bool showFilename, Word start, Word end)
 {
     if (showFilename)
     {
-        wxString gui = p_Main->getRunningComputerStr();
         wxString valueString;
-        switch (computerType_) 
-        {
-            case ETI:
-                p_Main->eventSaveStart(start);
-                p_Main->eventSaveEnd(end);
-                writeMem(0x400, (start>>8) & 0xff, false);
-                writeMem(0x401, (start & 0xff), false);
-                writeMem(0x402, ((end)>>8) & 0xff, false);
-                writeMem(0x403, ((end) & 0xff), false);
-            break;
-
-            case CIDELSA:
-            case STUDIO:
-            case COINARCADE:
-            case FRED1:
-            case FRED1_5:
-            case VISICOM:
-            case VICTORY:
-            case STUDIOIV:
-            break;
-
-            default:
-                p_Main->eventSaveStart(start);
-                p_Main->eventSaveEnd(end);
-            break;
-
-        }
-    }
-    if ((computerType_ == ELF) || (computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == XML) || (computerType_ == PICO))
-    {
-        if ((mainMemory_[start] == 0x90) && (mainMemory_[start+1] == 0xa1) && (mainMemory_[start+2] == 0xb3))
-        {
-            baseGiantBoard_ = start;
-        }
-        if ((mainMemory_[start+0x55] == 0xd5) && (mainMemory_[start+0x56] == 0xb8) && (mainMemory_[start+0x57] == 0xd5) && (mainMemory_[start+0x58] == 0xa8))
-        {
-            baseQuestLoader_ = start;
-        }
-    }
-    checkLoadedSoftware();
-}
-
-void Cdp1802::checkLoadedSoftware()
-{
-    if (loadedProgram_ == NOPROGRAM)
-    {
-        switch (computerType_)
-        {
-            case ELFII:
-            case SUPERELF:
-            case ELF:
-            case PICO:
-                checkLoadedSoftwareElf();
-            break;
-                
-            case COSMICOS:
-                checkLoadedSoftwareCosmicos();
-            break;
-                
-            case VIP:
-                checkLoadedSoftwareVip();
-            break;
-
-            case VELF:
-                checkLoadedSoftwareVelf();
-            break;
-
-            case VIPII:
-                checkLoadedSoftwareVipII();
-            break;
-          
-            case VIP2K:
-                checkLoadedSoftwareVip2K();
-            break;
-                
-            case MEMBER:
-                checkLoadedSoftwareMember();
-            break;
-                
-            case CDP18S020:
-            case MICROBOARD:
-                checkLoadedSoftwareMicroboard();
-            break;
-         
-            case MCDS:
-                checkLoadedSoftwareMCDS();
-            break;
-
-            case ELF2K:
-                checkLoadedSoftwareElf2K();
-            break;
-        }
-    }
-    if (loadedOs_ == NOOS)
-    {
-        if ((computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == ELF) || (computerType_ == PICO))
-        {
-            if ((mainMemory_[0xf900] == 0xf8) && (mainMemory_[0xf901] == 0xf9) && (mainMemory_[0xf902] == 0xb6))
-            {
-                loadedOs_ = ELFOS;
-                p_Main->setScrtValues(true, 4, 0xFA7B, 5, 0xFA8D, "ElfOs");
-            }
-        }
-    }
-}
-
-void Cdp1802::checkLoadedSoftwareElf()
-{
-    if (loadedProgram_ == NOPROGRAM)
-    {
-        pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
         
-        if ((mainMemory_[0x10] == 0xc0) && (mainMemory_[0x11] == 0x02) && (mainMemory_[0x12] == 0x58))
+        if (currentComputerConfiguration.addressLocationConfiguration.code_start_high != -1 && currentComputerConfiguration.addressLocationConfiguration.code_start_low != -1)
         {
-            loadedProgram_ = COMXBASIC;
-//            basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB1;
-//            basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB1;
-//            basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB1;
-//            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB1;
-            p_Main->eventEnableMemAccess(true);
-            p_Main->setScrtValues(true, 4, 0x2e14, 5, 0x31EB, "COMXBASIC");
+            writeMem(currentComputerConfiguration.addressLocationConfiguration.code_start_high, (start>>8)&0xff, false);
+            writeMem(currentComputerConfiguration.addressLocationConfiguration.code_start_low, start&0xff, false);
         }
-        if ((mainMemory_[0] == 0xc0) && (mainMemory_[1] == 0x25) && (mainMemory_[2] == 0xf4))
+        if (currentComputerConfiguration.addressLocationConfiguration.code_end_high != -1 && currentComputerConfiguration.addressLocationConfiguration.code_end_low != -1)
         {
-            loadedProgram_ = SUPERBASICV1;
-            basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB1;
-            basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB1;
-            basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB1;
-            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB1;
-            p_Main->eventEnableMemAccess(true);
-            p_Main->setScrtValues(true, 4, 0x185F, 5, 0x1871, "SUPERBASICV1");
+            writeMem(currentComputerConfiguration.addressLocationConfiguration.code_end_high, (end>>8)&0xff, false);
+            writeMem(currentComputerConfiguration.addressLocationConfiguration.code_end_low, end&0xff, false);
         }
-        if ((mainMemory_[0] == 0xc0) && (mainMemory_[1] == 0x1d) && (mainMemory_[2] == 0x39) && (mainMemory_[3] == 0xc0))
-        {
-            loadedProgram_ = SUPERBASICV3;
-            basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB3;
-            basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB3;
-            basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB3;
-            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB3;
-            p_Main->eventEnableMemAccess(true);
-            p_Main->setScrtValues(true, 4, 0x1FD6, 5, 0x813, "SUPERBASICV3");
-        }
-        if ((mainMemory_[0x100] == 0xc0) && (mainMemory_[0x101] == 0x18) && (mainMemory_[0x102] == 0x00) && (mainMemory_[0x103] == 0xc0))
-        {
-            loadedProgram_ = SUPERBASICV5;
-            basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB5;
-            basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB5;
-            basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB5;
-            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB5;
-            p_Main->eventEnableMemAccess(true);
-            p_Main->setScrtValues(true, 4, 0x312B, 5, 0x7F1, "SUPERBASICV5");
-        }
-        if ((mainMemory_[0x100] == 0xc0) && (mainMemory_[0x101] == 0x2f) && (mainMemory_[0x102] == 0x00) && (mainMemory_[0x103] == 0xc0))
-        {
-            loadedProgram_ = SUPERBASICV6;
-            basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB6;
-            basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB6;
-            basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB6;
-            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB6;
-            p_Main->eventEnableMemAccess(true);
-            p_Main->setScrtValues(true, 4, 0x22BC, 5, 0x21F2, "SUPERBASICV6");
-        }
-        if ((mainMemory_[0x2202] == 0xc0) && (mainMemory_[0x2203] == 0x28) && (mainMemory_[0x2204] == 0x65) && (mainMemory_[0x226f] == 0x52))
-        {
-            loadedProgram_ = RCABASIC3;
-            basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_RCA3;
-            basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_RCA;
-            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_RCA;
-            p_Main->eventEnableMemAccess(true);
-            p_Main->setScrtValues(true, 4, 0x41E8, 5, 0x37F2, "RCABASIC3");
-        }
-        if ((mainMemory_[0x2202] == 0xc0) && (mainMemory_[0x2203] == 0x28) && (mainMemory_[0x2204] == 0x65) && (mainMemory_[0x226f] == 0x55))
-        {
-            loadedProgram_ = RCABASIC4;
-            basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_RCA4;
-            basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_RCA;
-            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_RCA;
-            p_Main->eventEnableMemAccess(true);
-            p_Main->setScrtValues(true, 4, 0x41E8, 5, 0x37F2, "RCABASIC4");
-        }
-        if ((mainMemory_[0xc000] == 0x90) && (mainMemory_[0xc001] == 0xb4) && (mainMemory_[0xc002] == 0xb5) && (mainMemory_[0xc003] == 0xfc))
-        {
-            loadedProgram_ = MINIMON;
-            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xc1a0;
-            p_Main->eventEnableMemAccess(true);
-            p_Main->setScrtValues(false, -1, -1, -1, -1, "MINIMON");
-        }
-        if ((mainMemory_[0xc000] == 0xc4) && (mainMemory_[0xc001] == 0xb4) && (mainMemory_[0xc002] == 0xf8) && (mainMemory_[0xc003] == 0xc0))
-        {
-            loadedProgram_ = GOLDMON;
-            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xc118;
-            p_Main->eventEnableMemAccess(true);
-            p_Main->setScrtValues(true, 4, 0xC0E0, 5, 0xC0F2, "GOLDMON");
-        }
-        if ((mainMemory_[0x100] == 0xc4) && (mainMemory_[0x101] == 0x30) && (mainMemory_[0x102] == 0xb0))
-        {
-            loadedProgram_ = TINYBASIC;
-            p_Main->eventEnableMemAccess(true);
-            p_Main->setScrtValues(false, -1, -1, -1, -1, "TINYBASIC");
-            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xa5d;
-        }
-        if (loadedProgram_ == NOPROGRAM && loadedOs_ == NOOS)
-        {
-            basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xfc98;
-            p_Main->setScrtValues(false, -1, -1, -1, -1, "");
-        }
+        p_Main->eventSaveStart(start);
+        p_Main->eventSaveEnd(end);
     }
 }
  
-void Cdp1802::checkLoadedSoftwareCosmicos()
-{
-    if ((mainMemory_[0xc0f7] == 0x22) && (mainMemory_[0xc0f8] == 0x73) && (mainMemory_[0xc0f9] == 0x3e) && (mainMemory_[0xc0fa] == 0))
-    {
-        loadedProgram_ = HEXMON;
-        basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xC54f;
-        p_Main->setScrtValues(false, -1, -1, -1, -1, "");
-    }
-    if ((mainMemory_[0xc084] == 0x4e) && (mainMemory_[0xc085] == 0x4f) && (mainMemory_[0xc086] == 0x20) && (mainMemory_[0xc087] == 0x43))
-    {
-        loadedProgram_ = ASCIIMON;
-        p_Main->setScrtValues(true, 4, 0xC0E0, 5, 0xC0F2, "ASCIIMON");
-    }
-    if (loadedProgram_ == NOPROGRAM)
-        p_Main->setScrtValues(false, -1, -1, -1, -1, "");
-}
-
-void Cdp1802::checkLoadedSoftwareVip()
-{
-    if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
-    {
-        loadedProgram_ = FPBBASIC;
-        p_Main->setScrtValues(true, 4, 0x28EF, 5, 0x23E7, "FPBBASIC");
-        p_Main->eventEnableMemAccess(true);
-    }
-    else
-    {
-        if ((mainMemory_[0xa0] == 0xd3) && (mainMemory_[0xa1] == 0xf8) && (mainMemory_[0xa2] == 0x40) && (mainMemory_[0xa3] == 0xb9))
-        {
-            loadedProgram_ = FPBBOOT;
-            p_Main->setScrtValues(false, -1, -1, -1, -1, "");
-        }
-        else
-        {
-         if ((mainMemory_[2] == 0xf8) && (mainMemory_[0xa8] == 0x5) && (mainMemory_[0x107] == 0xd4) && (mainMemory_[0x11b] == 0xb4))
-            {
-                loadedProgram_ = VIPTINY;
-                p_Main->setScrtValues(false, -1, -1, -1, -1, "");
-                p_Main->eventEnableMemAccess(true);
-            }
-        }
-    }
-    if (loadedProgram_ == NOPROGRAM)
-        p_Main->setScrtValues(false, -1, -1, -1, -1, "");
-}
-
-void Cdp1802::checkLoadedSoftwareVipII()
-{
-    if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
-    {
-        loadedProgram_ = FPBBASIC;
-        p_Main->setScrtValues(true, 4, 0x28EF, 5, 0x23E7, "FPBBASIC");
-        p_Main->eventEnableMemAccess(true);
-    }
-    else
-    {
-        if ((mainMemory_[0x9025] == 0x42) && (mainMemory_[0x9026] == 0x41) && (mainMemory_[0x9027] == 0x53) && (mainMemory_[0x9028] == 0x49))
-        {
-            loadedProgram_ = FPBBASIC_AT_8000;
-            p_Main->setScrtValues(true, 4, 0xA8EF, 5, 0xA3E7, "FPBBASIC_AT_8000");
-            p_Main->eventEnableMemAccess(true);
-        }
-    }
-}
-
-void Cdp1802::checkLoadedSoftwareVip2K()
-{
-    if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
-    {
-        loadedProgram_ = FPBBASIC;
-        p_Main->setScrtValues(true, 4, 0x39E8, 5, 0x2FF2, "FPBBASIC");
-        p_Main->eventEnableMemAccess(true);
-    }
-    else
-    {
-        if ((mainMemory_[0xa0] == 0xd3) && (mainMemory_[0xa1] == 0xf8) && (mainMemory_[0xa2] == 0x40) && (mainMemory_[0xa3] == 0xb9))
-        {
-            loadedProgram_ = FPBBOOT;
-            p_Main->setScrtValues(false, -1, -1, -1, -1, "");
-        }
-    }
-    if (loadedProgram_ == NOPROGRAM)
-        p_Main->setScrtValues(true, 4, 0x9DA, 5, 0x9EC, "");
-}
-
-void Cdp1802::checkLoadedSoftwareVelf()
-{
-    if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
-    {
-        loadedProgram_ = FPBBASIC;
-        p_Main->setScrtValues(true, 4, 0x28EF, 5, 0x23E7, "FPBBASIC");
-        p_Main->eventEnableMemAccess(true);
-    }
-    else
-    {
-        if ((mainMemory_[0xa0] == 0xd3) && (mainMemory_[0xa1] == 0xf8) && (mainMemory_[0xa2] == 0x40) && (mainMemory_[0xa3] == 0xb9))
-        {
-            loadedProgram_ = FPBBOOT;
-            p_Main->setScrtValues(false, -1, -1, -1, -1, "");
-        }
-    }
-    if (loadedProgram_ == NOPROGRAM)
-    {
-        basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8275;
-        p_Main->setScrtValues(true, 4, 0x8224, 5, 0x8236, "");
-    }
-}
-
-void Cdp1802::checkLoadedSoftwareMember()
-{
-    if ((mainMemory_[0x2f] == 0xd3) && (mainMemory_[0x30] == 0xbf) && (mainMemory_[0x31] == 0xe2) && (mainMemory_[0x32] == 0x86))
-    {
-        loadedProgram_ = MONITOR_CHUCK_LOW;
-        basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8a3;
-        p_Main->setScrtValues(true, 4, 0x30, 5, 0x42, "MONITOR_CHUCK_LOW");
-    }
-    if ((mainMemory_[0x802f] == 0xd3) && (mainMemory_[0x8030] == 0xbf) && (mainMemory_[0x8031] == 0xe2) && (mainMemory_[0x8032] == 0x86))
-    {
-        loadedProgram_ = MONITOR_CHUCK_HIGH;
-        basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x88a3;
-        p_Main->setScrtValues(true, 4, 0x8030, 5, 0x8042, "MONITOR_CHUCK_HIGH");
-    }
-    if ((mainMemory_[0x2f] == 0x2c) && (mainMemory_[0x30] == 0x8b) && (mainMemory_[0x31] == 0x36) && (mainMemory_[0x32] == 0x37))
-    {
-        loadedProgram_ = MONITOR_CHUCK_LOW;
-        basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x62;
-        p_Main->setScrtValues(true, 4, 0xadb, 5, 0xaed, "MONITOR_CHUCK_J_LOW");
-    }
-    if ((mainMemory_[0x802f] == 0x2c) && (mainMemory_[0x8030] == 0x8b) && (mainMemory_[0x8031] == 0x36) && (mainMemory_[0x8032] == 0x37))
-    {
-        loadedProgram_ = MONITOR_CHUCK_HIGH;
-        basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8062;
-        p_Main->setScrtValues(true, 4, 0x8adb, 5, 0x8aed, "MONITOR_CHUCK_J_HIGH");
-    }
-    if (loadedProgram_ == NOPROGRAM)
-        p_Main->setScrtValues(false, -1, -1, -1, -1, "");
-}
-
-void Cdp1802::checkLoadedSoftwareMicroboard()
-{
-    p_Main->setScrtValues(false, -1, -1, -1, -1, "");
-    if ((mainMemory_[0x8024] == 0x51) && (mainMemory_[0x8030] == 0xe5) && (mainMemory_[0x8048] == 0xa3) && (mainMemory_[0x80d8] == 0x50))
-    {
-        basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x814f;
-        loadedProgram_ = UT4;
-    }
-    if ((mainMemory_[0x8024] == 0x94) && (mainMemory_[0x8030] == 0x83) && (mainMemory_[0x8048] == 0x1b) && (mainMemory_[0x80d8] == 0xae))
-    {
-        basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8145;
-        p_Main->setScrtValues(true, 4, 0x8364, 5, 0x8374, "UT62");
-        loadedProgram_ = UT62;
-    }
-    if ((mainMemory_[0x8024] == 0xFB) && (mainMemory_[0x8030] == 0x47) && (mainMemory_[0x8048] == 0x1b) && (mainMemory_[0x80d8] == 0x83))
-    {
-        basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8144;
-        p_Main->setScrtValues(true, 4, 0x8364, 5, 0x8374, "UT63");
-        loadedProgram_ = UT63;
-    }
-    if ((mainMemory_[0x8111] == 0x55) && (mainMemory_[0x8112] == 0x54) && (mainMemory_[0x8113] == 0x37) && (mainMemory_[0x8114] == 0x31))
-    {
-        p_Main->setScrtValues(true, 4, 0x8364, 5, 0x8374, "UT71");
-        loadedProgram_ = UT71;
-    }
-}
-
-void Cdp1802::checkLoadedSoftwareMCDS()
-{
-    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8145;
-    p_Main->setScrtValues(true, 4, 0x8364, 5, 0x8374, "UT62");
-    loadedProgram_ = UT62;
-}
-
-void Cdp1802::checkLoadedSoftwareElf2K()
-{
-    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xfca6; ///0xfc9b;
-}
-
 bool Cdp1802::readProgram(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename)
 {
     if (rom.Len() != 0)
@@ -4702,41 +4040,6 @@ bool Cdp1802::readProgram(wxString romDir, wxString rom, int memoryType, Word ad
         return readFile(romDir+rom, memoryType, address, 0x10000, loadOffSet, showFilename);
     }
     else return false;
-}
-
-bool Cdp1802::readProgram(wxString romDir, wxString rom, int memoryType, Word address, Word* lastAddress, bool showFilename)
-{
-    if (rom.Len() != 0)
-    {
-        return readFile(romDir+rom, memoryType, address, lastAddress, 0x10000, showFilename);
-    }
-    else return false;
-}
-
-bool Cdp1802::readProgramMicro(wxString romDir, wxString rom, int memoryType, Word address, long lastAddress, bool showFilename)
-{
-    if (rom.Len() != 0)
-    {
-        return readFile(romDir+rom, memoryType, address, lastAddress, showFilename);
-    }
-    else return false;
-}
-
-bool Cdp1802::readProgramMicro(wxString romDir, wxString rom, int memoryType1, int memoryType2, long startAddress, long lastAddress, long inhibitStart, long inhibitEnd)
-{
-    long address = startAddress;
-    for (long i=0; i<(lastAddress-startAddress); i+=256)
-    {
-        if (address < lastAddress && !(address >= inhibitStart && address <= inhibitEnd))
-            defineMemoryType(address, memoryType1);
-        address+=256;
-    }
-    if (rom.Len() != 0)
-    {
-        return readFile(romDir+rom, memoryType2, startAddress, lastAddress, inhibitStart, inhibitEnd);
-    }
-    else
-        return false;
 }
 
 bool Cdp1802::readProgramCidelsa(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename)
@@ -4825,22 +4128,12 @@ bool Cdp1802::readProgramPecom(wxString romDir, wxString rom, int memoryType, Wo
     return readProgram(romDir, rom, memoryType, address, showFilename);
 }
 
-void Cdp1802::readSt2Program(int computerType, int memoryType)
+void Cdp1802::readSt2Program(wxString dirName, wxString fileName, int memoryType)
 {
-    wxString dirName, fileName;
-    dirName = p_Main->getRomDir(computerType, CARTROM);
-    fileName = p_Main->getRomFile(computerType, CARTROM);
-    
-    if (fileName != "")
-        readSt2Program (dirName, fileName, computerType, memoryType);
+    readSt2Program(dirName+fileName, memoryType);
 }
 
-void Cdp1802::readSt2Program(wxString dirName, wxString fileName, int computerType, int memoryType)
-{
-    readSt2Program(dirName+fileName, computerType, memoryType);
-}
-
-void Cdp1802::readSt2Program(wxString fileNameFull, int computerType, int memoryType)
+void Cdp1802::readSt2Program(wxString fileNameFull, int memoryType)
 {
     wxFFile inFile;
     wxFileName swFullPath = wxFileName(fileNameFull, wxPATH_NATIVE);
@@ -4889,11 +4182,6 @@ void Cdp1802::readSt2Program(wxString fileNameFull, int computerType, int memory
                     }
                 }
                 inFile.Close();
-                if (computerType != XML)
-                {
-                    p_Main->setSwName (swFullPath.GetName());
-                    p_Main->updateTitle();
-                }
             }
             else
             {
@@ -4906,38 +4194,6 @@ void Cdp1802::readSt2Program(wxString fileNameFull, int computerType, int memory
             (void)wxMessageBox( "File " + swFullPath.GetName() + " not found", // Works correct, via p_Main->errorMessage it will NOT
                                 "Emma 02", wxICON_ERROR | wxOK );
         }
-    }
-}
-
-bool Cdp1802::readFile(wxString fileName, int memoryType, Word address, long end, long inhibitStart, long inhibitEnd)
-{
-    wxFFile inFile;
-    char buffer[4];
-    
-    if (wxFile::Exists(fileName))
-    {
-        if (inFile.Open(fileName, _("rb")))
-        {
-            inFile.Read(buffer, 4);
-            inFile.Close();
-                        
-            if (buffer[0] == ':' || (buffer[0] == 0x0d && buffer[1] == 0x0a && buffer[2] == ':'))
-                return readIntelFile(fileName, memoryType, end, inhibitStart, inhibitEnd);
-            else if (buffer[0] == '0' && buffer[1] == '0' && buffer[2] == '0' && buffer[3] == '0')
-                return readLstFile(fileName, memoryType, end, false);
-            else
-                return readBinFile(fileName, memoryType, address, end, inhibitStart, inhibitEnd);
-        }
-        else
-        {
-            p_Main->errorMessage("Error reading " + fileName);
-            return false;
-        }
-    }
-    else
-    {
-        p_Main->errorMessage("File " + fileName + " not found");
-        return false;
     }
 }
 
@@ -5058,45 +4314,6 @@ bool Cdp1802::readFile(wxString fileName, int memoryType, Word address, long end
     }
 }
 
-bool Cdp1802::readFile(wxString fileName, int memoryType, Word address, Word* lastAdress, long end, bool showFilename)
-{
-    wxFFile inFile;
-    char buffer[4];
-
-    if (wxFile::Exists(fileName))
-    {
-        if (inFile.Open(fileName, _("rb")))
-        {
-            inFile.Read(buffer, 4);
-            inFile.Close();
-
-            if (showFilename)
-            {
-                wxFileName swFullPath = wxFileName(fileName, wxPATH_NATIVE); 
-                p_Main->setSwName (swFullPath.GetName());
-                p_Main->updateTitle();
-            }
-
-            if (buffer[0] == ':')
-                return readIntelFile(fileName, memoryType, lastAdress, end, showFilename);
-            else if (buffer[0] == '0' && buffer[1] == '0' && buffer[2] == '0' && buffer[3] == '0')
-                return readLstFile(fileName, memoryType, end, showFilename);
-            else
-                return readBinFile(fileName, memoryType, address, lastAdress, end, showFilename);
-        }
-        else
-        {
-            p_Main->errorMessage("Error reading " + fileName);
-            return false;
-        }
-    }
-    else
-    {
-        p_Main->errorMessage("File " + fileName + " not found");
-        return false;
-    }
-}
-
 void Cdp1802::setSteps(long steps)
 {
     steps_ = steps;
@@ -5141,66 +4358,11 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
     switch (memoryType_[address / 256]&0xff)
     {
         case ROM:
-        case COMXEXPROM:
         case NVRAM:
         case CARTRIDGEROM:
         case VP570RAM:
-           switch (computerType_)
-            {
-                case ELFII:
-                case XML:
-                    if (elfConfiguration.giantBoardMapping)
-                        if (address >= baseGiantBoard_)
-                            address = (address & 0xff) | 0xf000;
-                break;
-                
-                case COSMICOS:
-                case MCDS:
-                case MS2000:
-                case ELF2K:
-                    address = address | bootstrap_;
-                break;
-                
-                case PECOM:
-                    address = address | addressLatch_;
-                break;
+            address = (address | bootstrap_) & currentComputerConfiguration.memoryMask;
                     
-                case ETI:
-                    address = address & ramMask_;
-                break;
-
-                case MICROBOARD:
-                case CDP18S020:
-                case VELF:
-                    if (address < 0x8000)
-                        address = (address | addressLatch_);
-                break;
-                    
-                case NANO:
-                    if (address < 0x8000)
-                        address = (address | addressLatch_) & 0xfff;
-                break;
-  
-                case TMC1800:
-                case TMC2000:
-                    if (address < 0x8000)
-                        address = (address | addressLatch_) & (ramMask_ | 0x8000);
-                break;
-                    
-                case VIP:
-                    if (address < setLatch_)
-                        address = (address | addressLatch_);
-                    else
-                        address = address & romMask_;
-                break;
-
-                case VIPII:
-                    if (address < 0x8000)
-                        address = (address | addressLatch_);
-                    else
-                        address = address & 0x81ff;
-                break;
-            }
             if (type > mainMemoryLabelType_[address] || type == 0)
             {
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
@@ -5209,64 +4371,8 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
         break;
 
         case RAM:
-            switch (computerType_)
-            {
-                case ELF:
-                case ELFII:
-                case SUPERELF:
-                case XML:
-                case PICO:
-                    address = (address & ramMask_) + ramStart_;
-                break;
-                
-                case COSMICOS:
-                case MCDS:
-                case MS2000:
-                case ELF2K:
-                    address = address | bootstrap_;
-                break;
-                
-                case PECOM:
-                    address = address | addressLatch_;
-                break;
-                    
-                case ETI:
-                    address = address & ramMask_;
-                break;
-                
-                case MICROBOARD:
-                case CDP18S020:
-                case VELF:
-                    if (address < 0x8000)
-                        address = (address | addressLatch_);
-                break;
-                    
-                case NANO:
-                    if (address < 0x8000)
-                        address = (address | addressLatch_) & 0xfff;
-                break;
-                    
-                case TMC1800:
-                case TMC2000:
-                    if (address < 0x8000)
-                        address = (address | addressLatch_) & (ramMask_ | 0x8000);
-                break;
-                    
-                case VIP:
-                    if (address < setLatch_)
-                        address = (address | addressLatch_);
-                    else
-                        address = address & romMask_;
-                    address = address & ramMask_;
-               break;
+            address = (address | bootstrap_) & currentComputerConfiguration.memoryMask;
 
-                case VIPII:
-                    if (address < 0x8000)
-                        address = (address | addressLatch_);
-                    else
-                        address = address & 0x81ff;
-                break;
-            }
             if (type > mainMemoryLabelType_[address] || type == 0)
             {
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
@@ -5283,40 +4389,8 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
         break;
 
         case MAPPEDRAM:
-            switch (computerType_)
-            {
-                case ELF:
-                case ELFII:
-                case SUPERELF:
-                case XML:
-                case PICO:
-                   address = (address & ramMask_) + ramStart_;
-                break;
-                
-                case COSMICOS:
-                    address = address | bootstrap_;
-                break;
+            address = (address | bootstrap_) & currentComputerConfiguration.memoryMask;
 
-                case FRED1:
-                case FRED1_5:
-                    address = address & 0x7ff;
-                break;
-       
-                case STUDIO:
-                case COINARCADE:
-                case VICTORY:
-                case VISICOM:
-                    address = (address & 0x1ff) | 0x800;
-                break;
-                
-                case VIP:
-                    if (address < setLatch_)
-                        address = (address | addressLatch_);
-                    else
-                        address = address & romMask_;
-                    address = address & ramMask_;
-                break;
-            }
             if (type > mainMemoryLabelType_[address] || type == 0)
             {
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
@@ -5324,73 +4398,8 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
             }
         break;
             
-        case COMXEXPBOX:
-            switch (expansionMemoryType_[expansionSlot_ * 32 + (address & 0x1fff) / 256])
-            {
-                case RAMBANK:
-                    switch (bankMemoryType_[ramBank_ * 32 + (address & 0x1fff) / 256])
-                    {
-                        case ROM:
-                        case RAM:
-                            if (type > expansionRamLabelType_[(ramBank_ * 0x2000) + (address & 0x1fff)] || type == 0)
-                            {
-                                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                                expansionRamLabelType_[(ramBank_ * 0x2000) + (address & 0x1fff)] = type;
-                            }
-                        break;
-                    }
-                break;
-
-                case EPROMBANK:
-                    switch (epromBankMemoryType_[epromBank_ * 32 + (address & 0x1fff) / 256])
-                    {
-                        case ROM:
-                        case RAM:
-                            if (type > expansionEpromLabelType_[(epromBank_ * 0x2000) + (address & 0x1fff)] || type == 0)
-                            {
-                                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                                expansionEpromLabelType_[(epromBank_ * 0x2000) + (address & 0x1fff)] = type;
-                            }
-                        break;
-                    }
-                break;
-
-                case SUPERBANK:
-                    switch (superBankMemoryType_[(epromBank_ + (8 * ramSwitched_)) * 32 + (address & 0x1fff) / 256])
-                    {
-                        case ROM:
-                        case RAM:
-                            if (type > expansionSuperLabelType_[((epromBank_ + (8 * ramSwitched_)) * 0x2000) + (address & 0x1fff)] || type == 0)
-                            {
-                                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                                expansionSuperLabelType_[((epromBank_ + (8 * ramSwitched_)) * 0x2000) + (address & 0x1fff)] = type;
-                            }
-                        break;
-                    }
-                break;
-
-                case ROM:
-                    if (type > expansionRomLabelType_[(expansionSlot_ * 0x2000) + (address & 0x1fff)] || type == 0)
-                    {
-                        p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                        expansionRomLabelType_[(expansionSlot_ * 0x2000) + (address & 0x1fff)] = type;
-                    }
-                break;
-            }
-        break;
-
         case PRAM1870:
         case CRAM1870:
-            if (computerType_ == PECOM)
-            {
-                if (type > mainMemoryLabelType_[address] || type == 0)
-                {
-                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                    mainMemoryLabelType_[address] = type;
-                }
-            }
-            else
-            {
                 if (epromSlot_ != 0xff || superSlot_ != 0xff)
                 {
                     if (type > mainMemoryLabelType_[address] || type == 0)
@@ -5399,102 +4408,35 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                         mainMemoryLabelType_[address] = type;
                     }
                 }
-            }
-        break;
-
-        case COPYCOMXEXPROM:
-            if (type > mainMemoryLabelType_[(address & 0xfff) | 0xe000] || type == 0)
-            {
-                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                mainMemoryLabelType_[(address & 0xfff) | 0xe000] = type;
-            }
-        break;
-
-        case COPYFLOPROM:
-            if (((address & 0xff) >= 0xd0) && ((address & 0xff) <= 0xdf))
-            {
-                if (type > expansionRomLabelType_[(expansionSlot_ * 0x2000) + (address & 0xfff)] || type == 0)
-                {
-                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                    expansionRomLabelType_[(expansionSlot_ * 0x2000) + (address & 0xfff)] = type;
-                }
-            }
-            else
-            {
-                if (type > mainMemoryLabelType_[address] || type == 0)
-                {
-                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                    mainMemoryLabelType_[address] = type;
-                }
-            }
         break;
 
         case EMSMEMORY:
             emsNumber = (memoryType_[address / 256] >> 8);
 
-            switch (emsMemory_[emsNumber].memoryType_[((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))/256])
+            switch (emsMemory_[emsNumber].memoryType_[((address - currentComputerConfiguration.emsMemoryConfiguration[emsNumber].startAddress) |(currentComputerConfiguration.emsMemoryConfiguration[emsNumber].page << currentComputerConfiguration.emsMemoryConfiguration[emsNumber].maskBits))/256])
             {
                 case ROM:
                 case RAM:
-                    if (type > emsMemory_[emsNumber].labelType_[(long) ((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))] || type == 0)
+                    if (type > emsMemory_[emsNumber].labelType_[(long) ((address - currentComputerConfiguration.emsMemoryConfiguration[emsNumber].startAddress) |(currentComputerConfiguration.emsMemoryConfiguration[emsNumber].page << currentComputerConfiguration.emsMemoryConfiguration[emsNumber].maskBits))] || type == 0)
                     {
                         p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                        emsMemory_[emsNumber].dataType_[(long) ((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))] = type;
+                        emsMemory_[emsNumber].dataType_[(long) ((address - currentComputerConfiguration.emsMemoryConfiguration[emsNumber].startAddress) |(currentComputerConfiguration.emsMemoryConfiguration[emsNumber].page << currentComputerConfiguration.emsMemoryConfiguration[emsNumber].maskBits))] = type;
                     }
                 break;
             }
         break;
             
         case PAGER:
-            switch (pagerMemoryType_[((getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_))/256])
+            switch (pagerMemoryType_[((getPager(address>>currentComputerConfiguration.memoryMapperConfiguration.maskBits) << currentComputerConfiguration.memoryMapperConfiguration.maskBits) |(address &currentComputerConfiguration.memoryMapperConfiguration.mask))/256])
             {
                 case ROM:
                 case RAM:
-                    if (type > pagerMemoryLabelType_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)] || type == 0)
+                    if (type > pagerMemoryLabelType_[(getPager(address>>currentComputerConfiguration.memoryMapperConfiguration.maskBits) << currentComputerConfiguration.memoryMapperConfiguration.maskBits) |(address &currentComputerConfiguration.memoryMapperConfiguration.mask)] || type == 0)
                     {
                         p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                        pagerMemoryDataType_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)] = type;
+                        pagerMemoryDataType_[(getPager(address>>currentComputerConfiguration.memoryMapperConfiguration.maskBits) << currentComputerConfiguration.memoryMapperConfiguration.maskBits) |(address &currentComputerConfiguration.memoryMapperConfiguration.mask)] = type;
                     }
                 break;
-            }
-        break;
-            
-        case MULTICART:
-            if ((address < 0x400) && !disableSystemRom_)
-            {
-                if (type > mainMemoryLabelType_[address] || type == 0)
-                {
-                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                    mainMemoryLabelType_[address] = type;
-                }
-            }
-            else
-            {
-                if (type > multiCartRomLabelType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] || type == 0)
-                {
-                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                    multiCartRomLabelType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = type;
-                }
-            }
-        break;
-
-        case MAPPEDMULTICART:
-            address = address & 0xfff;
-            if ((address < 0x400) && !disableSystemRom_)
-            {
-                if (type > mainMemoryLabelType_[address] || type == 0)
-                {
-                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                    mainMemoryLabelType_[address] = type;
-                }
-            }
-            else
-            {
-                if (type > multiCartRomLabelType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] || type == 0)
-                {
-                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                    multiCartRomLabelType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = type;
-                }
             }
         break;
     }
@@ -5508,130 +4450,14 @@ Byte Cdp1802::readMemLabelType(Word address)
     {
         case ROM:
         case NVRAM:
-        case COMXEXPROM:
         case CARTRIDGEROM:
         case VP570RAM:
-            switch (computerType_)
-            {
-                case ELFII:
-                case XML:
-                    if (elfConfiguration.giantBoardMapping)
-                        if (address >= baseGiantBoard_)
-                            address = (address & 0xff) | 0xf000;
-                break;
-                    
-                case COSMICOS:
-                case MCDS:
-                case MS2000:
-                case ELF2K:
-                    address = address | bootstrap_;
-                break;
-                    
-                case PECOM:
-                    address = address | addressLatch_;
-                break;
-                    
-                case ETI:
-                    address = address & ramMask_;
-                break;
-                    
-                case MICROBOARD:
-                case CDP18S020:
-                case VELF:
-                    if (address < 0x8000)
-                        address = (address | addressLatch_);
-                break;
-                    
-                case NANO:
-                    if (address < 0x8000)
-                        address = (address | addressLatch_) & 0xfff;
-                break;
-                    
-                case TMC2000:
-                case TMC1800:
-                    if (address < 0x8000)
-                        address = (address | addressLatch_) & (ramMask_ | 0x8000);
-                    else
-                        address = address & 0x81ff;
-                break;
-
-                case VIP:
-                    if (address < setLatch_)
-                        address = (address | addressLatch_);
-                    else
-                        address = address & romMask_;
-                break;
-                    
-                case VIPII:
-                    if (address < 0x8000)
-                        address = (address | addressLatch_);
-                    else
-                        address = address & 0x81ff;
-                break;
-            }
+             address = (address | bootstrap_) & currentComputerConfiguration.memoryMask;
             return mainMemoryLabelType_[address];
         break;
             
         case RAM:
-            switch (computerType_)
-            {
-                case ELF:
-                case ELFII:
-                case SUPERELF:
-                case XML:
-                case PICO:
-                    address = (address & ramMask_) + ramStart_;
-                break;
-                
-                case COSMICOS:
-                case MCDS:
-                case MS2000:
-                case ELF2K:
-                    address = address | bootstrap_;
-                break;
-                
-                case PECOM:
-                    address = address | addressLatch_;
-                break;
-                    
-                case ETI:
-                    address = address & ramMask_;
-                break;
-                    
-                case MICROBOARD:
-                case CDP18S020:
-                case VELF:
-                    if (address < 0x8000)
-                        address = (address | addressLatch_);
-                break;
-                    
-                case NANO:
-                    if (address < 0x8000)
-                        address = (address | addressLatch_) & 0xfff;
-                break;
-
-                case TMC1800:
-                    if (address < 0x8000)
-                        address = (address | addressLatch_) & (ramMask_ | 0x8000);
-                    else
-                        address = address & 0x81ff;
-                break;
-                    
-                case VIP:
-                    if (address < setLatch_)
-                        address = (address | addressLatch_);
-                    else
-                        address = address & romMask_;
-                    address = address & (ramMask_ | 0x8000);
-                break;
-                    
-                case VIPII:
-                    if (address < 0x8000)
-                        address = (address | addressLatch_);
-                    else
-                        address = address & 0x81ff;
-                break;
-            }
+            address = (address | bootstrap_) & currentComputerConfiguration.memoryMask;
             return mainMemoryLabelType_[address];
         break;
             
@@ -5640,151 +4466,38 @@ Byte Cdp1802::readMemLabelType(Word address)
         break;
             
         case MAPPEDRAM:
-            switch (computerType_)
-            {
-                case ELF:
-                case ELFII:
-                case SUPERELF:
-                case XML:
-                case PICO:
-                    address = (address & ramMask_) + ramStart_;
-                break;
-                
-                case COSMICOS:
-                    address = address | bootstrap_;
-                break;
-                
-                case FRED1:
-                case FRED1_5:
-                    address = address & 0x7ff;
-                break;
-                    
-                case STUDIO:
-                case COINARCADE:
-                case VICTORY:
-                case VISICOM:
-                    address = (address & 0x1ff) | 0x800;
-                break;
-                
-                case VIP:
-                    if (address < setLatch_)
-                        address = (address | addressLatch_);
-                    else
-                        address = address & romMask_;
-                    address = address & ramMask_;
-                break;
-            }
+            address = (address | bootstrap_) & currentComputerConfiguration.memoryMask;
             return mainMemoryLabelType_[address];
-        break;
-
-        case COMXEXPBOX:
-            switch (expansionMemoryType_[expansionSlot_ * 32 + (address & 0x1fff) / 256])
-            {
-                case RAMBANK:
-                    switch (bankMemoryType_[ramBank_ * 32 + (address & 0x1fff) / 256])
-                    {
-                        case ROM:
-                        case RAM:
-                            return expansionRamLabelType_[(ramBank_ * 0x2000) + (address & 0x1fff)];
-                        break;
-                    }
-                break;
-
-                case EPROMBANK:
-                    switch (epromBankMemoryType_[epromBank_ * 32 + (address & 0x1fff) / 256])
-                    {
-                        case ROM:
-                        case RAM:
-                            return expansionEpromLabelType_[(epromBank_ * 0x2000) + (address & 0x1fff)];
-                        break;
-                    }
-                break;
-
-                case SUPERBANK:
-                    switch (superBankMemoryType_[(epromBank_ + (8 * ramSwitched_)) * 32 + (address & 0x1fff) / 256])
-                    {
-                        case ROM:
-                        case RAM:
-                            return expansionSuperLabelType_[((epromBank_ + (8 * ramSwitched_)) * 0x2000) + (address & 0x1fff)];
-                        break;
-                    }
-                break;
-
-                case ROM:
-                case RAM:
-                    return expansionRomLabelType_[(expansionSlot_ * 0x2000) + (address & 0x1fff)];
-                break;
-            }
         break;
 
         case PRAM1870:
         case CRAM1870:
-            if (computerType_ == PECOM)
-            {
-                return mainMemoryLabelType_[address];
-            }
-            else
-            {
                 if (epromSlot_ != 0xff || superSlot_ != 0xff)
                     return mainMemoryLabelType_[address];
                 else
                     return MEM_TYPE_UNDEFINED;
-            }
         break;
 
-        case COPYCOMXEXPROM:
-            return mainMemoryLabelType_[(address & 0xfff) | 0xe000];
-        break;
-
-        case COPYFLOPROM:
-            if (expansionSlot_ == fdcSlot_)
-            {
-                if (((address & 0xff) >= 0xd0) && ((address & 0xff) <= 0xdf))
-                    return expansionRomLabelType_[(expansionSlot_ * 0x2000) + (address & 0xfff)];
-            }
-            if (expansionSlot_ == networkSlot_)
-            {
-                if (((address & 0xff) >= 0xd0) && ((address & 0xff) <= 0xdf))
-                    return expansionRomLabelType_[(expansionSlot_ * 0x2000) + (address & 0xfff)];
-            }
-            return mainMemoryLabelType_[address];
-        break;
-            
         case EMSMEMORY:
             emsNumber = (memoryType_[address / 256] >> 8);
 
-            switch (emsMemory_[emsNumber].memoryType_[((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))/256])
+            switch (emsMemory_[emsNumber].memoryType_[((address - currentComputerConfiguration.emsMemoryConfiguration[emsNumber].startAddress) |(currentComputerConfiguration.emsMemoryConfiguration[emsNumber].page << currentComputerConfiguration.emsMemoryConfiguration[emsNumber].maskBits))/256])
             {
                 case ROM:
                 case RAM:
-                    return emsMemory_[emsNumber].labelType_[(long) ((address - computerConfiguration.emsConfig_[emsNumber].start) |(computerConfiguration.emsConfig_[emsNumber].page << computerConfiguration.emsConfig_[emsNumber].maskBits))];
+                    return emsMemory_[emsNumber].labelType_[(long) ((address - currentComputerConfiguration.emsMemoryConfiguration[emsNumber].startAddress) |(currentComputerConfiguration.emsMemoryConfiguration[emsNumber].page << currentComputerConfiguration.emsMemoryConfiguration[emsNumber].maskBits))];
                 break;
             }
         break;
             
         case PAGER:
-            switch (pagerMemoryType_[((getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_))/256])
+            switch (pagerMemoryType_[((getPager(address>>currentComputerConfiguration.memoryMapperConfiguration.maskBits) << currentComputerConfiguration.memoryMapperConfiguration.maskBits) |(address &currentComputerConfiguration.memoryMapperConfiguration.mask))/256])
             {
                 case ROM:
                 case RAM:
-                    return pagerMemoryLabelType_[(getPager(address>>computerConfiguration.pagerMaskBits_) << computerConfiguration.pagerMaskBits_) |(address &computerConfiguration.pagerMask_)];
+                    return pagerMemoryLabelType_[(getPager(address>>currentComputerConfiguration.memoryMapperConfiguration.maskBits) << currentComputerConfiguration.memoryMapperConfiguration.maskBits) |(address &currentComputerConfiguration.memoryMapperConfiguration.mask)];
                 break;
             }
-        break;
-            
-        case MULTICART:
-            if ((address < 0x400) && !disableSystemRom_)
-                return mainMemoryLabelType_[address];
-            else
-                return multiCartRomLabelType_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
-        break;
-
-        case MAPPEDMULTICART:
-            address = address & 0xfff;
-            if ((address < 0x400) && !disableSystemRom_)
-                return mainMemoryLabelType_[address];
-            else
-                return multiCartRomLabelType_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
         break;
     }
     return MEM_TYPE_UNDEFINED;
@@ -5824,6 +4537,16 @@ void Cdp1802::increaseExecutedSlotMemory(int slot, long address, Byte type)
     {
         if (slotMemoryExecuted_[slot][address] < UINT64_MAX)
             slotMemoryExecuted_[slot][address]++;
+        p_Main->updateAssTabCheck(address);
+    }
+}
+
+void Cdp1802::increaseExecutedMcrMemory(int map, long address, Byte type)
+{
+    if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
+    {
+        if (mcrMemoryExecuted_[map][address] < UINT64_MAX)
+            mcrMemoryExecuted_[map][address]++;
         p_Main->updateAssTabCheck(address);
     }
 }
@@ -5918,10 +4641,10 @@ void Cdp1802::clearProfiler()
         for (int i=0; i<131072; i++)
             expansionSuperExecuted_[i] = 0;
     }
-    for (size_t emsNumber=0; emsNumber<computerConfiguration.emsConfigNumber_; emsNumber++)
+    for (std::vector<EmsMemory>::iterator emsMemory = emsMemory_.begin (); emsMemory != emsMemory_.end (); ++emsMemory)
     {
         for (wxUint32 i=0; i<emsSize_; i++)
-            emsMemory_[emsNumber].executed_[i] = 0;
+            emsMemory->executed_[i] = 0;
     }
     if (multiCartMemoryDefined_)
     {

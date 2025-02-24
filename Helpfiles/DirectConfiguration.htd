@@ -6,27 +6,27 @@
 For every computer a default program configuration is defined. For most computers this is the first available 1, 2 or 4K of RAM. For the Studio clones it is the cart area and for the Cidelsa the game ROM.
 </p>
 <p>
-To be able to save the 'debug' or 'type' information, i.e. the information defining what locations are 1802 code, data and possibly pseudo code, a program configuration needs to be defined. The same goes for using the 'Insert', 'Delete' and 'Search' features, see chapters <a href="DirectInsert.htm">Insert & Delete Code</a> and <a href="DirectSearch.htm">Search</a>.
+To be able to save the 'debug' or 'type' information, i.e. the information defining what locations are 1802 code, data and possibly pseudo code, a program configuration needs to be defined. The same goes for using the 'Insert', 'Delete' and 'Search' features, see sections <a href="DirectInsert.htm">Insert & Delete Code</a> and <a href="DirectSearch.htm">Search</a>.
 </p>
 <p>
 The program configurations define:
 <UL>
-<LI>Program name (yellow ellipse)
-<LI>Program directory (to change use orange ellipse)
-<LI>Code start (red ellipse)
-<LI>Code end (blue ellipse)
-<LI>(Program) end (magenta ellipse), default equal to Code end
-<LI>S/P (green ellipse), used on COMX for Slot code and on ELF for the EMS Page
+<LI>Program name (highlighted in yellow)
+<LI>Program directory (highlighted in orange)
+<LI>Code start (highlighted in red)
+<LI>Code end (highlighted in blue)
+<LI>(Program) end (highlighted in purple), default equal to Code end
+<LI>S/P (highlighted in green), used on COMX for Slot code and on ELF for the EMS Page
 </UL>
 </p>
 <p>
 <IMG SRC="images/assembler_conf.png" BORDER="0">
 </p>
 <p>
-The above will define a code area of hex 4400-53FF and a data area between hex 5400-5FFF. After this configuration is defined a 'Save' (brown ellipse) will store a binary file 'mycode.bin' from memory locations hex 4400-5FFF as well as save 'type' information in a file mycode.debug. When 'Save' is pressed a configuration file name is also requested which will save all configuration data like program name, directory, code start etc. To load an existing configuration file use the 'Load' button (grey ellipse).
+The above will define a code area of hex 4400-53FF and a data area between hex 5400-5FFF. After this configuration is defined a 'Save' (highlighted in brown) will store a binary file 'mycode.bin' from memory locations hex 4400-5FFF as well as save 'type' information in a file mycode.debug. When 'Save' is pressed a configuration file name is also requested which will save all configuration data like program name, directory, code start etc. To load an existing configuration file use the 'Load' button (highlighted in grey).
 </p>
 <p>
-It is recommended to keep all data either at the start of the code area; or after in the data area between 'Code end' and '(Program) end'. Data can also be used mixed in with code as long as the 'LVL' macro is used to load the data address (see also chapter 'LDL, LDRL, LDV and RLDL instructions'). If no data area is needed 'Code end' and '(Program) end' can be equal.
+It is recommended to keep all data either at the start of the code area; or after in the data area between 'Code end' and '(Program) end'. Data can also be used mixed in with code as long as the 'LVL' macro is used to load the data address (see also section 'LDL, LDRL, LDV and RLDL instructions'). If no data area is needed 'Code end' and '(Program) end' can be equal.
 </p>
 <p>
 The COMX Slot code should be defined as the COMX out 1 definition:
@@ -55,16 +55,16 @@ Note that any configuration range in a COMX Slot should always be between hex C0
 <IMG SRC="images/assembler_conf2.png" BORDER="0">
 </p>
 <p>
-To add a program to a configuration press 'New' (yellow ellipse). After filling in program name, code start, code end and program end press 'Store' (which turned red after pressing new). Pressing the up or down buttons (blue ellipse) will step thru the defined configurations if more than 1 is defined. The current program configuration number is show in the green ellipse.
+To add a program to a configuration press 'New' (highlighted in yellow). After filling in program name, code start, code end and program end press 'Store' (which turned red after pressing new). Pressing the up or down buttons (highlighted in blue) will step thru the defined configurations if more than 1 is defined. The current program configuration number is highlighted in green.
 </p>
 <p>
-To automatically save the defined programs as well as the .config file, check 'Save on exit' (magenta ellipse). If no configuration file has been specified a default file debug.config will be saved.
+To automatically save the defined programs as well as the .config file, check 'Save on exit' (highlighted in purple). If no configuration file has been specified a default file debug.config will be saved.
 </p>
 <p>
 All areas defined as code will show the address locations in black, other areas will show the address in grey. 
 </p>
 <p>
-Multiple program areas can be defined in one configuration. E.g. loading the SB configuration (press SB button (orange ellipse) on a COMX with SB active) will load 15 program areas! 
+Multiple program areas can be defined in one configuration. E.g. loading the SB configuration (press SB button (highlighted in orange) on a COMX with SB active) will load 15 program areas! 
 </p>
 <h2>Program configuration version</h2>
 <p>
@@ -74,7 +74,7 @@ After every program configuration 'Save' all binary and debug files are backed u
 <IMG SRC="images/assembler_version.png" BORDER="0">
 </p>
 <p>
-The Direct Assemble can load any of these configuration versions back by filling in a 'number' in the 'Configuration version' field (yellow ellipse above). So to load back the oldest back-up configuration fill in '1', to load back the latest fill in the latest number you can find in the folder where all configurations are saved. Above example would load back version 4.
+The Direct Assemble can load any of these configuration versions back by filling in a 'number' in the 'Configuration version' field (highlighted in yellow above). So to load back the oldest back-up configuration fill in '1', to load back the latest fill in the latest number you can find in the folder where all configurations are saved. Above example would load back version 4.
 </p>
 <p>
 Note all files will be loaded that have the same configuration extension. After adding an additional program into a configuration that program will start with 1 while older programs might already have a higher version number. As such it is recommended to delete or move older versions when adding a new program to a configuration.

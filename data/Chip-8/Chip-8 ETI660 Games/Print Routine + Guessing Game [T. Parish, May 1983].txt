@@ -1,0 +1,29 @@
+PRINT ROUTINE 
+
+This subroutine provides an easy way of coding a number of multi-line messages for printing on the screen during execution of a CHIP 8 program on the '660. It features: *13 characters per line • long messages flow onto new lines as required • equal spacing between characters of different width (making more natural-looking words). 
+
+The memory requirement in any program calling the subroutine is just seven bytes per message plus one byte per character — that’s pretty economical. 
+
+The routine occupies the last 1 /3K of a 3K machine, equivalent in memory requirement to about 58 characters, and is most useful in message oriented games (such as Guessing Game’, reproduced here). 
+
+The subroutine leaves all registers unchanged, except VO and VI. Here's an example of how to use the subroutine: 
+
+Call: (prints HELLO) 
+0720 A831 points to start of message 
+0722 A720 points to above instruction 
+0724 2EA8 call PRINT 
+
+Data: 
+0830 0506 length of message/'H 
+0832 0408 ‘E’/‘L’ 
+0834 0809 ‘L’/’O’ 
+
+Tim Parish, Myrtle Bank S.A. 
+
+There are two approaches to using PRINT with various programs: (1) record it separately and load it into RAM before or after the main program is loaded — saves space on tape: (2) treat the program and subroutines as one program — convenient. 
+
+GUESSING GAME 
+
+This is a simple game demonstrating use of the PRINT subroutine. The program itself explains the game, which is left with hexadecimal output for variation. 
+
+If your 660 is not called Little Zen (which becomes clear when you run the program), you might like to change the first message! Don t forget to load the PRINT subroutine. 

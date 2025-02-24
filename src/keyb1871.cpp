@@ -48,9 +48,18 @@ Keyb1871::Keyb1871()
     commandText_ = "";
 }
 
-void Keyb1871::configureKeyb1871(int WXUNUSED(computerType), IoConfiguration portConf, Locations addressLocations, wxString saveCommand)
+void Keyb1871::configureKeyb1871(Cdp1871Configuration cdp1871Configuration, AddressLocationConfiguration addressLocationConfiguration, wxString saveCommand)
 {
-    addressLocations_ = addressLocations;
+    cdp1871Configuration_ = cdp1871Configuration;
+    
+    p_Main->configureMessage(&cdp1871Configuration.ioGroupVector, "CDP1871 Keyboard");
+    p_Computer->setInType(&cdp1871Configuration.ioGroupVector, cdp1871Configuration.input, "read data");
+    p_Computer->setEfType(&cdp1871Configuration.ioGroupVector, cdp1871Configuration.ef, "keyboard DA");
+    p_Computer->setEfType(&cdp1871Configuration.ioGroupVector, cdp1871Configuration.repeatEf, "keyboard RPT");
+    p_Computer->setCycleType(CYCLE_TYPE_KEYBOARD, CDP1871_CYCLE);
+    p_Main->message("");
+
+    addressLocations_ = addressLocationConfiguration;
     saveCommand_ = saveCommand;
     
     keyboardEf_ = 1;
@@ -66,18 +75,6 @@ void Keyb1871::configureKeyb1871(int WXUNUSED(computerType), IoConfiguration por
     previousKeyCode_ = (wxKeyCode) 0;
 
     keyFileOpen_ = false;
-
-    wxString runningComp = p_Main->getRunningComputerStr();
-
-    p_Computer->setInType(portConf.keyboardInput, COMXIN);
-    p_Computer->setEfType(portConf.keyboardEf, COMXEF3);
-    p_Computer->setEfType(portConf.keyboardRepeatEf, COMXEF2);
-    p_Computer->setCycleType(KEYCYCLE, COMXCYCLE);
-
-    wxString printBuffer;
-    p_Main->message("Configuring CDP1871 Keyboard");
-    printBuffer.Printf("	Input %d: read data, EF %d: keyboard RPT, EF %d: keyboard DA\n", portConf.keyboardInput , portConf.keyboardRepeatEf, portConf.keyboardEf);
-    p_Main->message(printBuffer);
 }
 
 void Keyb1871::charEventKeyb1871(int keycode)
@@ -198,7 +195,7 @@ bool Keyb1871::keyCheck(int keycode, int modifiers)
 
 void Keyb1871::keyUp1871(int keycode)
 {
-    if (p_Main->isDiagOn(XML) == 1)
+    if (p_Main->isDiagOn())
     {
         if (p_Computer->getOutValue(1) != 0)
             return;
@@ -246,12 +243,12 @@ void Keyb1871::keyUp1871(int keycode)
 
 Byte Keyb1871::efKeyb1871()
 {
-    return keyboardEf_;
+    return keyboardEf_^cdp1871Configuration_.ef.reverse;
 }
 
 Byte Keyb1871::efKeybRepeat1871()
 {
-    return keyboardRepeatEf_;
+    return keyboardRepeatEf_^cdp1871Configuration_.repeatEf.reverse;
 }
 
 void Keyb1871::keyClear1871()
@@ -268,7 +265,7 @@ Byte Keyb1871::inKeyb1871()
 {
     Byte ret;
 
-    if (p_Main->isDiagOn(XML) == 1)
+    if (p_Main->isDiagOn())
     {
         switch (keyboardCode_)
         {

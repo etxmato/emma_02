@@ -1,0 +1,39 @@
+<html>
+<title>Front Panel</title>
+<body>
+<h1>Front Panel</h1>
+<p>
+The front panel includes the IN button, switches, Q LED and TIL displays:
+</p>
+<p>
+<IMG SRC="images/elf_front.png" BORDER="0">
+</p>
+<p>
+For details about how to show or open the front panel see section <a href="CosmacWindows.htm">Control Windows</a>.
+</p>
+<p>
+IN (yellow ellipse): This button initiates a DMA IN operation of the processor. The values of the 8 data switches (green ellipse) will be written into the memory location in R[0] when the computer is in load mode.
+</p>
+<p>
+LOAD (orange ellipse): When this switch is up and RUN (red ellipse) is down the computer is set into load mode. In this mode, values can be set on the 8 data switches (green ellipse) and then loaded into memory by pressing the IN button (yellow ellipse).  After the transfer, the address displays (grey ellipse) will show the address just written and the data displays (black ellipse) will show the byte written.
+</p>
+<p>
+MP (blue ellipse): This switch when up disables memory write. This will allow you to step through memory in the LOAD mode without actually modifying memory, with each IN (yellow ellipse) press, but would still increment the address. Using this you can step to an address in memory, turn MP off and then write a new value into memory.
+</p>
+<p>
+RUN (red ellipse): When this switch is up and LOAD (orange ellipse) is down the CPU is set into run mode and a program will begin to execute from address 0.  When both RUN and LOAD are down, the CPU is put into the reset state, setting the current address back to 0, and disabling DMA and INT operations.
+</p>
+<p>
+ON (magenta ellipse): Turning this switch up will end the Cosmac Elf emulator.
+</p>
+<p>
+DATA (green ellipse): These 8 switches are used to specify a byte to be input to memory. During RUN mode, reading port 4 will read the value of these switches.
+</p>
+<p>
+EF (brown ellipse): These 4 switches are connected to the 4 EF inputs of the CPU.
+</p>
+<p>
+Q (white ellipse): Shows status of the CPU Q flag.
+</p>
+</body>
+</html>

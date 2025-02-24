@@ -1,0 +1,544 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Cosmicos - COSmac MIcro COmputer System</name>
+        <config>Hex and 7 Segment</config>
+        <clock>1.75</clock>
+        <boot>0</boot>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
+        <int>218</int>
+        <dirname>Cosmicos</dirname>
+    </system>
+
+    <bootstrap>
+        <address>0xC0C0</address>
+        <q />
+    </bootstrap>
+
+    <frontpanel init="on">
+        <out>7</out>
+        <in>7</in>
+        <ef type="in">4</ef>
+        <size>333, 160</size>
+        <item>
+            <type>png</type>
+            <filename dirname="images">cosmicos.png</filename>
+        </item>
+        <item>
+            <type direction="horizontal">switch</type>
+            <function>mp</function>
+            <init>down</init>
+            <pos>10, 18</pos>
+        </item>
+        <item>
+            <type direction="horizontal">switch</type>
+            <function>nvram</function>
+            <init>down</init>
+            <pos>150, 18</pos>
+        </item>
+        <item>
+            <type form="313">til</type>
+            <value>0</value>
+            <function>datatil</function>
+            <pos>55, 28</pos>
+        </item>
+        <item>
+            <type form="313">til</type>
+            <value>1</value>
+            <function>datatil</function>
+            <pos>83, 28</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>qled</function>
+            <pos>110, 28</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>runled</function>
+            <pos>207, 28</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>loadled</function>
+            <pos>237, 28</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>pauseled</function>
+            <pos>267, 28</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>resetled</function>
+            <pos>297, 28</pos>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <init>up</init>
+            <label>G</label>
+            <function on="press">run</function>
+            <pos>200, 48</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <init>up</init>
+            <label>L</label>
+            <function>load</function>
+            <pos>230, 48</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <init>up</init>
+            <label>P</label>
+            <function>pause</function>
+            <pos>260, 48</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <init>up</init>
+            <label>R</label>
+            <function>reset</function>
+            <pos>290, 48</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <init>up</init>
+            <label>S</label>
+            <function type="cosmicos">step</function>
+            <pos>10, 48</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <init>up</init>
+            <label>C</label>
+            <function>clear</function>
+            <pos>10, 78</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <init>up</init>
+            <label>E</label>
+            <function>in</function>
+            <pos>10, 108</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type>led</type>
+            <value>7</value>
+            <function load="show">buttonled</function>
+            <pos>77, 88</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>6</value>
+            <function load="show">buttonled</function>
+            <pos>107, 88</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>5</value>
+            <function load="show">buttonled</function>
+            <pos>137, 88</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>4</value>
+            <function load="show">buttonled</function>
+            <pos>167, 88</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>3</value>
+            <function load="show">buttonled</function>
+            <pos>207, 88</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>2</value>
+            <function load="show">buttonled</function>
+            <pos>237, 88</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>1</value>
+            <function load="show">buttonled</function>
+            <pos>267, 88</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>0</value>
+            <function load="show">buttonled</function>
+            <pos>297, 88</pos>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>7</value>
+            <label>7</label>
+            <function>bitswitch</function>
+            <pos>70, 108</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>6</value>
+            <label>6</label>
+            <function>bitswitch</function>
+            <pos>100, 108</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>5</value>
+            <label>5</label>
+            <function>bitswitch</function>
+            <pos>130, 108</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>4</value>
+            <label>4</label>
+            <function>bitswitch</function>
+            <pos>160, 108</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>3</value>
+            <label>3</label>
+            <function>bitswitch</function>
+            <pos>200, 108</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>2</value>
+            <label>2</label>
+            <function>bitswitch</function>
+            <pos>230, 108</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>1</value>
+            <label>1</label>
+            <function>bitswitch</function>
+            <pos>260, 108</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <value>0</value>
+            <label>0</label>
+            <function>bitswitch</function>
+            <pos>290, 108</pos>
+            <size>25, 25</size>
+        </item>
+    </frontpanel>
+
+    <frontpanel init="on">
+        <pos type="grid">1, 0</pos>
+        <out type="multitil">6</out>
+        <in type="multitil">6</in>
+        <cycle type="multitil">218</cycle>
+        <size>185, 160</size>
+        <item>
+            <type>til</type>
+            <value>7</value>
+            <function>multitil</function>
+            <pos>3, 3</pos>
+        </item>
+        <item>
+            <type>til</type>
+            <value>6</value>
+            <function>multitil</function>
+            <pos>25, 3</pos>
+        </item>
+        <item>
+            <type>til</type>
+            <value>5</value>
+            <function>multitil</function>
+            <pos>47, 3</pos>
+        </item>
+        <item>
+            <type>til</type>
+            <value>4</value>
+            <function>multitil</function>
+            <pos>69, 3</pos>
+        </item>
+        <item>
+            <type>til</type>
+            <value>3</value>
+            <function>multitil</function>
+            <pos>91, 3</pos>
+        </item>
+        <item>
+            <type>til</type>
+            <value>2</value>
+            <function>multitil</function>
+            <pos>113, 3</pos>
+        </item>
+        <item>
+            <type>til</type>
+            <value>1</value>
+            <function>multitil</function>
+            <pos>135, 3</pos>
+        </item>
+        <item>
+            <type>til</type>
+            <value>0</value>
+            <function>multitil</function>
+            <pos>157, 3</pos>
+        </item>
+        <item>
+            <type form="rectangle">push</type>
+            <init>up</init>
+            <label>SEQ</label>
+            <range>2, 3</range>
+            <function on="press">ef</function>
+            <pos>3, 36</pos>
+            <size>34, 30</size>
+        </item>
+        <item>
+            <type form="rectangle">push</type>
+            <init>up</init>
+            <label>REQ</label>
+            <value>3</value>
+            <function on="press">ef</function>
+            <pos>3, 66</pos>
+            <size>34, 30</size>
+        </item>
+        <item>
+            <type form="rectangle">push</type>
+            <init>up</init>
+            <label>DEC</label>
+            <value>2</value>
+            <function on="press">ef</function>
+            <pos>3, 96</pos>
+            <size>34, 30</size>
+        </item>
+        <item>
+            <type form="rectangle">push</type>
+            <init>up</init>
+            <label>RET</label>
+            <value>1</value>
+            <function on="press">ef</function>
+            <pos>3, 126</pos>
+            <size>34, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>99</value>
+            <label>C</label>
+            <pos>37, 36</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>100</value>
+            <label>D</label>
+            <pos>67, 36</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>101</value>
+            <label>E</label>
+            <pos>97, 36</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>102</value>
+            <label>F</label>
+            <pos>127, 36</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>56</value>
+            <label>8</label>
+            <pos>37, 66</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>57</value>
+            <label>9</label>
+            <pos>67, 66</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>97</value>
+            <label>A</label>
+            <pos>97, 66</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>98</value>
+            <label>B</label>
+            <pos>127, 66</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>52</value>
+            <label>4</label>
+            <pos>37, 96</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>53</value>
+            <label>5</label>
+            <pos>67, 96</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>54</value>
+            <label>6</label>
+            <pos>97, 96</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>55</value>
+            <label>7</label>
+            <pos>127, 96</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>48</value>
+            <label>0</label>
+            <pos>37, 126</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>49</value>
+            <label>1</label>
+            <pos>67, 126</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>50</value>
+            <label>2</label>
+            <pos>97, 126</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>51</value>
+            <label>3</label>
+            <pos>127, 126</pos>
+            <size>30, 30</size>
+        </item>
+    </frontpanel>
+
+    <keyboard type="matrix">
+        <out>5</out>
+        <in>5</in>
+        
+        <keydef address="1" mask="1">48</keydef>      <!-- 0 -->
+        <keydef address="1" mask="2">49</keydef>      <!-- 1 -->
+        <keydef address="1" mask="4">50</keydef>      <!-- 2 -->
+        <keydef address="1" mask="6">51</keydef>      <!-- 3 -->
+        <keydef address="2" mask="1">52</keydef>      <!-- 4 -->
+        <keydef address="2" mask="2">53</keydef>      <!-- 5 -->
+        <keydef address="2" mask="4">54</keydef>      <!-- 6 -->
+        <keydef address="2" mask="6">55</keydef>      <!-- 7 -->
+        <keydef address="4" mask="1">56</keydef>      <!-- 8 -->
+        <keydef address="4" mask="2">57</keydef>      <!-- 9 -->
+        <keydef address="4" mask="4">97</keydef>      <!-- A -->
+        <keydef address="4" mask="6">98</keydef>      <!-- B -->
+        <keydef address="8" mask="1">99</keydef>      <!-- C -->
+        <keydef address="8" mask="2">100</keydef>     <!-- D -->
+        <keydef address="8" mask="4">101</keydef>     <!-- E -->
+        <keydef address="8" mask="6">102</keydef>     <!-- F -->
+    </keyboard>
+
+     <memory>
+         <nvram default="off" type="gui">
+            <start>0x0000</start>
+            <end>0x00FF</end>
+            <dump>ramdump.bin</dump>
+         </nvram>
+
+         <ram>
+            <start>0x0100</start>
+            <end>0xBFFF</end>
+         </ram>
+         
+         <rom type="gui">
+             <start>0xC000</start>
+             <end>0xC7FF</end>
+             <filename>hexmonitor.bin</filename>
+             <pulldown mask="hex*.bin">Cosmicos</pulldown>
+         </rom>
+     </memory>
+ 
+     <efbuttons>
+         <pressed>0</pressed>
+         <keydef key="27">2,3</keydef>
+         <ef1>13</ef1>
+         <ef2>9</ef2>
+         <ef3>8</ef3>
+     </efbuttons>
+
+     <cassette decks="1">
+         <ef>2</ef>
+     </cassette>
+
+     <debugger>
+         <scrt mode="on">
+             <call reg="4">0xc055</call>
+             <return reg="5">0xc065</return>
+         </scrt>
+
+         <assembler>
+             <filename>mycode</filename>
+             <code_start>0</code_start>
+             <code_end>0xFFF</code_end>
+         </assembler>
+     </debugger>
+
+     <locations>
+         <!-- key input -->
+         <key_input>0xC54f</key_input>
+     </locations>
+     
+</emmaconfig>

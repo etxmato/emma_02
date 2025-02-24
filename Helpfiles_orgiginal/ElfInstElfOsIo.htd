@@ -1,0 +1,189 @@
+<html>
+<title>Installation Elf/Os via Biosio</title>
+<body>
+<h1>Installation Elf/Os via Biosio</h1>
+<p>
+Elf Os is a disk based operating system for Elf class computers designed by Mike Riley, for additional information see also: <a href="http://www.elf-emulation.com">Elf/1802 Emulation</a>.
+</p>
+<p>
+The installation procedure for Elf/Os described below makes use of the adapted version including the "Bios Video I/O Module" designed by Richard Peters. This version allows use of Elf/Os on different video types like 1861 Pixie, MC6845, MC6847 and TMS 9918. This will install ElfOs 2.5 Build 87. To install biosio on ElfOs 2.8 follow instructions <a href="ElfInstElfOs.htm">Installation Elf/Os 2.8</a> followed by <a href="ElfInstBiosio.htm">Installation Biosio</a>.
+</p>
+<p>
+The following example will install Elf/Os 2.5 via TMS 9918 video. The same procedure can be used for other video types. </p>
+<p>
+To start installation, first load one of the configuration with the menu option below (blue ellipse) following the grey menu:
+</p>
+<p>
+<IMG SRC="images/elf_elfos_biosio.png" BORDER="0">
+</p>
+<p>
+The example below is using the TMS 9918 configuration:
+</p>
+<pre>
+ROM 1: biosio.elfos.0.2.5.rom 
+(ROM 1: biosio.elfos.0.2.5_32.column.rom for MC6847)
+IDE: (any filename).ide 
+Disk Type: IDE; with 512 Tracks, 4 Heads and 26 Sectors 
+Boot address: DFA6 
+RAM: 0 to FFFF 
+Video: TMS 9918 
+Keyboard: ASCII Keyboard 
+Uppercase: selected</pre>
+<p>
+To start installation of Elf/Os follow these steps:
+</p>
+<h2>
+1. Press start
+</h2>
+<p>
+This should start one of the Elf computer windows and a TMS 9918 window which should show this menu: 
+</p>
+<pre>
+   Elf/Os Installation
+   1> Run hard drive init tool
+   2> Run filesystem gen tool
+   3> Run sys tool
+   4> Install binaries
+   5> Boot Elf/OS
+
+      Option ?</pre>
+<p>
+<h2>
+2. Select option 1> Run hard drive init tool
+</h2>
+<p>
+Choose Q for Quick format, which will initialize the hard drive. When the init is complete, you should see something similar to: 
+<pre>
+   Total Sectors: 53248
+   Format Complete</pre>
+<p>
+After this the menu will be redrawn. 
+</p>
+<p>
+Note: This step only needs to be performed once. If you have already run the hard drive init tool on your emulated drives, you will never need to run it again. 
+<h2>
+3. Select option 2> Run filesystem gen tool
+</h2>
+<p>
+This will setup the filesystem on the disk. After running this step you should see something similar to: 
+<pre>
+  IDE File System Gen Utility
+
+  Total Sectors: 53248
+  AU Size: 8
+  Total AUs: 6656
+  Master Dir Sector: 48
+  Filesystem generation complete</pre>
+<p>
+After which you again get the installation menu.
+</p>
+<p>
+Note: This step you also normally need to run only once. You would only need to run this option again if you desire to wipe out the contents of your drive. 
+<h2>
+4. Select option 3> Run sys tool
+</h2>
+<p>
+This will copy the OS kernel to the hard disk. You should see: 
+<pre>
+  System copied.</pre>
+<h2>
+5. Select option 4> Install Binaries
+</h2>
+<p>
+This will install the binary utilities onto the disk. 
+</p>
+<p>
+DIR - allows you to view the disk directory<br> 
+SAVE - Save memory contents to executable file<br>
+DUMP - allows you to dump memory contents to executable files <br>
+MINIMON - a simple monitor program that you can use to view/modify memory <br>
+LOAD - loads an executable program into memory without executing it <br>
+FREE - shows you disk usage statistics <br>
+DEL - allows you to delete files <br>
+SETBOOT - rewrites the boot loader <br>
+HEXDUMP - displays the contents of a file in hex <br>
+COPY - allows you to copy files <br>
+RENAME - allows you to rename files <br>
+TYPE - displays the contents of a ASCII file <br>
+EDIT - is a really simple text editor <br>
+EXEC - allows you to execute a program already in memory <br>
+INSTALL - allows you to load additional packages<br>
+MKDIR - Make a directory<br>
+RMDIR - Remove a directory<br>
+CHDIR - Change/View current directory<br>
+PATCH - Applies program patches<br>
+VER - Get the version of Elf/OS<br>
+ASM - Assembler<br>
+STAT - View file statistics<br>
+PIXINIZOS - This program allows running Elf/Os on a Pixie window<br>
+VIDINIZOS - This program allows running Elf/Os on a MC6845/MC6847 window<br>
+TMSINIZOS - This program allows running Elf/Os on a TMS 9918 window
+<h2>
+6. Select option 5> Boot Elf/Os
+</h2>
+<p>
+This will boot Elf/Os and then you should see: 
+</p>
+<pre>
+  Elf/OS Ready</pre>
+<h2>
+7. Copy TMSINIZOS INIT 
+</h2>
+<p>
+When started in Elf/Os you can initialize TMSINIZOS as default INIT program by typing:
+</p>
+<pre>
+  COPY TMSINIZOS INIT</pre>
+<p>
+Wait until the Elf/OS Ready prompt comes back and switch off the Elf system.
+</p>
+<h2>
+8. Start Elf/Os 
+</h2>
+<p>
+From this time on you can start Elf/Os directly by loading one of the configuration with the menu option below (blue ellipse) following the grey menu:
+</p>
+<p>
+<IMG SRC="images/elf_elfos_biosio_run.png" BORDER="0">
+</p>
+<p>
+Or alternatively by changing the following setting in the Emma 02 window:
+</p>
+<pre>
+ROM 1: bios+biosiov93.rom 
+(ROM 1: bios+biosiov93_32.column.rom for MC6847)
+Boot address: FF00</pre>
+<p>
+Instead of using the combined bios and biosio rom file supplied with the Emma 02 emulator you can also load separate rom files for the bios and biosio as ROM 1 and 2.
+</p>
+<h2>
+9. Using other video types
+</h2>
+<p>
+To use different video types copy the desired xxxINIZOS files to INIT instead. Note that after a different OS file is copied to INIT that specific .ide disk file is not usable on any other video system anymore. To revert back to the original video system copy the correct OS file back or delete the INIT file. The INIT file can also be deleted by using 'disktool' available from Cosmac Elf yahoo group (http://groups.yahoo.com/group/cosmacelf/) under the files/ElfOs section.
+</p>
+<p>
+Elf/Os will also boot without INIT file using VT 100 serial mode with EF Serial in 2. In this case use the bios rom only. Press the return key in the VT100 emulator window to start Elf/Os.
+</p>
+<p>
+To install ElfOs with other video systems please follow the steps above but note that the boot address should be different and for use of keyboard the input port and EF flag settings should be changed as follows:
+</p>
+<p>
+Pixie Video<br>
+Start Address: DFA0<br>
+Keyboard Input port 7, EF flag 3
+</p>
+<p>
+MC6845/MC6847 Video Card<br>
+Start Address: DFA3 <br>
+Keyboard Input port 5, EF flag 4
+</p>
+<p>
+TMS9118 Video<br>
+Start Address: DFA6 <br>
+Keyboard Input port 7, EF flag 3</pre>
+<p>
+Alternatively any of the other video configurations from the 'File/Configuration/Elf/Os - Installation' menu.
+</p>
+</body>
+</html>

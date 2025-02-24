@@ -6,23 +6,23 @@
 For more information about the Super Board (SB) project please see our <a href="http://www.comx35.com/superboard.html">COMX Super Board</a> page.
 </p>
 <p>
-To run the COMX emulator with the Super Board, select the SB checkbox (green ellipse) which is the default setting. This will disable the ROM (yellow ellipse), EXP ROM (blue ellipse) and CARD 4 (magenta ellipse) fields as they are now controlled by the SB settings.
+To run the COMX emulator with the Super Board, select the SB checkbox (highlighted in green) which is the default setting. This will disable the ROM (highlighted in yellow), EXP ROM (highlighted in blue) and CARD 4 (highlighted in purple) fields as they are now controlled by the SB settings.
 </p>
 <p>
 <IMG SRC="images/comx_sb.png" BORDER="0">
 </p>
 <p>
-The SB ROM files can be controlled and changed via the SB 'SET-UP' button (orange ellipse), under the ROM Files tab. In principle these do not need to be changed.
+The SB ROM files can be controlled and changed via the SB 'SET-UP' button (highlighted in orange), under the ROM Files tab. In principle these do not need to be changed.
 </p>
 <h2>Settings</h2>
 <p>
-To open the Super Board Settings window press the SB 'SET-UP' button. The settings window that will open contains 4 tabs (yellow ellipse) as described in following sub chapters.
+To open the Super Board Settings window press the SB 'SET-UP' button. The settings window that will open contains 4 tabs (highlighted in yellow) as described in following sub sections.
 </p>
 <p>
 <IMG SRC="images/comx_sb_settings.png" BORDER="0">
 </p>
 <p>
-All tabs contains a 'Save All' button (orange ellipse), make sure to press any of these to save changes made.
+All tabs contains a 'Save All' button (highlighted in orange), make sure to press any of these to save changes made.
 </p>
 <p>
 <b>Note:</b> while running the COMX emulator no setting can be changed in the Online, USB and ROM files tab whereas the COMX emulator has to be running to be able to delete the backup files in the Backup tab.
@@ -35,18 +35,18 @@ The online tab shows all settings related to USB commands using online connectio
 <IMG SRC="images/comx_sb_settings_online.png" BORDER="0">
 </p>
 <p>
-Define the Player name and location (yellow ellipse) as used in the USB HSWEB command. Note that the maximum length of both player name and location is 25 characters and the following characters are not allowed and will be ignored: # ~ ; :.
+Define the Player name and location (highlighted in yellow) as used in the USB HSWEB command. Note that the maximum length of both player name and location is 25 characters and the following characters are not allowed and will be ignored: # ~ ; :.
 </p>
 <p>
 To be able to get your email address specified as sender with USB EMAIL make sure to fill in a
-correct and valid email in the &#8216;Email address&#8217; field (orange ellipse).
+correct and valid email in the &#8216;Email address&#8217; field (highlighted in orange).
 </p>
 <p>
-Home page (red ellipse) and bookmark (blue ellipse) fields are used by the USB BROWSER command and can be shown on the COMX by pressing the &#8216;H&#8217; or 0 to 9 keys during a browser session. Max length of these fields is 126 characters. To store a bookmark press the &#8216;Store&#8217; button (magenta ellipse) which will be enabled when typing text in the bookmark text field (blue ellipse).
+Home page (highlighted in red) and bookmark (highlighted in blue) fields are used by the USB BROWSER command and can be shown on the COMX by pressing the &#8216;H&#8217; or 0 to 9 keys during a browser session. Max length of these fields is 126 characters. To store a bookmark press the &#8216;Store&#8217; button (highlighted in purple) which will be enabled when typing text in the bookmark text field (highlighted in blue).
 </p>
 <p>
 Email address and aliases are used by the USB EMAIL command. Any defined alias can be edited
-when selected by the Aliases choice button (green ellipse). A new alias can be defined when NEW as well as &#8216;alias / email address&#8217; (brown ellipse) is shown. To store the alias press the &#8216;Store&#8217; button (grey ellipse) and to delete the alias press the 'Delete' button (black ellipse).
+when selected by the Aliases choice button (highlighted in green). A new alias can be defined when NEW as well as &#8216;alias / email address&#8217; (highlighted in brown) is shown. To store the alias press the &#8216;Store&#8217; button (highlighted in grey) and to delete the alias press the 'Delete' button (highlighted in black).
 </p>
 <h3>USB</h3>
 <p>
@@ -56,16 +56,16 @@ The USB tab shows all settings related to USB commands: CD, CHAR, BSAVE, DSAVE, 
 <IMG SRC="images/comx_sb_settings_usb.png" BORDER="0">
 </p>
 <p>
-Root &#8211; Either use the &#8216;Root&#8217; button (yellow ellipse) or change the path manually (in orange ellipse) to change the root directory seen from the COMX. The selected root is the highest directory level that can be accessed by the COMX. This is either shown as directory or top-directory on the COMX (depending on &#8216;Show top directory in USB CD&#8217; setting)
+Root &#8211; Either use the &#8216;Root&#8217; button (highlighted in yellow) or change the path manually (highlighted in orange) to change the root directory seen from the COMX. The selected root is the highest directory level that can be accessed by the COMX. This is either shown as directory or top-directory on the COMX (depending on &#8216;Show top directory in USB CD&#8217; setting)
 </p>
 <p>
-Show top directory in USB CD &#8211; Select Yes / No (red ellipse), &#8216;No&#8217; will not show the root directory (PR USB CD will show '/'), &#8216;Yes&#8217; will show the root directory as top-directory (PR USB CD will show 'COMX', assuming the default root folder is used). 
+Show top directory in USB CD &#8211; Select Yes / No (highlighted in red), &#8216;No&#8217; will not show the root directory (PR USB CD will show '/'), &#8216;Yes&#8217; will show the root directory as top-directory (PR USB CD will show 'COMX', assuming the default root folder is used). 
 </p>
 <p>
-Case conversion (blue ellipse) &#8211; These settings are only used if USB CHAR(0), normal COMX character set or USB CHAR(1), lower case &#8216;default&#8217; standard COMX characters on &#8216;SHIFT&#8217; are selected. USB CHAR(0) is set as default. For these character sets the USB SW will convert any filename or directory name as specified: in lower case, upper case or capitalised. Default all filenames will be in lower case and directory names capitalised. When USB CHAR(2) or (3) are used the capitalisation is as typed on the COMX.
+Case conversion (highlighted in blue) &#8211; These settings are only used if USB CHAR(0), normal COMX character set or USB CHAR(1), lower case &#8216;default&#8217; standard COMX characters on &#8216;SHIFT&#8217; are selected. USB CHAR(0) is set as default. For these character sets the USB SW will convert any filename or directory name as specified: in lower case, upper case or capitalised. Default all filenames will be in lower case and directory names capitalised. When USB CHAR(2) or (3) are used the capitalisation is as typed on the COMX.
 </p>
 <p>
-Back-up (magenta ellipse) &#8211; Select Yes / No, &#8216;Yes&#8217; will result in creation of a back-up file for the specified commands with the format &#8216;nameNumber.type.bak&#8217;. So when saving a file &#8216;happiehap.comx&#8217; the first back-up file created will be named happiehap1.comx.bak, second happiehap2.comx.bak etc. &#8216;No&#8217; will result in a question on the COMX to overwrite the file Y/N when the file already exist on the PC.
+Back-up (highlighted in purple) &#8211; Select Yes / No, &#8216;Yes&#8217; will result in creation of a back-up file for the specified commands with the format &#8216;nameNumber.type.bak&#8217;. So when saving a file &#8216;happiehap.comx&#8217; the first back-up file created will be named happiehap1.comx.bak, second happiehap2.comx.bak etc. &#8216;No&#8217; will result in a question on the COMX to overwrite the file Y/N when the file already exist on the PC.
 </p>
 <h3>ROM files</h3>
 <p>
@@ -73,7 +73,7 @@ The ROM files tab shows and allows changing of the SB ROM file details, not reco
 </p>
 <h3>Backup</h3>
 <p>
-The Backup tab shows all back-up (.bak) files (orange ellipse) in the specified directory (and if selected sub directories 'yes' in red ellipse). Pressing &#8216;Yes&#8217; (blue ellipse) will delete all these files.
+The Backup tab shows all back-up (.bak) files (highlighted in orange) in the specified directory (and if selected sub directories 'yes' highlighted in red). Pressing &#8216;Yes&#8217; (highlighted in blue) will delete all these files.
 </p>
 <p>
 <IMG SRC="images/comx_sb_settings_backup.png" BORDER="0">

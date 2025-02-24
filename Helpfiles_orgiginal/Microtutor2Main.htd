@@ -1,0 +1,41 @@
+<HTML></HTML><html>
+<title>Microtutor II Emulator</title>
+<body>
+<h1>Microtutor II Emulator</h1>
+<p>
+This emulator will emulate the RCA Microtutor II. A manual for the Microtutor can be found here: <a href="https://groups.io/g/cosmacelf/files/MPM-209%20Microtutor%20II%20Manual.pdf">COSMAC Microtutor II Manual - MPM 209</a>.
+</p>
+<p>
+The Microtutor II is similar to the Microtutor however using an RCA CDP1802 CPU.
+</p>
+<p>
+To start the Microtutor II emulator first select the RCA tab (yellow ellipse) followed by the Microtutor II tab (orange ellipse) and then press Start:
+</p>
+<p>
+<IMG SRC="images/tutorii.png" BORDER="0">
+</p>
+<p>
+The above will have started the default Microtutor II emulator configuration running TOPS. To change to other predefined configurations load one of them with the menu option below (blue ellipse) following the grey menu:
+</p>
+<p>
+<IMG SRC="images/tutorii_configuration.png" BORDER="0">
+</p>
+<p>
+Summary of the Microtutor II <a href="MainConfigurations.htm">configurations</a>:
+</p>
+<p><B>Bare</B></p>
+<p>
+Basic configuration with only 256 Bytes RAM.
+</p>
+<p><B>Default/TOPS</B></p>
+<p>
+Default configuration using the mini OS 'TOPS' and the 'utility' memory concept.
+</p>
+<p>
+This section also includes:
+</p>
+<p>
+<a href="Microtutor2Sw.htm">Pre SW load</a><br>
+<a href="Microtutor2Boot.htm">Auto Boot</a><br>
+</p>
+</body></html>

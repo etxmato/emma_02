@@ -1,0 +1,9 @@
+ASTEROIDS 
+
+Yes, it’s another asteroids game but this one is better. In this game your cannon starts in the centre of the screen with three asteroids moving down the screen. 
+
+This time your cannon can spin around by hitting keys ‘4’ and ‘6’; ‘5’ will fire and 8’ will send you forward in the direction you are facing. 
+
+Your score is shown after five cannons have been destroyed. 
+
+To load this program use 0480 at 0400 and 08FF at 0402. 

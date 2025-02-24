@@ -336,7 +336,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
@@ -369,9 +369,9 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/EHsc /bigobj"
 				Optimization="0"
-				InlineFunctionExpansion="1"
+				InlineFunctionExpansion="0"
 				AdditionalIncludeDirectories=".\images;&quot;$(SDL)\include&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswud&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\include\msvc&quot;;&quot;$(CURL)\include\&quot;;&quot;$(SERIALPORT)\Win64\include\&quot;"
-				PreprocessorDefinitions="WIN32;WINVER=0x0500;_DEBUG;__WXMSW__;__WXDEBUG__;_WINDOWS;NOPCH"
+				PreprocessorDefinitions="WIN32;_DEBUG;__WXMSW__;__WXDEBUG__;_WINDOWS;NOPCH"
 				StringPooling="true"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -407,8 +407,9 @@
 				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x64&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswud\&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\&quot;;&quot;$(CURL)\build\Win64\VC9\LIB Debug&quot;;&quot;$(SERIALPORT)\Win64\lib&quot;"
-				ManifestFile="$(IntDir)\vc9\$(TargetFileName).intermediate.manifest"
+				AdditionalLibraryDirectories="&quot;C:\Program Files (x86)\Visual Leak Detector\lib\Win64&quot;;&quot;$(SDL)\lib\x64&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswud\&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\&quot;;&quot;Y:\workspace\curl-win\build\Win64\VC9\LIB Debug - DLL Windows SSPI&quot;;&quot;$(SERIALPORT)\Win64\lib&quot;"
+				GenerateManifest="false"
+				ManifestFile="$(IntDir)\$(TargetFileName).intermediate.manifest"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.pdb"
@@ -416,6 +417,7 @@
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
 				TargetMachine="17"
+				AllowIsolation="true"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -460,15 +462,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ay-3-8912.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\bitkeypad.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\src\Blip_Buffer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\breakpoints.cpp"
 				>
 			</File>
 			<File
@@ -484,55 +486,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\cdp18s020.cpp"
+				RelativePath=".\src\cdp1854.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\cdp18s600.cpp"
+				RelativePath=".\src\cdp1855.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\cdp18s640.cpp"
+				RelativePath=".\src\cdp1877.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\cidelsa.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\cidelsastatusbar.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\coinarcade.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\colour.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\computer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\comx35.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\comxstatusbar.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\configuration.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\cosmicos.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\cosmicoshex.cpp"
+				RelativePath=".\src\cdp1878.cpp"
 				>
 			</File>
 			<File
@@ -548,43 +514,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\diagstatusbar.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\elf.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\elf2.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\elf2k.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\elf2kdisk.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\elf2khex.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\elf2kswitch.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\encrypt.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\eti660.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\expansion.cpp"
 				>
 			</File>
 			<File
@@ -592,23 +522,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\fred.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\functionkey.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guicdp18s020.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guicdp18s600.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guicidelsa.cpp"
 				>
 			</File>
 			<File
@@ -616,63 +530,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\guicosmicos.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guidiag.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guielf.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guielf2k.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guieprom.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guieti660.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guifred.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\guimain.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guimcds.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guimembership.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guimicrotutor.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guims2000.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guinano.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guipecom.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guipico.cpp"
 				>
 			</File>
 			<File
@@ -684,43 +542,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\guistudio2.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guitmc2000.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guitmc600.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guiuc1800.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guivelf.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guivip.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\guivip2.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\guivip2k.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\guixml.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\hbelf.cpp"
 				>
 			</File>
 			<File
@@ -729,6 +555,10 @@
 			</File>
 			<File
 				RelativePath=".\src\ide.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ImageFile.cpp"
 				>
 			</File>
 			<File
@@ -776,10 +606,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\ledmodule.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\mac.cpp"
 				>
 			</File>
@@ -796,35 +622,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\mcds.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\member.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\memory.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\microsetup.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\microtutor.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\microtutor2.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ms2000.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\nano.cpp"
 				>
 			</File>
 			<File
@@ -832,11 +630,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\pecom.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\pico.cpp"
+				RelativePath=".\src\panel.cpp"
 				>
 			</File>
 			<File
@@ -849,10 +643,6 @@
 			</File>
 			<File
 				RelativePath=".\src\portext.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ports.cpp"
 				>
 			</File>
 			<File
@@ -900,15 +690,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\studio2.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\studioiv.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\super.cpp"
+				RelativePath=".\src\statusbar.cpp"
 				>
 			</File>
 			<File
@@ -924,23 +706,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\tmc1800.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\tmc2000.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\tmc600.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\tms9918.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\uc1800.cpp"
+				RelativePath=".\src\tu58.cpp"
 				>
 			</File>
 			<File
@@ -952,43 +722,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\v1870.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\velf.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\victory.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\video.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\vip.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\vip2.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\vip2k.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\vip2statusbar.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\vis1870.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\visicom.cpp"
 				>
 			</File>
 			<File
@@ -1052,15 +790,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ay-3-8912.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\bitkeypad.h"
 				>
 			</File>
 			<File
 				RelativePath=".\src\Blip_Buffer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\breakpoints.h"
 				>
 			</File>
 			<File
@@ -1076,59 +814,23 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\cdp18s020.h"
+				RelativePath=".\src\cdp1854.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\cdp18s600.h"
+				RelativePath=".\src\cdp1855.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\cdp18s640.h"
+				RelativePath=".\src\cdp1877.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\cidelsa.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\cidelsastatusbar.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\coinarcade.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\colour.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\computer.h"
+				RelativePath=".\src\cdp1878.h"
 				>
 			</File>
 			<File
 				RelativePath=".\src\computerconfig.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\comx35.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\comxstatusbar.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\configuration.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\cosmicos.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\cosmicoshex.h"
 				>
 			</File>
 			<File
@@ -1144,47 +846,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\diagstatusbar.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\elf.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\elf2.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\elf2k.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\elf2kdisk.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\elf2khex.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\elf2kswitch.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\elfconfiguration.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\encrypt.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\eti660.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\expansion.h"
 				>
 			</File>
 			<File
@@ -1200,79 +862,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\guicdp18s020.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guicdp18s600.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guicidelsa.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\guicomx.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\guicosmicos.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guidiag.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guielf.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guielf2k.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guieprom.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guieti660.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guifred.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\guimain.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guimcds.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guimembership.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guimicrotutor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guims2000.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guinano.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guipecom.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guipico.h"
 				>
 			</File>
 			<File
@@ -1284,43 +878,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\guistudio2.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guitmc2000.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guitmc600.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guiuc1800.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guivelf.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\guivip.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\guivip2.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\guivip2k.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\guixml.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\hbelf.h"
 				>
 			</File>
 			<File
@@ -1329,6 +891,10 @@
 			</File>
 			<File
 				RelativePath=".\src\ide.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ImageFile.hpp"
 				>
 			</File>
 			<File
@@ -1376,10 +942,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\ledmodule.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\mac.h"
 				>
 			</File>
@@ -1396,35 +958,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\mcds.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\member.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\memory.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\microsetup.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\microtutor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\microtutor2.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ms2000.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\nano.h"
 				>
 			</File>
 			<File
@@ -1432,11 +966,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\pecom.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\pico.h"
+				RelativePath=".\src\panel.h"
 				>
 			</File>
 			<File
@@ -1449,10 +979,6 @@
 			</File>
 			<File
 				RelativePath=".\src\portext.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ports.h"
 				>
 			</File>
 			<File
@@ -1504,15 +1030,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\studio2.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\studioiv.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\super.h"
+				RelativePath=".\src\statusbar.h"
 				>
 			</File>
 			<File
@@ -1528,23 +1046,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\tmc1800.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\tmc2000.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\tmc600.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\tms9918.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\uc1800.h"
+				RelativePath=".\src\tu58.h"
 				>
 			</File>
 			<File
@@ -1556,43 +1062,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\v1870.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\velf.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\victory.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\video.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\vip.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\vip2.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\vip2k.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\vip2statusbar.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\vis1870.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\visicom.h"
 				>
 			</File>
 			<File

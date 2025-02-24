@@ -1,0 +1,26 @@
+<HTML></HTML><html>
+<title>Infinite UC1800 Emulator</title>
+<body>
+<h1>Infinite UC1800 Emulator</h1>
+<p>
+This emulator will emulate the Infinite UC1800. </a>.
+</p>
+<p>
+To start the Infinite UC1800 emulator first select the Elf tab (yellow ellipse) followed by the Infinite UC1800 tab (orange ellipse) and then press Start:
+</p>
+<p>
+<IMG SRC="images/infinite.png" BORDER="0">
+</p>
+<p>
+The Infinite UC1800 is similar to the Elf and Microtutor II, just a CDP 1802, hex keypad, switches, LEDs and TIL313s. 
+</p>
+<p>
+This section also includes:
+</p>
+<p>
+<a href="Uc1800Sw.htm">Pre SW load</a><br>
+<a href="Uc1800Boot.htm">Auto Boot</a><br>
+<a href="Uc1800Front.htm">Front Panel</a><br>
+</a><br>
+</p>
+</body></html>

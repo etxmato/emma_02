@@ -1,0 +1,81 @@
+
+<html>
+<title>Installation Biosio</title>
+<body>
+<h1>Installation Biosio</h1>
+<p>
+This instruction describes how to install and use Biosio for use with ElfOs. For installation of ElfOs please follow: <a href="ElfInstElfOs.htm">Installation Elf/Os 2.8</a>. For details on how to use biosio with other applications please see the .txt files in the Biosio directory. The "Bios Video I/O Module" is designed by Richard Peters. This version allows use of Elf/Os on different video types like 1861 Pixie, MC6845, MC6847 and TMS 9918. 
+</p>
+<p>
+To install biosio routines, use the following settings:<br>
+</p>
+<pre>
+ROM 1: bios+biosiov93.rom 
+(ROM 1: bios+biosiov93_32.colum.rom for MC6847) 
+RAM 2: xxxINIZ.rom (where xxx is the needed I/O)
+IDE: (any filename).ide
+Disk Type: IDE; with 512 Tracks, 4 Heads and 26 Sectors
+Boot address: FF00
+RAM: 0 to FFFF
+Video: (needed I/O)
+Keyboard: ASCII Keyboard
+Vt100: selected
+Uppercase: selected</pre>
+<p>
+Press start and press return in the Vt100 window. When ElfOs is started use the SAVE command with the details below for the needed I/O:
+</p>
+<h2>
+1861 Pixie:
+</h2>
+<pre>
+START address: 7000 
+END address: 706F 
+EXEC address: 7041 
+FILE NAME: PIXINIZOS</pre>
+<h2>
+MC6845/MC6847 Video:
+</h2>
+<pre>
+START address: 7000 
+END address: 7062 
+EXEC address: 7035 
+FILE NAME: VIDINIZOS</pre>
+<h2>
+TMS 9918, text mode:
+</h2>
+<pre>
+START address: 7000 
+END address: 768F 
+EXEC address: 7088 
+FILE NAME: TMSINIZOS</pre>
+<h2>
+TMS 9918, graphic mode:
+</h2>
+<pre>
+START address: 7000 
+END address: 748F 
+EXEC address: 70A2 
+FILE NAME: GRAINIZOS</pre>
+<h2>
+Vt100 without baud check:
+</h2>
+<pre>
+START address: 7000 
+END address: 708F 
+EXEC address: 7035 
+FILE NAME: SERINIZOS</pre>
+<p>
+To switch input and video start the xxxINIZOS file you want and ElfOS should switch to that window. To be able to start ElfOs on one of the biosio video systems copy xxxINIZOS to INIT.
+</p>
+<p>
+When using the ASCII keyboard input port and EF flag settings should be changed as follows:
+</p>
+<p>
+MC6845 Video Card<br>
+Keyboard Input port 5, EF flag 4
+</p>
+<p>
+Pixie Video and TMS9118 Video<br>
+Keyboard Input port 7, EF flag 3</pre>
+</body>
+</html>

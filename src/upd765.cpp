@@ -114,76 +114,23 @@ Upd765::Upd765()
 /*
  Configure UPD 765 for use with MS2000 and initialize startup values for internal variables
 */
-void Upd765::configureUpd765(int fdcType, int efnumber)
+void Upd765::configureUpd765(Upd765Configuration upd765Configuration)
 {
-    fdcType_ = fdcType;
-    
-    p_Computer->setCycleType(DISKCYCLEFDC, FDCCYCLE);
-    
-    for (int i=0; i<4; i++)
-    {
-        diskCreated_[i] = false;
-    }
-    
-    p_Computer->setEfType(3, efnumber);
-
-    p_Main->message("Configuring 18S651 and uPD765 Disk Controller");
-    p_Main->message("	Output 4: DMA control, output 7: DMA count, input 4: uPD765 status");
-    p_Main->message("	Output 5: uPD765 command register, input 5: uPD765 command register");
-    p_Main->message("	EF 3: interrupt\n");
-
-    masterStatus_ = MS_REQUEST_FOR_MASTER;
-    interrupt_ = 1;
-    commandPacketIndex = 0;
-    
-    fdcCycles_ = p_Main->getFdcCpms()*15;
-    updActivity_ = UPD_NONE;
-    hdCommand_ = HD_UPD_NONE;
-    
-    writeFileName_ = "";
-    writeFileAttribute_ = 2;
-    
-    for (int drive = 0; drive < 4; drive++)
-    {
-        initializeCat(drive);
-        for (int cluster = FIRST_CLUSTER; cluster < (MAX_CLUSTER + BUFFER_CLUSTER); cluster++)
-        {
-            clusterInfo_[drive][cluster].filenameDefined = false;
-            clusterInfo_[drive][cluster].readCluster = true;
-            clusterInfo_[drive][cluster].sdwClusterDefined = false;
-        }
-    }
-
-    statusRegister0_ = 0;
-    statusRegister1_ = 0;
-    statusRegister2_ = 0;
-    statusRegister3_ = 0;
-    lastCommand_ = 0;
-}
-
-void Upd765::configureUpd765(int fdcType, Upd765Io upd765Io)
-{
-    fdcType_ = fdcType;
-    
-    p_Computer->setCycleType(DISKCYCLEFDC, UPD765_CYCLE);
+    upd765Configuration_ = upd765Configuration;
     
     for (int i=0; i<4; i++)
     {
         diskCreated_[i] = false;
     }
 
-    wxString ioGroup = "";
-    if (upd765Io.ioGroup != -1)
-        ioGroup.Printf(" on group %d", upd765Io.ioGroup);
-
-    p_Main->message("Configuring uPD765 Disk Controller" + ioGroup);
-
-    p_Computer->setOutTypeAndNumber(upd765Io.ioGroup+1, upd765Io.dmaControl, UPD765_DMA_CONTROL, 0, "DMA control");
-    p_Computer->setOutTypeAndNumber(upd765Io.ioGroup+1, upd765Io.dmaCount, UPD765_DMA_COUNT, 0, "DMA count");
-    p_Computer->setInTypeAndNumber(upd765Io.ioGroup+1, upd765Io.readStatus, UPD765_READ_STATUS, 0, "uPD765 status");
-    p_Computer->setOutTypeAndNumber(upd765Io.ioGroup+1, upd765Io.writeCommand, UPD765_WRITE_COMMAND, 0, "write uPD765 command register");
-    p_Computer->setInTypeAndNumber(upd765Io.ioGroup+1, upd765Io.readCommand, UPD765_READ_COMMAND, 0, "read uPD765 command register");
-    p_Computer->setEfTypeAndNumber(-1, upd765Io.ioGroup+1, upd765Io.efInterrupt, UPD765_EF, 0, "interrupt");
+    p_Main->configureMessage(&upd765Configuration.ioGroupVector, "uPD765 Disk Controller");
+    p_Computer->setOutType(&upd765Configuration.ioGroupVector, upd765Configuration.dmaControl, "DMA control");
+    p_Computer->setOutType(&upd765Configuration.ioGroupVector, upd765Configuration.dmaCount, "DMA count");
+    p_Computer->setInType(&upd765Configuration.ioGroupVector, upd765Configuration.readStatus, "uPD765 status");
+    p_Computer->setOutType(&upd765Configuration.ioGroupVector, upd765Configuration.writeCommand, "write uPD765 command register");
+    p_Computer->setInType(&upd765Configuration.ioGroupVector, upd765Configuration.readCommand, "read uPD765 command register");
+    p_Computer->setEfType(&upd765Configuration.ioGroupVector, upd765Configuration.efInterrupt, "interrupt");
+    p_Computer->setCycleType(CYCLE_TYPE_DISK_FDC, UPD765_CYCLE);
 
     p_Main->message("");
 
@@ -191,7 +138,7 @@ void Upd765::configureUpd765(int fdcType, Upd765Io upd765Io)
     interrupt_ = 1;
     commandPacketIndex = 0;
     
-    fdcCycles_ = p_Main->getFdcCpms()*15;
+    fdcCycles_ = p_Main->getUpdFdcCpms()*15;
     updActivity_ = UPD_NONE;
     hdCommand_ = HD_UPD_NONE;
     
@@ -221,7 +168,7 @@ void Upd765::configureUpd765(int fdcType, Upd765Io upd765Io)
 */
 Byte Upd765::efInterrupt()
 {
-    return interrupt_;
+    return interrupt_^upd765Configuration_.efInterrupt.reverse;
 }
 
 /*
@@ -245,7 +192,7 @@ void Upd765::doRead()
     
     if(dmaControl_ == 3)   // actual transfer?
     {
-        if (!p_Main->getDirectoryMode(fdcType_, drive_))
+        if (!p_Main->getDirectoryMode(FDCTYPE_UPD765, drive_))
         {
             // Folloing 3 commented lines are for debug purpose showing current data in debug message window
             // wxString textMessage;
@@ -530,7 +477,7 @@ void Upd765::doWrite()
     // Calculate location from cylinder and record number (head ignored)
     offset_ = (commandPacket_[2]*9 + commandPacket_[4]-1);
 
-    if (!p_Main->getDirectoryMode(fdcType_, drive_))
+    if (!p_Main->getDirectoryMode(FDCTYPE_UPD765, drive_))
     {
         // Folloing 3 commented lines are for debug purpose showing current data in debug message window
         // wxString textMessage;
@@ -706,7 +653,7 @@ void Upd765::doFormatWrite()
     
     interrupt_ = 0;
     
-    if (!p_Main->getDirectoryMode(fdcType_, drive_))
+    if (!p_Main->getDirectoryMode(FDCTYPE_UPD765, drive_))
     {
         if (diskDir_[drive_]+diskName_[drive_] == "" || diskName_[drive_] == "")
         {
@@ -1016,7 +963,7 @@ void Upd765::doCommand()
             
         case RCCMD:                  // recalibrate            
             //p_Main->eventShowTextMessage("recalibrate ");
-            if (!diskCreated_[drive_] && !p_Main->getDirectoryMode(fdcType_, drive_))
+            if (!diskCreated_[drive_] && !p_Main->getDirectoryMode(FDCTYPE_UPD765, drive_))
             {
                 if (diskName_[drive_] == "")
                 {
@@ -1040,7 +987,7 @@ void Upd765::doCommand()
             }
             else
             {
-                if (p_Main->getDirectoryMode(fdcType_, drive_))
+                if (p_Main->getDirectoryMode(FDCTYPE_UPD765, drive_))
                 {
                     pcn = 0;
                     statusRegister0_ = SR_SEEK_END | (commandPacket_[1]&3);
@@ -1065,7 +1012,7 @@ void Upd765::doCommand()
             }
             else
             {
-                if (p_Main->getDirectoryMode(fdcType_, drive_))
+                if (p_Main->getDirectoryMode(FDCTYPE_UPD765, drive_))
                 {
                     pcn = 0;
                     statusRegister0_ = SR_SEEK_END | (commandPacket_[1]&3);
@@ -1246,7 +1193,7 @@ void Upd765::cycleUpd765()
     if (--fdcCycles_ > 0) return;
     if (fdcCycles_ < 0) fdcCycles_ = 0;
     
-    fdcCycles_ = p_Main->getFdcCpms()*15;
+    fdcCycles_ = p_Main->getUpdFdcCpms()*15;
     
     switch (updActivity_)
     {

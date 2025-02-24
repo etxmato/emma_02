@@ -4,7 +4,7 @@
 <BODY>
 <h1>Expansion Box</h1>
 <p>
-To run the COMX emulator with the expansion box, fill in the ROM file via 'EXP ROM' (yellow ellipse). Default (when the <a href="ComxSb.htm">Super Board</a> configuration is off, green ellipse) the 'f&m.expansion.rom.3.2' is filled in which also includes a screen editor. It is also possible to use the original expansion box ROM (excluding the screen editor) by selecting 'expansion.bin'. 
+To run the COMX emulator with the expansion box, fill in the ROM file via 'EXP ROM' (highlighted in yellow). Default (when the <a href="ComxSb.htm">Super Board</a> configuration is off, highlighted in green) the 'f&m.expansion.rom.3.2' is filled in which also includes a screen editor. It is also possible to use the original expansion box ROM (excluding the screen editor) by selecting 'expansion.bin'. 
 </p>
 <p>
 <IMG SRC="images/comx_exp.png" BORDER="0">
@@ -30,7 +30,7 @@ The binary, Intel hex and RCS Elf Emulator hex format are supported.
 The expansion ROM will simulate the COMX expansion box allowing up to 4 interface cards. All known interface cards have now been implemented and tested.
 </p>
 <p>
-To remove the expansion box functionality just select an empty EXP ROM (yellow ellipse) entry or remove the EXP ROM file name start the COMX as normal.
+To remove the expansion box functionality just select an empty EXP ROM (highlighted in yellow) entry or remove the EXP ROM file name start the COMX as normal.
 </p>
 <p>
 The expansion box commands and functionality is described below, note that not all commands will work unless the correct interface cards are configured.
@@ -118,7 +118,7 @@ This option is used whenever the user wants to use the Thermal Printer card. The
 <B>Note:</B> before using assembly calls (as described in <a href="ComxThermal.htm">Thermal Printer Support</a>), the user should enable the thermal printer card first. This is done by the OUT 1 instruction or in BASIC by using any CARD Tm before the CALL statement. 
 </p>
 <p>
-For use of the Screen image creation (CARD T8) please use the CALL (@C0F0) screen capture statements as described in the <a href="ComxThermal.htm">Thermal Printer Support</a> chapter.
+For use of the Screen image creation (CARD T8) please use the CALL (@C0F0) screen capture statements as described in the <a href="ComxThermal.htm">Thermal Printer Support</a> section.
 </p>
 <h2>CARD Pm</h2>
 <p>

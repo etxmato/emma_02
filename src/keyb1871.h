@@ -7,7 +7,7 @@ public:
     Keyb1871 ();
     ~Keyb1871 () {};
 
-    void configureKeyb1871(int computerType, IoConfiguration portConf, Locations addressLocations, wxString saveCommand);
+    void configureKeyb1871(Cdp1871Configuration cdp1871Configuration, AddressLocationConfiguration addressLocationConfiguration, wxString saveCommand);
     void charEventKeyb1871(int keycode);
     bool keyDownExtended1871(int keycode, wxKeyEvent& event);
     bool keyCheck(int keycode, int modifiers);
@@ -27,6 +27,8 @@ public:
     void diagOut(Byte value);
 
 private:
+    Cdp1871Configuration cdp1871Configuration_;
+    
     Byte lastKeyCode_;
     int keyboardCode_;
     int secondKeyboardCodes[5];
@@ -47,7 +49,7 @@ private:
     size_t ctrlvText_;
     wxString commandText_;
     
-    Locations addressLocations_;
+    AddressLocationConfiguration addressLocations_;
     wxString saveCommand_;
 };
 

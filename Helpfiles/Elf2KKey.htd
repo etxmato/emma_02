@@ -3,7 +3,7 @@
 <BODY>
 <h2>Keyboard Mapping and Types</h2>
 <p>
-This chapter describes Elf keyboard mapping for details, for VT100 terminal key mappings see chapter <a href="TerminalVT100.htm">VT100 Setup & Key Mapping</a>
+This section describes Elf keyboard mapping for details, for VT100 terminal key mappings see section <a href="TerminalVT100.htm">VT100 Setup & Key Mapping</a>
 </p>
 <h3>Keyboard Mapping</h3>
 <p>
@@ -11,7 +11,7 @@ Default the Elf 2000 'In' button is mapped to the PC Insert key on Windows and P
 </p>
 <h3>Keyboard Types</h3>
 <p>
-To select the specific Elf 2000 keyboard type use the choice button 'Keyboard' (yellow ellipse). Currently 3 types are supported: PS2 Keyboard, PS2 + JP4 and Hex Keyboard.
+To select the specific Elf 2000 keyboard type use the choice button 'Keyboard' (highlighted in yellow). Currently 3 types are supported: PS2 Keyboard, PS2 + JP4 and Hex Keyboard.
 </p>
 <p>
 <IMG SRC="images/elf2000_keyboard.png" BORDER="0">
@@ -35,7 +35,7 @@ Hex Keyboard:
 Only 1 hex keypad is supported.
 </p>
 <p>
-To change and view the hex keypad to PC key mapping select the 'Key Map' button (blue ellipse), see also chapter <a href="KeyMappingMain.htm">Key Mapping</a>
+To change and view the hex keypad to PC key mapping select the 'Key Map' button (highlighted in blue), see also section <a href="KeyMappingMain.htm">Key Mapping</a>
 </p>
 </BODY>
 </HTML>

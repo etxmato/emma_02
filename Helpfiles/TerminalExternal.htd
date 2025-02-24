@@ -1,3 +1,4 @@
+
 <html>
 <title>External Terminal Software</title> 
 <body>
@@ -9,7 +10,7 @@ To use Emma 02 with an external terminal additional software is needed. So far I
 Of course serial terminal software is needed. For windows I have used and tested <a href="https://www.emtec.com/download.html#zocfiles">ZOC7</a>. For Ubuntu I have tested with <a href="https://help.ubuntu.com/community/Minicom">Minicom</a>. Any other serial terminal emulation should also work.
 </p>
 <p>
-Both Emma 02 and serial terminal software will communicate with a serial port on the host PC. So one option to use this would be to connect the two serial ports with a cable. However I recommend to use a serial port emulator. The serial port emulator will create two virtual ports on the host PC and connect them. One of the ports should be specified in the Terminal Setup window (yellow ellipse) and the second in the serial terminal.
+Both Emma 02 and serial terminal software will communicate with a serial port on the host PC. So one option to use this would be to connect the two serial ports with a cable. However I recommend to use a serial port emulator. The serial port emulator will create two virtual ports on the host PC and connect them. One of the ports should be specified in the Terminal Setup window (highlighted in yellow) and the second in the serial terminal.
 </p>
 <p>
 <IMG SRC="images/terminal_ext_port.png" BORDER="0">

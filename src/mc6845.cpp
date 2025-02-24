@@ -41,152 +41,44 @@
 #include "main.h"
 #include "mc6845.h"
 
-MC6845::MC6845(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, int charW, IoConfiguration ioConfiguration, int videoNumber)
+MC6845::MC6845(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, Mc6845Configuration mc6845Configuration)
 : Video(title, pos, size)
 {
-    charW_ = charW;
+    charW_ = mc6845Configuration.charSize.x;
     clock_ = clock;
-    videoNumber_ = videoNumber;
+    videoNumber_ = mc6845Configuration.videoNumber;
+    mc6845Configuration_ = mc6845Configuration;
 
-    int regVal [16] = {94, 64, 77, 8, 28, 2, 16, 22, 0, 8, 20, 8, 0, 0, 3, 0xc0}; 
+    int regVal [16] = {94, mc6845Configuration.screenSize.x, 77, 8, 28, 2, mc6845Configuration.screenSize.y, 22, 0, mc6845Configuration.charSize.y, 20, 8, 0, 0, 3, 0xc0};
 
     windowSize_ = size;
-    computerType_ = computerType;
-    characterListPointer6845 = NULL;
-    colourIndex_ = 0;
-    videoType_ = VIDEO6845;
-
-    switch(computerType_)
-    {
-        case ELF:
-            elfTypeStr_ = "Elf";
-        break;
-
-        case ELFII:
-            elfTypeStr_ = "ElfII";
-        break;
-
-        case SUPERELF:
-            elfTypeStr_ = "SuperElf";
-        break;
-
-        case PICO:
-            elfTypeStr_ = "Pico";
-        break;
-    }
-    interlaceOR_ = p_Main->getInterlace(computerType_);
-    readCharRomFile(p_Main->getCharRomDir(computerType_), p_Main->getCharRomFile(computerType_));
-    mc6845RamStart_ = ioConfiguration.mc6845StartRam; //p_Main->getConfigItem(elfTypeStr_+"/mc6845StartRam",0xE000l);
-    mc6845RamEnd_ = ioConfiguration.mc6845EndRam; //p_Main->getConfigItem(elfTypeStr_+"/mc6845EndRam", 0xE7FFl);
-    Word mc6845RamSize = mc6845RamEnd_ - mc6845RamStart_ + 1;
-
-    mc6845AddressRegister_ = ioConfiguration.mc6845Address; //p_Main->getConfigItem(elfTypeStr_+"/mc6845Address",0xE800l);
-    mc6845DataRegister_ = ioConfiguration.mc6845Data; //p_Main->getConfigItem(elfTypeStr_+"/mc6845Data",0xE801l);
-
-    switch (p_Main->getCpuStartupVideoRam())
-    {
-        case STARTUP_ZEROED:
-            for (int i=0; i<mc6845RamSize; i++) mc6845ram_[i] = 0;
-        break;
-            
-        case STARTUP_RANDOM:
-            for (int i=0; i<mc6845RamSize; i++) mc6845ram_[i] = rand() % 0x100;
-        break;
-            
-        case STARTUP_DYNAMIC:
-            p_Computer->setDynamicRandomByte();
-            for (int i=0; i<mc6845RamSize; i++) mc6845ram_[i] = p_Computer->getDynamicByte(i);
-        break;
-    }
-    
-    fullScreenSet_ = false;
-    zoom_ = zoom;
-
-    double intPart;
-    zoomFraction_ = (modf(zoom_, &intPart) != 0);
-
-#ifndef __WXMAC__
-    SetIcon(wxICON(app_icon));
-#endif
-
-    screenCopyPointer = new wxBitmap(size.x, size.y);
-    dcMemory.SelectObject(*screenCopyPointer);
-
-#if defined(__WXMAC__)
-    gc = wxGraphicsContext::Create(dcMemory);
-    gc->SetAntialiasMode(wxANTIALIAS_NONE);
-#endif
-
-    videoScreenPointer = new VideoScreen(this, size, zoom, computerType, videoNumber_);
-    cursorAddress_ = 0;
-    startAddress_ = 0;
-    cursorOn_ = false;
-    cursorBlink_ = true;
-    cursorBlinkOn_ = false;
-    cursorBlinkTime_ = 16;
-    charLine_ = 0;
-    rows_ = 0;
-    scanLine_ = 0;
-    blink_ = cursorBlinkTime_;
-    offsetX_ = 0;
-    offsetY_ = 0;
-    videoHeight_ = 512;
-    videoWidth_ = 288;
-
-    defineColours(computerType_);
-    backGround_ = BACKGROUND;
-
-    for (int i=0; i<16; i++)
-    {
-        register_[i] = 0xff;
-        writeRegister6845(i);
-        writeData6845(regVal[i]);
-    }
-    setCycle();
-    zoom_ = zoom;
-    this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
-    this->SetBackgroundColour(colour_[colourIndex_+backGround_]);
-}
-
-MC6845::MC6845(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, wxSize charSize, IoConfiguration ioConfiguration, int videoNumber)
-: Video(title, pos, size)
-{
-    charW_ = charSize.x;
-    clock_ = clock;
-    videoNumber_ = videoNumber;
-
-    int regVal [16] = {94, ioConfiguration.mc6845ScreenSize.x, 77, 8, 28, 2, ioConfiguration.mc6845ScreenSize.y, 22, 0, charSize.y, 20, 8, 0, 0, 3, 0xc0};
-
-    windowSize_ = size;
-    computerType_ = computerType;
     characterListPointer6845 = NULL;
     colourIndex_ = 0;
 
-    elfTypeStr_ = "Xml";
     videoType_ = VIDEOXML6845;
     colourIndex_ = COL_MC6845_FORE-2;
 
-    interlaceOR_ = p_Main->getInterlace(computerType_);
-    readCharRomFile(p_Main->getCharRomDir(computerType_), p_Main->getCharRomFile(computerType_));
-    mc6845RamStart_ = ioConfiguration.mc6845StartRam; //p_Main->getConfigItem(elfTypeStr_+"/mc6845StartRam",0xE000l);
-    mc6845RamEnd_ = ioConfiguration.mc6845EndRam; //p_Main->getConfigItem(elfTypeStr_+"/mc6845EndRam", 0xE7FFl);
+    interlaceOR_ = p_Main->getInterlace();
+    readCharRomFile(p_Main->getCharRomDir(), p_Main->getCharRomFile());
+    mc6845RamStart_ = mc6845Configuration.startRam; //p_Main->getConfigItem(elfTypeStr_+"/mc6845StartRam",0xE000l);
+    mc6845RamEnd_ = mc6845Configuration.endRam; //p_Main->getConfigItem(elfTypeStr_+"/mc6845EndRam", 0xE7FFl);
 
-    mc6845AddressRegister_ = ioConfiguration.mc6845Address; //p_Main->getConfigItem(elfTypeStr_+"/mc6845Address",0xE800l);
-    mc6845DataRegister_ = ioConfiguration.mc6845Data; //p_Main->getConfigItem(elfTypeStr_+"/mc6845Data",0xE801l);
+    mc6845AddressRegister_ = mc6845Configuration.address; //p_Main->getConfigItem(elfTypeStr_+"/mc6845Address",0xE800l);
+    mc6845DataRegister_ = mc6845Configuration.data; //p_Main->getConfigItem(elfTypeStr_+"/mc6845Data",0xE801l);
 
     switch (p_Main->getCpuStartupVideoRam())
     {
         case STARTUP_ZEROED:
-            for (int i=0; i<=ioConfiguration.mc6845RamMask; i++) mc6845ram_[i] = 0;
+            for (int i=0; i<=mc6845Configuration.ramMask; i++) mc6845ram_[i] = 0;
         break;
             
         case STARTUP_RANDOM:
-            for (int i=0; i<=ioConfiguration.mc6845RamMask; i++) mc6845ram_[i] = rand() % 0x100;
+            for (int i=0; i<=mc6845Configuration.ramMask; i++) mc6845ram_[i] = rand() % 0x100;
         break;
             
         case STARTUP_DYNAMIC:
             p_Computer->setDynamicRandomByte();
-            for (int i=0; i<=ioConfiguration.mc6845RamMask; i++) mc6845ram_[i] = p_Computer->getDynamicByte(i);
+            for (int i=0; i<=mc6845Configuration.ramMask; i++) mc6845ram_[i] = p_Computer->getDynamicByte(i);
         break;
     }
     
@@ -208,7 +100,7 @@ MC6845::MC6845(const wxString& title, const wxPoint& pos, const wxSize& size, do
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
 #endif
 
-    videoScreenPointer = new VideoScreen(this, size, zoom, computerType, videoNumber_);
+    videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_);
     cursorAddress_ = 0;
     startAddress_ = 0;
     cursorOn_ = false;
@@ -222,7 +114,7 @@ MC6845::MC6845(const wxString& title, const wxPoint& pos, const wxSize& size, do
     offsetX_ = 0;
     offsetY_ = 0;
 
-    defineColours(computerType_);
+    defineColours();
     backGround_ = BACKGROUND;
 
     for (int i=0; i<16; i++)
@@ -258,61 +150,22 @@ MC6845::~MC6845()
     }
 }
 
-void MC6845::configure6845(IoConfiguration ioConfiguration)
+void MC6845::configure6845()
 {
-    p_Computer->defineMemoryType(mc6845RamStart_, mc6845RamEnd_, MC6845RAM);
-    p_Computer->setCycleType(BLINKCYCLE_MC6845, MC6845BLINK);
-    p_Computer->setCycleType(VIDEOCYCLE_MC6845, MC6845CYCLE);
-
-//    int efPort = p_Main->getConfigItem(elfTypeStr_+"/mc6845Ef", 2l);
-    p_Computer->setEfType(ioConfiguration.mc6845Ef, MC6845EF);
-
-    p_Main->message("Configuring MC6845");
+    p_Main->configureMessage(&mc6845Configuration_.ioGroupVector, "MC6845");
 
     wxString printBuffer;
-    if (ioConfiguration.mc6845Ef != -1)
-    {
-        printBuffer.Printf("	EF %d: Display enable", ioConfiguration.mc6845Ef);
-        p_Main->message(printBuffer);
-    }
     printBuffer.Printf("	%04X-%04X: Video RAM", mc6845RamStart_, mc6845RamEnd_);
     p_Main->message(printBuffer);
-    if (ioConfiguration.mc6845Address != -1)
-    {
-        printBuffer.Printf("	%04X: CRTC address register, %04X: CRTC data register\n", mc6845AddressRegister_, mc6845DataRegister_);
-        p_Main->message(printBuffer);
-    }
-}
-
-void MC6845::configure6845Xml(IoConfiguration ioConfiguration)
-{
-    p_Computer->setCycleType(BLINKCYCLE_MC6845, MC6845BLINK);
-    p_Computer->setCycleType(VIDEOCYCLE_MC6845, MC6845CYCLE);
-
-    if (ioConfiguration.mc6845Ef != -1)
-        p_Computer->setEfType(ioConfiguration.mc6845Ef, MC6845EF);
-
-    wxString ioGroup = "";
-    if (ioConfiguration.mc6845IoGroup != -1)
-    {
-        ioGroup.Printf(" on group %d", ioConfiguration.mc6845IoGroup);
-    }
-    
-    p_Main->message("Configuring MC6845" + ioGroup);
-
-    wxString printBuffer;
-    if (ioConfiguration.mc6845Ef != -1)
-    {
-        printBuffer.Printf("	EF %d: Display enable", ioConfiguration.mc6845Ef);
-        p_Main->message(printBuffer);
-    }
-    printBuffer.Printf("	%04X-%04X: Video RAM", mc6845RamStart_, mc6845RamEnd_);
-    p_Main->message(printBuffer);
-    if (ioConfiguration.mc6845Address != -1)
+    if (mc6845Configuration_.address != -1)
     {
         printBuffer.Printf("	%04X: CRTC address register, %04X: CRTC data register", mc6845AddressRegister_, mc6845DataRegister_);
         p_Main->message(printBuffer);
     }
+    p_Computer->setEfType(&mc6845Configuration_.ioGroupVector, mc6845Configuration_.ef, "Display enable");
+    p_Computer->setCycleType(CYCLE_TYPE_BLINK_MC6845, MC6845_BLINK_CYCLE);
+    p_Computer->setCycleType(CYCLE_TYPE_VIDEO_MC6845, MC6845_CYCLE);
+
     p_Main->message("");
     
 }
@@ -320,8 +173,8 @@ void MC6845::configure6845Xml(IoConfiguration ioConfiguration)
 void MC6845::configureSuperVideo()
 {
     p_Computer->defineMemoryType(mc6845RamStart_, mc6845RamEnd_, MC6845RAM);
-    p_Computer->setCycleType(BLINKCYCLE_MC6845, MC6845BLINK);
-    p_Computer->setCycleType(VIDEOCYCLE_MC6845, MC6845CYCLE);
+    p_Computer->setCycleType(CYCLE_TYPE_BLINK_MC6845, MC6845_BLINK_CYCLE);
+    p_Computer->setCycleType(CYCLE_TYPE_VIDEO_MC6845, MC6845_CYCLE);
 
     p_Main->message("Configuring MC6845");
 
@@ -342,7 +195,7 @@ void MC6845::init6845()
 
 Byte MC6845::ef6845()
 {
-    return(cycleValue6845_ < nonDisplay6845_) ? 0 : 1;
+    return ((cycleValue6845_ < nonDisplay6845_) ? 0 : 1)^mc6845Configuration_.ef.reverse;
 }
 
 void MC6845::writeRegister6845(Word addr, Byte value)
@@ -628,6 +481,7 @@ void MC6845::write6845(Word addr, Byte value)
     if (addr >= memoryStart && addr<(memoryStart + 256))
         p_Main->updateDebugMemory(addr);
     draw6845(addr, value);
+    p_Main->assLog(value);
 }
 
 Byte MC6845::read6845CharRom(Word addr)

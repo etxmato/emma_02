@@ -8,10 +8,10 @@
         <config>Chip-8 (select Chip-8 file in RAM field or use LOAD after Start)</config>
         <clock>1.773</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>Chip-8/Chip-8 ETI660 Hybrids</dirname>
     </system>
 
@@ -35,8 +35,10 @@
        <ram type="gui" cart="ch8">
             <start>0x0600</start>
             <end>0x0FFF</end>
+            <pulldown mask="*.ch8">Chip-8/Chip-8 ETI660 Games</pulldown>
+            <pulldown mask="*.ch8">Chip-8/Chip-8 ETI660 Programs</pulldown>
             <pulldown mask="*.ch8">Chip-8/Chip-8 ETI660 Hybrids</pulldown>
-            <filename>Pong (ETI660 Hybrid).ch8</filename>
+            <filename>Kong660 (ETI660 Hybrid) [T. Parish, Jul 1984].ch8</filename>
         </ram>
 
         <ram>
@@ -55,7 +57,7 @@
 
         <out>2</out>
         <in>2</in>
-        <ef>4</ef>
+        <ef pol="rev">4</ef>
     </keypad>
 
     <video type="1864">
@@ -96,7 +98,7 @@
         <color type="green">0, 255, 0</color>
         <color type="yellow">255, 255, 0</color>
         <color type="cyan">0, 255, 255</color>
-        <color type="black">20, 20, 20</color>
+        <color type="black">60, 60, 60</color>
         <color type="back_blue">0, 0, 128</color>
         <color type="back_black">0, 0, 0</color>
         <color type="back_green">0, 128, 0</color>
@@ -105,6 +107,7 @@
 
     <cassette decks="1">
         <ef>2</ef>
+        <keyclear />
     </cassette>
     
     <locations>

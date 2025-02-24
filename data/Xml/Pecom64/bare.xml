@@ -8,10 +8,10 @@
         <config>Bare</config>
         <clock>2.813</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dma out="1">2</dma>
         <dirname>Pecom</dirname>
     </system>
@@ -55,7 +55,7 @@
           -->
 
           <iogroup>0</iogroup>
-          <in mask="0x3f">3</in>
+          <in addressmask="0x3f" useaddress="yes">3</in>
           <keydef type="ctrl" address="0x14" bit="1">1</keydef>     <!-- CTRL A -->
           <keydef type="ctrl" address="0x15" bit="0">2</keydef>
           <keydef type="ctrl" address="0x15" bit="1">3</keydef>

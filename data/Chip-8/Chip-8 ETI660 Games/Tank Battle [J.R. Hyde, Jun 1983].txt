@@ -1,0 +1,18 @@
+TANK BATTLE 
+
+J.R. Hyde, Christchurch NZ 
+
+This game has been adapted from a game originally written for the Cosmac VIP. You are a tank commander and the object is to annihilate targets. It's a variation on a familiar theme, but this one has a few twists and it's not as easy as it appears. 
+
+A target will appear at random on the screen and may disappear at times. By maneuvering your tank, you try to shoot the target and score a hit using the fire button (key F — what else!). Your score (00 to start with) is shown on the left of the screen and the number of shots left is shown on the right. For each hit you score 10 points. Each time the target hits you, however, five shots are deducted from those remaining! 
+
+To manouver the tank, use the keys as follows: 
+
+Key
+1 UP
+4 LEFT
+6 RIGHT
+9 DOWN
+F FIRE
+
+By changing the data at 07b8 to 4428 and 07cc to 442F. the tank can be made to move and fire in the bottom part of the screen if required. 

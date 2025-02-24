@@ -49,16 +49,19 @@ public:
 #define CDP_1870_P 3
 #define CDP_1870_C 4
 #define CDP_1870_COLOUR 5
-#define V_6845 6
-#define V_6847 7
-#define V_6847_RAM 8
-#define TMS_MEMORY 9
-#define VT_RAM 10
-#define CDP_1864 11
-#define I_8275 12
-#define I_8275_RAM 13
-#define VIP2KSEQUENCER 14
-#define RTCRAM 15
+#define CDP_1870_GRAPHIC 6
+#define V_6845 7
+#define V_6847 8
+#define V_6847_RAM 9
+#define TMS_MEMORY 10
+#define VT_RAM 11
+#define CDP_1862 12
+#define CDP_1864 13
+#define STUDIO_IV_COLOR 14
+#define I_8275 15
+#define I_8275_RAM 16
+#define VIP2KSEQUENCER 17
+#define RTCRAM 18
 
 #define TEXT_ASSEMBLER true
 #define DIRECT_ASSEMBLER false
@@ -187,11 +190,8 @@ public:
     void updateWindow(); 
     void resetDisplay();
     void assemblerDisplay(wxString buffer);
-//    void disassemblerDisplay(wxString buffer);
     void debugTrace(wxString buffer);
     void chip8DebugTrace(wxString buffer);
-//    void onEnter(wxCommandEvent& event);
-//    void onDebugDis(wxCommandEvent&event);
     void setPauseState();
     void SetDebugMode();
     void SetChip8DebugMode();
@@ -199,7 +199,6 @@ public:
     void onLog(wxCommandEvent&event);
     void onClear(wxCommandEvent&event);
     void onTrace(wxCommandEvent&event);
-    void onTrace(bool state);
     void onTraceDma(wxCommandEvent&event);
     void onTraceInt(wxCommandEvent&event);
     void onChip8TraceInt(wxCommandEvent&event);
@@ -208,9 +207,9 @@ public:
     void onInt(wxCommandEvent&event);
     void onReset(wxCommandEvent&event);
 
-    void onPauseButton(wxCommandEvent&event);
-    void onStepButton(wxCommandEvent&event);
-    void onRunButton(wxCommandEvent&event);
+    void onDegubPauseButton(wxCommandEvent&event);
+    void onDegugStepButton(wxCommandEvent&event);
+    void onDebugRunButton(wxCommandEvent&event);
     void onRunAddress(wxCommandEvent&event);
     void onBreakPointAddress(wxCommandEvent&event);
     void onTregValue(wxCommandEvent&event);
@@ -412,7 +411,6 @@ public:
     void onDebugMemType(wxCommandEvent&event);
     void onDebugExpansionSlot(wxCommandEvent&event);
     void onDebugExpansionRam(wxCommandEvent&event);
-    void onDebugExpansionEprom(wxCommandEvent&event);
     void onDebugEmsPage(wxCommandEvent&event);
     void onDebugEmsNumber(wxCommandEvent&event);
     void onDebugPager(wxCommandEvent&event);
@@ -422,10 +420,6 @@ public:
     void onDebugCopyStart(wxCommandEvent&event);
     void onDebugCopyEnd(wxCommandEvent&event);
     void onDebugCopyTo(wxCommandEvent&event);
-//    void onDebugAssemblerAddress(wxCommandEvent&event);
-//    void onDebugDisStart(wxCommandEvent&event);
-//    void onDebugDisEnd(wxCommandEvent&event);
-//    void onDebugDisLog(wxCommandEvent&event);
     void onDebugDisChip8(wxCommandEvent&event);
 
     void onEditMemory(wxCommandEvent&event);
@@ -438,6 +432,7 @@ public:
     void DebugDisplayVip2kSequencer();
     void DebugDisplay1870VideoRam();
     void DebugDisplay1870ColourRam();
+    void DebugDisplay1870GraphicRam();
     void DebugDisplay1864ColorRam();
     void DebugDisplay8275CharRom();
     void DebugDisplay8275VideoRam();
@@ -481,11 +476,11 @@ public:
     void onPercentageClock(wxScrollEvent&event);
     void onChip8PercentageClock(wxScrollEvent&event);
 
-    bool getDebugScrtMode(int computerType) {return conf[computerType].scrtMode_;};
-    Byte getDebugCallReg(int computerType) {return conf[computerType].debugCallReg_;};
-    Word getDebugCallAddress(int computerType) {return conf[computerType].debugCallAddress_;};
-    Byte getDebugRetReg(int computerType) {return conf[computerType].debugRetReg_;};
-    Word getDebugRetAddress(int computerType) {return conf[computerType].debugRetAddress_;};
+    bool getDebugScrtMode() {return computerConfiguration.debuggerConfiguration.mode;};
+    Byte getDebugCallReg() {return computerConfiguration.debuggerConfiguration.callRegister;};
+    Word getDebugCallAddress() {return computerConfiguration.debuggerConfiguration.callAddress;};
+    Byte getDebugRetReg() {return computerConfiguration.debuggerConfiguration.returnRegister;};
+    Word getDebugRetAddress() {return computerConfiguration.debuggerConfiguration.returnAddress;};
 
 protected:
     void trace();

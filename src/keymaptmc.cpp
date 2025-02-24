@@ -76,6 +76,8 @@ BEGIN_EVENT_TABLE(KeyMapTmcDialog, wxDialog)
 #endif
 END_EVENT_TABLE()
 
+// TO BE CHECKED - needs to be re-written
+
 KeyMapTmcDialog::KeyMapTmcDialog(wxWindow* parent)
 {
     normalKey_ = -1;

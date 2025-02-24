@@ -1,0 +1,20 @@
+<html>
+<title>Machine Code</title>
+<body>
+<h1>Machine Code</h1>
+<p>
+This chapter describes all 1802 related machine code syntax definitions that can be assembled and disassembled by Emma 02. For details about the assembler see chapter <a href="DirectMain.htm">Direct Assembler</a></p>
+<p>
+An overview of all difference between the <a href="DebuggerSyntaxSystem00.htm">SYSTEM00</a>, <a href="DebuggerSyntax1801.htm">CDP1801</a> and <a href="DebuggerSyntax1802.htm">CDP1802</a> can be found on the <a href="DebuggerSyntaxDifferences.htm">differences</a> page.
+</p>
+<h2>Table of contents:</h2>
+<p>
+<a href="DebuggerSyntaxSystem00.htm">SYSTEM00 Syntax</a><br>
+<a href="DebuggerSyntax1801.htm">CDP1801 Syntax</a><br>
+<a href="DebuggerSyntax1802.htm">CDP1802 Syntax</a><br>
+<a href="DebuggerSyntax1804.htm">CDP1804 Syntax</a><br>
+<a href="DebuggerSyntax1805.htm">CDP1805 Syntax</a><br>
+<a href="DebuggerSyntaxDifferences.htm">Differences</a><br>
+</p>
+</body>
+</html>

@@ -1,0 +1,5 @@
+No set of computer games software is ever complete without including some form of the ubiquitous ‘invaders' game. Here’s the '660 version and a few tricks on how to score well. 
+
+The invading UFOs enter the screen area at top right and proceed across the screen at varying speeds. There are ‘large’ UFOs and small’ UFOs. Your rocket launcher is at bottom centre of screen and keys 4,5 and 6 launch your rockets. Key 5 launches them vertically, key 4 launches them angled to the left, key 6 launches them angled to the right. A hit’ on a large UFO will score you 5 points (... it’s easy!), a ‘hit’ on the small UFO scores you 15 points (harder). It takes some skill to score hits with key 6, but it’s a little easier with keys 4 and 5. But watch it! — Timing your launch with key 5 is a little more critical than you think. In the right hand corner of the screen is a number showing how many rockets you have left. Your score is displayed in the left hand corner of the screen. Kill, kill! 
+
+Press RESET 8’ to start a new game. 

@@ -1,0 +1,217 @@
+<HTML>
+<Title>Software</Title>
+<BODY>
+<h2>Software</h2>
+</p>
+All software was found in The Sarnoff Collection at TCNJ, S.572.96, S.572.94, S.572.75, S.572.66, S.572.61, S.572.38, S.572.26.
+</p>
+<p>
+I have only listed SW below where I have some sort of description. Feel free to email me with additional descriptions!
+</p>
+<h3>21 I</h3>
+<p>
+Use punch cards as follows:
+<UL>
+<LI>0: hex BD - new game & player one card,
+<LI>1: hex CC - Give player one card
+<LI>2: hex 78 - Give dealer one card 
+<LI>3: hex 73 - Show hand player
+<LI>4: hex B1 - Show hand dealer
+</UL>
+</p>
+<h3>21 II</h3>
+<p>
+<UL>
+<LI>1=Deal new hand
+<LI>2=Give player one card
+<LI>4=Give dealer one card
+<LI>8=Player sticks, dealer can get more cards now.
+</UL>
+</p>
+<p>
+New hand flashes number of hands won by P&D so far (up to 10). Simulates actual deck of cards. 5 player cards under 21 count for 2 player. "SHUFFLE" indicates new deck.
+</p>
+<h3>Acey Duecy</h3>
+<p>
+Two playing card values appear in the upper left corner. $25 appears in the upper right corner. This is the money you have. The flashing question marks mean that the computer is waiting for you to place your bet. You will bet that the value of the next card dealt by the computer lies between the two card values shown (not equal to either). Bet by pressing any keyboard positions (2 = 2$, 8 = $8, A = $10, F = $15). You can bet a maximum of $15 (press F) and a minimum of $1 (press 1). You can't bet more than you have. You have to get $100 to break the bank. New game = reset/run.
+</p>
+<h3>Add Drill</h3>
+<p>
+This SW needs spoken text and tones recorded on the original tape and included in Add Drill.wav (if not available it will be downloaded). Start card will be requested with card '0' (code hex FE). Press the start card 2 times and after the tone a 3rd time. Then type the sum of the 'add' question when one pops up.
+</p>
+<h3>Animate demo</h3>
+<p>
+Demo that loads data from tape and displays that data on the screen. The data is included in the file Animate Demo Data.wav (if not available it will be downloaded). The same data is also included in binary form in the 'Animate demo data.bin' file but that one is not loadable as such in Emma 02.
+</p>
+<h3>Binary</h3>
+<p>
+On startup press 3, 4, 5 or 6 for the number of bits. Then the computer will show a binary figure, convert this to decimal and type the answer. If correct it gets counted on the 'Y' line if wrong it is counted on the 'N' line. If wrong you will need to try again.
+</p>
+<h3>Bowling</h3>
+<p>
+Two players, X & O. 5 Frames, 2 balls/frame. Enter any number to roll ball. F1, F2 etc. indicates frame number. X1, X2, O1, O2 indicates player and ball number. New game = reset/run.
+</p>
+<p>
+This game used sounds on tape when a ball is rolled, the sounds on the tape are recordings from a bowling ball hitting targets; repeated multiple times. The file used here is 'Bowling.wav' which includes the rolling ball once (if not available it will be downloaded). This file can be used in Emma 02 as Emma 02 will restart the tape after every 'play' which means it is synced better than when using the file with the repeated sounds.
+</p>
+<h3>Calculate</h3>
+<p>
+Use 0 to 9 for numbers, A=sign, B='.' and D=CLR
+<p>
+</p>
+Shift: 1=(, 2=X, 3=), 4=-, 5=Result, 6=/, 7=<-, 8=->, 0=+
+</p>
+<h3>Cardtran</h3>
+<p>
+CARDTRAN Interpreter, see Cardtran.readme or Cardtran.asm for more information
+</p>
+<h3>Clue</h3>
+<p>
+As described in the <a href="http://www.retrotechnology.com/memship/Sarnoff_FRED_manual_W_R_H.pdf">manual</a>. This game uses the spoken text and tones recorded on original tape and included in Clue.wav (if not available it will be downloaded).
+</p>
+<h3>Deduce</h3>
+<p>
+The computer will choose a 4 digit random number which you must guess within 15 turns to win. No two digits in the number are the same. Enter your first guess by pressing 4 keyboard digits. The computer then provides some clues. 0 2 means 2 of the digits you entered match two digits of the unknown number but are not in the correct position. 0 means none of your digits are in the correct position. 2 1 means you have 2 digits right and in the proper position and 1 digit right but in the wrong position. Can you develop a strategy for always guessing the number within 15 tries? New game = reset/run.
+</p>
+<h3>Deduce-leds</h3>
+<p>
+As described in the <a href="http://www.retrotechnology.com/memship/Sarnoff_FRED_manual_W_R_H.pdf">manual</a>. This game uses the spoken text and tones recorded on original tape and included in Deduce-leds.wav (if not available it will be downloaded).
+</p>
+<h3>Demo</h3>
+<p>
+Demo using spoken text and tones recorded on original tape and included in Demo.wav (if not available it will be downloaded).
+</p>
+<h3>Digit Display</h3>
+<p>
+Type in digit 0 to F and a representation will be shown on the screen.
+</p>
+<h3>Display</h3>
+<p>
+As described in the <a href="http://www.retrotechnology.com/memship/Sarnoff_FRED_manual_W_R_H.pdf">manual</a>. 
+</p>
+<h3>Draw</h3>
+<p>
+Drawing program, screen is divided in 4 x 4 array. To draw first press array position as in keyboard layout, then press symbol. Key 0 to D will show a symbol, E will erase the cell and F will erase the screen.
+</p>
+<h3>Erase</h3>
+<p>
+2 players take turns. Enter any number to erase marks under moving line. Player who erases last vertical mark wins. Trying to erase when no mark is under line causes player to lose. New game = reset/run.
+</p>
+<h3>Flip I</h3>
+<p>
+Start game with card '0' (twice). The game uses two players, white and black square. First player to get 8 squares of his type wins. Centre square indicates which player gets the next turn. Use card 1 (hex 6d), 2 (hex 97) or 3 (hex 9e) to flip squares. If no player wins by turn 50 the player with the most squares wins.
+</p>
+<h3>Flip II</h3>
+<p>
+Start game with card '0' (twice). The game uses two players, white and black square. First player to get 8 squares of his type wins. Centre square indicates which player gets the next turn. Use keys 1, 2 or 3 to flip squares. If no player wins by turn 50 the player with the most squares wins.
+</p>
+<h3>Hi-Lo</h3>
+<p>
+Guess the number between 0 and 100, computer will state if it is 'H' i.e. higher or 'L' lower.
+</p>
+<h3>Jackpot</h3>
+<p>
+$10 should appear on the screen. Pushing any key will cause $1 to be subtracted from your initial $10. Three changing symbols will appear. Pressing any key will freeze the first symbol. Press two more times to freeze the remaining symbols. If you freeze three different symbols you win #2. If you freeze three identical symbols you win $5 or $10. After the computer shows whether you won or lost, press any key to play again. The computer shows how much money you have. If you go broke, you lose. If you accumulate $50 you break the bank. New game = reset/run.
+</p>
+<h3>Life</h3>
+<p>
+A flashing dot appears in the upper left corner of the TV screen. Press key 1 (left), 2 (up), 3 (right) and 5 (down) to move the dot within a 32x32 position field. Press 4 to permanently write a spot on the screen in the position of the flashing dot and press 6 to erase the permanent spot from the screen. Pictures can be created in this manner. Press '0' to start cell generation, new generations are shown at 30 second intervals.
+</p>
+<h3>Luckypath</h3>
+<p>
+Press two byte codes, every code will make a random path, when the path connects from left to right you win.
+</p>
+<h3>Match I</h3>
+<p>
+This game is for two players (1 and 2). The object is to find matching pairs of symbols. Press card '0' to start the game (or FF in BYTE mode). A 4 x 4 array of symbols will flash on the screen. The 16 keyboard positions represent symbol positions on the screen. Player 1 presses two keyboard positions trying to find two matching symbols. If he finds two that match, they are replaced by 1 on the screen. He then gets another turn. If he doesn't find two matching symbols it is player 2's turn next. Turns alternate in this fashion until all symbols have been matched. Players always get extra turns for finding matching symbols. Count 1's and 2's showing to determine winner of game. New game = reset/run.
+</p>
+<h3>Match II</h3>
+<p>
+Same game as Match.bin with different cards. To start press '0' instead of 'FF'
+</p>
+<h3>Memory Test</h3>
+<p>
+Press a digit between 00 and 80 and after that a second byte. The second byte will be stored in memory 01xx where xx is the first byte. Also a 'binary' representation is shown on the screen. The screen has 128 positions reserved for the 128 memory locations.
+</p>
+<h3>Minikrieg</h3>
+<p>
+Keys:
+<UL>
+<LI>6: Up
+<LI>B: Down
+<LI>8: Left
+<LI>D: right
+</UL>
+<p>
+</p>
+Move spot to symbols, press 'A' to lock a symbol and move it with the keys, some directions don't work. 'C' drops the symbol and you can move to another. 'F' is fight adjacent symbol from other player.
+</p>
+<h3>Nimnet</h3>
+<p>
+Similar to Luckypath, uses cards with hex codes A1/A2, B1-B4, C1-C5, D1-D5, E1-E4 and F1/F2. I think the cards were not marked and with luck you had to create a path from the left 'dot' to the right 'dot' using random cards.
+</p>
+<h3>Pattern Puzzle</h3>
+<p>
+Pattern shown on screen is a combination of 2 out of 16 patterns. The patterns are shown in the 'Pattern Puzzle.pdf' file. If you enter the two correct pattern numbers you will get a new pattern.
+</p>
+<h3>Prog. Apt. Test</h3>
+<p>
+This SW needs spoken text and tones recorded on original tapes and included in Prog. Apt. Test.wav (if not available it will be downloaded).
+</p>
+<h3>Slide Puzzle I</h3>
+<p>
+Start game with card 0 (value 0) followed by card 1 (hex 31), 2 (hex 33) or 3 (hex 35). Card 1, 2 or 3 will select the game type. Move squares with card:
+<UL>
+<LI>6 (6): up
+<LI>12 (1): left
+<LI>13 (hex ff): right
+<LI>18 (hex fa): down
+</UL>
+</p>
+<p>
+For card 2/3 try to get a pattern of squares symmetrical about the centre row in a minimum number of turns (10 for card 2). For card 1 you must swap the 'full' and 'empty' squares and keep the rest as they are at the start in no more than 18 turns.
+</p>
+<h3>Slide Puzzle II</h3>
+<p>
+Start game with key 0 followed by key A, B or C. Key A, B or C will select the game type. Move squares with key:
+<UL>
+<LI>2: up
+<LI>4: left
+<LI>6: right
+<LI>8: down
+</UL>
+</p>
+<h3>Space War</h3>
+<p>
+Your ship is on the left. Move it up and down by pressing key 1 and 3. Fire at computer ship by pressing 2. If you hit the computer ship 16 times first you win. New game = reset/run.
+</p>
+<h3>Spot Speedway I</h3>
+<p>
+Press '1' or '2' (different layout) to start spot & clock. Use 6 (up), 8 (left) , B (down) and D (right) to change direction.
+</p>
+<p>
+C=Decelerate, A=Accelerate mode. Spot starts in 'A' mode. Get from start to end in minimum clock time without hitting walls.
+</p>
+<h3>Spot Speedway II</h3>
+<p>
+Same as 1 with a different race track.
+</p>
+<h3>Target</h3>
+<p>
+Press any key when a symbol is shown, if on time the symbol will explode.
+</p>
+<h3>Tic-Tac-Toe</h3>
+<p>
+Computer is 'O', player is 'X'. Enter the number of the square you want to mark. New game = reset/run.
+</p>
+<pre>
+Field:
+ 2 1 0
+ 5 4 3
+ 8 7 6</pre>
+<h3>Write CD I</h3>
+<p>
+As described in the <a href="http://www.retrotechnology.com/memship/Sarnoff_FRED_manual_W_R_H.pdf">manual</a>. 
+</p>
+</body>
+</html>

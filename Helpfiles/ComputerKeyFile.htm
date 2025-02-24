@@ -1,0 +1,26 @@
+
+<html>
+<Title>Key File</Title>
+<body>
+<h1>Key File</h1>
+<p>
+With the Key File function it is possible to specify a set of keys (or text) to be typed into the emulated computer automatically as defined in the file. Note that the Key File needs to be specified before start of the emulated computer or before performing a 'Reset'. On startup or reset the specified key file will be read by Emma 02 and every character in the file will be send to the emulated computer as a key press. A key file should be a regular text file.
+</p>
+<p>
+<IMG SRC="images/key_file.png" border="0" width="443" height ="376">
+</p>
+<p>
+To browse for a key file use the the 'Key File' button (highlighted in blue) or type in a file name in the text field (highlighted in orange). To eject the key file use the eject button (highlighted in yellow) or remove the filename in the text field.
+</p>
+<h2>COMX Key File</h2>
+<p>
+Specify one extra 'empty line' at the start of the COMX key file to allow the COMX to start basic (see also keyfile example in Comx directory).
+</p>
+<p>
+As only capital characters are used in COMX Basic, the Key File function for the COMX will translate all capital characters in the file as a 'non shift' key press. I.e. capital 'A' in the file will also result in an 'A' on the COMX. To get the shift A character typed on the COMX you need to specify 'a' in the file.
+</p>
+<p>
+Included are some 'BASIC' key file examples, one very simple (Comx Key File Example), 'Recall Basic' which when used as key file will recover the basic program after a reset (you need to include 0 REM as first line) and 'Trainspotting' which is the listing of that game which can be used to 're-type' the complete game.
+</p>
+</body>
+</html>

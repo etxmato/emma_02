@@ -15,8 +15,8 @@
     <video>: video definition
     <keyboard>: keyboard definition
     <keypad>: keypad definition for the elf, elf 2 and super elf
-    <xlkeypad>: large keypad definition for the Cybervision
-    <bitkeypad>: keypad definition for a keypad using one bit per key
+    <keypad type="cv">: large keypad definition for the Cybervision
+    <keypad type="bit">: keypad definition for a keypad using one bit per key
     <efbuttons>: key definition connected to EF flags
     <vt>: video terminal definition
     <printer>: printer definition
@@ -39,12 +39,16 @@
         <cpu>: cpu type: system, 1801, 1802, 1804 or 1805 (or system00, cpu1801, cpu1802, cpu1804 or cpu1805, rca1801, rca1802, rca1804 or rca1805)
         <clock>: system clock speec
         <boot>: boot address, if not specified the computer will not start automatically
-        <f12>stop</f12>: change F12 button to stop computer instead of reset
-        <boot dma="on"> autoboot, execute dmaOut on boot and startbutton
+        <boot dma="out"> autoboot, execute dmaOut on boot and startbutton
         <boot start="no"> no autoboot, use specified boot address when run is pressed
-        <boot dma="on" start="no"> no autoboot, execute dmaOut on startbutton
+        <boot dma="out" start="no"> no autoboot, execute dmaOut on startbutton
+        <boot dma="zero"> execute dmaOut on startup on addess 0
         <init type="efX">: set initialization value of unused EF flags, X can be 1 to 4, value 0 or 1
-        <dma out="q">: after every specified number of cpu cycles generate a dmaOut, if out="q" is use dmaOut will start after the first q pulsem in="x" with x being a number on OUT x otherwise on startup
+        <f12>stop</f12>: change F12 button to stop computer instead of reset
+        <dma>: after every specified number of cpu cycles generate a dmaOut.
+        <dma out="q">: after the first q pules generate a dmaOut after every specified number of cpu cycles.
+        <dma out="x">: after the first OUT x generate a dmaOut after every specified number of cpu cycles.
+        <dma_in>reset</dma_in> execute dmaIn even when cpuMode is reset or pause (used in FRED machines)
         <int>: after every specified number of cpu cycles generate an interrupt
         <dirname>: main directory name
         <statusbar>: use statusbar; options: comx, diag, vip2 & cidelsa
@@ -54,10 +58,10 @@
         <clock>4.0</clock>
         <boot>0xFF00</boot>
         <f12>stop</f12>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>Elf</dirname>
     </system>
     
@@ -128,12 +132,10 @@
 
         <led>: show Cosmac Elf LED module panel using specified number as output port
         <switch>: show Cosmac Elf 2000 Switch module panel using specified number as input port, make sure not to use <keypad> as that will show the keypad module panel instead.
-        <til>: TIL type, 311 or 313 (not used for membership card, microtutor's or ELF2K), use font="italic" for a 313 italic TIL format
         -->
 
         <out>4</out>
         <in>4</in>
-        <til font="italic">313</til>
         <led />
         <ef type="ready">3</ef>
         <ef type="in">3</ef>
@@ -172,7 +174,7 @@
             <type>led: frontpanel led
             <type>led</type>: small red led
             <type form="large">led</type>: large red led (used on Membership Card)
-            <type form="largegreen">led</type>: large red/green/orange led (used on Membership Card)
+            <type form="largecolor">led</type>: large red/green/orange led (used on Membership Card)
             <type form="realred">led</type>: real looking red led (used on Elf2K)
             <type form="realgreen">led</type>: real looking green led (used on Elf2K)
             <type form="realorange">led</type>: real looking orange led (used on Elf2K)
@@ -460,7 +462,7 @@
         <slot max="4">:  define memory slot's, max specifies the maximum number of slots
         <ems type="RyM">: definition of an ems (extended memory system) segment of either type RAM or ROM, mutliple definitions are supported
         <mapper>: definition of a 1 MB RAM mapper using a port extender, only one definition is supported.
-        <giant>: definition for giantboard mapping at 0xF000-0xFFFF. Note this overwrites all other memory options.
+        <giant>: definition for giantboard mapping at 0xF000-0xFFFF. Value should always be the base address; in this case 0xF000. Note this overwrites all other memory options.
         <diagrom>: definition for COMX diagnostic board ROM used from 0-0xFFF replacing COMX system ROM when active.
 
         mask="0xZZZZ": When used for rom, mainram, nvram and ram, memory type will be mapped to other locations using the specified mask (smaller than size of the segment). E.g. is <ram mask="0x3ff" is used ram would be mapped every 1K. When specifying mask=0, or when not specified, no mask will be used. For masking memory sections of ROM/RAM combined use mask on <memory> level.
@@ -549,7 +551,7 @@
         <ems type="RAM">
             <!--
             Next to the common tags ems also supports:
-            <out mask="0x1f">: defines the output, address or address range used to switch page, using the specified mask. In this example with mask=0x1f the ems will be defined with 32 pages. When specifying mask=0 or leaving it out mask will be defined as 0xff. When specifying one digit (i.e. 0-9) an ouptut port (0-7) will be defined for switching the page. When specifying a hex value (e.g. 0xF000) the specified address will be defined for switching the page. When specifying a range (0xF000-0xF100) all addresses in the range will be defined for switching the page.
+            <out mask="0x1f">: defines the output, address or address range used to switch page, using the specified mask. In this example with mask=0x1f the ems will be defined with 32 pages. When specifying mask=0 or leaving it out mask will be defined as 0xff. When specifying one digit in range 0 to 7 an ouptut port (0-7) will be defined for switching the page. When specifying a hex value (e.g. 0xF000) the specified address will be defined for switching the page. When specifying a range (0xF000-0xF100) all addresses in the range will be defined for switching the page.
             -->
             <out mask="0x1f">6</out>
             <start>0x8000</start>
@@ -607,12 +609,13 @@
         <out type="select">: output number to select fdc port
         <out type="write">: output number to write to selected fdc port
         <in type="read">: input number to read from selected fdc port
-        <in type="intrq">: input number to read intra
+        <in type="intrq">: input number to read intrq
         <ef>: ef number for data request
         <sides>: number of disk sides
         <tracks>: number of tracks
         <sectors>: number of sectors
         <sectorlength>: sector length in bytes
+        <clearaddress>: ram address tobe cleared when no disk is inserted
         <maxfmtcount>: max format count, use 2740 for COMX drive with 16 sectors. Other values might not work.
         -->
 
@@ -630,6 +633,7 @@
         <sectors>16</sectors>
         <sectorlength>128</sectorlength>
         <maxfmtcount>2740</maxfmtcount>
+        <clearaddress>0xbe68</clearaddress>
     </disk>
 
     <disk type="1793" drives="2">
@@ -701,7 +705,8 @@
      <video type="cdp1862">
          <!-- video color definition for cdp 1862 chip - always define cdp1861/pixie in combination
          <out type="back">: output number to switch background colour
-         <colorram>: define color RAM range
+         <out type="color_ram" mask="0xf">: write to color RAM, RAM value bits as defined in mask
+         <colorram mask="0xf">: define color RAM range, RAM value bits as defined in mask
          <colortype>: color type used, options supported are vip for COSMAC VIP and hec for HEC1802
          <color type="fore">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
          <color type="back">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
@@ -733,6 +738,7 @@
          <out type="tone">: output number to set tone latch
          <out type="back">: output number to switch background colour
          <out type="color_ram" mask="0xf">: write to color RAM, address = ((output_address >> 1) & 0xf8) + (output_address & 0x7), RAM value bits as defined in mask
+         <colorram>: define color RAM range, RAM value bits as defined in mask
          <in type="on">: input number to enable graphics
          <in type="off">: input number to disable graphics
          <ef>: ef number for frame indicator
@@ -956,7 +962,7 @@
          <maxcharlines>: maximum number of character lines 8 or 16. When using PAL 9 lines are visible but 16 are reserved in character memory
          <maxscreenlines>: specify number of lines on one screen: 24, 25 or 27 for Cidelsa DRACO
          <mode>: video mode pal or ntsc
-         <int>: VIS 1870 interrupt mode
+         <int_mode>: VIS 1870 interrupt mode
          <ef type="display" pol="rev">: ef flag for non display period, pol="rev" reverts ef flag polarity
          <ef type="mode">: ef flag to select video mode (used in COMX), function is only active until first Q pulse
          <ef write="enable">: allow write to video RAM even during display period
@@ -982,7 +988,7 @@
          <maxcharlines>16</maxcharlines>
          <maxscreenlines>24</maxscreenlines>
          <mode>pal</mode>
-         <int>2</int>
+         <int_mode>2</int_mode>
          <ef type="display">1</ef>
          <ef type="mode">2</ef>
          <clock>5.626</clock>
@@ -1387,7 +1393,7 @@
          <ef pol="rev">3</ef>
      </keypad>
      
-     <xlkeypad>
+     <keypad type="cv">
          <!-- CyberVision / XL keypad definition
          <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
          <in>: input port
@@ -1445,9 +1451,9 @@
          <keydef type="text" value="9">left</keydef>     <!-- LEFT -->
          <keydef type="text" value="8">right</keydef>    <!-- RIGHT -->
          <keydef type="text" value="0">up</keydef>       <!-- UP -->
-     </xlkeypad>
+     </keypad>
 
-     <bitkeypad pad="a">
+     <keypad type="bit" pad="a">
          <!-- keypad definition for a keypad using one bit per key, for pad 'a', max 7 pads can be defined
          <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
          <pressed>: specify value for a pressed key, 0 or 1
@@ -1462,14 +1468,14 @@
          <bit key="316">3</bit>    <!-- right -->
          <bit key="314">4</bit>    <!-- left -->
          <bit key="32">5</bit>     <!-- space / fire -->
-     </bitkeypad>
+     </keypad>
 
-     <bitkeypad pad="b">
+     <keypad type="bit" pad="b">
          <in>4</in>         <!-- example key definition for cidelsa altair keypad b -->
          <bit0>315</bit0>   <!-- up -->
          <bit1>317</bit1>   <!-- down -->
          <bit2>396</bit2>   <!-- control -->
-     </bitkeypad>
+     </keypad>
 
      <efbuttons>
          <!-- key definition connected to EF flags
@@ -1496,10 +1502,27 @@
          <q pol="rev">: to indicate reversed q for serial out
          <baud type="receive">: specify receive baud rate; baud rate can also be changed in the GUI
          <baud type="transmit">: specif transmit baud rate; baud rate can also be changed in the GUI
-         <border>: set border size in pixels with format XxY
          <color type="fore">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
          <color type="back">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
          <color type="high">: set highlight color. Color is specified as red, green, blue all 3 values range from 0 to 255.
+         
+         <border>: set default border size in pixels with format XxY
+         <power>: set default power 50/60 Hz
+         <bits>: set default number of bits per character 7/8
+         <parity>: set default parity on/off
+         <parity_sense>: set default parity senes odd/even
+         <interlace>: set default interlace on/off
+         <wrap>: set default wrap around on/off
+         <shift3>: sset default hift 3 US # or UK
+         <xon_xoff>: set default Auto XON/XOFF on/off
+         <key_click>: set default key click on/off
+         <bell>: set default margin bell on/off
+         <frequency>: set default bell frequency value
+         <cursor>: set default cursor type line/block
+         <screen>: set default screen type light/dark
+         <repeat>: set default auto repeat on/off
+         <scroll>: set default scroll type smooth/jump
+         <echo>: set default local echo on/off
          -->
 
          <font>vt52.a.bin</font>
@@ -1522,7 +1545,6 @@
          <serialport>: specify PC serial port
          <baud type="receive">: specify receive baud rate; baud rate can also be changed in the GUI
          <baud type="transmit">: specif transmit baud rate; baud rate can also be changed in the GUI
-         <timeout>: timeout in milliseconds, or zero to wait indefinitely (default 60 ms)
          -->
 
          <out>7</out>
@@ -1531,7 +1553,6 @@
          <serialport></serialport>
          <baud type="receive">19200</baud>
          <baud type="transmit">19200</baud>
-         <timeout>60</timeout>
      </vt>
 
      <vt type="vt100" connection="uart16450" >
@@ -1546,10 +1567,30 @@
          <in type="port">: input port to read uart port
          <baud type="receive">: specify receive baud rate; baud rate can also be changed in the GUI
          <baud type="transmit">: specif transmit baud rate; baud rate can also be changed in the GUI
-         <characters>: number of characters per row (80 or 132), only supported on VT100
          <color type="fore">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
          <color type="back">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
          <color type="high">: set highlight color. Color is specified as red, green, blue all 3 values range from 0 to 255.
+         
+         <characters>: set default number of characters per row (80 or 132), only supported on VT100
+         <border>: set default border size in pixels with format XxY
+         <power>: set default power 50/60 Hz
+         <bits>: set default number of bits per character 7/8
+         <parity>: set default parity on/off
+         <parity_sense>: set default parity senes odd/even
+         <interlace>: set default interlace on/off
+         <newline>: set default new line on/off, only supported on VT100
+         <wrap>: set default wrap around on/off
+         <shift3>: sset default hift 3 US # or UK
+         <xon_xoff>: set default Auto XON/XOFF on/off
+         <ansi_vt52>: set default ANSI or VT52, only supported on VT100
+         <key_click>: set default key click on/off
+         <bell>: set default margin bell on/off
+         <frequency>: set default bell frequency value
+         <cursor>: set default cursor type line/block
+         <screen>: set default screen type light/dark
+         <repeat>: set default auto repeat on/off
+         <scroll>: set default scroll type smooth/jump
+         <echo>: set default local echo on/off
          -->
 
          <iogroup>0x10</iogroup>
@@ -1582,6 +1623,27 @@
          <color type="back">: set foregorund color. Color is specified as red, green, blue all 3 values range from 0 to 255.
          <color type="high">: set highlight color. Color is specified as red, green, blue all 3 values range from 0 to 255.
          <color type="high">: set highlight color. Color is specified as red, green, blue all 3 values range from 0 to 255.
+
+         <characters>: set default number of characters per row (80 or 132), only supported on VT100
+         <border>: set default border size in pixels with format XxY
+         <power>: set default power 50/60 Hz
+         <bits>: set default number of bits per character 7/8
+         <parity>: set default parity on/off
+         <parity_sense>: set default parity senes odd/even
+         <interlace>: set default interlace on/off
+         <newline>: set default new line on/off, only supported on VT100
+         <wrap>: set default wrap around on/off
+         <shift3>: sset default hift 3 US # or UK
+         <xon_xoff>: set default Auto XON/XOFF on/off
+         <ansi_vt52>: set default ANSI or VT52, only supported on VT100
+         <key_click>: set default key click on/off
+         <bell>: set default margin bell on/off
+         <frequency>: set default bell frequency value
+         <cursor>: set default cursor type line/block
+         <screen>: set default screen type light/dark
+         <repeat>: set default auto repeat on/off
+         <scroll>: set default scroll type smooth/jump
+         <echo>: set default local echo on/off
          -->
 
          <font>vt100.bin</font>
@@ -1631,6 +1693,8 @@
          <filename>: initial cassette filename
          <dirname>: location of cassette file; defined as sub-dir of the main Emma 02 data directory. If not specified the dirname specified in <system> will be used.
          <stopdelay>: number of ms tape will continue saving when stop command is given by CPU
+         <keyclear />: clear key buffer on save start end as well as save file selection errors (set in COMX, ETI, HUG and HEC
+
          -->
 
          <ef>2</ef>
@@ -1809,6 +1873,10 @@
          <start_cas_save address="0x428b" value="0x53">0x4dc3</start_cas_save>
          <start_cas_load address="0x428b" value="0x53">0x4daa</start_cas_load>
 
+         <!-- F&M BASIC Activation -->
+         <start_fm_basic address="0x428b" value="0x53">0x505f</start_fm_basic>
+         <stop_fm_basic address="0x428b" value="0x14">0x1047</stop_fm_basic>
+
          <!-- Start TURBO PSAVE/PLOAD V1.00: used for automatic tape start/stop -->
          <start_cas_save address="0xbfd0, 0xbfd1, 0xbf02, 0xbfac" value="0x54, 0x41, 0xc3, 0x91">0xbf00</start_cas_save>
          <start_cas_load address="0xbfd0, 0xbfd1, 0xbf02, 0xbfac" value="0x54, 0x41, 0xc3, 0x91">0xbf70</start_cas_load>
@@ -1883,6 +1951,10 @@
          this works and it might be more logic but at the same time it means CAPS should be
          pressed before any commands can be given. -->
          <!-- <correct_caps>0x134</correct_caps> -->
+
+         <!-- Debug on a specific write value into RAM, when this happens Emma 02 will show exec address, debug address (0x428b) and debug value ("0xc1", 0x14) on the Configuration tab -->
+         <write_address function="debug" value="0xc1">0x428b</write_address>
+         <write_address function="debug" value="0x14">0x428b</write_address>
 
      </locations>
      

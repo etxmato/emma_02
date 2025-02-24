@@ -7,18 +7,301 @@
         <name>Quest Super Elf</name>
         <config>Bare</config>
         <clock>1.76</clock>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>Elf</dirname>
     </system>
     
-    <frontpanel type="quest" init="on">
+    <frontpanel init="on">
         <out>4</out>
         <in>4</in>
         <ef type="in">4</ef>
-        <til>313</til>
+        <size>534, 386</size>
+        <item>
+            <type>png</type>
+            <filename dirname="images">superelf.png</filename>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>stop</function>
+            <init>up</init>
+            <pos>464, 42</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>0</value>
+            <function>addresstil</function>
+            <pos>308, 140</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>1</value>
+            <function>addresstil</function>
+            <pos>332, 140</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>2</value>
+            <function>addresstil</function>
+            <pos>360, 140</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>3</value>
+            <function>addresstil</function>
+            <pos>388, 140</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>0</value>
+            <function>datatil</function>
+            <pos>434, 140</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>1</value>
+            <function>datatil</function>
+            <pos>462, 140</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function cycle="show">qled</function>
+            <pos>284, 210</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>loadled</function>
+            <pos>284, 233</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>resetled</function>
+            <pos>284, 248</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>runled</function>
+            <pos>284, 263</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function cycle="show">waitled</function>
+            <pos>284, 278</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function cycle="show">fetchled</function>
+            <pos>284, 293</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function cycle="show">executeled</function>
+            <pos>284, 308</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>dmaled</function>
+            <pos>284, 323</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>interruptled</function>
+            <pos>284, 338</pos>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xc</value>
+            <label>C</label>
+            <pos>308, 231</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xd</value>
+            <label>D</label>
+            <pos>340, 231</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xe</value>
+            <label>E</label>
+            <pos>372, 231</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xf</value>
+            <label>F</label>
+            <pos>404, 231</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <init>up</init>
+            <function>load</function>
+            <label>L</label>
+            <pos>436, 231</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <init>up</init>
+            <function>super_monitor</function>
+            <label>M</label>
+            <pos>468, 231</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>8</value>
+            <label>8</label>
+            <pos>308, 263</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>9</value>
+            <label>9</label>
+            <pos>340, 263</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xa</value>
+            <label>A</label>
+            <pos>372, 263</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xb</value>
+            <label>B</label>
+            <pos>404, 263</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <init>up</init>
+            <function>reset</function>
+            <label>R</label>
+            <pos>436, 263</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <init>up</init>
+            <function>step</function>
+            <label>S</label>
+            <pos>468, 263</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>4</value>
+            <label>4</label>
+            <pos>308, 295</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>5</value>
+            <label>5</label>
+            <pos>340, 295</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>6</value>
+            <label>6</label>
+            <pos>372, 295</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>7</value>
+            <label>7</label>
+            <pos>404, 295</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <init>up</init>
+            <function>run</function>
+            <label>G</label>
+            <pos>436, 295</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <init>up</init>
+            <function>super_mp</function>
+            <label>P</label>
+            <pos>468, 295</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0</value>
+            <label>0</label>
+            <pos>308, 327</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>1</value>
+            <label>1</label>
+            <pos>340, 327</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>2</value>
+            <label>2</label>
+            <pos>372, 327</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>3</value>
+            <label>3</label>
+            <pos>404, 327</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <init>up</init>
+            <function>pause</function>
+            <label>W</label>
+            <pos>436, 327</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <init>up</init>
+            <function>in</function>
+            <label>IN</label>
+            <pos>468, 327</pos>
+            <size>30, 30</size>
+        </item>
     </frontpanel>
 
      <memory>

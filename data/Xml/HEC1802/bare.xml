@@ -8,10 +8,10 @@
         <config>Bare</config>
         <clock>1.773</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>HEC1802</dirname>
 
     </system>
@@ -44,7 +44,7 @@
 
         <out>2</out>
         <in>2</in>
-        <ef>4</ef>
+        <ef pol="rev">4</ef>
     </keypad>
 
     <video type="cdp1861">
@@ -83,6 +83,7 @@
 
     <cassette decks="1">
         <ef>2</ef>
+        <keyclear />
     </cassette>
     
     <locations>

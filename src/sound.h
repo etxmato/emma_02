@@ -8,7 +8,21 @@
 #if defined (__WXMSW__) || defined(__linux__)
 #include "SDL_audioin.h"
 #endif
-#include "computer.h"
+#include "panel.h"
+
+#define MAX_NUMBER_OF_TONE_CHANNELS 12
+#define MAX_NUMBER_OF_NOISE_CHANNELS 12
+
+#define ENVELOPE_SHAPE_DOWN_ZERO_1 0x0
+#define ENVELOPE_SHAPE_UP_ZERO_1 0x4
+#define ENVELOPE_SHAPE_DOWN_CONT 0x8
+#define ENVELOPE_SHAPE_DOWN_ZERO_2 0x9
+#define ENVELOPE_SHAPE_DOWN_CONT_ALT 0xA
+#define ENVELOPE_SHAPE_DOWN_MAX 0xB
+#define ENVELOPE_SHAPE_UP_CONT 0xC
+#define ENVELOPE_SHAPE_UP_MAX 0xD
+#define ENVELOPE_SHAPE_UP_CONT_ALT 0xE
+#define ENVELOPE_SHAPE_UP_ZERO_2 0xF
 
 /* Structure for loaded sounds. */
 typedef struct sound_s
@@ -17,31 +31,45 @@ typedef struct sound_s
     Uint32 length;        /* size of sound data in bytes */
 } sound_t, *sound_p;
 
-class Sound: public Computer
+class Sound 
 {
-public: 
+public:
 
     Sound();
     ~Sound();
 
-    void initSound(double clock, double percentageClock, int computerType, int volume, int bass, int treble, int toneChannels, int stereo, bool realCasLoad, int beepFrequency, int bellFrequency);
-    void tone(short reg4);  
-    void tone1864Latch(Byte audioLatch1864);
-    void tone1864On();  
+    void initSound(double percentageClock, int bass, int treble, int toneChannels, int noiseChannels, int stereo, ComputerConfiguration computerConfiguration);
+
+    void setTonePeriod(int channel, int period, bool toneOn);
+    void setToneFrequency(int channel, int frequency, bool toneOn);
+    void setToneAmplitude(int channel, int amplitude, bool toneOn);
+    void startTone(int channel, bool toneOn);
+    void startToneDecay(int channel, int startFrequency, int endFrequecny, int decay);
+    void startQTone(int channel, bool toneOn);
+    
+    void setNoisePeriod(int channel, int period);
+    void setNoiseAmplitude(int channel, int amplitude);
+    int startNoise(int channel, bool noiseOn, int noisePeriod);
+
+    void setEnvelopePeriod(int period);
+    void ayEnvelopeActive(int channel, bool envelopeActive);
+    void ayEnvelopeShape(Byte envelopeShape);
+    void ayEnvelopeContinues(bool envelopeContinues);
+    void ayEnvelopeAttack(bool envelopeAttack);
+    void ayEnvelopeAlternate(bool envelopeAlternate);
+    void ayEnvelopeHold(bool envelopeHold);
+    
     void amplitudeSuper(int channel, int amplitude);
     void frequencySuper(int channel, int frequency);
     void octaveSuper(int channel, int octave);
     void toneSuper();  
-    void beepOn();
-    void bellOn();
-    void keyClickOn();
-    void beepOnStudio();
-    void beepOff();
+    void toneSuperOff();
     void changeBeepFrequency(int frequency);
-    void toneElf2KOn();
-    void toneElf2KOff();
-    void noise(short reg5); 
+    
     void soundCycle();
+    void toneSoundCycle(int channel);
+    void envelopeSoundCycle(int channel);
+    void noiseSoundCycle(int channel, int noisePeriod);
 
     void playSound();
     void playSoundBuffer();
@@ -74,10 +102,11 @@ public:
     bool isSaving();
     bool isLoading();
     void setEqualization(int bass, int treble);
-    void setSoundFollowQ(bool status) {followQ_ = status;};
     void record_pause(bool status);
-    void wavFile();
     void setPsaveSettings();
+
+    void setSoundType(int status) {activeSoundType_ = status;};
+    bool getAudioInStatus() {return audioIn_;};
 
 protected:
     Byte flipFlopQ_;
@@ -86,7 +115,6 @@ protected:
     uint64_t instructionCounter_;
     double soundClock_;
     double percentageClock_;
-    int computerType_;
     char threshold8_;
     wxInt16 threshold16_;
     wxInt32 threshold24_;
@@ -105,14 +133,18 @@ protected:
     long stopTapeCounter_;
     wxString tapeNumber_;
 
+    int activeSoundType_;
+
 private:
+    ComputerConfiguration computerConfiguration_;
     short ploadSamples_[256];
+    int amplitudeFactor[31];
 
     Blip_Buffer *soundBufferPointerLeft;
     Blip_Buffer *soundBufferPointerRight;
     Blip_Buffer *tapeBufferPointer;
-    Blip_Synth<blip_high_quality,30> *toneSynthPointer[8];
-    Blip_Synth<blip_high_quality,30> *noiseSynthPointer[2];
+    Blip_Synth<blip_high_quality,30> *toneSynthPointer[MAX_NUMBER_OF_TONE_CHANNELS];
+    Blip_Synth<blip_high_quality,30> *noiseSynthPointer[MAX_NUMBER_OF_NOISE_CHANNELS];
     Blip_Synth<blip_high_quality,30> *psaveSynthPointer[2];
     Blip_Synth<blip_high_quality,30> *tapeSynthPointer;
     Sync_Audio *audioPointer;
@@ -124,15 +156,26 @@ private:
     int soundTime_;
     float gain_;
 
-    int tonePeriod_[8];
-    int toneTime_[8];
-    bool toneOn_[8];
-    int toneAmplitude_[8];
+    int tonePeriod_[MAX_NUMBER_OF_TONE_CHANNELS];
+    int toneTime_[MAX_NUMBER_OF_TONE_CHANNELS];
+    bool toneOn_[MAX_NUMBER_OF_TONE_CHANNELS];
+    int toneAmplitude_[MAX_NUMBER_OF_TONE_CHANNELS];
+    int selectedToneAmplitude_[MAX_NUMBER_OF_TONE_CHANNELS];
 
-    int noisePeriod_;
-    int noiseTime_;
-    bool noiseOn_;
-    int noiseAmplitude_;
+    int noisePeriod_[MAX_NUMBER_OF_NOISE_CHANNELS];
+    int noiseTime_[MAX_NUMBER_OF_NOISE_CHANNELS];
+    bool noiseOn_[MAX_NUMBER_OF_NOISE_CHANNELS];
+    int noiseAmplitude_[MAX_NUMBER_OF_NOISE_CHANNELS];
+    
+    bool envelopeActive_[MAX_NUMBER_OF_TONE_CHANNELS];
+    Byte envelopeShape_;
+    int envelopePeriod_;
+    int envelopeTime_[MAX_NUMBER_OF_TONE_CHANNELS];
+    Byte envelopeAmplitude_;
+    bool envelopeContinues_;
+    int envelopeAttack_;
+    bool envelopeAlternate_;
+    bool envelopeHold_;
 
     bool stopTheTape_;
     bool hwSaveOn_;
@@ -149,29 +192,27 @@ private:
     int psaveVolume_;
     int psaveBitRate_;
     int psaveBitsPerSample_;
-    bool followQ_;
-    int beepPeriod_;
-    int beepFrequency_;
-    int bellFrequency_;
 
-    int decayPeriod_;
-    int targetPeriod_;
-
-    int decayTime_;
-    int saveDecayPeriod_;
-    
-    Byte audioLatch1864_;
+    int beepPeriod_[MAX_NUMBER_OF_TONE_CHANNELS];
+    int decayPeriod_[MAX_NUMBER_OF_TONE_CHANNELS];
+    int targetPeriod_[MAX_NUMBER_OF_TONE_CHANNELS];
+    int decayTime_[MAX_NUMBER_OF_TONE_CHANNELS];
+    int saveDecayPeriod_[MAX_NUMBER_OF_TONE_CHANNELS];
+    bool decayBeep_[MAX_NUMBER_OF_TONE_CHANNELS];
 
     Byte frequencySuper_[8];
     int octaveSuper_[8];
 
     int toneChannels_;
+    int noiseChannels_;
     int stereo_;
     bool inputChannel_;
-    bool studioBeep_;
     
     Byte tapeHwOutputValue_;
     int numberOfSamples_;
+    
+    bool audioIn_;
+    bool audioOut_;
 };
 
 #endif  // SOUND_H

@@ -1,0 +1,15 @@
+<html>
+<title>40th Anniversary Multi-cart</title>
+<body>
+<h2>40th Anniversary Multi-cart</h2>
+<p>
+To use the 40th Anniversary Multi-cart as designed by FLiP select the 'Multi-cart' configuration (see also <a href="MainConfigurations.htm">Configurations</a>). Alternatively select the '40th Anniversary Multi-cart' checkbox and select the multi-cart ROM file as 'CART'.
+</p>
+<p>
+At start-up the current selected ROM is shown in the title of the Studio II window. Change ROM by switching MSB or LSB which will both update the Studio II title and restart the Studio II. Note that a real Studio II with multi-cart will NOT restart autmoatically.
+</p>
+<p>
+The multi-cart can either use the original Studio II ROM as specified in the ROM field or use the system ROM as is defined in the multi-cart ROM. To select the multi-cart system ROM select 'Disable System ROM'. This will for example be needed to run the Victory game 'Star Wars' correctly (i.e. without part of the screen not being displayed).
+</p>
+</body>
+</html>

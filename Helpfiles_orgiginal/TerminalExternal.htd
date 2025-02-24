@@ -1,0 +1,27 @@
+<html>
+<title>External Terminal Software</title> 
+<body>
+<h1>External Terminal Software</h1>
+<p>
+To use Emma 02 with an external terminal additional software is needed. So far I have only been able to get this to work on Windows and Linux. Note that on Linux using 'socat' will NOT work, instead use tty0tty as described below!
+</p>
+<p>
+Of course serial terminal software is needed. For windows I have used and tested <a href="https://www.emtec.com/download.html#zocfiles">ZOC7</a>. For Ubuntu I have tested with <a href="https://help.ubuntu.com/community/Minicom">Minicom</a>. Any other serial terminal emulation should also work.
+</p>
+<p>
+Both Emma 02 and serial terminal software will communicate with a serial port on the host PC. So one option to use this would be to connect the two serial ports with a cable. However I recommend to use a serial port emulator. The serial port emulator will create two virtual ports on the host PC and connect them. One of the ports should be specified in the Terminal Setup window (yellow ellipse) and the second in the serial terminal.
+</p>
+<p>
+<IMG SRC="images/terminal_ext_port.png" BORDER="0">
+</p>
+<p>
+On windows I have tested <a href="http://com0com.sourceforge.net/">Null-modem emulator (com0com)</a> (free), <a href="https://www.eltima.com/vspd-comparison-chart.html">Virtual Serial Port Driver</a> from Eltima Software and <a href="https://eterlogic.com/Products.VSPE.html">Virtual Serial Port Emulator (VSPE)</a> from Eterlogic.
+</p>
+<p>
+On Linux I have tested the free <a href="https://sourceforge.net/projects/tty0tty/">Null-modem emulator (tty0tty)</a>.
+</p>
+<p>
+Terminal emulation is NOT possible when using intel 8275 emulation on the Elf 2000.
+</p>
+</body>
+</html>

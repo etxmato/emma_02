@@ -1,0 +1,17 @@
+<html>
+<title>Machine Code Syntax</title>
+<body>
+<h1>Machine Code Syntax</h1>
+<p>
+This section provides links to descriptions of syntax definitions on the Emma 02 site for all machine languages that can be assembled and disassembled by Emma 02. For details about the assembler see section <a href="DirectMain.htm">Direct Assembler</a>. 
+</p>
+<p>
+<a href="https://www.emma02.hobby-site.com/system00.html">SYSTEM00 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/1801.html">CDP1801 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/1802.html">CDP1802 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/1804.html">CDP1804 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/1805.html">CDP1805 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/cpu_diff.html">Differences</a><br>
+</p>
+</body>
+</html>

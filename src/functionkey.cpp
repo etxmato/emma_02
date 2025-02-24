@@ -122,27 +122,7 @@ FunctionKeyMapDialog::FunctionKeyMapDialog(wxWindow* parent)
     XRCCTRL(*this, "EnableCtrlv", wxCheckBox)->SetValue(useCtrlvKey_);
     XRCCTRL(*this, "FunctionKeyD", wxButton)->Enable(useCtrlvKey_);
 
-    LoadAndCompare(ELF, "Elf");
-    LoadAndCompare(ELFII, "ElfII");
-    LoadAndCompare(SUPERELF, "SuperElf");
-    LoadAndCompare(XML, "Xml");
-    LoadAndCompare(PICO, "Pico");
-    LoadAndCompare(ELF2K, "Elf2K");
-    LoadAndCompare(COSMICOS, "Cosmicos");
-    LoadAndCompare(ETI, "Eti");
-    LoadAndCompare(TMC1800, "TMC1800");
-    LoadAndCompare(TMC2000, "TMC2000");
-    LoadAndCompare(NANO, "Nano");
-    LoadAndCompare(VIP, "Vip");
-    LoadAndCompare(VIP2K, "Vip2K");
-    LoadAndCompare(VELF, "Velf");
-    LoadAndCompare(FRED1, "FRED1");
-    LoadAndCompare(FRED1_5, "FRED1_5");
-    LoadAndCompareStudio(STUDIO, "StudioII");
-    LoadAndCompareStudio(COINARCADE, "CoinArcade");
-    LoadAndCompareStudio(VISICOM, "Visicom");
-    LoadAndCompareStudio(VICTORY, "Victory");
-    LoadAndCompareStudio(STUDIOIV, "StudioIV");
+    LoadAndCompare("Xml");
     
     updateButtons();
     
@@ -160,19 +140,19 @@ FunctionKeyMapDialog::~FunctionKeyMapDialog()
 #endif
 }
 
-void FunctionKeyMapDialog::LoadAndCompare(int computerType, wxString computer)
+void FunctionKeyMapDialog::LoadAndCompare(wxString computer)
 {
     int dummy[5];
     int hexKeyDef1[16];
     int hexKeyDef2[16];
 
-    p_Main->getDefaultHexKeys(computerType, computer, "A", hexKeyDef1, hexKeyDef2, dummy);
+    p_Main->getDefaultHexKeys(computer, "A", hexKeyDef1, hexKeyDef2, dummy);
     for (int i=0; i<16; i++)
     {
         keyUsed[hexKeyDef1[i]] = 1;
         keyUsed[hexKeyDef2[i]] = 1;
     }
-    p_Main->getDefaultHexKeys(computerType, computer, "B", hexKeyDef1, hexKeyDef2, dummy);
+    p_Main->getDefaultHexKeys(computer, "B", hexKeyDef1, hexKeyDef2, dummy);
     for (int i=0; i<16; i++)
     {
         keyUsed[hexKeyDef1[i]] = 1;
@@ -180,23 +160,23 @@ void FunctionKeyMapDialog::LoadAndCompare(int computerType, wxString computer)
     }
 }
 
-void FunctionKeyMapDialog::LoadAndCompareStudio(int computerType, wxString computer)
+void FunctionKeyMapDialog::LoadAndCompareStudio(wxString computer)
 {
     int dummy[5];
     int hexKeyDef1[16];
     int hexKeyDef2[16];
 
     int numberOfKeys = 10;
-    if (computerType == STUDIOIV)
-        numberOfKeys = 16;
+//    if (computerType == STUDIOIV)
+//        numberOfKeys = 16;
     
-    p_Main->getDefaultHexKeys(computerType, computer, "A", hexKeyDef1, hexKeyDef2, dummy);
+    p_Main->getDefaultHexKeys(computer, "A", hexKeyDef1, hexKeyDef2, dummy);
     for (int i=0; i<numberOfKeys; i++)
     {
         keyUsed[hexKeyDef1[i]] = 1;
         keyUsed[hexKeyDef2[i]] = 1;
     }
-    p_Main->getDefaultHexKeys(computerType, computer, "B", hexKeyDef1, hexKeyDef2, dummy);
+    p_Main->getDefaultHexKeys(computer, "B", hexKeyDef1, hexKeyDef2, dummy);
     for (int i=0; i<numberOfKeys; i++)
     {
         keyUsed[hexKeyDef1[i]] = 1;

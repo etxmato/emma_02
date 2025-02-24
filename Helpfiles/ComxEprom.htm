@@ -9,7 +9,7 @@ To run the COMX emulator with the F&M EPROM Switchboard card select f&m.eprom.bo
 <IMG SRC="images/comx_eprom_board_menu.png" BORDER="0">
 </p>
 <p>
-In this configuration slot 4 is used (yellow ellipse), this means that for all CARD Sx commands mentioned in this chapter CARD S4 should be used.
+In this configuration slot 4 is used (highlighted in yellow), this means that for all CARD Sx commands mentioned in this section CARD S4 should be used.
 </p>
 <p>
 <IMG SRC="images/comx_eprom_board.png" BORDER="0">
@@ -18,13 +18,13 @@ In this configuration slot 4 is used (yellow ellipse), this means that for all C
 The EPROM Switchboard includes one 2 KB EPROM with the firmware and up to five 8 KB EPROMs with additional software. The 2 KB firmware ROM is placed at address hex F800-FFFF, this location is also used by the CDP 1870 but the CDP 1870 in the COMX architecture did not allow reading of page memory so selecting an EPROM at this location was actually possible.
 </p>
 <p>
-The 8 KB EPROMs are all mapped at address hex C000-DFFF. The first 8 KB EPROM will always be loaded with f&m.utilities.bin as additional firmware is included in this EPROM. To select what software is loaded into the additional 4 EPROMs press the F&M EPROM Switchboard 'Setup' button (orange ellipse). A new window will open showing the default EPROM files. Note EPROM software can only be change if the COMX emulator is not running.
+The 8 KB EPROMs are all mapped at address hex C000-DFFF. The first 8 KB EPROM will always be loaded with f&m.utilities.bin as additional firmware is included in this EPROM. To select what software is loaded into the additional 4 EPROMs press the F&M EPROM Switchboard 'Setup' button (highlighted in orange). A new window will open showing the default EPROM files. Note EPROM software can only be change if the COMX emulator is not running.
 </p>
 <p>
 <IMG SRC="images/comx_eprom_board_popup.png" BORDER="0">
 </p>
 <p>
-Use any of the pull down menu's (blue ellipse) to select different ROMs or just fill in a different ROM name. Alternatively use the EPROMx buttons (orange ellipse) to select ROMs in different folders via the file selector window that opens. To save changes press the 'Save' button (yellow ellipse).
+Use any of the pull down menu's (highlighted in blue) to select different ROMs or just fill in a different ROM name. Alternatively use the EPROMx buttons (highlighted in orange) to select ROMs in different folders via the file selector window that opens. To save changes press the 'Save' button (highlighted in yellow).
 </p>
 <h2>Firmware Commands</h2>
 <h3>CARD Sx or CALL(@F800)</h3>

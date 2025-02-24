@@ -9,10 +9,10 @@
         <cpu>1805</cpu>
         <clock>4.9152</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>Microboard</dirname>
     </system>
         
@@ -68,7 +68,7 @@
         <maxcharlines>8</maxcharlines>
         <maxscreenlines>24</maxscreenlines> <!-- 24, 25 or 27 for Cidelsa DRACO) -->
         <mode>ntsc</mode>
-        <int>2</int>
+        <int_mode>2</int_mode>
         <out type="int">2</out>
         <ef type="display">1</ef>
         <clock>5.626</clock>

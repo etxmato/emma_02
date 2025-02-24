@@ -1,0 +1,138 @@
+<HTML>
+<Title>Sound</Title>
+<BODY>
+<h1>Sound</h1>
+<p>
+Sound emulation volume can be changed by dragging the volume slider (as shown below), sound can be turned off by dragging the slider to the far left. 
+</p>
+<p>
+<IMG SRC="images/sound_volume.png" BORDER="0">
+</p>
+<p>
+Equalization can be change via the main below (yellow ellipse). Default 'TV Speaker' is selected. 
+</p>
+<p>
+<IMG SRC="images/menu_equalization.png" BORDER="0">
+</p>
+<p>
+The different sound emulation and for which computers they are valid is described in the following sub-sections.
+</p>
+<h2>Beeper (hardware oscillator)</h2>
+<p>
+This is a very basic sound emulation for just one tone frequency. The Emulated frequency is  changeable via the Beeper field (orange ellipse). The tone will be heard when the Q flag is set by 1. 
+</p>
+<p>
+Supported for: Cosmac Elf, Cosmac VIP, Telmac 1800, Netronics Elf II and Quest Super Elf. 
+</p>
+<p>
+<b>Note:</b> for the Cosmac VIP to support this, the sound GUI should be set to 'Beeper' (yellow ellipse): 
+</p>
+<p>
+<IMG SRC="images/sound_vip_beeper.png" BORDER="0">
+</p>
+<p>
+<b>Note:</b> for the Cosmac Elf, Netronics Elf II, Quest Super Elf and Pico/Elf V2 to support this, the Q Sound should be set to 'Hardware' (yellow ellipse) and no Serial Video Terminal should be configured: 
+</p>
+<p>
+<IMG SRC="images/sound_elf_hw.png" BORDER="0">
+</p>
+<h2>Beeper (software oscillator)</h2>
+<p>
+This is a very basic sound emulation where the changing of the Q flag generates the tone oscillator. The speed of changing the Q flag in software determines the frequency.
+</p>
+<p>
+Supported for: Oscom Nano, Cosmicos, Cosmac Elf 2000, Cosmac Elf, FRED 1, FRED 1.5, Netronics Elf II and Quest Super Elf.
+</p>
+<p>
+<b>Note:</b> for the Cosmac Elf, Netronics Elf II, Quest Super Elf and Pico/Elf V2 to support this, the Q Sound should be set to 'Software' (yellow ellipse) and no Serial Video Terminal should be configured:
+</p>
+<p>
+<IMG SRC="images/sound_elf_sw.png" BORDER="0">
+</p>
+<p>
+<b>Note:</b> for the Oscom Nano to support this, 'Sound' should be set to 'Q' (yellow ellipse): 
+</p>
+<p>
+<IMG SRC="images/sound_nano_q.png" BORDER="0">
+</p>
+<p>
+<b>Note:</b> for the Cosmicos to support this, NO 'CDP 1864' should be selected as video option (yellow ellipse): 
+</p>
+<p>
+<IMG SRC="images/sound_cosmicos_q.png" BORDER="0">
+</p>
+<h2>Beeper (warpy)</h2>
+<p>
+This is a very basic sound emulation for just one tone with a decaying frequency. The tone will be heard when the Q flag is set by 1. This variant does not generate a fixed tone, instead the tone starts at 480 Hz and decays to 240 Hz quickly causing a warpy effect.
+</p>
+<p>
+Supported for: RCA Studio II, Visicom COM-100.
+</p>
+<h2>CDP 1863 or 1864 Sound</h2>
+<p>
+Sound emulation for the 1863 (Cosmac VIP with VP595 Simple Sound Board) or 1864, one OUT instruction controls the sound features of the CDP 1863/1864 to set the frequency and the Q flag to turn the defined tone on or off.
+</p>
+<p>
+Supported for: Cosmac VIP, Cosmac VIP II, Cosmicos, HUG1802/ETI-660, Oscom Nano, RCA Studio III / Victory MPT-02, Studio IV and Telmac 2000.
+</p>
+<p>
+<b>Note:</b> for the Cosmac VIP to support this, the sound GUI should be set to 'VP595 Simple Sound Board' (yellow ellipse). Software included that uses the VP595 is the game blockout running on CHIP-8X.
+</p>
+<p>
+<IMG SRC="images/sound_vip_VP595.png" BORDER="0">
+</p>
+<p>
+<b>Note:</b> for the Oscom Nano to support this, 'Sound' should be set to 'CDP 1864' (yellow ellipse):
+</p>
+<p>
+<IMG SRC="images/sound_nano_1864.png" BORDER="0">
+</p>
+<p>
+<b>Note:</b> for the Cosmicos to support this, the 'CDP 1864' should be selected as video option (yellow ellipse):
+</p>
+<p>
+<IMG SRC="images/sound_cosmicos_1864.png" BORDER="0">
+</p>
+<h2>VP550 Super Sound System</h2>
+<p>
+The VP550 uses 2 CDP 1863 chips for sound output. As such 2 simultaneous channels can be used. Frequency can be set by writing to address @8001 for channel A and @8002 for channel B. The Super Sound System has additional HW to set the octave (2 to 5) of channel A or B by writing to address @8003. Bit 0 and 1 define the octave (0: octave 2, 3: octave 5) and bit 2 defines the channel (0: A and 1: B).
+</p>
+<p>
+Software included that uses the VP550 is the pin-8 software (pin-8.ram or yankee.ram). Optionally stereo sound can be switched on or off, when using stereo the channel 'A' sound is mapped to the left and channel 'B' to the right. Note that the VP550 implementation does NOT support the  optional PAIA Drum Computer.
+</p>
+<p>
+Supported for: Cosmac VIP
+</p>
+<p>
+<b>Note:</b> for the Cosmac VIP to support this, the sound GUI should be set to 'VP550 Super Sound' (yellow ellipse):
+</p>
+<p>
+<IMG SRC="images/sound_vip_VP550.png" BORDER="0">
+</p>
+<h2>VP551 Super Sound 4-channel Expander Package</h2>
+<p>
+The VP551 package consists of 2 VP550 boards and one VP576 to connect both sound systems. The VP550 boards work the same as described for the VP550 system above, except that the second board uses different addresses for the 3rd and 4th channel (channel C and D) as described below.
+</p>
+<p>
+Frequency can be set by writing to address @4001 for channel C and @4002 for channel D. To set the octave (2 to 5) of channel C or D address @4003 is used. Bit 0 and 1 define the octave (0: octave 2, 3: octave 5) and bit 2 defines the channel (0: C and 1: D). Control of the amplitude (volume) is in 16 steps (0 to 15) by either writing address @4010 (channel C) or @4020 (D). Tempo and interrupt control is only performed by one of the VP550 boards. Tempo can be changed by moving the tempo slider (orange ellipse).</p>
+<p>
+Software included that uses the VP551 is the 4 channel pin-8 software (pin-8.4ch.ram). Optionally stereo sound can be switched on or off, when using stereo the channel 'A' and 'C' sound is mapped to the left and channel 'B' and 'D' to the right. Note that the VP551 implementation does NOT support the  optional PAIA Drum Computer.
+</p>
+<p>
+Supported for: Cosmac VIP
+</p>
+<p>
+<b>Note:</b> for the Cosmac VIP to support this, the sound GUI should be set to 'VP551 Super Sound' (yellow ellipse):
+</p>
+<p>
+<IMG SRC="images/sound_vip_VP551.png" BORDER="0">
+</p>
+<h2>CDP 1869 Sound</h2>
+<p>
+The CDP1869 address and sound generator (which is part of the RCA Video Interface System is used for audio. 2 channels are available, one for tone generation with a span of 8 octaves, and 1 for white noise with a span of 8 frequencies. Volume of both channels is programmable independently in 16 steps. 
+</p>
+<p>
+Supported for: COMX-35, Cidelsa, TMC-600 and Pecom 64.
+</p>
+</BODY>
+</HTML>

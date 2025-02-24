@@ -1,0 +1,246 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>Membership Card</name>
+        <config>Monitor, Front panel L, 32KB NVRAM - 32KB ROM</config>
+        <clock>4.0</clock>
+        <boot>0x8000</boot>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
+        <dirname>Membership</dirname>
+    </system>
+
+    <bootstrap>
+        <address>0x8000</address>
+        <timer type="onin">5</timer>
+    </bootstrap>
+
+    <frontpanel init="on">
+        <ef type="multitil">2</ef>
+        <out type="multitil">4, 5, 6, 7</out>
+        <cycle type="multitil">1225</cycle>
+        <filename pol="rev" high="11" wait="8">segdisplay.hex</filename>
+        <in>4, 5, 6, 7</in>
+        <ef type="in">4</ef>
+        <size>480, 299</size>
+        <item>
+            <type>png</type>
+            <filename dirname="images">membership4.png</filename>
+        </item>
+        <item>
+            <type font="italic">til</type>
+            <value>0</value>
+            <function>multitil</function>
+            <pos>261, 23</pos>
+        </item>
+        <item>
+            <type font="italic">til</type>
+            <value>1</value>
+            <function>multitil</function>
+            <pos>289, 23</pos>
+        </item>
+        <item>
+            <type font="italic">til</type>
+            <value address="9">2</value>
+            <function>multitil</function>
+            <pos>317, 23</pos>
+        </item>
+        <item>
+            <type font="italic">til</type>
+            <value address="10">3</value>
+            <function>multitil</function>
+            <pos>345, 23</pos>
+        </item>
+        <item>
+            <type font="italic">til</type>
+            <value>4</value>
+            <function>multitil</function>
+            <pos>373, 23</pos>
+        </item>
+        <item>
+            <type font="italic">til</type>
+            <value>5</value>
+            <function>multitil</function>
+            <pos>401, 23</pos>
+        </item>
+        <item>
+            <type form="largecolor">led</type>
+            <function>qled</function>
+            <pos>25, 136</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>7</value>
+            <function load="show" cycle="show">bitled</function>
+            <pos>194, 136</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>6</value>
+            <function load="show" cycle="show">bitled</function>
+            <pos>228, 136</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>5</value>
+            <function load="show" cycle="show">bitled</function>
+            <pos>262, 136</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>4</value>
+            <function load="show" cycle="show">bitled</function>
+            <pos>296, 136</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>3</value>
+            <function load="show" cycle="show">bitled</function>
+            <pos>330, 136</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>2</value>
+            <function load="show" cycle="show">bitled</function>
+            <pos>364, 136</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>1</value>
+            <function load="show" cycle="show">bitled</function>
+            <pos>398, 136</pos>
+        </item>
+        <item>
+            <type form="large">led</type>
+            <value>0</value>
+            <function load="show" cycle="show">bitled</function>
+            <pos>432, 136</pos>
+        </item>
+        <item>
+            <type form="round" color="red">push</type>
+            <init>up</init>
+            <function>in_switch</function>
+            <pos>25, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>wait</function>
+            <init>up</init>
+            <pos>59, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>clear_run</function>
+            <init>up</init>
+            <pos>93, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>mp</function>
+            <init>up</init>
+            <pos>127, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>7</value>
+            <function>bitswitch</function>
+            <pos>194, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>6</value>
+            <function>bitswitch</function>
+            <pos>228, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>5</value>
+            <function>bitswitch</function>
+            <pos>262, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>4</value>
+            <function>bitswitch</function>
+            <pos>296, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>3</value>
+            <function>bitswitch</function>
+            <pos>330, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>2</value>
+            <function>bitswitch</function>
+            <pos>364, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>1</value>
+            <function>bitswitch</function>
+            <pos>398, 210</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>0</value>
+            <function>bitswitch</function>
+            <pos>432, 210</pos>
+        </item>
+    </frontpanel>
+
+    <memory>
+        <rom type="gui">
+            <start>0x8000</start>
+            <end>0xFFFF</end>
+            <pulldown mask="MCSMP*.bin">Membership</pulldown>
+            <filename verify="true">MCSMP20J.bin</filename>
+        </rom>
+
+        <nvram type="gui">
+            <start>0</start>
+            <end>0x7FFF</end>
+            <dump>ramdump.bin</dump>
+            <mp>switch</mp>
+        </nvram>
+    </memory>
+    
+    <vt type="vt100" connection="serial">
+        <font>vt100.bin</font>
+        <ef pol="rev">3</ef>
+        <q></q>
+        <caps />
+        <baud type="receive" correction="2">9600</baud>
+        <baud type="transmit" correction="2">9600</baud>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+    </vt>
+ 
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x8adb</call>
+            <return reg="5">0x8aed</return>
+        </scrt>
+    </debugger>
+
+    <hexmodem>
+    </hexmodem>
+
+    <locations>
+        <!-- key input -->
+        <key_input>0x8062</key_input>
+
+        <start_hexmodem_load>0x86fd</start_hexmodem_load>
+        <start_hexmodem_save reg="7" value="0x2fd">0x87DC</start_hexmodem_save>
+        <stop_modem>0x887B</stop_modem>
+    </locations>
+    
+</emmaconfig>

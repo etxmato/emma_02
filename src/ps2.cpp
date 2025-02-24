@@ -200,43 +200,35 @@ bool Ps2::keyUpPs2(int keycode)
     return true;
 }
 
-void  Ps2::configurePs2(bool ps2Interrupt, IoConfiguration portConf) 
+void  Ps2::configurePs2(Ps2KeyboardConfiguration ps2KeyboardConfiguration)
 {
-//    int input, output, efPort;
+    ps2KeyboardConfiguration_ = ps2KeyboardConfiguration;
+    
+    p_Main->configureMessage(&ps2KeyboardConfiguration.ioGroupVector, "PS2 Keyboard");
+    p_Computer->setInType(&ps2KeyboardConfiguration.ioGroupVector, ps2KeyboardConfiguration.input, "read data");
+    p_Computer->setOutType(&ps2KeyboardConfiguration.ioGroupVector, ps2KeyboardConfiguration.output, "write data");
+    p_Computer->setEfType(&ps2KeyboardConfiguration.ioGroupVector, ps2KeyboardConfiguration.ef, "clock signal");
+    p_Computer->setCycleType(CYCLE_TYPE_KEYBOARD, PS2_KEYBOARD_CYCLE);
 
-    ps2Interrupt_ = ps2Interrupt;
+    p_Main->message("");
+
+    ps2Interrupt_ = ps2KeyboardConfiguration.interrupt;
 
     usePS2_ = true;
 
-    wxString runningComp = p_Main->getRunningComputerStr();
-
-//    input = p_Main->getConfigItem(runningComp +"/Ps2KeyboardInput", 7l);
-//    output = p_Main->getConfigItem(runningComp +"/Ps2KeyboardOutput", 7l);
-//    efPort = p_Main->getConfigItem(runningComp +"/Ps2KeyboardEf", 3l);
-
-    p_Computer->setInType(portConf.ps2KeyboardInput, PS2IN);
-    p_Computer->setOutType(portConf.ps2KeyboardOutput, PS2OUT);
-    p_Computer->setEfType(portConf.ps2KeyboardEf, PS2EF); 
-    p_Computer->setCycleType(KEYCYCLE, PS2CYCLE);
     ps2KeyCycle_ = -1;
     ps2KeyStart_ = 0;
     ps2KeyEnd_ = 0;
     ps2KeyboardMode_ = 'X';
     ps2Cycles_ = 0;
     ps2Port_ = 1;
-     ps2CValue_ = 3;
+    ps2CValue_ = 3;
     ps2KValue_ = 3;
-
-    wxString printBuffer;
-    p_Main->message("Configuring PS2 Keyboard");
-
-    printBuffer.Printf("	Output %d: write data, input %d: read data, EF %d: clock signal\n", portConf.ps2KeyboardOutput, portConf.ps2KeyboardInput, portConf.ps2KeyboardEf);
-    p_Main->message(printBuffer);
 }
 
 Byte Ps2::efPs2() 
 {
-    return(ps2CValue_ & 2) ?((ps2KValue_ & 2) ? 1 : 0) : 0;
+    return ((ps2CValue_ & 2) ?((ps2KValue_ & 2) ? 1 : 0) : 0)^ps2KeyboardConfiguration_.ef.reverse;
 }
 
 Byte Ps2::inPs2() 

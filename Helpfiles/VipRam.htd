@@ -3,13 +3,13 @@
 <BODY>
 <h1>RAM Size</h1>
 <p>
-To specify the onboard RAM size of the emulated Cosmac Vip (between 1 and 4 Kb) use the 'RAM' spin button (yellow ellipse): 
+To specify the onboard RAM size of the emulated Cosmac Vip (between 1 and 4 Kb) use the 'RAM' spin button (highlighted in yellow): 
 </p>
 <p>
 <IMG SRC="images/vip_ram_size.png" BORDER="0">
 </p>
 <p>
-To extend RAM over 4 Kb, use the VP570 Memory Expansion spin button (orange ellipse). The spin button (0 to 7) indicates the number of VP570 boards each extending RAM with 4 Kb. As far as I know max size was 16 Kb extended RAM with 4 VP570 boards and 1 VP575 Four Board Expander, however the emulator allows 7 boards.
+To extend RAM over 4 Kb, use the VP570 Memory Expansion spin button (highlighted in orange). The spin button (0 to 7) indicates the number of VP570 boards each extending RAM with 4 Kb. As far as I know max size was 16 Kb extended RAM with 4 VP570 boards and 1 VP575 Four Board Expander, however the emulator allows 7 boards.
 </p>
 <p>
 The original VIP ROM hardcoded Pixie display RAM in the last page (256 bytes) of the onboard RAM even if VP570 boards were used. The ROM file  vip.32.rom is changed so the last RAM page is used instead.

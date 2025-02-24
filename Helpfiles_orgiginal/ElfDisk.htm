@@ -1,0 +1,38 @@
+
+<HTML>
+<Title>Disk Types</Title>
+<BODY>
+<h1>Disk Types</h1>
+<p>
+To specify which disk HW to use, use the 'Disk Type' choice button (green ellipse) to select, none, FDC or IDE:
+</p>
+<p>
+<IMG SRC="images/elf_disk.png" BORDER="0">
+</p>
+<h2>IDE</h2>
+<p>
+To specify which .ide file to use click the 'Disk' button (yellow ellipse) or type in a specific ide filename (orange ellipse). Default 'xxx.ide' is used (where xxx is pixie, mc6845, mc6847, tms, gra, serial or vt100) but this can be changed to any file name. Number of tracks, heads and sectors can be specified via the <a href="ElfPorts.htm">Device Port</a> button, default is 512 tracks, 4 heads and 26 sectors. ElfOs can be installed on the ide disk file, see also <a href="ElfInstElfOs.htm">Installation Elf/Os 2.8</a>. The eject button (purple ellipse) will empty the ide filename field (orange ellipse).
+</p>
+<p>
+During installation the following .ide files are installed and include Elf/Os: 
+</p>
+<p>
+<UL>
+<LI>pixie-installation.ide
+<LI>mc6845-installation.ide
+<LI>mc6847-installation.ide
+<LI>tms-installation.ide
+<LI>gra-installation.ide
+<LI>serial-installation.ide
+<LI>vt100-installation.ide
+</UL>
+</p>
+<p>
+These files include a pre installed Elf/Os version 2.8 and additional Elf/Os software. The installation files will be renamed to pixie.ide, mc6845.ide, mc6847.ide, tms.ide, gra.ide, serial.ide or vt100.ide if the sepcified file doesn't exist.
+</p>
+<h2>FDC</h2>
+<p>
+FDC Disk Support has not been tested; disks should be named diskX.dsk with X 1 to 4.
+</p>
+</BODY>
+</HTML>

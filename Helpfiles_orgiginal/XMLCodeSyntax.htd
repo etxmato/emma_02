@@ -1,0 +1,44 @@
+<html>
+<title>XML Code Syntax</title>
+<body>
+<h1>XML Code Syntax</h1>
+<p>
+This section provides links to descriptions syntax definitions on the Emma 02 site for the XML format used to define machine configurations.
+</p>
+<p>
+<a href="https://www.emma02.hobby-site.com/xml_main.html">Main Elements</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_main.html">I/O</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_system.html">System</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_ad_converter.html">A/D Convertor</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_basic.html">BASIC</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_batchwav.html">Batch wav</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_bootstrap.html">Bootstrap</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_cassette.html">Cassette</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_cd4536b.html">CD4536B</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_cdp1851.html">CDP1851</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_cdp1852.html">CDP1852</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_debugger.html">Debugger</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_diagnostic.html">COMX Diagnostic</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_dip.html">Dip switch</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_disk.html">Disk</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_efbuttons.html">EF Buttons</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_frontpanel.html">Front Panel</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_gui.html">GUI</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_hexmodem.html">HEX Modem</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_iogroup.html">I/O Group</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_keyboard.html">Keyboard</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_keyfile.html">Keyfile</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_locations.html">Locations</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_memory.html">Memory</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_printer.html">Printer</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_rtc.html">RTC</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_sound.html">Sound</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_splash.html">Splash</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_usb.html">USB</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_video.html">Video</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_videodump.html">Videodump</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_vt.html">vt</a><br>
+<a href="https://www.emma02.hobby-site.com/xml_xmodem.html">X Modem</a><br>
+</p>
+</body>
+</html>

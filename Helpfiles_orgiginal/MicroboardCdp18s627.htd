@@ -1,0 +1,21 @@
+<html>
+<title>CDP18S627: 4K ROM</title>
+<body>
+<h2>CDP18S627: 4K ROM</h2>
+<p>
+The CDP18S627 board includes:
+<UL>
+<LI>4 KB ROM selectable at any 4K memory location
+</UL>
+</p>
+<p>
+To define a system using the CDP18S627 select 'CDP18S627 4K ROM' from one of the CARD Choice boxes. 
+</p>
+<p>
+To specify the ROM location and/or content files press the CARD x button and the CDP18S627 Setup window will open. Press 'SAVE' to save the configuration.
+</p>
+<p>
+Note that the defined RAM should not overlap with any other defined RAM or ROM in any of the other cards, if this does happen Emma 02 will give a warning (CARD button will turn red and a message will appear in the setup window). Even if warnings are issued the configuration might run in Emma 02 however the board in the highest CARD will override the memory type of lower boards.
+</p>
+</body>
+</html>

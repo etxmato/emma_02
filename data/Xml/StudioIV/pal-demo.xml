@@ -8,10 +8,10 @@
         <config>PAL, Demo</config>
         <clock>3.58</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>StudioIV</dirname>
     </system>
     
@@ -35,8 +35,7 @@
     </memory>
     
     <video type="st4">
-        <out type="color">4</out>
-        <out type="color">6</out>
+        <out type="color">4, 6</out>
         <out type="dma">5</out>
         <colorram>0x2800-0x2bff</colorram>
         <height>192</height>

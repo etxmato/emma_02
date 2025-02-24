@@ -10,10 +10,10 @@
         <!-- Load a game via GUI in RAM field -->
         <clock>1.76</clock>
         <boot>0x0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>Elf/VDU</dirname>
     </system>
     

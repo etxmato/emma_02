@@ -1,0 +1,387 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>COSMAC Elf</name>
+        <config>Led &amp; Keypad</config>
+        <clock>1.76</clock>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
+        <dirname>Elf</dirname>
+    </system>
+
+    <frontpanel init="on">
+        <out>4</out>
+        <in>4</in>
+        <ef type="in_elf">4</ef>
+        <size>480, 464</size>
+        <item>
+            <type>png</type>
+            <filename dirname="images">elf_keypad.png</filename>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>0</value>
+            <function>addresstil</function>
+            <pos>18, 226</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>1</value>
+            <function>addresstil</function>
+            <pos>58, 226</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>2</value>
+            <function>addresstil</function>
+            <pos>98, 226</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>3</value>
+            <function>addresstil</function>
+            <pos>138, 226</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>0</value>
+            <function>datatil</function>
+            <pos>218, 226</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>1</value>
+            <function>datatil</function>
+            <pos>258, 226</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function cycle="show">qled</function>
+            <pos>324, 250</pos>
+        </item>
+        <item>
+            <type form="round" color="red">push</type>
+            <init>up</init>
+            <function>in_switch</function>
+            <pos>32, 312</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>load</function>
+            <init>down</init>
+            <pos>75, 312</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>mp</function>
+            <init>down</init>
+            <pos>150, 312</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function type="switch">run</function>
+            <init>down</init>
+            <pos>190, 312</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>stop</function>
+            <init>up</init>
+            <pos>313, 312</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>0</value>
+            <function>bitswitch</function>
+            <pos>228, 362</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>0</value>
+            <function>bitled</function>
+            <pos>235, 346</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>1</value>
+            <function>bitswitch</function>
+            <pos>198, 362</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>1</value>
+            <function>bitled</function>
+            <pos>205, 346</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>2</value>
+            <function>bitswitch</function>
+            <pos>168, 362</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>2</value>
+            <function>bitled</function>
+            <pos>175, 346</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>3</value>
+            <function>bitswitch</function>
+            <pos>138, 362</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>3</value>
+            <function>bitled</function>
+            <pos>145, 346</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>4</value>
+            <function>bitswitch</function>
+            <pos>108, 362</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>4</value>
+            <function>bitled</function>
+            <pos>115, 346</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>5</value>
+            <function>bitswitch</function>
+            <pos>78, 362</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>5</value>
+            <function>bitled</function>
+            <pos>85, 346</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>6</value>
+            <function>bitswitch</function>
+            <pos>48, 362</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>6</value>
+            <function>bitled</function>
+            <pos>55, 346</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>7</value>
+            <function>bitswitch</function>
+            <pos>18, 362</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>7</value>
+            <function>bitled</function>
+            <pos>25, 346</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>1</value>
+            <function>efswitch</function>
+            <pos>228, 422</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>2</value>
+            <function>efswitch</function>
+            <pos>198, 422</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>3</value>
+            <function>efswitch</function>
+            <pos>168, 422</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>4</value>
+            <function>efswitch</function>
+            <pos>138, 422</pos>
+        </item>
+        <item>
+            <type>push</type>
+            <init>up</init>
+            <function>in</function>
+            <label>IN</label>
+            <pos>348, 11</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xc</value>
+            <label>C</label>
+            <pos>348, 43</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xd</value>
+            <label>D</label>
+            <pos>380, 43</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xe</value>
+            <label>E</label>
+            <pos>412, 43</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xf</value>
+            <label>F</label>
+            <pos>444, 43</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>8</value>
+            <label>8</label>
+            <pos>348, 75</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>9</value>
+            <label>9</label>
+            <pos>380, 75</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xa</value>
+            <label>A</label>
+            <pos>412, 75</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xb</value>
+            <label>B</label>
+            <pos>444, 75</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>4</value>
+            <label>4</label>
+            <pos>348, 107</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>5</value>
+            <label>5</label>
+            <pos>380, 107</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>6</value>
+            <label>6</label>
+            <pos>412, 107</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>7</value>
+            <label>7</label>
+            <pos>444, 107</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0</value>
+            <label>0</label>
+            <pos>348, 139</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>1</value>
+            <label>1</label>
+            <pos>380, 139</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>2</value>
+            <label>2</label>
+            <pos>412, 139</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>3</value>
+            <label>3</label>
+            <pos>444, 139</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>led</type>
+            <value>0</value>
+            <function>nibbleled</function>
+            <pos>456, 174</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>1</value>
+            <function>nibbleled</function>
+            <pos>360, 174</pos>
+        </item>
+    </frontpanel>
+
+     <memory>
+         <ram type="gui">
+            <start>0x0000</start>
+            <end>0xFFFF</end>
+        </ram>
+    </memory>
+    
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

@@ -1,0 +1,21 @@
+SPACE INVADERS MK III 
+
+Peter Collins has modified the original ’660 Invaders (Feb. ’82, p.116) to give it a few interesting twists. 
+
+You get a ‘tank’ or ship’ at the base of the screen and a single invader’ ship moves from left to right across the top of the screen. However, in this version, you can move your tank, rather than firing at angles. The following keys are used: 
+
+MOVE LEFT 	KEY 4 
+MOVE RIGHT 	KEY 6 
+FIRE 		KEY 5 
+
+It looks simple, doesn’t it? However, the invader slows down and speeds up in order to avoid your shot! Very cunning! 
+
+You can’t move while shooting. Note that your tank wraps around’ the screen if you move off-screen on either side. 
+
+You start off with an arsenal of 20 shots and score 10 for each hit. The score is displayed at lower left, shots to go at lower right. 
+
+You can hit the invader more than once as it progresses across the screen by chasing after it and firing at the appropriate moment. 
+
+Get after it! 
+
+(Alright all you CHIP 8 hackers — this one is ripe for colouring up’, adding sound effects etc. How about it? Don’t forget, we pay for programs published — Ed.) 

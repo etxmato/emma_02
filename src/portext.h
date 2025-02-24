@@ -9,7 +9,7 @@ public:
     PortExt();
     ~PortExt() {};
 
-    void configurePortExt(IoConfiguration portConf);
+    void configurePortExt(MemoryMapperConfiguration memoryMapperConfiguration);
     void definePortExtForPager();
     void definePortExtForPager(Byte startPort, Byte endPort);
     Byte inPortExtender();

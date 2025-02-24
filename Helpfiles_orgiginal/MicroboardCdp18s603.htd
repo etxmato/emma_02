@@ -1,0 +1,65 @@
+<HTML>
+<Title>CDP18S603: CPU 1802, Q/F & PIO CDP1851</Title>
+<BODY>
+<h2>CDP18S603: CPU 1802, Q/F & PIO CDP1851</h2>
+<p>
+The CDP18S603 board includes:
+<UL>
+<LI>CDP1802 CPU with a 2 MHz crystal clock
+<LI>A maximum of 1 KB RAM and 8 KB ROM
+<LI>Software driven Q output & flag input
+<LI>CDP1851 PIO with 20 programmable parallel I/O lines
+</UL>
+</p>
+<p>
+Difference between the CDP18S603 and CDP18S603A is the PIO port definition on I/O group 8:
+<ul>
+<li>Output 4: write to port A, output 6: write to port B</li>
+<li>Input 4: read port A, input 6: read port B</li>
+<li>Output 2: write control register, input 2: read status</li>
+<li>EF 1: ARDY, EF 2: BRDY</li>
+</ul>
+</p>
+<p>
+To define a system using the CDP18S603 select 'CDP18S603 1802, Q/F & PIO' from the CARD 1 Choice box. CPU boards are only supported in slot 1.
+</p>
+<p>
+To specify the memory configuration press the CARD 1 button and the CDP18S603 Setup window will open. Press 'SAVE' to save the configuration.
+</p>
+<p>
+A default CDP18S603 configuration can be loaded, see also <a href="MainConfigurations.htm">Configurations</a>. This configuration includes the CDP18S603 CPU board and a CDP18S640 A/A1 Display board.
+</p>
+<h3>Memory Configuration and ROM/RAM Files</h3>
+<p>
+The CDP18S603 Microboard has 1 RAM and 4 ROM socket. For details see the CDP18S603 manual. In the CDP18S603 setup window the size of the ROM socket chips can be selected (1Kx8, 2Kx8). All 4 ROM chips will have the same size. The RAM socket and chip size is always 1Kx8.
+</p>
+<p>
+In the CDP18S603 setup window the size of the 'ROM Socket' chips can be selected (1Kx8 or 2Kx8). 
+</p>
+<p>
+In 1Kx8 mode the ROM location can be selected by using the 'Setup ROM' button. All 1K chip locations will be in consecutive order with XU25 on the lowest address followed by XU27, XU24 and XU26. 
+</p>
+<p>
+In 2Kx8 mode the ROM location and memory size can be selected by using the 'Setup ROM' button. The XU27 and XU26 chip locations will be in consecutive order with U27 on the lowest address followed by 26, the same is valid for XU25 and XU24. When selecting memory size of 1Kx8 the ROM will be repeated twice in the 2K block.
+</p>
+<p>
+Default configuration of the CDP18S603 is using a 1 KB RAM socket, from hex 0-3FF. ROM chips are also defined hex 0-FFF which means ROM XU25 has to be empty as it overlaps with RAM. In this same configuration the CDP18S640 board includes the ut4.bin ROM at hex 8000 and an additional 1 KB RAM at hex 8C00.
+</p>
+<p>
+Default CDP18S603 ROM/RAM file location is the Microboard directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>). To change the location use the 'ROM XUxx' or 'RAM' buttons to browse for the file, do the same to change the filename or type in a new file name in the text field. Data can be loaded via files in either ROM or RAM. Files can also be loaded into RAM in run time by using the Memory Access buttons.
+</p>
+<p>
+The binary, Intel hex and RCS Elf Emulator hex format are supported.
+</p>
+<h3>CDP1851 PIO Window</h3>
+<p>
+The PIO Window can be used to simulate the PIO, i.e. the CDP1851 I/O chip. The window can be activate or deactivated via the 'IO Window' checkbox. 
+</p>
+<p>
+The initial window will show both A and B ports as input but when either port is set to output, bit programmable or bi-directional (via the PIO control register, OUT 2) the window will switch to show input (switches active) or output (LEDs active) depending on the mode selected. The same is valid for the STB and RDY input switches and output LEDs which will become active in bit programmable mode.
+</p>
+<p>
+The interrupt buttons INT 'A' and 'B' will become active when the PIO interrupt is enabled and a press on either button will send an interrupt signal to the emulated CPU and also activate EF1 or EF2.
+</p>
+</BODY>
+</HTML>

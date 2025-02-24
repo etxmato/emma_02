@@ -5,13 +5,13 @@
 <p>
 The Memory Dump tool shows 256 bytes of memory on the GUI both in hexadecimal format and as ASCII characters. Multiple memory options are available including CPU memory, video memory, memory type and profiler information.</p>
 <p>
-To reach the Memory Dump tab, first select the 'Tools' (yellow ellipse) tab and then the 'Memory Dump' (orange ellipse) sub tab.
+To reach the Memory Dump tab, first select the 'Tools' (highlighted in yellow) tab and then the 'Memory Dump' (highlighted in orange) sub tab.
 </p>
 <p>
 <IMG SRC="images/dump.png" BORDER="0">
 </p>
 <p>
-The default view will show the first 256 bytes of main CPU memory (yellow ellipse below showing content in bytes and orange ellipse showing ASCII) from the emulated computer. To show another part of memory type in any address value in the top left address field or use the spin buttons to step through memory (red ellipse).  
+The default view will show the first 256 bytes of main CPU memory (highlighted in yellow below showing content in bytes and highlighted in orange showing ASCII) from the emulated computer. To show another part of memory type in any address value in the top left address field or use the spin buttons to step through memory (highlighted in red).  
 </p>
 <p>
 <IMG SRC="images/dump_navigation.png" BORDER="0">
@@ -20,10 +20,10 @@ The default view will show the first 256 bytes of main CPU memory (yellow ellips
 Note that the text in red '<FONT COLOR="#C62828">No emulation running</FONT>' indicates that no emulator was started and as such the data shown is not active and changing address value will not have any effect.
 </p>
 <p>
-To change any address value (yellow ellipse) select the value and just change it. Note both ROM and RAM values can be changed! 
+To change any address value (highlighted in yellow) select the value and just change it. Note both ROM and RAM values can be changed! 
 </p>
 <p>
-When running a COMX, TMC600 or Pecom emulation the actual CDP 1870 characters will be shown, other computers will show ASCII (orange ellipse)
+When running a COMX, TMC600 or Pecom emulation the actual CDP 1870 characters will be shown, other computers will show ASCII (highlighted in orange)
 </p>
 <p>
 Next to the main CPU memory other memory dump options are available by changing the 'Memory' choice button:
@@ -33,7 +33,7 @@ Next to the main CPU memory other memory dump options are available by changing 
 </p>
 <p>
 <UL>
-<LI>Type: memory types defined for the main CPU memory, see also '<a href="DumpMemoryType.htm">Memory Type</a>' chapter.
+<LI>Type: memory types defined for the main CPU memory, see also '<a href="DumpMemoryType.htm">Memory Type</a>' section.
 <LI>Profiler: see <a href="ProfilerMain.htm">Profiler</a>
 <LI>1870 Page: CDP 1870 Page memory
 <LI>1870 Character: CDP 1870 Character memory, for the Telmac TMC-600 Character ROM is shown and for both TMC-600 and Cidelsa only 6 bits are used.
@@ -62,7 +62,7 @@ Note 1: when using the any of the video modes above only the used address will b
 Note 2: None of the settings in the Memory Dump tab are saved in the Emma 02 configuration, so at every start of the Emma 02 emulator these settings are set to default.
 <h2>Additional Information</h2>
 <p>
-Additional Information can be found in the following sub-chapters:
+Additional Information can be found in the following sub-sections:
 </p>
 <p>
 <a href="DumpComx.htm">COMX Memory Map</a><br>

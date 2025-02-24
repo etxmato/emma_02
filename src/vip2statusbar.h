@@ -11,7 +11,7 @@ public:
     ~VipIIStatusBar();
 
     void initVipIIBar(bool runLed);
-    void updateLedStatus(int card, bool status);
+    void updateLedStatus(bool status, int card, int i = 0);
     void reDrawBar();
 
 private:

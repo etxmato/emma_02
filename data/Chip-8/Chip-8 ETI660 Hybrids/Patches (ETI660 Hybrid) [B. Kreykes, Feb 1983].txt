@@ -1,0 +1,62 @@
+PATCHES Bill Kreykes, St Albans, Vic. 
+
+For this game, you will need your ETI-660 with colour and full memory complement. The program draws 100 patches' on the screen in a series of columns. Beneath the field of patches is your ship which runs left and right along a coloured line. 
+
+The colour of the patches changes constantly at random, except when you fire a missile, at which time the pattern freezes until your missile hits something. 
+
+Your ship and colour line change colour every two to four seconds, depending on how much fuel is wasted. You waste fuel if your ship remains stationary, a missile fails to strike a patch when fired, or if you strike a patch with a colour not corresponding to the colour of your ship. The object is to have your missile strike a patch the same colour as your ship. You score points according to the colour of the patch strucfc Jhe patch explodes' when you score a valid strike. Points are deducted if you hit a patch of a colour different to your ship. That patch then goes red. Patches are 
+
+worth the following number of points: 
+
+BLACK 000 
+RED 100 
+BLUE 200 
+VIOLET 300 
+GREEN 400 
+YELLOW 500 
+PALE BLUE 600 
+WHITE 700 
+
+There are two special patches hidden in the field: one bonus patch and one dud patch, each game. They are worth 10 times the score of the corresponding colour — added to your score for the bonus patch, deducted for the dud patch! You never know where these special patches are until you hit them! As the colour of these special patches changes constantly, too. the special points added to or deducted from your score can vary between 1000 and 7000. 
+
+Your score is displayed in the centre of the screen above the field of patches. You commence with 0000 When you hit a bonus patch, the number of bonus points is displayed at top left. When you hit a dud patch, the points deducted are shown at top right. 
+
+Here are the keys for moving and firing: 
+
+LEFT KEY A 
+RIGHT KEY D 
+FIRE KEY 6 
+
+For lefthanders, you can change the data at 068C to 6801 and use Key 1 to fire. 
+
+The program as written gives a black background However, if this is a bit hard on the old eyes (or your TV can t handle it) here are details of how to change the background colour and patch colour selection; 
+
+LOCATION AFFECTS BLUE GREEN 
+
+0600 
+0606 
+060C 
+0612 
+061A 
+081A 
+0842 & 0894 
+
+background bonus points score minus points 
+fuel line 
+wrong hit 
+bypass black 
+
+00FF 0911 
+6004 6002 
+6003 6005 
+6001 6000 
+6001 6001 
+6001 6001 
+4002 4002 
+
+The program can be lengthened or shortened by 
+increasing or decreasing V8 at 0698. 
+
+The game automatically restarts at the end of each game (when you run out of fuel). Sound effects are used throughout. 
+
+0742 F129 or B129?

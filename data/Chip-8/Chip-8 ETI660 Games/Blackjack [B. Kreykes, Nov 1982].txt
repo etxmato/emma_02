@@ -1,0 +1,41 @@
+BLACK JACK 
+
+W.F. Kreykes, St Albans Vic. 
+
+Bill Kreykes has come up with an absolutely amazing program here that really shows what CHIP 8 is capable of if you’re prepared to work at it. Even if you’re not a card player, this one’s a ripper. 
+
+Traditional Black Jack is played with four decks, though casinos generally now play with six decks (but you can’t fit that on the '660, yet). This program plays traditional Black Jack with four decks. The ’660 is always the banker with an opening balance of $1500. Players A and B (George and Bill in this program) start with $750. 
+
+Whenever a decreasing line appears above a player’s name the banker is looking for a reply. When asked to place bets, enter the amount you desire — maximum $45, minimum $2. When asking for a yes/ for a reply. Once the line has disappeared your turn is no answer, only press any key from 0 to 9 for a YES reply, no response is required for a NO reply. 
+
+The banker is very impatient and will not wait all day terminated, except when placing bets which are above or below minimum or maximum. 
+
+A simple check can be maintained on the program with regards to any sceptical participant who may doubt the payment of winnings. Every time the bank balance is displayed the three amounts shown should add up to $3000. 
+
+The game is automatically re-started if the bank’s balance falls below $200 or a player tries to bet money he has not got (no room for an IOU). 
+
+The bank shuffles the four decks of cards at the start of each gacne and then signals another shuffle to take place at the 186th card. However, the cards will not be shuffled until the next round is about to start. The bank can be forced to shuffle the deck before this time by each player not placing a bet at the start of the round. 
+
+House Rules 
+
+• The bank cannot sit on less than 17; players — no minimum. 
+
+• Insurance is offered if the bank’s first card is an ace. The maximum amount of insurance is half of your bet. If the bank does get Black Jack, he/she will play quadruple. 
+
+• Players’ cards equal to bank — bets returned. 
+
+• Players’ cards less than bank — bets lose. 
+
+• Players’ cards greater than bank — bank pays. 
+
+• Bank plays Black Jack three times. 
+
+• Bank plays 5 under 22 double. 
+
+• Splits on any pair, but can only be done on first hand. 
+
+• Doubles on 9, 10 or 11 then only one more card dealt. 
+
+• Bank’s first card an ace: if Black Jack, insurance pays four times; if not Black Jack, insurance loses. 
+
+A complete explanation of how the program is constructed and how it works will have to be left for another issue, unfortunately. 

@@ -49,16 +49,13 @@ BEGIN_EVENT_TABLE(SN76430N, wxFrame)
     EVT_SIZE(SN76430N::onSize)
 END_EVENT_TABLE()
 
-SN76430N::SN76430N(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, double videoClock, IoConfiguration ioConfiguration, int videoNumber)
+SN76430N::SN76430N(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, double videoClock, Sn76430NConfiguration sn76430NConfiguration)
 : Video(title, pos, size)
 {
     clock_ = clock;
     videoClock_ = videoClock;
-    ioConfiguration_ = ioConfiguration;
     videoType_ = VIDEOXMLSN76430N;
-    videoNumber_ = videoNumber;
-
-    computerType_ = computerType;
+    videoNumber_ = sn76430NConfiguration.videoNumber;
  
     colourIndex_ = COL_SN76430N_WHITE;
 
@@ -79,10 +76,10 @@ SN76430N::SN76430N(const wxString& title, const wxPoint& pos, const wxSize& size
     offsetY_ = 0;
         
 
-    videoScreenPointer = new VideoScreen(this, wxSize(videoWidth_, videoHeight_), zoom, computerType, videoNumber_);
+    videoScreenPointer = new VideoScreen(this, wxSize(videoWidth_, videoHeight_), zoom, videoNumber_);
     
     setCycle();
-    defineColours(computerType_);
+    defineColours();
 
     screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
     dcMemory.SelectObject(*screenCopyPointer);
@@ -126,7 +123,7 @@ void SN76430N::focus()
 
 void SN76430N::configure()
 {
-    p_Computer->setCycleType(VIDEOCYCLE_SN76430N, SN76430NCYCLE);
+    p_Computer->setCycleType(CYCLE_TYPE_VIDEO_SN76430N, SN76430N_CYCLE);
 
     p_Main->message("Configuring Video SN76430N\n");
 }
@@ -276,7 +273,7 @@ void SN76430N::setCycle()
     int fieldTime;
 
     clockPeriod = (float)((1/videoClock_) * 6);
-    fieldTime = clockPeriod * 50 * 96;
+    fieldTime = clockPeriod * 50 * 96 * 2;
 
     cycleSize_ = (int)(fieldTime / ((1/clock_) * 8));
     cycleValue_ = cycleSize_;

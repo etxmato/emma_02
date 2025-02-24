@@ -9,16 +9,199 @@
         <!-- Press return to start BASIC -->
         <clock>1.76</clock>
         <boot>0</boot>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>Elf</dirname>
     </system>
     
     <splash>
         <dialog>TINY</dialog>
     </splash>
+
+    <frontpanel init="off">
+        <out>4</out>
+        <in>4</in>
+        <ef type="in">4</ef>
+        <size>534, 386</size>
+        <item>
+            <type>png</type>
+            <filename dirname="images">elf2.png</filename>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>stop</function>
+            <init>up</init>
+            <pos>490, 20</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>0</value>
+            <function>datatil</function>
+            <pos>370, 180</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>1</value>
+            <function>datatil</function>
+            <pos>398, 180</pos>
+        </item>
+        <item>
+            <type>push</type>
+            <init>up</init>
+            <function>in</function>
+            <label>IN</label>
+            <pos>435, 327</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xc</value>
+            <label>C</label>
+            <pos>304, 231</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xd</value>
+            <label>D</label>
+            <pos>336, 231</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xe</value>
+            <label>E</label>
+            <pos>368, 231</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xf</value>
+            <label>F</label>
+            <pos>400, 231</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>8</value>
+            <label>8</label>
+            <pos>304, 263</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>9</value>
+            <label>9</label>
+            <pos>336, 263</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xa</value>
+            <label>A</label>
+            <pos>368, 263</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xb</value>
+            <label>B</label>
+            <pos>400, 263</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>4</value>
+            <label>4</label>
+            <pos>304, 295</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>5</value>
+            <label>5</label>
+            <pos>336, 295</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>6</value>
+            <label>6</label>
+            <pos>368, 295</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>7</value>
+            <label>7</label>
+            <pos>400, 295</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0</value>
+            <label>0</label>
+            <pos>304, 327</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>1</value>
+            <label>1</label>
+            <pos>336, 327</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>2</value>
+            <label>2</label>
+            <pos>368, 327</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>3</value>
+            <label>3</label>
+            <pos>400, 327</pos>
+            <size>30, 30</size>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>load</function>
+            <init>down</init>
+            <pos>440, 265</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>mp</function>
+            <init>down</init>
+            <pos>440, 295</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function type="switch">run</function>
+            <init>down</init>
+            <pos>440, 235</pos>
+        </item>
+    </frontpanel>
 
     <memory>
         <ram type="gui">
@@ -28,7 +211,7 @@
             <filename>netronic.tinyBasic.hex</filename>
         </ram>
 
-        <giant />
+        <giant>0xF000</giant>
 
         <rom type="gui">
             <start>0xF000</start>
@@ -81,11 +264,11 @@
         <run_state></run_state>
 
         <!-- Stop cassette -->
-        <stop_cas>0xA59, 0xA28</stop_cas>
+        <stop_cas>0xA59, 0xA28, 0xf029</stop_cas>
         
         <!-- Start SAVE, LOAD -->
-        <start_cas_save>0x9FD</start_cas_save>
-        <start_cas_load>0x09FA</start_cas_load>
+        <start_cas_save>0x9FD, 0xf08d</start_cas_save>
+        <start_cas_load>0x09FA, 0xf0cd</start_cas_load>
 
     </locations>
 

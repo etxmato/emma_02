@@ -12340,11 +12340,11 @@
 		<data>
 		9K9m4538+jghkQibO7YL+P0PUW0=
 		</data>
-		<key>Resources/images/largeledoff.png</key>
+		<key>Resources/images/largeledredoff.png</key>
 		<data>
 		OO4i6LQLjUR+8RI0TT8Nvh4t2Ac=
 		</data>
-		<key>Resources/images/largeledon.png</key>
+		<key>Resources/images/largeledredon.png</key>
 		<data>
 		+4ROaT/nulkGnhidB3pjDYekq1U=
 		</data>
@@ -12844,11 +12844,11 @@
 		<data>
 		9K9m4538+jghkQibO7YL+P0PUW0=
 		</data>
-		<key>Resources/images_osx/largeledoff.png</key>
+		<key>Resources/images_osx/largeledredoff.png</key>
 		<data>
 		OO4i6LQLjUR+8RI0TT8Nvh4t2Ac=
 		</data>
-		<key>Resources/images_osx/largeledon.png</key>
+		<key>Resources/images_osx/largeledredon.png</key>
 		<data>
 		+4ROaT/nulkGnhidB3pjDYekq1U=
 		</data>
@@ -34917,14 +34917,14 @@
 			3GwK7V2P32uy6+joiqRVR+jAl4yxk6ES+is7IZQMlxw=
 			</data>
 		</dict>
-		<key>Resources/images/largeledoff.png</key>
+		<key>Resources/images/largeledredoff.png</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			1IhPnpNMez/knqL8osthH2C2CzGUTN9bEhTSwUMsF/I=
 			</data>
 		</dict>
-		<key>Resources/images/largeledon.png</key>
+		<key>Resources/images/largeledredon.png</key>
 		<dict>
 			<key>hash2</key>
 			<data>
@@ -35799,14 +35799,14 @@
 			3GwK7V2P32uy6+joiqRVR+jAl4yxk6ES+is7IZQMlxw=
 			</data>
 		</dict>
-		<key>Resources/images_osx/largeledoff.png</key>
+		<key>Resources/images_osx/largeledredoff.png</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			1IhPnpNMez/knqL8osthH2C2CzGUTN9bEhTSwUMsF/I=
 			</data>
 		</dict>
-		<key>Resources/images_osx/largeledon.png</key>
+		<key>Resources/images_osx/largeledredon.png</key>
 		<dict>
 			<key>hash2</key>
 			<data>

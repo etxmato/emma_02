@@ -7,17 +7,106 @@
         <name>COSMAC Microtutor II</name>
         <config>Bare</config>
         <clock>1.75</clock>
-        <init type="ef1">1</init>
-        <init type="ef2">1</init>
-        <init type="ef3">1</init>
-        <init type="ef4">1</init>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
         <dirname>MicrotutorII</dirname>
     </system>
     
-    <frontpanel type="microtutor2" init="on">
+    <frontpanel init="on">
         <out>4</out>
         <in>4</in>
-        <ef type="in">4</ef>
+        <ef type="in_elf">4</ef>
+        <size>333, 160</size>
+        <item>
+            <type>png</type>
+            <filename dirname="images">microtutor2.png</filename>
+        </item>
+        <item>
+            <type form="round">push</type>
+            <init>up</init>
+            <function>in_switch</function>
+            <pos>25, 30</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>load</function>
+            <init>down</init>
+            <pos>62, 30</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>0</value>
+            <function>datatil</function>
+            <pos>139, 30</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>1</value>
+            <function dp="q">datatil</function>
+            <pos>167, 30</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>mp</function>
+            <init>down</init>
+            <pos>247, 30</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function type="switch">run</function>
+            <init>down</init>
+            <pos>284, 30</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>0</value>
+            <function>bitswitch</function>
+            <pos>284, 100</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>1</value>
+            <function>bitswitch</function>
+            <pos>247, 100</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>2</value>
+            <function>bitswitch</function>
+            <pos>210, 100</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>3</value>
+            <function>bitswitch</function>
+            <pos>173, 100</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>4</value>
+            <function>bitswitch</function>
+            <pos>136, 100</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>5</value>
+            <function>bitswitch</function>
+            <pos>99, 100</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>6</value>
+            <function>bitswitch</function>
+            <pos>62, 100</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <value>7</value>
+            <function>bitswitch</function>
+            <pos>25, 100</pos>
+        </item>
     </frontpanel>
 
      <memory>

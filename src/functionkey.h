@@ -16,8 +16,8 @@ private:
     void onFocusTimer(wxTimerEvent& event);
     void onKeyDown(wxKeyEvent &event);
     void connectKeyDownEvent(wxWindow* pclComponent);
-    void LoadAndCompare(int computerType, wxString computer);
-    void LoadAndCompareStudio(int computerType, wxString computer);
+    void LoadAndCompare(wxString computer);
+    void LoadAndCompareStudio(wxString computer);
     void compareButtons(int toBeCheckedButton, int toBeCheckedValue);
     void updateButtons();
     void setLabel(wxString printStr, long button, int key);

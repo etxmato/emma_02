@@ -1,7 +1,7 @@
 #ifndef FDC_H
 #define FDC_H
 
-#include "elfconfiguration.h"
+#include "computerconfig.h"
 #define WD1793 0
 #define WD1770 1
 
@@ -11,14 +11,13 @@ public:
     Fdc();
     ~Fdc() {};
 
-    void configure1793(int sides, int tracks, int sectors, int sectorlength, int maxFmtCount, int computerType, IoConfiguration ioConf, bool standardDiskNames);
+    void configure1793(FdcConfiguration fdcConfiguration);
     Byte ef1793();
     Byte in1793();
     void selectRegister1793(Byte value);
     void writeRegister1793(Byte value);
 
-    void configureComx1770(int sides, int tracks, int sectors, int sectorlength, int maxFmtCount, int computerType);
-    void configure1770(int sides, int tracks, int sectors, int sectorlength, int maxFmtCount, int computerType, IoConfiguration ioConf);
+    void configure1770(FdcConfiguration fdcConfiguration);
     Byte ef1770();
     Byte in1770();
     Byte readRegister1770();
@@ -35,7 +34,7 @@ protected:
     int fdcRegisterSelect_;
 
 private:
-    IoConfiguration ioConf_;
+    FdcConfiguration fdcConfiguration_;
     
     int convertDriveNumber(int drive);
     void readSector(); 
@@ -49,7 +48,7 @@ private:
 
     Byte *sectorBufferPointer;
 
-    int localComputerType_;
+    int fdc17xxType_;
     wxString diskName_[4];
     bool diskCreated_[4];
     int numberOfSides_[4];

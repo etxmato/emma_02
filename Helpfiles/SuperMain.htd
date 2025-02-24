@@ -6,13 +6,13 @@
 This emulator will emulate the Quest Super Elf computer. To run the Quest Super Elf including the giant board select the file supermon.hex or giantboard.hex as one of the ROM files and select the 'Cassette' checkbox. Additional information about the Quest Super Elf can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
 </p>
 <p>
-To start the Quest Super Elf emulator first select the Elf tab (yellow ellipse) followed by the Quest Super Elf tab (orange ellipse) and then press Start:
+To start the Quest Super Elf emulator first select the Elf tab (highlighted in yellow) followed by the Quest Super Elf tab (highlighted in orange) and then press Start:
 </p>
 <p>
 <IMG SRC="images/quest.png" BORDER="0">
 </p>
 <p>
-The above will have started the default Cosmac Elf emulator configuration running Elf/Os with Serial I/O. To change to other predefined configurations load one of them with the menu option below (blue ellipse) following the grey menu:
+The above will have started the default Cosmac Elf emulator configuration running Elf/Os with Serial I/O. To change to other predefined configurations load one of them with the menu option below (highlighted in blue) following the grey menu:
 </p>
 <p>
 <IMG SRC="images/quest_configuration.png" BORDER="0">
@@ -54,7 +54,7 @@ This configuration should run most games, default the invaders game will be sele
 </p>
 <p><B>Giant Board</B></p>
 <p>
-Basic configuration that will load and run the Netronics giant board monitor (at location hex F000. See the chapter on the <a href="ElfGiant.htm">Giant Board</a>
+Basic configuration that will load and run the Netronics giant board monitor (at location hex F000. See the section on the <a href="ElfGiant.htm">Giant Board</a>
 </p>
 <p><B>Music Machine</B></p>
 <p>
@@ -70,7 +70,7 @@ These configuration will load and run Netronics Tiny Basic, either on Pixie vide
 </p>
 <p><B>Quest Super Basic</B></p>
 <p>
-These configurations will load and run Quest Super Basic (version is indicated in the filename) on the Cosmac Elf, Netronics Elf II or Quest Super Elf. See the chapter on <a href="ElfSuperBasic.htm">Quest Super Basic</a>.
+These configurations will load and run Quest Super Basic (version is indicated in the filename) on the Cosmac Elf, Netronics Elf II or Quest Super Elf. See the section on <a href="ElfSuperBasic.htm">Quest Super Basic</a>.
 </p>
 <p><B>Quest Tape Loader</B></p>
 <p>
@@ -78,7 +78,7 @@ Quest Super Basic loader program.
 </p>
 <p><B>RCA Basic</B></p>
 <p>
-These configuration will load and run RCA Basic on the Cosmac Elf, Netronics Elf II or Quest Super Elf. See the chapter on <a href="ElfRcaBasic.htm">RCA Basic</a>.
+These configuration will load and run RCA Basic on the Cosmac Elf, Netronics Elf II or Quest Super Elf. See the section on <a href="ElfRcaBasic.htm">RCA Basic</a>.
 </p>
 <p><B>RCA Bug</B></p>
 <p>
@@ -100,29 +100,19 @@ Basic UT4 configuration with 62K RAM and UT4 running in ROM at hex 8000-81FF</p>
 VDU / MC6847 configurations, one with ASCII keyboard and one with a hex keypad.
 </p>
 <p>
-This chapter also includes:
+This section also includes:
 </p>
 <p>
 <a href="SuperFront.htm">Front Panel</a><br>
 <a href="ElfRom.htm">ROM and RAM Files</a><br>
 <a href="ElfDisk.htm">Disk Types</a><br>
-<a href="MainKeyFile.htm">Key File</a><br>
 <a href="ElfPrinter.htm">Printer Support</a><br>
-<a href="MainScreendump.htm">Video Dump</a><br>
 <a href="ElfCassette.htm">Cassette Support</a><br>
-<a href="ElfXmodem.htm">XMODEM Support</a><br>
-<a href="ElfPorts.htm">Device Ports</a><br>
-<a href="TerminalMain.htm">Video Terminal</a><br>
 <a href="ElfVideo.htm">Video Types</a><br>
-<a href="MainColour.htm">Video Setup</a><br>
 <a href="ElfKey.htm">Keyboard Mapping and Types</a><br>
 <a href="ElfRam.htm">Memory</a><br>
 <a href="ElfBoot.htm">Auto Boot</a><br>
-<a href="MainSound.htm">Sound</a><br>
-<a href="MainZoom.htm">Zoom Level and Full Screen Mode</a><br>
-<a href="MainMemAccess.htm">Memory Access</a><br>
 <a href="SuperWindows.htm">Control Windows</a><br>
-<a href="MainClock.htm">Clock Speed</a>
 <a href="ElfSuperBasic.htm">Quest Super Basic</a><br>
 <a href="ElfRcaBasic.htm">RCA Basic</a><br>
 <a href="ElfInstElfOsIo.htm">Installation Elf/Os 2.5 via Biosio</a><br>

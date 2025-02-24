@@ -1,0 +1,9 @@
+
+ALTERNATIVE BLOCK PUZZLE D.P. Edwards, Lower Hutt, New Zealand 
+
+This is an alternative version of the 14-15, or moving block puzzle, published in ETI November 1982 in the Chip 8 potpourri on page 92. 
+
+The puzzle was originally designed by Sam Lloyd early last century and he offered a $1000 reward to anyone who could solve the problem in the form that you presented. 
+
+To make it solvable you must originally set the blocks up in the correct order, with the blank at the end, and the following program does this. Hopefully this will go some way towards relieving the frustrations of other Chip 8 hackers. I have also adapted the program for our school computers (we use the Polycorp machines) and it has been very well received. 
+

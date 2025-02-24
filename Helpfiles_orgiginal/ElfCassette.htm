@@ -1,0 +1,51 @@
+
+<HTML>
+<Title>Cassette</Title>
+<BODY>
+<h1>Cassette Support</h1>
+<p>
+The common functionality for cassette handling is described in the section <a href="MainCassette.htm">Cassette Support</a>. For details on how to use a real cassette player connected to a PC and Emma 02 please see the section: <a href="MainRealCassette.htm">Real Cassette Support</a>.
+</p>
+<p>
+Cassett support is not enabled by default! The <a href="ElfGiant.htm">Giant Board</a> configuration which includes a working Cassette configuration can be loaded via the follwoing menu:
+</p>
+<p>
+<IMG SRC="images/elf_cassette_conf.png" BORDER="0">
+</p>
+<p>
+The following sub section describe Elf specific cassette handling for both automatic and manual options.
+</p>
+<h2>Auto</h2>
+<p>
+To use this option 'Auto LOAD/SAVE' should be checked (yellow ellipse) which is the default setting:
+</p>
+<p>
+<IMG SRC="images/elf_cassette_auto.png" BORDER="0">
+<p>
+To load a .wav file into the Elf with the Giant Board configuration, press 04-IN, enter the two-byte address of the memory to be loaded and then enter the ending two-byte address (every byte followed by IN). Start the actual load with an additional IN on Elf emulator window and the cassette play button (green ellipse) will go green.
+</p>
+<p>
+To save a .wav file from the Elf with the Giant Board configuration, press 03-IN, enter the two-byte address of the memory to be saved and then enter the ending two-byte address (every byte followed by IN). Start the actual save with an additional IN on the Elf emulator window and the cassette record button (red ellipse) will go red. 
+</p>
+<p>
+For both save and load make sure a .wav file is selected in the Emma 02 window before using the save and load instructions otherwise the Elf emulator will hang on the load (until you manually start a .wav file) or with a save the wav sound will not be written to any file.
+</p>
+<h3>Manual</h3>
+<p>
+To use this option 'Auto LOAD/SAVE' should NOT be checked. This setting is more like the cassette handling is on the real Elf however a bit more complicated than Auto LOAD/SAVE:
+</p>
+<p>
+<IMG SRC="images/elf_cassette_manual.png" BORDER="0">
+</p>
+<p>
+To load a .wav file into the Elf with the Giant Board configuration, press 04-IN, enter the two-byte address of the memory to be loaded and then enter the ending two-byte address (every byte followed by IN). Now press play (green ellipse) and after that as soon as possible press an additional IN on the Elf.
+</p>
+<p>
+To save a .wav file from the Elf with the Giant Board configuration, press the dark red record button (red ellipse) and then press 03-IN, enter the two-byte address of the memory to be saved and then enter the ending two-byte address (every byte followed by IN). Start the actual save with an additional IN on the Elf.
+</p>
+<p>
+Saving or loading can be stopped at anytime by pressing the stop button (brown ellipse). When stopping a load while the Elf is in loading mode will however hang the Elf.
+</p>
+</BODY>
+</HTML>
+

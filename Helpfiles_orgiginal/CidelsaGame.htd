@@ -1,0 +1,24 @@
+<HTML>
+<Title>Game Settings</Title>
+<BODY>
+<h1>Game Settings</h1>
+<p>
+Some settings per game can be defined in the Game Settings area:
+</p>
+<p>
+<IMG SRC="images/cidelsa_game_setting.png" BORDER="0">
+</p>
+<p>
+With the 'Difficulty' choice buttons (yellow ellipse) the game difficulty can be set between Very Conservative, Conservative, Liberal and Very Liberal. For the Draco game only Conservative and Liberal are used.
+</p>
+<p>
+With the 'Bonus Live' choice buttons (orange ellipse) the score to reach a bonus live can be set (5000, 7000, 10000 or 14000).
+</p>
+<p>
+With the 'Number of Lives' choice buttons (blue ellipse) the number of lives can be set. For Altair and Destroyer between 1 an 4, for Draco either 3 or 5.
+</p>
+<p>
+With the 'Coin Type' choice buttons (magenta ellipse) the number of coins per chute can be set.
+</p>
+</BODY>
+</HTML>

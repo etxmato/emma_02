@@ -39,93 +39,19 @@ END_EVENT_TABLE()
 
 SplashScreen::SplashScreen(wxWindow *parent)
 {
-    wxString computerStr = p_Main->getRunningComputerStr();
     wxString dialog;
-    int computer = p_Main->getRunningComputerId();
-    ElfConfiguration currentElfConfig;
     vt100_ = false;
     
-    switch (computer)
+    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
+    dialog = p_Main->getSplashDialog();
+    wxXmlResource::Get()->LoadDialog(this, parent, dialog);
+    
+    if (dialog == "DEFAULT")
     {
-        case ELF:
-        case ELFII:
-        case SUPERELF:
-        case PICO:
-            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
-            switch (p_Computer->getLoadedProgram())
-            {
-                case SUPERBASICV1:
-                    currentElfConfig = p_Main->getElfConfiguration(computer);
-                    if (currentElfConfig.vtType != VTNONE)
-                        wxXmlResource::Get()->LoadDialog(this, parent, "SBV1_VT");
-                    else
-                        wxXmlResource::Get()->LoadDialog(this, parent, "SBV1_SUPER");
-                    Show(true);
-                break;
-                    
-                case SUPERBASICV3:
-                    wxXmlResource::Get()->LoadDialog(this, parent, "SBV3_SUPER");
-                    Show(true);
-                break;
-
-                case RCABASIC3:
-                    wxXmlResource::Get()->LoadDialog(this, parent, "RCA_BASIC");
-                    Show(true);
-                break;
-                 
-                case MINIMON:
-                case GOLDMON:
-                    wxXmlResource::Get()->LoadDialog(this, parent, "Monitor");
-                    Show(true);
-                break;
-                    
-                case TINYBASIC:
-                    currentElfConfig = p_Main->getElfConfiguration(computer);
-                    if (currentElfConfig.vtType != VTNONE)
-                        wxXmlResource::Get()->LoadDialog(this, parent, "TINY_VT");
-                    else
-                        wxXmlResource::Get()->LoadDialog(this, parent, "TINY");
-                    Show(true);
-                break;
-                    
-                default:
-                    currentElfConfig = p_Main->getElfConfiguration(computer);
-                    if (p_Computer->getLoadedOs() != NOOS && currentElfConfig.vtType != VTNONE)
-                        wxXmlResource::Get()->LoadDialog(this, parent, "ELFOS");
-                    Show(true);
-                break;
-            }
-            break;
-            
-        case ELF2K:
-            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
-            currentElfConfig = p_Main->getElfConfiguration(computer);
-            if (currentElfConfig.vtType != VTNONE)
-            {
-                wxXmlResource::Get()->LoadDialog(this, parent, "Elf2K_VT");
-                Show(true);
-            }
-        break;
-            
-        case XML:
-            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
-            dialog = p_Main->getSplashDialog(computer);
-            wxXmlResource::Get()->LoadDialog(this, parent, dialog);
-            
-            if (dialog == "DEFAULT")
-            {
-                XRCCTRL(*this,"SplashText",wxStaticText)->SetLabel(p_Main->getSplashText(computer));
-                XRCCTRL(*this,"DEFAULT",wxDialog)->DoLayoutAdaptation();
-            }
-            Show(true);
-        break;
-            
-        default:
-            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
-            wxXmlResource::Get()->LoadDialog(this, parent, computerStr);
-            Show(true);
-        break;
+        XRCCTRL(*this,"SplashText",wxStaticText)->SetLabel(p_Main->getSplashText());
+        XRCCTRL(*this,"DEFAULT",wxDialog)->DoLayoutAdaptation();
     }
+    Show(true);
     
     timerPointer = new wxTimer(this, 1000);
     timerPointer->Start(6000, wxTIMER_ONE_SHOT);

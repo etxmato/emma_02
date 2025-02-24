@@ -3,7 +3,7 @@
 <BODY>
 <h1>80 Column Support</h1>
 <p>
-To use 80 Column support select 80column.1.0.bin or 80column.1.1.bin in any available slot (CARD 1 if no expansion box is used), see example below (yellow ellipse):
+To use 80 Column support select 80column.1.0.bin or 80column.1.1.bin in any available slot (CARD 1 if no expansion box is used), see example below (highlighted in yellow):
 </p>
 <p>
 <IMG SRC="images/comx_80col.png" BORDER="0">
@@ -12,10 +12,10 @@ To use 80 Column support select 80column.1.0.bin or 80column.1.1.bin in any avai
 Version 1.0 is the original COMX 80 column card rom including the character rom, 1.1 is a version with corrected character rom. When CARD Sx (x = 80 column rom slot) is used the COMX should initiate 80 Column mode, when no expansion box is in use, use CALL (@C010). 
 </p>
 <p>
-Default the interlace mode is on, to switch off interlace mode un-select the '80 Column Card Interlace' check box (orange ellipse).
+Default the interlace mode is on, to switch off interlace mode un-select the '80 Column Card Interlace' check box (highlighted in orange).
 </p>
 <p>
-Zoom mode when using the 80 column card is always divided by 2 (blue ellipse) to keep the window size roughly the same as 40 column mode.
+Zoom mode when using the 80 column card is always divided by 2 (highlighted in blue) to keep the window size roughly the same as 40 column mode.
 </p>
 <p>
 Note that most COMX software does not support the 80 Column card! Also when using LIST on some COMX software one of the CTRL commands below could be triggered, this could for example result in starting a self test or going to 40 column mode during the LIST. This happens when CTRL characters are used in PRINT commands. 

@@ -51,44 +51,24 @@
 #define GRAPHIC 8
 #define BACKGROUND 5
 
-mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, IoConfiguration ioConfiguration, int videoNumber)
+mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, Mc6847Configuration mc6847Configuration)
 : Video(title, pos, size)
 {
-    computerType_ = computerType;
     clock_ = clock;
     colourIndex_ = 0;
     videoType_ = VIDEO6847;
-    videoNumber_ = videoNumber;
+    mc6847Configuration_ = mc6847Configuration;
+    videoNumber_ = mc6847Configuration.videoNumber;
 
-    switch(computerType_)
-    {
-        case ELF:
-            elfTypeStr_ = "Elf";
-        break;
+    elfTypeStr_ = "Xml";
+    colourIndex_ = COL_MC6847_TEXT_BLACK - BACKGROUND;
+    videoType_ = VIDEOXML6847;
 
-        case ELFII:
-            elfTypeStr_ = "ElfII";
-        break;
-
-        case SUPERELF:
-            elfTypeStr_ = "SuperElf";
-        break;
-            
-        case XML:
-            elfTypeStr_ = "Xml";
-            colourIndex_ = COL_MC6847_TEXT_BLACK - BACKGROUND;
-            videoType_ = VIDEOXML6847;
-        break;
-
-        case PICO:
-            elfTypeStr_ = "Pico";
-        break;
-    }
-    readCharRomFile(p_Main->getCharRomDir(computerType_), p_Main->getCharRomFile(computerType_));
-    mc6847RamStart_ = ioConfiguration.mc6847StartRam; //p_Main->getConfigItem(elfTypeStr_+"/mc6847StartRam",0xE000l);
+    readCharRomFile(p_Main->getCharRomDir(), p_Main->getCharRomFile());
+    mc6847RamStart_ = mc6847Configuration.startRam; //p_Main->getConfigItem(elfTypeStr_+"/mc6847StartRam",0xE000l);
 //    Word end = p_Main->getConfigItem(elfTypeStr_+"/mc6847EndRam", 0xE3FFl);
-    p_Computer->defineMemoryType(mc6847RamStart_, ioConfiguration.mc6847EndRam, MC6847RAM);
-    mc6847RamMask_ = ioConfiguration.mc6847EndRam - mc6847RamStart_;
+    p_Computer->defineMemoryType(mc6847RamStart_, mc6847Configuration.endRam, MC6847RAM);
+    mc6847RamMask_ = mc6847Configuration.endRam - mc6847RamStart_;
 
     switch (p_Main->getCpuStartupVideoRam())
     {
@@ -116,42 +96,42 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
 
     fullScreenSet_ = false;
 
-    if (ioConfiguration.forceHighAg)
+    if (mc6847Configuration.forceHighAg)
         ag_ = 1;
     else
         ag_ = 0;
 
-    if (ioConfiguration.forceHighAs)
+    if (mc6847Configuration.forceHighAs)
         as_ = 1;
     else
         as_ = 0;
 
-    if (ioConfiguration.forceHighExt)
+    if (mc6847Configuration.forceHighExt)
         ext_ = 1;
     else
         ext_ = 0;
 
-    if (ioConfiguration.forceHighGm2)
+    if (mc6847Configuration.forceHighGm2)
         gm2_ = 1;
     else
         gm2_ = 0;
 
-    if (ioConfiguration.forceHighGm1)
+    if (mc6847Configuration.forceHighGm1)
         gm1_ = 1;
     else
         gm1_ = 0;
 
-    if (ioConfiguration.forceHighGm0)
+    if (mc6847Configuration.forceHighGm0)
         gm0_ = 1;
     else
         gm0_ = 0;
 
-    if (ioConfiguration.forceHighCss)
+    if (mc6847Configuration.forceHighCss)
         css_ = 1;
     else
         css_ = 0;
 
-    if (ioConfiguration.forceHighInv)
+    if (mc6847Configuration.forceHighInv)
         inv_ = 1;
     else
         inv_ = 0;
@@ -173,11 +153,11 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
 #endif
 
-    videoScreenPointer = new VideoScreen(this, size, zoom, computerType, videoNumber_);
+    videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_);
 
     setCycle();
 
-    defineColours(computerType_);
+    defineColours();
     backGround_ = BACKGROUND;
 
     cycleValue_ = cycleSize_;
@@ -221,12 +201,9 @@ void mc6847::drawScreen()
         draw(addr);
 }
 
-void mc6847::configure(IoConfiguration ioConfiguration)
+void mc6847::configure()
 {
-//    int mc6847Out;
     wxString printBuffer;
-
-//    mc6847Out = p_Main->getConfigItem(elfTypeStr_+"/MC6847Output", 5l);
 
     invBit_ = 16;
     extBit_ = 16;
@@ -237,31 +214,30 @@ void mc6847::configure(IoConfiguration ioConfiguration)
     gm1Bit_ = 16;
     gm2Bit_ = 16;
     
-    setMCBit(15, ioConfiguration.mc6847b7); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B7", 0l));
-    setMCBit(14, ioConfiguration.mc6847b6); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B6", 0l));
-    setMCBit(13, ioConfiguration.mc6847b5); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B5", 0l));
-    setMCBit(12, ioConfiguration.mc6847b4); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B4", 0l));
-    setMCBit(11, ioConfiguration.mc6847b3); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B3", 3l));
-    setMCBit(10, ioConfiguration.mc6847b2); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B2", 4l));
-    setMCBit(9, ioConfiguration.mc6847b1); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B1", 6l));
-    setMCBit(8, ioConfiguration.mc6847b0); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B0", 5l));
-    setMCBit(7, ioConfiguration.mc6847dd7); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-DD7", 1l));
-    setMCBit(6, ioConfiguration.mc6847dd6); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-DD6", 0l));
+    setMCBit(15, mc6847Configuration_.b7);
+    setMCBit(14, mc6847Configuration_.b6);
+    setMCBit(13, mc6847Configuration_.b5);
+    setMCBit(12, mc6847Configuration_.b4);
+    setMCBit(11, mc6847Configuration_.b3);
+    setMCBit(10, mc6847Configuration_.b2);
+    setMCBit(9, mc6847Configuration_.b1);
+    setMCBit(8, mc6847Configuration_.b0);
+    setMCBit(7, mc6847Configuration_.dd7);
+    setMCBit(6, mc6847Configuration_.dd6);
     
-    p_Computer->setCycleType(VIDEOCYCLE_MC6847, MC6847CYCLE);
+    p_Main->configureMessage(&mc6847Configuration_.ioGroupVector, "MC6847");
 
-    p_Main->message("Configuring MC6847");
-
-    if (ioConfiguration.mc6847OutputMode == 1)
+    if (mc6847Configuration_.outputMode == 1)
     {
-        printBuffer = "	Write mem FFxx: video mode\n";
+        printBuffer.Printf("	Write mem %04X-%04X: video mode\n", mc6847Configuration_.outputStart, mc6847Configuration_.outputEnd);
+        p_Main->message(printBuffer);
     }
     else
     {
-        p_Computer->setOutType(ioConfiguration.mc6847Output, MC6847OUT);
-        printBuffer.Printf("	Output %d: video mode\n", ioConfiguration.mc6847Output);
+        p_Computer->setOutType(&mc6847Configuration_.ioGroupVector, mc6847Configuration_.output, "video mode");
+        p_Main->message("");
     }
-    p_Main->message(printBuffer);
+    p_Computer->setCycleType(CYCLE_TYPE_VIDEO_MC6847, MC6847_CYCLE);
 }
 
 void mc6847::init6847()

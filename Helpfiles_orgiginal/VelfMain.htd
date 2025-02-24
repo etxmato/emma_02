@@ -1,0 +1,64 @@
+<HTML></HTML><html>
+<title>VELF Emulator</title>
+<body>
+<h1>VELF Emulator</h1>
+<p>
+This emulator will emulate the VELF computer as designed by Josh Bensadon. Additional information about the VELF can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
+</p>
+<p>
+To start the VELF emulator first select the Elf tab (yellow ellipse) followed by the VELF tab (orange ellipse) and then press Start:
+</p>
+<p>
+<IMG SRC="images/velf.png" BORDER="0">
+</p>
+<p>
+The above will have started the default VELF emulator configuration which is running in ELF mode. To change to other predefined configurations load one of them with the menu option below (blue ellipse) following the grey menu:
+</p>
+<p>
+<IMG SRC="images/velf_configuration.png" BORDER="0">
+</p>
+<p>
+Summary of the VELF <a href="MainConfigurations.htm">configurations</a>:
+</p>
+<p><B>VELF</B></p>
+<p>
+Josh's VELF including VELF bios v3.1.
+</p>
+<p><B>JVIP</B></p>
+<p>
+Walter's JVIP including JVIP bios 310x. 
+</p>
+<p>
+The V-ELF is a combination of the COSMAC VIP and COSMAC ELF systems. With the flip of a switch, the V-ELF behaves like either the COSMAC ELF or VIP. The VIP / ELF switch can be used after starting the VELF. Default it is set to VIP mode and a switch to ELF will cause the VELF to start in ELF mode on the next startup.
+</p>
+<p>
+In ELF mode:
+<UL>
+<LI>32K of RAM is mapped to hex 0-7FFF
+<LI>32K of ROM is mapped to hex 8000-FFFF
+</UL>
+The system doesn't do much on it's own and requires you to enter a program via the input switches or execute what ever program has been put/left in RAM from the VIP Monitor or VELF Bios ROM.
+</p>
+<p>
+In VIP mode:
+<UL>
+<LI>32K of RAM is mapped out until A15 goes high (a Long Branch to hex 8200 does this)
+<LI>32K of ROM is mapped to both hex 0-7FFF and hex 8000-FFFF
+</UL>
+</p>
+<p>
+After starting the VELF emulator the 'F12' key can be used to simulate the VELF run switch, i.e. when 'F12' is pressed the VELF will stop execution and when pressed again it will restart. This can be used to start the J-VIP in different options: start the emulator, after this press one of the defined J-VIP keys and while keeping the key pressed, press 'F12' twice. See also <a href="MainFunctionKeys.htm">Function and Hot Keys</a> and <a href="VelfJvip.htm">J-VIP Mode</a>.
+</p>
+<p>
+This section also includes:
+</p>
+<p>
+<a href="VelfRom.htm">ROM Files</a><br>
+<a href="VelfSW.htm">Pre SW load</a><br>
+<a href="VelfBoot.htm">Auto Boot</a><br>
+<a href="VelfPrinter.htm">Printer Support</a><br>
+<a href="VelfCassette.htm">Cassette Support</a><br>
+<a href="VelfVelf.htm">VELF Mode</a><br>
+<a href="VelfJvip.htm">J-VIP Mode</a><br>
+</p>
+</body></html>

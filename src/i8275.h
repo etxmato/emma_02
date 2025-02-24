@@ -15,13 +15,15 @@ class i8275 : public Video
 {
 public:
 
-    i8275(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, int videoNumber);
+    i8275(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, I8275Configuration i8275Configuration);
     ~i8275();
 
-    void configure8275(IoConfiguration ioConfiguration);
+    void configure8275();
     void init8275();
     void cycle8275();
-    Byte ef8275();
+    Byte frameEf8275();
+    Byte rowEf8275();
+    void setRowEf8275(Byte value);
 
     void setClock(double clock);
     void setCycle();
@@ -51,15 +53,19 @@ private:
     bool highlightScr_[5120];
     int gpaScr_[5120];
     bool blinkScr_[5120];
+    bool graphicLineScr_[5120];
     Byte i8275CharRom_[8192];
 
     CharacterList8275 *characterListPointer8275;
-
-    int computerType_;
+    I8275Configuration i8275Configuration_;
 
     int cycleValue8275_;
     int cycleBlankValue8275_;
     int dmaCycleValue8275_;
+    
+    bool displayOn_;
+    bool dmaOn_;
+    bool interruptOn_;
 
     int dmaCycleSize8275_;
     int rowCycleSize8275_;
@@ -79,11 +85,8 @@ private:
     int command_;
     Byte status_;
     bool spacedRows_;
-    int horizontalCharactersPerRow_;
     int verticalRetraceRowCount_;
-    int verticalRowsPerFrame_;
     int underLinePlacement_;
-    int linesPerCharacterRow_;
     int lineCounterMode_;
     int fieldAttributeMode_;
     bool cursorBlinking_;
@@ -92,13 +95,15 @@ private:
     int burstSpaceCode_;
     int burstCountCode_;
     bool retrace_;
-    Byte ef_;
+    Byte rowEf_;
+    Byte frameEf_;
 
     bool reverse_;
     bool underline_;
     bool highlight_;
     int gpa_;
     bool blink_;
+    bool graphicLine_;
     bool blinkOn_;
     bool attributeChange_;
 

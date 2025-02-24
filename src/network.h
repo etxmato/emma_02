@@ -1,7 +1,7 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
-#include "elfconfiguration.h"
+#include "computerconfig.h"
 #define WD1793 0
 #define WD1770 1
 

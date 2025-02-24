@@ -8,28 +8,29 @@ class Serial
 {
 public:
 
-    Serial(int computerType, double clock, ElfConfiguration elfConfiguration);
+    Serial(int computerType, double clock, ComputerConfiguration computerConfig);
     ~Serial();
 
-    void configure(int selectedBaudR, int selectedBaudT, IoConfiguration ioConfiguration);
-    void configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag);
-    void configureUart(IoConfiguration ioConfiguration);
-    void configureUart16450(IoConfiguration ioConfiguration);
-    void configureRcasbc(int selectedBaudR, int selectedBaudT);
-    void configureMs2000(int selectedBaudR, int selectedBaudT);
-    void configureVt2K(int SelectedBaudR, int SelectedBaudT, IoConfiguration ioConfiguration);
+    void configure(int selectedBaudR, int selectedBaudT, VideoTerminalConfiguration videoTerminalConfiguration);
+    void configureUart1854(VideoTerminalConfiguration videoTerminalConfiguration);
+    void configureUart16450(VideoTerminalConfiguration videoTerminalConfiguration);
     void startSerial();
-    void configureQandEfPolarity(int ef, bool vtEnable);
+    void startLoopBack();
     Byte ef();
+    Byte efInterrupt();
     void out(Byte value);
     void cycleVt();
 
+    void uartTerminalOut();
+    void uartTerminalIn();
+    void serialTerminalOut();
+    void serialTerminalIn();
     void switchQ(int value);
     void setCycle();
     int Parity(int value);
     void dataAvailable();
     void dataAvailable(Byte value);
-    void dataAvailableUart16450(bool data);
+    void dataAvailableUart(bool data);
     void framingError(bool data);
     void selectUart16450Register(Byte value);
     void uartOut(Byte value);
@@ -40,9 +41,10 @@ public:
     Byte uartStatus();
     void thrStatusUart16450(bool data);
     void uartInterrupt();
+    void clearUartInterrupt();
 
 private:
-    ElfConfiguration elfConfiguration_;
+    ComputerConfiguration currentComputerConfiguration;
 
     double clock_;
 
@@ -67,6 +69,7 @@ private:
     int parity_;
 
     Byte serialEf_;
+    Byte serialEfInterrupt_;
     Byte vtEnabled_;
 
     bool uartEf_;
@@ -75,9 +78,11 @@ private:
 
     Byte uartControl_;
     bitset<8> uartStatus_;
-    bool uart_;
+    bool uart1854_;
     bool uart16450_;
     bool serialOpen_;
+    bool loopBack_;
+    Byte loopInput_;
 
     bitset<32> SetUpFeature_;
     

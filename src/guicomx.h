@@ -17,46 +17,11 @@ public:
     GuiComx(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
     ~GuiComx();
 
-    void readComxConfig();
-    void readSbConfig();
-    void readInitialComxConfig();
-    void writeSbConfig();
-    void writeComxDirConfig();
-    void writeComxConfig();
-    void readComxWindowConfig();
-    void writeComxWindowConfig();
-
-    void onExpansionRom(wxCommandEvent& event);
-    void onExpansionRomText(wxCommandEvent& event);
-    void onCard1Rom(wxCommandEvent& event);
-    void onCard1RomText(wxCommandEvent& event);
-    void onCard2Rom(wxCommandEvent& event);
-    void onCard2RomText(wxCommandEvent& event);
-    void onCard3Rom(wxCommandEvent& event);
-    void onCard3RomText(wxCommandEvent& event);
-    void onCard4Rom(wxCommandEvent& event);
-    void onCard4RomText(wxCommandEvent& event);
-    void onComxDisk1(wxCommandEvent& event);
-    void onComxDiskText1(wxCommandEvent& event);
-    void onComxDiskEject1(wxCommandEvent& event);
-    void onComxDisk2(wxCommandEvent& event);
-    void onComxDiskText2(wxCommandEvent& event);
-    void onComxDiskEject2(wxCommandEvent& event);
-    void onComxPrintFileText(wxCommandEvent& event);
-    void onComxPrintMode(wxCommandEvent& event);
-    void onComxPrintButton(wxCommandEvent& event);
-    void onComxVideoMode(wxCommandEvent& event);
-    void onComxDram(wxCommandEvent& event);
-    void onComxExpansionRam(wxCommandEvent& event);
-    void onComxExpansionRamSlot(wxSpinEvent&event);
     void setLocation(bool state, Word saveStart, Word saveEnd, Word saveExec);
-    void onEpromDialog(wxCommandEvent& event);
     void onSBDialog(wxCommandEvent& event);
+    void readSbConfig();
+    void writeSbConfig();
     void onDiagDialog(wxCommandEvent& event);
-    void onSbActive(wxCommandEvent& event);
-    void diagSbChange();
-    void onDiagActive(wxCommandEvent& event);
-    void onDiagOn(wxCommandEvent& event);
 
     void statusLedOn(wxCommandEvent &event);
     void statusLedOff(wxCommandEvent &event);
@@ -68,19 +33,9 @@ public:
     void expLedOnDirect();
     void expLedOffDirect();
 
-    wxString getFloppyDir(int drive);
-    wxString getFloppyFile(int drive);
     wxString getPL80Data(int item);
     void setPL80Data(int item, wxString data);
-    void enableComxGui(bool status);
-    void setComxExpRamSlot();
-    void resetCardText();
-    bool isSaving();
-    void onComxF4();
     void setFandMBasicGui();
-    void enableDiskRomGui(bool DiskRom);
-    void setExtRomStatus(bool expansionRomLoaded);
-    int getExpansionRamSlot() {return expansionRamSlot_;};
     bool getUseExpansionRam() {return useExpansionRam_;};
     wxString getSbEmail() {return sbEmail_;}; 
     wxString getSbPlayer() {return sbPlayer_;}; 
@@ -93,34 +48,19 @@ public:
     wxString getEpromRomDirectory(int number) {return EpromRomDir_[number];};
     wxString getEpromRom(int number) {return EpromRom_[number];};
 
-    wxString getDiagPalRomDirectory(int number) { return DiagPalRomDir_[number]; };
-    wxString getDiagPalRom(int number) { return DiagPalRom_[number]; };
-    void setDiagPalRomDirectory(int number, wxString directory);
-    void setDiagPalRom(int number, wxString filename);
-
-    wxString getDiagNtscRomDirectory(int number) { return DiagNtscRomDir_[number]; };
-    wxString getDiagNtscRom(int number) { return DiagNtscRom_[number]; };
-    void setDiagNtscRomDirectory(int number, wxString directory);
-    void setDiagNtscRom(int number, wxString filename);
-
     int getSbCdRoot() {return sbCdRoot_;};
     int getSbBackup() {return sbBackup_;}; 
     int getSbBackupSys() {return sbBackupSys_;}; 
     int getSbCaseFile() {return sbCaseFile_;}; 
     int getSbCaseDir() {return sbCaseDir_;}; 
     int getSbFwVersion() {return sbFwVersion_;};
-    bool isDiagActive(int computer) { return conf[computer].useDiagnosticBoard_; };
-    bool isDramActive(int computer) { return conf[computer].dram_; };
+    bool isDiagActive() { return computerConfiguration.diagnosticBoardConfiguration.defined; };
   
     void setSbEmail(wxString sbEmail) { sbEmail_ = sbEmail; };
     void setSbPlayer(wxString sbPlayer) { sbPlayer_ = sbPlayer; };
     void setSbLocation(wxString sbLocation) { sbLocation_ = sbLocation; };
     void setSbUrlHome(wxString urlHome); 
     void setSbRootDirectory(wxString sbRootDirectory) { sbRootDirectory_ = sbRootDirectory; };
-    void setSbRomDirectory(int number, wxString directory);
-    void setSbRom(int number, wxString filename);
-    void setEpromRomDirectory(int number, wxString directory);
-    void setEpromRom(int number, wxString filename);
 
     void setSbCdRoot(int sdCdRoot) { sbCdRoot_ = sdCdRoot; };
     void getSbBackup(int sbBackup) { sbBackup_ = sbBackup; };
@@ -147,11 +87,8 @@ public:
     wxString getAliasEmail(size_t number); 
     void setAlias(long number, wxString aliasNew, wxString aliasEmailNew);
     void deleteAlias(int aliasDel);
-    void onLogComx(wxCommandEvent&event);
 
 protected:
-    bool expansionRomLoaded_;
-    bool diskRomLoaded_;
     wxString sbPlayer_;
     wxString sbLocation_;
     wxString sbEmail_;

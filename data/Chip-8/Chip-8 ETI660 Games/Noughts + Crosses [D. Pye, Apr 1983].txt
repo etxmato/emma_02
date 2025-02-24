@@ -1,0 +1,56 @@
+NOUGHTS & CROSSES- 
+
+David Pye, Happy Valley SA. 
+
+This program is a game of noughts and crosses for two players, but with a slight difference. 
+
+Upon running the program, the standard field’ for noughts and crosses is drawn on the screen with O PLAYS' underneath. 
+
+Pressing a key from 1 to 9 puts a O' in the corresponding square. The O PLAYS’’ then changes to "X PLAYS’’ and the X player can then press any key from 1 to 9 to put his X in whichever square he wants it. (But not on top of the existing 0 — the same goes when O plays.) Play then reverts to “O PLAYS". 
+
+If you fill all nine squares without either player getting three in a row. the words END GAME PUSH KEY will appear above PLAYS". Pressing any key then resets the 660 and a new game can commence. 
+
+If a player gets three in a row, pressing key F will reset the computer to start a new game. 
+
+Now here comes the twist. If, during a game a player takes too long to press a key (about 15 seconds or so), the message TOO LATE!!!" appears above PLAYS" and a decreasing tone sounds. The message “TOO LATE" is then replaced by “END GAME PUSH KEY" and O PLAYS' or “X PLAYS" is replaced by O WINS or X WINS ' as appropriate. 
+
+The time cutoff for making a move makes the game more interesting and the delay is not constant as you'd expect! 
+
+The program is structured as follows: 
+
+0602-0618: display field (data at 0700-0716) 
+0620: call 'display O' routine 
+0622: call 'display PLAYS' routine 
+0628-065C: key calls for 0; keys 1 to 9 
+065E-0668: go to start if 0 misses turn 
+0670-0672: swap X for 0 before PLAYS 
+0674-0676: end game 
+067A-06AE: key calls for X; keys 1 to 9 
+06B0-06BA: go to start if X misses turn 
+06BC-06CA: data for PLAYS 
+06D0-06D2: swap X for 0 before PLAYS 
+06D0-06E8: data for 'TOO LATE !!!' 
+06EA-06F8: display routines for 0 and X 
+06FA-06FE: data for X 
+0700-0716: field data 
+071C-0722: display 0 at 1 st square of field 
+0726-0778: and so on for all squares of field 
+0786-078E: spare memory 
+0790-07D8: display X at squares 1 to 9 
+07DE-07F8: routine to display 'TOO LATE !!!" 
+0800-0816: generate descending tone 
+0818-0822: delay for 0 player 
+0824-082E: delay for X player 
+0850-0858: 0 + 1 
+083A-0870: call and display 'END GAME . . 
+0878-089A: data for 'END GAME . . .' 
+089C-08A2: X + 1 
+08A4-08A6: call descending tone 
+08AC-08B6: remove 0 PLAYS and show X WINS 
+08B8-08B9: delay 
+08BA-08BC: swap TOO LATE !!! for END GAME . . 
+08C6-08D0: swap X PLAYS for 0 WINS 
+08D2-08D3: delay 
+08D4-08D6: remove TOO LATE, show END GAME . . 
+08D8-08E2: routine to display WINS 
+08E4-08EE: data for WINS 

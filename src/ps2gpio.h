@@ -7,9 +7,9 @@ public:
     Ps2gpio ();
     ~Ps2gpio () {};
 
-    void configurePs2gpioElf2K();
-    void configurePs2gpio(bool forceUpperCase, IoConfiguration portConf);
+    void configurePs2gpio(bool forceUpperCase, GpioPs2KeyboardConfiguration gpioPs2KeyboardConfiguration);
     void charEventPs2gpio(int keycode);
+    void addKeyToBuffer(int value, int keycode);
 
     Byte efPs2gpio();
     Byte inPs2gpio();
@@ -22,18 +22,21 @@ public:
     void writeGpioControlRegister(Byte value);
 
 private:
+    GpioPs2KeyboardConfiguration gpioPs2KeyboardConfiguration_;
+
+    Byte ps2Buffer_[256];
+    int ps2KeyStart_;
+    int ps2KeyEnd_;
+
     int keyboardValue_;
     Byte keyboardEf_;
     int keyCycles_;
     Byte lastKeyCode_;
-    int rawKeyCode_;
-    int escKey_;
-    int escKey2_;
 
     wxFile elfKeyFile_;
     bool elfKeyFileOpen_;
     bool forceUpperCase_;
-    int startUp_;
+    bool startUp_;
 };
 
 #endif  // PS2GPIO_H

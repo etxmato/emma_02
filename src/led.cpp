@@ -29,10 +29,11 @@
 #include "main.h"
 #include "led.h"
 
-Led::Led(wxDC& dc, int x, int y, int ledType)
+Led::Led(wxDC& dc, int x, int y, int ledType, bool reversePol)
 {
     status_ = 0;
     ledType_ = ledType;
+    reversePol_ = reversePol;
 
     x_ = x;
     y_ = y;
@@ -76,17 +77,31 @@ Led::Led(wxDC& dc, int x, int y, int ledType)
         break;
 
         case LED_LARGE_RED:
-            ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledon.png", wxBITMAP_TYPE_PNG);
-            ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledoff.png", wxBITMAP_TYPE_PNG);
+            ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledredon.png", wxBITMAP_TYPE_PNG);
+            ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledredoff.png", wxBITMAP_TYPE_PNG);
             maskOn = new wxMask(*ledOnBitmapPointer, white);
             maskOff = new wxMask(*ledOnBitmapPointer, white);
         break;
 
         case LED_LARGE_GREEN:
+            ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledgreenon.png", wxBITMAP_TYPE_PNG);
+            ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledgreenoff.png", wxBITMAP_TYPE_PNG);
+            maskOn = new wxMask(*ledOnBitmapPointer, white);
+            maskOff = new wxMask(*ledOnBitmapPointer, white);
+        break;
+
+        case LED_LARGE_ORANGE:
+            ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledorangeon.png", wxBITMAP_TYPE_PNG);
+            ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledorangeoff.png", wxBITMAP_TYPE_PNG);
+            maskOn = new wxMask(*ledOnBitmapPointer, white);
+            maskOff = new wxMask(*ledOnBitmapPointer, white);
+        break;
+
+        case LED_LARGE_COLOR:
             ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledredon.png", wxBITMAP_TYPE_PNG);
             ledOnGreenBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledgreenon.png", wxBITMAP_TYPE_PNG);
             ledOnOrangeBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledorangeon.png", wxBITMAP_TYPE_PNG);
-            ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledgreenoff.png", wxBITMAP_TYPE_PNG);
+            ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledcoloroff.png", wxBITMAP_TYPE_PNG);
             maskOn = new wxMask(*ledOnBitmapPointer, white);
             maskOff = new wxMask(*ledOnBitmapPointer, white);
         break;
@@ -101,7 +116,7 @@ Led::Led(wxDC& dc, int x, int y, int ledType)
         break;
     }
 
-    if (ledType == LED_LARGE_GREEN || ledType == LED_SMALL_RED_DISABLE)
+    if (ledType == LED_LARGE_COLOR || ledType == LED_SMALL_RED_DISABLE)
     {
         ledOnBitmapPointer->SetMask(maskOn);
         ledOnGreenBitmapPointer->SetMask(maskOn);
@@ -119,7 +134,7 @@ Led::Led(wxDC& dc, int x, int y, int ledType)
 
 Led::~Led()
 {
-    if (ledType_ == LED_LARGE_GREEN || ledType_ == LED_SMALL_RED_DISABLE)
+    if (ledType_ == LED_LARGE_COLOR || ledType_ == LED_SMALL_RED_DISABLE)
     {
         delete ledOnBitmapPointer;
 //        delete ledOnGreenBitmapPointer;
@@ -135,9 +150,13 @@ Led::~Led()
 
 void Led::onPaint(wxDC& dc)
 {
-    if (ledType_ == LED_LARGE_GREEN || ledType_ == LED_SMALL_RED_DISABLE)
+    int status = status_;
+    if (reversePol_)
+        status = status ^ 1;
+    
+    if (ledType_ == LED_LARGE_COLOR || ledType_ == LED_SMALL_RED_DISABLE)
     {
-        switch (status_)
+        switch (status)
         {
             case 0:
                 dc.DrawBitmap(*ledOffBitmapPointer, x_, y_, true);
@@ -155,7 +174,7 @@ void Led::onPaint(wxDC& dc)
     }
     else
     {
-        if (status_)
+        if (status&1)
             dc.DrawBitmap(*ledOnBitmapPointer, x_, y_, true);
         else
             dc.DrawBitmap(*ledOffBitmapPointer, x_, y_, true);

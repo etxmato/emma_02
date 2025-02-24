@@ -1,0 +1,15 @@
+BLOCK PUZZLE 
+
+David Poole, Kenthurst NSW 
+
+This is a simulation of the traditional block puzzles everyone used to play at school under the desk while the teacher’s back was turned. Block puzzles consist of a matrix of interlocking tablets, usually in a square of 4 x 4 or 5 x 5, with one tablet missing allowing you to shuffle the tablets or blocks. Each block has a numeral or letter apd the object is to arrange them in order: 1 2 3 4 in the first row, 6 7 8 9 in the second row etc, leaving the blank in one corner. There are various other arrangements, but you get the idea. 
+
+This version displays 16 white blocks on the screen in a 4 x 4 matrix with a numeral or letter in 15, one being blank. You get the numerals 1 to 9 and letters A to F. You can move the blank by pressing the keys as follows: 
+
+UP press KEY 2 
+DOWN press KEY 8 
+LEFT press KEY 6 
+RIGHT press KEY 4 
+
+When you start the program, the block puzzle is written on the screen and the computer randomly
+shuffles all the blocks. When it stops, you can start moving the blank. This game is guaranteed to take longer to play than it is to key in! 
