@@ -21,6 +21,8 @@ public:
     bool showSplashScreen();
     void hideSplashScreen();
 
+    void writeCoinWindowConfig();
+
     void onKeyFile(wxCommandEvent& event);
     void onKeyFileText(wxCommandEvent& event);
     void onKeyFileEject(wxCommandEvent& event);
