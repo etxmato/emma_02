@@ -66,7 +66,6 @@
         <ef>3</ef>
         <startup>D</startup>
         <int />
-        <caps />
         <keydef type="text" value="0x80" os="mac">esc</keydef>
         <keydef type="text" value="0x80" os="windows">pause</keydef>
         <keydef type="text" value="0x90">up</keydef>
@@ -82,7 +81,7 @@
         <out type="control">3</out>
         <in type="register">2</in>
         <in type="status">3</in>
-        <ef type="int" pol="rev">2</ef>
+        <ef type="int">2</ef>
         <int />
         <baud type="receive">9600</baud>
         <baud type="transmit">9600</baud>

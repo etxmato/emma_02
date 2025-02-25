@@ -8573,6 +8573,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
         "dirname",
         "out",
         "ef",
+        "int",
         "q",
         "serialport",
         "baud",
@@ -8612,6 +8613,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
         TAG_DIRNAME,
         TAG_OUT,
         TAG_EF,
+        TAG_INTERRUPT,
         TAG_Q,
         TAG_SERIALPORT,
         TAG_BAUD,
@@ -8704,9 +8706,17 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
             break;
                 
             case TAG_EF:
-                computerConfiguration.videoTerminalConfiguration.ef = parseXml_EfFlag(*child);
+                if (child->GetAttribute("type") == "int")
+                    computerConfiguration.videoTerminalConfiguration.efInterrupt = parseXml_EfFlag(*child);
+                else
+                    computerConfiguration.videoTerminalConfiguration.ef = parseXml_EfFlag(*child);
             break;
                 
+            case TAG_INTERRUPT:
+                computerConfiguration.videoTerminalConfiguration.interrupt = true;
+                computerConfiguration.videoTerminalConfiguration.picInterrupt = (int)parseXml_Number(*child);
+            break;
+
             case TAG_Q:
                 if (child->GetAttribute("pol") == "rev")
                     computerConfiguration.videoTerminalConfiguration.reverseQ = 0;

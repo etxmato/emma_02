@@ -97,7 +97,7 @@
         <out type="control">3</out>
         <in type="register">2</in>
         <in type="status">3</in>
-        <ef iogroup="no" type="int" pol="rev">3</ef>
+        <ef iogroup="no" type="int">3</ef>
         <baud type="receive">9600</baud>
         <baud type="transmit">9600</baud>
     </vt>
