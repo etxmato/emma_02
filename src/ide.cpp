@@ -54,6 +54,18 @@
 #define IDE_CMD_READ_1       6
 #define IDE_CMD_ID           7
 
+enum {
+    IDE_CMD_BLK_DATA = 0,
+    IDE_CMD_BLK_FEATURES = 1,
+    IDE_CMD_BLK_SECTOR_COUNT = 2,
+    IDE_CMD_BLK_SECTOR_NUMBER = 3,
+    IDE_CMD_BLK_CYLINDER_LOW = 4,
+    IDE_CMD_BLK_CYLINDER_HIGH = 5,
+    IDE_CMD_BLK_DEVICE_HEAD = 6,
+    IDE_CMD_BLK_COMMAND = 7,
+    IDE_CMD_BLK_DEVICE_CONTROL= 0xE,
+};
+
 Ide::Ide()
 {
 }
@@ -341,9 +353,9 @@ void Ide::writeIdeRegister(int reg, Word value)
 {
     switch(reg) 
     {
-        case 0x00:
+        case IDE_CMD_BLK_DATA:
             if (bufferPosition_ >= 512) 
-                break;                             /* Data */
+                break;                           
             if (dataMode_ == 16) 
             {
                 sectorBuffer_[bufferPosition_++] = value & 0xff;                
@@ -357,7 +369,7 @@ void Ide::writeIdeRegister(int reg, Word value)
                 status_ &= (~IDE_STAT_DRQ);
         break;
 
-        case 0x01:  /* features */
+        case IDE_CMD_BLK_FEATURES:
             switch(value) 
             {
                 case 0x01:dataMode_ = 8; break;
@@ -365,13 +377,12 @@ void Ide::writeIdeRegister(int reg, Word value)
             }
         break;
 
-        case 0x02:
-            sectorCount_ = value;                                            /* sector count */
+        case IDE_CMD_BLK_SECTOR_COUNT:
+            sectorCount_ = value;                                        
         break;
 
-        case 0x03:
-            startSector_ = value;    
-                                        /* start sector */
+        case IDE_CMD_BLK_SECTOR_NUMBER:
+            startSector_ = value; 
         break;
 
         case 0x04:
