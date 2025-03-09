@@ -816,7 +816,10 @@ void GuiMain::onScreenDump(wxCommandEvent&WXUNUSED(event))
         for (int video=0; video<computerConfiguration.numberOfVideoTypes_; video++)
             p_Video[video]->onF5();
         if (p_Vt100[UART1] != NULL)
-            p_Vt100[UART1]->onF5();
+        {
+            if (computerConfiguration.videoTerminalConfiguration.show)
+                p_Vt100[UART1]->onF5();
+        }
         if (p_Vt100[UART2] != NULL)
             p_Vt100[UART2]->onF5();
     }

@@ -366,8 +366,9 @@ void Ide::writeIdeRegister(int reg, Word value)
         break;
 
         case 0x03:
-            startSector_ = value;    
-                                        /* start sector */
+            startSector_ = value;    /* start sector */
+            break;
+                                       
         case 0x04:
             cylinder_ = (cylinder_ & 0xff00) | (value & 0xff); /* cylinder lo */
         break;
@@ -376,13 +377,14 @@ void Ide::writeIdeRegister(int reg, Word value)
             cylinder_ = (cylinder_ & 0xff) | ((value & 0xff) << 8);     /* cylinder hi */
         break;
 
-        case 0x06:
+        case 0x06: /* head/device */
             headDevice_ = value;
-                                             /* head/device */
-        case 0x07:
-            if (!(status_ & 128)) 
-            {                                        /* command */
-                switch(value) 
+            break;
+                                            
+        case 0x07: /* command */
+            if (!(status_ & 128))
+            {
+                switch(value)
                 {
                     case 0x20:
                         command_ = IDE_CMD_READ;
@@ -416,7 +418,7 @@ void Ide::writeIdeRegister(int reg, Word value)
             if (value & 2) 
             {
                 command_ = IDE_CMD_RESET;
-                ideCycles_ = 1000;
+                ideCycles_ = 10;
                 status_ = IDE_STAT_RDY | IDE_STAT_BSY;
             }
         break;

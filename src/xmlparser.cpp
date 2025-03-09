@@ -12703,6 +12703,7 @@ void XmlParser::parseXml_RtcCdp1879(wxXmlNode &node)
         "ef",
         "int",
         "base",
+        "freeze",
         "control",
         "second",
         "minute",
@@ -12719,6 +12720,7 @@ void XmlParser::parseXml_RtcCdp1879(wxXmlNode &node)
         TAG_EF,
         TAG_INTERRUPT,
         TAG_BASE,
+        TAG_FREEZE,
         TAG_CONTROL,
         TAG_SECOND,
         TAG_MINUTE,
@@ -12780,6 +12782,10 @@ void XmlParser::parseXml_RtcCdp1879(wxXmlNode &node)
                 computerConfiguration.rtcCdp1879Configuration.control = computerConfiguration.rtcCdp1879Configuration.base + 7;
             break;
 
+            case TAG_FREEZE:
+                computerConfiguration.rtcCdp1879Configuration.freeze = (int)parseXml_Number(*child);
+            break;
+            
             case TAG_CONTROL:
                 computerConfiguration.rtcCdp1879Configuration.control = (int)parseXml_Number(*child);
             break;
