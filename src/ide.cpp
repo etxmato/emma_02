@@ -385,21 +385,21 @@ void Ide::writeIdeRegister(int reg, Word value)
             startSector_ = value; 
         break;
 
-        case 0x04:
-            cylinder_ = (cylinder_ & 0xff00) | (value & 0xff); /* cylinder lo */
+        case IDE_CMD_BLK_CYLINDER_LOW:
+            cylinder_ = (cylinder_ & 0xff00) | (value & 0xff);
         break;
 
-        case 0x05:
-            cylinder_ = (cylinder_ & 0xff) | ((value & 0xff) << 8);     /* cylinder hi */
+        case IDE_CMD_BLK_CYLINDER_HIGH:
+            cylinder_ = (cylinder_ & 0xff) | ((value & 0xff) << 8);
         break;
 
-        case 0x06: /* head/device */
+        case IDE_CMD_BLK_DEVICE_HEAD:
             headDevice_ = value;
         break;
 
-        case 0x07:
-            if (!(status_ & 128)) 
-            {                                        /* command */
+        case IDE_CMD_BLK_COMMAND:
+            if (!(status_ & 128))
+            {                                       
                 switch(value) 
                 {
                     case 0x20:
@@ -429,18 +429,18 @@ void Ide::writeIdeRegister(int reg, Word value)
             }
         break;
 
-        case 0x0e:
-            inter_ = value;                                                     /* set inter */
-            if (value & 2) 
+        case IDE_CMD_BLK_DEVICE_CONTROL:
+            inter_ = value;  // set interrupt
+            if (value & 4)
             {
                 command_ = IDE_CMD_RESET;
-                ideCycles_ = 10;
+                ideCycles_ = 1000;
                 status_ = IDE_STAT_RDY | IDE_STAT_BSY;
             }
         break;
 
-        case 0x0f:
-        break;            /* unknown */
+        default:    // unknown
+        break;
     }
     if ((status_ & IDE_STAT_BSY) == IDE_STAT_BSY)
         p_Computer->showStatusLed(DISKLED, 1);
