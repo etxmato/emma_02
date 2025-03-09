@@ -89,7 +89,6 @@ private:
     Word cylinder_;
     Byte headDevice_;
     Byte status_;
-    Byte features_;
     Byte command_;
     Byte activeStatus_;
     Byte inter_;
