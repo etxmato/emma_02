@@ -593,8 +593,8 @@ void Video::onF3()
 
 void Video::onF5()
 {
-    if (videoType_ == VIDEO1870 && !v1870Configured_)
-        return;
+//    if (videoType_ == VIDEO1870 && !v1870Configured_)
+//        return;
         
     int num = 0;
     wxFile screenDump;

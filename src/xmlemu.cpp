@@ -1882,6 +1882,10 @@ Byte Computer::in(Byte port, Word address)
             return cdp1855InstancePointer->readStatus();
         break;
 
+        case MM_INPUT:
+            return mm57109InstancePointer->read();
+        break;
+
         case IDE_READ_STATUS_IN:
             ret = readIdeStatus();
         break;
@@ -2407,6 +2411,10 @@ void Computer::out(Byte port, Word address, Byte value)
 
         case MDU_CONTROL:
             cdp1855InstancePointer->writeControl(value);
+        break;
+
+        case MM_OUTPUT:
+            mm57109InstancePointer->write(value);
         break;
 
         case VIS1870_OUT2:
@@ -6984,6 +6992,12 @@ void Computer::configureExtensions()
     {
         cdp1855InstancePointer = new Cdp1855Instance();
         cdp1855InstancePointer->configureCdp1855(currentComputerConfiguration.cdp1855Configuration);
+    }
+
+    if (currentComputerConfiguration.mm57109Configuration.defined)
+    {
+        mm57109InstancePointer = new Mm57109Instance();
+        mm57109InstancePointer->configureMm57109(currentComputerConfiguration.mm57109Configuration);
     }
 
     if (currentComputerConfiguration.ay_3_8912Configuration.defined)

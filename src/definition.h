@@ -772,6 +772,10 @@ enum
     MDU_CONTROL,
     MDU_CYCLE,
 
+    // MM57109 I/O
+    MM_INPUT,
+    MM_OUTPUT,
+
     // TIMER I/O
     TIMER_COUNTER_HIGH_A,
     TIMER_COUNTER_HIGH_B,

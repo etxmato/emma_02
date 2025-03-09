@@ -107,6 +107,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
         "cdp1877",
         "cdp1878",
         "cd4536b",
+        "mm57109",
         "ad_convertor",
         "debugger",
         "comment",
@@ -154,6 +155,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
         TAG_CDP1877,
         TAG_CDP1878,
         TAG_CD4536B,
+        TAG_MM57109,
         TAG_AD_CONVERTOR,
         TAG_DEBUGGER,
         TAG_COMMENT,
@@ -729,6 +731,10 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
 
             case TAG_CD4536B:
                 parseXml_Cd4536b (*child);
+            break;
+
+            case TAG_MM57109:
+                parseXml_Mm57109 (*child);
             break;
 
             case TAG_AD_CONVERTOR:
@@ -8564,6 +8570,77 @@ void XmlParser::parseXml_Cd4536b(wxXmlNode &node)
     computerConfiguration.cd4536bConfiguration.push_back(cd4536bIo);
 }
 
+void XmlParser::parseXml_Mm57109(wxXmlNode &node)
+{
+    computerConfiguration.mm57109Configuration.defined = true;
+    
+    wxString tagList[]=
+    {
+        "out",
+        "in",
+        "iogroup",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_OUT,
+        TAG_IN,
+        TAG_IOGROUP,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+    wxString iogroup;
+    size_t ioGroupNumber = 0;
+
+    computerConfiguration.mm57109Configuration.ioGroupVector.clear();
+    computerConfiguration.mm57109Configuration.input = init_IoPort();
+    computerConfiguration.mm57109Configuration.output = init_IoPort();
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+        
+        switch (tagTypeInt)
+        {
+            case TAG_OUT:
+                computerConfiguration.mm57109Configuration.output = parseXml_IoPort(*child, MM_OUTPUT);
+            break;
+                
+            case TAG_IN:
+                computerConfiguration.mm57109Configuration.input = parseXml_IoPort(*child, MM_INPUT);
+            break;
+
+            case TAG_IOGROUP:
+                iogroup = child->GetNodeContent();
+                while (iogroup != "")
+                {
+                    computerConfiguration.mm57109Configuration.ioGroupVector.resize(ioGroupNumber+1);
+                    computerConfiguration.mm57109Configuration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
+                }
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
 void XmlParser::parseXml_SerialVt(wxXmlNode &node)
 {
     wxString tagList[]=

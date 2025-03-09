@@ -20,6 +20,8 @@
 		99200F2A28C299E300E94880 /* vis1870.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99200F2728C299E300E94880 /* vis1870.cpp */; };
 		9926E24E2D3050C300A4530B /* cdp1877.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9926E24C2D3050C200A4530B /* cdp1877.cpp */; };
 		9926E24F2D3050C300A4530B /* cdp1877.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9926E24C2D3050C200A4530B /* cdp1877.cpp */; };
+		992E125B2D7E42590000707B /* mm57109.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 992E125A2D7E42590000707B /* mm57109.cpp */; };
+		992E125C2D7E42590000707B /* mm57109.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 992E125A2D7E42590000707B /* mm57109.cpp */; };
 		99321273285FB74F00A7793E /* mac_OS12.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99321272285FB74F00A7793E /* mac_OS12.cpp */; };
 		9935652B21446B7000A329C6 /* STK-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9935652A21446B7000A329C6 /* STK-2.syntax */; };
 		993B164A211EBD9C008A5656 /* GPL-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 993B1649211EBD9C008A5656 /* GPL-2.syntax */; };
@@ -370,6 +372,8 @@
 		99200F2828C299E300E94880 /* vis1870.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vis1870.h; path = src/vis1870.h; sourceTree = "<group>"; };
 		9926E24C2D3050C200A4530B /* cdp1877.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cdp1877.cpp; path = src/cdp1877.cpp; sourceTree = "<group>"; };
 		9926E24D2D3050C200A4530B /* cdp1877.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cdp1877.h; path = src/cdp1877.h; sourceTree = "<group>"; };
+		992E125A2D7E42590000707B /* mm57109.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = mm57109.cpp; path = src/mm57109.cpp; sourceTree = "<group>"; };
+		992E125D2D7E42610000707B /* mm57109.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = mm57109.h; path = src/mm57109.h; sourceTree = "<group>"; };
 		99321272285FB74F00A7793E /* mac_OS12.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mac_OS12.cpp; path = src/mac_OS12.cpp; sourceTree = "<group>"; };
 		9935652A21446B7000A329C6 /* STK-2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "STK-2.syntax"; sourceTree = "<group>"; };
 		993B1649211EBD9C008A5656 /* GPL-2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GPL-2.syntax"; sourceTree = "<group>"; };
@@ -877,6 +881,8 @@
 				997647841A61D5EE00FB9B33 /* mc6847.h */,
 				997647211A61D5EE00FB9B33 /* memory.cpp */,
 				9976475F1A61D5EE00FB9B33 /* memory.h */,
+				992E125A2D7E42590000707B /* mm57109.cpp */,
+				992E125D2D7E42610000707B /* mm57109.h */,
 				99F263CC220CD4EC00EA87B5 /* network.cpp */,
 				99F263CD220CD4ED00EA87B5 /* network.h */,
 				997647151A61D5EE00FB9B33 /* panel.cpp */,
@@ -1240,6 +1246,7 @@
 				997647BF1A61D5EE00FB9B33 /* main.cpp in Sources */,
 				997647BA1A61D5EE00FB9B33 /* cdp1802.cpp in Sources */,
 				997647D71A61D5EF00FB9B33 /* til313.full.cpp in Sources */,
+				992E125C2D7E42590000707B /* mm57109.cpp in Sources */,
 				99BFDEDB29BD2ED300B1F2C6 /* sn76430n.cpp in Sources */,
 				99BC74FC1DCFDB5C0000D8A9 /* upd765.cpp in Sources */,
 				99E041812A225A6F00146D04 /* wxcurl_dialog.cpp in Sources */,
@@ -1326,6 +1333,7 @@
 				99F37EAD285D1D9200C57417 /* main.cpp in Sources */,
 				99F37EAE285D1D9200C57417 /* cdp1802.cpp in Sources */,
 				99F37EAF285D1D9200C57417 /* til313.full.cpp in Sources */,
+				992E125B2D7E42590000707B /* mm57109.cpp in Sources */,
 				99BFDEDC29BD2ED300B1F2C6 /* sn76430n.cpp in Sources */,
 				99F37EB3285D1D9200C57417 /* upd765.cpp in Sources */,
 				99E041822A225A7000146D04 /* wxcurl_dialog.cpp in Sources */,

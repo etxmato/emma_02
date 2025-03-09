@@ -72,8 +72,13 @@ private:
     void readSector();
     void readId();
     void setGeometry(int cyl,int hd,int sc);
-    void writeIdeRegister(int reg,Word value);
+    void writeIdeRegister(int reg, Word value);
+    void writeSectorBuffer(Word value);
+    void setFeatures(Byte value);
+    void setCommand(Byte value);
+    void setDeviceControl(Byte value);
     Word readIdeRegister(int reg);
+    Word readSectorBuffer();
     void onCommand();
 
     DriveGeometry geometry_[2];
@@ -89,7 +94,7 @@ private:
     Byte command_;
     Byte activeStatus_;
     int registerSelect_;
-    Byte dataMode_;
+    bool dataMode16bit_;
     long ideCycles_;
     
     bitset<8> statusRegister_;

@@ -922,6 +922,15 @@ public:
     EfFlag ef;
 };
 
+// MM57109 configuration class definitions:
+
+class Mm57109Configuration : public IoGroupDefineConfiguration
+{
+public:
+    IoPort input;
+    IoPort output;
+};
+
 // Printer configuration class definitions:
 
 class BasicPrinterConfiguration : public IoGroupDefineConfiguration
@@ -1577,7 +1586,8 @@ public:
     
     // MDC configurations:
     Cdp1855Configuration cdp1855Configuration;
-    
+    Mm57109Configuration mm57109Configuration;
+
     // PIC configurations:
     vector<Cdp1877Configuration> cdp1877Configuration;
     
