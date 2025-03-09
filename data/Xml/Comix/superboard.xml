@@ -44,7 +44,7 @@
 
         <!-- F&M BASIC Activation -->
         <start_fm_basic address="0x428b" value="0x53">0x505f</start_fm_basic>
-        <stop_fm_basic address="0x428b" value="0x14">0x1047</stop_fm_basic>
+        <stop_fm_basic address="0x428b" value="0x14">0x1031</stop_fm_basic>
 
         <!-- Start TURBO PSAVE/PLOAD V1.00 -->
         <start_cas_save address="0xbfd0, 0xbfd1, 0xbf02, 0xbfac" value="0x54, 0x41, 0xc3, 0x91">0xbf00</start_cas_save>

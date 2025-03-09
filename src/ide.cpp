@@ -393,9 +393,8 @@ void Ide::writeIdeRegister(int reg, Word value)
             cylinder_ = (cylinder_ & 0xff) | ((value & 0xff) << 8);     /* cylinder hi */
         break;
 
-        case 0x06:
+        case 0x06: /* head/device */
             headDevice_ = value;
-                                             /* head/device */
         break;
 
         case 0x07:
@@ -435,7 +434,7 @@ void Ide::writeIdeRegister(int reg, Word value)
             if (value & 2) 
             {
                 command_ = IDE_CMD_RESET;
-                ideCycles_ = 1000;
+                ideCycles_ = 10;
                 status_ = IDE_STAT_RDY | IDE_STAT_BSY;
             }
         break;

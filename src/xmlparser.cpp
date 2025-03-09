@@ -8573,6 +8573,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
         "dirname",
         "out",
         "ef",
+        "int",
         "q",
         "serialport",
         "baud",
@@ -8612,6 +8613,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
         TAG_DIRNAME,
         TAG_OUT,
         TAG_EF,
+        TAG_INTERRUPT,
         TAG_Q,
         TAG_SERIALPORT,
         TAG_BAUD,
@@ -8704,9 +8706,17 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
             break;
                 
             case TAG_EF:
-                computerConfiguration.videoTerminalConfiguration.ef = parseXml_EfFlag(*child);
+                if (child->GetAttribute("type") == "int")
+                    computerConfiguration.videoTerminalConfiguration.efInterrupt = parseXml_EfFlag(*child);
+                else
+                    computerConfiguration.videoTerminalConfiguration.ef = parseXml_EfFlag(*child);
             break;
                 
+            case TAG_INTERRUPT:
+                computerConfiguration.videoTerminalConfiguration.interrupt = true;
+                computerConfiguration.videoTerminalConfiguration.picInterrupt = (int)parseXml_Number(*child);
+            break;
+
             case TAG_Q:
                 if (child->GetAttribute("pol") == "rev")
                     computerConfiguration.videoTerminalConfiguration.reverseQ = 0;
@@ -12693,6 +12703,7 @@ void XmlParser::parseXml_RtcCdp1879(wxXmlNode &node)
         "ef",
         "int",
         "base",
+        "freeze",
         "control",
         "second",
         "minute",
@@ -12709,6 +12720,7 @@ void XmlParser::parseXml_RtcCdp1879(wxXmlNode &node)
         TAG_EF,
         TAG_INTERRUPT,
         TAG_BASE,
+        TAG_FREEZE,
         TAG_CONTROL,
         TAG_SECOND,
         TAG_MINUTE,
@@ -12770,6 +12782,10 @@ void XmlParser::parseXml_RtcCdp1879(wxXmlNode &node)
                 computerConfiguration.rtcCdp1879Configuration.control = computerConfiguration.rtcCdp1879Configuration.base + 7;
             break;
 
+            case TAG_FREEZE:
+                computerConfiguration.rtcCdp1879Configuration.freeze = (int)parseXml_Number(*child);
+            break;
+            
             case TAG_CONTROL:
                 computerConfiguration.rtcCdp1879Configuration.control = (int)parseXml_Number(*child);
             break;

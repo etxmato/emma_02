@@ -72,6 +72,9 @@
     </keypad>
 
     <sound type="studio">
+        <frequency type="start">650</frequency>
+        <frequency type="end">320</frequency>
+        <decay>420000</decay>
     </sound>
 
     <locations>

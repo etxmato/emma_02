@@ -164,6 +164,7 @@
 
     <keyboard type="ps2-89C4051">
         <out>7</out>
+        <frequency>250</frequency>
         <in>7</in>
         <ef>2</ef>
         <startup>KB2</startup>

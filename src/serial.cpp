@@ -170,7 +170,7 @@ void Serial::configureUart1854(VideoTerminalConfiguration videoTerminalConfigura
     p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartControl, EXTERNAL_VT_UART1854_LOAD_CONTROL_OUT, "load control");
     p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartStatus, EXTERNAL_VT_UART1854_READ_STATUS_IN, "read status");
     if (currentComputerConfiguration.videoTerminalConfiguration.efInterrupt.flagNumber != -1)
-        p_Computer->setEfType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.ef, EXTERNAL_VIDEO_TERMINAL_EF_INTERRUPT, "UART interrupt");
+        p_Computer->setEfType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.efInterrupt, EXTERNAL_VIDEO_TERMINAL_EF_INTERRUPT, "UART interrupt");
     if (currentComputerConfiguration.videoTerminalConfiguration.ef.flagNumber != -1)
     {
         p_Computer->setEfType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.ef, EXTERNAL_VIDEO_TERMINAL_EF, "serial input");
@@ -691,7 +691,7 @@ Byte Serial::uartIn()
     Byte input = 0;
     if (serialOpen_)
         sp_nonblocking_read(port, &input, 1);
-    if (loopBack_&& loopInput_ != 0)
+    if (loopBack_ && loopInput_ != 0)
     {
         input = loopInput_;
         loopInput_ = 0;

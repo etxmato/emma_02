@@ -14,7 +14,7 @@ public:
 
 #pragma pack(push,1)
 struct _IDENTIFY_DEVICE_DATA {
-  uint16_t wGeneralConfiguration;       // IDD_FIXED_DEVICE
+  uint16_t wGeneralConfiguration;       // 
   uint16_t wNumberOfCylinders;          //
   uint16_t wSpecificConfiguration;      //
   uint16_t wNumberOfHeads;              //
@@ -30,7 +30,7 @@ struct _IDENTIFY_DEVICE_DATA {
   uint8_t  abModelNumber[40];           //
   uint16_t wReadWriteMultiple;          //
   uint16_t wTrustedComputing;           //
-  uint16_t wCapabilities;               // IDD_LBA_SUPPORTED
+  uint16_t wCapabilities;               //
   uint16_t wATAreserved50;              //
   uint16_t wPIOtimingMode;              //
   uint16_t wDMAtimingMode;              //
