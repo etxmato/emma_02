@@ -37,14 +37,16 @@
 #include "main.h"
 #include "ide.h"
 
-#define IDE_STAT_ERROR       1
-#define IDE_STAT_INDEX       2
-#define IDE_STAT_ECC         4
-#define IDE_STAT_DRQ         8
-#define IDE_STAT_SKC        16
-#define IDE_STAT_WFT        32
-#define IDE_STAT_RDY        64
-#define IDE_STAT_BSY       128
+enum {
+    IDE_STAT_ERROR,
+    IDE_STAT_INDEX,
+    IDE_STAT_ECC,
+    IDE_STAT_DRQ,
+    IDE_STAT_SKC,
+    IDE_STAT_WFT,
+    IDE_STAT_RDY,
+    IDE_STAT_BSY
+};
 
 #define IDE_CMD_RESET        1
 #define IDE_CMD_SETF         2
@@ -63,7 +65,7 @@ enum {
     IDE_CMD_BLK_CYLINDER_HIGH = 5,
     IDE_CMD_BLK_DEVICE_HEAD = 6,
     IDE_CMD_BLK_COMMAND = 7,
-    IDE_CMD_BLK_DEVICE_CONTROL= 0xE,
+    IDE_CMD_BLK_DEVICE_CONTROL= 0xE
 };
 
 Ide::Ide()
@@ -118,7 +120,8 @@ void Ide::initializeIde(wxString ideFile)
 
 void Ide::initIde()
 {
-    status_ = 0x40;
+    status_ = 0;
+    status_[IDE_STAT_RDY] = 1;
     activeStatus_ = 1;
     error_ = 0;
     inter_ = 1;
@@ -179,7 +182,7 @@ wxFileOffset Ide::getOffset()
         if (ret >= geometry_[drive].maxLba) 
         {
             error_ |= 4;
-            status_ |= 1;
+            status_[IDE_STAT_ERROR] = 1;
             return -1;
         }
     } 
@@ -189,7 +192,7 @@ wxFileOffset Ide::getOffset()
         if (ret >= geometry_[drive].cylinders) 
         {
             error_ |= 4;
-            status_ |= 1;
+            status_[IDE_STAT_ERROR] = 1;
             return -1;
         }
         sec = startSector_;
@@ -197,7 +200,7 @@ wxFileOffset Ide::getOffset()
         if (sec >= geometry_[drive].sectors) 
         {
             error_ |= 4;
-            status_ |= 1;
+            status_[IDE_STAT_ERROR] = 1;
             return -1;
         }
         ret *= sec;
@@ -205,7 +208,7 @@ wxFileOffset Ide::getOffset()
         if (sec >= geometry_[drive].heads) 
         {
             error_ |= 4;
-            status_ |= 1;
+            status_[IDE_STAT_ERROR] = 1;
             return -1;
         }
         ret *= sec;
@@ -236,7 +239,7 @@ void Ide::writeSector()
     if (!diskFile.Open(driveName_[drive], "rb+"))
     {
         error_ |= 1;
-        status_ |= 1;
+        status_[IDE_STAT_ERROR] = 1;
         return;
     }
     diskFile.Seek(offset, wxFromStart);
@@ -264,7 +267,7 @@ void Ide::readSector()
     if (!diskFile.Open(driveName_[drive], "rb+"))
     {
         error_ |= 1;
-        status_ |= 1;
+        status_[IDE_STAT_ERROR] = 1;
         return;
     }
     diskFile.Seek(offset, wxFromStart);
@@ -366,7 +369,7 @@ void Ide::writeIdeRegister(int reg, Word value)
                 sectorBuffer_[bufferPosition_++] = value & 0xff;                
             }
             if (bufferPosition_ >= 512) 
-                status_ &= (~IDE_STAT_DRQ);
+                status_[IDE_STAT_DRQ] = 0;
         break;
 
         case IDE_CMD_BLK_FEATURES:
@@ -398,32 +401,32 @@ void Ide::writeIdeRegister(int reg, Word value)
         break;
 
         case IDE_CMD_BLK_COMMAND:
-            if (!(status_ & 128))
+            if (!status_[IDE_STAT_BSY])
             {                                       
                 switch(value) 
                 {
                     case 0x20:
                         command_ = IDE_CMD_READ;
                         ideCycles_ = 100;
-                        status_ = IDE_STAT_RDY | IDE_STAT_BSY;
+                        status_[IDE_STAT_BSY] = 1;
                     break;
 
                     case 0x30:
                         command_ = IDE_CMD_WRITE;
                         ideCycles_ = 100;
-                        status_ = IDE_STAT_RDY | IDE_STAT_BSY;
+                        status_[IDE_STAT_BSY] = 1;
                     break;
 
                     case 0xec:
                         command_ = IDE_CMD_ID;
                         ideCycles_ = 100;
-                        status_ = IDE_STAT_RDY | IDE_STAT_BSY;
+                        status_[IDE_STAT_BSY] = 1;
                     break;
 
                     case 0xef:
                         command_ = IDE_CMD_SETF;
                         ideCycles_ = 100;
-                        status_ = IDE_STAT_RDY | IDE_STAT_BSY;
+                        status_[IDE_STAT_BSY] = 1;
                     break;
                 }
             }
@@ -435,14 +438,14 @@ void Ide::writeIdeRegister(int reg, Word value)
             {
                 command_ = IDE_CMD_RESET;
                 ideCycles_ = 1000;
-                status_ = IDE_STAT_RDY | IDE_STAT_BSY;
+                status_[IDE_STAT_BSY] = 1;
             }
         break;
 
         default:    // unknown
         break;
     }
-    if ((status_ & IDE_STAT_BSY) == IDE_STAT_BSY)
+    if (status_[IDE_STAT_BSY])
         p_Computer->showStatusLed(DISKLED, 1);
     else
         p_Computer->showStatusLed(DISKLED, 0);
@@ -464,7 +467,7 @@ Word Ide::readIdeRegister(int reg)
                 ret = sectorBuffer_[bufferPosition_++];
             }
             if (bufferPosition_ >= 512) 
-                status_ &= (~IDE_STAT_DRQ);
+                status_[IDE_STAT_DRQ] = 0;
         break;
 
         case 0x01:
