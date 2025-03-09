@@ -357,8 +357,12 @@ void Ide::writeIdeRegister(int reg, Word value)
                 status_ &= (~IDE_STAT_DRQ);
         break;
 
-        case 0x01:
-            features_ = value;                                            /* precomp */
+        case 0x01:  /* features */
+            switch(value) 
+            {
+                case 0x01:dataMode_ = 8; break;
+                case 0x81:dataMode_ = 16; break;
+            }
         break;
 
         case 0x02:
@@ -368,6 +372,8 @@ void Ide::writeIdeRegister(int reg, Word value)
         case 0x03:
             startSector_ = value;    
                                         /* start sector */
+        break;
+
         case 0x04:
             cylinder_ = (cylinder_ & 0xff00) | (value & 0xff); /* cylinder lo */
         break;
@@ -379,6 +385,8 @@ void Ide::writeIdeRegister(int reg, Word value)
         case 0x06:
             headDevice_ = value;
                                              /* head/device */
+        break;
+
         case 0x07:
             if (!(status_ & 128)) 
             {                                        /* command */
@@ -540,11 +548,6 @@ void Ide::onCommand()
             break;
  
             case IDE_CMD_SETF:
-                switch(features_) 
-                {
-                            case 0x01:dataMode_ = 8; break;
-                            case 0x81:dataMode_ = 16; break;
-                    }
                 command_ = 0;
                 status_ = IDE_STAT_RDY;
             break;
