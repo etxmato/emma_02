@@ -48,13 +48,26 @@ enum {
     IDE_STAT_BSY
 };
 
-#define IDE_CMD_RESET        1
-#define IDE_CMD_SETF         2
-#define IDE_CMD_WRITE        3
-#define IDE_CMD_WRITE_1      4
-#define IDE_CMD_READ         5
-#define IDE_CMD_READ_1       6
-#define IDE_CMD_ID           7
+enum {
+    IDE_DH_HS0,
+    IDE_DH_HS1,
+    IDE_DH_HS2,
+    IDE_DH_HS3,
+    IDE_DH_DEV,
+    IDE_DH_BIT5_RESERVED,
+    IDE_DH_SECTOR_ADDRESS_MODE,
+    IDE_DH_BIT7_RESERVED,
+};
+
+enum {
+    IDE_CMD_READ_WITH_RETRY = 0x20,
+    IDE_CMD_READ_WO_RETRY = 0x21,
+    IDE_CMD_WRITE_WITH_RETRY = 0x30,
+    IDE_CMD_WRITE_WO_RETRY = 0x31,
+    IDE_CMD_RESET_BOOT = 0xdc,
+    IDE_CMD_IDEMTIFY_DEVICE = 0xEC,
+    IDE_CMD_SET_FEATURES = 0xEF
+};
 
 enum {
     IDE_CMD_BLK_DATA = 0,
@@ -65,7 +78,29 @@ enum {
     IDE_CMD_BLK_CYLINDER_HIGH = 5,
     IDE_CMD_BLK_DEVICE_HEAD = 6,
     IDE_CMD_BLK_COMMAND = 7,
-    IDE_CMD_BLK_DEVICE_CONTROL= 0xE
+    IDE_CONTROL_BLK_DEVICE_CONTROL= 0xE
+};
+
+enum {
+    IDE_CMD_BLK_ERROR = 1,
+    IDE_CMD_BLK_STATUS = 7,
+    IDE_CONTROL_BLK_ALT_STATUS = 0xE,
+    IDE_CONTROL_BLK_ACTIVE_STATUS = 0xF
+};
+
+enum {
+    IDE_DC_NIEN = 1,
+    IDE_DC_SRST = 2
+};
+
+enum {
+    IDE_ERROR_AMNF,
+    IDE_ERROR_TKNONF,
+    IDE_ERROR_ABRT,
+    IDE_ERROR_MCR,
+    IDE_ERROR_IDNF,
+    IDE_ERROR_MC,
+    IDE_ERROR_UNC
 };
 
 Ide::Ide()
@@ -120,23 +155,22 @@ void Ide::initializeIde(wxString ideFile)
 
 void Ide::initIde()
 {
-    status_ = 0;
-    status_[IDE_STAT_RDY] = 1;
+    statusRegister_ = 0;
+    statusRegister_[IDE_STAT_RDY] = 1;
     activeStatus_ = 1;
-    error_ = 0;
-    inter_ = 1;
+    errorRegister_ = 0;
+    deviceControlRegister_ = 1;
     sectorCount_ = 1;
     startSector_ = 1;
     cylinder_ = 0;
-    headDevice_ = 0xe0;
+    deviceHeadRegister_ = 0xe0;
     dataMode_ = 16;
     command_ = 0;
 }
 
 Byte Ide::inIde() 
 {
-    int drive = (headDevice_ & 16) ? 1 : 0;
-    if (driveCreated_[drive])
+    if (driveCreated_[deviceHeadRegister_[IDE_DH_DEV]])
         return readIdeRegister(registerSelect_);
     else
         return 0;
@@ -144,9 +178,8 @@ Byte Ide::inIde()
 
 Byte Ide::readIdeStatus()
 {
-    int drive = (headDevice_ & 16) ? 1 : 0;
-    if (driveCreated_[drive])
-        return 255;
+    if (driveCreated_[deviceHeadRegister_[IDE_DH_DEV]])
+        return statusRegister_.to_ulong();
     else
         return 0;
 }
@@ -173,42 +206,41 @@ wxFileOffset Ide::getOffset()
     wxFileOffset ret;
     Byte sec;
     
-    int drive = (headDevice_ & 16) ? 1 : 0;
-    if (headDevice_ & 64) 
+    if (deviceHeadRegister_[IDE_DH_SECTOR_ADDRESS_MODE])
     {
         ret = startSector_;
         ret |= (cylinder_ << 8);
-        ret |= ((headDevice_ & 0xf) << 24);
-        if (ret >= geometry_[drive].maxLba) 
+        ret |= ((deviceHeadRegister_.to_ulong() & 0xf) << 24);
+        if (ret >= geometry_[deviceHeadRegister_[IDE_DH_DEV]].maxLba)
         {
-            error_ |= 4;
-            status_[IDE_STAT_ERROR] = 1;
+            errorRegister_[IDE_ERROR_ABRT] = 1;
+            statusRegister_[IDE_STAT_ERROR] = 1;
             return -1;
         }
     } 
     else 
     {
         ret = cylinder_;
-        if (ret >= geometry_[drive].cylinders) 
+        if (ret >= geometry_[deviceHeadRegister_[IDE_DH_DEV]].cylinders)
         {
-            error_ |= 4;
-            status_[IDE_STAT_ERROR] = 1;
+            errorRegister_[IDE_ERROR_ABRT] = 1;
+            statusRegister_[IDE_STAT_ERROR] = 1;
             return -1;
         }
         sec = startSector_;
         sec--;
-        if (sec >= geometry_[drive].sectors) 
+        if (sec >= geometry_[deviceHeadRegister_[IDE_DH_DEV]].sectors)
         {
-            error_ |= 4;
-            status_[IDE_STAT_ERROR] = 1;
+            errorRegister_[IDE_ERROR_ABRT] = 1;
+            statusRegister_[IDE_STAT_ERROR] = 1;
             return -1;
         }
         ret *= sec;
-        sec = headDevice_ & 0xf;
-        if (sec >= geometry_[drive].heads) 
+        sec = deviceHeadRegister_.to_ulong() & 0xf;
+        if (sec >= geometry_[deviceHeadRegister_[IDE_DH_DEV]].heads)
         {
-            error_ |= 4;
-            status_[IDE_STAT_ERROR] = 1;
+            errorRegister_[IDE_ERROR_ABRT] = 1;
+            statusRegister_[IDE_STAT_ERROR] = 1;
             return -1;
         }
         ret *= sec;
@@ -220,7 +252,6 @@ wxFileOffset Ide::getOffset()
 void Ide::writeSector() 
 {
     wxFFile diskFile;
-    int drive;
     wxFileOffset offset;
 
     offset = getOffset();
@@ -229,17 +260,16 @@ void Ide::writeSector()
         printf("seek error\n");
         return;
     }
-    drive = (headDevice_ & 16) ? 1 : 0;
-    if (!driveCreated_[drive])
+    if (!driveCreated_[deviceHeadRegister_[IDE_DH_DEV]])
     {
-        diskFile.Open(driveName_[drive], "wb");
+        diskFile.Open(driveName_[deviceHeadRegister_[IDE_DH_DEV]], "wb");
          diskFile.Close();
-        driveCreated_[drive] = true;
+        driveCreated_[deviceHeadRegister_[IDE_DH_DEV]] = true;
     }
-    if (!diskFile.Open(driveName_[drive], "rb+"))
+    if (!diskFile.Open(driveName_[deviceHeadRegister_[IDE_DH_DEV]], "rb+"))
     {
-        error_ |= 1;
-        status_[IDE_STAT_ERROR] = 1;
+        errorRegister_[IDE_ERROR_TKNONF] = 1;
+        statusRegister_[IDE_STAT_ERROR] = 1;
         return;
     }
     diskFile.Seek(offset, wxFromStart);
@@ -251,23 +281,21 @@ void Ide::writeSector()
 void Ide::readSector() 
 {
     wxFFile diskFile;
-    int drive;
     wxFileOffset offset;
 
     offset = getOffset();
     if (offset < 0) 
         return;
-    drive = (headDevice_ & 16) ? 1 : 0;
-    if (!driveCreated_[drive])
+    if (!driveCreated_[deviceHeadRegister_[IDE_DH_DEV]])
     {
-        diskFile.Open(driveName_[drive], "wb+");
-         diskFile.Close();
-        driveCreated_[drive] = true;
+        diskFile.Open(driveName_[deviceHeadRegister_[IDE_DH_DEV]], "wb+");
+        diskFile.Close();
+        driveCreated_[deviceHeadRegister_[IDE_DH_DEV]] = true;
     }
-    if (!diskFile.Open(driveName_[drive], "rb+"))
+    if (!diskFile.Open(driveName_[deviceHeadRegister_[IDE_DH_DEV]], "rb+"))
     {
-        error_ |= 1;
-        status_[IDE_STAT_ERROR] = 1;
+        errorRegister_[IDE_ERROR_TKNONF] = 1;
+        statusRegister_[IDE_STAT_ERROR] = 1;
         return;
     }
     diskFile.Seek(offset, wxFromStart);
@@ -305,8 +333,7 @@ void Ide::readId()
         if (i<(fwRevision.Len()))
             pIDD->abFirmwareRevision[i] = fwRevision.GetChar(i);
     }
-    int drive = (headDevice_ & 16) ? 1 : 0;
-    wxString fileName = p_Main->getFloppyFile(FDCTYPE_TU58_IDE, drive);
+    wxString fileName = p_Main->getFloppyFile(FDCTYPE_TU58_IDE, deviceHeadRegister_[IDE_DH_DEV]);
     for (size_t i=0; i<40; i++)
         pIDD->abModelNumber[i] = 32;
     for (size_t i=0; i<40; i++)
@@ -326,12 +353,12 @@ void Ide::readId()
     pIDD->wPIOtimingMode = 0;
     pIDD->wDMAtimingMode = 0;
     pIDD->wATAreserved53 = 0;
-    pIDD->wNumberOfCurrentCylinders = geometry_[drive].cylinders;
-    pIDD->wNumberOfCurrentHeads = geometry_[drive].heads;
-    pIDD->wCurrentSectorsPerTrack = geometry_[drive].sectors;
-    pIDD->lCurrentCapacity = geometry_[drive].maxLba;
+    pIDD->wNumberOfCurrentCylinders = geometry_[deviceHeadRegister_[IDE_DH_DEV]].cylinders;
+    pIDD->wNumberOfCurrentHeads = geometry_[deviceHeadRegister_[IDE_DH_DEV]].heads;
+    pIDD->wCurrentSectorsPerTrack = geometry_[deviceHeadRegister_[IDE_DH_DEV]].sectors;
+    pIDD->lCurrentCapacity = geometry_[deviceHeadRegister_[IDE_DH_DEV]].maxLba;
     pIDD->wATAreserved59 = 0;
-    pIDD->lUserAddressableSectors = geometry_[drive].maxLba;
+    pIDD->lUserAddressableSectors = geometry_[deviceHeadRegister_[IDE_DH_DEV]].maxLba;
     pIDD->wSingleWordDMA = 0;
     pIDD->wMultiWordDMA = 0;
     
@@ -369,7 +396,7 @@ void Ide::writeIdeRegister(int reg, Word value)
                 sectorBuffer_[bufferPosition_++] = value & 0xff;                
             }
             if (bufferPosition_ >= 512) 
-                status_[IDE_STAT_DRQ] = 0;
+                statusRegister_[IDE_STAT_DRQ] = 0;
         break;
 
         case IDE_CMD_BLK_FEATURES:
@@ -397,58 +424,57 @@ void Ide::writeIdeRegister(int reg, Word value)
         break;
 
         case IDE_CMD_BLK_DEVICE_HEAD:
-            headDevice_ = value;
+            deviceHeadRegister_ = value;
         break;
 
         case IDE_CMD_BLK_COMMAND:
-            if (!status_[IDE_STAT_BSY])
+            if (!statusRegister_[IDE_STAT_BSY])
             {                                       
                 switch(value) 
                 {
-                    case 0x20:
-                        command_ = IDE_CMD_READ;
+                    case IDE_CMD_READ_WITH_RETRY:
+                    case IDE_CMD_READ_WO_RETRY:
+                        command_ = value;
                         ideCycles_ = 100;
-                        status_[IDE_STAT_BSY] = 1;
+                        statusRegister_[IDE_STAT_BSY] = 1;
                     break;
 
-                    case 0x30:
-                        command_ = IDE_CMD_WRITE;
+                    case IDE_CMD_WRITE_WITH_RETRY:
+                    case IDE_CMD_WRITE_WO_RETRY:
+                        command_ = value;
                         ideCycles_ = 100;
-                        status_[IDE_STAT_BSY] = 1;
+                        statusRegister_[IDE_STAT_BSY] = 1;
                     break;
 
-                    case 0xec:
-                        command_ = IDE_CMD_ID;
+                    case IDE_CMD_IDEMTIFY_DEVICE:
+                        command_ = value;
                         ideCycles_ = 100;
-                        status_[IDE_STAT_BSY] = 1;
+                        statusRegister_[IDE_STAT_BSY] = 1;
                     break;
 
-                    case 0xef:
-                        command_ = IDE_CMD_SETF;
+                    case IDE_CMD_SET_FEATURES:
+                        command_ = value;
                         ideCycles_ = 100;
-                        status_[IDE_STAT_BSY] = 1;
+                        statusRegister_[IDE_STAT_BSY] = 1;
                     break;
                 }
             }
         break;
 
-        case IDE_CMD_BLK_DEVICE_CONTROL:
-            inter_ = value;  // set interrupt
-            if (value & 4)
+        case IDE_CONTROL_BLK_DEVICE_CONTROL:
+            deviceControlRegister_ = value;
+            if (deviceControlRegister_[IDE_DC_SRST])
             {
-                command_ = IDE_CMD_RESET;
+                command_ = IDE_CMD_RESET_BOOT;
                 ideCycles_ = 1000;
-                status_[IDE_STAT_BSY] = 1;
+                statusRegister_[IDE_STAT_BSY] = 1;
             }
         break;
 
         default:    // unknown
         break;
     }
-    if (status_[IDE_STAT_BSY])
-        p_Computer->showStatusLed(DISKLED, 1);
-    else
-        p_Computer->showStatusLed(DISKLED, 0);
+    p_Computer->showStatusLed(DISKLED, statusRegister_[IDE_STAT_BSY]);
 }
 
 Word Ide::readIdeRegister(int reg) 
@@ -456,9 +482,9 @@ Word Ide::readIdeRegister(int reg)
     Word ret = 0;
     switch(reg) 
     {
-        case 0x00:
-            if (dataMode_ == 16) 
-            {                                     /* Data */
+        case IDE_CMD_BLK_DATA:
+            if (dataMode_ == 16)
+            {
                 ret = sectorBuffer_[bufferPosition_++];
                 ret |= (sectorBuffer_[bufferPosition_++] << 8);
             } 
@@ -467,43 +493,40 @@ Word Ide::readIdeRegister(int reg)
                 ret = sectorBuffer_[bufferPosition_++];
             }
             if (bufferPosition_ >= 512) 
-                status_[IDE_STAT_DRQ] = 0;
+                statusRegister_[IDE_STAT_DRQ] = 0;
         break;
 
-        case 0x01:
-            ret = error_;                /* Error */
+        case IDE_CMD_BLK_ERROR:
+            ret = errorRegister_.to_ulong();
         break;
 
-        case 0x02:
-            ret = sectorCount_;            /* sector count */
+        case IDE_CMD_BLK_SECTOR_COUNT:
+            ret = sectorCount_;
         break;
 
-        case 0x03:
-            ret = startSector_;            /* start sector */
+        case IDE_CMD_BLK_SECTOR_NUMBER:
+            ret = startSector_;
         break;
 
-        case 0x04:
-            ret = cylinder_ & 0xff;        /* cylinder lo */
+        case IDE_CMD_BLK_CYLINDER_LOW:
+            ret = cylinder_ & 0xff;
         break;
 
-        case 0x05:
-            ret = cylinder_ >> 8;        /* cylinder hi */
+        case IDE_CMD_BLK_CYLINDER_HIGH:
+            ret = cylinder_ >> 8;
         break;
 
-        case 0x06:
-            ret = headDevice_;            /* head/device */
+        case IDE_CMD_BLK_DEVICE_HEAD:
+            ret = deviceHeadRegister_.to_ulong();
         break;
 
-        case 0x07:
-            ret = status_;                /* status */
+        case IDE_CMD_BLK_STATUS:
+        case IDE_CONTROL_BLK_ALT_STATUS:
+            ret = statusRegister_.to_ulong();
         break;
 
-        case 0x0e:
-            ret = status_;                /* status */
-        break;
-
-        case 0x0f:
-            ret = activeStatus_;            /* active status */
+        case IDE_CONTROL_BLK_ACTIVE_STATUS:
+            ret = activeStatus_;
         break;
     }
     return ret;
@@ -511,64 +534,59 @@ Word Ide::readIdeRegister(int reg)
 
 void Ide::onCommand() 
 {
-    status_[IDE_STAT_ERROR] = 0;
+    statusRegister_[IDE_STAT_ERROR] = 0;
     switch(command_) 
     {
-            case IDE_CMD_ID:
-                command_ = IDE_CMD_READ_1;
+            case IDE_CMD_IDEMTIFY_DEVICE:
+                command_ = IDE_CMD_READ_WO_RETRY;
                 readId();
                 bufferPosition_ = 0;
-                status_[IDE_STAT_DRQ] = 1;
-                status_[IDE_STAT_BSY] = 0;
+                statusRegister_[IDE_STAT_DRQ] = 1;
+                statusRegister_[IDE_STAT_BSY] = 0;
             break;
 
-            case IDE_CMD_READ:
-                command_ = IDE_CMD_READ_1;
+            case IDE_CMD_READ_WITH_RETRY:
+                command_ = IDE_CMD_READ_WO_RETRY;
                 readSector();
                 bufferPosition_ = 0;
-                status_[IDE_STAT_DRQ] = 1;
-                status_[IDE_STAT_BSY] = 0;
+                statusRegister_[IDE_STAT_DRQ] = 1;
+                statusRegister_[IDE_STAT_BSY] = 0;
             break;
 
-            case IDE_CMD_READ_1:
+            case IDE_CMD_READ_WO_RETRY:
                 if (bufferPosition_ >= 512) 
                 {
-                    status_[IDE_STAT_DRQ] = 0;
+                    statusRegister_[IDE_STAT_DRQ] = 0;
                     command_ = 0;
                 }
             break;
 
-            case IDE_CMD_WRITE:
-                command_ = IDE_CMD_WRITE_1;
+            case IDE_CMD_WRITE_WITH_RETRY:
+                command_ = IDE_CMD_WRITE_WO_RETRY;
                 bufferPosition_ = 0;
-                status_[IDE_STAT_DRQ] = 1;
-                status_[IDE_STAT_BSY] = 0;
+                statusRegister_[IDE_STAT_DRQ] = 1;
+                statusRegister_[IDE_STAT_BSY] = 0;
             break;
 
-            case IDE_CMD_WRITE_1:
+            case IDE_CMD_WRITE_WO_RETRY:
                 if (bufferPosition_ >= 512) 
                 {
-                    error_ = 0;
+                    errorRegister_ = 0;
                     writeSector();
                     command_ = 0;
                 }
             break;
 
-            case IDE_CMD_RESET:
+            case IDE_CMD_RESET_BOOT:
                 command_ = 0;
-                status_ = 0;
-                status_[IDE_STAT_RDY] = 1;
-                initIde(); 
+                initIde();
             break;
  
-            case IDE_CMD_SETF:
+            case IDE_CMD_SET_FEATURES:
                 command_ = 0;
-                status_ = 0;
-                status_[IDE_STAT_RDY] = 1;
+                statusRegister_ = 0;
+                statusRegister_[IDE_STAT_RDY] = 1;
             break;
      }
-    if (status_[IDE_STAT_BSY])
-        p_Computer->showStatusLed(DISKLED, 1);
-    else
-        p_Computer->showStatusLed(DISKLED, 0);
+     p_Computer->showStatusLed(DISKLED, statusRegister_[IDE_STAT_BSY]);
 }
