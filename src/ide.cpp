@@ -511,29 +511,29 @@ Word Ide::readIdeRegister(int reg)
 
 void Ide::onCommand() 
 {
-    status_ &= 0xfe;
+    status_[IDE_STAT_ERROR] = 0;
     switch(command_) 
     {
             case IDE_CMD_ID:
                 command_ = IDE_CMD_READ_1;
                 readId();
                 bufferPosition_ = 0;
-                status_ |= IDE_STAT_DRQ;
-                status_ &= (~IDE_STAT_BSY);
+                status_[IDE_STAT_DRQ] = 1;
+                status_[IDE_STAT_BSY] = 0;
             break;
 
             case IDE_CMD_READ:
                 command_ = IDE_CMD_READ_1;
                 readSector();
                 bufferPosition_ = 0;
-                status_ |= IDE_STAT_DRQ;
-                status_ &= (~IDE_STAT_BSY);
+                status_[IDE_STAT_DRQ] = 1;
+                status_[IDE_STAT_BSY] = 0;
             break;
 
             case IDE_CMD_READ_1:
                 if (bufferPosition_ >= 512) 
                 {
-                    status_ &= (~IDE_STAT_DRQ);
+                    status_[IDE_STAT_DRQ] = 0;
                     command_ = 0;
                 }
             break;
@@ -541,8 +541,8 @@ void Ide::onCommand()
             case IDE_CMD_WRITE:
                 command_ = IDE_CMD_WRITE_1;
                 bufferPosition_ = 0;
-                status_ |= IDE_STAT_DRQ;
-                status_ &= (~IDE_STAT_BSY);
+                status_[IDE_STAT_DRQ] = 1;
+                status_[IDE_STAT_BSY] = 0;
             break;
 
             case IDE_CMD_WRITE_1:
@@ -556,16 +556,18 @@ void Ide::onCommand()
 
             case IDE_CMD_RESET:
                 command_ = 0;
-                status_ = IDE_STAT_RDY;
+                status_ = 0;
+                status_[IDE_STAT_RDY] = 1;
                 initIde(); 
             break;
  
             case IDE_CMD_SETF:
                 command_ = 0;
-                status_ = IDE_STAT_RDY;
+                status_ = 0;
+                status_[IDE_STAT_RDY] = 1;
             break;
      }
-    if ((status_ & IDE_STAT_BSY) == IDE_STAT_BSY)
+    if (status_[IDE_STAT_BSY])
         p_Computer->showStatusLed(DISKLED, 1);
     else
         p_Computer->showStatusLed(DISKLED, 0);
