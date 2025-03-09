@@ -88,13 +88,14 @@ private:
     Byte startSector_;
     Word cylinder_;
     Byte headDevice_;
-    Byte status_;
     Byte command_;
     Byte activeStatus_;
     Byte inter_;
     int registerSelect_;
     Byte dataMode_;
     long ideCycles_;
+    
+    bitset<8> status_;
 };
 
 #endif  // IDE_H
