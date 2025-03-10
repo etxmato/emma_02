@@ -1,20 +1,13 @@
 #ifndef MM57109_H
 #define MM57109_H
 
-struct RegisterX
+struct NcuRegister
 {
-    unsigned int nibbleX : 4;
-    unsigned int nibbleY : 4;
-    unsigned int nibbleZ : 4;
-    unsigned int nibbleT : 4;
-    unsigned int nibbleM0 : 4;
-    unsigned int nibbleM1 : 4;
-    unsigned int nibbleM2 : 4;
-    unsigned int nibbleM3 : 4;
-    unsigned int nibbleM4 : 4;
-    unsigned int nibbleM5 : 4;
-    unsigned int nibbleM6 : 4;
-    unsigned int nibbleM7 : 4;
+    unsigned int mantissaDigit[8] : 4;
+    unsigned int exponentDigit[2] : 4;
+    unsigned int decimalPoint : 4;
+    unsigned int mantissaSign : 4;
+    unsigned int exponentSign : 4;
 };
 
 class Mm57109Instance
@@ -28,6 +21,7 @@ public:
     
     void write(Byte value);
     Byte read();
+    Byte ef();
     void cycle();
     
 private:
@@ -35,7 +29,11 @@ private:
     
     int cycleCounter_;
     
-    RegisterX registerX;
+    Register registerX;
+    Register registerY;
+    Register registerZ;
+    Register registerT;
+    Register registerM;
 };
 
 
