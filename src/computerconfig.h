@@ -929,6 +929,8 @@ class Mm57109Configuration : public IoGroupDefineConfiguration
 public:
     IoPort input;
     IoPort output;
+
+    EfFlag ef;
 };
 
 // Printer configuration class definitions:
