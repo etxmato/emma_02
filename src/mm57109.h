@@ -34,6 +34,8 @@ private:
     Register registerZ;
     Register registerT;
     Register registerM;
+
+    Byte rdy_;
 };
 
 
