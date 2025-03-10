@@ -33,7 +33,6 @@
 #include "main.h"
 #include "mm57109.h"
 
-
 Mm57109Instance::Mm57109Instance()
 {
     cycleCounter_ = 0;
@@ -51,6 +50,7 @@ void Mm57109Instance::configureMm57109(Mm57109Configuration mm57109Configuration
 
     p_Computer->setOutType(&mm57109Configuration.ioGroupVector, mm57109Configuration.output, "write");
     p_Computer->setInType(&mm57109Configuration.ioGroupVector, mm57109Configuration.input, "read");
+    p_Computer->setEfType(&mm57109Configuration.ioGroupVector, mm57109Configuration.ef, "rdy");
 //    p_Computer->setCycleType(CYCLE_TYPE_MDU, MDU_CYCLE);
  
     p_Main->message("");
@@ -75,11 +75,27 @@ bool Mm57109Instance::ioGroupMm57109(int ioGroup)
 
 void Mm57109Instance::write(Byte value)
 {
+    OpCodes opCode = (OpCodes)(value & 0x3f);
+    switch (opCode)
+    {
+        case OP_CODE_DIGIT_0:
+        case OP_CODE_DIGIT_1:
+        case OP_CODE_DIGIT_2:
+        case OP_CODE_DIGIT_3:
+        case OP_CODE_DIGIT_4:
+        case OP_CODE_DIGIT_5:
+        case OP_CODE_DIGIT_6:
+        case OP_CODE_DIGIT_7:
+        case OP_CODE_DIGIT_8:
+        case OP_CODE_DIGIT_9:
+            digit(opCode);
+        break;
+    }
 }
 
 Byte Mm57109Instance::read()
 {
-    return 0;
+    return 0x40;
 }
 
 Byte Mm57109Instance::ef()
@@ -108,7 +124,20 @@ void Mm57109Instance::pushStack()
     registerT = registerZ;
     registerZ = registerY;
     registerY = registerX;
-    registerX = 0;
+    registerX.decimalPoint = 0;
+    registerX.exponentSign = 0;
+    registerX.mantissaSign = 0;
+    for (int digit=0; digit<8; digit++)
+        registerX.mantissaDigit[digit] = 0;
+    for (int digit=0; digit<2; digit++)
+        registerX.exponentDigit[digit] = 0;
 }
 
+void Mm57109Instance::digit(Byte number)
+{
+    if (digitNumber_ == 0)
+        pushStack();
+    
+    registerX.mantissaDigit[digitNumber_++] = number;
+}
 

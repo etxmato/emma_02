@@ -3,15 +3,85 @@
 
 struct NcuRegister
 {
-    unsigned int mantissaDigit[8] : 4;
-    unsigned int exponentDigit[2] : 4;
-    unsigned int decimalPoint : 4;
-    unsigned int mantissaSign : 4;
-    unsigned int exponentSign : 4;
+    unsigned int mantissaDigit[8];
+    unsigned int exponentDigit[2];
+    unsigned int decimalPoint;
+    unsigned int mantissaSign;
+    unsigned int exponentSign;
 };
 
 class Mm57109Instance
 {
+private:
+    enum _OpCodes
+    {
+        OP_CODE_DIGIT_0,    // 0
+        OP_CODE_DIGIT_1,    // 1
+        OP_CODE_DIGIT_2,    // 2
+        OP_CODE_DIGIT_3,    // 3
+        OP_CODE_DIGIT_4,    // 4
+        OP_CODE_DIGIT_5,    // 5
+        OP_CODE_DIGIT_6,    // 6
+        OP_CODE_DIGIT_7,    // 7
+        OP_CODE_DIGIT_8,    // 10
+        OP_CODE_DIGIT_9,    // 11
+        OP_CODE_DP,         // 12
+        OP_CODE_EE,         // 13
+        OP_CODE_CS,         // 14
+        OP_CODE_PI,         // 15
+        OP_CODE_AIN,        // 16
+        OP_CODE_HALT,       // 17
+        OP_CODE_TJC,        // 20
+        OP_CODE_TX0,        // 21
+        OP_CODE_TXLT0,      // 22
+        OP_CODE_TXF,        // 23
+        OP_CODE_TERR,       // 24
+        OP_CODE_JMP,        // 25
+        OP_CODE_OUT,        // 26
+        OP_CODE_IN,         // 27
+        OP_CODE_SMDC,       // 30
+        OP_CODE_IBNZ,       // 31
+        OP_CODE_DBNZ,       // 32
+        OP_CODE_XEM,        // 33
+        OP_CODE_MS,         // 34
+        OP_CODE_MD,         // 35
+        OP_CODE_LSH,        // 36
+        OP_CODE_RSH,        // 37
+        OP_CODE_INV,        // 40
+        OP_CODE_ENTER,      // 41
+        OP_CODE_TOGM,       // 42
+        OP_CODE_ROLL,       // 43
+        OP_CODE_SIN,        // 44
+        OP_CODE_COS,        // 45
+        OP_CODE_TAN,        // 46
+        OP_CODE_SF1,        // 47
+        OP_CODE_PF1,        // 50
+        OP_CODE_SF2,        // 51
+        OP_CODE_PF2,        // 52
+        OP_CODE_ECLR,       // 53
+        OP_CODE_RTD,        // 54
+        OP_CODE_DTR,        // 55
+        OP_CODE_POP,        // 56
+        OP_CODE_MCLR,       // 57
+        OP_CODE_XEY,        // 60
+        OP_CODE_EX,         // 61
+        OP_CODE_10X,        // 62
+        OP_CODE_SQ,         // 63
+        OP_CODE_SQRT,       // 64
+        OP_CODE_LN,         // 65
+        OP_CODE_LOG,        // 66
+        OP_CODE_1X,         // 67
+        OP_CODE_YX,         // 70
+        OP_CODE_PLUS,       // 71
+        OP_CODE_MINUS,      // 72
+        OP_CODE_TIMES,      // 73
+        OP_CODE_DIVIDE,     // 74
+        OP_CODE_PRW1,       // 75
+        OP_CODE_PRW2,       // 76
+        OP_CODE_NOP,        // 77
+    };
+    typedef enum _OpCodes OpCodes;
+
 public:
     Mm57109Instance();
     ~Mm57109Instance() {};
@@ -27,15 +97,16 @@ public:
     
 private:
     void pushStack();
+    void digit(Byte number);
     Mm57109Configuration mm57109Configuration_;
     
     int cycleCounter_;
     
-    Register registerX;
-    Register registerY;
-    Register registerZ;
-    Register registerT;
-    Register registerM;
+    NcuRegister registerX;
+    NcuRegister registerY;
+    NcuRegister registerZ;
+    NcuRegister registerT;
+    NcuRegister registerM;
 
     Byte rdy_;
     Byte hold_;
