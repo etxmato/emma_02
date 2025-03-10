@@ -1558,7 +1558,11 @@ Byte Computer::ef(int flag)
             return cdp1855InstancePointer->readStatus();
         break;
 
-        case MC6845_EF:
+        case MM_EF:
+            return mm57109InstancePointer->ef();
+        break;
+
+	case MC6845_EF:
             if (!isLoading())
                 return mc6845Pointer->ef6845();
             else
