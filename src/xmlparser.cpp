@@ -8578,6 +8578,7 @@ void XmlParser::parseXml_Mm57109(wxXmlNode &node)
     {
         "out",
         "in",
+        "ef",
         "iogroup",
         "comment",
         "undefined"
@@ -8587,6 +8588,7 @@ void XmlParser::parseXml_Mm57109(wxXmlNode &node)
     {
         TAG_OUT,
         TAG_IN,
+        TAG_EF,
         TAG_IOGROUP,
         TAG_COMMENT,
         TAG_UNDEFINED
@@ -8599,6 +8601,7 @@ void XmlParser::parseXml_Mm57109(wxXmlNode &node)
     computerConfiguration.mm57109Configuration.ioGroupVector.clear();
     computerConfiguration.mm57109Configuration.input = init_IoPort();
     computerConfiguration.mm57109Configuration.output = init_IoPort();
+    computerConfiguration.mm57109Configuration.ef = init_EfFlag();
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -8619,7 +8622,11 @@ void XmlParser::parseXml_Mm57109(wxXmlNode &node)
                 computerConfiguration.mm57109Configuration.input = parseXml_IoPort(*child, MM_INPUT);
             break;
 
-            case TAG_IOGROUP:
+            case TAG_EF:
+                computerConfiguration.mm57109Configuration.ef = parseXml_EfFlag(*child, MM_EF);
+            break;
+
+		case TAG_IOGROUP:
                 iogroup = child->GetNodeContent();
                 while (iogroup != "")
                 {
