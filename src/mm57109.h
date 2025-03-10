@@ -22,9 +22,11 @@ public:
     void write(Byte value);
     Byte read();
     Byte ef();
+    void hold(Byte value);
     void cycle();
     
 private:
+    void pushStack();
     Mm57109Configuration mm57109Configuration_;
     
     int cycleCounter_;
@@ -36,6 +38,10 @@ private:
     Register registerM;
 
     Byte rdy_;
+    Byte hold_;
+    Byte mdc_;
+    Byte digitNumber_;
+    bool floatingPointMode_;
 };
 
 
