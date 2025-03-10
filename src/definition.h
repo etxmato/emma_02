@@ -775,6 +775,7 @@ enum
     // MM57109 I/O
     MM_INPUT,
     MM_OUTPUT,
+    MM_EF,
 
     // TIMER I/O
     TIMER_COUNTER_HIGH_A,
