@@ -33,9 +33,15 @@
 #include "main.h"
 #include "mm57109.h"
 
+
 Mm57109Instance::Mm57109Instance()
 {
     cycleCounter_ = 0;
+    rdy_ = 1;
+    hold_ = 1;
+    mdc_ = 8;
+    digitNumber_ = 0;
+    floatingPointMode_ = true;
 }
 
 void Mm57109Instance::configureMm57109(Mm57109Configuration mm57109Configuration)
@@ -76,6 +82,16 @@ Byte Mm57109Instance::read()
     return 0;
 }
 
+Byte Mm57109Instance::ef()
+{
+    return (mm57109Configuration_.ef.reverse^rdy_);
+}
+
+void Mm57109Instance::hold(Byte value)
+{
+    hold_ = value;
+}
+
 void Mm57109Instance::cycle()
 {
     if (cycleCounter_ > 0)
@@ -86,3 +102,13 @@ void Mm57109Instance::cycle()
         }
     }
 }
+
+void Mm57109Instance::pushStack()
+{
+    registerT = registerZ;
+    registerZ = registerY;
+    registerY = registerX;
+    registerX = 0;
+}
+
+
