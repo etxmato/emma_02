@@ -33,6 +33,8 @@
 #include "main.h"
 #include "mm57109.h"
 
+factor[] = {1, 10, 100, 1000, 10000, 100000, 1000000, 10000000}
+
 Mm57109Instance::Mm57109Instance()
 {
     cycleCounter_ = 0;
@@ -40,7 +42,8 @@ Mm57109Instance::Mm57109Instance()
     hold_ = 1;
     mdc_ = 8;
     digitNumber_ = 0;
-    dpNumber_ = 0;
+    dpNumber_ = -1;
+    eeNumber_ = -1;
     floatingPointMode_ = true;
 }
 
@@ -77,7 +80,7 @@ bool Mm57109Instance::ioGroupMm57109(int ioGroup)
 void Mm57109Instance::write(Byte value)
 {
     OpCodes opCode = (OpCodes)(value & 0x3f);
-    switch (opCode)
+    switch (opCode) // first pass
     {
         case OP_CODE_DIGIT_0:
         case OP_CODE_DIGIT_1:
@@ -90,21 +93,32 @@ void Mm57109Instance::write(Byte value)
         case OP_CODE_DIGIT_8:
         case OP_CODE_DIGIT_9:
             digitEntry(opCode);
-        break;
+            lastOpCode_ = opCode;
+        return;
 
         case OP_CODE_DP:
-            dpNumber_ = 1;
-        break;
-        
+            dpNumber_ = digitNumber_;
+            lastOpCode_ = opCode;
+        return;
+            
         case OP_CODE_EE:
+            eeNumber_ = 1;
+            lastOpCode_ = opCode;
+        return;
+        
         case OP_CODE_CS:
         case OP_CODE_PI:
         case OP_CODE_AIN:
         case OP_CODE_HALT:
-        break;
+            lastOpCode_ = opCode;
+        return;
+    }
+    stopDigitEntry();
 
-        default:
-            stopDigit();
+    switch (opCode) // second pass
+    {
+        case OP_CODE_ENTER:
+            pushStack();
         break;
     }
     lastOpCode_ = opCode;
@@ -144,39 +158,57 @@ void Mm57109Instance::pushStack()
         registerZ = registerY;
         registerY = registerX;
     }
-    registerX = 0;
-/*    registerX.decimalPoint = 0;
-    registerX.exponentSign = 0;
-    registerX.mantissaSign = 0;
-    for (int digit=0; digit<8; digit++)
-        registerX.mantissaDigit[digit] = 0;
-    for (int digit=0; digit<2; digit++)
-        registerX.exponentDigit[digit] = 0;*/
 }
 
-void Mm57109Instance::digitEntry(Byte number)
+void Mm57109Instance::clearX()
 {
-    factor[] = {1, 10, 100, 1000, 10000, 100000, 1000000, 10000000}
+    inputRegisterX.decimalPoint = 0;
+    inputRegisterX.exponentSign = 1;
+    inputRegisterX.mantissaSign = 1;
+    inputRegisterX.mantissa = 0;
+    inputRegisterX.exponent = 0;
+
+    registerX = 0;
+}
+
+void Mm57109Instance::digitEntry(int number)
+{
+    if (eeNumber_ == -1)
+        mantissaEntry(number);
+    else
+        exponentEntry(number);
+}
+
+void Mm57109Instance::mantissaEntry(int number)
+{
     switch (digitNumber_)
     {
         case 0:
             pushStack();
+            clearX();
         break;
 
         case 8:
         return;
     }
-    if (dpMode_ == 0)
-        registerX = registerX + (number * factor[digitNumber_]);
-    else
-        registerX = registerX + (doubel)(number / factor[dpNumber_++]);
-    digitNumber_++;
+    inputRegisterX.mantissa = inputRegisterX.mantissa + number * factor[digitNumber_++];
+}
+
+void Mm57109Instance::exponentEntry(int number)
+{
+    if (eeNumber > 1)
+        return;
+
+    inputRegisterX.exponent = inputRegisterX.exponent + number * factor[digitNumber_++];
 }
 
 void Mm57109Instance::stopDigitEntry()
 {
+    registerX = (double) inputRegisterX.mantissa / factor[dpNumber_];
+ 
     digitNumber_ = 0;
-    dpNumber_ = 0;
+    dpNumber_ = -1;
+    eeNumber_ = -1;
 }
 
 
