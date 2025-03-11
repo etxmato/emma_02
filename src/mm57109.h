@@ -97,7 +97,8 @@ public:
     
 private:
     void pushStack();
-    void digit(Byte number);
+    void digitEntry(Byte number);
+    void stopDigitEntry();
     Mm57109Configuration mm57109Configuration_;
     
     int cycleCounter_;
@@ -107,6 +108,8 @@ private:
     NcuRegister registerZ;
     NcuRegister registerT;
     NcuRegister registerM;
+
+    OpCode lastOpCode_;
 
     Byte rdy_;
     Byte hold_;
