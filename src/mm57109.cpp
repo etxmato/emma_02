@@ -107,8 +107,21 @@ void Mm57109Instance::write(Byte value)
         return;
         
         case OP_CODE_CS:
+            if (floatingPointMode_)
+                inputRegisterX.mantissaSign = -inputRegisterX.mantissaSign;
+            else
+                inputRegisterX.exponentSign = -inputRegisterX.exponentSign;
+            lastOpCode_ = opCode;
+        return;   
+        
         case OP_CODE_PI:
+            lastOpCode_ = opCode;
+        return;
+        
         case OP_CODE_AIN:
+            lastOpCode_ = opCode;
+        return;
+        
         case OP_CODE_HALT:
             lastOpCode_ = opCode;
         return;
@@ -204,7 +217,10 @@ void Mm57109Instance::exponentEntry(int number)
 
 void Mm57109Instance::stopDigitEntry()
 {
-    registerX = (double) inputRegisterX.mantissa / factor[dpNumber_];
+    if (floatingPointMode_)
+        eeNumber_ = -dpNumber_;
+
+    registerX = (double) inputRegisterX.mantissa * power (10, eeNumber_);
  
     digitNumber_ = 0;
     dpNumber_ = -1;
