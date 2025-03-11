@@ -3,11 +3,11 @@
 
 struct NcuRegister
 {
-    unsigned int mantissaDigit[8];
-    unsigned int exponentDigit[2];
+    unsigned int mantissa;
+    unsigned int exponent;
     unsigned int decimalPoint;
-    unsigned int mantissaSign;
-    unsigned int exponentSign;
+    int mantissaSign;
+    int exponentSign;
 };
 
 class Mm57109Instance
@@ -97,12 +97,16 @@ public:
     
 private:
     void pushStack();
-    void digitEntry(Byte number);
+    void clearX();
+    void digitEntry(int number);
+    void mantissaEntry(int number);
+    void exponentEntry(int number);
     void stopDigitEntry();
     Mm57109Configuration mm57109Configuration_;
     
     int cycleCounter_;
     
+    NcuRegister inputRegisterX;
     double registerX;
     double registerY;
     double registerZ;
@@ -114,8 +118,9 @@ private:
     Byte rdy_;
     Byte hold_;
     Byte mdc_;
-    Byte digitNumber_;
-    Byte dpNumber_;
+    int digitNumber_;
+    int dpNumber_;
+    int eeNumber_;
 
     bool floatingPointMode_;
 };
