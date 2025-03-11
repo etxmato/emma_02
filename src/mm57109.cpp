@@ -33,7 +33,7 @@
 #include "main.h"
 #include "mm57109.h"
 
-factor[] = {1, 10, 100, 1000, 10000, 100000, 1000000, 10000000}
+int factor[] = {1, 10, 100, 1000, 10000, 100000, 1000000, 10000000};
 
 Mm57109Instance::Mm57109Instance()
 {
@@ -41,8 +41,9 @@ Mm57109Instance::Mm57109Instance()
     rdy_ = 1;
     hold_ = 1;
     mdc_ = 8;
-    digitNumber_ = 0;
-    dpNumber_ = -1;
+    inputDigitNumber_ = 0;
+    outputDigitNumber_ = 0;
+    dpNumber_ = 0;
     eeNumber_ = -1;
     floatingPointMode_ = true;
 }
@@ -97,7 +98,7 @@ void Mm57109Instance::write(Byte value)
         return;
 
         case OP_CODE_DP:
-            dpNumber_ = digitNumber_;
+            dpNumber_ = inputDigitNumber_;
             lastOpCode_ = opCode;
         return;
             
@@ -133,13 +134,38 @@ void Mm57109Instance::write(Byte value)
         case OP_CODE_ENTER:
             pushStack();
         break;
+
+        case OP_CODE_PLUS:
+            registerX += registerY;
+            popStack();
+            rdy_ = 0;
+            outputDigitNumber_ = 0;
+            convertX();
+        break;
+
+        case OP_CODE_TOGM:
+            floatingPointMode_ = !floatingPointMode_;
+        break;
+
+        case OP_CODE_OUT:
+        break;
     }
     lastOpCode_ = opCode;
 }
 
 Byte Mm57109Instance::read()
 {
-    return 0x40;
+    Byte returnValue = 0x40;
+    if (rdy_ == 0)
+        returnValue = outputRegisterX[outputDigitNumber_++] | 0x90;
+    
+    if (outputDigitNumber_ == 10)
+    {
+  //      rdy_ = 1;
+        outputDigitNumber_ = 0;
+    }
+    
+    return returnValue;
 }
 
 Byte Mm57109Instance::ef()
@@ -165,12 +191,19 @@ void Mm57109Instance::cycle()
 
 void Mm57109Instance::pushStack()
 {
-    if (lastOpCode != OP_CODE_ENTER)
+    if (lastOpCode_ != OP_CODE_ENTER)
     {
         registerT = registerZ;
         registerZ = registerY;
         registerY = registerX;
     }
+}
+
+void Mm57109Instance::popStack()
+{
+    registerY = registerZ;
+    registerZ = registerT;
+    registerT = 0;
 }
 
 void Mm57109Instance::clearX()
@@ -184,6 +217,27 @@ void Mm57109Instance::clearX()
     registerX = 0;
 }
 
+void Mm57109Instance::convertX()
+{
+    if (registerX < 0)
+    {
+        outputRegisterX[0] = 0x8;
+        registerX = -registerX;
+    }
+    else
+        outputRegisterX[0] = 0;
+
+    outputRegisterX[1] = 0x4;
+    outputRegisterX[2] = 1;
+    outputRegisterX[3] = 2;
+    outputRegisterX[4] = 3;
+    outputRegisterX[5] = 4;
+    outputRegisterX[6] = 5;
+    outputRegisterX[7] = 6;
+    outputRegisterX[8] = 7;
+    outputRegisterX[9] = 8;
+}
+
 void Mm57109Instance::digitEntry(int number)
 {
     if (eeNumber_ == -1)
@@ -194,7 +248,7 @@ void Mm57109Instance::digitEntry(int number)
 
 void Mm57109Instance::mantissaEntry(int number)
 {
-    switch (digitNumber_)
+    switch (inputDigitNumber_)
     {
         case 0:
             pushStack();
@@ -204,26 +258,33 @@ void Mm57109Instance::mantissaEntry(int number)
         case 8:
         return;
     }
-    inputRegisterX.mantissa = inputRegisterX.mantissa + number * factor[digitNumber_++];
+    inputRegisterX.mantissa = number + inputRegisterX.mantissa * 10;
+    inputDigitNumber_++;
 }
 
 void Mm57109Instance::exponentEntry(int number)
 {
-    if (eeNumber > 1)
+    if (eeNumber_ > 1)
         return;
 
-    inputRegisterX.exponent = inputRegisterX.exponent + number * factor[digitNumber_++];
+    inputRegisterX.exponent = number + inputRegisterX.exponent * 10;
+    eeNumber_++;
 }
 
 void Mm57109Instance::stopDigitEntry()
 {
     if (floatingPointMode_)
-        eeNumber_ = -dpNumber_;
+    {
+        if (dpNumber_ != 0)
+            eeNumber_ = dpNumber_-inputDigitNumber_;
+        else
+            eeNumber_ = 0;
+    }
 
-    registerX = (double) inputRegisterX.mantissa * power (10, eeNumber_);
+    registerX = (double) inputRegisterX.mantissa * pow(10, eeNumber_);
  
-    digitNumber_ = 0;
-    dpNumber_ = -1;
+    inputDigitNumber_ = 0;
+    dpNumber_ = 0;
     eeNumber_ = -1;
 }
 

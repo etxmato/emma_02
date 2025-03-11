@@ -4,6 +4,7 @@
 struct NcuRegister
 {
     unsigned int mantissa;
+    double decimal;
     unsigned int exponent;
     unsigned int decimalPoint;
     int mantissaSign;
@@ -97,7 +98,9 @@ public:
     
 private:
     void pushStack();
+    void popStack();
     void clearX();
+    void convertX();
     void digitEntry(int number);
     void mantissaEntry(int number);
     void exponentEntry(int number);
@@ -107,18 +110,20 @@ private:
     int cycleCounter_;
     
     NcuRegister inputRegisterX;
+    Byte outputRegisterX[12];
     double registerX;
     double registerY;
     double registerZ;
     double registerT;
     double registerM;
 
-    OpCode lastOpCode_;
+    OpCodes lastOpCode_;
 
     Byte rdy_;
     Byte hold_;
     Byte mdc_;
-    int digitNumber_;
+    int inputDigitNumber_;
+    int outputDigitNumber_;
     int dpNumber_;
     int eeNumber_;
 
