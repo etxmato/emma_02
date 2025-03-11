@@ -103,11 +103,11 @@ private:
     
     int cycleCounter_;
     
-    NcuRegister registerX;
-    NcuRegister registerY;
-    NcuRegister registerZ;
-    NcuRegister registerT;
-    NcuRegister registerM;
+    double registerX;
+    double registerY;
+    double registerZ;
+    double registerT;
+    double registerM;
 
     OpCode lastOpCode_;
 
@@ -115,6 +115,8 @@ private:
     Byte hold_;
     Byte mdc_;
     Byte digitNumber_;
+    Byte dpNumber_;
+
     bool floatingPointMode_;
 };
 
