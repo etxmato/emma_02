@@ -40,6 +40,7 @@ Mm57109Instance::Mm57109Instance()
     hold_ = 1;
     mdc_ = 8;
     digitNumber_ = 0;
+    dpNumber_ = 0;
     floatingPointMode_ = true;
 }
 
@@ -92,6 +93,9 @@ void Mm57109Instance::write(Byte value)
         break;
 
         case OP_CODE_DP:
+            dpNumber_ = 1;
+        break;
+        
         case OP_CODE_EE:
         case OP_CODE_CS:
         case OP_CODE_PI:
@@ -140,17 +144,19 @@ void Mm57109Instance::pushStack()
         registerZ = registerY;
         registerY = registerX;
     }
-    registerX.decimalPoint = 0;
+    registerX = 0;
+/*    registerX.decimalPoint = 0;
     registerX.exponentSign = 0;
     registerX.mantissaSign = 0;
     for (int digit=0; digit<8; digit++)
         registerX.mantissaDigit[digit] = 0;
     for (int digit=0; digit<2; digit++)
-        registerX.exponentDigit[digit] = 0;
+        registerX.exponentDigit[digit] = 0;*/
 }
 
 void Mm57109Instance::digitEntry(Byte number)
 {
+    factor[] = {1, 10, 100, 1000, 10000, 100000, 1000000, 10000000}
     switch (digitNumber_)
     {
         case 0:
@@ -160,13 +166,17 @@ void Mm57109Instance::digitEntry(Byte number)
         case 8:
         return;
     }
-    registerX.mantissaDigit[digitNumber_++] = number;
+    if (dpMode_ == 0)
+        registerX = registerX + (number * factor[digitNumber_]);
+    else
+        registerX = registerX + (doubel)(number / factor[dpNumber_++]);
+    digitNumber_++;
 }
 
 void Mm57109Instance::stopDigitEntry()
 {
     digitNumber_ = 0;
-    
+    dpNumber_ = 0;
 }
 
 
