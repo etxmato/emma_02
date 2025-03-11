@@ -88,9 +88,22 @@ void Mm57109Instance::write(Byte value)
         case OP_CODE_DIGIT_7:
         case OP_CODE_DIGIT_8:
         case OP_CODE_DIGIT_9:
-            digit(opCode);
+            digitEntry(opCode);
+        break;
+
+        case OP_CODE_DP:
+        case OP_CODE_EE:
+        case OP_CODE_CS:
+        case OP_CODE_PI:
+        case OP_CODE_AIN:
+        case OP_CODE_HALT:
+        break;
+
+        default:
+            stopDigit();
         break;
     }
+    lastOpCode_ = opCode;
 }
 
 Byte Mm57109Instance::read()
@@ -121,9 +134,12 @@ void Mm57109Instance::cycle()
 
 void Mm57109Instance::pushStack()
 {
-    registerT = registerZ;
-    registerZ = registerY;
-    registerY = registerX;
+    if (lastOpCode != OP_CODE_ENTER)
+    {
+        registerT = registerZ;
+        registerZ = registerY;
+        registerY = registerX;
+    }
     registerX.decimalPoint = 0;
     registerX.exponentSign = 0;
     registerX.mantissaSign = 0;
@@ -133,11 +149,24 @@ void Mm57109Instance::pushStack()
         registerX.exponentDigit[digit] = 0;
 }
 
-void Mm57109Instance::digit(Byte number)
+void Mm57109Instance::digitEntry(Byte number)
 {
-    if (digitNumber_ == 0)
-        pushStack();
-    
+    switch (digitNumber_)
+    {
+        case 0:
+            pushStack();
+        break;
+
+        case 8:
+        return;
+    }
     registerX.mantissaDigit[digitNumber_++] = number;
 }
+
+void Mm57109Instance::stopDigitEntry()
+{
+    digitNumber_ = 0;
+    
+}
+
 
