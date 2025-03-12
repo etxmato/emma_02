@@ -45,7 +45,7 @@ private:
         OP_CODE_DBNZ,       // 32
         OP_CODE_XEM,        // 33
         OP_CODE_MS,         // 34
-        OP_CODE_MD,         // 35
+        OP_CODE_MR,         // 35
         OP_CODE_LSH,        // 36
         OP_CODE_RSH,        // 37
         OP_CODE_INV,        // 40

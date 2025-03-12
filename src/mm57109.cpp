@@ -118,7 +118,7 @@ void Mm57109Instance::write(Byte value)
         return;   
         
         case OP_CODE_PI:
-            registerX = 3,1415927;
+            registerX = 3.1415927;
             lastOpCode_ = opCode;
         return;
         
@@ -130,7 +130,8 @@ void Mm57109Instance::write(Byte value)
             lastOpCode_ = opCode;
         return;
     }
-    stopDigitEntry();
+    if (inputDigitNumber_ != 0)
+        stopDigitEntry();
 
     switch (opCode) // second pass
     {
@@ -214,8 +215,10 @@ void Mm57109Instance::write(Byte value)
                 outputDigitNumber_ = 0;
                 convertX();            
                 rdy_ = 0;
+                firstOutReceived_ = false;
             }
-            firstOutReceived_ = true;
+            else
+                firstOutReceived_ = true;
         break;
     }
     lastOpCode_ = opCode;
@@ -301,7 +304,7 @@ void Mm57109Instance::shiftLeft()
     int intPartRegisterX = (int) registerX;
     int numberOfDigits = count_digit(intPartRegisterX);
 
-    int removeDigit = 
+  //  int removeDigit =
 }
 
 void Mm57109Instance::shiftRight()
@@ -347,8 +350,8 @@ void Mm57109Instance::convertX()
     int numberOfDigits = count_digit(intPartRegisterX);
     if (numberOfDigits > 8)
         numberOfDigits = 8;
-    outputRegisterX[1] = numberOfDigits;
-    intPartRegisterX = (int) registerX * pow(10, 8-numberOfDigits);
+    outputRegisterX[1] = 12-numberOfDigits;
+    intPartRegisterX = (double) registerX * pow(10, 8-numberOfDigits);
     for (int digit=9; digit>1; digit--)
     {
         outputRegisterX[digit] = intPartRegisterX % 10;
