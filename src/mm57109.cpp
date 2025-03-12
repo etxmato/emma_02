@@ -45,6 +45,7 @@ Mm57109Instance::Mm57109Instance()
     outputDigitNumber_ = 0;
     dpNumber_ = 0;
     eeNumber_ = -1;
+    linkDigit_ = 0;
     floatingPointMode_ = true;
     firstOutReceived_ = false;
 }
@@ -191,6 +192,14 @@ void Mm57109Instance::write(Byte value)
             registerX = registerM;
         break;
 
+        case OP_CODE_LSH:
+            shiftLeft();
+        break;
+
+        case OP_CODE_RSH:
+            shiftRight();
+        break;
+
         // Mode control commands:
 
         case OP_CODE_TOGM:
@@ -286,6 +295,23 @@ void Mm57109Instance::exchangeXM()
     registerM = saveX;
 }
 
+void Mm57109Instance::shiftLeft()
+{
+    registerX = registerX * 10;
+    int intPartRegisterX = (int) registerX;
+    int numberOfDigits = count_digit(intPartRegisterX);
+
+    int removeDigit = 
+}
+
+void Mm57109Instance::shiftRight()
+{
+    registerX = registerX / 10;
+    int intPartRegisterX = (int) registerX;
+    int numberOfDigits = count_digit(intPartRegisterX);
+
+}
+
 void Mm57109Instance::clearX()
 {
     inputRegisterX.decimalPoint = 0;
@@ -317,7 +343,7 @@ void Mm57109Instance::convertX()
     outputRegisterX[8] = 7;
     outputRegisterX[9] = 8;
 
-    int intPartRegisterX = (int) registerX;
+    int intPartRegisterX = abs((int) registerX);
     int numberOfDigits = count_digit(intPartRegisterX);
     if (numberOfDigits > 8)
         numberOfDigits = 8;
