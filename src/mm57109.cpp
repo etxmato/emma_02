@@ -46,6 +46,7 @@ Mm57109Instance::Mm57109Instance()
     dpNumber_ = 0;
     eeNumber_ = -1;
     floatingPointMode_ = true;
+    firstOutReceived_ = false;
 }
 
 void Mm57109Instance::configureMm57109(Mm57109Configuration mm57109Configuration)
@@ -138,9 +139,7 @@ void Mm57109Instance::write(Byte value)
         case OP_CODE_PLUS:
             registerX += registerY;
             popStack();
-            rdy_ = 0;
-            outputDigitNumber_ = 0;
-            convertX();
+
         break;
 
         case OP_CODE_TOGM:
@@ -148,6 +147,13 @@ void Mm57109Instance::write(Byte value)
         break;
 
         case OP_CODE_OUT:
+            if (firstOutReceived_)
+            {
+                outputDigitNumber_ = 0;
+                convertX();            
+                rdy_ = 0;
+            }
+            firstOutReceived_ = true;
         break;
     }
     lastOpCode_ = opCode;
@@ -161,7 +167,7 @@ Byte Mm57109Instance::read()
     
     if (outputDigitNumber_ == 10)
     {
-  //      rdy_ = 1;
+        rdy_ = 1;
         outputDigitNumber_ = 0;
     }
     
@@ -227,7 +233,7 @@ void Mm57109Instance::convertX()
     else
         outputRegisterX[0] = 0;
 
-    outputRegisterX[1] = 0x4;
+    outputRegisterX[1] = 4;
     outputRegisterX[2] = 1;
     outputRegisterX[3] = 2;
     outputRegisterX[4] = 3;
@@ -236,6 +242,23 @@ void Mm57109Instance::convertX()
     outputRegisterX[7] = 6;
     outputRegisterX[8] = 7;
     outputRegisterX[9] = 8;
+
+    int intPartRegisterX = (int) registerX;
+    int numberOfDigits = count_digit(intPartRegisterX);
+    if (numberOfDigits > 8)
+        numberOfDigits = 8;
+    outputRegisterX[1] = numberOfDigits;
+    intPartRegisterX = (int) registerX * pow(10, 8-numberOfDigits);
+    for (int digit=9; digit>1; digit--)
+    {
+        outputRegisterX[digit] = intPartRegisterX % 10;
+        intPartRegisterX = intPartRegisterX / 10;
+    }
+}
+
+int Mm57109Instance::count_digit(int number) 
+{
+   return int(log10(number) + 1);
 }
 
 void Mm57109Instance::digitEntry(int number)
@@ -253,6 +276,7 @@ void Mm57109Instance::mantissaEntry(int number)
         case 0:
             pushStack();
             clearX();
+            firstOutReceived_ = false;
         break;
 
         case 8:
