@@ -99,6 +99,9 @@ public:
 private:
     void pushStack();
     void popStack();
+    void rollStack();
+    void exchangeXY();
+    void exchangeXM();
     void clearX();
     void convertX();
     int count_digit(int number);
