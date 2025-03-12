@@ -102,6 +102,8 @@ private:
     void rollStack();
     void exchangeXY();
     void exchangeXM();
+    void shiftLeft();
+    void shiftRight();
     void clearX();
     void convertX();
     int count_digit(int number);
@@ -122,6 +124,7 @@ private:
     double registerM;
 
     OpCodes lastOpCode_;
+    bool firstOutReceived_;
 
     Byte rdy_;
     Byte hold_;
@@ -130,7 +133,7 @@ private:
     int outputDigitNumber_;
     int dpNumber_;
     int eeNumber_;
-    bool firstOutReceived_;
+    Byte linkDigit_;
 
     bool floatingPointMode_;
 };
