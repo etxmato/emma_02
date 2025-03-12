@@ -101,6 +101,7 @@ private:
     void popStack();
     void clearX();
     void convertX();
+    int count_digit(int number);
     void digitEntry(int number);
     void mantissaEntry(int number);
     void exponentEntry(int number);
@@ -126,6 +127,7 @@ private:
     int outputDigitNumber_;
     int dpNumber_;
     int eeNumber_;
+    bool firstOutReceived_;
 
     bool floatingPointMode_;
 };
