@@ -80,7 +80,7 @@ bool Mm57109Instance::ioGroupMm57109(int ioGroup)
 }
 
 void Mm57109Instance::write(Byte value)
-{
+{    
     OpCodes opCode = (OpCodes)(value & 0x3f);
     switch (opCode) // first pass
     {
@@ -109,7 +109,7 @@ void Mm57109Instance::write(Byte value)
         return;
         
         case OP_CODE_CS:
-            if (floatingPointMode_)
+            if (eeNumber_ == 0)
                 inputRegisterX.mantissaSign = -inputRegisterX.mantissaSign;
             else
                 inputRegisterX.exponentSign = -inputRegisterX.exponentSign;
@@ -117,6 +117,7 @@ void Mm57109Instance::write(Byte value)
         return;   
         
         case OP_CODE_PI:
+            registerX = 3,1415927;
             lastOpCode_ = opCode;
         return;
         
@@ -132,19 +133,71 @@ void Mm57109Instance::write(Byte value)
 
     switch (opCode) // second pass
     {
+        // Digit Entry commands:
+        
         case OP_CODE_ENTER:
             pushStack();
         break;
 
         case OP_CODE_PLUS:
-            registerX += registerY;
+            registerX = registerY + registerX;
             popStack();
-
         break;
+
+        case OP_CODE_MINUS:
+            registerX = registerY - registerX;
+            popStack();
+        break;
+        
+        case OP_CODE_TIMES:
+            registerX = registerY * registerX;
+            popStack();
+        break;
+        
+        case OP_CODE_DIVIDE:
+            registerX = registerY / registerX;
+            popStack();
+        break;
+        
+        case OP_CODE_YX:
+            registerX = pow(registerY, registerX); 
+            popStack();
+        break;
+        
+        // Move commands:
+
+        case OP_CODE_ROLL:
+            rollStack();
+        break;
+        
+        case OP_CODE_POP:
+            popStack();
+        break;
+        
+        case OP_CODE_XEY:
+            exchangeXY();
+        break;
+        
+        case OP_CODE_XEM:
+            exchangeXM();
+        break;
+
+        case OP_CODE_MS:
+            registerM = registerX;
+        break;
+
+        case OP_CODE_MR:
+            pushStack();
+            registerX = registerM;
+        break;
+
+        // Mode control commands:
 
         case OP_CODE_TOGM:
             floatingPointMode_ = !floatingPointMode_;
         break;
+
+        // Mode control commands:
 
         case OP_CODE_OUT:
             if (firstOutReceived_)
@@ -197,12 +250,9 @@ void Mm57109Instance::cycle()
 
 void Mm57109Instance::pushStack()
 {
-    if (lastOpCode_ != OP_CODE_ENTER)
-    {
-        registerT = registerZ;
-        registerZ = registerY;
-        registerY = registerX;
-    }
+    registerT = registerZ;
+    registerZ = registerY;
+    registerY = registerX;
 }
 
 void Mm57109Instance::popStack()
@@ -210,6 +260,30 @@ void Mm57109Instance::popStack()
     registerY = registerZ;
     registerZ = registerT;
     registerT = 0;
+}
+
+void Mm57109Instance::rollStack()
+{
+    double saveX = registerX;
+
+    registerX = registerY;
+    registerY = registerZ;
+    registerZ = registerT;
+    registerT = saveX;
+}
+
+void Mm57109Instance::exchangeXY()
+{
+    double saveX = registerX;
+    registerX = registerY;
+    registerY = saveX;
+}
+
+void Mm57109Instance::exchangeXM()
+{
+    double saveX = registerX;
+    registerX = registerM;
+    registerM = saveX;
 }
 
 void Mm57109Instance::clearX()
@@ -274,7 +348,8 @@ void Mm57109Instance::mantissaEntry(int number)
     switch (inputDigitNumber_)
     {
         case 0:
-            pushStack();
+            if (lastOpCode_ != OP_CODE_ENTER)
+                pushStack();
             clearX();
             firstOutReceived_ = false;
         break;
