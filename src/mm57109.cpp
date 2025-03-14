@@ -39,7 +39,7 @@ Mm57109Instance::Mm57109Instance()
 {
     inputDigitNumber_ = 0;
     outputDigitNumber_ = 0;
-    dpNumber_ = 0;
+    dpNumber_ = -1;
     eeNumber_ = -1;
     linkDigit_ = 0;
     outMode_ = 0x40;
@@ -130,7 +130,7 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         break;
             
         case OP_CODE_CS:
-            if (eeNumber_ == 0)
+            if (eeNumber_ == -1)
                 inputRegisterX.mantissaSign = -inputRegisterX.mantissaSign;
             else
                 inputRegisterX.exponentSign = -inputRegisterX.exponentSign;
@@ -153,7 +153,9 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         
         case OP_CODE_ENTER:
             stopDigitEntry();
+            convert(registerX);
             pushStack();
+            rdy_ = 0;
         break;
         
         // Math commands:
@@ -168,7 +170,7 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         case OP_CODE_SQ:
         case OP_CODE_10X:
         case OP_CODE_EX:
-        case OP_CODE_LIN:
+        case OP_CODE_LN:
         case OP_CODE_LOG:
         case OP_CODE_SIN:
         case OP_CODE_COS:
@@ -177,7 +179,7 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         case OP_CODE_RTD:
             stopDigitEntry();
             mathOpCode_ = opCode;
-            cycleCounter_ = 1;
+            cycleCounter_ = 100;
         break;
 
         // Move commands:
@@ -185,21 +187,26 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         case OP_CODE_ROLL:
             stopDigitEntry();
             rollStack();
+            convert(registerX);
         break;
         
         case OP_CODE_POP:
             stopDigitEntry();
+            registerX = registerY;
             popStack();
+            convert(registerX);
         break;
         
         case OP_CODE_XEY:
             stopDigitEntry();
             exchangeXY();
+            convert(registerX);
         break;
         
         case OP_CODE_XEM:
             stopDigitEntry();
             exchangeXM();
+            convert(registerX);
         break;
 
         case OP_CODE_MS:
@@ -211,23 +218,27 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
             stopDigitEntry();
             pushStack();
             registerX = registerM;
+            convert(registerX);
         break;
 
         case OP_CODE_LSH:
             stopDigitEntry();
             shiftLeft();
+            convert(registerX);
         break;
 
         case OP_CODE_RSH:
             stopDigitEntry();
             shiftRight();
+            convert(registerX);
         break;
 
         // Clear commands:
         
-        case OP_CODE_RSH:
+        case OP_CODE_MCLR:
             stopDigitEntry();
             masterClear();
+            convert(0);
         break;
    
         case OP_CODE_ECLR:
@@ -305,30 +316,6 @@ void Mm57109Instance::secondInstrucionWord(Byte value)
             firstInstrucionWord(value);
         break;
     }
-/*    switch (opCode)
-    {
-        case OP_CODE_OUT:
-            if (lastOpCode_ != OP_CODE_OUT)
-                return;
-            
-            outputDigitNumber_ = 0;
-            outMode_ = 0x90;
-        break;
-            
-        case OP_CODE_PLUS:
-        case OP_CODE_MINUS:
-        case OP_CODE_TIMES:
-        case OP_CODE_DIVIDE:
-            if (lastOpCode_ != OP_CODE_INV)
-                return;
-
-            mathOpCode_ = opCode+OP_CODE_OFFSET;
-            cycleCounter_ = 1;
-        break;
-
-        default:
-        break;
-    }*/
 }
     
 Byte Mm57109Instance::read()
@@ -439,7 +426,7 @@ void Mm57109Instance::cycle()
                 break;
 
                 case OP_CODE_EX:
-                    registerX = pow(2.718, registerX);
+                    registerX = pow(2.7182818, registerX);
                     convert(registerX);
                 break;
 
@@ -454,56 +441,51 @@ void Mm57109Instance::cycle()
                 break;
 
                 case OP_CODE_SIN:
-                    registerX = sin(registerX);
-                    convert(registerX);
-                break;
-
-                case OP_CODE_SIN:
-                    registerX = sin(registerX);
+                    registerX = sin(registerX * 3.1415927/180);
                     convert(registerX);
                 break;
 
                 case OP_CODE_SIN_INV:
-                    registerX = asin(registerX);
+                    registerX = asin(registerX) * 180/3.1415927;
                     convert(registerX);
                 break;
 
                 case OP_CODE_COS:
-                    registerX = cos(registerX);
+                    registerX = cos(registerX * 3.1415927/180);
                     convert(registerX);
                 break;
 
                 case OP_CODE_COS_INV:
-                    registerX = acos(registerX);
+                    registerX = acos(registerX) * 180/3.1415927;
                     convert(registerX);
                 break;
 
                 case OP_CODE_TAN:
-                    registerX = tan(registerX);
+                    registerX = tan(registerX * 3.1415927/180);
                     convert(registerX);
                 break;
 
                 case OP_CODE_TAN_INV:
-                    registerX = atan(registerX);
+                    registerX = atan(registerX) * 180/3.1415927;
                     convert(registerX);
                 break;
 
                 case OP_CODE_DTR:
-                    registerX = 0.0174532925 * registerX;
+                    registerX = registerX * 3.1415927/180;
                     convert(registerX);
                 break;
                 
                 case OP_CODE_RTD:
-                    registerX = 57.2957795 * registerX;
+                    registerX = registerX * 180/3.1415927;
                     convert(registerX);
                 break;
 
                 default:
                 break;
             }
+            cycleCounter_ = -1;
         }
         rdy_ = 0;
-        cycleCounter_ = -1;
     }
 }
 
@@ -564,7 +546,7 @@ void Mm57109Instance::shiftRight()
 
 void Mm57109Instance::invCommand(Byte value)
 {
-    switch (opCode)
+    switch (value)
     {
         case OP_CODE_PLUS:
         case OP_CODE_MINUS:
@@ -573,7 +555,7 @@ void Mm57109Instance::invCommand(Byte value)
         case OP_CODE_SIN:
         case OP_CODE_COS:
         case OP_CODE_TAN:
-            mathOpCode_ = opCode+OP_CODE_OFFSET;
+            mathOpCode_ = value+OP_CODE_OFFSET;
             cycleCounter_ = 1;
         break;
 
@@ -665,16 +647,17 @@ void Mm57109Instance::stopDigitEntry()
     
     if (floatingPointMode_)
     {
-        if (dpNumber_ != 0)
+        if (dpNumber_ != -1)
             eeNumber_ = dpNumber_-inputDigitNumber_;
         else
             eeNumber_ = 0;
     }
 
     registerX = (double) inputRegisterX.mantissa * pow(10, eeNumber_);
- 
+    registerX *= inputRegisterX.mantissaSign;
+    
     inputDigitNumber_ = 0;
-    dpNumber_ = 0;
+    dpNumber_ = -1;
     eeNumber_ = -1;
 }
 
