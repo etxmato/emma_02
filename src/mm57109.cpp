@@ -37,19 +37,29 @@ int factor[] = {1, 10, 100, 1000, 10000, 100000, 1000000, 10000000};
 
 Mm57109Instance::Mm57109Instance()
 {
-    cycleCounter_ = 0;
-    rdy_ = 1;
-    hold_ = 1;
-    mdc_ = 8;
     inputDigitNumber_ = 0;
     outputDigitNumber_ = 0;
     dpNumber_ = 0;
     eeNumber_ = -1;
     linkDigit_ = 0;
     outMode_ = 0x40;
-    floatingPointMode_ = true;
     firstInstructionWord_ = true;
     cycleCounter_ = -1;
+    
+    masterClear();
+}
+
+void Mm57109Instance::masterClear()
+{
+    rdy_ = 1;
+    hold_ = 1;
+    clearX();
+    registerY = 0;
+    registerZ = 0;
+    registerT = 0;
+    registerM = 0;
+    mdc_ = 8;
+    floatingPointMode_ = true;
 }
 
 void Mm57109Instance::configureMm57109(Mm57109Configuration mm57109Configuration)
@@ -133,7 +143,11 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         break;
 
         case OP_CODE_HALT:
+            // TO BE ADDED
+        break;
+
         case OP_CODE_NOP:
+            stopDigitEntry();
             // TO BE ADDED
         break;
         
@@ -152,14 +166,18 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         case OP_CODE_1X:
         case OP_CODE_SQRT:
         case OP_CODE_SQ:
+        case OP_CODE_10X:
+        case OP_CODE_EX:
+        case OP_CODE_LIN:
+        case OP_CODE_LOG:
+        case OP_CODE_SIN:
+        case OP_CODE_COS:
+        case OP_CODE_TAN:
+        case OP_CODE_DTR:
+        case OP_CODE_RTD:
             stopDigitEntry();
             mathOpCode_ = opCode;
             cycleCounter_ = 1;
-        break;
-
-        case OP_CODE_INV:
-            stopDigitEntry();
-            firstInstructionWord_ = false;
         break;
 
         // Move commands:
@@ -205,15 +223,25 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
             shiftRight();
         break;
 
-        // Mode control commands:
-
-        case OP_CODE_TOGM:
+        // Clear commands:
+        
+        case OP_CODE_RSH:
             stopDigitEntry();
-            floatingPointMode_ = !floatingPointMode_;
+            masterClear();
         break;
-
+   
+        case OP_CODE_ECLR:
+            stopDigitEntry();
+            // TO BE ADDED
+        break;
+        
         // Multi-digit commands:
 
+        case OP_CODE_IN:
+            stopDigitEntry();
+            // TO BE ADDED
+        break;
+        
         case OP_CODE_OUT:
             stopDigitEntry();
             firstInstructionWord_ = false;
@@ -222,9 +250,26 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         // Single-digit commands:
             
         case OP_CODE_AIN:
+            stopDigitEntry();
             // TO BE ADDED
         break;
                 
+        // Mode control commands:
+
+        case OP_CODE_TOGM:
+            stopDigitEntry();
+            floatingPointMode_ = !floatingPointMode_;
+        break;
+
+        case OP_CODE_SMDC:
+            stopDigitEntry();
+            firstInstructionWord_ = false;
+        break;
+
+        case OP_CODE_INV:
+            stopDigitEntry();
+            firstInstructionWord_ = false;
+        break;
     }
     lastOpCode_ = opCode;
 }
@@ -234,7 +279,33 @@ void Mm57109Instance::secondInstrucionWord(Byte value)
     firstInstructionWord_ = true;
 
     OpCodes opCode = (OpCodes)(value & 0x3f);
-    switch (opCode)
+    switch (lastOpCode_)
+    {
+        case OP_CODE_OUT:
+            if (opCode == OP_CODE_OUT)
+            {
+                outputDigitNumber_ = 0;
+                outMode_ = 0x90;
+            }
+            else
+                firstInstrucionWord(value);
+        break;
+
+        case OP_CODE_INV:
+            invCommand(opCode);
+        break;
+
+        case OP_CODE_SMDC:
+            mdc_ = value;
+            if (mdc_ > 8)
+                mdc_ = 8;
+        break;
+
+        default:
+            firstInstrucionWord(value);
+        break;
+    }
+/*    switch (opCode)
     {
         case OP_CODE_OUT:
             if (lastOpCode_ != OP_CODE_OUT)
@@ -257,7 +328,7 @@ void Mm57109Instance::secondInstrucionWord(Byte value)
 
         default:
         break;
-    }
+    }*/
 }
     
 Byte Mm57109Instance::read()
@@ -362,6 +433,71 @@ void Mm57109Instance::cycle()
                     convert(registerX);
                 break;
 
+                case OP_CODE_10X:
+                    registerX = pow(10, registerX);
+                    convert(registerX);
+                break;
+
+                case OP_CODE_EX:
+                    registerX = pow(2.718, registerX);
+                    convert(registerX);
+                break;
+
+                case OP_CODE_LN:
+                    registerX = log(registerX);
+                    convert(registerX);
+                break;
+
+                case OP_CODE_LOG:
+                    registerX = log10(registerX);
+                    convert(registerX);
+                break;
+
+                case OP_CODE_SIN:
+                    registerX = sin(registerX);
+                    convert(registerX);
+                break;
+
+                case OP_CODE_SIN:
+                    registerX = sin(registerX);
+                    convert(registerX);
+                break;
+
+                case OP_CODE_SIN_INV:
+                    registerX = asin(registerX);
+                    convert(registerX);
+                break;
+
+                case OP_CODE_COS:
+                    registerX = cos(registerX);
+                    convert(registerX);
+                break;
+
+                case OP_CODE_COS_INV:
+                    registerX = acos(registerX);
+                    convert(registerX);
+                break;
+
+                case OP_CODE_TAN:
+                    registerX = tan(registerX);
+                    convert(registerX);
+                break;
+
+                case OP_CODE_TAN_INV:
+                    registerX = atan(registerX);
+                    convert(registerX);
+                break;
+
+                case OP_CODE_DTR:
+                    registerX = 0.0174532925 * registerX;
+                    convert(registerX);
+                break;
+                
+                case OP_CODE_RTD:
+                    registerX = 57.2957795 * registerX;
+                    convert(registerX);
+                break;
+
                 default:
                 break;
             }
@@ -426,6 +562,27 @@ void Mm57109Instance::shiftRight()
 
 }
 
+void Mm57109Instance::invCommand(Byte value)
+{
+    switch (opCode)
+    {
+        case OP_CODE_PLUS:
+        case OP_CODE_MINUS:
+        case OP_CODE_TIMES:
+        case OP_CODE_DIVIDE:
+        case OP_CODE_SIN:
+        case OP_CODE_COS:
+        case OP_CODE_TAN:
+            mathOpCode_ = opCode+OP_CODE_OFFSET;
+            cycleCounter_ = 1;
+        break;
+
+        default: 
+            firstInstrucionWord(value);
+        break;
+    }
+}
+
 void Mm57109Instance::clearX()
 {
     inputRegisterX.decimalPoint = 0;
@@ -449,10 +606,10 @@ void Mm57109Instance::convert(double reg)
 
     int intPartRegister = abs((int) reg);
     int numberOfDigits = count_digit(intPartRegister);
-    if (numberOfDigits > 8)
-        numberOfDigits = 8;
+    if (numberOfDigits > mdc_)
+        numberOfDigits = mdc_;
     outputRegister[1] = 12-numberOfDigits;
-    intPartRegister = (double) reg * pow(10, 8-numberOfDigits);
+    intPartRegister = (double) reg * pow(10, mdc_-numberOfDigits);
     for (int digit=9; digit>1; digit--)
     {
         outputRegister[digit] = intPartRegister % 10;
@@ -478,17 +635,16 @@ void Mm57109Instance::digitEntry(int number)
 
 void Mm57109Instance::mantissaEntry(int number)
 {
-    switch (inputDigitNumber_)
+    if (inputDigitNumber_== 0)
     {
-        case 0:
             if (lastOpCode_ != OP_CODE_ENTER)
                 pushStack();
             clearX();
-        break;
-
-        case 8:
-        return;
     }
+
+    if (inputDigitNumber_== mdc_)
+        return;
+
     inputRegisterX.mantissa = number + inputRegisterX.mantissa * 10;
     inputDigitNumber_++;
 }
