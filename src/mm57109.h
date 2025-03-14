@@ -81,6 +81,9 @@ private:
         OP_CODE_PRW2,       // 76
         OP_CODE_NOP,        // 77
         OP_CODE_OFFSET = 100,
+        OP_CODE_SIN_INV = 136,
+        OP_CODE_COS_INV,
+        OP_CODE_TAN_INV,
         OP_CODE_PLUS_INV = 157,
         OP_CODE_MINUS_INV,
         OP_CODE_TIMES_INV,
@@ -104,6 +107,7 @@ public:
     void cycle();
     
 private:
+    void masterClear();
     void pushStack();
     void popStack();
     void rollStack();
@@ -111,6 +115,7 @@ private:
     void exchangeXM();
     void shiftLeft();
     void shiftRight();
+    void invCommand(Byte value);
     void clearX();
     void convert(double reg);
     int count_digit(int number);
