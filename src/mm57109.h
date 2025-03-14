@@ -80,7 +80,12 @@ private:
         OP_CODE_PRW1,       // 75
         OP_CODE_PRW2,       // 76
         OP_CODE_NOP,        // 77
-    };
+        OP_CODE_OFFSET = 100,
+        OP_CODE_PLUS_INV = 157,
+        OP_CODE_MINUS_INV,
+        OP_CODE_TIMES_INV,
+        OP_CODE_DIVIDE_INV
+};
     typedef enum _OpCodes OpCodes;
 
 public:
@@ -91,6 +96,8 @@ public:
     bool ioGroupMm57109(int ioGroup);
     
     void write(Byte value);
+    void firstInstrucionWord(Byte value);
+    void secondInstrucionWord(Byte value);
     Byte read();
     Byte ef();
     void hold(Byte value);
@@ -105,7 +112,7 @@ private:
     void shiftLeft();
     void shiftRight();
     void clearX();
-    void convertX();
+    void convert(double reg);
     int count_digit(int number);
     void digitEntry(int number);
     void mantissaEntry(int number);
@@ -116,7 +123,7 @@ private:
     int cycleCounter_;
     
     NcuRegister inputRegisterX;
-    Byte outputRegisterX[12];
+    Byte outputRegister[12];
     double registerX;
     double registerY;
     double registerZ;
@@ -124,11 +131,13 @@ private:
     double registerM;
 
     OpCodes lastOpCode_;
-    bool firstOutReceived_;
+    int mathOpCode_;
+    bool firstInstructionWord_;
 
     Byte rdy_;
     Byte hold_;
     Byte mdc_;
+    Byte outMode_;
     int inputDigitNumber_;
     int outputDigitNumber_;
     int dpNumber_;

@@ -46,8 +46,10 @@ Mm57109Instance::Mm57109Instance()
     dpNumber_ = 0;
     eeNumber_ = -1;
     linkDigit_ = 0;
+    outMode_ = 0x40;
     floatingPointMode_ = true;
-    firstOutReceived_ = false;
+    firstInstructionWord_ = true;
+    cycleCounter_ = -1;
 }
 
 void Mm57109Instance::configureMm57109(Mm57109Configuration mm57109Configuration)
@@ -58,7 +60,7 @@ void Mm57109Instance::configureMm57109(Mm57109Configuration mm57109Configuration
     p_Computer->setOutType(&mm57109Configuration.ioGroupVector, mm57109Configuration.output, "write");
     p_Computer->setInType(&mm57109Configuration.ioGroupVector, mm57109Configuration.input, "read");
     p_Computer->setEfType(&mm57109Configuration.ioGroupVector, mm57109Configuration.ef, "rdy");
-//    p_Computer->setCycleType(CYCLE_TYPE_MDU, MDU_CYCLE);
+    p_Computer->setCycleType(CYCLE_TYPE_MDU, MM_CYCLE);
  
     p_Main->message("");
 }
@@ -81,10 +83,21 @@ bool Mm57109Instance::ioGroupMm57109(int ioGroup)
 }
 
 void Mm57109Instance::write(Byte value)
-{    
+{
+    if (firstInstructionWord_)
+        firstInstrucionWord(value);
+    else
+        secondInstrucionWord(value);
+}
+
+void Mm57109Instance::firstInstrucionWord(Byte value)
+{
+    firstInstructionWord_ = true;
+
     OpCodes opCode = (OpCodes)(value & 0x3f);
-    switch (opCode) // first pass
+    switch (opCode)
     {
+        // Digit Entry commands:
         case OP_CODE_DIGIT_0:
         case OP_CODE_DIGIT_1:
         case OP_CODE_DIGIT_2:
@@ -96,147 +109,171 @@ void Mm57109Instance::write(Byte value)
         case OP_CODE_DIGIT_8:
         case OP_CODE_DIGIT_9:
             digitEntry(opCode);
-            lastOpCode_ = opCode;
-        return;
+        break;
 
         case OP_CODE_DP:
             dpNumber_ = inputDigitNumber_;
-            lastOpCode_ = opCode;
-        return;
-            
+        break;
+
         case OP_CODE_EE:
             eeNumber_ = 1;
-            lastOpCode_ = opCode;
-        return;
-        
+        break;
+            
         case OP_CODE_CS:
             if (eeNumber_ == 0)
                 inputRegisterX.mantissaSign = -inputRegisterX.mantissaSign;
             else
                 inputRegisterX.exponentSign = -inputRegisterX.exponentSign;
-            lastOpCode_ = opCode;
-        return;   
-        
+        break;
+
         case OP_CODE_PI:
             registerX = 3.1415927;
-            lastOpCode_ = opCode;
-        return;
-        
-        case OP_CODE_AIN:
-            lastOpCode_ = opCode;
-        return;
-        
-        case OP_CODE_HALT:
-            lastOpCode_ = opCode;
-        return;
-    }
-    if (inputDigitNumber_ != 0)
-        stopDigitEntry();
+            convert(registerX);
+            rdy_ = 0;
+        break;
 
-    switch (opCode) // second pass
-    {
-        // Digit Entry commands:
+        case OP_CODE_HALT:
+        case OP_CODE_NOP:
+            // TO BE ADDED
+        break;
         
         case OP_CODE_ENTER:
+            stopDigitEntry();
             pushStack();
         break;
-
+        
+        // Math commands:
+            
         case OP_CODE_PLUS:
-            registerX = registerY + registerX;
-            popStack();
+        case OP_CODE_MINUS:
+        case OP_CODE_TIMES:
+        case OP_CODE_DIVIDE:
+        case OP_CODE_YX:
+        case OP_CODE_1X:
+        case OP_CODE_SQRT:
+        case OP_CODE_SQ:
+            stopDigitEntry();
+            mathOpCode_ = opCode;
+            cycleCounter_ = 1;
         break;
 
-        case OP_CODE_MINUS:
-            registerX = registerY - registerX;
-            popStack();
+        case OP_CODE_INV:
+            stopDigitEntry();
+            firstInstructionWord_ = false;
         break;
-        
-        case OP_CODE_TIMES:
-            registerX = registerY * registerX;
-            popStack();
-        break;
-        
-        case OP_CODE_DIVIDE:
-            registerX = registerY / registerX;
-            popStack();
-        break;
-        
-        case OP_CODE_YX:
-            registerX = pow(registerY, registerX); 
-            popStack();
-        break;
-        
+
         // Move commands:
 
         case OP_CODE_ROLL:
+            stopDigitEntry();
             rollStack();
         break;
         
         case OP_CODE_POP:
+            stopDigitEntry();
             popStack();
         break;
         
         case OP_CODE_XEY:
+            stopDigitEntry();
             exchangeXY();
         break;
         
         case OP_CODE_XEM:
+            stopDigitEntry();
             exchangeXM();
         break;
 
         case OP_CODE_MS:
+            stopDigitEntry();
             registerM = registerX;
         break;
 
         case OP_CODE_MR:
+            stopDigitEntry();
             pushStack();
             registerX = registerM;
         break;
 
         case OP_CODE_LSH:
+            stopDigitEntry();
             shiftLeft();
         break;
 
         case OP_CODE_RSH:
+            stopDigitEntry();
             shiftRight();
         break;
 
         // Mode control commands:
 
         case OP_CODE_TOGM:
+            stopDigitEntry();
             floatingPointMode_ = !floatingPointMode_;
         break;
 
-        // Mode control commands:
+        // Multi-digit commands:
 
         case OP_CODE_OUT:
-            if (firstOutReceived_)
-            {
-                outputDigitNumber_ = 0;
-                convertX();            
-                rdy_ = 0;
-                firstOutReceived_ = false;
-            }
-            else
-                firstOutReceived_ = true;
+            stopDigitEntry();
+            firstInstructionWord_ = false;
         break;
+
+        // Single-digit commands:
+            
+        case OP_CODE_AIN:
+            // TO BE ADDED
+        break;
+                
     }
     lastOpCode_ = opCode;
 }
 
+void Mm57109Instance::secondInstrucionWord(Byte value)
+{
+    firstInstructionWord_ = true;
+
+    OpCodes opCode = (OpCodes)(value & 0x3f);
+    switch (opCode)
+    {
+        case OP_CODE_OUT:
+            if (lastOpCode_ != OP_CODE_OUT)
+                return;
+            
+            outputDigitNumber_ = 0;
+            outMode_ = 0x90;
+        break;
+            
+        case OP_CODE_PLUS:
+        case OP_CODE_MINUS:
+        case OP_CODE_TIMES:
+        case OP_CODE_DIVIDE:
+            if (lastOpCode_ != OP_CODE_INV)
+                return;
+
+            mathOpCode_ = opCode+OP_CODE_OFFSET;
+            cycleCounter_ = 1;
+        break;
+
+        default:
+        break;
+    }
+}
+    
 Byte Mm57109Instance::read()
 {
-    Byte returnValue = 0x40;
-    if (rdy_ == 0)
-        returnValue = outputRegisterX[outputDigitNumber_++] | 0x90;
+    Byte returnValue = 0;
+    if (outMode_ == 0x90)
+        returnValue = outputRegister[outputDigitNumber_++];
     
     if (outputDigitNumber_ == 10)
     {
         rdy_ = 1;
         outputDigitNumber_ = 0;
+        outMode_ = 0x40;
     }
     
-    return returnValue;
+    return returnValue | outMode_;
 }
 
 Byte Mm57109Instance::ef()
@@ -256,7 +293,81 @@ void Mm57109Instance::cycle()
         cycleCounter_--;
         if (cycleCounter_ == 0)
         {
+            switch (mathOpCode_) // math functions
+            {
+                // Math commands:
+                    
+                case OP_CODE_PLUS:
+                    registerX = registerY + registerX;
+                    convert(registerX);
+                    popStack();
+                break;
+
+                case OP_CODE_PLUS_INV:
+                    registerM = registerM + registerX;
+                    convert(registerM);
+                break;
+
+                case OP_CODE_MINUS:
+                    registerX = registerY - registerX;
+                    convert(registerX);
+                    popStack();
+                break;
+                
+                case OP_CODE_MINUS_INV:
+                    registerM = registerM - registerX;
+                    convert(registerM);
+                break;
+                    
+                case OP_CODE_TIMES:
+                    registerX = registerY * registerX;
+                    convert(registerX);
+                    popStack();
+                break;
+                
+                case OP_CODE_TIMES_INV:
+                    registerM = registerM * registerX;
+                    convert(registerM);
+                break;
+                
+                case OP_CODE_DIVIDE:
+                    registerX = registerY / registerX;
+                    convert(registerX);
+                    popStack();
+                break;
+                
+                case OP_CODE_DIVIDE_INV:
+                    registerM = registerM / registerX;
+                    convert(registerM);
+                break;
+                
+                case OP_CODE_YX:
+                    registerX = pow(registerY, registerX);
+                    convert(registerX);
+                    popStack();
+                break;
+
+                case OP_CODE_1X:
+                    registerX = 1 / registerX;
+                    convert(registerX);
+                break;
+                    
+                case OP_CODE_SQRT:
+                    registerX = sqrt(registerX);
+                    convert(registerX);
+                break;
+                    
+                case OP_CODE_SQ:
+                    registerX = pow(registerX, 2);
+                    convert(registerX);
+                break;
+
+                default:
+                break;
+            }
         }
+        rdy_ = 0;
+        cycleCounter_ = -1;
     }
 }
 
@@ -301,8 +412,8 @@ void Mm57109Instance::exchangeXM()
 void Mm57109Instance::shiftLeft()
 {
     registerX = registerX * 10;
-    int intPartRegisterX = (int) registerX;
-    int numberOfDigits = count_digit(intPartRegisterX);
+    int intPartRegister = (int) registerX;
+    int numberOfDigits = count_digit(intPartRegister);
 
   //  int removeDigit =
 }
@@ -310,8 +421,8 @@ void Mm57109Instance::shiftLeft()
 void Mm57109Instance::shiftRight()
 {
     registerX = registerX / 10;
-    int intPartRegisterX = (int) registerX;
-    int numberOfDigits = count_digit(intPartRegisterX);
+    int intPartRegister = (int) registerX;
+    int numberOfDigits = count_digit(intPartRegister);
 
 }
 
@@ -326,42 +437,35 @@ void Mm57109Instance::clearX()
     registerX = 0;
 }
 
-void Mm57109Instance::convertX()
+void Mm57109Instance::convert(double reg)
 {
-    if (registerX < 0)
+    if (reg < 0)
     {
-        outputRegisterX[0] = 0x8;
-        registerX = -registerX;
+        outputRegister[0] = 0x8;
+        reg = -reg;
     }
     else
-        outputRegisterX[0] = 0;
+        outputRegister[0] = 0;
 
-    outputRegisterX[1] = 4;
-    outputRegisterX[2] = 1;
-    outputRegisterX[3] = 2;
-    outputRegisterX[4] = 3;
-    outputRegisterX[5] = 4;
-    outputRegisterX[6] = 5;
-    outputRegisterX[7] = 6;
-    outputRegisterX[8] = 7;
-    outputRegisterX[9] = 8;
-
-    int intPartRegisterX = abs((int) registerX);
-    int numberOfDigits = count_digit(intPartRegisterX);
+    int intPartRegister = abs((int) reg);
+    int numberOfDigits = count_digit(intPartRegister);
     if (numberOfDigits > 8)
         numberOfDigits = 8;
-    outputRegisterX[1] = 12-numberOfDigits;
-    intPartRegisterX = (double) registerX * pow(10, 8-numberOfDigits);
+    outputRegister[1] = 12-numberOfDigits;
+    intPartRegister = (double) reg * pow(10, 8-numberOfDigits);
     for (int digit=9; digit>1; digit--)
     {
-        outputRegisterX[digit] = intPartRegisterX % 10;
-        intPartRegisterX = intPartRegisterX / 10;
+        outputRegister[digit] = intPartRegister % 10;
+        intPartRegister = intPartRegister / 10;
     }
 }
 
 int Mm57109Instance::count_digit(int number) 
 {
-   return int(log10(number) + 1);
+    if (number == 0)
+        return 1;
+    else
+        return int(log10(number) + 1);
 }
 
 void Mm57109Instance::digitEntry(int number)
@@ -380,7 +484,6 @@ void Mm57109Instance::mantissaEntry(int number)
             if (lastOpCode_ != OP_CODE_ENTER)
                 pushStack();
             clearX();
-            firstOutReceived_ = false;
         break;
 
         case 8:
@@ -401,6 +504,9 @@ void Mm57109Instance::exponentEntry(int number)
 
 void Mm57109Instance::stopDigitEntry()
 {
+    if (inputDigitNumber_ == 0)
+        return;
+    
     if (floatingPointMode_)
     {
         if (dpNumber_ != 0)

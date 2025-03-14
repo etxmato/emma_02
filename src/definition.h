@@ -776,6 +776,7 @@ enum
     MM_INPUT,
     MM_OUTPUT,
     MM_EF,
+    MM_CYCLE,
 
     // TIMER I/O
     TIMER_COUNTER_HIGH_A,

@@ -3133,6 +3133,10 @@ void Computer::cycle(int type)
             cdp1855InstancePointer->cycle();
         break;
 
+        case MM_CYCLE:
+            mm57109InstancePointer->cycle();
+        break;
+
         case KEY_FRED_CYCLE:
             fredkeypadPointer->cycle();
         break;
