@@ -112,7 +112,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "620"
             endingLineNumber = "620"
-            landmarkName = "Mm57109Instance::mantissaEntry(number)"
+            landmarkName = "Mm57109Instance::exponentConvert(reg)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -144,7 +144,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "650"
             endingLineNumber = "650"
-            landmarkName = "Mm57109Instance::stopDigitEntry()"
+            landmarkName = "Mm57109Instance::exponentConvertBelowOne(reg, numberOfDigits)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -192,7 +192,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "651"
             endingLineNumber = "651"
-            landmarkName = "Mm57109Instance::stopDigitEntry()"
+            landmarkName = "Mm57109Instance::exponentConvertBelowOne(reg, numberOfDigits)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

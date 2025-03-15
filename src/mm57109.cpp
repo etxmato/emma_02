@@ -639,11 +639,11 @@ void Mm57109Instance::exponentConvertAboveOne(double reg, int numberOfDigits)
     }
 }
 
-void Mm57109Instance::exponentConvertBelowOne(double reg, int numberOfDigits)
+void Mm57109Instance::exponentConvertBelowOne(double reg)
 {
     int exponent = 0;
     int intPartRegister = (int) reg;
-    while (intPartRegister > 0)
+    while (intPartRegister == 0)
     {
         exponent++;
         reg *= 10;
@@ -655,8 +655,9 @@ void Mm57109Instance::exponentConvertBelowOne(double reg, int numberOfDigits)
 
     for (int digit=4; digit<12; digit++)
     {
-        outputRegister[digit] = reg % 10;
+        outputRegister[digit] = intPartRegister % 10;
         reg *= 10;
+        intPartRegister = (int) reg;
     }
 }
 
