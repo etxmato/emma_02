@@ -118,6 +118,8 @@ private:
     void invCommand(Byte value);
     void clearX();
     void convert(double reg);
+    void mantissaConvert(double reg);
+    void exponentConvert(double reg);
     int count_digit(int number);
     void digitEntry(int number);
     void mantissaEntry(int number);
