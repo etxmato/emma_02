@@ -588,7 +588,7 @@ void Mm57109Instance::mantissaConvert(double reg)
 {
     if (reg < 0)
     {
-        outputRegister[0] = 0x8;
+        outputRegister[0] = 8;
         reg = -reg;
     }
     else
@@ -636,6 +636,27 @@ void Mm57109Instance::exponentConvertAboveOne(double reg, int numberOfDigits)
     {
         outputRegister[digit] = intPartRegister % 10;
         intPartRegister = intPartRegister / 10;
+    }
+}
+
+void Mm57109Instance::exponentConvertBelowOne(double reg, int numberOfDigits)
+{
+    int exponent = 0;
+    int intPartRegister = (int) reg;
+    while (intPartRegister > 0)
+    {
+        exponent++;
+        reg *= 10;
+        intPartRegister = (int) reg;
+    }
+    outputRegister[0] = (exponent/10) % 10;
+    outputRegister[1] = exponent % 10;
+    outputRegister[2] = 8;
+
+    for (int digit=4; digit<12; digit++)
+    {
+        outputRegister[digit] = reg % 10;
+        reg *= 10;
     }
 }
 
