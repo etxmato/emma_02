@@ -594,7 +594,7 @@ void Mm57109Instance::mantissaConvert(double reg)
     else
         outputRegister[0] = 0;
 
-    int intPartRegister = abs((int) reg);
+    int intPartRegister = (int) reg;
     int numberOfDigits = count_digit(intPartRegister);
     if (numberOfDigits > mdc_)
         numberOfDigits = mdc_;
@@ -609,22 +609,30 @@ void Mm57109Instance::mantissaConvert(double reg)
 
 void Mm57109Instance::exponentConvert(double reg)
 {
-    if (reg < 0)
-    {
-        outputRegister[0] = 0x8;
-        reg = -reg;
-    }
-    else
-        outputRegister[0] = 0;
-
-    int intPartRegister = abs((int) reg);
+    outputRegister[3] = 0x9b;
+    int intPartRegister = (int) reg;
     int numberOfDigits = count_digit(intPartRegister);
     
+    if (numberOfDigits == 0)
+        exponentConvertBelowOne(reg);
+    else
+        exponentConvertAboveOne(reg, numberOfDigits);
+}
+
+void Mm57109Instance::exponentConvertAboveOne(double reg, int numberOfDigits)
+{
+    numberOfDigits -= 1;
+    outputRegister[0] = (numberOfDigits/10) % 10;
+    outputRegister[1] = numberOfDigits % 10;
+    outputRegister[2] = 0;
+
+    reg = reg / pow(10, numberOfDigits-mdc_);
+    int intPartRegister = (int) reg;
+    numberOfDigits = count_digit(intPartRegister);
+ 
     if (numberOfDigits > mdc_)
         numberOfDigits = mdc_;
-    outputRegister[1] = 12-numberOfDigits;
-    intPartRegister = (double) reg * pow(10, mdc_-numberOfDigits);
-    for (int digit=9; digit>1; digit--)
+    for (int digit=11; digit>3; digit--)
     {
         outputRegister[digit] = intPartRegister % 10;
         intPartRegister = intPartRegister / 10;
