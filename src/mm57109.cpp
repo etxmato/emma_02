@@ -619,6 +619,7 @@ void Mm57109Instance::exponentConvert(double reg)
 
     int intPartRegister = abs((int) reg);
     int numberOfDigits = count_digit(intPartRegister);
+    
     if (numberOfDigits > mdc_)
         numberOfDigits = mdc_;
     outputRegister[1] = 12-numberOfDigits;
