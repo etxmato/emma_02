@@ -124,6 +124,8 @@ private:
     void digitEntry(int number);
     void mantissaEntry(int number);
     void exponentEntry(int number);
+    void exponentConvertAboveOne(double reg, int numberOfDigits);
+    void exponentConvertBelowOne(double reg);
     void stopDigitEntry();
     Mm57109Configuration mm57109Configuration_;
     
