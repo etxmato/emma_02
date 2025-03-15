@@ -581,10 +581,33 @@ void Mm57109Instance::convert(double reg)
     if (floatingPointMode_)
         mantissaConvert(reg);
     else
-        exponentConvert(
+        exponentConvert(reg);
 }
 
 void Mm57109Instance::mantissaConvert(double reg)
+{
+    if (reg < 0)
+    {
+        outputRegister[0] = 0x8;
+        reg = -reg;
+    }
+    else
+        outputRegister[0] = 0;
+
+    int intPartRegister = abs((int) reg);
+    int numberOfDigits = count_digit(intPartRegister);
+    if (numberOfDigits > mdc_)
+        numberOfDigits = mdc_;
+    outputRegister[1] = 12-numberOfDigits;
+    intPartRegister = (double) reg * pow(10, mdc_-numberOfDigits);
+    for (int digit=9; digit>1; digit--)
+    {
+        outputRegister[digit] = intPartRegister % 10;
+        intPartRegister = intPartRegister / 10;
+    }
+}
+
+void Mm57109Instance::exponentConvert(double reg)
 {
     if (reg < 0)
     {
