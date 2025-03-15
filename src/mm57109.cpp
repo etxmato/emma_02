@@ -578,6 +578,14 @@ void Mm57109Instance::clearX()
 
 void Mm57109Instance::convert(double reg)
 {
+    if (floatingPointMode_)
+        mantissaConvert(reg);
+    else
+        exponentConvert(
+}
+
+void Mm57109Instance::mantissaConvert(double reg)
+{
     if (reg < 0)
     {
         outputRegister[0] = 0x8;
