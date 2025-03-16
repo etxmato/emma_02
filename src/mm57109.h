@@ -95,7 +95,7 @@ public:
     Mm57109Instance();
     ~Mm57109Instance() {};
     
-    void configureMm57109(Mm57109Configuration mm57109Configuration);
+    void configureMm57109(Mm57109Configuration mm57109Configuration, double cpuClock, double ncuClock);
     bool ioGroupMm57109(int ioGroup);
     
     void write(Byte value);
