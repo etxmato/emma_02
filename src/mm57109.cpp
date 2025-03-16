@@ -35,6 +35,82 @@
 
 int factor[] = {1, 10, 100, 1000, 10000, 100000, 1000000, 10000000};
 
+int intructionCycleTime[] =
+{
+    238, //  OP_CODE_DIGIT_0
+    238, //  OP_CODEDIGIT_1
+    238, //  OP_CODEDIGIT_2
+    238, //  OP_CODEDIGIT_3
+    238, //  OP_CODEDIGIT_4
+    238, //  OP_CODEDIGIT_5
+    238, //  OP_CODEDIGIT_6
+    238, //  OP_CODEDIGIT_7
+    238, //  OP_CODEDIGIT_8
+    238, //  OP_CODEDIGIT_9
+    152, //  OP_CODEDP
+    151, //  OP_CODEEE
+    166, //  OP_CODECS
+    1312, //  OP_CODEPI
+    -1, //  OP_CODEAIN
+    134, //  OP_CODEHALT
+    -1, //  OP_CODETJC,        // 20
+    -1, //  OP_CODETX0,        // 21
+    -1, //  OP_CODETXLT0,      // 22
+    -1, //  OP_CODETXF,        // 23
+    -1, //  OP_CODETERR,       // 24
+    -1, //  OP_CODEJMP,        // 25
+    -1, //  OP_CODEOUT,        // 26
+    -1, //  OP_CODEIN,         // 27
+    -1, //  OP_CODESMDC,       // 30
+    -1, //  OP_CODEIBNZ,       // 31
+    -1, //  OP_CODEDBNZ,       // 32
+    -1, //  OP_CODEXEM,        // 33
+    -1, //  OP_CODEMS,         // 34
+    -1, //  OP_CODEMR,         // 35
+    -1, //  OP_CODELSH,        // 36
+    -1, //  OP_CODERSH,        // 37
+    -1, //  OP_CODEINV,        // 40
+    -1, //  OP_CODEENTER,      // 41
+    157, //  OP_CODETOGM,       // 42
+    -1, //  OP_CODEROLL,       // 43
+    56200, //  OP_CODESIN
+    56200, //  OP_CODECOS
+    35000, //  OP_CODETAN
+    -1, //  OP_CODESF1,        // 47
+    -1, //  OP_CODEPF1,        // 50
+    -1, //  OP_CODESF2,        // 51
+    -1, //  OP_CODEPF2,        // 52
+    -1, //  OP_CODEECLR,       // 53
+    9600, //  OP_CODERTD,        // 54
+    9600, //  OP_CODEDTR,        // 55
+    -1, //  OP_CODEPOP,        // 56
+    -1, //  OP_CODEMCLR,       // 57
+    -1, //  OP_CODEXEY,        // 60
+    30800, //  OP_CODEEX,         // 61
+    27400, //  OP_CODE10X,        // 62
+    3000, //  OP_CODESQ,         // 63
+    7000, //  OP_CODESQRT,       // 64
+    24800, //  OP_CODELN,         // 65
+    30700, //  OP_CODELOG,        // 66
+    4500, //  OP_CODE1X,         // 67
+    55400, //  OP_CODEYX,         // 70
+    2200, //  OP_CODEPLUS,       // 71
+    2200, //  OP_CODEMINUS,      // 72
+    3200, //  OP_CODETIMES,      // 73
+    7800, //  OP_CODEDIVIDE,     // 74
+    -1, //  OP_CODEPRW1,       // 75
+    -1, //  OP_CODEPRW2,       // 76
+    -1, //  OP_CODENOP,        // 77
+    -1, //  OP_CODEOFFSET = 100,
+    54000, //  OP_CODESIN_INV = 136,
+    54000, //  OP_CODECOS_INV,
+    30200, //  OP_CODETAN_INV,
+    1700, //  OP_CODEPLUS_INV = 157,
+    1700, //  OP_CODEMINUS_INV,
+    2700, //  OP_CODETIMES_INV,
+    7300, //  OP_CODEDIVIDE_INV
+};
+
 Mm57109Instance::Mm57109Instance()
 {
     inputDigitNumber_ = 0;
@@ -63,7 +139,7 @@ void Mm57109Instance::masterClear()
     floatingPointMode_ = true;
 }
 
-void Mm57109Instance::configureMm57109(Mm57109Configuration mm57109Configuration, double cpuClock, double ncuClock)
+void Mm57109Instance::configureMm57109(Mm57109Configuration mm57109Configuration)
 {
     mm57109Configuration_ = mm57109Configuration;    
     p_Main->configureMessage(&mm57109Configuration.ioGroupVector, "MM57109 Number Cruncher Unit");
@@ -76,9 +152,12 @@ void Mm57109Instance::configureMm57109(Mm57109Configuration mm57109Configuration
     p_Main->message("");
 }
 
-void Mm57109Instance::setSpeedFactor(, double cpuClock, double ncuClock)
+void Mm57109Instance::setSpeedFactor(double cpuClock, double ncuClock)
 {
-    int cycleTime = 1 / ncuClock;
+    double ncuCycleTime = 4 / ncuClock;
+    double cpuCyleTime = 8 / cpuClock;
+    
+    speedFactor_ = ncuCycleTime / cpuCyleTime;
 }
 
 bool Mm57109Instance::ioGroupMm57109(int ioGroup)
@@ -124,33 +203,14 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         case OP_CODE_DIGIT_7:
         case OP_CODE_DIGIT_8:
         case OP_CODE_DIGIT_9:
-            digitEntry(opCode);
-        break;
-
         case OP_CODE_DP:
-            dpNumber_ = inputDigitNumber_;
-            convert(registerX);
-        break;
-
         case OP_CODE_EE:
-            eeNumber_ = 0;
-        break;
-            
         case OP_CODE_CS:
-            if (eeNumber_ == -1)
-                inputRegisterX.mantissaSign = -inputRegisterX.mantissaSign;
-            else
-                inputRegisterX.exponentSign = -inputRegisterX.exponentSign;
-            convert(registerX);
-        break;
-
         case OP_CODE_PI:
-            registerX = 3.1415927;
-            convert(registerX);
-        break;
-
         case OP_CODE_HALT:
-            // TO BE ADDED
+            outMode_ = 0;
+            mathOpCode_ = opCode;
+            cycleCounter_ = intructionCycleTime[mathOpCode_]*speedFactor_;
         break;
 
         case OP_CODE_NOP:
@@ -161,7 +221,7 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         case OP_CODE_ENTER:
             stopDigitEntry();
             pushStack();
-            rdy_ = 0;
+//            rdy_ = 0;
         break;
         
         // Math commands:
@@ -185,7 +245,7 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         case OP_CODE_RTD:
             stopDigitEntry();
             mathOpCode_ = opCode;
-            cycleCounter_ = 100;
+            cycleCounter_ = intructionCycleTime[mathOpCode_]*speedFactor_;
         break;
 
         // Move commands:
@@ -275,7 +335,8 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
 
         case OP_CODE_TOGM:
             stopDigitEntry();
-            floatingPointMode_ = !floatingPointMode_;
+            mathOpCode_ = opCode;
+            cycleCounter_ = intructionCycleTime[mathOpCode_]*speedFactor_;
         break;
 
         case OP_CODE_SMDC:
@@ -359,6 +420,53 @@ void Mm57109Instance::cycle()
         {
             switch (mathOpCode_) // math functions
             {
+                // Digit Entry commands:
+                    
+                case OP_CODE_DIGIT_0:
+                case OP_CODE_DIGIT_1:
+                case OP_CODE_DIGIT_2:
+                case OP_CODE_DIGIT_3:
+                case OP_CODE_DIGIT_4:
+                case OP_CODE_DIGIT_5:
+                case OP_CODE_DIGIT_6:
+                case OP_CODE_DIGIT_7:
+                case OP_CODE_DIGIT_8:
+                case OP_CODE_DIGIT_9:
+                    digitEntry(mathOpCode_);
+                    outMode_ = 0x40;
+                break;
+
+                case OP_CODE_DP:
+                    dpNumber_ = inputDigitNumber_;
+                    convert(registerX);
+                    outMode_ = 0x40;
+                break;
+
+                case OP_CODE_EE:
+                    eeNumber_ = 0;
+                    outMode_ = 0x40;
+                break;
+                    
+                case OP_CODE_CS:
+                    if (eeNumber_ == -1)
+                        inputRegisterX.mantissaSign = -inputRegisterX.mantissaSign;
+                    else
+                        inputRegisterX.exponentSign = -inputRegisterX.exponentSign;
+                    convert(registerX);
+                    outMode_ = 0x40;
+                break;
+
+                case OP_CODE_PI:
+                    registerX = 3.1415927;
+                    convert(registerX);
+                    outMode_ = 0x40;
+                break;
+
+                case OP_CODE_HALT:
+                    // TO BE ADDED
+                    outMode_ = 0x40;
+                break;
+
                 // Math commands:
                     
                 case OP_CODE_PLUS:
@@ -486,12 +594,18 @@ void Mm57109Instance::cycle()
                     convert(registerX);
                 break;
 
+                // Mode control commands:
+
+                case OP_CODE_TOGM:
+                    floatingPointMode_ = !floatingPointMode_;
+                break;
+
                 default:
                 break;
             }
             cycleCounter_ = -1;
+            rdy_ = 0;
         }
-        rdy_ = 0;
     }
 }
 
@@ -563,7 +677,7 @@ void Mm57109Instance::shiftRight()
     if (outputRegister[0] == 8)
         inputRegisterX.mantissaSign = -1;
     
-    registerX = (double) inputRegisterX.mantissa * pow(10, count_digit(inputRegisterX.mantissa)-outputRegister[1]-3);
+    registerX = (double) inputRegisterX.mantissa * pow(10, (int)count_digit(inputRegisterX.mantissa)-outputRegister[1]-3);
     registerX *= inputRegisterX.mantissaSign;
 
     linkDigit_ = 0;
@@ -587,7 +701,7 @@ void Mm57109Instance::invCommand(Byte value)
         case OP_CODE_COS:
         case OP_CODE_TAN:
             mathOpCode_ = value+OP_CODE_OFFSET;
-            cycleCounter_ = 1;
+            cycleCounter_ = intructionCycleTime[mathOpCode_]*speedFactor_;
         break;
 
         default: 

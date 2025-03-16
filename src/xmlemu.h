@@ -104,6 +104,7 @@ public:
     void cycleInt();
     void picInterruptRequest(int type, bool state, int picNumber);
     void cycleLed();
+    void setClockRate(double clock);
     void printOutPecom(int q);
     void onXmlF4(bool forceStart);
     void slotOut(Byte value);

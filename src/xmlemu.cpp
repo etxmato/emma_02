@@ -2907,6 +2907,13 @@ void Computer::out(Byte port, Word address, Byte value)
     }
 }
 
+void Computer::setClockRate(double clock)
+{
+    setSoundClockRate(clock);
+    if (currentComputerConfiguration.mm57109Configuration.defined)
+        mm57109InstancePointer->setSpeedFactor(computerClockSpeed_, currentComputerConfiguration.mm57109Configuration.clock);
+}
+
 void Computer::printOutPecom(int q)
 {
     if (!currentComputerConfiguration.qSerialPrinterConfiguration.defined)
@@ -7006,6 +7013,7 @@ void Computer::configureExtensions()
     {
         mm57109InstancePointer = new Mm57109Instance();
         mm57109InstancePointer->configureMm57109(currentComputerConfiguration.mm57109Configuration);
+        mm57109InstancePointer->setSpeedFactor(computerClockSpeed_, currentComputerConfiguration.mm57109Configuration.clock);
     }
 
     if (currentComputerConfiguration.ay_3_8912Configuration.defined)

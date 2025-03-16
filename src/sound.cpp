@@ -200,7 +200,7 @@ void Sound::initSound(double percentageClock, int bass, int treble, int toneChan
     }
 #endif
 
-    setClockRate(computerConfiguration.clockSpeed_);
+    p_Computer->setSoundClockRate(computerConfiguration.clockSpeed_);
     if (soundBufferPointerLeft->set_sample_rate(SAMPLE_RATE))
         p_Main->message("Sound error: out of memory");
     if (soundBufferPointerRight->set_sample_rate(SAMPLE_RATE))
@@ -1344,7 +1344,7 @@ void Sound::setVolume(int volume)
     audioPointer->setAudioInGain(gain_);
 }
 
-void Sound::setClockRate(double clock)
+void Sound::setSoundClockRate(double clock)
 {
     soundClock_ = clock;
     soundBufferPointerLeft->clock_rate((double)(soundClock_/CLOCK_FACTOR) * percentageClock_ * 1000000);
@@ -1355,7 +1355,7 @@ void Sound::setPercentageClock(double percentage)
 {
     percentageClock_ = percentage;
     if ((percentageClock_*soundClock_) < 0.000045)  percentageClock_ = (double) 0.000045/soundClock_;
-    setClockRate(soundClock_);
+    p_Computer->setClockRate(soundClock_);
 }
 
 bool Sound::isSaving()

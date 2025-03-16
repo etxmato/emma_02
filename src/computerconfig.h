@@ -931,6 +931,7 @@ public:
     IoPort output;
 
     EfFlag ef;
+    double clock;
 };
 
 // Printer configuration class definitions:

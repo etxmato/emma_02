@@ -89,13 +89,14 @@ private:
         OP_CODE_TIMES_INV,
         OP_CODE_DIVIDE_INV
 };
-    typedef enum _OpCodes OpCodes;
+typedef enum _OpCodes OpCodes;
 
 public:
     Mm57109Instance();
     ~Mm57109Instance() {};
     
-    void configureMm57109(Mm57109Configuration mm57109Configuration, double cpuClock, double ncuClock);
+    void configureMm57109(Mm57109Configuration mm57109Configuration);
+    void setSpeedFactor(double cpuClock, double ncuClock);
     bool ioGroupMm57109(int ioGroup);
     
     void write(Byte value);
@@ -156,6 +157,7 @@ private:
     Byte linkDigit_;
 
     bool floatingPointMode_;
+    double speedFactor_;
 };
 
 
