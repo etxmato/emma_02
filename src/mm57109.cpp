@@ -35,7 +35,7 @@
 
 int factor[] = {1, 10, 100, 1000, 10000, 100000, 1000000, 10000000};
 
-Mm57109Instance::Mm57109Instance(double cpuClock, double ncuClock)
+Mm57109Instance::Mm57109Instance()
 {
     inputDigitNumber_ = 0;
     outputDigitNumber_ = 0;
@@ -45,8 +45,6 @@ Mm57109Instance::Mm57109Instance(double cpuClock, double ncuClock)
     outMode_ = 0x40;
     firstInstructionWord_ = true;
     cycleCounter_ = -1;
-    
-    int cycleTime = 1 / ncuClock;
 
     masterClear();
 }
@@ -65,7 +63,7 @@ void Mm57109Instance::masterClear()
     floatingPointMode_ = true;
 }
 
-void Mm57109Instance::configureMm57109(Mm57109Configuration mm57109Configuration)
+void Mm57109Instance::configureMm57109(Mm57109Configuration mm57109Configuration, double cpuClock, double ncuClock)
 {
     mm57109Configuration_ = mm57109Configuration;    
     p_Main->configureMessage(&mm57109Configuration.ioGroupVector, "MM57109 Number Cruncher Unit");
@@ -76,6 +74,11 @@ void Mm57109Instance::configureMm57109(Mm57109Configuration mm57109Configuration
     p_Computer->setCycleType(CYCLE_TYPE_MDU, MM_CYCLE);
  
     p_Main->message("");
+}
+
+void Mm57109Instance::setSpeedFactor(, double cpuClock, double ncuClock)
+{
+    int cycleTime = 1 / ncuClock;
 }
 
 bool Mm57109Instance::ioGroupMm57109(int ioGroup)
