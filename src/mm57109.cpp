@@ -54,6 +54,7 @@ void Mm57109Instance::masterClear()
     rdy_ = 1;
     hold_ = 1;
     clearX();
+    registerForOutput = 0;
     registerY = 0;
     registerZ = 0;
     registerT = 0;
@@ -123,10 +124,11 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
 
         case OP_CODE_DP:
             dpNumber_ = inputDigitNumber_;
+            convert(registerX);
         break;
 
         case OP_CODE_EE:
-            eeNumber_ = 1;
+            eeNumber_ = 0;
         break;
             
         case OP_CODE_CS:
@@ -134,12 +136,12 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
                 inputRegisterX.mantissaSign = -inputRegisterX.mantissaSign;
             else
                 inputRegisterX.exponentSign = -inputRegisterX.exponentSign;
+            convert(registerX);
         break;
 
         case OP_CODE_PI:
             registerX = 3.1415927;
             convert(registerX);
-            rdy_ = 0;
         break;
 
         case OP_CODE_HALT:
@@ -153,7 +155,6 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         
         case OP_CODE_ENTER:
             stopDigitEntry();
-            convert(registerX);
             pushStack();
             rdy_ = 0;
         break;
@@ -529,18 +530,43 @@ void Mm57109Instance::exchangeXM()
 
 void Mm57109Instance::shiftLeft()
 {
-    registerX = registerX * 10;
-    int intPartRegister = (int) registerX;
-    int numberOfDigits = count_digit(intPartRegister);
+    lastOpCode_ = OP_CODE_ENTER;
+    mantissaConvert(registerX);
+    
+    linkDigit_ = outputRegister[2];
+    inputDigitNumber_ = 0;
+    for (int i=3; i<10; i++)
+        mantissaEntry(outputRegister[i]);
 
-  //  int removeDigit =
+    if (outputRegister[0] == 8)
+        inputRegisterX.mantissaSign = -1;
+    
+    registerX = (double) inputRegisterX.mantissa * pow(10, count_digit(inputRegisterX.mantissa)-outputRegister[1]-3);
+    registerX *= inputRegisterX.mantissaSign;
 }
 
 void Mm57109Instance::shiftRight()
 {
-    registerX = registerX / 10;
+    lastOpCode_ = OP_CODE_ENTER;
+    mantissaConvert(registerX);
+    
+    inputDigitNumber_ = 0;
+    mantissaEntry(linkDigit_);
+    for (int i=2; i<9; i++)
+        mantissaEntry(outputRegister[i]);
+
+    if (outputRegister[0] == 8)
+        inputRegisterX.mantissaSign = -1;
+    
+    registerX = (double) inputRegisterX.mantissa * pow(10, count_digit(inputRegisterX.mantissa)-outputRegister[1]-3);
+    registerX *= inputRegisterX.mantissaSign;
+
+    linkDigit_ = 0;
+    
+/*    registerX = registerX / 10;
+
     int intPartRegister = (int) registerX;
-    int numberOfDigits = count_digit(intPartRegister);
+    int numberOfDigits = count_digit(intPartRegister);*/
 
 }
 
@@ -603,7 +629,7 @@ void Mm57109Instance::mantissaConvert(double reg)
     for (int digit=9; digit>1; digit--)
     {
         outputRegister[digit] = intPartRegister % 10;
-        intPartRegister = intPartRegister / 10;
+        intPartRegister /= 10;
     }
 }
 
@@ -621,17 +647,13 @@ void Mm57109Instance::exponentConvert(double reg)
 
 void Mm57109Instance::exponentConvertAboveOne(double reg, int numberOfDigits)
 {
-    numberOfDigits -= 1;
-    outputRegister[0] = (numberOfDigits/10) % 10;
-    outputRegister[1] = numberOfDigits % 10;
+    outputRegister[0] = ((numberOfDigits-1)/10) % 10;
+    outputRegister[1] = (numberOfDigits-1) % 10;
     outputRegister[2] = 0;
 
     reg = reg / pow(10, numberOfDigits-mdc_);
     int intPartRegister = (int) reg;
-    numberOfDigits = count_digit(intPartRegister);
- 
-    if (numberOfDigits > mdc_)
-        numberOfDigits = mdc_;
+
     for (int digit=11; digit>3; digit--)
     {
         outputRegister[digit] = intPartRegister % 10;
@@ -675,6 +697,22 @@ void Mm57109Instance::digitEntry(int number)
         mantissaEntry(number);
     else
         exponentEntry(number);
+    calculateDigitEntry();
+    convert(registerX);
+}
+
+void Mm57109Instance::calculateDigitEntry()
+{
+    if (floatingPointMode_)
+    {
+        if (dpNumber_ != -1)
+            inputRegisterX.exponent = dpNumber_-inputDigitNumber_;
+        else
+            inputRegisterX.exponent = 0;
+    }
+
+    registerX = (double) inputRegisterX.mantissa * pow(10, inputRegisterX.exponent);
+    registerX *= inputRegisterX.mantissaSign;
 }
 
 void Mm57109Instance::mantissaEntry(int number)
@@ -707,16 +745,7 @@ void Mm57109Instance::stopDigitEntry()
     if (inputDigitNumber_ == 0)
         return;
     
-    if (floatingPointMode_)
-    {
-        if (dpNumber_ != -1)
-            eeNumber_ = dpNumber_-inputDigitNumber_;
-        else
-            eeNumber_ = 0;
-    }
-
-    registerX = (double) inputRegisterX.mantissa * pow(10, eeNumber_);
-    registerX *= inputRegisterX.mantissaSign;
+//    calculateDigitEntry();
     
     inputDigitNumber_ = 0;
     dpNumber_ = -1;

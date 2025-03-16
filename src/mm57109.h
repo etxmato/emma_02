@@ -5,7 +5,7 @@ struct NcuRegister
 {
     unsigned int mantissa;
     double decimal;
-    unsigned int exponent;
+    int exponent;
     unsigned int decimalPoint;
     int mantissaSign;
     int exponentSign;
@@ -122,6 +122,7 @@ private:
     void exponentConvert(double reg);
     int count_digit(int number);
     void digitEntry(int number);
+    void calculateDigitEntry();
     void mantissaEntry(int number);
     void exponentEntry(int number);
     void exponentConvertAboveOne(double reg, int numberOfDigits);
@@ -133,6 +134,7 @@ private:
     
     NcuRegister inputRegisterX;
     Byte outputRegister[12];
+    double registerForOutput;
     double registerX;
     double registerY;
     double registerZ;
