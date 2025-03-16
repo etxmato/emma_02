@@ -35,7 +35,7 @@
 
 int factor[] = {1, 10, 100, 1000, 10000, 100000, 1000000, 10000000};
 
-Mm57109Instance::Mm57109Instance()
+Mm57109Instance::Mm57109Instance(double cpuClock, double ncuClock)
 {
     inputDigitNumber_ = 0;
     outputDigitNumber_ = 0;
@@ -46,6 +46,8 @@ Mm57109Instance::Mm57109Instance()
     firstInstructionWord_ = true;
     cycleCounter_ = -1;
     
+    int cycleTime = 1 / ncuClock;
+
     masterClear();
 }
 
