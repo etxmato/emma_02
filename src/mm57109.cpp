@@ -118,16 +118,17 @@ Mm57109Instance::Mm57109Instance()
     dpNumber_ = -1;
     eeNumber_ = -1;
     linkDigit_ = 0;
-    outMode_ = 0x40;
     firstInstructionWord_ = true;
-    cycleCounter_ = -1;
-
-    masterClear();
+    instructionCycleCounter_ = -1;
+    rdyCycleCounter_ =  -1;
+    returnDigits_ = false;
+    dataReady_ = 0;
 }
 
 void Mm57109Instance::masterClear()
 {
-    rdy_ = 1;
+//    rdy_ = 0;
+    error_ = 0;
     hold_ = 1;
     clearX();
     registerForOutput = 0;
@@ -137,19 +138,24 @@ void Mm57109Instance::masterClear()
     registerM = 0;
     mdc_ = 8;
     floatingPointMode_ = true;
+    
+    readyPulse();
 }
 
 void Mm57109Instance::configureMm57109(Mm57109Configuration mm57109Configuration)
 {
-    mm57109Configuration_ = mm57109Configuration;    
+    mm57109Configuration_ = mm57109Configuration;
     p_Main->configureMessage(&mm57109Configuration.ioGroupVector, "MM57109 Number Cruncher Unit");
-
+    
     p_Computer->setOutType(&mm57109Configuration.ioGroupVector, mm57109Configuration.output, "write");
     p_Computer->setInType(&mm57109Configuration.ioGroupVector, mm57109Configuration.input, "read");
     p_Computer->setEfType(&mm57109Configuration.ioGroupVector, mm57109Configuration.ef, "rdy");
     p_Computer->setCycleType(CYCLE_TYPE_MDU, MM_CYCLE);
- 
+    
     p_Main->message("");
+    
+    masterClear();
+    rdy_ = 0x40;
 }
 
 void Mm57109Instance::setSpeedFactor(double cpuClock, double ncuClock)
@@ -179,10 +185,15 @@ bool Mm57109Instance::ioGroupMm57109(int ioGroup)
 
 void Mm57109Instance::write(Byte value)
 {
+    hold_ = 0;
+    rdy_ = 0;
+
     if (firstInstructionWord_)
         firstInstrucionWord(value);
     else
         secondInstrucionWord(value);
+    
+    hold_ = 1;
 }
 
 void Mm57109Instance::firstInstrucionWord(Byte value)
@@ -208,9 +219,8 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         case OP_CODE_CS:
         case OP_CODE_PI:
         case OP_CODE_HALT:
-            outMode_ = 0;
             mathOpCode_ = opCode;
-            cycleCounter_ = intructionCycleTime[mathOpCode_]*speedFactor_;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
         break;
 
         case OP_CODE_NOP:
@@ -221,7 +231,7 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         case OP_CODE_ENTER:
             stopDigitEntry();
             pushStack();
-//            rdy_ = 0;
+//            dataReady_ = 0;
         break;
         
         // Math commands:
@@ -245,7 +255,7 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         case OP_CODE_RTD:
             stopDigitEntry();
             mathOpCode_ = opCode;
-            cycleCounter_ = intructionCycleTime[mathOpCode_]*speedFactor_;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
         break;
 
         // Move commands:
@@ -322,6 +332,7 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         case OP_CODE_OUT:
             stopDigitEntry();
             firstInstructionWord_ = false;
+            readyPulse();
         break;
 
         // Single-digit commands:
@@ -336,17 +347,19 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         case OP_CODE_TOGM:
             stopDigitEntry();
             mathOpCode_ = opCode;
-            cycleCounter_ = intructionCycleTime[mathOpCode_]*speedFactor_;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
         break;
 
         case OP_CODE_SMDC:
             stopDigitEntry();
             firstInstructionWord_ = false;
+            readyPulse();
         break;
 
         case OP_CODE_INV:
             stopDigitEntry();
             firstInstructionWord_ = false;
+            readyPulse();
         break;
     }
     lastOpCode_ = opCode;
@@ -363,7 +376,7 @@ void Mm57109Instance::secondInstrucionWord(Byte value)
             if (opCode == OP_CODE_OUT)
             {
                 outputDigitNumber_ = 0;
-                outMode_ = 0x90;
+                returnDigits_ = true;
             }
             else
                 firstInstrucionWord(value);
@@ -388,22 +401,29 @@ void Mm57109Instance::secondInstrucionWord(Byte value)
 Byte Mm57109Instance::read()
 {
     Byte returnValue = 0;
-    if (outMode_ == 0x90)
+    if (returnDigits_ && rdy_ == 0 && error_ == 0)
         returnValue = outputRegister[outputDigitNumber_++];
     
-    if (outputDigitNumber_ == 10)
+    if ((outputDigitNumber_ == 10 && floatingPointMode_) || (outputDigitNumber_ == 12 && !floatingPointMode_))
     {
-        rdy_ = 1;
+        returnDigits_ = false;
         outputDigitNumber_ = 0;
-        outMode_ = 0x40;
     }
     
-    return returnValue | outMode_;
+    return returnValue | rdy_ | error_ | 0x90;
 }
 
 Byte Mm57109Instance::ef()
 {
-    return (mm57109Configuration_.ef.reverse^rdy_);
+    Byte ef = (error_ >> 5) | dataReady_;
+    dataReady_ = 0;
+    return (mm57109Configuration_.ef.reverse^ef);
+}
+
+void Mm57109Instance::readyPulse()
+{
+    rdy_ = 0x40;
+    rdyCycleCounter_ = 8 * speedFactor_;
 }
 
 void Mm57109Instance::hold(Byte value)
@@ -413,10 +433,16 @@ void Mm57109Instance::hold(Byte value)
 
 void Mm57109Instance::cycle()
 {
-    if (cycleCounter_ > 0)
+    if (rdyCycleCounter_ > 0)
     {
-        cycleCounter_--;
-        if (cycleCounter_ == 0)
+        rdyCycleCounter_--;
+        if (rdyCycleCounter_ == 0 && hold_ == 0)
+            rdy_ = 0;
+    }
+    if (instructionCycleCounter_ > 0)
+    {
+        instructionCycleCounter_--;
+        if (instructionCycleCounter_ == 0)
         {
             switch (mathOpCode_) // math functions
             {
@@ -433,18 +459,15 @@ void Mm57109Instance::cycle()
                 case OP_CODE_DIGIT_8:
                 case OP_CODE_DIGIT_9:
                     digitEntry(mathOpCode_);
-                    outMode_ = 0x40;
                 break;
 
                 case OP_CODE_DP:
                     dpNumber_ = inputDigitNumber_;
                     convert(registerX);
-                    outMode_ = 0x40;
                 break;
 
                 case OP_CODE_EE:
                     eeNumber_ = 0;
-                    outMode_ = 0x40;
                 break;
                     
                 case OP_CODE_CS:
@@ -453,18 +476,15 @@ void Mm57109Instance::cycle()
                     else
                         inputRegisterX.exponentSign = -inputRegisterX.exponentSign;
                     convert(registerX);
-                    outMode_ = 0x40;
                 break;
 
                 case OP_CODE_PI:
                     registerX = 3.1415927;
                     convert(registerX);
-                    outMode_ = 0x40;
                 break;
 
                 case OP_CODE_HALT:
                     // TO BE ADDED
-                    outMode_ = 0x40;
                 break;
 
                 // Math commands:
@@ -603,8 +623,9 @@ void Mm57109Instance::cycle()
                 default:
                 break;
             }
-            cycleCounter_ = -1;
-            rdy_ = 0;
+            instructionCycleCounter_ = -1;
+            dataReady_ = 1;
+            readyPulse();
         }
     }
 }
@@ -701,7 +722,7 @@ void Mm57109Instance::invCommand(Byte value)
         case OP_CODE_COS:
         case OP_CODE_TAN:
             mathOpCode_ = value+OP_CODE_OFFSET;
-            cycleCounter_ = intructionCycleTime[mathOpCode_]*speedFactor_;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
         break;
 
         default: 

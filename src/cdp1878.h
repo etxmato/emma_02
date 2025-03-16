@@ -55,8 +55,6 @@ private:
 
     Byte interruptStatusRegister_;
     Byte interruptEf_;
-
-    int cycleCounter_;
 };
 
 #endif  // CDP1878_H

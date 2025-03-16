@@ -7012,8 +7012,8 @@ void Computer::configureExtensions()
     if (currentComputerConfiguration.mm57109Configuration.defined)
     {
         mm57109InstancePointer = new Mm57109Instance();
-        mm57109InstancePointer->configureMm57109(currentComputerConfiguration.mm57109Configuration);
         mm57109InstancePointer->setSpeedFactor(computerClockSpeed_, currentComputerConfiguration.mm57109Configuration.clock);
+        mm57109InstancePointer->configureMm57109(currentComputerConfiguration.mm57109Configuration);
     }
 
     if (currentComputerConfiguration.ay_3_8912Configuration.defined)

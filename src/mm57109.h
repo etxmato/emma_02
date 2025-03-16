@@ -108,6 +108,7 @@ public:
     void cycle();
     
 private:
+    void readyPulse();
     void masterClear();
     void pushStack();
     void popStack();
@@ -131,8 +132,9 @@ private:
     void stopDigitEntry();
     Mm57109Configuration mm57109Configuration_;
     
-    int cycleCounter_;
-    
+    int instructionCycleCounter_;
+    int rdyCycleCounter_;
+
     NcuRegister inputRegisterX;
     Byte outputRegister[12];
     double registerForOutput;
@@ -146,10 +148,11 @@ private:
     int mathOpCode_;
     bool firstInstructionWord_;
 
+    Byte dataReady_;
     Byte rdy_;
+    Byte error_;
     Byte hold_;
     Byte mdc_;
-    Byte outMode_;
     int inputDigitNumber_;
     int outputDigitNumber_;
     int dpNumber_;
@@ -157,6 +160,7 @@ private:
     Byte linkDigit_;
 
     bool floatingPointMode_;
+    bool returnDigits_;
     double speedFactor_;
 };
 
