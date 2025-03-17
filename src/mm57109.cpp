@@ -423,7 +423,7 @@ Byte Mm57109Instance::ef()
 void Mm57109Instance::readyPulse()
 {
     rdy_ = 0x40;
-    rdyCycleCounter_ = 8 * speedFactor_;
+    //rdyCycleCounter_ = 8 * speedFactor_;
 }
 
 void Mm57109Instance::hold(Byte value)
