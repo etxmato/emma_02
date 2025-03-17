@@ -187,6 +187,7 @@ void Mm57109Instance::write(Byte value)
 {
     hold_ = 0;
     rdy_ = 0;
+    dataReady_ = 0;
 
     if (firstInstructionWord_)
         firstInstrucionWord(value);
@@ -231,6 +232,7 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         case OP_CODE_ENTER:
             stopDigitEntry();
             pushStack();
+            readyPulse();
 //            dataReady_ = 0;
         break;
         
@@ -377,7 +379,8 @@ void Mm57109Instance::secondInstrucionWord(Byte value)
             {
                 outputDigitNumber_ = 0;
                 returnDigits_ = true;
-            }
+                dataReady_ = 1;
+           }
             else
                 firstInstrucionWord(value);
         break;
@@ -416,7 +419,6 @@ Byte Mm57109Instance::read()
 Byte Mm57109Instance::ef()
 {
     Byte ef = (error_ >> 5) | dataReady_;
-    dataReady_ = 0;
     return (mm57109Configuration_.ef.reverse^ef);
 }
 
