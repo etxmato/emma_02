@@ -1559,7 +1559,10 @@ Byte Computer::ef(int flag)
         break;
 
         case MM_EF:
-            return mm57109InstancePointer->ef();
+            if (!isLoading())
+                return mm57109InstancePointer->ef();
+            else
+                return cassetteEf_;
         break;
 
 	case MC6845_EF:
