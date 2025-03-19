@@ -120,7 +120,7 @@ Mm57109Instance::Mm57109Instance()
     firstInstructionWord_ = true;
     instructionCycleCounter_ = -1;
     rdyCycleCounter_ =  -1;
-    returnDigits_ = false;
+ //   returnDigits_ = false;
 }
 
 void Mm57109Instance::masterClear()
@@ -195,13 +195,13 @@ void Mm57109Instance::output(Byte value)
 Byte Mm57109Instance::input()
 {
     Byte returnValue = 0;
-    if (returnDigits_ && rdy_ == 0 && error_ == 0)
+    if (dataReady_ == 1 && rdy_ == 0 && error_ == 0)
         returnValue = outputRegister[outputDigitNumber_++];
     
     if ((outputDigitNumber_ == 10 && floatingPointMode_) || (outputDigitNumber_ == 12 && !floatingPointMode_))
     {
         dataReady_ = 0;
-        returnDigits_ = false;
+//        returnDigits_ = false;
         outputDigitNumber_ = 0;
         readyPulse();
     }
@@ -322,7 +322,7 @@ void Mm57109Instance::secondInstrucionWord(OpCodes opCode)
             if (opCode == OP_CODE_OUT)
             {
                 outputDigitNumber_ = 0;
-                returnDigits_ = true;
+   //             returnDigits_ = true;
                 dataReady_ = 1;
            }
             else
@@ -617,7 +617,7 @@ void Mm57109Instance::cycle()
                 case OP_CODE_OUT:
                     outputDigitNumber_ = 0;
                     instructionCycleCounter_ = -1;
-                    returnDigits_ = true;
+  //                  returnDigits_ = true;
                 return;
 
                 // Single-digit commands:
