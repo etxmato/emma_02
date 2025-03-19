@@ -376,6 +376,7 @@ void Mm57109Instance::cycle()
 
                 case OP_CODE_DP:
                     dpNumber_ = inputDigitNumber_;
+                    calculateDigitEntry();
                     convert(registerX);
                 break;
 
@@ -388,7 +389,7 @@ void Mm57109Instance::cycle()
                         inputRegisterX.mantissaSign = -inputRegisterX.mantissaSign;
                     else
                         inputRegisterX.exponentSign = -inputRegisterX.exponentSign;
-                    registerX *= inputRegisterX.mantissaSign;
+                    calculateDigitEntry();
                     convert(registerX);
                 break;
 
@@ -764,7 +765,7 @@ void Mm57109Instance::shiftLeft()
     if (outputRegister[0] == 8)
         inputRegisterX.mantissaSign = -1;
     
-    registerX = (double) inputRegisterX.mantissa * pow(10, count_digit(inputRegisterX.mantissa)-outputRegister[1]-3);
+    registerX = (double) inputRegisterX.mantissa * pow(10, count_digit(inputRegisterX.mantissa)-outputRegister[1]-2);
     registerX *= inputRegisterX.mantissaSign;
 }
 
@@ -837,11 +838,19 @@ void Mm57109Instance::mantissaConvert(double reg)
 
 void Mm57109Instance::exponentConvert(double reg)
 {
+    if (reg < 0)
+    {
+        outputRegister[2] = 8;
+        reg = -reg;
+    }
+    else
+        outputRegister[2] = 0;
+
     outputRegister[3] = 0x9b;
     int intPartRegister = (int) reg;
     int numberOfDigits = count_digit(intPartRegister);
     
-    if (numberOfDigits == 0)
+    if (intPartRegister == 0)
         exponentConvertBelowOne(reg);
     else
         exponentConvertAboveOne(reg, numberOfDigits);
@@ -851,7 +860,6 @@ void Mm57109Instance::exponentConvertAboveOne(double reg, int numberOfDigits)
 {
     outputRegister[0] = ((numberOfDigits-1)/10) % 10;
     outputRegister[1] = (numberOfDigits-1) % 10;
-    outputRegister[2] = 0;
 
     reg = reg / pow(10, numberOfDigits-mdc_);
     int intPartRegister = (int) reg;
@@ -875,7 +883,7 @@ void Mm57109Instance::exponentConvertBelowOne(double reg)
     }
     outputRegister[0] = (exponent/10) % 10;
     outputRegister[1] = exponent % 10;
-    outputRegister[2] = 8;
+    outputRegister[2] |= 1;
 
     for (int digit=4; digit<12; digit++)
     {
@@ -913,7 +921,7 @@ void Mm57109Instance::calculateDigitEntry()
             inputRegisterX.exponent = 0;
     }
 
-    registerX = (double) inputRegisterX.mantissa * pow(10, inputRegisterX.exponent);
+    registerX = (double) inputRegisterX.mantissa * pow(10, inputRegisterX.exponent*inputRegisterX.exponentSign);
     registerX *= inputRegisterX.mantissaSign;
 }
 
