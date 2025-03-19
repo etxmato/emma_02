@@ -37,78 +37,77 @@ int factor[] = {1, 10, 100, 1000, 10000, 100000, 1000000, 10000000};
 
 int intructionCycleTime[] =
 {
-    238, //  OP_CODE_DIGIT_0
-    238, //  OP_CODEDIGIT_1
-    238, //  OP_CODEDIGIT_2
-    238, //  OP_CODEDIGIT_3
-    238, //  OP_CODEDIGIT_4
-    238, //  OP_CODEDIGIT_5
-    238, //  OP_CODEDIGIT_6
-    238, //  OP_CODEDIGIT_7
-    238, //  OP_CODEDIGIT_8
-    238, //  OP_CODEDIGIT_9
-    152, //  OP_CODEDP
-    151, //  OP_CODEEE
-    166, //  OP_CODECS
-    1312, //  OP_CODEPI
-    -1, //  OP_CODEAIN
-    134, //  OP_CODEHALT
-    -1, //  OP_CODETJC,        // 20
-    -1, //  OP_CODETX0,        // 21
-    -1, //  OP_CODETXLT0,      // 22
-    -1, //  OP_CODETXF,        // 23
-    -1, //  OP_CODETERR,       // 24
-    -1, //  OP_CODEJMP,        // 25
-    -1, //  OP_CODEOUT,        // 26
-    -1, //  OP_CODEIN,         // 27
-    -1, //  OP_CODESMDC,       // 30
-    -1, //  OP_CODEIBNZ,       // 31
-    -1, //  OP_CODEDBNZ,       // 32
-    -1, //  OP_CODEXEM,        // 33
-    -1, //  OP_CODEMS,         // 34
-    -1, //  OP_CODEMR,         // 35
-    -1, //  OP_CODELSH,        // 36
-    -1, //  OP_CODERSH,        // 37
-    -1, //  OP_CODEINV,        // 40
-    -1, //  OP_CODEENTER,      // 41
-    157, //  OP_CODETOGM,       // 42
-    -1, //  OP_CODEROLL,       // 43
-    56200, //  OP_CODESIN
-    56200, //  OP_CODECOS
-    35000, //  OP_CODETAN
-    -1, //  OP_CODESF1,        // 47
-    -1, //  OP_CODEPF1,        // 50
-    -1, //  OP_CODESF2,        // 51
-    -1, //  OP_CODEPF2,        // 52
-    -1, //  OP_CODEECLR,       // 53
-    9600, //  OP_CODERTD,        // 54
-    9600, //  OP_CODEDTR,        // 55
-    -1, //  OP_CODEPOP,        // 56
-    -1, //  OP_CODEMCLR,       // 57
-    -1, //  OP_CODEXEY,        // 60
-    30800, //  OP_CODEEX,         // 61
-    27400, //  OP_CODE10X,        // 62
-    3000, //  OP_CODESQ,         // 63
-    7000, //  OP_CODESQRT,       // 64
-    24800, //  OP_CODELN,         // 65
-    30700, //  OP_CODELOG,        // 66
-    4500, //  OP_CODE1X,         // 67
-    55400, //  OP_CODEYX,         // 70
-    2200, //  OP_CODEPLUS,       // 71
-    2200, //  OP_CODEMINUS,      // 72
-    3200, //  OP_CODETIMES,      // 73
-    7800, //  OP_CODEDIVIDE,     // 74
-    -1, //  OP_CODEPRW1,       // 75
-    -1, //  OP_CODEPRW2,       // 76
-    -1, //  OP_CODENOP,        // 77
-    -1, //  OP_CODEOFFSET = 100,
-    54000, //  OP_CODESIN_INV = 136,
-    54000, //  OP_CODECOS_INV,
-    30200, //  OP_CODETAN_INV,
-    1700, //  OP_CODEPLUS_INV = 157,
-    1700, //  OP_CODEMINUS_INV,
-    2700, //  OP_CODETIMES_INV,
-    7300, //  OP_CODEDIVIDE_INV
+    238,	//  OP_CODE_DIGIT_0
+    238,    //  OP_CODE_DIGIT_1
+    238,    //  OP_CODE_DIGIT_2
+    238,    //  OP_CODE_DIGIT_3
+    238,    //  OP_CODE_DIGIT_4
+    238,    //  OP_CODE_DIGIT_5
+    238,    //  OP_CODE_DIGIT_6
+    238,    //  OP_CODE_DIGIT_7
+    238,    //  OP_CODE_DIGIT_8
+    238,    //  OP_CODE_DIGIT_9
+    152,    //  OP_CODE_DP
+    151,    //  OP_CODE_EE
+    166,    //  OP_CODE_CS
+    1312,	//  OP_CODE_PI
+    284,	//  OP_CODE_AIN
+    134,	//  OP_CODE_HALT
+    208,	//  OP_CODE_TJC
+    278, 	//  OP_CODE_TX0
+    197, 	//  OP_CODE_TXLT0
+    277, 	//  OP_CODE_TXF
+    191, 	//  OP_CODE_TERR
+    186, 	//  OP_CODE_JMP
+    583, 	//  OP_CODE_OUT
+    395, 	//  OP_CODE_IN
+    163, 	//  OP_CODE_SMDC
+    2314, 	//  OP_CODE_IBNZ
+    2314, 	//  OP_CODE_DBNZ
+    812, 	//  OP_CODE_XEM
+    839, 	//  OP_CODE_MS
+    1385, 	//  OP_CODE_MR
+    168, 	//  OP_CODE_LSH
+    173, 	//  OP_CODE_RSH
+    166, 	//  OP_CODE_INV
+    552, 	//  OP_CODE_ENTER
+    157, 	//  OP_CODE_TOGM
+    905, 	//  OP_CODE_ROLL
+    56200, 	//  OP_CODE_SIN
+    56200, 	//  OP_CODE_COS
+    35000, 	//  OP_CODE_TAN
+    163, 	//  OP_CODE_SF1
+    185, 	//  OP_CODE_PF1
+    163, 	//  OP_CODE_SF2
+    185, 	//  OP_CODE_PF2
+    163, 	//  OP_CODE_ECLR
+    9600, 	//  OP_CODE_RTD
+    9600, 	//  OP_CODE_DTR
+    448, 	//  OP_CODE_POP
+    734, 	//  OP_CODE_MCLR
+    652, 	//  OP_CODE_XEY
+    30800, 	//  OP_CODE_EX
+    27400, 	//  OP_CODE_10X
+    3000, 	//  OP_CODE_SQ
+    7000, 	//  OP_CODE_SQRT
+    24800, 	//  OP_CODE_LN
+    30700, 	//  OP_CODE_LOG
+    4500, 	//  OP_CODE_1X
+    55400, 	//  OP_CODE_YX
+    2200, 	//  OP_CODE_PLUS
+    2200, 	//  OP_CODE_MINUS
+    3200, 	//  OP_CODE_TIMES
+    7800, 	//  OP_CODE_DIVIDE
+    130, 	//  OP_CODE_PRW1
+    130, 	//  OP_CODE_PRW2
+    122, 	//  OP_CODE_NOP
+    54000, 	//  OP_CODE_SIN_INV
+    54000, 	//  OP_CODE_COS_INV
+    30200, 	//  OP_CODE_TAN_INV
+    1700, 	//  OP_CODE_PLUS_INV
+    1700, 	//  OP_CODE_MINUS_INV
+    2700, 	//  OP_CODE_TIMES_INV
+    7300, 	//  OP_CODE_DIVIDE_INV
 };
 
 Mm57109Instance::Mm57109Instance()
@@ -122,12 +121,11 @@ Mm57109Instance::Mm57109Instance()
     instructionCycleCounter_ = -1;
     rdyCycleCounter_ =  -1;
     returnDigits_ = false;
-    dataReady_ = 0;
 }
 
 void Mm57109Instance::masterClear()
 {
-//    rdy_ = 0;
+    dataReady_ = 0;
     error_ = 0;
     hold_ = 1;
     clearX();
@@ -138,8 +136,6 @@ void Mm57109Instance::masterClear()
     registerM = 0;
     mdc_ = 8;
     floatingPointMode_ = true;
-    
-    readyPulse();
 }
 
 void Mm57109Instance::configureMm57109(Mm57109Configuration mm57109Configuration)
@@ -183,25 +179,40 @@ bool Mm57109Instance::ioGroupMm57109(int ioGroup)
     return groupFound;
 }
 
-void Mm57109Instance::write(Byte value)
+void Mm57109Instance::output(Byte value)
 {
     hold_ = 0;
     rdy_ = 0;
-    dataReady_ = 0;
 
     if (firstInstructionWord_)
-        firstInstrucionWord(value);
+        firsInstructionWord((OpCodes)(value & 0x3f));
     else
-        secondInstrucionWord(value);
+        secondInstrucionWord((OpCodes)(value & 0x3f));
     
     hold_ = 1;
 }
 
-void Mm57109Instance::firstInstrucionWord(Byte value)
+Byte Mm57109Instance::input()
+{
+    Byte returnValue = 0;
+    if (returnDigits_ && rdy_ == 0 && error_ == 0)
+        returnValue = outputRegister[outputDigitNumber_++];
+    
+    if ((outputDigitNumber_ == 10 && floatingPointMode_) || (outputDigitNumber_ == 12 && !floatingPointMode_))
+    {
+        dataReady_ = 0;
+        returnDigits_ = false;
+        outputDigitNumber_ = 0;
+        readyPulse();
+    }
+    
+    return returnValue | rdy_ | error_ | 0x90;
+}
+
+void Mm57109Instance::firsInstructionWord(OpCodes opCode)
 {
     firstInstructionWord_ = true;
 
-    OpCodes opCode = (OpCodes)(value & 0x3f);
     switch (opCode)
     {
         // Digit Entry commands:
@@ -223,21 +234,11 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
             mathOpCode_ = opCode;
             instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
         break;
-
-        case OP_CODE_NOP:
-            stopDigitEntry();
-            // TO BE ADDED
-        break;
         
-        case OP_CODE_ENTER:
-            stopDigitEntry();
-            pushStack();
-            readyPulse();
-//            dataReady_ = 0;
-        break;
-        
-        // Math commands:
+        // Non digit entry commands:
             
+        case OP_CODE_ENTER:
+        case OP_CODE_NOP:
         case OP_CODE_PLUS:
         case OP_CODE_MINUS:
         case OP_CODE_TIMES:
@@ -255,125 +256,68 @@ void Mm57109Instance::firstInstrucionWord(Byte value)
         case OP_CODE_TAN:
         case OP_CODE_DTR:
         case OP_CODE_RTD:
+        case OP_CODE_XEM:
+        case OP_CODE_MS:
+        case OP_CODE_MR:
+        case OP_CODE_LSH:
+        case OP_CODE_RSH:
+        case OP_CODE_ROLL:
+        case OP_CODE_POP:
+        case OP_CODE_XEY:
+        case OP_CODE_MCLR:
+        case OP_CODE_ECLR:
+        case OP_CODE_IN:
+        case OP_CODE_AIN:
+        case OP_CODE_TOGM:
+        case OP_CODE_TJC:
+        case OP_CODE_TX0:
+        case OP_CODE_TXLT0:
+        case OP_CODE_TXF:
+        case OP_CODE_TERR:
+        case OP_CODE_JMP:
+        case OP_CODE_IBNZ:
+        case OP_CODE_DBNZ:
+        case OP_CODE_SF1:
+        case OP_CODE_PF1:
+        case OP_CODE_SF2:
+        case OP_CODE_PF2:
+        case OP_CODE_PRW1:
+        case OP_CODE_PRW2:
             stopDigitEntry();
             mathOpCode_ = opCode;
             instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
         break;
-
-        // Move commands:
-
-        case OP_CODE_ROLL:
-            stopDigitEntry();
-            rollStack();
-            convert(registerX);
-        break;
-        
-        case OP_CODE_POP:
-            stopDigitEntry();
-            registerX = registerY;
-            popStack();
-            convert(registerX);
-        break;
-        
-        case OP_CODE_XEY:
-            stopDigitEntry();
-            exchangeXY();
-            convert(registerX);
-        break;
-        
-        case OP_CODE_XEM:
-            stopDigitEntry();
-            exchangeXM();
-            convert(registerX);
-        break;
-
-        case OP_CODE_MS:
-            stopDigitEntry();
-            registerM = registerX;
-        break;
-
-        case OP_CODE_MR:
-            stopDigitEntry();
-            pushStack();
-            registerX = registerM;
-            convert(registerX);
-        break;
-
-        case OP_CODE_LSH:
-            stopDigitEntry();
-            shiftLeft();
-            convert(registerX);
-        break;
-
-        case OP_CODE_RSH:
-            stopDigitEntry();
-            shiftRight();
-            convert(registerX);
-        break;
-
-        // Clear commands:
-        
-        case OP_CODE_MCLR:
-            stopDigitEntry();
-            masterClear();
-            convert(0);
-        break;
-   
-        case OP_CODE_ECLR:
-            stopDigitEntry();
-            // TO BE ADDED
-        break;
-        
-        // Multi-digit commands:
-
-        case OP_CODE_IN:
-            stopDigitEntry();
-            // TO BE ADDED
-        break;
+                        
+        // 2 byte commands:
         
         case OP_CODE_OUT:
-            stopDigitEntry();
-            firstInstructionWord_ = false;
-            readyPulse();
-        break;
-
-        // Single-digit commands:
-            
-        case OP_CODE_AIN:
-            stopDigitEntry();
-            // TO BE ADDED
-        break;
-                
-        // Mode control commands:
-
-        case OP_CODE_TOGM:
-            stopDigitEntry();
-            mathOpCode_ = opCode;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
-        break;
-
         case OP_CODE_SMDC:
-            stopDigitEntry();
-            firstInstructionWord_ = false;
-            readyPulse();
-        break;
-
         case OP_CODE_INV:
             stopDigitEntry();
             firstInstructionWord_ = false;
             readyPulse();
         break;
+
+        case OP_CODE_SIN_INV:
+        case OP_CODE_COS_INV:
+        case OP_CODE_TAN_INV:
+        case OP_CODE_PLUS_INV:
+        case OP_CODE_MINUS_INV:
+        case OP_CODE_TIMES_INV:
+        case OP_CODE_DIVIDE_INV:
+        break;
     }
     lastOpCode_ = opCode;
 }
 
-void Mm57109Instance::secondInstrucionWord(Byte value)
+void Mm57109Instance::secondInstrucionWord(OpCodes opCode)
 {
     firstInstructionWord_ = true;
 
-    OpCodes opCode = (OpCodes)(value & 0x3f);
     switch (lastOpCode_)
     {
+        // Multi-digit commands:
+
         case OP_CODE_OUT:
             if (opCode == OP_CODE_OUT)
             {
@@ -382,57 +326,24 @@ void Mm57109Instance::secondInstrucionWord(Byte value)
                 dataReady_ = 1;
            }
             else
-                firstInstrucionWord(value);
+                firsInstructionWord(opCode);
         break;
 
-        case OP_CODE_INV:
-            invCommand(opCode);
-        break;
+        // Mode control commands:
 
         case OP_CODE_SMDC:
-            mdc_ = value;
-            if (mdc_ > 8)
-                mdc_ = 8;
+        case OP_CODE_INV:
+            mathOpCode_ = lastOpCode_;
+            secondOpCode_ = opCode;
+            instructionCycleCounter_ = intructionCycleTime[lastOpCode_] * speedFactor_;
         break;
 
         default:
-            firstInstrucionWord(value);
+            firsInstructionWord(opCode);
         break;
     }
 }
     
-Byte Mm57109Instance::read()
-{
-    Byte returnValue = 0;
-    if (returnDigits_ && rdy_ == 0 && error_ == 0)
-        returnValue = outputRegister[outputDigitNumber_++];
-    
-    if ((outputDigitNumber_ == 10 && floatingPointMode_) || (outputDigitNumber_ == 12 && !floatingPointMode_))
-    {
-        returnDigits_ = false;
-        outputDigitNumber_ = 0;
-    }
-    
-    return returnValue | rdy_ | error_ | 0x90;
-}
-
-Byte Mm57109Instance::ef()
-{
-    Byte ef = (error_ >> 5) | dataReady_;
-    return (mm57109Configuration_.ef.reverse^ef);
-}
-
-void Mm57109Instance::readyPulse()
-{
-    rdy_ = 0x40;
-    //rdyCycleCounter_ = 8 * speedFactor_;
-}
-
-void Mm57109Instance::hold(Byte value)
-{
-    hold_ = value;
-}
-
 void Mm57109Instance::cycle()
 {
     if (rdyCycleCounter_ > 0)
@@ -477,6 +388,7 @@ void Mm57109Instance::cycle()
                         inputRegisterX.mantissaSign = -inputRegisterX.mantissaSign;
                     else
                         inputRegisterX.exponentSign = -inputRegisterX.exponentSign;
+                    registerX *= inputRegisterX.mantissaSign;
                     convert(registerX);
                 break;
 
@@ -485,9 +397,16 @@ void Mm57109Instance::cycle()
                     convert(registerX);
                 break;
 
-                case OP_CODE_HALT:
-                    // TO BE ADDED
+                case OP_CODE_NOP:
                 break;
+
+                case OP_CODE_HALT:
+                    hold_ = 1;
+                break;
+
+                case OP_CODE_ENTER:
+                    pushStack();
+               break;
 
                 // Math commands:
                     
@@ -616,20 +535,182 @@ void Mm57109Instance::cycle()
                     convert(registerX);
                 break;
 
+                // Move commands:
+
+                case OP_CODE_ROLL:
+                    rollStack();
+                    convert(registerX);
+                break;
+                
+                case OP_CODE_POP:
+                    registerX = registerY;
+                    popStack();
+                    convert(registerX);
+                break;
+                
+                case OP_CODE_XEY:
+                    exchangeXY();
+                    convert(registerX);
+                break;
+                
+                case OP_CODE_XEM:
+                    exchangeXM();
+                    convert(registerX);
+                break;
+
+                case OP_CODE_MS:
+                    registerM = registerX;
+                break;
+
+                case OP_CODE_MR:
+                    pushStack();
+                    registerX = registerM;
+                    convert(registerX);
+                break;
+
+                case OP_CODE_LSH:
+                    shiftLeft();
+                    convert(registerX);
+                break;
+
+                case OP_CODE_RSH:
+                    shiftRight();
+                    convert(registerX);
+                break;
+
+                // Clear commands:
+                
+                case OP_CODE_MCLR:
+                    masterClear();
+                    convert(0);
+                break;
+           
+                case OP_CODE_ECLR:
+                    error_ = 0;
+                break;
+                    
+                // Branch commands:
+
+                case OP_CODE_TJC:
+                case OP_CODE_TX0:
+                case OP_CODE_TXLT0:
+                case OP_CODE_TXF:
+                case OP_CODE_TERR:
+                case OP_CODE_JMP:
+                case OP_CODE_IBNZ:
+                case OP_CODE_DBNZ:
+                case OP_CODE_SF1:
+                case OP_CODE_PF1:
+                case OP_CODE_SF2:
+                case OP_CODE_PF2:
+                case OP_CODE_PRW1:
+                case OP_CODE_PRW2:
+                    // TO BE ADDED
+                break;
+
+                // Multi-digit commands:
+
+                case OP_CODE_IN:
+                    // TO BE ADDED
+                break;
+                
+                case OP_CODE_OUT:
+                    outputDigitNumber_ = 0;
+                    instructionCycleCounter_ = -1;
+                    returnDigits_ = true;
+                return;
+
+                // Single-digit commands:
+                    
+                case OP_CODE_AIN:
+                    // TO BE ADDED
+                break;
+                            
                 // Mode control commands:
 
                 case OP_CODE_TOGM:
                     floatingPointMode_ = !floatingPointMode_;
                 break;
 
+                case OP_CODE_SMDC:
+                    mdc_ = secondOpCode_;
+                    if (mdc_ > 8)
+                        mdc_ = 8;
+                break;
+
+                case OP_CODE_INV:
+                    invCommand(secondOpCode_);
+                return; // return instead of break - as invCommand routine has set a new instructionCycleCounter_ value
+
                 default:
                 break;
             }
             instructionCycleCounter_ = -1;
-            dataReady_ = 1;
             readyPulse();
         }
     }
+}
+
+void Mm57109Instance::invCommand(OpCodes opCode)
+{
+    switch (opCode)
+    {
+        case OP_CODE_SIN:
+            mathOpCode_ = OP_CODE_SIN_INV;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+        break;
+            
+        case OP_CODE_COS:
+            mathOpCode_ = OP_CODE_COS_INV;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+        break;
+            
+        case OP_CODE_TAN:
+            mathOpCode_ = OP_CODE_TAN_INV;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+        break;
+
+        case OP_CODE_PLUS:
+            mathOpCode_ = OP_CODE_PLUS_INV;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+        break;
+
+        case OP_CODE_MINUS:
+            mathOpCode_ = OP_CODE_MINUS_INV;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+        break;
+
+        case OP_CODE_TIMES:
+            mathOpCode_ = OP_CODE_TIMES_INV;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+        break;
+
+        case OP_CODE_DIVIDE:
+            mathOpCode_ = OP_CODE_DIVIDE_INV;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+        break;
+
+        default:
+            firsInstructionWord(opCode);
+        break;
+    }
+}
+
+Byte Mm57109Instance::ef()
+{
+    Byte ef = (error_ >> 5) | dataReady_;
+    return (mm57109Configuration_.ef.reverse^ef);
+}
+
+void Mm57109Instance::readyPulse()
+{
+    rdy_ = 0x40;
+    rdyCycleCounter_ = 8 * speedFactor_;
+}
+
+void Mm57109Instance::hold(Byte value)
+{
+    hold_ = value;
 }
 
 void Mm57109Instance::pushStack()
@@ -710,27 +791,6 @@ void Mm57109Instance::shiftRight()
     int intPartRegister = (int) registerX;
     int numberOfDigits = count_digit(intPartRegister);*/
 
-}
-
-void Mm57109Instance::invCommand(Byte value)
-{
-    switch (value)
-    {
-        case OP_CODE_PLUS:
-        case OP_CODE_MINUS:
-        case OP_CODE_TIMES:
-        case OP_CODE_DIVIDE:
-        case OP_CODE_SIN:
-        case OP_CODE_COS:
-        case OP_CODE_TAN:
-            mathOpCode_ = value+OP_CODE_OFFSET;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
-        break;
-
-        default: 
-            firstInstrucionWord(value);
-        break;
-    }
 }
 
 void Mm57109Instance::clearX()

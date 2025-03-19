@@ -1887,7 +1887,7 @@ Byte Computer::in(Byte port, Word address)
         break;
 
         case MM_INPUT:
-            return mm57109InstancePointer->read();
+            return mm57109InstancePointer->input();
         break;
 
         case IDE_READ_STATUS_IN:
@@ -2418,7 +2418,7 @@ void Computer::out(Byte port, Word address, Byte value)
         break;
 
         case MM_OUTPUT:
-            mm57109InstancePointer->write(value);
+            mm57109InstancePointer->output(value);
         break;
 
         case VIS1870_OUT2:
