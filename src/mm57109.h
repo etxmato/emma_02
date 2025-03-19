@@ -162,7 +162,7 @@ private:
     Byte linkDigit_;
 
     bool floatingPointMode_;
-    bool returnDigits_;
+//    bool returnDigits_;
     double speedFactor_;
 };
 
