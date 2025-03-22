@@ -32,6 +32,7 @@
 
 #include "main.h"
 #include "mm57109.h"
+#include <math.h>
 
 int factor[] = {1, 10, 100, 1000, 10000, 100000, 1000000, 10000000};
 
@@ -527,12 +528,12 @@ void Mm57109Instance::cycle()
                 break;
 
                 case OP_CODE_DTR:
-                    registerX = registerX * 3.1415927/180;
+                    registerX = registerX * M_PI/180;
                     convert(registerX);
                 break;
                 
                 case OP_CODE_RTD:
-                    registerX = registerX * 180/3.1415927;
+                    registerX = registerX * 180/M_PI;
                     convert(registerX);
                 break;
 
