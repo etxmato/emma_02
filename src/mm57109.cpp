@@ -782,7 +782,10 @@ void Mm57109Instance::shiftRight()
     if (outputRegister[0] == 8)
         inputRegisterX.mantissaSign = -1;
     
-    registerX = (double) inputRegisterX.mantissa * pow(10, (int)count_digit(inputRegisterX.mantissa)-outputRegister[1]-3);
+    int digits = count_digit(inputRegisterX.mantissa)-outputRegister[1]-3;
+    float power = pow(10, digits);
+    registerX = (double) inputRegisterX.mantissa * power;
+    
     registerX *= inputRegisterX.mantissaSign;
 
     linkDigit_ = 0;
