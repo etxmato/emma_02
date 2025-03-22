@@ -556,6 +556,8 @@ public:
     int defaultCharactersPerRow;
     int defaultCharacterWidth;
     int defaultBellFrequency;
+    
+    Byte backSpaceCharacter;
 };
 
 // Sound configuration class definitions:

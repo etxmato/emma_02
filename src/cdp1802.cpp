@@ -1821,7 +1821,7 @@ void Cdp1802::cpuCycleExecute1()
                         accumulator_=bus_;
                         if (trace_)
                         {
-                            buffer.Printf("LDN  R%X   D=%02X",n,accumulator_);
+                            buffer.Printf("LDN  R%X   D=M(%04X)=%02X",n,scratchpadRegister_[n],accumulator_);
                             traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }

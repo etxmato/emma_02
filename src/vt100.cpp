@@ -253,7 +253,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     reBlink_ = false;
     newBackGround_ = false;
     updateCharacter_ = false;
-    tab_char = 8;
+    tab_char = currentComputerConfiguration.videoTerminalConfiguration.backSpaceCharacter;
 
     if (serialLog_)
     {
@@ -1942,7 +1942,7 @@ void Vt100::Display(int byt, bool forceDisplay)
         ShowCursor();
         return;
     }
-    if (byt < 32 && byt != 2)
+    if ((byt < 32 && byt != 2) || byt == currentComputerConfiguration.videoTerminalConfiguration.backSpaceCharacter)
     {
         switch (byt)
         {
@@ -1950,6 +1950,7 @@ void Vt100::Display(int byt, bool forceDisplay)
                 bell();
             break;
             case 8:
+            case 0x7f:
                 cursorPosition_ --;
                 if (cursorPosition_ < 0) cursorPosition_ = 0;
             break;

@@ -8668,6 +8668,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
         "q",
         "serialport",
         "baud",
+        "backspace",
         "characters",
         "power",
         "bits",
@@ -8708,6 +8709,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
         TAG_Q,
         TAG_SERIALPORT,
         TAG_BAUD,
+        TAG_BACKSPACE,
         TAG_CHARACTERS,
         TAG_POWER,
         TAG_BITS,
@@ -8747,6 +8749,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
     computerConfiguration.videoTerminalConfiguration.output = init_IoPort();
     computerConfiguration.videoTerminalConfiguration.defaultCharactersPerRow = 80;
     computerConfiguration.videoTerminalConfiguration.defaultCharacterWidth = 10;
+    computerConfiguration.videoTerminalConfiguration.backSpaceCharacter = 8;
 
     bitset<32> SetUpFeature;
     if (computerConfiguration.videoTerminalConfiguration.type == VT52)
@@ -8838,6 +8841,10 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                 }
             break;
 
+            case TAG_BACKSPACE:
+                computerConfiguration.videoTerminalConfiguration.backSpaceCharacter = (int)parseXml_Number(*child);
+            break;
+                
             case TAG_CHARACTERS:
                 if (child->GetNodeContent() == "132")
                 {
@@ -9068,6 +9075,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
         "int",
         "serialport",
         "baud",
+        "backspace",
         "characters",
         "power",
         "bits",
@@ -9108,6 +9116,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
         TAG_INTERRUPT,
         TAG_SERIALPORT,
         TAG_BAUD,
+        TAG_BACKSPACE,
         TAG_CHARACTERS,
         TAG_POWER,
         TAG_BITS,
@@ -9153,6 +9162,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
     computerConfiguration.videoTerminalConfiguration.uartControl = init_IoPort();
     computerConfiguration.videoTerminalConfiguration.uartIn = init_IoPort();
     computerConfiguration.videoTerminalConfiguration.uartStatus = init_IoPort();
+    computerConfiguration.videoTerminalConfiguration.backSpaceCharacter = 8;
     
     computerConfiguration.videoTerminalConfiguration.picInterrupt = 0;
 
@@ -9261,6 +9271,10 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                     computerConfiguration.videoTerminalConfiguration.baudT = number;
             break;
 
+            case TAG_BACKSPACE:
+                computerConfiguration.videoTerminalConfiguration.backSpaceCharacter = (int)parseXml_Number(*child);
+            break;
+                
             case TAG_CHARACTERS:
                 if (child->GetNodeContent() == "132")
                 {
