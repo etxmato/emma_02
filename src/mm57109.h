@@ -108,7 +108,7 @@ private:
     void firsInstructionWord(OpCodes opCode);
     void executeNonDigitCommand(OpCodes opCode);
     void secondInstrucionWord(OpCodes opCode);
-    bool invError(OpCodes opCode);
+    void checkInvError(OpCodes opCode);
     void invCommand(OpCodes opCode);
 
     void readyPulse();
@@ -125,7 +125,7 @@ private:
     void convert(double reg);
     void mantissaConvert(double reg);
     void exponentConvert(double reg);
-    int count_digit(int number);
+    int count_digit(uint64_t number);
     void digitEntry(int number);
     void calculateDigitEntry();
     void mantissaEntry(int number);
@@ -140,6 +140,7 @@ private:
 
     NcuRegister inputRegisterX;
     Byte outputRegister[12];
+    bool moreDigitsThanMdc_;
     double registerForOutput;
     double registerX;
     double registerY;

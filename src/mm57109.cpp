@@ -123,6 +123,7 @@ Mm57109Instance::Mm57109Instance()
     rdyCycleCounter_ =  -1;
     for (int led=0; led<2; led++)
         mathLedStatus[led] = 0;
+    moreDigitsThanMdc_ = false;
 }
 
 void Mm57109Instance::masterClear()
@@ -197,6 +198,7 @@ void Mm57109Instance::output(Byte value)
 Byte Mm57109Instance::input()
 {
     Byte returnValue = 0;
+    
     if (dataReady_ == 1 && rdy_ == 0 && error_ == 0)
         returnValue = outputRegister[outputDigitNumber_++];
     
@@ -206,7 +208,7 @@ Byte Mm57109Instance::input()
         outputDigitNumber_ = 0;
         readyPulse();
     }
-    
+        
     return returnValue | rdy_ | error_ | 0x90;
 }
 
@@ -283,38 +285,33 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
         case OP_CODE_LOG:
             if (registerX <= 0)
                 error_ = 0x20;
-            else
-                executeNonDigitCommand(opCode);
+            executeNonDigitCommand(opCode);
         break;
 
         case OP_CODE_SQRT:
             if (registerX < 0)
                 error_ = 0x20;
-            else
-                executeNonDigitCommand(opCode);
+            executeNonDigitCommand(opCode);
         break;
 
         case OP_CODE_SIN:
         case OP_CODE_COS:
             if (abs(registerX) >= 9000)
                 error_ = 0x20;
-            else
-                executeNonDigitCommand(opCode);
+            executeNonDigitCommand(opCode);
         break;
 
         case OP_CODE_TAN:
             if (abs(registerX) >= 9000 || cos(registerX) == 0)
                 error_ = 0x20;
-            else
-                executeNonDigitCommand(opCode);
+            executeNonDigitCommand(opCode);
         break;
 
         case OP_CODE_DIVIDE:
         case OP_CODE_1X:
             if (registerX == 0)
                 error_ = 0x20;
-            else
-                executeNonDigitCommand(opCode);
+            executeNonDigitCommand(opCode);
         break;
                         
         // 2 byte commands:
@@ -357,9 +354,17 @@ void Mm57109Instance::secondInstrucionWord(OpCodes opCode)
         case OP_CODE_OUT:
             if (opCode == OP_CODE_OUT)
             {
-                outputDigitNumber_ = 0;
-                dataReady_ = 1;
-           }
+                if (moreDigitsThanMdc_)
+                {
+                    error_ = 0x20;
+                    moreDigitsThanMdc_ = false;
+                }
+                else
+                {
+                    outputDigitNumber_ = 0;
+                    dataReady_ = 1;
+                }
+            }
             else
                 firsInstructionWord(opCode);
         break;
@@ -368,12 +373,10 @@ void Mm57109Instance::secondInstrucionWord(OpCodes opCode)
 
         case OP_CODE_SMDC:
         case OP_CODE_INV:
-            if (!invError(opCode))
-            {
-                mathOpCode_ = lastOpCode_;
-                secondOpCode_ = opCode;
-                instructionCycleCounter_ = intructionCycleTime[lastOpCode_] * speedFactor_;
-            }
+            checkInvError(opCode);
+            mathOpCode_ = lastOpCode_;
+            secondOpCode_ = opCode;
+            instructionCycleCounter_ = intructionCycleTime[lastOpCode_] * speedFactor_;
         break;
 
         default:
@@ -382,7 +385,7 @@ void Mm57109Instance::secondInstrucionWord(OpCodes opCode)
     }
 }
    
-bool Mm57109Instance::invError(OpCodes opCode)
+void Mm57109Instance::checkInvError(OpCodes opCode)
 {
     switch (opCode)
     {
@@ -402,7 +405,6 @@ bool Mm57109Instance::invError(OpCodes opCode)
         default:
         break;
     }
-    return (error_ != 0);
 }
 
 void Mm57109Instance::invCommand(OpCodes opCode)
@@ -920,11 +922,15 @@ void Mm57109Instance::mantissaConvert(double reg)
     outputRegister[1] = 12-numberOfDigits;
     intPartRegister = (double) reg * pow(10, mdc_-numberOfDigits);
 //    intPartRegister = (intPartRegister + 5)/10;
-    for (int digit=9; digit>1; digit--)
+    for (int digit=9; digit>mdc_+1; digit--)
+        outputRegister[digit] = 0;
+    for (int digit=mdc_+1; digit>1; digit--)
     {
         outputRegister[digit] = intPartRegister % 10;
         intPartRegister /= 10;
     }
+    if (intPartRegister != 0)
+        moreDigitsThanMdc_ = true;
 }
 
 void Mm57109Instance::exponentConvert(double reg)
@@ -938,10 +944,19 @@ void Mm57109Instance::exponentConvert(double reg)
         outputRegister[2] = 0;
 
     outputRegister[3] = 0x9b;
-    int intPartRegister = (int) reg;
-    int numberOfDigits = count_digit(intPartRegister);
+    wxString outputFormat, digits;
+    outputFormat.Printf("%f", reg);
+    if (outputFormat.Find('.'))
+        digits = outputFormat.BeforeFirst('.');
+    else
+        digits = outputFormat.BeforeFirst(',');
     
-    if (intPartRegister == 0)
+    int numberOfDigits = (int)digits.Len();
+    
+//    int intPartRegister = (int) reg;
+//    numberOfDigits = count_digit(intPartRegister);
+
+    if (numberOfDigits == 0)
         exponentConvertBelowOne(reg);
     else
         exponentConvertAboveOne(reg, numberOfDigits);
@@ -949,12 +964,21 @@ void Mm57109Instance::exponentConvert(double reg)
 
 void Mm57109Instance::exponentConvertAboveOne(double reg, int numberOfDigits)
 {
-    outputRegister[0] = ((numberOfDigits-1)/10) % 10;
-    outputRegister[1] = (numberOfDigits-1) % 10;
-
-    reg = reg / pow(10, numberOfDigits-mdc_);
+    reg = (double) reg / pow(10, numberOfDigits-mdc_);
     int intPartRegister = (int) reg;
+    if (count_digit(intPartRegister) > 8)
+    {
+        intPartRegister /= 10;
+        numberOfDigits++;
+    }
 
+    int exponent = numberOfDigits-1;
+    if (exponent > 99)
+        error_ = 0x20;
+    
+    outputRegister[0] = (exponent/10) % 10;
+    outputRegister[1] = exponent % 10;
+    
     for (int digit=11; digit>3; digit--)
     {
         outputRegister[digit] = intPartRegister % 10;
@@ -972,6 +996,9 @@ void Mm57109Instance::exponentConvertBelowOne(double reg)
         reg *= 10;
         intPartRegister = (int) reg;
     }
+    if (exponent > 99)
+        error_ = 0x20;
+    
     outputRegister[0] = (exponent/10) % 10;
     outputRegister[1] = exponent % 10;
     outputRegister[2] |= 1;
@@ -984,7 +1011,7 @@ void Mm57109Instance::exponentConvertBelowOne(double reg)
     }
 }
 
-int Mm57109Instance::count_digit(int number) 
+int Mm57109Instance::count_digit(uint64_t number)
 {
     if (number == 0)
         return 1;
