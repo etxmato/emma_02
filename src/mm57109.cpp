@@ -243,9 +243,7 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
         case OP_CODE_PLUS:
         case OP_CODE_MINUS:
         case OP_CODE_TIMES:
-        case OP_CODE_DIVIDE:
         case OP_CODE_YX:
-        case OP_CODE_1X:
         case OP_CODE_SQ:
         case OP_CODE_10X:
         case OP_CODE_EX:
@@ -306,6 +304,14 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
 
         case OP_CODE_TAN:
             if (abs(registerX) >= 9000 || cos(registerX) == 0)
+                error_ = 0x20;
+            else
+                executeNonDigitCommand();
+        break;
+
+        case OP_CODE_DIVIDE:
+        case OP_CODE_1X:
+            if (registerX) == 0)
                 error_ = 0x20;
             else
                 executeNonDigitCommand();
@@ -388,6 +394,11 @@ bool Mm57109Instance::invError(OpCodes opCode)
                 error_ = 0x20;
         break;
             
+        case OP_CODE_DIVIDE:
+            if (registerX) == 0)
+                error_ = 0x20;
+        break;
+
         default:
         break;
     }
