@@ -278,9 +278,7 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
         case OP_CODE_PF2:
         case OP_CODE_PRW1:
         case OP_CODE_PRW2:
-            stopDigitEntry();
-            mathOpCode_ = opCode;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+            executeNonDigitCommand();
         break;
 
         case OP_CODE_LN:
@@ -288,43 +286,29 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
             if (registerX <= 0)
                 error_ = 0x20;
             else
-            {
-                stopDigitEntry();
-                mathOpCode_ = opCode;
-                instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
-            }
+                executeNonDigitCommand();
         break;
 
         case OP_CODE_SQRT:
             if (registerX < 0)
                 error_ = 0x20;
             else
-            {
-                stopDigitEntry();
-                mathOpCode_ = opCode;
-                instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
-            }
+                executeNonDigitCommand();
         break;
 
         case OP_CODE_SIN:
         case OP_CODE_COS:
             if (abs(registerX) >= 9000)
                 error_ = 0x20;
-            {
-                stopDigitEntry();
-                mathOpCode_ = opCode;
-                instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
-            }
+            else
+                executeNonDigitCommand();
         break;
 
         case OP_CODE_TAN:
             if (abs(registerX) >= 9000 || cos(registerX) == 0)
                 error_ = 0x20;
-            {
-                stopDigitEntry();
-                mathOpCode_ = opCode;
-                instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
-            }
+            else
+                executeNonDigitCommand();
         break;
                         
         // 2 byte commands:
@@ -347,6 +331,13 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
         break;
     }
     lastOpCode_ = opCode;
+}
+
+void Mm57109Instance::executeNonDigitCommand()
+{
+    stopDigitEntry();
+    mathOpCode_ = opCode;
+    instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
 }
 
 void Mm57109Instance::secondInstrucionWord(OpCodes opCode)
