@@ -107,6 +107,7 @@ public:
 private:
     void firsInstructionWord(OpCodes opCode);
     void secondInstrucionWord(OpCodes opCode);
+    bool invError(OpCodes opCode);
     void invCommand(OpCodes opCode);
 
     void readyPulse();
@@ -165,7 +166,6 @@ private:
     int mathLedStatus[2];
     
     bool floatingPointMode_;
-//    bool returnDigits_;
     double speedFactor_;
 };
 

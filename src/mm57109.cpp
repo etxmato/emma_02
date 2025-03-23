@@ -123,7 +123,6 @@ Mm57109Instance::Mm57109Instance()
     rdyCycleCounter_ =  -1;
     for (int led=0; led<2; led++)
         mathLedStatus[led] = 0;
- //   returnDigits_ = false;
 }
 
 void Mm57109Instance::masterClear()
@@ -204,7 +203,6 @@ Byte Mm57109Instance::input()
     if ((outputDigitNumber_ == 10 && floatingPointMode_) || (outputDigitNumber_ == 12 && !floatingPointMode_))
     {
         dataReady_ = 0;
-//        returnDigits_ = false;
         outputDigitNumber_ = 0;
         readyPulse();
     }
@@ -248,7 +246,6 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
         case OP_CODE_DIVIDE:
         case OP_CODE_YX:
         case OP_CODE_1X:
-        case OP_CODE_SQRT:
         case OP_CODE_SQ:
         case OP_CODE_10X:
         case OP_CODE_EX:
@@ -290,26 +287,44 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
         case OP_CODE_LOG:
             if (registerX <= 0)
                 error_ = 0x20;
-            stopDigitEntry();
-            mathOpCode_ = opCode;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+            else
+            {
+                stopDigitEntry();
+                mathOpCode_ = opCode;
+                instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+            }
+        break;
+
+        case OP_CODE_SQRT:
+            if (registerX < 0)
+                error_ = 0x20;
+            else
+            {
+                stopDigitEntry();
+                mathOpCode_ = opCode;
+                instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+            }
         break;
 
         case OP_CODE_SIN:
         case OP_CODE_COS:
             if (abs(registerX) >= 9000)
                 error_ = 0x20;
-            stopDigitEntry();
-            mathOpCode_ = opCode;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+            {
+                stopDigitEntry();
+                mathOpCode_ = opCode;
+                instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+            }
         break;
 
         case OP_CODE_TAN:
             if (abs(registerX) >= 9000 || cos(registerX) == 0)
                 error_ = 0x20;
-            stopDigitEntry();
-            mathOpCode_ = opCode;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+            {
+                stopDigitEntry();
+                mathOpCode_ = opCode;
+                instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+            }
         break;
                         
         // 2 byte commands:
@@ -346,7 +361,6 @@ void Mm57109Instance::secondInstrucionWord(OpCodes opCode)
             if (opCode == OP_CODE_OUT)
             {
                 outputDigitNumber_ = 0;
-   //             returnDigits_ = true;
                 dataReady_ = 1;
            }
             else
@@ -357,17 +371,12 @@ void Mm57109Instance::secondInstrucionWord(OpCodes opCode)
 
         case OP_CODE_SMDC:
         case OP_CODE_INV:
-            if (opCode == OP_CODE_SIN || opCode == OP_CODE_COS)
+            if (!invError(opCode))
             {
-                if (abs(registerX) >= 9000)
-                    error_ = 0x20;
-                if (abs(registerX) <= pow(10, -50))
-                    error_ = 0x20;
+                mathOpCode_ = lastOpCode_;
+                secondOpCode_ = opCode;
+                instructionCycleCounter_ = intructionCycleTime[lastOpCode_] * speedFactor_;
             }
-
-            mathOpCode_ = lastOpCode_;
-            secondOpCode_ = opCode;
-            instructionCycleCounter_ = intructionCycleTime[lastOpCode_] * speedFactor_;
         break;
 
         default:
@@ -375,7 +384,70 @@ void Mm57109Instance::secondInstrucionWord(OpCodes opCode)
         break;
     }
 }
-    
+   
+bool Mm57109Instance::invError(OpCodes opCode)
+{
+    switch (opCode)
+    {
+        case OP_CODE_SIN:
+        case OP_CODE_COS:
+            if (abs(registerX) >= 9000)
+                error_ = 0x20;
+            if (abs(registerX) <= pow(10, -50))
+                error_ = 0x20;
+        break;
+            
+        default:
+        break;
+    }
+    return (error_ != 0);
+}
+
+void Mm57109Instance::invCommand(OpCodes opCode)
+{
+    switch (opCode)
+    {
+        case OP_CODE_SIN:
+            mathOpCode_ = OP_CODE_SIN_INV;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+        break;
+            
+        case OP_CODE_COS:
+            mathOpCode_ = OP_CODE_COS_INV;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+        break;
+            
+        case OP_CODE_TAN:
+            mathOpCode_ = OP_CODE_TAN_INV;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+        break;
+
+        case OP_CODE_PLUS:
+            mathOpCode_ = OP_CODE_PLUS_INV;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+        break;
+
+        case OP_CODE_MINUS:
+            mathOpCode_ = OP_CODE_MINUS_INV;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+        break;
+
+        case OP_CODE_TIMES:
+            mathOpCode_ = OP_CODE_TIMES_INV;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+        break;
+
+        case OP_CODE_DIVIDE:
+            mathOpCode_ = OP_CODE_DIVIDE_INV;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+        break;
+
+        default:
+            firsInstructionWord(opCode);
+        break;
+    }
+}
+
 void Mm57109Instance::cycle()
 {
     if (rdyCycleCounter_ > 0)
@@ -673,7 +745,6 @@ void Mm57109Instance::cycle()
                 case OP_CODE_OUT:
                     outputDigitNumber_ = 0;
                     instructionCycleCounter_ = -1;
-  //                  returnDigits_ = true;
                 return;
 
                 // Single-digit commands:
@@ -704,51 +775,6 @@ void Mm57109Instance::cycle()
             instructionCycleCounter_ = -1;
             readyPulse();
         }
-    }
-}
-
-void Mm57109Instance::invCommand(OpCodes opCode)
-{
-    switch (opCode)
-    {
-        case OP_CODE_SIN:
-            mathOpCode_ = OP_CODE_SIN_INV;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
-        break;
-            
-        case OP_CODE_COS:
-            mathOpCode_ = OP_CODE_COS_INV;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
-        break;
-            
-        case OP_CODE_TAN:
-            mathOpCode_ = OP_CODE_TAN_INV;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
-        break;
-
-        case OP_CODE_PLUS:
-            mathOpCode_ = OP_CODE_PLUS_INV;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
-        break;
-
-        case OP_CODE_MINUS:
-            mathOpCode_ = OP_CODE_MINUS_INV;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
-        break;
-
-        case OP_CODE_TIMES:
-            mathOpCode_ = OP_CODE_TIMES_INV;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
-        break;
-
-        case OP_CODE_DIVIDE:
-            mathOpCode_ = OP_CODE_DIVIDE_INV;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
-        break;
-
-        default:
-            firsInstructionWord(opCode);
-        break;
     }
 }
 
