@@ -252,11 +252,6 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
         case OP_CODE_SQ:
         case OP_CODE_10X:
         case OP_CODE_EX:
-        case OP_CODE_LN:
-        case OP_CODE_LOG:
-        case OP_CODE_SIN:
-        case OP_CODE_COS:
-        case OP_CODE_TAN:
         case OP_CODE_DTR:
         case OP_CODE_RTD:
         case OP_CODE_XEM:
@@ -286,6 +281,34 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
         case OP_CODE_PF2:
         case OP_CODE_PRW1:
         case OP_CODE_PRW2:
+            stopDigitEntry();
+            mathOpCode_ = opCode;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+        break;
+
+        case OP_CODE_LN:
+        case OP_CODE_LOG:
+            if (registerX <= 0)
+                error_ = 0x20;
+            stopDigitEntry();
+            mathOpCode_ = opCode;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+        break;
+
+        case OP_CODE_SIN:
+        case OP_CODE_COS:
+            if (abs(registerX) >= 9000)
+                error_ = 0x20;
+            stopDigitEntry();
+            mathOpCode_ = opCode;
+            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+        break;
+
+        case OP_CODE_TAN:
+            if (abs(registerX) >= 9000)
+                error_ = 0x20;
+            if (cos(registerX) == 0)
+                error_ = 0x20;
             stopDigitEntry();
             mathOpCode_ = opCode;
             instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
