@@ -305,9 +305,7 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
         break;
 
         case OP_CODE_TAN:
-            if (abs(registerX) >= 9000)
-                error_ = 0x20;
-            if (cos(registerX) == 0)
+            if (abs(registerX) >= 9000 || cos(registerX) == 0)
                 error_ = 0x20;
             stopDigitEntry();
             mathOpCode_ = opCode;
@@ -359,6 +357,14 @@ void Mm57109Instance::secondInstrucionWord(OpCodes opCode)
 
         case OP_CODE_SMDC:
         case OP_CODE_INV:
+            if (opCode == OP_CODE_SIN || opCode == OP_CODE_COS)
+            {
+                if (abs(registerX) >= 9000)
+                    error_ = 0x20;
+                if (abs(registerX) <= pow(10, -50))
+                    error_ = 0x20;
+            }
+
             mathOpCode_ = lastOpCode_;
             secondOpCode_ = opCode;
             instructionCycleCounter_ = intructionCycleTime[lastOpCode_] * speedFactor_;
