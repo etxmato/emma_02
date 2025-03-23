@@ -951,6 +951,8 @@ void Mm57109Instance::exponentConvert(double reg)
     else
         digits = outputFormat.BeforeFirst(',');
     
+    outputFormat.Printf("%.7e", reg);
+    
     int numberOfDigits = (int)digits.Len();
     
 //    int intPartRegister = (int) reg;

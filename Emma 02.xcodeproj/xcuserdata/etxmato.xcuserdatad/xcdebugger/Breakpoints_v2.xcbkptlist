@@ -350,9 +350,9 @@
             filePath = "src/mm57109.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "967"
-            endingLineNumber = "967"
-            landmarkName = "Mm57109Instance::exponentConvertAboveOne(reg, numberOfDigits)"
+            startingLineNumber = "969"
+            endingLineNumber = "969"
+            landmarkName = "Mm57109Instance::exponentConvert(reg)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -430,8 +430,8 @@
             filePath = "src/mm57109.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "954"
-            endingLineNumber = "954"
+            startingLineNumber = "956"
+            endingLineNumber = "956"
             landmarkName = "Mm57109Instance::exponentConvert(reg)"
             landmarkType = "7">
          </BreakpointContent>
