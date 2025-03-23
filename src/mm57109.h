@@ -106,7 +106,7 @@ public:
     
 private:
     void firsInstructionWord(OpCodes opCode);
-    void executeNonDigitCommand();
+    void executeNonDigitCommand(OpCodes opCode);
     void secondInstrucionWord(OpCodes opCode);
     bool invError(OpCodes opCode);
     void invCommand(OpCodes opCode);

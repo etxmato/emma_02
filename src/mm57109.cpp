@@ -276,7 +276,7 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
         case OP_CODE_PF2:
         case OP_CODE_PRW1:
         case OP_CODE_PRW2:
-            executeNonDigitCommand();
+            executeNonDigitCommand(opCode);
         break;
 
         case OP_CODE_LN:
@@ -284,14 +284,14 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
             if (registerX <= 0)
                 error_ = 0x20;
             else
-                executeNonDigitCommand();
+                executeNonDigitCommand(opCode);
         break;
 
         case OP_CODE_SQRT:
             if (registerX < 0)
                 error_ = 0x20;
             else
-                executeNonDigitCommand();
+                executeNonDigitCommand(opCode);
         break;
 
         case OP_CODE_SIN:
@@ -299,22 +299,22 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
             if (abs(registerX) >= 9000)
                 error_ = 0x20;
             else
-                executeNonDigitCommand();
+                executeNonDigitCommand(opCode);
         break;
 
         case OP_CODE_TAN:
             if (abs(registerX) >= 9000 || cos(registerX) == 0)
                 error_ = 0x20;
             else
-                executeNonDigitCommand();
+                executeNonDigitCommand(opCode);
         break;
 
         case OP_CODE_DIVIDE:
         case OP_CODE_1X:
-            if (registerX) == 0)
+            if (registerX == 0)
                 error_ = 0x20;
             else
-                executeNonDigitCommand();
+                executeNonDigitCommand(opCode);
         break;
                         
         // 2 byte commands:
@@ -339,7 +339,7 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
     lastOpCode_ = opCode;
 }
 
-void Mm57109Instance::executeNonDigitCommand()
+void Mm57109Instance::executeNonDigitCommand(OpCodes opCode)
 {
     stopDigitEntry();
     mathOpCode_ = opCode;
@@ -395,7 +395,7 @@ bool Mm57109Instance::invError(OpCodes opCode)
         break;
             
         case OP_CODE_DIVIDE:
-            if (registerX) == 0)
+            if (registerX == 0)
                 error_ = 0x20;
         break;
 
