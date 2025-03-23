@@ -7109,6 +7109,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber)
         "interruptled",
         "diskled",
         "cpustateled",
+        "mathled",
         "datatil",
         "addresstil",
         "multitil",
@@ -7172,6 +7173,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber)
         LED_FUNC_INTERRUPT,
         LED_FUNC_DISK,
         LED_FUNC_CPUSTATE,
+        LED_FUNC_MATH,
         TIL_DATA,
         TIL_ADDRESS,
         TIL_MULTI,
@@ -7458,13 +7460,13 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber)
                     case LED_FUNC_BIT:
                         if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value >= 8)
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value = 0;
-                        if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value != -1)
+//                        if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value != -1)
                     break;
 
                     case LED_FUNC_ADDRESS:
                         if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value >= MAX_BIT_LEDS - 8)
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value = 0;
-                        if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value != -1)
+//                        if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value != -1)
                     break;
 
                     case LED_FUNC_CPUSTATE:
@@ -7676,10 +7678,12 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber)
 
                             case LED_FUNC_BIT:
                                 if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value != -1)
-                                if (child->GetAttribute("load") == "show")
-                                    computerConfiguration.ledDisplayConfiguration.showDataOnLoad = true;
-                                if (child->GetAttribute("cycle") == "show")
-                                    computerConfiguration.ledDisplayConfiguration.showDataOnCycle = true;
+                                {
+                                    if (child->GetAttribute("load") == "show")
+                                        computerConfiguration.ledDisplayConfiguration.showDataOnLoad = true;
+                                    if (child->GetAttribute("cycle") == "show")
+                                        computerConfiguration.ledDisplayConfiguration.showDataOnCycle = true;
+                                }
                             break;
 
                             case LED_FUNC_BUTTON:

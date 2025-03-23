@@ -121,6 +121,8 @@ Mm57109Instance::Mm57109Instance()
     firstInstructionWord_ = true;
     instructionCycleCounter_ = -1;
     rdyCycleCounter_ =  -1;
+    for (int led=0; led<2; led++)
+        mathLedStatus[led] = 0;
  //   returnDigits_ = false;
 }
 
@@ -528,12 +530,12 @@ void Mm57109Instance::cycle()
                 break;
 
                 case OP_CODE_DTR:
-                    registerX = registerX * M_PI/180;
+                    registerX = registerX * 3.1415927/180;
                     convert(registerX);
                 break;
                 
                 case OP_CODE_RTD:
-                    registerX = registerX * 180/M_PI;
+                    registerX = registerX * 180/3.1415927;
                     convert(registerX);
                 break;
 
@@ -601,11 +603,34 @@ void Mm57109Instance::cycle()
                 case OP_CODE_JMP:
                 case OP_CODE_IBNZ:
                 case OP_CODE_DBNZ:
+                    // TO BE ADDED
+                break;
+
+                // Flags:
                 case OP_CODE_SF1:
+                    mathLedStatus[0] = 1;
+                    p_Computer->setMathLed(0, mathLedStatus[0]);
+                break;
+                    
                 case OP_CODE_PF1:
+                    mathLedStatus[0] ^= 1;
+                    p_Computer->setMathLed(0, mathLedStatus[0]);
+               break;
+                    
                 case OP_CODE_SF2:
+                    mathLedStatus[1] = 1;
+                    p_Computer->setMathLed(1, mathLedStatus[1]);
+                break;
+                    
                 case OP_CODE_PF2:
+                    mathLedStatus[1] ^= 1;
+                    p_Computer->setMathLed(1, mathLedStatus[1]);
+                break;
+                    
                 case OP_CODE_PRW1:
+                    // TO BE ADDED
+                break;
+
                 case OP_CODE_PRW2:
                     // TO BE ADDED
                 break;
@@ -766,7 +791,8 @@ void Mm57109Instance::shiftLeft()
     if (outputRegister[0] == 8)
         inputRegisterX.mantissaSign = -1;
     
-    registerX = (double) inputRegisterX.mantissa * pow(10, count_digit(inputRegisterX.mantissa)-outputRegister[1]-2);
+//    registerX = (double) inputRegisterX.mantissa * pow(10, count_digit(inputRegisterX.mantissa)-outputRegister[1]-2);
+    registerX = powerMultiplification(inputRegisterX.mantissa, count_digit(inputRegisterX.mantissa)-outputRegister[1]-2);
     registerX *= inputRegisterX.mantissaSign;
 }
 
@@ -783,22 +809,22 @@ void Mm57109Instance::shiftRight()
     if (outputRegister[0] == 8)
         inputRegisterX.mantissaSign = -1;
     
-    int digits = count_digit(inputRegisterX.mantissa)-outputRegister[1]-3;
-    int power = pow(10, abs(digits))
-    if (digits < 0)
-        registerX = (double) inputRegisterX.mantissa / power;
-    else
-        registerX = (double) inputRegisterX.mantissa * power;
-    
+    registerX = powerMultiplification(inputRegisterX.mantissa, count_digit(inputRegisterX.mantissa)-outputRegister[1]-3);
     registerX *= inputRegisterX.mantissaSign;
 
     linkDigit_ = 0;
+}
+
+double Mm57109Instance::powerMultiplification(unsigned int mantissa, int exponent)
+{
+    double result;
     
-/*    registerX = registerX / 10;
-
-    int intPartRegister = (int) registerX;
-    int numberOfDigits = count_digit(intPartRegister);*/
-
+    int power = pow(10, abs(exponent));
+    if (exponent < 0)
+        result = (double) mantissa / power;
+    else
+        result = (double) mantissa * power;
+    return result;
 }
 
 void Mm57109Instance::clearX()
@@ -836,6 +862,7 @@ void Mm57109Instance::mantissaConvert(double reg)
         numberOfDigits = mdc_;
     outputRegister[1] = 12-numberOfDigits;
     intPartRegister = (double) reg * pow(10, mdc_-numberOfDigits);
+//    intPartRegister = (intPartRegister + 5)/10;
     for (int digit=9; digit>1; digit--)
     {
         outputRegister[digit] = intPartRegister % 10;

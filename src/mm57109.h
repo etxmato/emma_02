@@ -118,6 +118,7 @@ private:
     void exchangeXM();
     void shiftLeft();
     void shiftRight();
+    double powerMultiplification(unsigned int mantissa, int exponent);
     void clearX();
     void convert(double reg);
     void mantissaConvert(double reg);
@@ -161,6 +162,8 @@ private:
     int eeNumber_;
     Byte linkDigit_;
 
+    int mathLedStatus[2];
+    
     bool floatingPointMode_;
 //    bool returnDigits_;
     double speedFactor_;

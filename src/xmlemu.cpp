@@ -1232,6 +1232,7 @@ void Computer::initComputer()
     runPressed_ = false;
 
     tapeRunSwitch_ = 0x2;
+    tapeRunSwitch_ = 0x2;
     tapeError_ = 1;
     inpMode_ = INP_MODE_NONE;
     cardSwitchOn_ = false;
@@ -7871,6 +7872,12 @@ void Computer::setLedMsTemp(long ms)
     else
         ledCycleSize_ = (((computerClockSpeed_ * 1000000) / 8) / 1000) * ms;
     ledCycleValue_ = ledCycleSize_;
+}
+
+void Computer::setMathLed(int i, int status)
+{
+    for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+        panelPointer[frontPanel]->setMathLed(i, status);
 }
 
 Byte Computer::getKey(Byte vtOut)

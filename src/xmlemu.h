@@ -229,6 +229,7 @@ public:
     void writeDirect6847(Word address, int value); 
     void setLedMs(long ms);
     void setLedMsTemp(long ms);
+    void setMathLed(int i, int status);
     Byte getKey(Byte vtOut);
     void activateMainWindow();
     void releaseButtonOnScreen(HexButton* buttonPointer);
