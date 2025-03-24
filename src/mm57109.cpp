@@ -949,89 +949,28 @@ void Mm57109Instance::exponentConvert(double reg)
 
     outputRegister[3] = 0x9b;      // digital point is not used - i.e. always 0x9b
     
-    outputRegister[4] = outputFormat.GetChar(charNumber++) - 0x30;
+    outputRegister[4] = outputFormat.GetChar(charNumber++) - (wxUniChar)0x30;
     charNumber++;                  // skip the digital point as it is always in the same position
 
-    for (int digit = 5; digit < 12; digit)             // get digit 2 to 8
-        outputRegister[digit] = outputFormat.GetChar(charNumber++) - 0x30;
+    for (int digit = 5; digit < 12; digit++)             // get digit 2 to 8
+        outputRegister[digit] = outputFormat.GetChar(charNumber++) - (wxUniChar)0x30;
     charNumber++;                  // skip 'e' character
 
     if (outputFormat.GetChar(charNumber++) == '-')
         outputRegister[2] |= 1;    // exponent value is negative
 
-    for (int exponent = 0; exponent < 2; exponent)     // get exponent
-        outputRegister[exponent] = outputFormat.GetChar(charNumber++) - 0x30;
-
-    size_t exponent = outputRegister[0] * 10 + outputRegister[1];
-    if (exponent > 99)
-        error_ = 0x20;
-/*    wxString digits;
-    outputFormat.Printf("%f", reg);
-    if (outputFormat.Find('.'))
-        digits = outputFormat.BeforeFirst('.');
-    else
-        digits = outputFormat.BeforeFirst(',');
-    
-    outputFormat.Printf("%.7e", reg);
-    
-    int numberOfDigits = (int)digits.Len();
-    
-//    int intPartRegister = (int) reg;
-//    numberOfDigits = count_digit(intPartRegister);
-
-    if (numberOfDigits == 0)
-        exponentConvertBelowOne(reg);
-    else
-        exponentConvertAboveOne(reg, numberOfDigits);*/
-}
-
-void Mm57109Instance::exponentConvertAboveOne(double reg, int numberOfDigits)
-{
-    reg = (double) reg / pow(10, numberOfDigits-mdc_);
-    int intPartRegister = (int) reg;
-    if (count_digit(intPartRegister) > 8)
+    size_t exponent = 0;
+    while (charNumber < outputFormat.Len())
     {
-        intPartRegister /= 10;
-        numberOfDigits++;
+        exponent *= 10;
+        exponent += outputFormat.GetChar(charNumber++) - (wxUniChar)0x30;
     }
-
-    int exponent = numberOfDigits-1;
-    if (exponent > 99)
-        error_ = 0x20;
     
     outputRegister[0] = (exponent/10) % 10;
     outputRegister[1] = exponent % 10;
-    
-    for (int digit=11; digit>3; digit--)
-    {
-        outputRegister[digit] = intPartRegister % 10;
-        intPartRegister = intPartRegister / 10;
-    }
-}
 
-void Mm57109Instance::exponentConvertBelowOne(double reg)
-{
-    int exponent = 0;
-    int intPartRegister = (int) reg;
-    while (intPartRegister == 0)
-    {
-        exponent++;
-        reg *= 10;
-        intPartRegister = (int) reg;
-    }
     if (exponent > 99)
         error_ = 0x20;
-    
-    outputRegister[0] = (exponent/10) % 10;
-    outputRegister[1] = exponent % 10;
-    outputRegister[2] |= 1;
-
-    for (int digit=4; digit<12; digit++)
-    {
-        outputRegister[digit] = intPartRegister % 10;
-        reg *= 10;
-        intPartRegister = (int) reg;
-    }
 }
 
 int Mm57109Instance::count_digit(uint64_t number)
