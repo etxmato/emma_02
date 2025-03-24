@@ -112,6 +112,8 @@ private:
     void invCommand(OpCodes opCode);
 
     void readyPulse();
+    void f1Pulse(int state);
+    void f2Pulse(int state);
     void masterClear();
     void pushStack();
     void popStack();
@@ -135,6 +137,8 @@ private:
     
     int instructionCycleCounter_;
     int rdyCycleCounter_;
+    int f1CycleCounter_;
+    int f2CycleCounter_;
 
     NcuRegister inputRegisterX;
     Byte outputRegister[12];

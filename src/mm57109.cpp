@@ -121,6 +121,8 @@ Mm57109Instance::Mm57109Instance()
     firstInstructionWord_ = true;
     instructionCycleCounter_ = -1;
     rdyCycleCounter_ =  -1;
+    f1CycleCounter_ =  -1;
+    f2CycleCounter_ =  -1;
     for (int led=0; led<2; led++)
         mathLedStatus[led] = 0;
     moreDigitsThanMdc_ = false;
@@ -234,6 +236,7 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
         case OP_CODE_CS:
         case OP_CODE_PI:
         case OP_CODE_HALT:
+        case OP_CODE_AIN:
             mathOpCode_ = opCode;
             instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
         break;
@@ -261,8 +264,6 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
         case OP_CODE_XEY:
         case OP_CODE_MCLR:
         case OP_CODE_ECLR:
-        case OP_CODE_IN:
-        case OP_CODE_AIN:
         case OP_CODE_TOGM:
         case OP_CODE_TJC:
         case OP_CODE_TX0:
@@ -316,6 +317,15 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
                         
         // 2 byte commands:
         
+        case OP_CODE_IN:
+            stopDigitEntry();
+            inputDigitNumber_ = 0;
+            if (lastOpCode_ != OP_CODE_ENTER)
+                pushStack();
+            firstInstructionWord_ = false;
+            readyPulse();
+        break;
+            
         case OP_CODE_OUT:
         case OP_CODE_SMDC:
         case OP_CODE_INV:
@@ -352,21 +362,21 @@ void Mm57109Instance::secondInstrucionWord(OpCodes opCode)
         // Multi-digit commands:
 
         case OP_CODE_OUT:
-            if (opCode == OP_CODE_OUT)
+            if (moreDigitsThanMdc_)
             {
-                if (moreDigitsThanMdc_)
-                {
-                    error_ = 0x20;
-                    moreDigitsThanMdc_ = false;
-                }
-                else
-                {
-                    outputDigitNumber_ = 0;
-                    dataReady_ = 1;
-                }
+                error_ = 0x20;
+                moreDigitsThanMdc_ = false;
             }
             else
-                firsInstructionWord(opCode);
+            {
+                outputDigitNumber_ = 0;
+                dataReady_ = 1;
+            }
+            mathOpCode_ = lastOpCode_;
+        break;
+
+        case OP_CODE_IN:
+            mathOpCode_ = lastOpCode_;
         break;
 
         // Mode control commands:
@@ -459,6 +469,20 @@ void Mm57109Instance::cycle()
         rdyCycleCounter_--;
         if (rdyCycleCounter_ == 0 && hold_ == 0)
             rdy_ = 0;
+    }
+    if (f1CycleCounter_ > 0)
+    {
+        f1CycleCounter_--;
+        if (f1CycleCounter_ == 0)
+            mathLedStatus[0] ^= 1;
+        p_Computer->setMathLed(0, mathLedStatus[0]);
+    }
+    if (f2CycleCounter_ > 0)
+    {
+        f2CycleCounter_--;
+        if (f2CycleCounter_ == 0)
+            mathLedStatus[1] ^= 1;
+        p_Computer->setMathLed(1, mathLedStatus[1]);
     }
     if (instructionCycleCounter_ > 0)
     {
@@ -718,8 +742,7 @@ void Mm57109Instance::cycle()
                 break;
                     
                 case OP_CODE_PF1:
-                    mathLedStatus[0] ^= 1;
-                    p_Computer->setMathLed(0, mathLedStatus[0]);
+                    f1Pulse(1);
                break;
                     
                 case OP_CODE_SF2:
@@ -728,8 +751,7 @@ void Mm57109Instance::cycle()
                 break;
                     
                 case OP_CODE_PF2:
-                    mathLedStatus[1] ^= 1;
-                    p_Computer->setMathLed(1, mathLedStatus[1]);
+                    f2Pulse(1);
                 break;
                     
                 case OP_CODE_PRW1:
@@ -743,18 +765,22 @@ void Mm57109Instance::cycle()
                 // Multi-digit commands:
 
                 case OP_CODE_IN:
-                    // TO BE ADDED
+                    digitEntry(mathOpCode_ & 0xf);
+                    if ((inputDigitNumber_ == 10 && floatingPointMode_) || (inputDigitNumber_ == 12 && !floatingPointMode_))
+                        inputDigitNumber_ = 0;
+                    else
+                        firstInstructionWord_ = false;
                 break;
                 
                 case OP_CODE_OUT:
                     outputDigitNumber_ = 0;
-                    instructionCycleCounter_ = -1;
                 return;
 
                 // Single-digit commands:
                     
                 case OP_CODE_AIN:
-                    // TO BE ADDED
+                    digitEntry(mathOpCode_ & 0xf);
+                    f2Pulse(0);
                 break;
                             
                 // Mode control commands:
@@ -794,6 +820,19 @@ void Mm57109Instance::readyPulse()
     rdyCycleCounter_ = 8 * speedFactor_;
 }
 
+void Mm57109Instance::f1Pulse(int state)
+{
+    mathLedStatus[0] = state;
+    p_Computer->setMathLed(0, mathLedStatus[0]);
+    f1CycleCounter_ = 4 * speedFactor_;
+}
+
+void Mm57109Instance::f2Pulse(int state)
+{
+    mathLedStatus[1] = state;
+    p_Computer->setMathLed(1, mathLedStatus[1]);
+    f2CycleCounter_ = 4 * speedFactor_;
+}
 void Mm57109Instance::hold(Byte value)
 {
     hold_ = value;
@@ -906,6 +945,42 @@ void Mm57109Instance::convert(double reg)
 
 void Mm57109Instance::mantissaConvert(double reg)
 {
+    wxString outputFormat;
+    outputFormat.Printf("%.8f", reg); // format 12345678.12345678 or -12345678.12345678
+
+    if (outputFormat.GetChar(0) == '-')
+    {
+        outputRegister[0] = 8;     // digit value is negative
+        outputFormat = outputFormat.Right(outputFormat.Len()-1);
+    }
+    else
+        outputRegister[0] = 0;     // digit value is positive
+
+    if (outputFormat.GetChar(0) == '0' && reg != 0)
+        outputFormat = outputFormat.Right(outputFormat.Len()-1);
+
+    wxString digitsBeforeDigitalPoint;
+    if (outputFormat.Find('.'))
+        digitsBeforeDigitalPoint = outputFormat.Before('.');
+    else
+        digitsBeforeDigitalPoint = outputFormat.Before(',');
+
+    size_t numberOfDigitsBeforeDigitalPoint = digitsBeforeDigitalPoint.Len();
+    if (numberOfDigitsBeforeDigitalPoint > mdc_)
+        moreDigitsThanMdc_ = true;
+    outputRegister[1] = 12 - numberOfDigitsBeforeDigitalPoint;
+
+    size_t charNumber = 0;
+    for (int digit = 2; digit < mdc_+2; digit++)             // get digits
+    {
+        if (outputFormat.GetChar(charNumber) < 0x30)
+            charNumber++;
+        outputRegister[digit] = outputFormat.GetChar(charNumber++) - (wxUniChar)0x30;
+    }
+    for (int digit = mdc_+2; digit < 10; digit++)
+        outputRegister[digit] = 0;
+    /*
+
     if (reg < 0)
     {
         outputRegister[0] = 8;
@@ -929,7 +1004,7 @@ void Mm57109Instance::mantissaConvert(double reg)
         intPartRegister /= 10;
     }
     if (intPartRegister != 0)
-        moreDigitsThanMdc_ = true;
+        moreDigitsThanMdc_ = true;*/
 }
 
 void Mm57109Instance::exponentConvert(double reg)
@@ -952,8 +1027,11 @@ void Mm57109Instance::exponentConvert(double reg)
     outputRegister[4] = outputFormat.GetChar(charNumber++) - (wxUniChar)0x30;
     charNumber++;                  // skip the digital point as it is always in the same position
 
-    for (int digit = 5; digit < 12; digit++)             // get digit 2 to 8
+    for (int digit = 5; digit < mdc_+4; digit++)             // get digit 2 to 8
         outputRegister[digit] = outputFormat.GetChar(charNumber++) - (wxUniChar)0x30;
+    for (int digit = mdc_+4; digit < 12; digit++)
+        outputRegister[digit] = 0;
+
     charNumber++;                  // skip 'e' character
 
     if (outputFormat.GetChar(charNumber++) == '-')
