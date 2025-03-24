@@ -850,7 +850,6 @@ void Mm57109Instance::shiftLeft()
     if (outputRegister[0] == 8)
         inputRegisterX.mantissaSign = -1;
     
-//    registerX = (double) inputRegisterX.mantissa * pow(10, count_digit(inputRegisterX.mantissa)-outputRegister[1]-2);
     registerX = powerMultiplification(inputRegisterX.mantissa, count_digit(inputRegisterX.mantissa)-outputRegister[1]-2);
     registerX *= inputRegisterX.mantissaSign;
 }
@@ -935,16 +934,38 @@ void Mm57109Instance::mantissaConvert(double reg)
 
 void Mm57109Instance::exponentConvert(double reg)
 {
-    if (reg < 0)
+    wxString outputFormat;
+    outputFormat.Printf("%1.7e", reg); // format 1.2345678e+12 or -1.2345678e+12
+
+    size_t charNumber = 0;
+
+    if (outputFormat.GetChar(charNumber) == '-')
     {
-        outputRegister[2] = 8;
-        reg = -reg;
+        outputRegister[2] = 8;     // digit value is negative
+        charNumber++;
     }
     else
-        outputRegister[2] = 0;
+        outputRegister[2] = 0;     // digit value is positive
 
-    outputRegister[3] = 0x9b;
-    wxString outputFormat, digits;
+    outputRegister[3] = 0x9b;      // digital point is not used - i.e. always 0x9b
+    
+    outputRegister[4] = outputFormat.GetChar(charNumber++) - 0x30;
+    charNumber++;                  // skip the digital point as it is always in the same position
+
+    for (int digit = 5; digit < 12; digit)             // get digit 2 to 8
+        outputRegister[digit] = outputFormat.GetChar(charNumber++) - 0x30;
+    charNumber++;                  // skip 'e' character
+
+    if (outputFormat.GetChar(charNumber++) == '-')
+        outputRegister[2] |= 1;    // exponent value is negative
+
+    for (int exponent = 0; exponent < 2; exponent)     // get exponent
+        outputRegister[exponent] = outputFormat.GetChar(charNumber++) - 0x30;
+
+    size_t exponent = outputRegister[0] * 10 + outputRegister[1];
+    if (exponent > 99)
+        error_ = 0x20;
+/*    wxString digits;
     outputFormat.Printf("%f", reg);
     if (outputFormat.Find('.'))
         digits = outputFormat.BeforeFirst('.');
@@ -961,7 +982,7 @@ void Mm57109Instance::exponentConvert(double reg)
     if (numberOfDigits == 0)
         exponentConvertBelowOne(reg);
     else
-        exponentConvertAboveOne(reg, numberOfDigits);
+        exponentConvertAboveOne(reg, numberOfDigits);*/
 }
 
 void Mm57109Instance::exponentConvertAboveOne(double reg, int numberOfDigits)
