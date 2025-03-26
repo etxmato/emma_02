@@ -106,6 +106,8 @@ public:
     
 private:
     void firsInstructionWord(OpCodes opCode);
+    void setExecutionTimeNumberEntry();
+    void setExecutionTimeNoNumberEntry();
     void executeNonDigitCommand(OpCodes opCode);
     void secondInstrucionWord(OpCodes opCode);
     void checkInvError(OpCodes opCode);

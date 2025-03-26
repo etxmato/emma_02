@@ -238,7 +238,7 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
         case OP_CODE_HALT:
         case OP_CODE_AIN:
             mathOpCode_ = opCode;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+            setExecutionTimeNumberEntry();
         break;
         
         // Non digit entry commands:
@@ -346,11 +346,31 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
     lastOpCode_ = opCode;
 }
 
+void Mm57109Instance::setExecutionTimeNumberEntry()
+{
+    int extraCycles = 67;
+    if (lastOpCode_ != OP_CODE_ENTER)
+        extraCycles = 282;
+    
+    if (inputDigitNumber_== 0)
+        instructionCycleCounter_ = (intructionCycleTime[mathOpCode_] + extraCycles) * speedFactor_;
+    else
+        instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+}
+
+void Mm57109Instance::setExecutionTimeNoNumberEntry()
+{
+    if (inputDigitNumber_== 0)
+        instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+    else
+        instructionCycleCounter_ = (intructionCycleTime[mathOpCode_] + 1003) * speedFactor_;
+}
+
 void Mm57109Instance::executeNonDigitCommand(OpCodes opCode)
 {
     stopDigitEntry();
     mathOpCode_ = opCode;
-    instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+    setExecutionTimeNoNumberEntry();
 }
 
 void Mm57109Instance::secondInstrucionWord(OpCodes opCode)
@@ -386,7 +406,7 @@ void Mm57109Instance::secondInstrucionWord(OpCodes opCode)
             checkInvError(opCode);
             mathOpCode_ = lastOpCode_;
             secondOpCode_ = opCode;
-            instructionCycleCounter_ = intructionCycleTime[lastOpCode_] * speedFactor_;
+            setExecutionTimeNoNumberEntry();
         break;
 
         default:
@@ -423,37 +443,37 @@ void Mm57109Instance::invCommand(OpCodes opCode)
     {
         case OP_CODE_SIN:
             mathOpCode_ = OP_CODE_SIN_INV;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+            setExecutionTimeNoNumberEntry();
         break;
             
         case OP_CODE_COS:
             mathOpCode_ = OP_CODE_COS_INV;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+            setExecutionTimeNoNumberEntry();
         break;
             
         case OP_CODE_TAN:
             mathOpCode_ = OP_CODE_TAN_INV;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+            setExecutionTimeNoNumberEntry();
         break;
 
         case OP_CODE_PLUS:
             mathOpCode_ = OP_CODE_PLUS_INV;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+            setExecutionTimeNoNumberEntry();
         break;
 
         case OP_CODE_MINUS:
             mathOpCode_ = OP_CODE_MINUS_INV;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+            setExecutionTimeNoNumberEntry();
         break;
 
         case OP_CODE_TIMES:
             mathOpCode_ = OP_CODE_TIMES_INV;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+            setExecutionTimeNoNumberEntry();
         break;
 
         case OP_CODE_DIVIDE:
             mathOpCode_ = OP_CODE_DIVIDE_INV;
-            instructionCycleCounter_ = intructionCycleTime[mathOpCode_] * speedFactor_;
+            setExecutionTimeNoNumberEntry();
         break;
 
         default:
@@ -732,7 +752,7 @@ void Mm57109Instance::cycle()
                 case OP_CODE_JMP:
                 case OP_CODE_IBNZ:
                 case OP_CODE_DBNZ:
-                    // TO BE ADDED
+                    // NOT IMPLEMENTED
                 break;
 
                 // Flags:
@@ -755,11 +775,11 @@ void Mm57109Instance::cycle()
                 break;
                     
                 case OP_CODE_PRW1:
-                    // TO BE ADDED
+                    // NOT IMPLEMENTED
                 break;
 
                 case OP_CODE_PRW2:
-                    // TO BE ADDED
+                    // NOT IMPLEMENTED
                 break;
 
                 // Multi-digit commands:
@@ -779,8 +799,11 @@ void Mm57109Instance::cycle()
                 // Single-digit commands:
                     
                 case OP_CODE_AIN:
-                    digitEntry(mathOpCode_ & 0xf);
-                    f2Pulse(0);
+                    // NOT IMPLEMENTED
+                    // mantissaEntry(mathOpCode_ & 0xf);
+                    // calculateDigitEntry();
+                    // convert(registerX);
+                    // f2Pulse(0);
                 break;
                             
                 // Mode control commands:
