@@ -189,6 +189,13 @@ void Mm57109Instance::output(Byte value)
     hold_ = 0;
     rdy_ = 0;
 
+    if ((value & 0x40) == 0x40)
+    {
+        masterClear();
+        readyPulse();
+        readyPulse();
+        readyPulse();
+    }
     if (firstInstructionWord_)
         firsInstructionWord((OpCodes)(value & 0x3f));
     else
@@ -979,9 +986,6 @@ void Mm57109Instance::mantissaConvert(double reg)
     else
         outputRegister[0] = 0;     // digit value is positive
 
-    if (outputFormat.GetChar(0) == '0' && reg != 0)
-        outputFormat = outputFormat.Right(outputFormat.Len()-1);
-
     wxString digitsBeforeDigitalPoint;
     if (outputFormat.Find('.'))
         digitsBeforeDigitalPoint = outputFormat.Before('.');
@@ -1110,8 +1114,8 @@ void Mm57109Instance::mantissaEntry(int number)
 {
     if (inputDigitNumber_== 0)
     {
-            if (lastOpCode_ != OP_CODE_ENTER)
-                pushStack();
+   //         if (lastOpCode_ != OP_CODE_ENTER)
+   //             pushStack();
             clearX();
     }
 

@@ -5,7 +5,7 @@
     
     <system>
         <name>Netronics Elf II</name>
-        <config>Giant Board and WTB: BASIC Board</config>
+        <config>Giant Board and Full BASIC Math Board</config>
         <clock>1.76</clock>
         <boot>3</boot>
         <init ef="1">1</init>
