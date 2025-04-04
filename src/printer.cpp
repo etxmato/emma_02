@@ -1454,7 +1454,7 @@ void Printer::configureThermalPrinter(ThermalPrinterConfiguration thermalPrinter
     p_Computer->setEfType(&thermalPrinterConfiguration.ioGroupVector, thermalPrinterConfiguration.ef, "busy");
     p_Computer->setCycleType(CYCLE_TYPE_PRINT, THERMAL_PRINTER_CYCLE);
 
-    printBuffer.Printf("	Q = mode\n");
+    p_Main->message("	Q = mode\n");
 }
 
 void Printer::configureBasicPrinter(BasicPrinterConfiguration basicPrinterConfiguration)

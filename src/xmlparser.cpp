@@ -227,6 +227,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.mcrConfiguration.output = init_IoPort();
     computerConfiguration.mcrConfiguration.bbat = init_IoPort();
     computerConfiguration.diagnosticBoardConfiguration.defined = false;
+    computerConfiguration.diagnosticBoardConfiguration.active = false;
     computerConfiguration.useBatchWav_ = false;
     computerConfiguration.nvRamMpConfiguration.defined = false;
     computerConfiguration.nvRamMpConfiguration.followMpSwitch = false;
@@ -382,6 +383,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.thermalPrinterConfiguration.defined = false;
     computerConfiguration.qSerialPrinterConfiguration.defined = false;
     computerConfiguration.cdp1855Configuration.defined = false;
+    computerConfiguration.mm57109Configuration.defined = false;
 
     computerConfiguration.videoTerminalConfiguration.xModem_defined = false;
     computerConfiguration.videoTerminalConfiguration.hexModem_defined = false;
@@ -11690,9 +11692,16 @@ size_t XmlParser::getMemConfig(wxString type)
 
     if (type == "gui")
     {
-        configNumber = 0;
-        if ((computerConfiguration.memoryConfiguration[configNumber].type & 0xff) != UNDEFINED)
-            configNumber = 1;
+        if ((computerConfiguration.memoryConfiguration[0].type & 0xff) == UNDEFINED)
+            configNumber = 0;
+        else
+            if ((computerConfiguration.memoryConfiguration[1].type & 0xff) == UNDEFINED)
+                configNumber = 1;
+            else
+            {
+                configNumber = memConfigNumber_++;
+                computerConfiguration.memoryConfiguration.resize(configNumber+1);
+            }
     }
     else
     {

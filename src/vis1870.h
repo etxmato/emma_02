@@ -111,6 +111,7 @@ private:
     int cmemAccessMode_;
     int charactersPerRow_;
     int linesPerCharacters_;
+    int shownLinesPerCharacters_;
     int rowsPerScreen_;
     int linesPerScreen_;
     int nonDisplayline_;

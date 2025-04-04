@@ -244,6 +244,11 @@ void Mm57109Instance::firsInstructionWord(OpCodes opCode)
         case OP_CODE_PI:
         case OP_CODE_HALT:
         case OP_CODE_AIN:
+            if (inputDigitNumber_== 0)
+            {
+                    if (lastOpCode_ != OP_CODE_ENTER)
+                        pushStack();
+            }
             mathOpCode_ = opCode;
             setExecutionTimeNumberEntry();
         break;
@@ -646,7 +651,7 @@ void Mm57109Instance::cycle()
                 break;
 
                 case OP_CODE_LN:
-                    registerX = log(registerX);
+                    registerX = (float) log((float)registerX);
                     convert(registerX);
                 break;
 
@@ -656,42 +661,42 @@ void Mm57109Instance::cycle()
                 break;
 
                 case OP_CODE_SIN:
-                    registerX = sin(registerX * 3.1415927/180);
+                    registerX = sin(registerX * M_PI/180);
                     convert(registerX);
                 break;
 
                 case OP_CODE_SIN_INV:
-                    registerX = asin(registerX) * 180/3.1415927;
+                    registerX = asin(registerX) * 180/M_PI;
                     convert(registerX);
                 break;
 
                 case OP_CODE_COS:
-                    registerX = cos(registerX * 3.1415927/180);
+                    registerX = cos(registerX * M_PI/180);
                     convert(registerX);
                 break;
 
                 case OP_CODE_COS_INV:
-                    registerX = acos(registerX) * 180/3.1415927;
+                    registerX = acos(registerX) * 180/M_PI;
                     convert(registerX);
                 break;
 
                 case OP_CODE_TAN:
-                    registerX = tan(registerX * 3.1415927/180);
+                    registerX = tan(registerX * M_PI/180);
                     convert(registerX);
                 break;
 
                 case OP_CODE_TAN_INV:
-                    registerX = atan(registerX) * 180/3.1415927;
+                    registerX = atan(registerX) * 180/M_PI;
                     convert(registerX);
                 break;
 
                 case OP_CODE_DTR:
-                    registerX = registerX * 3.1415927/180;
+                    registerX = registerX * M_PI/180;
                     convert(registerX);
                 break;
                 
                 case OP_CODE_RTD:
-                    registerX = registerX * 180/3.1415927;
+                    registerX = registerX * 180/M_PI;
                     convert(registerX);
                 break;
 
@@ -735,7 +740,6 @@ void Mm57109Instance::cycle()
 
                 case OP_CODE_RSH:
                     shiftRight();
-                    convert(registerX);
                 break;
 
                 // Clear commands:
@@ -908,7 +912,6 @@ void Mm57109Instance::exchangeXM()
 
 void Mm57109Instance::shiftLeft()
 {
-    lastOpCode_ = OP_CODE_ENTER;
     mantissaConvert(registerX);
     
     linkDigit_ = outputRegister[2];
@@ -925,16 +928,22 @@ void Mm57109Instance::shiftLeft()
 
 void Mm57109Instance::shiftRight()
 {
-    lastOpCode_ = OP_CODE_ENTER;
-    mantissaConvert(registerX);
-    
+    Byte outputRegisterNew[12];
+
     inputDigitNumber_ = 0;
     mantissaEntry(linkDigit_);
+    outputRegisterNew[2] = linkDigit_;
     for (int i=2; i<9; i++)
+    {
         mantissaEntry(outputRegister[i]);
+        outputRegisterNew[i+1] = outputRegister[i];
+    }
 
     if (outputRegister[0] == 8)
         inputRegisterX.mantissaSign = -1;
+    
+    for (int i=2; i<9; i++)
+        outputRegister[i] = outputRegisterNew[i];
     
     registerX = powerMultiplification(inputRegisterX.mantissa, count_digit(inputRegisterX.mantissa)-outputRegister[1]-3);
     registerX *= inputRegisterX.mantissaSign;
@@ -1113,11 +1122,7 @@ void Mm57109Instance::calculateDigitEntry()
 void Mm57109Instance::mantissaEntry(int number)
 {
     if (inputDigitNumber_== 0)
-    {
-   //         if (lastOpCode_ != OP_CODE_ENTER)
-   //             pushStack();
-            clearX();
-    }
+        clearX();
 
     if (inputDigitNumber_== mdc_)
         return;

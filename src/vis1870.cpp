@@ -102,6 +102,7 @@ VIS1870::VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, 
     pixelHeight_ = 2;
     interruptEnabled_ = true;
     linesPerCharacters_ = vis1870Configuration_.charLines;
+    shownLinesPerCharacters_ = linesPerCharacters_;
 
     if (vis1870Configuration_.videoMode == PAL)
     {
@@ -119,12 +120,12 @@ VIS1870::VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, 
     if (vis1870Configuration_.rotateScreen)
     {
         videoHeight_ = 240;
-        videoWidth_ = linesPerCharacters_*vis1870Configuration_.maxScreenLines;
+        videoWidth_ = shownLinesPerCharacters_*vis1870Configuration_.maxScreenLines;
     }
     else
     {
         videoWidth_ = 240;
-        videoHeight_ = linesPerCharacters_*vis1870Configuration_.maxScreenLines;
+        videoHeight_ = shownLinesPerCharacters_*vis1870Configuration_.maxScreenLines;
     }
 
     switch (vis1870Configuration_.statusBarType)
@@ -396,8 +397,10 @@ void VIS1870::out5_1870(Word address)
 
     if ((old & 0xe8) != (register5_ & 0xe8))
     {
-        linesPerCharacters_ = ((register5_ & 0x8) == 0x8) ? 8 : 9;
-        linesPerCharacters_ = ((register5_ & 0x20) == 0x20) ? 16 : linesPerCharacters_;
+        shownLinesPerCharacters_ = ((register5_ & 0x8) == 0x8) ? 8 : 9;
+        linesPerCharacters_ = ((register5_ & 0x20) == 0x20) ? maxLinesPerCharacters_ : shownLinesPerCharacters_;
+        if (linesPerCharacters_ == 16)
+            shownLinesPerCharacters_ = 9;
         pageMemoryMask_ = ((register5_ & 0x40) == 0x40) ? 0x7ff : 0x3ff;
         if ((linesPerCharacters_ == 16) || (linesPerCharacters_ == 9) || vis1870Configuration_.cmaMaskFixed)
             CmaMask_ = 0xf;
@@ -429,10 +432,18 @@ void VIS1870::out5_1870(Word address)
             dcScroll.SelectObject(wxNullBitmap);
             delete screenCopyPointer;
             delete screenScrollCopyPointer;
-            if (vis1870Configuration_.rotateScreen)
-                videoWidth_ = linesPerCharacters_*rowsPerScreen_*pixelHeight_;
+            
+            int height;
+            if (linesPerCharacters_ != 16)
+                height = linesPerCharacters_*rowsPerScreen_*pixelHeight_;
             else
-                videoHeight_ = linesPerCharacters_*rowsPerScreen_*pixelHeight_;
+                height = shownLinesPerCharacters_*rowsPerScreen_*pixelHeight_;
+            
+            if (vis1870Configuration_.rotateScreen)
+                videoWidth_ = height;
+            else
+                videoHeight_ = height;
+            
             screenCopyPointer = new wxBitmap(2*offsetX_+videoWidth_, 2*offsetY_+videoHeight_);
             screenScrollCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
             dcMemory.SelectObject(*screenCopyPointer);

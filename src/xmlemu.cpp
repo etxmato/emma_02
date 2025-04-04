@@ -6581,7 +6581,6 @@ void Computer::resetPressed()
         }
     }
     resetPressed_ = false;
-    currentComputerConfiguration.diagnosticBoardConfiguration.active = p_Main->isDiagOn();
 
     elfRunState_ = RESETSTATE;
 
@@ -6698,8 +6697,6 @@ void Computer::configureMemory()
                 
             case DIAGROM:
                 defineMemoryType(memConfig->start, memConfig->end, memConfig->type);
-
-                diagRomActive_ = true;
             break;
                                 
             case RAM:
@@ -6860,9 +6857,14 @@ void Computer::configureMemory()
         switch (currentComputerConfiguration.memoryConfiguration[memConfNumber].type & 0xff)
         {
             case ROM:
-            case DIAGROM:
             case RAM:
                 loadRomRam(memConfNumber);
+            break;
+
+            case DIAGROM:
+                diagRomActive_ = true;
+                loadRomRam(memConfNumber);
+                diagRomActive_ = false;
             break;
 
             case NVRAM:
@@ -6885,6 +6887,7 @@ void Computer::configureMemory()
         if ((currentComputerConfiguration.memoryConfiguration[p_Main->getRomRamButton1()].type & 0xff) != UNDEFINED)
             loadRomRam(p_Main->getRomRamButton1());
     }
+    diagRomActive_ = currentComputerConfiguration.diagnosticBoardConfiguration.active;
 }
 
 void Computer::configureExtensions()
@@ -6998,11 +7001,9 @@ void Computer::configureExtensions()
         
         p_Main->message("");
 
-        diagRomActive_ = currentComputerConfiguration.diagnosticBoardConfiguration.active;
-
         if (currentComputerConfiguration.vis1870Configuration.defined)
         {
-            p_Main->eventUpdateLedStatus(diagRomActive_, 1);
+            p_Main->eventUpdateLedStatus(currentComputerConfiguration.diagnosticBoardConfiguration.active, 1);
             p_Main->eventUpdateLedStatus(diagDmaLedOn_, 2);
         }
     }

@@ -7,112 +7,176 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A6A2AE1F-0F31-47B7-85C7-163B178C8099"
+            uuid = "85F8056F-3C49-4538-9089-1892080BC286"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/mm57109.cpp"
+            filePath = "src/vis1870.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "979"
-            endingLineNumber = "979"
-            landmarkName = "Mm57109Instance::mantissaConvert(reg)"
+            startingLineNumber = "445"
+            endingLineNumber = "445"
+            landmarkName = "VIS1870::out5_1870(address)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4A088DAF-C222-4160-B408-659A67F856C7"
+            uuid = "AE6B4825-0E1C-41AC-B74D-61EA87DC149E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/mm57109.cpp"
+            filePath = "src/vis1870.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1011"
-            endingLineNumber = "1011"
-            landmarkName = "Mm57109Instance::mantissaConvert(reg)"
+            startingLineNumber = "401"
+            endingLineNumber = "401"
+            landmarkName = "VIS1870::out5_1870(address)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C17EED3D-7BF5-42A0-92FE-DCBD3196E912"
+            uuid = "707B5D70-2A00-4326-95D8-CA17F2D2364C"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/mm57109.cpp"
+            filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1033"
-            endingLineNumber = "1033"
-            landmarkName = "Mm57109Instance::mantissaConvert(reg)"
+            startingLineNumber = "5571"
+            endingLineNumber = "5571"
+            landmarkName = "Computer::readMemDebug(address, function)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3DF65A03-35C8-47CD-B560-B1BCE8BCCF0F"
+            uuid = "D18A73FB-4522-4895-A4F2-1CA937E2FD78"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/mm57109.cpp"
+            filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1034"
-            endingLineNumber = "1034"
-            landmarkName = "Mm57109Instance::mantissaConvert(reg)"
+            startingLineNumber = "6861"
+            endingLineNumber = "6861"
+            landmarkName = "Computer::configureMemory()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F108614C-6AA8-4839-AD76-75A255889AA8"
+            uuid = "0BB590AB-754F-4975-BCE7-11346FA36CBD"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/mm57109.cpp"
+            filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "981"
-            endingLineNumber = "981"
-            landmarkName = "Mm57109Instance::mantissaConvert(reg)"
+            startingLineNumber = "6155"
+            endingLineNumber = "6155"
+            landmarkName = "Computer::writeMemDebug(address, value, writeRom)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B91FE3DA-32C6-4D84-BB3A-54B5B8E13E21"
+            uuid = "F3FDE749-3C35-49FB-BBCB-17578E1CD055"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/mm57109.cpp"
+            filePath = "src/cdp1802.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "194"
-            endingLineNumber = "194"
-            landmarkName = "Mm57109Instance::output(value)"
+            startingLineNumber = "3945"
+            endingLineNumber = "3945"
+            landmarkName = "Cdp1802::readBinFile(fileName, memoryType, address, end, loadOffSet, showFilename, showAddressPopup, specifiedStartAddress)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8FCC270C-78B8-4F59-AE94-34EC8F172C77"
+            uuid = "B8524425-95C3-4ED7-8084-B79422047A95"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/mm57109.cpp"
+            filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "873"
-            endingLineNumber = "873"
-            landmarkName = "Mm57109Instance::pushStack()"
+            startingLineNumber = "11571"
+            endingLineNumber = "11571"
+            landmarkName = "XmlParser::parseXml_Memory(node)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "24A2037E-1946-40A0-8199-69DB2E684DCB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/xmlemu.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "6546"
+            endingLineNumber = "6546"
+            landmarkName = "Computer::resetPressed()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "85D46BD8-B092-4313-BDFD-09FFAE25C66F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/xmlemu.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "7004"
+            endingLineNumber = "7004"
+            landmarkName = "Computer::configureExtensions()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C63CB923-36F7-49E7-AB6D-7A5B85C85C46"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/xmlparser.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "11691"
+            endingLineNumber = "11691"
+            landmarkName = "XmlParser::getMemConfig(type)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "825A8F93-E07F-422D-B6DA-6BFDD6AEFB2B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/xmlparser.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "11695"
+            endingLineNumber = "11695"
+            landmarkName = "XmlParser::getMemConfig(type)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
