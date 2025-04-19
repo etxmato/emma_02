@@ -2988,7 +2988,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -3000,12 +3000,12 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
+<flag>wxGROW|wxLEFT</flag>
 <border>4</border>
 <object class="wxChoice" name="ProfilerCounter">
 <font>
@@ -3074,7 +3074,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -3090,10 +3090,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
+<flag>wxGROW|wxLEFT</flag>
 <border>4</border>
 <object class="wxChoice" name="ProfilerDataView">
-<size>70,23</size>
+<size>-1,23</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -3108,7 +3108,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -3120,7 +3120,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
+<flag>wxGROW|wxLEFT</flag>
 <border>4</border>
 <object class="wxChoice" name="ProfilerType">
 <font>
@@ -3137,7 +3137,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+<flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
@@ -3153,7 +3153,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
+<flag>wxGROW|wxLEFT</flag>
 <border>4</border>
 <object class="wxChoice" name="LapTimeTrigger">
 <tooltip>Interval time trigger type</tooltip>

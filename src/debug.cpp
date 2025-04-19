@@ -3050,7 +3050,7 @@ wxString DebugWindow::extractNextWord(wxString *buffer, wxString *seperator)
 
 wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool showOpcode, bool textAssembler, Word start, Word end)
 {
-    wxString printBufferOpcode, printBufferAssembler, printBufferTemp, printBufferAddress, printBufferDetails;
+    wxString printBufferOpcode, printBufferAssembler, printBufferTemp, printBufferAddress, printBufferDetails; //, temp;
     int i, n, i1805, n1805;
     Word instructionAddress = *address;
     uint64_t executed;
@@ -3845,6 +3845,17 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
         break;
         case 0xd:
             printBufferAssembler.Printf("SEP  R%X",n);
+ /*           temp = printBufferAssembler; // FULL BASIC test code
+            if (n == 7)
+            {
+                printBufferAssembler.Printf(" - D=M(%02X%02X)", p_Computer->getScratchpadRegister(2) >> 8, p_Computer->readMemDebug((*address)));
+                printBufferAssembler = temp + printBufferAssembler;
+            }
+            if (n == 8)
+            {
+                printBufferAssembler.Printf(" - %02X%02X/%02X%02X -> %02X%02X/%02X%02X", p_Computer->getScratchpadRegister(2) >> 8, p_Computer->readMemDebug((*address)), p_Computer->getScratchpadRegister(2) >> 8, p_Computer->readMemDebug((*address))+1, p_Computer->getScratchpadRegister(2) >> 8, p_Computer->readMemDebug((*address)+1), p_Computer->getScratchpadRegister(2) >> 8, p_Computer->readMemDebug((*address)+1)+1);
+                printBufferAssembler = temp + printBufferAssembler;
+            }*/
         break;
         case 0xe:
             printBufferAssembler.Printf("SEX  R%X",n);

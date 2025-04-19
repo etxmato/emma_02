@@ -3,7 +3,7 @@
 <body>
 <h1>Debugger</h1>
 <p>
-The debugger gives you an inside view of what is going on in the emulated machine. To use the debugger select the 'Tools' tab (highlighted in yellow) followed by one of the following (highlighted in orange):
+The debugger gives you an inside view of what is going on in the emulated machine. To use the debugger select the 'Debugger' tab (highlighted in yellow) followed by one of the following (highlighted in orange):
 </p>
 <p>
 <OL>
@@ -12,10 +12,10 @@ The debugger gives you an inside view of what is going on in the emulated machin
 </OL>
 </p>
 <p>
-<IMG SRC="images/debugger.png" BORDER="0">
+<IMG SRC="images/debugger.png" border="0" width="443" height ="376">
 </p>
 <p>
-Note: none of the settings in the 'Debug 1802' and 'Debug Pseudo' tabs are saved in the Emma 02 configuration, so every time Emma 02 is started these settings are set to default.
+Note: none of the settings in the 'Debug 1802' and 'Debug Pseudo' tabs are saved in the Emma 02 configuration, so every time Emma 02 is started these settings are set to default. However some settings like SCRT definition can be set in the XML configration files.
 </p>
 </body>
 </html>

@@ -482,6 +482,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\cdp1851.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\cdp1852.cpp"
 				>
 			</File>
@@ -623,6 +627,10 @@
 			</File>
 			<File
 				RelativePath=".\src\memory.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\mm57109.cpp"
 				>
 			</File>
 			<File
@@ -810,6 +818,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\cdp1851.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\cdp1852.h"
 				>
 			</File>
@@ -959,6 +971,10 @@
 			</File>
 			<File
 				RelativePath=".\src\memory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\mm57109.h"
 				>
 			</File>
 			<File

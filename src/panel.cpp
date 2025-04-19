@@ -948,6 +948,13 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
     {
         xmlButtonDefined_ = true;
                 
+        if (button->function == BUTTON_FUNC_BIT_INP)
+        {
+            if (button->initup)
+                p_Computer->inpSwitch(button->input.portNumber[0] ,button->value&0x7);
+            p_Computer->setInType(button->input.portNumber[0], BITSWITCH_INP, 0);
+        }
+
         switch (button->type)
         {
             case SWITCH_BUTTON_VERTICAL:
@@ -1820,6 +1827,10 @@ void Panel::executeMouseLeftFunction(std::vector<GuiItemConfiguration>::iterator
             p_Computer->dataSwitch(button->value&0x7);
         break;
             
+        case BUTTON_FUNC_BIT_INP:
+            p_Computer->inpSwitch(button->input.portNumber[0] ,button->value&0x7);
+        break;
+
         case BUTTON_FUNC_EF_SWITCH:
             p_Computer->efSwitch((button->value-1)&0x3);
         break;
@@ -2153,7 +2164,7 @@ void Panel::setMathLed(int i, int status)
             p_Main->eventRefreshPanel();
 #else
             wxClientDC dc(this);
-            updatemathLed(dc, i);
+            updateMathLed(dc, i);
 #endif
         }
     }

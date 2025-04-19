@@ -31,6 +31,7 @@
 #include "usb.h"
 #include "rtc.h"
 #include "pio.h"
+#include "cdp1851.h"
 #include "cdp1852.h"
 #include "cdp1854.h"
 #include "cdp1855.h"
@@ -165,6 +166,7 @@ public:
     void onCardButtonSwitch();
     void updateCardReadStatus();
     void dataSwitch(int i);
+    void inpSwitch(int input, int bit);
     void efSwitch(int i);
 
     void onNumberKeyDown(int i);
@@ -385,8 +387,8 @@ private:
     vector<PanelFrame *> panelPointer;
     int numberOfFrontPanels_;
 
-    vector<PioFrame *> cdp1851FramePointer;
-    int numberOfCdp1851Frames_;
+    vector<Cdp1851Instance *> cdp1851InstancePointer;
+    int numberOfCdp1851Instances_;
 
     vector<Cdp1854Instance *> cdp1854InstancePointer;
     int numberOfCdp1854Instances_;
@@ -483,6 +485,8 @@ private:
     bool inPressed_;
     int dataSwitchState_[8];
     int efSwitchState_[4];
+
+    Byte inpSwitchState_[8];
 
     Byte lastMode_;
     bool monitor_;

@@ -18,6 +18,8 @@
 		991504CC2944BD3A0078B02D /* libserialport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 991504CB2944BD3A0078B02D /* libserialport.a */; };
 		99200F2928C299E300E94880 /* vis1870.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99200F2728C299E300E94880 /* vis1870.cpp */; };
 		99200F2A28C299E300E94880 /* vis1870.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99200F2728C299E300E94880 /* vis1870.cpp */; };
+		99201C8B2DA8581B00DCBFE0 /* cdp1851.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99201C8A2DA8581B00DCBFE0 /* cdp1851.cpp */; };
+		99201C8C2DA8581B00DCBFE0 /* cdp1851.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99201C8A2DA8581B00DCBFE0 /* cdp1851.cpp */; };
 		9926E24E2D3050C300A4530B /* cdp1877.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9926E24C2D3050C200A4530B /* cdp1877.cpp */; };
 		9926E24F2D3050C300A4530B /* cdp1877.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9926E24C2D3050C200A4530B /* cdp1877.cpp */; };
 		992E125B2D7E42590000707B /* mm57109.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 992E125A2D7E42590000707B /* mm57109.cpp */; };
@@ -370,6 +372,8 @@
 		991A43EB279CA7FA0049C544 /* vt_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = vt_12.xrc; sourceTree = "<group>"; };
 		99200F2728C299E300E94880 /* vis1870.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vis1870.cpp; path = src/vis1870.cpp; sourceTree = "<group>"; };
 		99200F2828C299E300E94880 /* vis1870.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vis1870.h; path = src/vis1870.h; sourceTree = "<group>"; };
+		99201C892DA8581B00DCBFE0 /* cdp1851.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = cdp1851.h; path = src/cdp1851.h; sourceTree = "<group>"; };
+		99201C8A2DA8581B00DCBFE0 /* cdp1851.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = cdp1851.cpp; path = src/cdp1851.cpp; sourceTree = "<group>"; };
 		9926E24C2D3050C200A4530B /* cdp1877.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cdp1877.cpp; path = src/cdp1877.cpp; sourceTree = "<group>"; };
 		9926E24D2D3050C200A4530B /* cdp1877.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cdp1877.h; path = src/cdp1877.h; sourceTree = "<group>"; };
 		992E125A2D7E42590000707B /* mm57109.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = mm57109.cpp; path = src/mm57109.cpp; sourceTree = "<group>"; };
@@ -806,6 +810,8 @@
 				99048D6E2B76B72000F2F648 /* cd4536b.h */,
 				997647001A61D5EE00FB9B33 /* cdp1802.cpp */,
 				9976475C1A61D5EE00FB9B33 /* cdp1802.h */,
+				99201C8A2DA8581B00DCBFE0 /* cdp1851.cpp */,
+				99201C892DA8581B00DCBFE0 /* cdp1851.h */,
 				9970174B23298F2C00D66312 /* cdp1852.cpp */,
 				9970174C23298F2C00D66312 /* cdp1852.h */,
 				99DF0DAC2D4FCF3F00064909 /* cdp1854.cpp */,
@@ -1224,6 +1230,7 @@
 				997647E91A61D5EF00FB9B33 /* keypad.cpp in Sources */,
 				99AD5DF42931600C0060EC01 /* keybmatrix.cpp in Sources */,
 				997648031A61D5EF00FB9B33 /* datadir.cpp in Sources */,
+				99201C8B2DA8581B00DCBFE0 /* cdp1851.cpp in Sources */,
 				9976480A1A61D5EF00FB9B33 /* ps2.cpp in Sources */,
 				997647EB1A61D5EF00FB9B33 /* mc6847.cpp in Sources */,
 				9903EB882BDAFBE8001FC910 /* guisb.cpp in Sources */,
@@ -1311,6 +1318,7 @@
 				99F37E8D285D1D9200C57417 /* datadir.cpp in Sources */,
 				99AD5DF52931600C0060EC01 /* keybmatrix.cpp in Sources */,
 				99F37E8E285D1D9200C57417 /* ps2.cpp in Sources */,
+				99201C8C2DA8581B00DCBFE0 /* cdp1851.cpp in Sources */,
 				99F37E91285D1D9200C57417 /* mc6847.cpp in Sources */,
 				9903EB892BDAFBE9001FC910 /* guisb.cpp in Sources */,
 				99F37E95285D1D9200C57417 /* tms9918.cpp in Sources */,

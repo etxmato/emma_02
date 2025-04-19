@@ -570,7 +570,8 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     {
         wxString childName = child->GetName();
         int uartConnection = UART_CONNECTION_NONE;
-        
+        int pioConnection = PIO_CONNECTION_WINDOW;
+
         tagTypeInt = 0;
         while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
             tagTypeInt++;
@@ -699,7 +700,19 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
             break;
 
             case TAG_CDP1851:
-                parseXml_Cdp1851 (*child, child->GetAttribute("init") == "on");
+                if (child->GetAttribute("connection") == "window")
+                {
+                    pioConnection = PIO_CONNECTION_WINDOW;
+                    parseXml_Cdp1851 (*child, child->GetAttribute("init") == "on", pioConnection);
+                }
+                else
+                {
+                    if (child->GetAttribute("connection") == "printer")
+                        pioConnection = PIO_CONNECTION_PRINTER;
+                    if (child->GetAttribute("connection") == "none")
+                        pioConnection = PIO_CONNECTION_NONE;
+                    parseXml_Cdp1851 (*child, false, pioConnection);
+                }
             break;
 
             case TAG_CDP1852:
@@ -1495,7 +1508,7 @@ void XmlParser::parseXml_Locations(wxXmlNode &node)
 
             case TAG_WRITE_ADDRESS:
                 writeAddress.address = (Word)getHexDec(child->GetNodeContent());
-                writeAddress.value = (Byte)parseXml_Number(*child, "value");
+                writeAddress.value = (int)parseXml_Number(*child, "value");
                 
                 if (child->GetAttribute("function") == "debug")
                     writeAddress.function = WRITE_ADDRESS_DEBUG;
@@ -7026,6 +7039,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber)
     {
         "type",
         "value",
+        "in",
         "range",
         "function",
         "label",
@@ -7042,6 +7056,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber)
     {
         TAG_TYPE,
         TAG_VALUE,
+        TAG_IN,
         TAG_RANGE,
         TAG_FUNCTION,
         TAG_LABEL,
@@ -7083,6 +7098,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber)
         "ems",
         "tmc_ad",
         "bitswitch",
+        "inp_bitswitch",
         "efswitch",
         "velf",
         "hex",
@@ -7147,22 +7163,23 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber)
         BUTTON_FUNC_EMS,
         BUTTON_FUNC_TMC_AD,
         BUTTON_FUNC_BIT,            // 24
-        BUTTON_FUNC_EF_SWITCH,      // 25
+        BUTTON_FUNC_BIT_INP,        // 25
+        BUTTON_FUNC_EF_SWITCH,      // 26
         BUTTON_FUNC_VELF,
         BUTTON_FUNC_HEX,
         BUTTON_FUNC_EF,
         BUTTON_FUNC_THUMB_MINUS,
         BUTTON_FUNC_THUMB_PLUS,
-        LED_FUNC_POWER,             // 28
+        LED_FUNC_POWER,             // 29
         LED_FUNC_STOP,
         LED_FUNC_READY,
-        LED_FUNC_ERROR,             // 31
+        LED_FUNC_ERROR,             // 32
         LED_FUNC_Q,
         LED_FUNC_RESET,
-        LED_FUNC_PAUSE,             // 34
+        LED_FUNC_PAUSE,             // 35
         LED_FUNC_RUN,
         LED_FUNC_LOAD,
-        LED_FUNC_BIT,               // 37
+        LED_FUNC_BIT,               // 38
         LED_FUNC_SWITCH,
         LED_FUNC_BUTTON,
         LED_FUNC_ADDRESS,
@@ -7425,6 +7442,10 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber)
                     computerConfiguration.mainFrontPanelConfiguration.dataPushButtons = true;
             break;
 
+            case TAG_IN:
+                computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].input = parseXml_IoPort(*child, BITSWITCH_INP);
+            break;
+
             case TAG_VALUE:
                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value = (int)parseXml_Number(*child);
                 if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function >= BUTTON_FUNC_IN && computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function < BUTTON_FUNC_CARD)
@@ -7453,6 +7474,10 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber)
 
                     case BUTTON_FUNC_EF_SWITCH:
                         computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value += 0x90;
+                    break;
+                        
+                    case BUTTON_FUNC_BIT_INP:
+                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value += 0xA0;
                     break;
                         
                     case BUTTON_FUNC_CARD:
@@ -7576,6 +7601,10 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber)
                                 if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type >= PUSH_BUTTON)
                                     computerConfiguration.mainFrontPanelConfiguration.dataPushButtons = true;
                                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value += 0x80;
+                            break;
+
+                            case BUTTON_FUNC_BIT_INP:
+                                computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value += 0xA0;
                             break;
 
                             case BUTTON_FUNC_EF_SWITCH:
@@ -7818,7 +7847,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber)
     guiItemConfigNumber_++;
 }
 
-void XmlParser::parseXml_Cdp1851(wxXmlNode &node, bool windowOn)
+void XmlParser::parseXml_Cdp1851(wxXmlNode &node, bool windowOn, int connection)
 {
     Cdp1851Configuration cdp1851;
     
@@ -7865,6 +7894,7 @@ void XmlParser::parseXml_Cdp1851(wxXmlNode &node, bool windowOn)
     cdp1851.initPortA = 0;
     cdp1851.initPortB = 0;
     cdp1851.picInterrupt = 0;
+    cdp1851.connection = connection;
 
     wxXmlNode *child = node.GetChildren();
     while (child)

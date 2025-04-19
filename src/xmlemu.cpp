@@ -580,10 +580,10 @@ Computer::~Computer()
         p_Main->setV1870Pos(sn76430nPointer->GetPosition());
         sn76430nPointer->Destroy();
     }
-    for (int num=0; num<numberOfCdp1851Frames_; num++)
+    for (int num=0; num<numberOfCdp1851Instances_; num++)
     {
-        p_Main->setCdp1851Pos(cdp1851FramePointer[num]->GetPosition(), num);
-        cdp1851FramePointer[num]->Destroy();
+        p_Main->setCdp1851Pos(cdp1851InstancePointer[num]->GetPosition(), num);
+        cdp1851InstancePointer[num]->Destroy();
     }
     for (int num=0; num<numberOfCdp1852Frames_; num++)
     {
@@ -1178,6 +1178,9 @@ void Computer::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
 void Computer::initComputer()
 {
 //    Show(p_Main->showFrontPanel());
+    for (int i=0; i<8; i++)
+        inpSwitchState_[i]=0;
+
     for (std::vector<FrontPanelConfiguration>::iterator frontPanel = currentComputerConfiguration.frontPanelConfiguration.begin (); frontPanel != currentComputerConfiguration.frontPanelConfiguration.end (); ++frontPanel)
     {
         panelPointer.resize(numberOfFrontPanels_+1);
@@ -1214,7 +1217,7 @@ void Computer::initComputer()
         if (currentComputerConfiguration.efButtonsConfiguration.key[ef].defined)
             efKeyValue[ef] = currentComputerConfiguration.efButtonsConfiguration.keyPressed ^ 1;
     }
-    
+
     bootstrap_ = 0;
 
     pulseCountStopTone_ = 2000;
@@ -1654,15 +1657,15 @@ Byte Computer::ef(int flag)
         break;
 
         case CDP1851_A_EF:
-            return cdp1851FramePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->getEfState(1);
+            return cdp1851InstancePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->getEfState1();
         break;
 
         case CDP1851_B_EF:
-            return cdp1851FramePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->getEfState(2);
+            return cdp1851InstancePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->getEfState2();
         break;
 
         case CDP1851_IRQ:
-            return cdp1851FramePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->getIrqState();
+            return cdp1851InstancePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->getIrqState();
         break;
 
         case CDP1852_EF:
@@ -1825,6 +1828,10 @@ Byte Computer::in(Byte port, Word address)
         
     switch (inType_[qState_][ioGroup_+1][port])
     {
+        case BITSWITCH_INP:
+            ret = inpSwitchState_[port];
+        break;
+            
         case VT_UART1854_READ_RECEIVER_IN:
             ret = vtPointer->uartIn();
         break;
@@ -2043,15 +2050,15 @@ Byte Computer::in(Byte port, Word address)
         break;
             
         case CDP1851_READ_A_OUT:
-            return cdp1851FramePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readPortA();
+            return cdp1851InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readPortA();
         break;
 
         case CDP1851_READ_B_OUT:
-            return cdp1851FramePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readPortB();
+            return cdp1851InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readPortB();
         break;
 
         case CDP1851_READ_STATUS_IN:
-            return cdp1851FramePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readStatusRegister();
+            return cdp1851InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readStatusRegister();
         break;
 
         case CDP1852_READ_IN:
@@ -2755,18 +2762,18 @@ void Computer::out(Byte port, Word address, Byte value)
         break;
 
         case CDP1851_WRITE_A_OUT:
-            cdp1851FramePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writePortA(value);
-            cdp1851FramePointer[outItemNumber_[qState_][ioGroup_+1][port]]->refreshLeds();
+            cdp1851InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writePortA(value);
+            cdp1851InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->refreshLeds();
         break;
 
         case CDP1851_WRITE_B_OUT:
-            cdp1851FramePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writePortB(value);
-            cdp1851FramePointer[outItemNumber_[qState_][ioGroup_+1][port]]->refreshLeds();
+            cdp1851InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writePortB(value);
+            cdp1851InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->refreshLeds();
         break;
 
         case CDP1851_WRITE_CONTROL_OUT:
-            cdp1851FramePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeControlRegister(value);
-            cdp1851FramePointer[outItemNumber_[qState_][ioGroup_+1][port]]->refreshLeds();
+            cdp1851InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeControlRegister(value);
+            cdp1851InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->refreshLeds();
         break;
 
         case CDP1852_WRITE_OUT:
@@ -3243,8 +3250,8 @@ void Computer::cycle(int type)
 
         case LED_CYCLE:
             cycleLed();
-            for (int num=0; num<numberOfCdp1851Frames_; num++)
-                cdp1851FramePointer[num]->interruptCycle();
+            for (int num=0; num<numberOfCdp1851Instances_; num++)
+                cdp1851InstancePointer[num]->interruptCycle();
         break;
 
         case VIS1870_CYCLE:
@@ -3430,8 +3437,8 @@ void Computer::cycleLed()
         if (ledCycleValue_ <= 0)
         {
             ledCycleValue_ = ledCycleSize_;
-            for (int num=0; num<numberOfCdp1851Frames_; num++)
-                cdp1851FramePointer[num]->ledTimeout();
+            for (int num=0; num<numberOfCdp1851Instances_; num++)
+                cdp1851InstancePointer[num]->ledTimeout();
             for (int num=0; num<numberOfCdp1852Frames_; num++)
                 cdp1852FramePointer[num]->ledTimeout();
             for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
@@ -3522,8 +3529,8 @@ void Computer::setMode()
 
     if (clear_ == 0)
     {
-        for (int num=0; num<numberOfCdp1851Frames_; num++)
-            cdp1851FramePointer[num]->reset();
+        for (int num=0; num<numberOfCdp1851Instances_; num++)
+            cdp1851InstancePointer[num]->reset();
         for (int num=0; num<numberOfCdp1852Frames_; num++)
             cdp1852FramePointer[num]->reset();
     }
@@ -4430,6 +4437,12 @@ void Computer::dataSwitch(int i)
             panelPointer[frontPanel]->setLed(i,dataSwitchState_[i]);
 }
 
+void Computer::inpSwitch(int input, int bit)
+{
+    Byte bitSwitch = 1 << bit;
+    inpSwitchState_[input] ^= bitSwitch;
+}
+
 void Computer::efSwitch(int i)
 {
     if (efSwitchState_[i])
@@ -4789,10 +4802,10 @@ void Computer::startComputer()
         ledCycleSize_ = (((computerClockSpeed_ * 1000000) / 8) / 1000) * ledTimeMs_;
     ledCycleValue_ = ledCycleSize_;
     
-    for (int num=0; num<numberOfCdp1851Frames_; num++)
+    for (int num=0; num<numberOfCdp1851Instances_; num++)
     {
-        cdp1851FramePointer[num]->setLedMs(ledTimeMs_);
-        cdp1851FramePointer[num]->Show(currentComputerConfiguration.cdp1851Configuration[num].windowOpen);
+        cdp1851InstancePointer[num]->setLedMs(ledTimeMs_);
+        cdp1851InstancePointer[num]->Show(currentComputerConfiguration.cdp1851Configuration[num].windowOpen);
     }
     for (int num=0; num<numberOfCdp1852Frames_; num++)
     {
@@ -6214,12 +6227,12 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
             
             for (std::vector<WriteAddress>::iterator i = currentComputerConfiguration.addressLocationConfiguration.writeAddress.begin (); i != currentComputerConfiguration.addressLocationConfiguration.writeAddress.end (); ++i)
             {
-                if (address == i->address && value == i->value)
+                if (address == i->address && (value == i->value || i->value == -1))
                 {
                     switch (i->function)
                     {
                         case WRITE_ADDRESS_DEBUG:
-                            printBuffer.Printf("Exec address: %04X, write address: %04X, value: %02X", scratchpadRegister_[programCounter_], i->address, i->value);
+                            printBuffer.Printf("Exec address: %04X, write address: %04X, value: %02X", scratchpadRegister_[programCounter_], address, value);
                             p_Main->eventShowTextMessage(printBuffer);
                         break;
                     }
@@ -7052,32 +7065,44 @@ void Computer::configureExtensions()
         numberOfCdp1878Instances_++;
     }
 
-    cdp1851FramePointer.clear();
-    numberOfCdp1851Frames_ = 0;
+    cdp1851InstancePointer.clear();
+    numberOfCdp1851Instances_ = 0;
     for (std::vector<Cdp1851Configuration>::iterator cdp1851 = currentComputerConfiguration.cdp1851Configuration.begin (); cdp1851 != currentComputerConfiguration.cdp1851Configuration.end (); ++cdp1851)
     {
-        cdp1851FramePointer.resize(numberOfCdp1851Frames_+1);
+        cdp1851InstancePointer.resize(numberOfCdp1851Instances_+1);
+
+        switch (cdp1851->connection)
+        {
+            case PIO_CONNECTION_WINDOW:
 #if defined (__WXMAC__) || (__linux__)
-        cdp1851FramePointer[numberOfCdp1851Frames_] = new PioFrame("CDP1851 PIO", cdp1851->pos, wxSize(310, 180), numberOfCdp1851Frames_, *cdp1851);
+            cdp1851InstancePointer[numberOfCdp1851Instances_] = new Cdp1851Instance("CDP1851 PIO", cdp1851->pos, wxSize(310, 180), numberOfCdp1851Instances_, *cdp1851);
 #else
-        cdp1851FramePointer[numberOfCdp1851Frames_] = new PioFrame("CDP1851 PIO", cdp1851->pos, wxSize(329, 180), numberOfCdp1851Frames_, *cdp1851);
+            cdp1851InstancePointer[numberOfCdp1851Instances_] = new Cdp1851Instance("CDP1851 PIO", cdp1851->pos, wxSize(329, 180), numberOfCdp1851Instances_, *cdp1851);
 #endif
+            break;
+                                
+            default:
+                cdp1851InstancePointer[numberOfCdp1851Instances_] = new Cdp1851Instance(numberOfCdp1851Instances_, *cdp1851);
+            break;
+        }
         
+        cdp1851InstancePointer[numberOfCdp1851Instances_]->connection_ = cdp1851->connection;
+
         p_Main->configureMessage(&cdp1851->ioGroupVector, "CDP1851 PIO");
-        setOutType(&cdp1851->ioGroupVector, cdp1851->writePortA, "write to port A", numberOfCdp1851Frames_);
-        setOutType(&cdp1851->ioGroupVector, cdp1851->writePortB, "write to port B", numberOfCdp1851Frames_);
-        setInType(&cdp1851->ioGroupVector, cdp1851->readPortA, "read port A", numberOfCdp1851Frames_);
-        setInType(&cdp1851->ioGroupVector, cdp1851->readPortB, "read port B", numberOfCdp1851Frames_);
-        setOutType(&cdp1851->ioGroupVector, cdp1851->writeControl, "write control register", numberOfCdp1851Frames_);
-        setInType(&cdp1851->ioGroupVector, cdp1851->readStatus, "read status", numberOfCdp1851Frames_);
-        setEfType(&cdp1851->ioGroupVector, cdp1851->efaRdy, "ARDY", numberOfCdp1851Frames_);
-        setEfType(&cdp1851->ioGroupVector, cdp1851->efbRdy, "BRDY", numberOfCdp1851Frames_);
-        setEfType(&cdp1851->ioGroupVector, cdp1851->efIrq, "IRQ", numberOfCdp1851Frames_);
+        setOutType(&cdp1851->ioGroupVector, cdp1851->writePortA, "write to port A", numberOfCdp1851Instances_);
+        setOutType(&cdp1851->ioGroupVector, cdp1851->writePortB, "write to port B", numberOfCdp1851Instances_);
+        setInType(&cdp1851->ioGroupVector, cdp1851->readPortA, "read port A", numberOfCdp1851Instances_);
+        setInType(&cdp1851->ioGroupVector, cdp1851->readPortB, "read port B", numberOfCdp1851Instances_);
+        setOutType(&cdp1851->ioGroupVector, cdp1851->writeControl, "write control register", numberOfCdp1851Instances_);
+        setInType(&cdp1851->ioGroupVector, cdp1851->readStatus, "read status", numberOfCdp1851Instances_);
+        setEfType(&cdp1851->ioGroupVector, cdp1851->efaRdy, "ARDY", numberOfCdp1851Instances_);
+        setEfType(&cdp1851->ioGroupVector, cdp1851->efbRdy, "BRDY", numberOfCdp1851Instances_);
+        setEfType(&cdp1851->ioGroupVector, cdp1851->efIrq, "IRQ", numberOfCdp1851Instances_);
 
         p_Main->message("");
 
-        cdp1851FramePointer[numberOfCdp1851Frames_]->reset();
-        numberOfCdp1851Frames_++;
+        cdp1851InstancePointer[numberOfCdp1851Instances_]->reset();
+        numberOfCdp1851Instances_++;
     }
 
     cdp1852FramePointer.clear();
@@ -7641,8 +7666,8 @@ void Computer::moveWindows()
         sn76430nPointer->Move(p_Main->getSN76430NPos());
     if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
         vtPointer->Move(p_Main->getVtPos());
-    for (int num=0; num<numberOfCdp1851Frames_; num++)
-        cdp1851FramePointer[num]->Move(p_Main->getCdp1851Pos(num));
+    for (int num=0; num<numberOfCdp1851Instances_; num++)
+        cdp1851InstancePointer[num]->Move(p_Main->getCdp1851Pos(num));
     for (int num=0; num<numberOfCdp1852Frames_; num++)
         cdp1852FramePointer[num]->Move(p_Main->getCdp1852Pos(num));
     for (int num=0; num<numberOfFrontPanels_; num++)
@@ -7683,7 +7708,7 @@ void Computer::updateTitle(wxString Title)
 
 void Computer::releaseButtonOnScreen1851(HexButton* buttonPointer, int WXUNUSED(buttonType), int pioNumber)
 {
-    cdp1851FramePointer[pioNumber]->releaseButtonOnScreen(buttonPointer);
+    cdp1851InstancePointer[pioNumber]->releaseButtonOnScreen(buttonPointer);
 }
 
 void Computer::releaseButtonOnScreen1852(HexButton* buttonPointer, int WXUNUSED(buttonType), int pioNumber)
@@ -7693,9 +7718,9 @@ void Computer::releaseButtonOnScreen1852(HexButton* buttonPointer, int WXUNUSED(
 
 void Computer::showCdp1851(int pioNumber, bool state)
 {
-    cdp1851FramePointer[pioNumber]->Show(state);
+    cdp1851InstancePointer[pioNumber]->Show(state);
     if (state)
-        cdp1851FramePointer[pioNumber]->refreshLeds();
+        cdp1851InstancePointer[pioNumber]->refreshLeds();
 }
 
 void Computer::showCdp1852(int pioNumber, bool state)
@@ -7858,8 +7883,8 @@ void Computer::setLedMs(long ms)
 {
     ledTimeMs_ = ms;
     setLedMsTemp(ms);
-    for (int num=0; num<numberOfCdp1851Frames_; num++)
-        cdp1851FramePointer[num]->setLedMs(ms);
+    for (int num=0; num<numberOfCdp1851Instances_; num++)
+        cdp1851InstancePointer[num]->setLedMs(ms);
     for (int num=0; num<numberOfCdp1852Frames_; num++)
         cdp1852FramePointer[num]->setLedMs(ms);
 }

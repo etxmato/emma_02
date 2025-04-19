@@ -226,7 +226,7 @@ class WriteAddress
 {
 public:
     Word address;
-    Byte value;
+    int value;
     int function;
 };
 
@@ -875,7 +875,7 @@ public:
     EfFlag efaRdy;
     EfFlag efbRdy;
     EfFlag efIrq;
-
+    
     bool windowOpen;
     wxPoint pos;
     wxPoint defaultPos;
@@ -883,6 +883,8 @@ public:
     
     Byte initPortA;
     Byte initPortB;
+    
+    int connection;
 };
 
 class Cdp1852Configuration : public IoGroupConfiguration
@@ -1448,6 +1450,7 @@ public:
     wxPoint position;
     wxSize size;
     int value;
+    IoPort input;
     int rangeLow;
     int rangeHigh;
     int textSize;

@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.48.6
-AppVersion=1.48.6
+AppVerName=Emma 02 - V1.48.7
+AppVersion=1.48.7
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
@@ -170,6 +170,7 @@ Source: ..\data\MS2000\PLM\*.*; DestDir: {app}\data\MS2000\PLM; Components: MAIN
 Source: ..\data\MS2000\RP\*.*; DestDir: {app}\data\MS2000\RP; Components: MAIN
 Source: ..\data\MS2000\Software\*.*; DestDir: {app}\data\MS2000\Software; Components: MAIN
 Source: ..\data\Nano\*.*; DestDir: {app}\data\Nano; Components: MAIN
+Source: ..\data\NetronicsElfII\*.*; DestDir: {app}\data\NetronicsElfII; Components: MAIN
 Source: ..\data\Pecom\*.*; DestDir: {app}\data\Pecom; Components: MAIN
 Source: ..\data\Pico\*.*; DestDir: {app}\data\Pico; Components: MAIN
 Source: ..\data\SBC1802\*.*; DestDir: {app}\data\SBC1802; Components: MAIN

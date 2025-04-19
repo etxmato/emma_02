@@ -74,41 +74,41 @@ int intructionCycleTime[] =
     552, 	//  OP_CODE_ENTER
     157, 	//  OP_CODE_TOGM
     905, 	//  OP_CODE_ROLL
-    56200, 	//  OP_CODE_SIN
-    56200, 	//  OP_CODE_COS
-    35000, 	//  OP_CODE_TAN
+    95900, 	//  OP_CODE_SIN
+    95900, 	//  OP_CODE_COS
+    57600, 	//  OP_CODE_TAN
     163, 	//  OP_CODE_SF1
     185, 	//  OP_CODE_PF1
     163, 	//  OP_CODE_SF2
     185, 	//  OP_CODE_PF2
     163, 	//  OP_CODE_ECLR
-    9600, 	//  OP_CODE_RTD
-    9600, 	//  OP_CODE_DTR
+    25000, 	//  OP_CODE_RTD
+    15000, 	//  OP_CODE_DTR
     448, 	//  OP_CODE_POP
     734, 	//  OP_CODE_MCLR
     652, 	//  OP_CODE_XEY
-    30800, 	//  OP_CODE_EX
-    27400, 	//  OP_CODE_10X
-    3000, 	//  OP_CODE_SQ
-    7000, 	//  OP_CODE_SQRT
-    24800, 	//  OP_CODE_LN
-    30700, 	//  OP_CODE_LOG
-    4500, 	//  OP_CODE_1X
-    55400, 	//  OP_CODE_YX
-    2200, 	//  OP_CODE_PLUS
-    2200, 	//  OP_CODE_MINUS
-    3200, 	//  OP_CODE_TIMES
-    7800, 	//  OP_CODE_DIVIDE
+    50000, 	//  OP_CODE_EX
+    12000, 	//  OP_CODE_10X
+    8300, 	//  OP_CODE_SQ
+    14000, 	//  OP_CODE_SQRT
+    42500, 	//  OP_CODE_LN
+    53100, 	//  OP_CODE_LOG
+    13000, 	//  OP_CODE_1X
+    101000, //  OP_CODE_YX
+    6000, 	//  OP_CODE_PLUS
+    6000, 	//  OP_CODE_MINUS
+    10000, 	//  OP_CODE_TIMES
+    17000, 	//  OP_CODE_DIVIDE
     130, 	//  OP_CODE_PRW1
     130, 	//  OP_CODE_PRW2
     122, 	//  OP_CODE_NOP
-    54000, 	//  OP_CODE_SIN_INV
-    54000, 	//  OP_CODE_COS_INV
-    30200, 	//  OP_CODE_TAN_INV
-    1700, 	//  OP_CODE_PLUS_INV
-    1700, 	//  OP_CODE_MINUS_INV
-    2700, 	//  OP_CODE_TIMES_INV
-    7300, 	//  OP_CODE_DIVIDE_INV
+    93900, 	//  OP_CODE_SIN_INV
+    93900, 	//  OP_CODE_COS_INV
+    52900, 	//  OP_CODE_TAN_INV
+    4500, 	//  OP_CODE_PLUS_INV
+    4500, 	//  OP_CODE_MINUS_INV
+    9000, 	//  OP_CODE_TIMES_INV
+    17000, 	//  OP_CODE_DIVIDE_INV
 };
 
 Mm57109Instance::Mm57109Instance()
@@ -435,7 +435,7 @@ void Mm57109Instance::checkInvError(OpCodes opCode)
         case OP_CODE_COS:
             if (abs(registerX) >= 9000)
                 error_ = 0x20;
-            if (abs(registerX) <= pow(10, -50))
+            if (abs(registerX) <= pow((double)10, -50))
                 error_ = 0x20;
         break;
             
@@ -955,7 +955,7 @@ double Mm57109Instance::powerMultiplification(unsigned int mantissa, int exponen
 {
     double result;
     
-    int power = pow(10, abs(exponent));
+    int power = pow((double)10, abs(exponent));
     if (exponent < 0)
         result = (double) mantissa / power;
     else
@@ -1092,7 +1092,7 @@ int Mm57109Instance::count_digit(uint64_t number)
     if (number == 0)
         return 1;
     else
-        return int(log10(number) + 1);
+        return int(log10((double)number) + 1);
 }
 
 void Mm57109Instance::digitEntry(int number)
@@ -1115,7 +1115,7 @@ void Mm57109Instance::calculateDigitEntry()
             inputRegisterX.exponent = 0;
     }
 
-    registerX = (double) inputRegisterX.mantissa * pow(10, inputRegisterX.exponent*inputRegisterX.exponentSign);
+    registerX = (double) inputRegisterX.mantissa * pow((double)10, inputRegisterX.exponent*inputRegisterX.exponentSign);
     registerX *= inputRegisterX.mantissaSign;
 }
 
