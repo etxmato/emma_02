@@ -10856,6 +10856,8 @@ void XmlParser::parseXml_Sep(wxXmlNode &node, SepConfiguration *sep)
         "byte",
         "byte_pc",
         "address",
+        "address_save",
+        "address_load",
         "address_get_data",
         "comment",
         "undefined"
@@ -10872,8 +10874,10 @@ void XmlParser::parseXml_Sep(wxXmlNode &node, SepConfiguration *sep)
 		TAG_LOAD,
 		TAG_BYTE,
 		TAG_BYTE_PC,
-		TAG_ADDRESS,
-		TAG_ADDRESS_GET_DATA,
+        TAG_ADDRESS,
+        TAG_ADDRESS_SAVE,
+        TAG_ADDRESS_LOAD,
+        TAG_ADDRESS_GET_DATA,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
