@@ -4054,6 +4054,7 @@ wxString DebugWindow::getAssemblySep(Word* address, Byte n, wxString *printBuffe
 	Byte accumulator = p_Computer->getAccumulator();
 	Byte byteValue;
 	Word addressValue;
+    vector<Word> savedAddress;
 	
 	printBufferAssembler.Printf("SEP  R%X",n);
             
@@ -4158,6 +4159,15 @@ wxString DebugWindow::getAssemblySep(Word* address, Byte n, wxString *printBuffe
 						printBufferAssembler += printBufferTemp;
 					break;
 					
+					case SEP_ADDRESS_SAVE:
+                        savedAddress.push_back(address);
+					break;
+	
+					case SEP_ADDRESS_LOAD:
+                        if (sepDetails->offset <= savedAddress.size())
+                            addressValue = savedAddress[sepDetails->offset];
+					break;
+
 					case SEP_ADDRESS_GET_DATA:
 						printBufferTemp.Printf("%02X", p_Computer->readMem(addressValue+sepDetails->offset));
                         *printBufferDetails += printBufferTemp;
