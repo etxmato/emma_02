@@ -181,7 +181,6 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
         if (newDate.IsEqualTo(oldXmlDate_))
             return;
     }
-
     memConfigNumber_ = 2;
     computerConfiguration.memoryConfiguration.resize(memConfigNumber_);
     computerConfiguration.memoryConfiguration[0].filename = "";
@@ -189,7 +188,9 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.fdcType_ = FDCTYPE_17XX;
 
     setCpuType("");
-    
+    for (Byte instruction = 0xd0; instruction< 0xe0; instruction++)
+        p_Main->setNumberOfBytes(instruction, 1);
+
     computerInfo.ploadExtension = "";
     computerConfiguration.autoBootConfiguration.defined = false;
     computerConfiguration.f12reset = true;
@@ -354,6 +355,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.cdp1877Configuration.clear();
     computerConfiguration.cdp1878Configuration.clear();
     computerConfiguration.cd4536bConfiguration.clear();
+    computerConfiguration.sepConfiguration.clear();
     computerConfiguration.memoryRamPartConfiguration.clear();
     computerConfiguration.memoryCopyConfiguration.clear();
     computerConfiguration.emsMemoryConfiguration.clear();
@@ -10619,6 +10621,7 @@ void XmlParser::parseXml_Debugger(wxXmlNode &node)
     wxString tagList[]=
     {
         "scrt",
+        "sep",
         "assembler",
         "comment",
         "undefined"
@@ -10627,12 +10630,14 @@ void XmlParser::parseXml_Debugger(wxXmlNode &node)
     enum
     {
         TAG_SCRT,
+        TAG_SEP,
         TAG_ASSEMBLER,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
     
     int tagTypeInt;
+    SepConfiguration sep;
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -10652,6 +10657,25 @@ void XmlParser::parseXml_Debugger(wxXmlNode &node)
 
             case TAG_ASSEMBLER:
                 parseXml_Assembler (*child);
+            break;
+
+            case TAG_SEP:
+                if (child->HasAttribute("reg"))
+                {
+            		sep.d.mask = (Byte)parseXml_Number(*child, "mask_d");
+            		sep.d.value = (Byte)parseXml_Number(*child, "value_d");
+            		sep.pcByte.mask = (Byte)parseXml_Number(*child, "mask_d");
+            		sep.pcByte.value = (Byte)parseXml_Number(*child, "value_d");
+                	sep.checkAddress = -1;
+                	if (child->HasAttribute("address"))  
+            			sep.checkAddress = (Byte)parseXml_Number(*child, "address");
+                	sep.detailsDefined = true;
+                	if (child->HasAttribute("replace"))
+            			sep.detailsDefined = child->GetAttribute("replace") != "yes";
+            		sep.sepRegister = (Byte)parseXml_Number(*child, "reg");
+                	parseXml_Sep (*child, &sep);
+                    computerConfiguration.sepConfiguration.push_back(sep);
+                }
             break;
 
             case TAG_COMMENT:
@@ -10702,7 +10726,10 @@ void XmlParser::parseXml_Scrt(wxXmlNode &node)
             case TAG_CALL:
                 if (child->HasAttribute("reg"))
                     computerConfiguration.debuggerConfiguration.callRegister = (Byte)parseXml_Number(*child, "reg");
+                if (child->GetAttribute("branch") == "yes")
+                    p_Main->setJumpCorrection(0xd4, 2);
                 computerConfiguration.debuggerConfiguration.callAddress = (int)parseXml_Number(*child);
+                p_Main->setNumberOfBytes(0xd4, 3);
             break;
 
             case TAG_RETURN:
@@ -10811,6 +10838,117 @@ void XmlParser::parseXml_Assembler(wxXmlNode &node)
         child = child->GetNext();
     }
     computerConfiguration.assemblerConfiguration.push_back(assemblerInfo);
+}
+
+void XmlParser::parseXml_Sep(wxXmlNode &node, SepConfiguration *sep)
+{
+    sep->details.clear();
+
+    wxString tagList[]=
+    {
+        "string",
+        "string_exec",
+        "reg",
+        "reg_high",
+        "reg_low",
+        "d",
+        "load",
+        "byte",
+        "byte_pc",
+        "address",
+        "address_get_data",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_STRING,
+        TAG_STRING_EXEC,
+        TAG_REG,
+        TAG_REG_HIGH,
+		TAG_REG_LOW,
+		TAG_D,
+		TAG_LOAD,
+		TAG_BYTE,
+		TAG_BYTE_PC,
+		TAG_ADDRESS,
+		TAG_ADDRESS_GET_DATA,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+
+    int tagTypeInt;
+
+    TraceInstructionSepDetails sepDetails;      
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+       	
+        sepDetails.sepType = tagTypeInt;
+        sepDetails.stringValue = "";
+ 		sepDetails.registerValue = 0;
+ 		sepDetails.offset = 0;
+
+        switch (tagTypeInt)
+        {
+            case TAG_STRING:
+            case TAG_STRING_EXEC:
+                sepDetails.stringValue = child->GetNodeContent();
+                sep->details.push_back(sepDetails);
+            break;
+             
+            case TAG_REG:
+ 				sepDetails.registerValue = (Byte)parseXml_Number(*child);
+                sep->details.push_back(sepDetails);
+            break;
+            
+            case TAG_REG_HIGH:
+            case TAG_REG_LOW:
+ 				sepDetails.registerValue = (Byte)parseXml_Number(*child);
+                sep->details.push_back(sepDetails);
+            break;
+                        
+            case TAG_D:
+                sep->details.push_back(sepDetails);
+            break;
+                                    
+            case TAG_LOAD:
+            case TAG_BYTE:
+			case TAG_ADDRESS_GET_DATA:
+				sepDetails.offset = (Byte)parseXml_Number(*child);
+                sep->details.push_back(sepDetails);
+            break;
+
+            case TAG_BYTE_PC:
+                sepDetails.offset = (Byte)parseXml_Number(*child);
+                sep->details.push_back(sepDetails);
+                p_Main->setNumberOfBytes(0xd0+sep->sepRegister, p_Main->getNumberOfBytes(0xd0+sep->sepRegister)+1);
+            break;
+
+            case TAG_ADDRESS:
+ 				sepDetails.offset = (Byte)parseXml_Number(*child);
+                sep->details.push_back(sepDetails);
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
 }
 
 void XmlParser::parseXml_BatchWav(wxXmlNode &node)
@@ -13403,7 +13541,6 @@ EfFlag XmlParser::init_EfFlag()
 
     return efFlag;
 }
-
 
 long XmlParser::parseXml_Number(wxXmlNode &node)
 {

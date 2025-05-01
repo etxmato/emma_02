@@ -76,6 +76,8 @@ private:
     void parseXml_Debugger(wxXmlNode &node);
     void parseXml_Scrt(wxXmlNode &node);
     void parseXml_Assembler(wxXmlNode &node);
+    void parseXml_Sep(wxXmlNode &node, SepConfiguration *sep);
+    void parseXml_TraceInstruction(wxXmlNode &node);
     void parseXml_BatchWav(wxXmlNode &node);
     void parseXml_QSound(wxXmlNode &node);
     void parseXml_StudioSound(wxXmlNode &node);

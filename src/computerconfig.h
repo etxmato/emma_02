@@ -1356,6 +1356,33 @@ public:
     bool videoLog_defined;
 };
 
+class TraceInstructionSepDetails
+{
+public:
+	int sepType;
+	Byte registerValue;
+	wxString stringValue;
+	Byte offset;
+};
+
+class CheckDetails
+{
+public:
+	Byte mask;
+	Byte value;
+};
+
+class SepConfiguration
+{
+public:
+	Byte sepRegister;
+	CheckDetails d;
+	CheckDetails pcByte;
+	int checkAddress;
+	bool detailsDefined;
+	vector<TraceInstructionSepDetails> details;
+};
+
 // File & directory configuration class definitions:
 
 class FileConfiguration
@@ -1656,6 +1683,7 @@ public:
     // Assembler & Debugger configurations:
     vector<AssemblerConfiguration> assemblerConfiguration;
     DebuggerConfiguration debuggerConfiguration;
+    vector<SepConfiguration> sepConfiguration;
 
     // File & directory configurations:
     WavConfiguration wavConfiguration[2];

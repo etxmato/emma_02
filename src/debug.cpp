@@ -411,7 +411,7 @@ int numberOfBytes1801[] =
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // 9x
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // Ax
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // Bx
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  // 7x
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  // Cx
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // Dx
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // Ex
     1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2,  // Fx
@@ -1152,6 +1152,23 @@ void DebugWindow::readDebugConfig()
         lineBmp[i] = new wxBitmap(lineWidth, 16, 24);
     paintDebugBackground();
 }
+
+void DebugWindow::setJumpCorrection(Byte instruction, int value)
+{
+    jumpCorrection[instruction] = value;
+};
+
+void DebugWindow::setNumberOfBytes(Byte instruction, int value)
+{
+    numberOfBytesSystem00[instruction] = value;
+    numberOfBytes1801[instruction] = value;
+    numberOfBytes1802[instruction] = value;
+};
+
+int DebugWindow::getNumberOfBytes(Byte instruction)
+{
+    return numberOfBytes1802[instruction];
+};
 
 void DebugWindow::writeDebugConfig()
 {
@@ -3050,12 +3067,13 @@ wxString DebugWindow::extractNextWord(wxString *buffer, wxString *seperator)
 
 wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool showOpcode, bool textAssembler, Word start, Word end)
 {
-    wxString printBufferOpcode, printBufferAssembler, printBufferTemp, printBufferAddress, printBufferDetails; //, temp;
+    wxString printBufferOpcode, printBufferAssembler, printBufferTemp, printBufferAddress, printBufferDetails; 
     int i, n, i1805, n1805;
     Word instructionAddress = *address;
     uint64_t executed;
-    Byte memType;
-    
+    Byte memType, dummyByte;
+    bool dummyBool;
+        
     i = p_Computer->readMemDebug(*address);
 
     printBufferAddress.Printf("%04X: ", *address);
@@ -3844,18 +3862,7 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
             }
         break;
         case 0xd:
-            printBufferAssembler.Printf("SEP  R%X",n);
- /*           temp = printBufferAssembler; // FULL BASIC test code
-            if (n == 7)
-            {
-                printBufferAssembler.Printf(" - D=M(%02X%02X)", p_Computer->getScratchpadRegister(2) >> 8, p_Computer->readMemDebug((*address)));
-                printBufferAssembler = temp + printBufferAssembler;
-            }
-            if (n == 8)
-            {
-                printBufferAssembler.Printf(" - %02X%02X/%02X%02X -> %02X%02X/%02X%02X", p_Computer->getScratchpadRegister(2) >> 8, p_Computer->readMemDebug((*address)), p_Computer->getScratchpadRegister(2) >> 8, p_Computer->readMemDebug((*address))+1, p_Computer->getScratchpadRegister(2) >> 8, p_Computer->readMemDebug((*address)+1), p_Computer->getScratchpadRegister(2) >> 8, p_Computer->readMemDebug((*address)+1)+1);
-                printBufferAssembler = temp + printBufferAssembler;
-            }*/
+            printBufferAssembler = getAssemblySep(address, n, &printBufferDetails, &printBufferOpcode, &dummyByte, &dummyBool, &dummyBool, false);
         break;
         case 0xe:
             printBufferAssembler.Printf("SEX  R%X",n);
@@ -4039,6 +4046,159 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
         return printBufferTemp + printBufferDetails;
     else
         return printBufferTemp;
+}
+
+wxString DebugWindow::getAssemblySep(Word* address, Byte n, wxString *printBufferDetails, wxString *printBufferOpcode, Byte *scrtProgramCounter, bool *startHiddenTrace, bool *stopHiddenTrace, bool skipTrace)
+{
+	wxString printBufferTemp, printBufferAssembler;
+	Byte accumulator = p_Computer->getAccumulator();
+	Byte byteValue;
+	Word addressValue;
+	
+	printBufferAssembler.Printf("SEP  R%X",n);
+            
+	if (n == *scrtProgramCounter && skipTrace)
+	{
+		if (p_Computer->getProgramCounter() == computerConfiguration.debuggerConfiguration.returnRegister && p_Computer->getScratchpadRegister((int)computerConfiguration.debuggerConfiguration.returnRegister) == computerConfiguration.debuggerConfiguration.returnAddress)
+			*stopHiddenTrace = true;
+		if (p_Computer->getProgramCounter() == computerConfiguration.debuggerConfiguration.callRegister && p_Computer->getScratchpadRegister((int)computerConfiguration.debuggerConfiguration.callRegister) == p_Main->getDebugCallAddress())
+			*stopHiddenTrace = true;
+		for (std::vector<SepConfiguration>::iterator traceInfo = computerConfiguration.sepConfiguration.begin (); traceInfo != computerConfiguration.sepConfiguration.end (); ++traceInfo)
+		{
+			if (n == traceInfo->sepRegister)
+				*stopHiddenTrace = true;
+		}
+	}
+	if (n == computerConfiguration.debuggerConfiguration.callRegister && p_Computer->getScratchpadRegister(n) == p_Main->getDebugCallAddress())
+	{
+		*scrtProgramCounter = p_Computer->getProgramCounter();
+		*startHiddenTrace = true;
+		printBufferAssembler.Printf("CALL %02X%02X", p_Computer->readMemDebug(*address), p_Computer->readMemDebug(*address+1));
+        printBufferTemp.Printf("%02X %02X ", p_Computer->readMemDebug(*address), p_Computer->readMemDebug(*address+1));
+        printBufferOpcode->operator += (printBufferTemp);
+		*address = *address + 2;
+	}
+	if (n == computerConfiguration.debuggerConfiguration.returnRegister && p_Computer->getScratchpadRegister(n) == computerConfiguration.debuggerConfiguration.returnAddress)
+	{
+		*scrtProgramCounter = p_Computer->getProgramCounter();
+		*startHiddenTrace = true;
+		printBufferAssembler.Printf("RETURN");
+	}
+	for (std::vector<SepConfiguration>::iterator traceInfo = computerConfiguration.sepConfiguration.begin (); traceInfo != computerConfiguration.sepConfiguration.end (); ++traceInfo)
+	{
+        addressValue = 0;
+		if (sepTraceValid(*address, n, *traceInfo))
+		{
+			*scrtProgramCounter = p_Computer->getProgramCounter();
+			*startHiddenTrace = true;
+			printBufferAssembler = "";
+            byteValue = 0;
+			for (std::vector<TraceInstructionSepDetails>::iterator sepDetails = traceInfo->details.begin (); sepDetails != traceInfo->details.end (); ++sepDetails)
+			{
+				printBufferTemp = "";
+				switch(sepDetails->sepType)
+				{
+					case SEP_STRING:
+						printBufferTemp.Printf(sepDetails->stringValue);
+						printBufferAssembler += printBufferTemp;
+					break;
+					
+					case SEP_STRING_EXEC:
+						printBufferTemp.Printf(sepDetails->stringValue);
+						*printBufferDetails += printBufferTemp;
+					break;
+					
+					case SEP_REG:
+						storeByteAndAddress(p_Computer->getScratchpadRegister(sepDetails->registerValue >> 8), &addressValue, &byteValue);
+						storeByteAndAddress(p_Computer->getScratchpadRegister(sepDetails->registerValue) & 0xff, &addressValue, &byteValue);
+						printBufferTemp.Printf("%04X", addressValue);
+                        *printBufferDetails += printBufferTemp;
+					break;
+					
+					case SEP_REG_HIGH:
+						storeByteAndAddress(p_Computer->getScratchpadRegister(sepDetails->registerValue >> 8), &addressValue, &byteValue);
+						printBufferTemp.Printf("%02X", byteValue);
+                        *printBufferDetails += printBufferTemp;
+					break;
+					
+					case SEP_REG_LOW:
+						storeByteAndAddress(p_Computer->getScratchpadRegister(sepDetails->registerValue) & 0xff, &addressValue, &byteValue);
+						printBufferTemp.Printf("%02X", byteValue);
+                        *printBufferDetails += printBufferTemp;
+					break;
+					
+					case SEP_D:
+						storeByteAndAddress(p_Computer->getScratchpadRegister(accumulator), &addressValue, &byteValue);
+						printBufferTemp.Printf("%02X", byteValue);
+                        *printBufferDetails += printBufferTemp;
+					break;
+					
+					case SEP_LOAD:
+						storeByteAndAddress(sepDetails->offset, &addressValue, &byteValue);
+						printBufferTemp.Printf("%02X", byteValue);
+						printBufferAssembler += printBufferTemp;
+					break;
+					
+					case SEP_BYTE:
+						printBufferTemp.Printf("%02X", byteValue+sepDetails->offset);
+						printBufferAssembler += printBufferTemp;
+					break;
+					
+					case SEP_BYTE_PC:
+						storeByteAndAddress(p_Computer->readMem(*address), &addressValue, &byteValue);
+						printBufferTemp.Printf("%02X", byteValue);
+						printBufferAssembler += printBufferTemp;
+                        printBufferTemp.Printf("%02X ", p_Computer->readMemDebug(*address));
+                        printBufferOpcode->operator += (printBufferTemp);
+						*address = *address + 1;
+					break;
+					
+					case SEP_ADDRESS:
+						printBufferTemp.Printf("%04X", addressValue+sepDetails->offset);
+						printBufferAssembler += printBufferTemp;
+					break;
+					
+					case SEP_ADDRESS_GET_DATA:
+						printBufferTemp.Printf("%02X", p_Computer->readMem(addressValue+sepDetails->offset));
+                        *printBufferDetails += printBufferTemp;
+					break;
+				}
+			}
+		}
+	}
+	return printBufferAssembler;
+}
+
+bool DebugWindow::sepTraceValid(Word address, Byte n, SepConfiguration traceInfo)
+{
+	bool sepTraceValidBool = false;
+	if (n == traceInfo.sepRegister)
+	{
+		sepTraceValidBool = true;
+		if (traceInfo.d.mask !=0)
+		{
+			if ((p_Computer->getScratchpadRegister(p_Computer->getAccumulator()) & traceInfo.d.mask) != traceInfo.d.value)
+					sepTraceValidBool = false;
+		}
+		if (traceInfo.pcByte.mask !=0)
+		{
+			if ((p_Computer->readMem(address) & traceInfo.pcByte.mask) != traceInfo.pcByte.value)
+					sepTraceValidBool = false;
+		}
+		if (traceInfo.checkAddress != -1)
+		{
+			if (p_Computer->getScratchpadRegister(traceInfo.sepRegister) != traceInfo.checkAddress)
+					sepTraceValidBool = false;
+		}
+	}
+	
+	return sepTraceValidBool;
+}
+
+void DebugWindow::storeByteAndAddress(Byte value, Word *addressValue, Byte *byteValue)
+{
+	*byteValue = value;
+	*addressValue = (*addressValue << 8) + *byteValue;
 }
 
 wxString DebugWindow::getShortAddressOrLabel(Word address, bool textAssembler, Word start, Word end)
@@ -8253,11 +8413,44 @@ void DebugWindow::directAss()
                         setProfileColor(executedColor);
                         dcAss.DrawText(text.Mid(6,2), 1+charWidth_*7, 1+line*lineSpace_);
                         dcAss.DrawText(text.Mid(9,2), 1+charWidth_*10, 1+line*lineSpace_);
+                        dcAss.DrawText(text.Mid(12,2), 1+charWidth_*13, 1+line*lineSpace_);
+                        dcAss.DrawText(text.Mid(15,2), 1+charWidth_*16, 1+line*lineSpace_);
                         if (text.Len() >= 23)
                         {
                             dcAss.DrawText(text.Mid(18,5), 1+charWidth_*19, 1+line*lineSpace_);
-                            dcAss.DrawText(text.Right(text.Len()-23), 1+charWidth_*24, 1+line*lineSpace_);
-                            
+                            count = text.Find("\\n");
+                            if (count == wxNOT_FOUND)
+                                dcAss.DrawText(text.Right(text.Len()-23), 1+charWidth_*24, 1+line*lineSpace_);
+                            else
+                            {
+                                dcAss.DrawText(text.Mid(23, count-23), 1+charWidth_*24, 1+line*lineSpace_);
+                                text = text.Right(text.Len()-count);
+                                count = text.Find("\\n");
+                                while (count != wxNOT_FOUND)
+                                {
+                                    text = text.Right(text.Len()-2);
+                                    count = text.Find("\\n");
+                                    if (count == wxNOT_FOUND)
+                                        count = (int)text.Len();
+                                    line += 1;
+                                    if (line == EDIT_ROW && selectedTab_ == DIRECTASSTAB)
+                                    {
+                                        dcAss.SetFont(exactFontBold);
+                                        dirAssAddress_ = address - 3;
+                                        dcAss.DrawText(">", 1, 1+line*lineSpace_);
+                                        dcAss.DrawText("<", bitmapWidth-9, 1+EDIT_ROW*lineSpace_);
+                                    }
+                                    else
+                                        dcAss.SetFont(exactFont);
+                                    if (line < numberOfDebugLines)
+                                    {
+                                        setProfileColor(executedColor);
+                                        dcAss.DrawText(text.Left(count), 1+charWidth_*19, 1+line*lineSpace_);
+                                    }
+                                    text = text.Right(text.Len()-count);
+                                    count = text.Find("\\n");
+                                }
+                            }
                         }
                         else
                             dcAss.DrawText(text.Right(text.Len()-18), 1+charWidth_*19, 1+line*lineSpace_);

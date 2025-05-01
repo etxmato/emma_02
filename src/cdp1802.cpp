@@ -1763,11 +1763,12 @@ void Cdp1802::cpuCycleFetch2()
 
 void Cdp1802::cpuCycleExecute1()
 {
-    wxString buffer;
+    wxString buffer, tempstring;
     Byte i, n;
     int tempWord;
     Byte df1;
     uint64_t executed;
+    Word tempAddress;
 
     stopHiddenTrace_ = false;
     startHiddenTrace_ = false;
@@ -2777,34 +2778,14 @@ void Cdp1802::cpuCycleExecute1()
         case 0xd:
             if (trace_)
             {
-                buffer.Printf("SEP  R%X",n);
-                traceBuffer_ = traceBuffer_ + buffer;
-                
-                if (p_Main->getDebugScrtMode())
-                {
-                    if (n == scrtProgramCounter_ && skipTrace_)
-                    {
-                        if (programCounter_ == p_Main->getDebugRetReg() && scratchpadRegister_[p_Main->getDebugRetReg()] == p_Main->getDebugRetAddress())
-                            stopHiddenTrace_ = true;
-                        if (programCounter_ == p_Main->getDebugCallReg() && scratchpadRegister_[p_Main->getDebugCallReg()] == p_Main->getDebugCallAddress())
-                            stopHiddenTrace_ = true;
-                    }
-                    if (n == p_Main->getDebugCallReg() && scratchpadRegister_[n] == p_Main->getDebugCallAddress())
-                    {
-                        scrtProgramCounter_ = programCounter_;
-                        startHiddenTrace_ = true;
-                        buffer.Printf("   CALL %02X%02X", readMem(scratchpadRegister_[programCounter_]), readMem(scratchpadRegister_[programCounter_]+1));
-                        traceBuffer_ = traceBuffer_ + buffer;
-                    }
-                    if (n == p_Main->getDebugRetReg() && scratchpadRegister_[n] == p_Main->getDebugRetAddress())
-                    {
-                        scrtProgramCounter_ = programCounter_;
-                        startHiddenTrace_ = true;
-                        buffer.Printf("   RETURN");
-                        traceBuffer_ = traceBuffer_ + buffer;
-                    }
-                }
+                tempAddress = scratchpadRegister_[programCounter_];
+                traceBuffer_ = traceBuffer_ + p_Main->getAssemblySep(&tempAddress, n, &tempstring, &tempstring, &scrtProgramCounter_, &startHiddenTrace_, &stopHiddenTrace_, skipTrace_);
+                traceBuffer_ = traceBuffer_ + tempstring;
             }
+            address_=scratchpadRegister_[programCounter_];
+            for (int operand = 1; operand < p_Main->getNumberOfBytes(instructionCode_); operand++)
+    //        if (n == p_Main->getDebugCallReg() && scratchpadRegister_[n] == p_Main->getDebugCallAddress())
+                p_Computer->writeMemDataType(address_++, MEM_TYPE_OPERAND);
             bus_=n+16*n;
             programCounter_=n;
             address_=scratchpadRegister_[n];
