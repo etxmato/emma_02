@@ -10925,7 +10925,10 @@ void XmlParser::parseXml_Sep(wxXmlNode &node, SepConfiguration *sep)
                                     
             case TAG_LOAD:
             case TAG_BYTE:
-			case TAG_ADDRESS_GET_DATA:
+            case TAG_ADDRESS:
+            case TAG_ADDRESS_SAVE:
+            case TAG_ADDRESS_LOAD:
+			 case TAG_ADDRESS_GET_DATA:
 				sepDetails.offset = (Byte)parseXml_Number(*child);
                 sep->details.push_back(sepDetails);
             break;
@@ -10934,11 +10937,6 @@ void XmlParser::parseXml_Sep(wxXmlNode &node, SepConfiguration *sep)
                 sepDetails.offset = (Byte)parseXml_Number(*child);
                 sep->details.push_back(sepDetails);
                 p_Main->setNumberOfBytes(0xd0+sep->sepRegister, p_Main->getNumberOfBytes(0xd0+sep->sepRegister)+1);
-            break;
-
-            case TAG_ADDRESS:
- 				sepDetails.offset = (Byte)parseXml_Number(*child);
-                sep->details.push_back(sepDetails);
             break;
 
             case TAG_COMMENT:
