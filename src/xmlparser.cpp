@@ -10676,6 +10676,9 @@ void XmlParser::parseXml_Debugger(wxXmlNode &node)
                 	parseXml_Sep (*child, &sep);
                     computerConfiguration.sepConfiguration.push_back(sep);
                 }
+                sep.textPosition = 7;
+                if (child->HasAttribute("pos"))
+                    sep.textPosition = (Byte)parseXml_Number(*child, "pos");
             break;
 
             case TAG_COMMENT:
@@ -10852,13 +10855,17 @@ void XmlParser::parseXml_Sep(wxXmlNode &node, SepConfiguration *sep)
         "reg_high",
         "reg_low",
         "d",
-        "load",
-        "byte",
+        "byte_show",
+        "byte_save",
+        "byte_load",
+        "byte_value",
         "byte_pc",
-        "address",
-        "address_save",
-        "address_load",
-        "address_get_data",
+        "word_show",
+        "word_save",
+        "word_load",
+        "word_value",
+        "word_pc",
+        "word_get_address_data",
         "comment",
         "undefined"
     };
@@ -10871,13 +10878,17 @@ void XmlParser::parseXml_Sep(wxXmlNode &node, SepConfiguration *sep)
         TAG_REG_HIGH,
 		TAG_REG_LOW,
 		TAG_D,
-		TAG_LOAD,
-		TAG_BYTE,
+		TAG_BYTE_SHOW,
+        TAG_BYTE_SAVE,
+        TAG_BYTE_LOAD,
+        TAG_BYTE_VALUE,
 		TAG_BYTE_PC,
-        TAG_ADDRESS,
-        TAG_ADDRESS_SAVE,
-        TAG_ADDRESS_LOAD,
-        TAG_ADDRESS_GET_DATA,
+        TAG_WORD_SHOW,
+        TAG_WORD_SAVE,
+        TAG_WORD_LOAD,
+        TAG_WORD_VALUE,
+        TAG_WORD_PC,
+        TAG_WORD_GET_ADDRESS_DATA,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
@@ -10923,12 +10934,12 @@ void XmlParser::parseXml_Sep(wxXmlNode &node, SepConfiguration *sep)
                 sep->details.push_back(sepDetails);
             break;
                                     
-            case TAG_LOAD:
-            case TAG_BYTE:
-            case TAG_ADDRESS:
-            case TAG_ADDRESS_SAVE:
-            case TAG_ADDRESS_LOAD:
-			 case TAG_ADDRESS_GET_DATA:
+            case TAG_BYTE_VALUE:
+            case TAG_BYTE_SHOW:
+            case TAG_WORD_SHOW:
+            case TAG_WORD_SAVE:
+            case TAG_WORD_LOAD:
+            case TAG_WORD_GET_ADDRESS_DATA:
 				sepDetails.offset = (Byte)parseXml_Number(*child);
                 sep->details.push_back(sepDetails);
             break;

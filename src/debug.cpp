@@ -4055,7 +4055,8 @@ wxString DebugWindow::getAssemblySep(Word* address, Byte n, wxString *printBuffe
 	Byte byteValue;
 	Word addressValue;
     vector<Word> savedAddress;
-	
+    vector<Byte> savedByte;
+
 	printBufferAssembler.Printf("SEP  R%X",n);
             
 	if (n == *scrtProgramCounter && skipTrace)
@@ -4092,7 +4093,6 @@ wxString DebugWindow::getAssemblySep(Word* address, Byte n, wxString *printBuffe
 		{
 			*scrtProgramCounter = p_Computer->getProgramCounter();
 			*startHiddenTrace = true;
-			printBufferAssembler = "";
             byteValue = 0;
 			for (std::vector<TraceInstructionSepDetails>::iterator sepDetails = traceInfo->details.begin (); sepDetails != traceInfo->details.end (); ++sepDetails)
 			{
@@ -4134,17 +4134,26 @@ wxString DebugWindow::getAssemblySep(Word* address, Byte n, wxString *printBuffe
                         *printBufferDetails += printBufferTemp;
 					break;
 					
-					case SEP_LOAD:
+					case SEP_BYTE_VALUE:
 						storeByteAndAddress(sepDetails->offset, &addressValue, &byteValue);
 						printBufferTemp.Printf("%02X", byteValue);
 						printBufferAssembler += printBufferTemp;
 					break;
 					
-					case SEP_BYTE:
+					case SEP_BYTE_SHOW:
 						printBufferTemp.Printf("%02X", byteValue+sepDetails->offset);
 						printBufferAssembler += printBufferTemp;
 					break;
 					
+                    case SEP_BYTE_SAVE:
+                        savedByte.push_back(byteValue);
+                    break;
+    
+                    case SEP_BYTE_LOAD:
+                        if (sepDetails->offset <= savedByte.size())
+                            byteValue = savedByte[sepDetails->offset];
+                    break;
+
 					case SEP_BYTE_PC:
 						storeByteAndAddress(p_Computer->readMem(*address), &addressValue, &byteValue);
 						printBufferTemp.Printf("%02X", byteValue);
@@ -4154,21 +4163,42 @@ wxString DebugWindow::getAssemblySep(Word* address, Byte n, wxString *printBuffe
 						*address = *address + 1;
 					break;
 					
-					case SEP_ADDRESS:
+                    case SEP_WORD_VALUE:
+                        addressValue = sepDetails->offset;
+                        printBufferTemp.Printf("%04X", addressValue);
+                        printBufferAssembler += printBufferTemp;
+                    break;
+                    
+					case SEP_WORD_SHOW:
 						printBufferTemp.Printf("%04X", addressValue+sepDetails->offset);
 						printBufferAssembler += printBufferTemp;
 					break;
 					
-					case SEP_ADDRESS_SAVE:
-                        savedAddress.push_back(address);
+					case SEP_WORD_SAVE:
+                        savedAddress.push_back(addressValue);
 					break;
 	
-					case SEP_ADDRESS_LOAD:
+					case SEP_WORD_LOAD:
                         if (sepDetails->offset <= savedAddress.size())
                             addressValue = savedAddress[sepDetails->offset];
 					break;
 
-					case SEP_ADDRESS_GET_DATA:
+                    case SEP_WORD_PC:
+                        storeByteAndAddress(p_Computer->readMem(*address), &addressValue, &byteValue);
+                        printBufferTemp.Printf("%02X", byteValue);
+                        printBufferAssembler += printBufferTemp;
+                        printBufferTemp.Printf("%02X ", p_Computer->readMemDebug(*address));
+                        printBufferOpcode->operator += (printBufferTemp);
+                        *address = *address + 1;
+                        storeByteAndAddress(p_Computer->readMem(*address), &addressValue, &byteValue);
+                        printBufferTemp.Printf("%02X", byteValue);
+                        printBufferAssembler += printBufferTemp;
+                        printBufferTemp.Printf("%02X ", p_Computer->readMemDebug(*address));
+                        printBufferOpcode->operator += (printBufferTemp);
+                        *address = *address + 1;
+                    break;
+                    
+					case SEP_WORD_GET_ADDRESS_DATA:
 						printBufferTemp.Printf("%02X", p_Computer->readMem(addressValue+sepDetails->offset));
                         *printBufferDetails += printBufferTemp;
 					break;

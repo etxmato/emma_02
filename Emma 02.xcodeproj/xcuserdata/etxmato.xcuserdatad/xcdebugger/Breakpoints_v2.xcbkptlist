@@ -110,8 +110,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11618"
-            endingLineNumber = "11618"
+            startingLineNumber = "11629"
+            endingLineNumber = "11629"
             landmarkName = "XmlParser::parseXml_Flipflop(node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -158,8 +158,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11738"
-            endingLineNumber = "11738"
+            startingLineNumber = "11749"
+            endingLineNumber = "11749"
             landmarkName = "XmlParser::parseXml_Memory(node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,8 +174,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11742"
-            endingLineNumber = "11742"
+            startingLineNumber = "11753"
+            endingLineNumber = "11753"
             landmarkName = "XmlParser::parseXml_Memory(node)"
             landmarkType = "7">
          </BreakpointContent>
@@ -558,8 +558,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "10907"
-            endingLineNumber = "10907"
+            startingLineNumber = "10918"
+            endingLineNumber = "10918"
             landmarkName = "XmlParser::parseXml_Sep(node, sep)"
             landmarkType = "7">
          </BreakpointContent>
@@ -606,9 +606,9 @@
             filePath = "src/debug.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4200"
-            endingLineNumber = "4200"
-            landmarkName = "DebugWindow::storeByteAndAddress(value, addressValue, byteValue)"
+            startingLineNumber = "4230"
+            endingLineNumber = "4230"
+            landmarkName = "DebugWindow::sepTraceValid(address, n, traceInfo)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -622,8 +622,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "10929"
-            endingLineNumber = "10929"
+            startingLineNumber = "10940"
+            endingLineNumber = "10940"
             landmarkName = "XmlParser::parseXml_Sep(node, sep)"
             landmarkType = "7">
          </BreakpointContent>
@@ -670,8 +670,8 @@
             filePath = "src/debug.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4078"
-            endingLineNumber = "4078"
+            startingLineNumber = "4079"
+            endingLineNumber = "4079"
             landmarkName = "DebugWindow::getAssemblySep(address, n, printBufferDetails, printBufferOpcode, scrtProgramCounter, startHiddenTrace, stopHiddenTrace, skipTrace)"
             landmarkType = "7">
          </BreakpointContent>
@@ -686,8 +686,8 @@
             filePath = "src/debug.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "8378"
-            endingLineNumber = "8378"
+            startingLineNumber = "8408"
+            endingLineNumber = "8408"
             landmarkName = "DebugWindow::directAss()"
             landmarkType = "7">
          </BreakpointContent>
@@ -702,8 +702,8 @@
             filePath = "src/debug.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "8391"
-            endingLineNumber = "8391"
+            startingLineNumber = "8421"
+            endingLineNumber = "8421"
             landmarkName = "DebugWindow::directAss()"
             landmarkType = "7">
          </BreakpointContent>
@@ -718,8 +718,8 @@
             filePath = "src/debug.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "8359"
-            endingLineNumber = "8359"
+            startingLineNumber = "8389"
+            endingLineNumber = "8389"
             landmarkName = "DebugWindow::directAss()"
             landmarkType = "7">
          </BreakpointContent>
@@ -734,8 +734,8 @@
             filePath = "src/debug.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "8344"
-            endingLineNumber = "8344"
+            startingLineNumber = "8374"
+            endingLineNumber = "8374"
             landmarkName = "DebugWindow::directAss()"
             landmarkType = "7">
          </BreakpointContent>
@@ -750,8 +750,8 @@
             filePath = "src/debug.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "8420"
-            endingLineNumber = "8420"
+            startingLineNumber = "8450"
+            endingLineNumber = "8450"
             landmarkName = "DebugWindow::directAss()"
             landmarkType = "7">
          </BreakpointContent>
@@ -766,8 +766,8 @@
             filePath = "src/debug.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "8422"
-            endingLineNumber = "8422"
+            startingLineNumber = "8452"
+            endingLineNumber = "8452"
             landmarkName = "DebugWindow::directAss()"
             landmarkType = "7">
          </BreakpointContent>
@@ -782,8 +782,8 @@
             filePath = "src/debug.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "8729"
-            endingLineNumber = "8729"
+            startingLineNumber = "8759"
+            endingLineNumber = "8759"
             landmarkName = "DebugWindow::directAss()"
             landmarkType = "7">
          </BreakpointContent>
@@ -798,8 +798,8 @@
             filePath = "src/debug.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "8771"
-            endingLineNumber = "8771"
+            startingLineNumber = "8801"
+            endingLineNumber = "8801"
             landmarkName = "DebugWindow::directAss()"
             landmarkType = "7">
          </BreakpointContent>
@@ -814,8 +814,8 @@
             filePath = "src/debug.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "8330"
-            endingLineNumber = "8330"
+            startingLineNumber = "8360"
+            endingLineNumber = "8360"
             landmarkName = "DebugWindow::directAss()"
             landmarkType = "7">
          </BreakpointContent>
@@ -830,8 +830,8 @@
             filePath = "src/debug.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9573"
-            endingLineNumber = "9573"
+            startingLineNumber = "9603"
+            endingLineNumber = "9603"
             landmarkName = "DebugWindow::assSpinDown()"
             landmarkType = "7">
          </BreakpointContent>
@@ -849,6 +849,38 @@
             startingLineNumber = "2786"
             endingLineNumber = "2786"
             landmarkName = "Cdp1802::cpuCycleExecute1()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "86A40DC3-4A1A-4354-9882-26D07ED46811"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/debug.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "9730"
+            endingLineNumber = "9730"
+            landmarkName = "DebugWindow::assSpinUp()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7722EDD8-50B0-4948-9148-D259BB34D0DD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/debug.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "9599"
+            endingLineNumber = "9599"
+            landmarkName = "DebugWindow::assSpinDown()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

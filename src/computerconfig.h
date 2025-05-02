@@ -1376,6 +1376,7 @@ class SepConfiguration
 {
 public:
 	Byte sepRegister;
+    int textPosition;
 	CheckDetails d;
 	CheckDetails pcByte;
 	int checkAddress;
