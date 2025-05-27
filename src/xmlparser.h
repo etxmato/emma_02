@@ -53,6 +53,9 @@ private:
     void parseXml_AdConvertor(wxXmlNode &node);
     void parseXml_FrontPanel(wxXmlNode &node, int frontNumber);
     void parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber);
+    void parseXml_Cdp1851_Printer(wxXmlNode &node);
+    void parseXml_Cdp1851_PrinterPort(wxXmlNode &node, int port);
+    int get_Cdp1851_Printer_function(wxString function);
     void parseXml_Cdp1851(wxXmlNode &node, bool windowOn, int connection);
     void parseXml_Cdp1852(wxXmlNode &node, bool windowOn);
     void parseXml_Cdp1854(wxXmlNode &node, int connection);

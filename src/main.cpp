@@ -3898,7 +3898,6 @@ void Main::onStart(wxCommandEvent&WXUNUSED(event))
 void Main::onStart()
 {
     double zoom;
-    long ms;
     int stereo = 1;
     int toneChannels = 1;
     int noiseChannels = 1;
@@ -3950,8 +3949,7 @@ void Main::onStart()
          noiseChannels = 6;
       }
 
-    computerConfiguration.ledTime_.ToLong(&ms);
-    computerConfiguration.ledTimeMs_ = ms;
+    computerConfiguration.ledTime_.ToLong(&computerConfiguration.ledTimeMs_);
 
     if (mode_.gui)
     {

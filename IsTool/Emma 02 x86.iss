@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.48.7
-AppVersion=1.48.7
+AppVerName=Emma 02 - V1.48.8
+AppVersion=1.48.8
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
@@ -105,8 +105,8 @@ Source: ..\data\Comx\Demo\*.*; DestDir: {app}\data\Comx\Demo; Components: MAIN
 Source: ..\data\Comx\Disks\*.*; DestDir: {app}\data\Comx\Disks; Components: MAIN
 Source: ..\data\Comx\Educatief\*.*; DestDir: {app}\data\Comx\Educatief; Components: MAIN
 Source: ..\data\Comx\Educational\*.*; DestDir: {app}\data\Comx\Educational; Components: MAIN
-Source: ..\data\Comx\F&M Basic\*.*; DestDir: {app}\data\Comx\F&M Basic; Components: MAIN
-Source: ..\data\Comx\F&M EPROM Switchboard\*.*; DestDir: {app}\data\Comx\F&M EPROM Switchboard; Components: MAIN
+Source: ..\data\Comx\F+M Basic\*.*; DestDir: {app}\data\Comx\F+M Basic; Components: MAIN
+Source: ..\data\Comx\F+M EPROM Switchboard\*.*; DestDir: {app}\data\Comx\F+M EPROM Switchboard; Components: MAIN
 Source: ..\data\Comx\Games\*.*; DestDir: {app}\data\Comx\Games; Components: MAIN
 Source: ..\data\Comx\Hulpmiddelen - Utilities\*.*; DestDir: {app}\data\Comx\Hulpmiddelen - Utilities; Components: MAIN
 Source: ..\data\Comx\Plotter\*.*; DestDir: {app}\data\Comx\Plotter; Components: MAIN

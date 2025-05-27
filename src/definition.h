@@ -231,6 +231,7 @@ enum
     LED_FUNC_RUN,
     LED_FUNC_LOAD,
     LED_FUNC_BIT,
+    LED_FUNC_BIT_OUT,
     LED_FUNC_SWITCH,
     LED_FUNC_BUTTON,
     LED_FUNC_ADDRESS,
@@ -245,6 +246,7 @@ enum
     LED_FUNC_CPUSTATE,
     LED_FUNC_MATH,
     TIL_DATA,
+    TIL_FUNC_OUT,
     TIL_ADDRESS,
     TIL_MULTI,
 };
@@ -798,7 +800,9 @@ enum
     UNDEFINED_EF4,
     
     BITSWITCH_INP,
-    
+    BITLED_OUT,
+    TIL_OUT,
+
     COMX_DIAGNOSTIC_BOARD_IN1,
     COMX_DIAGNOSTIC_BOARD_IN2,
     COMX_DIAGNOSTIC_BOARD_OUT,
@@ -924,17 +928,35 @@ enum
 	SEP_REG_HIGH,
 	SEP_REG_LOW,
 	SEP_D,
+    SEP_DF,
 	SEP_BYTE_SHOW,
     SEP_BYTE_SAVE,
     SEP_BYTE_LOAD,
     SEP_BYTE_VALUE,
-	SEP_BYTE_PC,
-	SEP_WORD_SHOW,
+    SEP_BYTE_PC,
+    SEP_WORD_SHOW,
+    SEP_WORD_SHOW_EXEC,
     SEP_WORD_SAVE,
     SEP_WORD_LOAD,
     SEP_WORD_VALUE,
     SEP_WORD_PC,
 	SEP_WORD_GET_ADDRESS_DATA,
+};
+
+enum
+{
+    CDP1851_PRINTER_FUNC_LATCH,
+    CDP1851_PRINTER_FUNC_IO,
+    CDP1851_PRINTER_FUNC_INIT,
+    CDP1851_PRINTER_FUNC_SELECT_OUT,
+    CDP1851_PRINTER_FUNC_STROBE,
+    CDP1851_PRINTER_FUNC_AUTO_LF,
+    CDP1851_PRINTER_FUNC_SELECT_IN,
+    CDP1851_PRINTER_FUNC_ERROR,
+    CDP1851_PRINTER_FUNC_PAPER_OUT,
+    CDP1851_PRINTER_FUNC_ACK,
+    CDP1851_PRINTER_FUNC_BUSY,
+    CDP1851_PRINTER_FUNC_NONE,
 };
 
 #define READ_FUNCTION_NONE 0
@@ -1194,6 +1216,8 @@ public:
     bool onMouseRelease(wxDC& dc, wxCoord x, wxCoord y);
     void setState(wxDC& dc, bool state);
     void enable(wxDC& dc, bool enabled);
+    void maskBitmap(wxString label, wxBitmap *upBitmap, wxBitmap *downBitmap);
+    void maskBitmap();
 
 private:
     wxBitmap *upBitmapPointer;

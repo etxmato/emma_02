@@ -2303,6 +2303,16 @@ void Computer::out(Byte port, Word address, Byte value)
     
     switch (outType_[qState_][ioGroup_+1][port])
     {
+        case BITLED_OUT:
+            for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+                panelPointer[frontPanel]->setOutLeds(port, value);
+        break;
+            
+        case TIL_OUT:
+            for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+                panelPointer[frontPanel]->setTilOut(port, value);
+        break;
+            
         case FLIPFLOP_OUT:
             if (value > 3)
                 value = value;
@@ -3311,7 +3321,7 @@ void Computer::cycle(int type)
         case CD4536B_CYCLE:
             cycleCd();
         break;
-            
+                        
         case TIMER_CYCLE:
             for (int counter=0; counter<numberOfCdp1878Instances_; counter++)
             {
@@ -5596,6 +5606,7 @@ Byte Computer::readMemDebug(Word address, int function)
                 address = (address & currentComputerConfiguration.memoryConfiguration[number].memMask) | (currentComputerConfiguration.memoryConfiguration[number].start&0xff00);
             }
             
+            value = mainMemory_[address];
             return mainMemory_[address];
         break;
 
@@ -7082,7 +7093,7 @@ void Computer::configureExtensions()
             break;
                                 
             default:
-                cdp1851InstancePointer[numberOfCdp1851Instances_] = new Cdp1851Instance(numberOfCdp1851Instances_, *cdp1851);
+                cdp1851InstancePointer[numberOfCdp1851Instances_] = new Cdp1851Instance(numberOfCdp1851Instances_, *cdp1851, currentComputerConfiguration.cdp1851PrinterConfiguration, computerClockSpeed_);
             break;
         }
         

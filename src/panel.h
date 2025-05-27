@@ -90,12 +90,17 @@ public:
     void setLed(int i, int status);
     void updateLed(wxDC& dc, int i);
     void refreshLed(wxDC& dc, int i);
+    void setOutLeds(int output, Byte value);
+    void updateOutLed(wxDC& dc, int output, int i);
+    void refreshOutLed(wxDC& dc, int output, int i);
     void setNibbleLed(int i, int status);
     void updateNibbleLed(wxDC& dc, int i);
     void setMathLed(int i, int status);
     void updateMathLed(wxDC& dc, int i);
     void setStateLed(int i, int status);
     void updateStateLed(wxDC& dc, int i);
+    void setTilOut(int output, Byte value);
+    void updateTilOut(wxDC& dc, int output);
     void showData(Byte value);
     void updateData(wxDC& dc);
     void showDp313Italic(bool status, int i);
@@ -249,11 +254,14 @@ protected:
     bool tilMultiPointerDefined[MAX_MULTI_TIL];
     Tilfull *multiPointer[MAX_MULTI_TIL];
     Tilfull *segPointer[MAX_MULTI_TIL];
-    
+    bool tilOutPointerDefined[8][2];
+    Til *tilOutPointer[8][2];
+
     Byte thumbValue[MAX_THUMB_VALUE];
     
     Word addressStatus;
     Byte dataStatus;
+    Byte tilOutStatus[8];
     Byte multiStatus[MAX_MULTI_TIL];
     Byte segStatus[MAX_MULTI_TIL];
     bool dpStatus[MAX_DATA_TIL];
@@ -274,6 +282,8 @@ protected:
     bool mathLedPointerDefined[2];
     Led *ledPointer[MAX_BIT_LEDS];
     bool ledPointerDefined[MAX_BIT_LEDS];
+    Led *ledOutPointer[8][8];
+    bool ledOutPointerDefined[8][8];
     Led *stateLedPointer[MAX_CPU_STATE_LEDS];
     bool stateLedPointerDefined[MAX_CPU_STATE_LEDS];
 
@@ -285,6 +295,7 @@ protected:
     int nibbleLedStatus[2];
     int mathLedStatus[2];
     int ledStatus[MAX_BIT_LEDS];
+    int ledOutStatus[8][8];
     int stateLedStatus[MAX_CPU_STATE_LEDS];
 
     bool updateReadyLed_;
@@ -295,8 +306,10 @@ protected:
     bool updateNibbleLed_[2];
     bool updateMathLed_[2];
     bool updateLed_[MAX_BIT_LEDS];
+    bool updateOutLed_[8][8];
     bool updateStateLed_[MAX_CPU_STATE_LEDS];
     bool updateData_;
+    bool updateTilOut_[8];
     bool updateAddress_;
     bool updateMulti_[MAX_MULTI_TIL];
     bool updateDp313_[MAX_DATA_TIL];
@@ -350,8 +363,9 @@ public:
     Byte getKey(Byte vtOut) {return panelPointer->getKey(vtOut);};
     void releaseButtonOnScreen(HexButton* buttonPoint) {panelPointer->releaseButtonOnScreen(buttonPoint);};
     void refreshPanel() {panelPointer->refreshPanel();};
-
+    
     void setLed(int i, int status) {panelPointer->setLed(i, status);};
+    void setOutLeds(int output, Byte value) {panelPointer->setOutLeds(output, value);};
     void setNibbleLed(int i, int status) {panelPointer->setNibbleLed(i, status);};
     void setMathLed(int i, int status) {panelPointer->setMathLed(i, status);};
     void setPowerLed(int status) {panelPointer->setPowerLed(status);};
@@ -361,6 +375,7 @@ public:
     void setQLed(int status) {panelPointer->setQLed(status);};
     void setErrorLed(int status) {panelPointer->setQLed(status);};
 
+    void setTilOut(int output, Byte value) {panelPointer->setTilOut(output, value);};
     void showData(Byte value) {panelPointer->showData(value);};
     void showAddress(Word address) {panelPointer->showAddress(address);};
     void showMulti(int number, Byte value) {panelPointer->showMulti(number, value);};

@@ -453,6 +453,7 @@ public:
     void onFxDebugMode();
 
     wxString getAssemblySep(Word *address, Byte n, wxString *printBufferDetails, wxString *printBufferOpcode, Byte *scrtProgramCounter, bool *startHiddenTrace, bool *stopHiddenTrace, bool skipTrace);
+    void writeSepDatatype(Word address, Byte instructionCode_);
     void updateChip8DebugMenu(bool debugMode);
     void onChip8DebugMode(wxCommandEvent& event);
     void onChip8PauseButton(wxCommandEvent&event);
@@ -478,10 +479,6 @@ public:
     void onChip8PercentageClock(wxScrollEvent&event);
 
     bool getDebugScrtMode() {return computerConfiguration.debuggerConfiguration.mode;};
-    Byte getDebugCallReg() {return computerConfiguration.debuggerConfiguration.callRegister;};
-    Word getDebugCallAddress() {return computerConfiguration.debuggerConfiguration.callAddress;};
-    Byte getDebugRetReg() {return computerConfiguration.debuggerConfiguration.returnRegister;};
-    Word getDebugRetAddress() {return computerConfiguration.debuggerConfiguration.returnAddress;};
     
     void setJumpCorrection(Byte instruction, int value);
     void setNumberOfBytes(Byte instruction, int value);

@@ -1617,7 +1617,7 @@ void Printer::printerOut(Byte value)
                 p_Computer->sleepComputer(1000);
         }
 
-        if (value == 0xd)
+        if (value == 0xd || value == 0xa)
         {
             printerFramePointer->matrixLine(line_);
             line_ = "";

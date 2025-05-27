@@ -1958,7 +1958,7 @@
                                         <flag>wxALIGN_TOP|wxALL|wxRESERVE_SPACE_EVEN_IF_HIDDEN</flag>
                                         <border>0</border>
                                         <object class="wxStaticBitmap" name="AssBitmap">
-                                            <size>268,436</size>
+                                            <size>284,436</size>
                                             <bg>#000000</bg>
                                         </object>
                                     </object>

@@ -239,7 +239,7 @@
 
          <ram>
             <start>0x2000</start>
-            <end>0x6FFF</end>
+            <end>0xEFFF</end>
         </ram>
 
     </memory>
@@ -294,6 +294,43 @@
             <code_start>0x2000</code_start>
             <code_end>0x2FFF</code_end>
         </assembler>
+
+        <sep reg="7" bytes="2" address="0x007f">
+            <string>LD   RD,</string>
+            <byte_value>0xEF</byte_value> <!-- Last RAM page -->
+            <byte_pc />
+            <string>\nSEX  RD;LDA  RD</string>
+            <string_exec>   D=M(</string_exec>
+            <word_show_exec />
+            <string_exec>)=</string_exec>
+            <word_get_address_data>0</word_get_address_data>
+        </sep>
+
+        <sep reg="8" bytes="3" address="0x0089">
+            <string>MOV  M(</string>
+            <byte_value>0xEF</byte_value> <!-- Last RAM page -->
+            <byte_pc />
+            <word_save />
+            <string>/</string>
+            <word_show>1</word_show>
+            <string>)\nTO   M(</string>
+            <byte_value>0xEF</byte_value> <!-- Last RAM page -->
+            <byte_pc />
+            <string>/</string>
+            <word_show>1</word_show>
+            <string>)</string>
+            <string_exec>=</string_exec>
+            <word_load>0</word_load>
+            <word_get_address_data>0</word_get_address_data>
+            <word_get_address_data>1</word_get_address_data>
+        </sep>
+    
+        <sep reg="0xe" bytes="1" address="0x1136">
+            <string>WAV  Q</string>
+            <string_exec>DF=</string_exec>
+            <df />
+        </sep>
+
     </debugger>
 
 </emmaconfig>

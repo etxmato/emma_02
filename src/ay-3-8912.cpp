@@ -88,6 +88,7 @@ void AY_3_8912Instance::writeData(Byte value)
     int amplitudeTone;
     Byte envelopeShape;
 
+    registerValue_[ayNumber_][selectedRegister_] = value;
     switch (selectedRegister_)
     {
         case 0: // Channel A Tone Period low byte
@@ -351,48 +352,6 @@ Byte AY_3_8912Instance::readData()
 {
     switch (selectedRegister_)
     {
-        case 0: // Channel A Tone Period low byte
-        break;
-            
-        case 1: // Channel A Tone Period high nible
-        break;
-            
-        case 2: // Channel B Tone Period low byte
-        break;
-            
-        case 3: // Channel B Tone Period high nible
-        break;
-            
-        case 4: // Channel C Tone Period low byte
-        break;
-            
-        case 5: // Channel C Tone Period high nible
-        break;
-            
-        case 6: // Noise Period
-        break;
-            
-        case 7: // Mixer and I/O control
-        break;
-            
-        case 8: // Channel A Amplitude
-        break;
-            
-        case 9: // Channel B Amplitude
-        break;
-            
-        case 10: // Channel C Amplitude
-        break;
-            
-        case 11: // Envelope Period low byte
-        break;
-
-        case 12: // Envelope Period high byte
-        break;
-
-        case 13: // Envelope Shape/Cycle
-        break;
-
         case 14: // I/O Port A
             if (!portTypeInputA_[ayNumber_])
                 return portValueA_[ayNumber_];
@@ -403,6 +362,6 @@ Byte AY_3_8912Instance::readData()
                 return portValueB_[ayNumber_];
         break;
     }
-    return 0;
+    return registerValue_[ayNumber_][selectedRegister_];
 }
 

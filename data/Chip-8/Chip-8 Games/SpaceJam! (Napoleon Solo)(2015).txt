@@ -1,3 +1,0 @@
-It's basically a Space Flight-Runner Game. Dodge the ceiling, floor and stars. Try to beat the 
-system. If you can score 255 points the world will end. Good luck. (uses 5/7/8/9 (WASD) for 
-movement; any key to start, etc.)

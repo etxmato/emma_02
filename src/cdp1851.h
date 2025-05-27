@@ -22,21 +22,60 @@ class Cdp1851Instance;
 class Cdp1851Printer
 {
 public:
-    Cdp1851Printer(int pioNumber, Cdp1851Configuration cdp1851Configuration);
+    Cdp1851Printer(int pioNumber, Cdp1851Configuration cdp1851Configuration, Cdp1851PrinterConfiguration cdp1851PrinterConfiguration, double clock);
     ~Cdp1851Printer();
-
+    
     void init(Cdp1851Instance *cdp1851InstancePointer);
-    void writePortA(Byte value);
-    void strobe(int pioStbMode);
+    void cycle();
+    void initPort(int port, Byte value);
+    void writePort(int port, Byte value);
+    Byte readPort(int port);
+    void rdyControl(int port, Byte value, int rdyMode);
+    void strobeControl(int port, Byte value, int strobeMode);
+    void initIo(int port, Byte value);
+    void selectOutIo(int port, Byte value);
+    void strobeIo(int port, Byte value);
+    void autoLfIo(int port, Byte value);
+    Byte selectInIo(int port, Byte value);
+    Byte errorIo(int port, Byte value);
+    Byte paperOutIo(int port, Byte value);
+    Byte busyIo(int port, Byte value);
+    Byte ackIo(int port, Byte value);
+    void init(Byte value);
+    void selectOut(Byte value);
+    void strobe(Byte value);
+    void autoLf(Byte value);
     Byte readStatusRegister(Byte pioStatus);
+    Byte setMask(Byte mask, Byte active);
+    Byte resetMask(Byte mask, Byte active);
 
 private:
     int pioNumber_;
     Byte printLatch_;
-    Byte printerBusy_;
     
+    Byte printerBusyMask_;
+    Byte printerAckMask_;
+    Byte selectInMask_;
+    Byte errorMask_;
+    Byte paperOutMask_;
+
+    Byte printerBusy_;
+    Byte printerAck_;
+    Byte select_in_;
+    Byte error_;
+    Byte paper_out_;
+    
+    bool auto_feed_;
+
     Cdp1851Configuration cdp1851Configuration_;
+    Cdp1851PrinterConfiguration cdp1851PrinterConfiguration_;
     Cdp1851Instance *cdp1851InstancePointer_;
+    
+    Byte portValue[2];
+    int busyCycleValue_;
+    int busyCycleSize_;
+    int ackCycleValue_;
+    int ackCycleSize_;
 };
 
 class Cdp1851Screen : public Panel
@@ -58,6 +97,7 @@ public:
     
     void setProgBitsA(Byte value);
     void setProgBitsB(Byte value);
+    void enableStbRdy(int port, Byte pioStatus, int pioStbMode, int pioRdyMode);
     void enableStbRdyA(Byte pioStatus, int pioStbAMode, int pioRdyAMode);
     void enableStbRdyB(Byte pioStatus, int pioStbBMode, int pioRdyBMode);
     void disableStbRdyA(wxDC& dc);
@@ -94,13 +134,14 @@ class Cdp1851Instance : public wxFrame
 {
 public:
     Cdp1851Instance(const wxString& title, const wxPoint& pos, const wxSize& size, int pioNumber, Cdp1851Configuration cdp1851Configuration);
-    Cdp1851Instance(int pioNumber, Cdp1851Configuration cdp1851Configuration);
+    Cdp1851Instance(int pioNumber, Cdp1851Configuration cdp1851Configuration, Cdp1851PrinterConfiguration cdp1851PrinterConfiguration, double clock);
     ~Cdp1851Instance();
   
     void onClose(wxCloseEvent& event);
 
     void init();
     void writeControlRegister(Byte value);
+    void strobeRdyControl(Byte value);
     void setProgBitsA(Byte value);
     void setProgBitsB(Byte value);
     void onRdyA();
@@ -135,16 +176,15 @@ public:
     Byte getOutputValueA() {return outPutValueA_;};
     Byte getInputValueA() {return inPutValueA_;};
     Byte getOutputValueB() {return outPutValueB_;};
-    Byte getPioAMode() {return pioAMode_;};
-    Byte getPioBMode() {return pioBMode_;};
-    Byte getPioStbAMode() {return pioStbAMode_;};
-    Byte getPioStbBMode() {return pioStbBMode_;};
-    Byte getPioRdyAMode() {return pioRdyAMode_;};
-    Byte getPioRdyBMode() {return pioRdyBMode_;};
+    Byte getPioAMode() {return modeSet[0];};
+    Byte getPioBMode() {return modeSet[1];};
+    Byte getPioStbAMode() {return strobeMode[0];};
+    Byte getPioStbBMode() {return strobeMode[1];};
+    Byte getPioRdyAMode() {return rdyMode[0];};
+    Byte getPioRdyBMode() {return rdyMode[1];};
     Byte getPioAProgBits() {return pioAProgBits_;};
     Byte getPioBProgBits() {return pioBProgBits_;};
-    void setPioEfState1(bool state) {pioEfState1_ = state;};
-    void setPioEfState2(bool state) {pioEfState2_ = state;};
+    void setPioEfState(int port, Byte state) {pioEfState[port] = state;};
     bool getPioAInterruptEnabled() {return pioAInterruptEnabled_;};
     bool getPioBInterruptEnabled() {return pioBInterruptEnabled_;};
 
@@ -160,15 +200,11 @@ private:
     Byte outPutValueA_;
     Byte outPutValueB_;
     Byte inPutValueA_;
-    Byte pioEfState1_;
-    Byte pioEfState2_;
+    Byte pioEfState[2];
 
-    int pioAMode_;
-    int pioBMode_;
-    int pioStbAMode_;
-    int pioStbBMode_;
-    int pioRdyAMode_;
-    int pioRdyBMode_;
+    int modeSet[2];
+    int strobeMode[2];
+    int rdyMode[2];
     Byte pioAInterruptMask_;
     Byte pioBInterruptMask_;
     Byte pioStatus_;

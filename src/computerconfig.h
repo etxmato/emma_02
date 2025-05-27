@@ -985,6 +985,41 @@ public:
     EfFlag ef;
 };
 
+class Cdp1851PrinterIo
+{
+public:
+    Byte active;
+    int bitNumber;
+    int portNumber;
+};
+
+class Cdp1851PrinterConfiguration : public IoGroupDefineConfiguration
+{
+public:
+    double busyCycleTime;
+    double ackCycleTime;
+    
+    int portFunction[2];
+    int portRdyFunction[2];
+    int portStrobeFunction[2];
+    
+    Byte ackMask;
+    Byte busyMask;
+    Byte selectInMask;
+    Byte errorMask;
+    Byte paperOutMask;
+
+    Cdp1851PrinterIo init;
+    Cdp1851PrinterIo selectOut;
+    Cdp1851PrinterIo strobe;
+    Cdp1851PrinterIo autoLf;
+    Cdp1851PrinterIo busy;
+    Cdp1851PrinterIo ack;
+    Cdp1851PrinterIo selectIn;
+    Cdp1851PrinterIo error;
+    Cdp1851PrinterIo paperOut;
+};
+
 // Memory configuration class definitions:
 
 class MemoryConfiguration
@@ -1138,6 +1173,8 @@ class LedDisplayConfiguration : public IoGroupDefineConfiguration
 public:
     IoPort output;
     
+    bool outtil[8][2];
+    bool outtilDpQ[8][2];
     bool datatil[MAX_DATA_TIL];
     bool datatilDpQ[MAX_DATA_TIL];
     bool addresstil[MAX_ADDRESS_TIL];
@@ -1375,12 +1412,11 @@ public:
 class SepConfiguration
 {
 public:
-	Byte sepRegister;
-    int textPosition;
-	CheckDetails d;
+    Word sepAddress;
+    Byte sepRegister;
+    int bytes;
 	CheckDetails pcByte;
-	int checkAddress;
-	bool detailsDefined;
+    CheckDetails preByte;
 	vector<TraceInstructionSepDetails> details;
 };
 
@@ -1479,6 +1515,8 @@ public:
     wxSize size;
     int value;
     IoPort input;
+    IoPort output;
+    IoPort tilOutput;
     int rangeLow;
     int rangeHigh;
     int textSize;
@@ -1638,6 +1676,7 @@ public:
     QSerialPrinterConfiguration qSerialPrinterConfiguration;
     CentronicsPrinterConfiguration centronicsPrinterConfiguration;
     ThermalPrinterConfiguration thermalPrinterConfiguration;
+    Cdp1851PrinterConfiguration cdp1851PrinterConfiguration;
     
     // Memory configurations:
     MemoryMapperConfiguration memoryMapperConfiguration;

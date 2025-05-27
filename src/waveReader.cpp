@@ -367,22 +367,22 @@ void WaveReader::writeHeader()
     
     Byte header [header_size] = {
         'R','I','F','F',
-        rs,rs>>8,           // length of rest of file
-        rs>>16,rs>>24,
+        static_cast<Byte>(rs),static_cast<Byte>(rs>>8),           // length of rest of file
+        static_cast<Byte>(rs>>16),static_cast<Byte>(rs>>24),
         'W','A','V','E',
         'f','m','t',' ',
         0x10,0,0,0,         // size of fmt chunk
         1,0,                // uncompressed format
-        channelCount_,0,       // channel count
-        sampleRate_,sampleRate_ >> 8,     // sample rate
-        sampleRate_>>16,sampleRate_>>24,
-        bps,bps>>8,         // bytes per second
-        bps>>16,bps>>24,
-        frameSize_,0,       // bytes per sample frame
-        bitsPerSample_, 0,   // bits per sample
+        static_cast<Byte>(channelCount_),0,       // channel count
+        static_cast<Byte>(sampleRate_),static_cast<Byte>(sampleRate_ >> 8),     // sample rate
+        static_cast<Byte>(sampleRate_>>16),static_cast<Byte>(sampleRate_>>24),
+        static_cast<Byte>(bps),static_cast<Byte>(bps>>8),         // bytes per second
+        static_cast<Byte>(bps>>16),static_cast<Byte>(bps>>24),
+        static_cast<Byte>(frameSize_),0,       // bytes per sample frame
+        static_cast<Byte>(bitsPerSample_), 0,   // bits per sample
         'd','a','t','a',
-        ds,ds>>8,
-        ds>>16,ds>>24// size of sample data
+        static_cast<Byte>(ds),static_cast<Byte>(ds>>8),
+        static_cast<Byte>(ds>>16),static_cast<Byte>(ds>>24)// size of sample data
         // ...              // sample data
     };
 

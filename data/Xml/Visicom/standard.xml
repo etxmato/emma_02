@@ -64,7 +64,7 @@
         <ef pol="rev">3</ef>
         <auto>on</auto>
 
-        <keydef type="file">keydefinition_studio.txt</keydef>
+        <keydef type="file">keydefinition.txt</keydef>
         
         <diagonal key1="2" key2="4">1</diagonal>
         <diagonal key1="2" key2="6">3</diagonal>

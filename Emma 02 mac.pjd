@@ -10641,7 +10641,7 @@
                       <bool name="proxy-Separate files">0</bool>
                       <long name="proxy-Stretch factor">0</long>
                       <string name="proxy-Tooltip text">""</string>
-                      <long name="proxy-Width">268</long>
+                      <long name="proxy-Width">284</long>
                       <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                       <bool name="proxy-wxBORDER_THEME">0</bool>
                       <bool name="proxy-wxBOTTOM">1</bool>

@@ -265,14 +265,16 @@
         <in>4</in>
         <iogroup>3</iogroup>
         <pressed>1</pressed>
-        <bit0>69</bit0>             <!-- E = up 2 -->
+        <bit0>87</bit0>             <!-- W = up 2 -->
         <bit1>88</bit1>             <!-- X = down 2 -->
-        <bit2>83</bit2>             <!-- S = left 2 -->
+        <bit2>65</bit2>             <!-- S = left 2 -->
         <bit3>68</bit3>             <!-- D = right 2 -->
-        <bit key="87">0, 2</bit>     <!-- W = up+left -->
-        <bit key="90">2, 1</bit>     <!-- Z = left+down -->
-        <bit key="67">1, 3</bit>     <!-- C = down+right -->
-        <bit key="82">3, 0</bit>     <!-- R = right+up -->
+        <bit4>9</bit4>              <!-- tab = fire 2 -->
+        <bit5>32</bit5>             <!-- space = fire 1 -->
+        <bit key="81">0, 2</bit>    <!-- Q = up+left -->
+        <bit key="90">2, 1</bit>    <!-- Z = left+down -->
+        <bit key="67">1, 3</bit>    <!-- C = down+right -->
+        <bit key="69">3, 0</bit>    <!-- E = right+up -->
     </keypad>
 
     <debugger>

@@ -33,12 +33,30 @@
 #include "main.h"
 #include "cdp1851.h"
 
-Cdp1851Printer::Cdp1851Printer(int pioNumber, Cdp1851Configuration cdp1851Configuration)
+Cdp1851Printer::Cdp1851Printer(int pioNumber, Cdp1851Configuration cdp1851Configuration, Cdp1851PrinterConfiguration cdp1851PrinterConfiguration, double clock)
 {
     pioNumber_ = pioNumber;
     cdp1851Configuration_ = cdp1851Configuration;
+    cdp1851PrinterConfiguration_ = cdp1851PrinterConfiguration;
     
-    printerBusy_ =  0;
+    printerBusy_ = cdp1851PrinterConfiguration_.busy.active ^ 1;
+    printerAck_ = cdp1851PrinterConfiguration_.ack.active ^ 1;
+    select_in_ = cdp1851PrinterConfiguration_.selectIn.active;
+    error_ = cdp1851PrinterConfiguration_.error.active ^ 1;
+    paper_out_ = cdp1851PrinterConfiguration_.paperOut.active ^ 1;
+    auto_feed_ = false;
+
+    printerBusyMask_ = resetMask(cdp1851PrinterConfiguration_.busyMask, cdp1851PrinterConfiguration_.busy.active);
+    printerAckMask_ = resetMask(cdp1851PrinterConfiguration_.ackMask, cdp1851PrinterConfiguration_.ack.active);
+    selectInMask_ = cdp1851PrinterConfiguration_.selectInMask;
+    errorMask_ = cdp1851PrinterConfiguration_.errorMask;
+    paperOutMask_ = 0;
+    
+    busyCycleValue_ = -1;
+    ackCycleValue_ = -1;
+    
+    busyCycleSize_ = (((clock * 1000000) / 8) / 1000) * cdp1851PrinterConfiguration_.busyCycleTime;
+    ackCycleSize_ = (((clock * 1000000) / 8) / 1000) * cdp1851PrinterConfiguration_.ackCycleTime;
 }
 
 Cdp1851Printer::~Cdp1851Printer()
@@ -53,28 +71,273 @@ void Cdp1851Printer::init(Cdp1851Instance *cdp1851InstancePointer)
     p_Printer->init(p_Printer, PRINTER_BASIC);
 }
 
-void Cdp1851Printer::writePortA(Byte value)
+void Cdp1851Printer::cycle()
 {
-    if (value != 0)
+    if (busyCycleValue_ > 0)
     {
-        printLatch_ = value;
+        busyCycleValue_--;
+        if (busyCycleValue_ == 0)
+        {
+            ackCycleValue_ = ackCycleSize_;
+            printerAckMask_ = setMask(cdp1851PrinterConfiguration_.ackMask, cdp1851PrinterConfiguration_.ack.active);
+            printerAck_ = cdp1851PrinterConfiguration_.ack.active;
+        }
+    }
+    if (ackCycleValue_ > 0)
+    {
+        ackCycleValue_--;
+        if (ackCycleValue_ == 0)
+        {
+            printerBusyMask_ = resetMask(cdp1851PrinterConfiguration_.busyMask, cdp1851PrinterConfiguration_.busy.active);
+            printerAckMask_ = resetMask(cdp1851PrinterConfiguration_.ackMask, cdp1851PrinterConfiguration_.ack.active);
+        }
     }
 }
 
-void Cdp1851Printer::strobe(int pioStbMode)
+void Cdp1851Printer::initPort(int port, Byte value)
 {
-    if (pioStbMode == 0)
+    portValue[port] = value;
+}
+
+void Cdp1851Printer::writePort(int port, Byte value)
+{
+    portValue[port] = value;
+    
+    switch (cdp1851PrinterConfiguration_.portFunction[port])
+    {
+        case CDP1851_PRINTER_FUNC_LATCH:
+            printLatch_ = value;
+        break;
+
+        case CDP1851_PRINTER_FUNC_IO:
+            initIo(port, value);
+            selectOutIo(port, value);
+       break;
+    }
+}
+
+Byte Cdp1851Printer::readPort(int port)
+{
+    switch (cdp1851PrinterConfiguration_.portFunction[port])
+    {
+        case CDP1851_PRINTER_FUNC_IO:
+            portValue[port] = selectInIo(port, portValue[port]);
+            portValue[port] = errorIo(port, portValue[port]);
+            portValue[port] = paperOutIo(port, portValue[port]);
+            portValue[port] = busyIo(port, portValue[port]);
+            portValue[port] = ackIo(port, portValue[port]);
+        break;
+    }
+
+    return portValue[port];
+}
+
+void Cdp1851Printer::rdyControl(int port, Byte value, int rdyMode)
+{
+    int rdy = (value & 0x10) >> 4;
+    
+    if (rdyMode == 1)
+    {
+        cdp1851InstancePointer_->setPioEfState(port, rdy);
+
+        switch (cdp1851PrinterConfiguration_.portRdyFunction[port])
+        {
+            case CDP1851_PRINTER_FUNC_INIT:
+                init(rdy);
+            break;
+                
+            case CDP1851_PRINTER_FUNC_SELECT_OUT:
+                selectOut(rdy);
+            break;
+                
+            case CDP1851_PRINTER_FUNC_STROBE:
+                strobe(rdy);
+            break;
+
+            case CDP1851_PRINTER_FUNC_AUTO_LF:
+                autoLf(rdy);
+            break;
+        }
+    }
+}
+
+void Cdp1851Printer::strobeControl(int port, Byte value, int strobeMode)
+{
+    int strobeValue = (value & 0x20) >> 5;
+    
+    if (strobeMode == 1)
+    {
+        cdp1851InstancePointer_->setPioEfState(port, strobeValue);
+
+        switch (cdp1851PrinterConfiguration_.portStrobeFunction[port])
+        {
+            case CDP1851_PRINTER_FUNC_INIT:
+                init(strobeValue);
+            break;
+                
+            case CDP1851_PRINTER_FUNC_SELECT_OUT:
+                selectOut(strobeValue);
+            break;
+                
+            case CDP1851_PRINTER_FUNC_STROBE:
+                strobe(strobeValue);
+            break;
+
+            case CDP1851_PRINTER_FUNC_AUTO_LF:
+                autoLf(strobeValue);
+            break;
+        }
+    }
+}
+
+void Cdp1851Printer::initIo(int port, Byte value)
+{
+    if (port != cdp1851PrinterConfiguration_.init.portNumber)
+        return;
+    
+    int initValue = (value & (1 << cdp1851PrinterConfiguration_.init.bitNumber)) >> cdp1851PrinterConfiguration_.init.bitNumber;
+    
+    init(initValue);
+}
+
+void Cdp1851Printer::selectOutIo(int port, Byte value)
+{
+    if (port != cdp1851PrinterConfiguration_.selectOut.portNumber)
+        return;
+
+    int selectOutValue = (value & (1 << cdp1851PrinterConfiguration_.selectOut.bitNumber)) >> cdp1851PrinterConfiguration_.selectOut.bitNumber;
+    
+    selectOut(selectOutValue);
+}
+
+void Cdp1851Printer::strobeIo(int port, Byte value)
+{
+    if (port != cdp1851PrinterConfiguration_.strobe.portNumber)
+        return;
+
+    int strobeValue = (value & (1 << cdp1851PrinterConfiguration_.strobe.bitNumber)) >> cdp1851PrinterConfiguration_.strobe.bitNumber;
+    
+    strobe(strobeValue);
+}
+
+void Cdp1851Printer::autoLfIo(int port, Byte value)
+{
+    if (port != cdp1851PrinterConfiguration_.autoLf.portNumber)
+        return;
+
+    int autoLfValue = (value & (1 << cdp1851PrinterConfiguration_.autoLf.bitNumber)) >> cdp1851PrinterConfiguration_.autoLf.bitNumber;
+    
+    autoLf(autoLfValue);
+}
+
+Byte Cdp1851Printer::selectInIo(int port, Byte value)
+{
+    if (port != cdp1851PrinterConfiguration_.selectIn.portNumber)
+        return value;
+
+    Byte mask = (1 << cdp1851PrinterConfiguration_.selectIn.bitNumber) ^ 0xff;
+    value &= mask;
+    value |= select_in_ << cdp1851PrinterConfiguration_.selectIn.bitNumber;
+    return value;
+}
+
+Byte Cdp1851Printer::errorIo(int port, Byte value)
+{
+    if (port != cdp1851PrinterConfiguration_.error.portNumber)
+        return value;
+
+    Byte mask = (1 << cdp1851PrinterConfiguration_.error.bitNumber) ^ 0xff;
+    value &= mask;
+    value |= error_ << cdp1851PrinterConfiguration_.error.bitNumber;
+    return value;
+}
+
+Byte Cdp1851Printer::paperOutIo(int port, Byte value)
+{
+    if (port != cdp1851PrinterConfiguration_.paperOut.portNumber)
+        return value;
+
+    Byte mask = (1 << cdp1851PrinterConfiguration_.paperOut.bitNumber) ^ 0xff;
+    value &= mask;
+    value |= paper_out_ << cdp1851PrinterConfiguration_.paperOut.bitNumber;
+    return value;
+}
+
+Byte Cdp1851Printer::busyIo(int port, Byte value)
+{
+    if (port != cdp1851PrinterConfiguration_.busy.portNumber)
+        return value;
+
+    Byte mask = (1 << cdp1851PrinterConfiguration_.busy.bitNumber) ^ 0xff;
+    value &= mask;
+    value |= printerBusy_ << cdp1851PrinterConfiguration_.busy.bitNumber;
+    return value;
+}
+
+Byte Cdp1851Printer::ackIo(int port, Byte value)
+{
+    if (port != cdp1851PrinterConfiguration_.ack.portNumber)
+        return value;
+
+    Byte mask = (1 << cdp1851PrinterConfiguration_.ack.bitNumber) ^ 0xff;
+    value &= mask;
+    value |= printerAck_ << cdp1851PrinterConfiguration_.ack.bitNumber;
+    return value;
+}
+
+void Cdp1851Printer::init(Byte value)
+{
+    if (value == cdp1851PrinterConfiguration_.init.active)
+    {
+        printerBusyMask_ = resetMask(cdp1851PrinterConfiguration_.busyMask, cdp1851PrinterConfiguration_.busy.active);
+        printerAckMask_ = resetMask(cdp1851PrinterConfiguration_.ackMask, cdp1851PrinterConfiguration_.ack.active);
+        busyCycleValue_ = -1;
+        ackCycleValue_ = -1;
+    }
+}
+
+void Cdp1851Printer::selectOut(Byte value)
+{
+    if (value == cdp1851PrinterConfiguration_.selectOut.active)
+    {
+    }
+}
+
+void Cdp1851Printer::strobe(Byte value)
+{
+    if (value == cdp1851PrinterConfiguration_.strobe.active)
     {
         p_Printer->printerOut(printLatch_);
-        printerBusy_ = 0x80;
+        printerBusyMask_ = setMask(cdp1851PrinterConfiguration_.busyMask, cdp1851PrinterConfiguration_.busy.active);
+        printerBusy_ = cdp1851PrinterConfiguration_.busy.active;
+        busyCycleValue_ = busyCycleSize_;
     }
+}
+
+void Cdp1851Printer::autoLf(Byte value)
+{
+    auto_feed_ = (value == cdp1851PrinterConfiguration_.autoLf.active);
 }
 
 Byte Cdp1851Printer::readStatusRegister(Byte pioStatus)
 {
-    Byte returnValue = pioStatus | printerBusy_;
-    printerBusy_ = 0;
-    return returnValue;
+    return pioStatus | printerBusyMask_ | printerAckMask_ | selectInMask_ | errorMask_ | paperOutMask_;
+}
+
+Byte Cdp1851Printer::setMask(Byte mask, Byte active)
+{
+    if (active == 1)
+        return mask;
+    else
+        return 0;
+}
+
+Byte Cdp1851Printer::resetMask(Byte mask, Byte active)
+{
+    if (active == 1)
+        return 0;
+    else
+        return mask;
 }
 
 
@@ -514,6 +777,14 @@ void Cdp1851Screen::setProgBitsB(Byte value)
     }
 }
 
+void Cdp1851Screen::enableStbRdy(int port, Byte pioStatus, int pioStbMode, int pioRdyMode)
+{
+    if (port == 0)
+        enableStbRdyA(pioStatus, pioStbMode, pioRdyMode);
+    else
+        enableStbRdyB(pioStatus, pioStbMode, pioRdyMode);
+}
+
 void Cdp1851Screen::enableStbRdyA(Byte pioStatus, int pioStbAMode, int pioRdyAMode)
 {
     wxClientDC dc(this);
@@ -737,13 +1008,13 @@ Cdp1851Instance::Cdp1851Instance(const wxString& title, const wxPoint& pos, cons
     init();
 }
 
-Cdp1851Instance::Cdp1851Instance(int pioNumber, Cdp1851Configuration cdp1851Configuration)
+Cdp1851Instance::Cdp1851Instance(int pioNumber, Cdp1851Configuration cdp1851Configuration, Cdp1851PrinterConfiguration cdp1851PrinterConfiguration, double clock)
 {
     pioNumber_ = pioNumber;
     cdp1851Configuration_ = cdp1851Configuration;
-
+    
     if (cdp1851Configuration_.connection == PIO_CONNECTION_PRINTER)
-        pioPrinterPointer = new Cdp1851Printer(pioNumber, cdp1851Configuration);
+        pioPrinterPointer = new Cdp1851Printer(pioNumber, cdp1851Configuration, cdp1851PrinterConfiguration, clock);
     
     init();
 }
@@ -764,6 +1035,8 @@ void Cdp1851Instance::init()
             
         case PIO_CONNECTION_PRINTER:
             pioPrinterPointer->init(this);
+            pioPrinterPointer->initPort(0, cdp1851Configuration_.initPortA);
+            pioPrinterPointer->initPort(1, cdp1851Configuration_.initPortB);
         break;
     }
 
@@ -784,51 +1057,51 @@ void Cdp1851Instance::writeControlRegister(Byte value)
             case 0x3: // Set input
             case 0x7:
                 if (value & 0x8)				// Port A
-                    pioAMode_ = PIO_INPUT;
+                    modeSet[0] = PIO_INPUT;
                 if (value & 0x10)				// Port B
-                    pioBMode_ = PIO_INPUT;
+                    modeSet[1] = PIO_INPUT;
             break;
                 
             case 0x43: // Set output
             case 0x47:
                 if (value & 0x8)				// Port A
-                    pioAMode_ = PIO_OUTPUT;
+                    modeSet[0] = PIO_OUTPUT;
                 if (value & 0x10)				// Port B
-                    pioBMode_ = PIO_OUTPUT;
+                    modeSet[1] = PIO_OUTPUT;
             break;
                 
             case 0xc3: // Set bit progammable
             case 0xc7:
                 if ((value & 0x8) == 0x8)		// Port A
                 {
-                    pioAMode_ = PIO_BIT_PROG;
+                    modeSet[0] = PIO_BIT_PROG;
                     commandByteNumber_ = PIO_COMMAND_BITPROGA;
                     if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
-                        pioScreenPointer->enableStbRdyA(pioStatus_, pioStbAMode_, pioRdyAMode_);
+                        pioScreenPointer->enableStbRdyA(pioStatus_, strobeMode[0], rdyMode[0]);
                 }
                 if ((value & 0x10) == 0x10)		// Port B
                 {
-                    pioBMode_ = PIO_BIT_PROG;
+                    modeSet[1] = PIO_BIT_PROG;
                     commandByteNumber_ = PIO_COMMAND_BITPROGB;
                     if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
-                        pioScreenPointer->enableStbRdyB(pioStatus_, pioStbBMode_, pioRdyBMode_);
+                        pioScreenPointer->enableStbRdyB(pioStatus_, strobeMode[1], rdyMode[1]);
                 }
                 if ((value & 0x18) == 0x18)		// Port A+B
                 {
                     commandByteNumber_ = PIO_COMMAND_BITPROGAB;
                     if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
                     {
-                        pioScreenPointer->enableStbRdyA(pioStatus_, pioStbAMode_, pioRdyAMode_);
-                        pioScreenPointer->enableStbRdyB(pioStatus_, pioStbBMode_, pioRdyBMode_);
+                        pioScreenPointer->enableStbRdyA(pioStatus_, strobeMode[0], rdyMode[0]);
+                        pioScreenPointer->enableStbRdyB(pioStatus_, strobeMode[1], rdyMode[1]);
                     }
                 }
             break;
                 
             case 0x83: // Set bi directional
             case 0x87:
-                if (value & 0x8 && pioBMode_ == PIO_BIT_PROG)
+                if (value & 0x8 && modeSet[1] == PIO_BIT_PROG)
                     // Port A & port B needs to be set in bit programmable
-                    pioAMode_ = PIO_BI_DRECT;
+                    modeSet[0] = PIO_BI_DRECT;
             break;
 
             case 0x05: // Set interrupt control
@@ -863,94 +1136,7 @@ void Cdp1851Instance::writeControlRegister(Byte value)
         if ((value & 0x1) == 0) // STB and RDY Control
         {
             readStatusRegister();
-            switch (value & 0xe)
-            {
-                case 0x00: // Port A, output STB/RDY
-                    if (pioRdyAMode_ == PIO_OUTPUT)
-                    {
-                        pioStatus_ &= 0xef;
-                        pioStatus_ |= (value & 0x10);
-                    }
-                    if (pioStbAMode_ == PIO_OUTPUT)
-                    {
-                        pioStatus_ &= 0xdf;
-                        pioStatus_ |= (value & 0x20);
-                    }
-                break;
-                    
-                case 0x02: // Port B, output STB/RDY
-                    if (pioRdyBMode_ == PIO_OUTPUT)
-                    {
-                        pioStatus_ &= 0xbf;
-                        pioStatus_ |= ((value & 0x10) << 2);
-                    }
-                    if (pioStbBMode_ == PIO_OUTPUT)
-                    {
-                        pioStatus_ &= 0x7f;
-                        pioStatus_ |= ((value & 0x20) << 2);
-                    }
-               break;
-
-                case 0x04: // Port A, set RDY
-                    if (pioAMode_ == PIO_BIT_PROG && pioAMode_ != PIO_BI_DRECT)
-                    {
-                        pioRdyAMode_ = (value & 0x40) >> 6;
-                        if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
-                            pioScreenPointer->enableStbRdyA(pioStatus_, pioStbAMode_, pioRdyAMode_);
-                    }
-                break;
-
-                case 0x06: // Port B, set RDY
-                    if (pioBMode_ == PIO_BIT_PROG && pioAMode_ != PIO_BI_DRECT)
-                    {
-                        pioRdyBMode_ = (value & 0x40) >> 6;
-                        if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
-                            pioScreenPointer->enableStbRdyB(pioStatus_, pioStbBMode_, pioRdyBMode_);
-                    }
-                break;
-
-                case 0x08: // Port A, set STB
-                    if (pioAMode_ == PIO_BIT_PROG && pioAMode_ != PIO_BI_DRECT)
-                    {
-                        pioStbAMode_ = (value & 0x80) >> 7;
-                        if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
-                            pioScreenPointer->enableStbRdyA(pioStatus_, pioStbAMode_, pioRdyAMode_);
-                        if (cdp1851Configuration_.connection == PIO_CONNECTION_PRINTER)
-                            pioPrinterPointer->strobe(pioStbAMode_);
-                    }
-                break;
-
-                case 0x0A: // Port B, set STB
-                    if (pioBMode_ == PIO_BIT_PROG && pioAMode_ != PIO_BI_DRECT)
-                    {
-                        pioStbBMode_ = (value & 0x80) >> 7;
-                        if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
-                            pioScreenPointer->enableStbRdyB(pioStatus_, pioStbBMode_, pioRdyBMode_);
-                    }
-                break;
-
-                case 0x0C: // Port A, set RDY+STB
-                    if (pioAMode_ == PIO_BIT_PROG && pioAMode_ != PIO_BI_DRECT)
-                    {
-                        pioRdyAMode_ = (value & 0x40) >> 6;
-                        pioStbAMode_ = (value & 0x80) >> 7;
-                        if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
-                            pioScreenPointer->enableStbRdyA(pioStatus_, pioStbAMode_, pioRdyAMode_);
-                        if (cdp1851Configuration_.connection == PIO_CONNECTION_PRINTER)
-                            pioPrinterPointer->strobe(pioStbAMode_);
-                    }
-                break;
-
-                case 0x0E: // Port B, set RDY+STB
-                    if (pioBMode_ == PIO_BIT_PROG && pioAMode_ != PIO_BI_DRECT)
-                    {
-                        pioRdyBMode_ = (value & 0x40) >> 6;
-                        pioStbBMode_ = (value & 0x80) >> 7;
-                        if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
-                            pioScreenPointer->enableStbRdyB(pioStatus_, pioStbBMode_, pioRdyBMode_);
-                    }
-                break;
-            }
+            strobeRdyControl(value);
         }
     }
     else
@@ -981,6 +1167,48 @@ void Cdp1851Instance::writeControlRegister(Byte value)
     }
 }
 
+void Cdp1851Instance::strobeRdyControl(Byte value)
+{
+    int port = (value & 0x2) >> 1;
+
+    switch (value & 0xc)
+    {
+        case 0x04: // set RDY
+            if (modeSet[port] == PIO_BIT_PROG && modeSet[0] != PIO_BI_DRECT)
+            {
+                rdyMode[port] = (value & 0x40) >> 6;
+                if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
+                    pioScreenPointer->enableStbRdy(port, pioStatus_, strobeMode[port], rdyMode[port]);
+            }
+        break;
+
+        case 0x08: // set STB
+            if (modeSet[port] == PIO_BIT_PROG && modeSet[0] != PIO_BI_DRECT)
+            {
+                strobeMode[port] = (value & 0x80) >> 7;
+                if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
+                    pioScreenPointer->enableStbRdy(port, pioStatus_, strobeMode[port], rdyMode[port]);
+            }
+        break;
+
+        case 0x0C: // set RDY+STB
+            if (modeSet[port] == PIO_BIT_PROG && modeSet[0] != PIO_BI_DRECT)
+            {
+                rdyMode[port] = (value & 0x40) >> 6;
+                strobeMode[port] = (value & 0x80) >> 7;
+                if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
+                    pioScreenPointer->enableStbRdy(port, pioStatus_, strobeMode[port], rdyMode[port]);
+            }
+        break;
+    }
+    
+    if (cdp1851Configuration_.connection == PIO_CONNECTION_PRINTER)
+    {
+        pioPrinterPointer->rdyControl(port, value, rdyMode[port]);
+        pioPrinterPointer->strobeControl(port, value, strobeMode[port]);
+    }
+}
+
 void Cdp1851Instance::setProgBitsA(Byte value)
 {
     if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
@@ -999,9 +1227,9 @@ void Cdp1851Instance::setProgBitsB(Byte value)
 
 void Cdp1851Instance::onRdyA()
 {
-    pioEfState1_ = 0;
+    pioEfState[0] = 0;
    
-    if (pioAMode_ == PIO_BI_DRECT)
+    if (modeSet[0] == PIO_BI_DRECT)
         pioStatus_ |= 0x8;
     else
         pioStatus_ |= 0x2;
@@ -1012,9 +1240,9 @@ void Cdp1851Instance::onRdyA()
 
 void Cdp1851Instance::onRdyB()
 {
-    pioEfState2_ = 0;
+    pioEfState[1] = 0;
 
-    if (pioAMode_ == PIO_BI_DRECT)
+    if (modeSet[0] == PIO_BI_DRECT)
         pioStatus_ |= 0x4;
     else
         pioStatus_ |= 0x1;
@@ -1028,13 +1256,13 @@ void Cdp1851Instance::writePortA(Byte value)
     if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
         pioScreenPointer->writePortA(value);
     
-    if (pioAMode_ == PIO_OUTPUT || pioAMode_ == PIO_BI_DRECT)
+    if (modeSet[0] == PIO_OUTPUT || modeSet[0] == PIO_BI_DRECT)
     {
         outPutValueA_ = value;
         if (pioAInterruptEnabled_)
             p_Computer->requestInterrupt(INTERRUPT_TYPE_PIO_A, true, cdp1851Configuration_.picInterrupt);
     }
-    if (pioAMode_ == PIO_BIT_PROG)
+    if (modeSet[0] == PIO_BIT_PROG)
     {
         Byte progBits = pioAProgBits_;
         outPutValueA_ &= (progBits ^ 0xff);
@@ -1043,71 +1271,82 @@ void Cdp1851Instance::writePortA(Byte value)
     }
     
     if (cdp1851Configuration_.connection == PIO_CONNECTION_PRINTER)
-        pioPrinterPointer->writePortA(value);
+        pioPrinterPointer->writePort(0, value);
 }
 
 void Cdp1851Instance::writePortB(Byte value)
 {
     if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
         pioScreenPointer->writePortB(value);
-
-    if (pioBMode_ == PIO_OUTPUT || pioBMode_ == PIO_BI_DRECT)
+    
+    if (modeSet[1] == PIO_OUTPUT || modeSet[1] == PIO_BI_DRECT)
     {
         outPutValueB_ = value;
         if (pioBInterruptEnabled_)
             p_Computer->requestInterrupt(INTERRUPT_TYPE_PIO_A, true, cdp1851Configuration_.picInterrupt);
     }
-    if (pioBMode_ == PIO_BIT_PROG)
+    if (modeSet[1] == PIO_BIT_PROG)
     {
         Byte progBits = pioBProgBits_;
         outPutValueB_ &= (progBits ^ 0xff);
         value &= progBits;
         outPutValueB_ |= value;
     }
+    
+    if (cdp1851Configuration_.connection == PIO_CONNECTION_PRINTER)
+        pioPrinterPointer->writePort(1, value);
 }
 
 Byte Cdp1851Instance::readPortA()
 {
-    pioEfState1_ = 1;
+    pioEfState[0] = 1;
     pioStatus_ &= 0xFD;
     p_Computer->requestInterrupt(INTERRUPT_TYPE_PIO_A, false, cdp1851Configuration_.picInterrupt);
 
-    if (pioAMode_ == PIO_BI_DRECT)
-        return inPutValueA_;
+    if (cdp1851Configuration_.connection == PIO_CONNECTION_PRINTER)
+        return pioPrinterPointer->readPort(0);
     else
-        return outPutValueA_;
+    {
+        if (modeSet[0] == PIO_BI_DRECT)
+            return inPutValueA_;
+        else
+            return outPutValueA_;
+    }
 }
 
 Byte Cdp1851Instance::readPortB()
 {
-    pioEfState2_ = 1;
+    pioEfState[1] = 1;
     pioStatus_ &= 0xFE;
     p_Computer->requestInterrupt(INTERRUPT_TYPE_PIO_B, false, cdp1851Configuration_.picInterrupt);
 
-    return outPutValueB_;
+    if (cdp1851Configuration_.connection == PIO_CONNECTION_PRINTER)
+        return pioPrinterPointer->readPort(1);
+    else
+        return outPutValueB_;
 }
 
 Byte Cdp1851Instance::readStatusRegister()
 {
-    if (pioRdyAMode_ == PIO_INPUT && pioAMode_ == PIO_BIT_PROG)
+    if (rdyMode[0] == PIO_INPUT && modeSet[0] == PIO_BIT_PROG)
     {
         pioStatus_ &= 0xef;
     }
-    if (pioStbAMode_ == PIO_INPUT && pioAMode_ == PIO_BIT_PROG)
+    if (strobeMode[0] == PIO_INPUT && modeSet[0] == PIO_BIT_PROG)
     {
         pioStatus_ &= 0xdf;
     }
-    if (pioRdyBMode_ == PIO_INPUT && pioBMode_ == PIO_BIT_PROG)
+    if (rdyMode[1] == PIO_INPUT && modeSet[1] == PIO_BIT_PROG)
     {
         pioStatus_ &= 0xbf;
     }
-    if (pioStbBMode_ == PIO_INPUT && pioBMode_ == PIO_BIT_PROG)
+    if (strobeMode[1] == PIO_INPUT && modeSet[1] == PIO_BIT_PROG)
     {
         pioStatus_ &= 0x7f;
     }
-    if (pioAMode_ != PIO_BIT_PROG)
+    if (modeSet[0] != PIO_BIT_PROG)
         pioStatus_ &= 0xcf;
-    if (pioBMode_ != PIO_BIT_PROG)
+    if (modeSet[1] != PIO_BIT_PROG)
         pioStatus_ &= 0x3f;
     
     if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
@@ -1197,12 +1436,12 @@ void Cdp1851Instance::maskInterruptB()
 
 Byte Cdp1851Instance::getEfState1()
 {
-    return pioEfState1_ ^ cdp1851Configuration_.efaRdy.reverse;
+    return pioEfState[0] ^ cdp1851Configuration_.efaRdy.reverse;
 }
 
 Byte Cdp1851Instance::getEfState2()
 {
-    return pioEfState2_ ^ cdp1851Configuration_.efbRdy.reverse;
+    return pioEfState[1] ^ cdp1851Configuration_.efbRdy.reverse;
 }
 
 Byte Cdp1851Instance::getIrqState()
@@ -1218,12 +1457,12 @@ void Cdp1851Instance::reset()
     if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
         pioScreenPointer->reset();
 
-    pioAMode_ = PIO_INPUT;
-    pioBMode_ = PIO_INPUT;
-    pioStbAMode_ = PIO_INPUT;
-    pioStbBMode_ = PIO_INPUT;
-    pioRdyAMode_ = PIO_OUTPUT;
-    pioRdyBMode_ = PIO_OUTPUT;
+    modeSet[0] = PIO_INPUT;
+    modeSet[1] = PIO_INPUT;
+    strobeMode[0] = PIO_INPUT;
+    strobeMode[1] = PIO_INPUT;
+    rdyMode[0] = PIO_OUTPUT;
+    rdyMode[1] = PIO_OUTPUT;
     pioAInterruptEnabled_ = false;
     pioBInterruptEnabled_ = false;
     pioAInterruptMask_ = 0;
@@ -1251,6 +1490,9 @@ void Cdp1851Instance::interruptCycle()
     
     if (pioBInterruptEnabled_)
         maskInterruptB();
+    
+    if (cdp1851Configuration_.connection == PIO_CONNECTION_PRINTER)
+        pioPrinterPointer->cycle();
 }
 
 void Cdp1851Instance::setLedMs(long ms)

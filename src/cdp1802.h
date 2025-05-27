@@ -199,8 +199,11 @@ protected:
     Byte bus_;
     Byte instructionCode_;
     wxString traceBuffer_;
+    wxString lastTraceBuffer_;
     bool stopHiddenTrace_;
     bool startHiddenTrace_;
+    bool stopHiddenBranchTrace_;
+    bool startHiddenBranchTrace_;
 
     int expansionSlot_;
     int ramBank_;
