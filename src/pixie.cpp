@@ -42,11 +42,12 @@
 #include "pixie.h"
 #include "statusbar.h"
 
-Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, int bootStrapType)
+Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType)
 : Video(title, pos, size)
 {
     cdp1861Configuration_ = cdp1861Configuration;
     cdp1862Configuration_ = cdp1862Configuration;
+    cdp1864Configuration_ = cdp1864Configuration;
     videoNumber_ = videoNumber;
     
     videoType_ = videoType;
@@ -303,8 +304,7 @@ void Pixie::configureCdp1864(CDP1864Configuration cdp1864Configuration)
     else
         p_Computer->setOutType(&cdp1864Configuration.ioGroupVector, cdp1864Configuration.toneLatch, "tone latch");
         
-    printBuffer.Printf("	EF %d: in frame indicator\n", cdp1864Configuration.ef);
-    p_Main->message(printBuffer);
+    p_Computer->setEfType(&cdp1864Configuration_.ioGroupVector, cdp1864Configuration_.ef, "in frame indicator");
 
     p_Computer->setCycleType(CYCLE_TYPE_VIDEO_CDP1864, CDP1864_CYCLE);
 
@@ -367,6 +367,11 @@ void Pixie::initPixie()
 Byte Pixie::efPixie()
 {
     return pixieEf_^cdp1861Configuration_.ef.reverse;
+}
+
+Byte Pixie::efCdp1864()
+{
+    return pixieEf_^cdp1864Configuration_.ef.reverse;
 }
 
 Byte Pixie::inPixie()
@@ -914,8 +919,8 @@ void Pixie::reBlit(wxDC &dc)
     }
 }
 
-PixieFred::PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, int bootStrapType)
-: Pixie(title, pos, size, zoom, zoomfactor, videoNumber, videoType, cdp1861Configuration, cdp1862Configuration, bootStrapType)
+PixieFred::PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType)
+: Pixie(title, pos, size, zoom, zoomfactor, videoNumber, videoType, cdp1861Configuration, cdp1862Configuration, cdp1864Configuration, bootStrapType)
 {
     displayType_ = 3;
     setDisplayType(displayType_);
@@ -1073,8 +1078,8 @@ void PixieFred::cyclePixie()
         graphicsNext_ = 0;
 }
 
-PixieVip2K::PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, int bootStrapType)
-: Pixie(title, pos, size, zoom, zoomfactor, videoNumber, videoType, cdp1861Configuration, cdp1862Configuration, bootStrapType)
+PixieVip2K::PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType)
+: Pixie(title, pos, size, zoom, zoomfactor, videoNumber, videoType, cdp1861Configuration, cdp1862Configuration, cdp1864Configuration, bootStrapType)
 {
     colourIndex_ = COL_PIXIE_FORE;
     videoNumber_ = videoNumber;
@@ -1308,8 +1313,8 @@ void PixieVip2K::outPixie()
     sequencerAddress_ &= 0x3fff;
 }
 
-PixieStudioIV::PixieStudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, int bootStrapType)
-: Pixie(title, pos, size, zoom, zoomfactor, videoNumber, videoType, cdp1861Configuration, cdp1862Configuration, bootStrapType)
+PixieStudioIV::PixieStudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType)
+: Pixie(title, pos, size, zoom, zoomfactor, videoNumber, videoType, cdp1861Configuration, cdp1862Configuration, cdp1864Configuration, bootStrapType)
 {
 }
 
@@ -1488,8 +1493,8 @@ void PixieStudioIV::switchVideoMode(int videoMode)
     p_Main->eventSetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_, DON_T_CALL_CHANGE_SCREEN_SIZE, false, videoNumber_);
 }*/
 
-PixieEti::PixieEti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, int bootStrapType)
-: Pixie(title, pos, size, zoom, zoomfactor, videoNumber, videoType, cdp1861Configuration, cdp1862Configuration, bootStrapType)
+PixieEti::PixieEti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType)
+: Pixie(title, pos, size, zoom, zoomfactor, videoNumber, videoType, cdp1861Configuration, cdp1862Configuration, cdp1864Configuration, bootStrapType)
 {
 }
 

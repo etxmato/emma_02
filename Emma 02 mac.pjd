@@ -369,63 +369,25 @@
               </document>
             </document>
             <document>
-              <string name="proxy-type">"wbSubmenuProxy"</string>
+              <string name="proxy-type">"wbMenuItemProxy"</string>
               <string name="filename">""</string>
-              <string name="icon-name">"menu"</string>
+              <string name="icon-name">"menuitem"</string>
               <long name="is-transient">0</long>
               <long name="locked">0</long>
               <long name="owns-file">1</long>
+              <string name="proxy-Bitmap">""</string>
+              <string name="proxy-Bitmap unchecked">""</string>
+              <bool name="proxy-Checked">0</bool>
               <bool name="proxy-Enabled">1</bool>
               <string name="proxy-Help text">""</string>
-              <string name="proxy-Id name">"Re_Install"</string>
-              <long name="proxy-Id value">10071</long>
-              <string name="proxy-Label">"Re-install"</string>
+              <string name="proxy-Id name">"MI_ReInstallData"</string>
+              <long name="proxy-Id value">10235</long>
+              <string name="proxy-Kind">"Normal"</string>
+              <string name="proxy-Label">"Re-install 1802 Software Files"</string>
               <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
-              <string name="title">"Re-install: Re_Install"</string>
+              <string name="title">"Re-install 1802 Software Files: MI_ReInstallData"</string>
               <long name="title-mode">0</long>
               <string name="type">"dialog-control-document"</string>
-              <document>
-                <string name="proxy-type">"wbMenuItemProxy"</string>
-                <string name="filename">""</string>
-                <string name="icon-name">"menuitem"</string>
-                <long name="is-transient">0</long>
-                <long name="locked">0</long>
-                <long name="owns-file">1</long>
-                <string name="proxy-Bitmap">""</string>
-                <string name="proxy-Bitmap unchecked">""</string>
-                <bool name="proxy-Checked">0</bool>
-                <bool name="proxy-Enabled">1</bool>
-                <string name="proxy-Help text">""</string>
-                <string name="proxy-Id name">"MI_ReInstallConfig"</string>
-                <long name="proxy-Id value">10235</long>
-                <string name="proxy-Kind">"Normal"</string>
-                <string name="proxy-Label">"Configuration Files"</string>
-                <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
-                <string name="title">"Configuration Files: MI_ReInstallConfig"</string>
-                <long name="title-mode">0</long>
-                <string name="type">"dialog-control-document"</string>
-              </document>
-              <document>
-                <string name="proxy-type">"wbMenuItemProxy"</string>
-                <string name="filename">""</string>
-                <string name="icon-name">"menuitem"</string>
-                <long name="is-transient">0</long>
-                <long name="locked">0</long>
-                <long name="owns-file">1</long>
-                <string name="proxy-Bitmap">""</string>
-                <string name="proxy-Bitmap unchecked">""</string>
-                <bool name="proxy-Checked">0</bool>
-                <bool name="proxy-Enabled">1</bool>
-                <string name="proxy-Help text">""</string>
-                <string name="proxy-Id name">"MI_ReInstallData"</string>
-                <long name="proxy-Id value">10235</long>
-                <string name="proxy-Kind">"Normal"</string>
-                <string name="proxy-Label">"1802 Software Files"</string>
-                <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
-                <string name="title">"1802 Software Files: MI_ReInstallData"</string>
-                <long name="title-mode">0</long>
-                <string name="type">"dialog-control-document"</string>
-              </document>
             </document>
             <document>
               <string name="proxy-type">"wbMenuItemProxy"</string>

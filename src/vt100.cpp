@@ -573,8 +573,8 @@ void Vt100::cycleVt()
             if ((vtOut_ != 0 || dataReady) && vtEnabled_)
             {
                 vt100Ef_ = 0;
-                parity_ = Parity(vtOut_);
                 vtOutCount_ = baudRateT_;
+                parity_ = Parity(vtOut_);
                 if (SetUpFeature_[VTBITS])
                     vtOutBits_ = 10;
                 else
@@ -702,6 +702,16 @@ void Vt100::serialVtOut()
     vtOutCount_--;
     if (vtOutCount_ <= 0)
     { // input from terminal
+        if (vtOutBits_ == 10)
+        {
+            parity_ = Parity(vtOut_);
+            if (SetUpFeature_[VTBITS])
+                vtOutBits_ = 10;
+            else
+                vtOutBits_ = 9;
+            if (SetUpFeature_[VTPARITY])
+                vtOutBits_++;
+        }
         vt100Ef_ = (vtOut_ & 1) ? 1 : 0;
         vtOut_ = (vtOut_ >> 1) | 128;
         vtOutCount_ = baudRateT_;
@@ -753,7 +763,9 @@ void Vt100::serialVtIn()
                 {
                     if (!SetUpFeature_[VTBITS])
                         rs232_ >>= 1;
-                    if (Parity(rs232_) != p_Computer->getFlipFlopQ())
+                    Byte parity = Parity(rs232_);
+                    Byte qValue = (p_Computer->getFlipFlopQ() ^ reverseQ_) ? 0 : 1;
+                    if (parity != qValue)
                         rs232_ = 2;
                 }
             }
@@ -3514,7 +3526,10 @@ void Vt100::checkXmlCommand()
                         }
                     }
                     else
+                    {
                         elfRunCommand_ = 0;
+                        return;
+                    }
                 }
                 elfRunCommand_++;
             }

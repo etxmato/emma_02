@@ -2910,6 +2910,8 @@ void XmlParser::parseXml_1864Video(wxXmlNode &node)
     wxString color, scale, position, iogroup;
     size_t ioGroupNumber = 0;
 
+    computerConfiguration.cdp1864Configuration.ef = init_EfFlag();
+
     computerConfiguration.cdp1864Configuration.xScale = 4;
     computerConfiguration.cdp1864Configuration.ioGroupVector.clear();
     computerConfiguration.zoom_[computerConfiguration.cdp1864Configuration.videoNumber] = "2.00";
@@ -3003,7 +3005,7 @@ void XmlParser::parseXml_1864Video(wxXmlNode &node)
             case TAG_EF:
                 if (child->GetAttribute("type") == "on")
                     computerConfiguration.cdp1864Configuration.screenOn = true;
-                computerConfiguration.cdp1864Configuration.ef = (int)parseXml_Number(*child);
+                computerConfiguration.cdp1864Configuration.ef = parseXml_EfFlag(*child, CDP1861_IN_FRAME_EF);
             break;
                 
             case TAG_COLOR_RAM:
@@ -3091,7 +3093,7 @@ void XmlParser::parseXml_1864Video(wxXmlNode &node)
                 if (child->GetAttribute("type") == "back_red")
                     screenInfo.defaultColour[COL_CDP1864_BACK_RED].Printf("#%02X%02X%02X", red, green, blue);
 
-                if (computerConfiguration.cdp1864Configuration.colorType == PIXIE_COLOR_VICTORY_1864 || computerConfiguration.cdp1862Configuration.colorType == PIXIE_COLOR_VIP_1864)
+                if (computerConfiguration.cdp1864Configuration.colorType == PIXIE_COLOR_VICTORY_1864 || computerConfiguration.cdp1864Configuration.colorType == PIXIE_COLOR_VIP_1864)
                 {
                     if (child->GetAttribute("type") == "white")
                         screenInfo.defaultColour[COL_CDP1864_BLACK].Printf("#%02X%02X%02X", red, green, blue);
@@ -6984,6 +6986,7 @@ void XmlParser::parseXml_FrontPanel(wxXmlNode &node, int frontNumber)
                     }
                     else
                     {
+                        computerConfiguration.hexDisplayConfiguration.oneKeyIn = (child->GetAttribute("type") == "onekey");
                         computerConfiguration.useHexKeyboard = true;
                         computerConfiguration.hexDisplayConfiguration.input = parseXml_IoPort(*child, HEX_KEY_IN);
                     }

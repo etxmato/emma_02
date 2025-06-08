@@ -3,7 +3,7 @@
 <BODY>
 <h1>Disk Support</h1>
 <p>
-Disk support will be activated if the selected XML file includes a disk defintion (ide: no GUI interface, WD1770/WD1793: FDC GUI or upd765: FDC or HD GUI)
+Disk support will be activated if the selected XML file includes a disk defintion (ide: IDE GUI, tu58: TU58 GUI, wd1770/wd1793: FDC GUI, upd765: FDC or HD GUI)
 </p>
 <h2>FDC GUI</h2>
 <p>
@@ -29,5 +29,22 @@ Using the HD feature allows for a simple import/export from/to the PC file syste
 <LI>Maximum number of files in one directory is 128</LI>
 <LI>Maximum file size is 300KB to 310KB depending on how many files are stored in the directory</LI>
 </UL>
+<h2>IDE GUI</h2>
+<p>
+<IMG SRC="images/disk_ide.png" border="0" width="443" height ="376">
+</p>
+<p>
+2 IDE drives (0 and 1) can be defined. In the example above a COSMAC Elf 2000 is configured. To change a disk at run time select a different filename by using one of the IDE x buttons (highlighted in blue) or type a name in the text field (highlighted in orange). To eject the disk use the eject button (highlighted in yellow) or remove the filename in the text field.
+</p>
+<p>
+After initial start-up any file &lt;type&gt;-installation.ide (or &lt;type&gt;-installation.dsk) will be renamed to &lt;type&gt;.ide (or &lt;type&gt;.dsk) if that file doesn't exist.
+</p>
+<h2>TU58 GUI</h2>
+<p>
+<IMG SRC="images/disk_tu58.png" border="0" width="443" height ="376">
+</p>
+<p>
+2 TU58 drives (0 and 1) can be defined. In the example above a SBC1802 is configured. To change a disk at run time select a different filename by using one of the TU58 x buttons (highlighted in blue) or type a name in the text field (highlighted in orange). To eject the disk use the eject button (highlighted in yellow) or remove the filename in the text field.
+</p>
 </BODY>
 </HTML>

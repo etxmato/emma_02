@@ -45,7 +45,6 @@
 		995ED6422BD439DB000FA9E5 /* statusbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 995ED6402BD439CF000FA9E5 /* statusbar.cpp */; };
 		995ED6432BD439DC000FA9E5 /* statusbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 995ED6402BD439CF000FA9E5 /* statusbar.cpp */; };
 		995FE8912516136400F96DB8 /* SuperChip.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995FE8902516136300F96DB8 /* SuperChip.syntax */; };
-		99605651230AF26F009FF74F /* pio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9960564F230AF26E009FF74F /* pio.cpp */; };
 		9960FF23211953CE00DB2EDD /* GPL-A_ROM.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9960FF22211953CE00DB2EDD /* GPL-A_ROM.syntax */; };
 		996C1615212F3F130061C30B /* pseudo.def in Resources */ = {isa = PBXBuildFile; fileRef = 996C1614212F3F130061C30B /* pseudo.def */; };
 		996D0A19291D996F0021C134 /* keyblatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 996D0A17291D992A0021C134 /* keyblatch.cpp */; };
@@ -229,7 +228,6 @@
 		99F37EC0285D1D9200C57417 /* mc6845.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976473C1A61D5EE00FB9B33 /* mc6845.cpp */; };
 		99F37EC1285D1D9200C57417 /* keymaptmc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 996F46241AA643B300C88AA6 /* keymaptmc.cpp */; };
 		99F37EC3285D1D9200C57417 /* guivip2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647181A61D5EE00FB9B33 /* guivip2.cpp */; };
-		99F37EC4285D1D9200C57417 /* pio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9960564F230AF26E009FF74F /* pio.cpp */; };
 		99F37EC5285D1D9200C57417 /* i8275.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976474A1A61D5EE00FB9B33 /* i8275.cpp */; };
 		99F37EC6285D1D9200C57417 /* cdp1852.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9970174B23298F2C00D66312 /* cdp1852.cpp */; };
 		99F37ECE285D1D9200C57417 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9999EAC41CBA8B8800A50336 /* SDL2.framework */; };
@@ -406,8 +404,6 @@
 		995ED6402BD439CF000FA9E5 /* statusbar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = statusbar.cpp; path = src/statusbar.cpp; sourceTree = "<group>"; };
 		995ED6412BD439CF000FA9E5 /* statusbar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = statusbar.h; path = src/statusbar.h; sourceTree = "<group>"; };
 		995FE8902516136300F96DB8 /* SuperChip.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SuperChip.syntax; sourceTree = "<group>"; };
-		9960564F230AF26E009FF74F /* pio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pio.cpp; path = src/pio.cpp; sourceTree = "<group>"; };
-		99605650230AF26F009FF74F /* pio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pio.h; path = src/pio.h; sourceTree = "<group>"; };
 		9960FF22211953CE00DB2EDD /* GPL-A_ROM.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GPL-A_ROM.syntax"; sourceTree = "<group>"; };
 		996B97391B24116B009827BF /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		996C1614212F3F130061C30B /* pseudo.def */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pseudo.def; sourceTree = "<group>"; };
@@ -893,8 +889,6 @@
 				99F263CD220CD4ED00EA87B5 /* network.h */,
 				997647151A61D5EE00FB9B33 /* panel.cpp */,
 				997647161A61D5EE00FB9B33 /* panel.h */,
-				9960564F230AF26E009FF74F /* pio.cpp */,
-				99605650230AF26F009FF74F /* pio.h */,
 				9976474E1A61D5EE00FB9B33 /* pixie.cpp */,
 				997647621A61D5EE00FB9B33 /* pixie.h */,
 				997647351A61D5EE00FB9B33 /* portext.cpp */,
@@ -1270,7 +1264,6 @@
 				996F46261AA643B300C88AA6 /* keymaptmc.cpp in Sources */,
 				997647CD1A61D5EF00FB9B33 /* guivip2.cpp in Sources */,
 				9926E24E2D3050C300A4530B /* cdp1877.cpp in Sources */,
-				99605651230AF26F009FF74F /* pio.cpp in Sources */,
 				997647F31A61D5EF00FB9B33 /* i8275.cpp in Sources */,
 				9970174D23298F2D00D66312 /* cdp1852.cpp in Sources */,
 			);
@@ -1358,7 +1351,6 @@
 				99F37EC1285D1D9200C57417 /* keymaptmc.cpp in Sources */,
 				99F37EC3285D1D9200C57417 /* guivip2.cpp in Sources */,
 				9926E24F2D3050C300A4530B /* cdp1877.cpp in Sources */,
-				99F37EC4285D1D9200C57417 /* pio.cpp in Sources */,
 				99F37EC5285D1D9200C57417 /* i8275.cpp in Sources */,
 				99F37EC6285D1D9200C57417 /* cdp1852.cpp in Sources */,
 			);

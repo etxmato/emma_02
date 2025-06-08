@@ -30,7 +30,6 @@
 #include "joycard.h"
 #include "usb.h"
 #include "rtc.h"
-#include "pio.h"
 #include "cdp1851.h"
 #include "cdp1852.h"
 #include "cdp1854.h"

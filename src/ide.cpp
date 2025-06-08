@@ -143,14 +143,24 @@ void Ide::setIdeDiskname(int disk, wxString fileName)
 
 void Ide::initializeIde(wxString ideFile)
 {
+    if (!initializeIde(ideFile, "ide"))
+        initializeIde(ideFile, "dsk");
+}
+
+bool Ide::initializeIde(wxString ideFile, wxString extension)
+{
     if (!wxFile::Exists(ideFile))
     {
         wxString ideInstallationFile;
-        ideInstallationFile = ideFile.Left(ideFile.Len()-4) + "-installation.ide";
+        ideInstallationFile = ideFile.Left(ideFile.Len()-4) + "-installation." + extension;
         
         if (wxFile::Exists(ideInstallationFile))
+        {
             wxRenameFile(ideInstallationFile, ideFile, false);
+            return true;
+        }
     }
+    return false;
 }
 
 void Ide::initIde()

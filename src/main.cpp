@@ -792,14 +792,16 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
             wxDir::Make(iniDirectory_);
     }
     else
+    {
         iniDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    }
 
     if (!wxFile::Exists(iniDirectory_ + "emma_02.ini"))
     {
         wxConfigBase *regPointer;
         regPointer = wxConfigBase::Get();
         regPointer->SetRecordDefaults();
-        dataDir_ = regPointer->Read("/DataDir", "");
+        dataDir_ = regPointer->Read("/DataDir", iniDirectory_);
         if (wxFile::Exists(dataDir_ + "emma_02.ini"))
         {
             if (wxCopyFile(dataDir_ + "emma_02.ini", iniDirectory_ + "emma_02.ini"))
@@ -1024,7 +1026,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 void Emu1802::getSoftware(wxString computer, wxString type, wxString software)
 {
     wxFileName FullPath = wxFileName(software, wxPATH_NATIVE);
-    if (FullPath.IsRelative())
+    if (FullPath.IsRelative() || FullPath.GetVolume() != "")
     {
         configPointer->Write(computer + "/"+type, software);
     }
@@ -1514,6 +1516,9 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 
     bool forceGuiSizeReset;
     configPointer->Read("/Main/ForceGuiSizeReset", &forceGuiSizeReset, false);
+
+    windowInfo.mainwX = 650;
+    windowInfo.mainwY = 500;
 
     if (mode_.gui)
     {
@@ -2414,14 +2419,14 @@ void Main::adjustGuiSize()
     borderSizeX = 10;
     borderSizeX2 = 6;
     borderSizeY = 10;
-    borderSizeY2 = 19;  // -37 due to move to regular tab
+    borderSizeY2 = 29;
     borderSizeY3 = 10;
 #endif
 #if defined(__WXMAC__)
     borderSizeX = 21;
     borderSizeX2 = 6;
     borderSizeY = 8;
-    borderSizeY2 = 35;  // -37 due to move to regular tab
+    borderSizeY2 = 35;
     borderSizeY3 = 10;
 #endif
     
@@ -2440,7 +2445,9 @@ void Main::adjustGuiSize()
             debugTraceWindowX = 0;
         }
         XRCCTRL(*this, "DebuggerChoiceBook", wxNotebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
-        
+        XRCCTRL(*this, "PanelDirectAssembler", wxPanel)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
+        XRCCTRL(*this, "PanelProfiler", wxPanel)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
+
         wxPoint position, positionBreakPointWindow, positionBreakPointWindowText;
         
         position = XRCCTRL(*this, "Message_Window", wxTextCtrl)->GetPosition();
@@ -3924,6 +3931,7 @@ void Main::onStart()
     wxSetWorkingDirectory(workingDir_);
 #endif
     setClock();
+    computerConfiguration.videoNumber_ = VIDEOMAIN;
     toDouble(computerConfiguration.zoom_[computerConfiguration.videoNumber_], &zoom);
 
     if (!fullScreenFloat_)
@@ -6309,6 +6317,14 @@ void Main::getDefaultHexKeys(wxString computerStr, wxString player, int keysHex1
    bool simDefA2_;
    bool simDefB2_;
    
+   for (int i=0; i<16; i++)
+   {
+      keyDefA1_[i] = 0;
+      keyDefB1_[i] = 0;
+      keyDefA2_[i] = 0;
+      keyDefB2_[i] = 0;
+   }
+
 //    int keyDefGameHexA_[5];
    int keyDefGameHexB_[5];
    
@@ -6368,6 +6384,11 @@ void Main::getDefaultHexKeys(wxString computerStr, wxString player, int keysHex1
                  keyStr.Printf("/HexKeySet2"+player+"%01X",i);
                  keysHex2[i] = getConfigItem(computerStr+keyStr, keyDefA2_[i]);
              }
+            for (int i=10; i<16; i++)
+            {
+                 keysHex1[i] = 0;
+                 keysHex2[i] = 0;
+            }
          }
          else
          {
@@ -6377,6 +6398,11 @@ void Main::getDefaultHexKeys(wxString computerStr, wxString player, int keysHex1
                  keysHex1[i] = getConfigItem(computerStr+keyStr, keyDefB1_[i]);
                  keyStr.Printf("/HexKeySet2"+player+"%01X",i);
                  keysHex2[i] = getConfigItem(computerStr+keyStr, keyDefB2_[i]);
+             }
+             for (int i=10; i<16; i++)
+             {
+                 keysHex1[i] = 0;
+                 keysHex2[i] = 0;
              }
          }
       }

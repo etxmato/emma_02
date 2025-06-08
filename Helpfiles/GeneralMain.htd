@@ -1,3 +1,4 @@
+
 <html>
 <title>General</title>
 <body>
@@ -12,7 +13,7 @@ This section includes general information about the RCA 1802 and Emma 02.
 <li><a href="FaqMain.htm">FAQ</a>
 <li><a href="MenuMain.htm">Global Settings & Menu</a>
 <li><a href="MainFile.htm">Directory and File Structure</a>
-<li><a href="MainConfigurations.htm">Configuration</a>
+<li><a href="MainConfigurations.htm">XML Configurations</a>
 <li><a href="MachineCodeSyntax.htm">Machine Code Syntax</a>
 <li><a href="PseudoCodeSyntax.htm">Pseudo Code Syntax</a>
 <li><a href="XMLCodeSyntax.htm">XML Code Syntax</a>

@@ -218,8 +218,8 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-c=elf2"
-            isEnabled = "NO">
+            argument = "-c=elf2 -x=tinybasic-serial.xml -r=print.tiny"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-c=Pecom32 -r=&quot;Osvajaci Svemira.pecom&quot;"

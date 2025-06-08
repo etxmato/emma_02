@@ -1303,7 +1303,7 @@ void GuiMain::runSoftware(bool load)
     wxString fileName, fileNameFull, extension;
     
     fileName = configPointer->Read("/Xml/Software_File0", "");
-    extension = fileName.Right(fileName.Len()-fileName.Find('.', false)-1);
+    extension = fileName.Right(fileName.Len()-fileName.Find('.', true)-1);
     
     if (extension == computerInfo.ploadExtension && fileName != "")
     {

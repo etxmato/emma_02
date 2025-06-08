@@ -6,18 +6,18 @@
 The easiest way to run your favourite game or program on the COMX emulator is to load and run a '.comx' file by using the memory RUN feature (see steps below). All available SW is stored in the Comx directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>) at installation.
 </p>
 <p>
-<IMG SRC="images/faq_comx_run.png" BORDER="0"> 
+<IMG SRC="images/faq_comx_run.png" border="0" width="443" height ="376">
 </p>
 <p>
 <OL>
-<li>Start the Emma 02 emulator and make sure the COMX tab (highlighted in yellow) is selected
+<li>Start the Emma 02 emulator and make sure the COMX-35 (highlighted in yellow) is selected
 <li>Press 'Start' (highlighted in orange)
 <li>Press the 'RUN' button (highlighted in blue)
 <li>Select the '.comx' file for the game or program that you want to run and 'double click' it or press 'Open'
 </OL>
 </p>
 <p>
-Software can also be loaded from disk images or wav files, see help sections on <a href="ComxDisk.htm">disk</a> and <a href="ComxCassette.htm">cassette</a> usage.
+Software can also be loaded from disk images or wav files, see help sections on <a href="ComputerDisk.htm">Disk Support</a> and <a href="ComputerCassette.htm">Cassette Support</a>.
 </p>
 </BODY>
 </HTML>

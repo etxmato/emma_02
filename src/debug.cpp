@@ -68,7 +68,7 @@
 #define EDIT_LINE 187
 #define ASS_WIDTH 268
 #define PROFILER_WIDTH 468
-#define PROFILER_OFFSET 9
+#define PROFILER_OFFSET 6
 //#define CHAR_WIDTH 8
 #endif
 #if defined (__WXMAC__)
@@ -1458,6 +1458,7 @@ bool DebugWindow::checkQuadrupleCommand(Byte command)
 bool DebugWindow::chip8BreakPointCheck()
 {
     Word chip8PC;
+    wxString printBuffer;
     if (pseudoType_ == "CARDTRAN")
         chip8PC = p_Computer->getScratchpadRegister(CARDTRAN_PC);
     else
@@ -1469,7 +1470,8 @@ bool DebugWindow::chip8BreakPointCheck()
         {
             if (chip8BreakPoints_[i] == chip8PC && chip8BreakPointsSelected_[i])
             {
-                chip8DebugTrace("Hit Breakpoint");
+                printBuffer.Printf("Hit Breakpoint at %04X", chip8PC);
+                chip8DebugTrace(printBuffer);
                 p_Computer->setSteps(0);
                 chip8Steps_ = 0;
                 setChip8PauseState();
@@ -1517,7 +1519,8 @@ void DebugWindow::cycleDebug()
             if (breakPoints_[i] == programCounterAddress && breakPointsSelected_[i])
             {
                 p_Computer->setSteps(0);
-                debugTrace("Hit Breakpoint");
+                printBuffer.Printf("Hit Breakpoint at %04X", programCounterAddress);
+                debugTrace(printBuffer);
                 p_Main->eventPauseState();
                 i = numberOfBreakPoints_;
             }
@@ -1572,7 +1575,8 @@ void DebugWindow::cycleDebug()
                 else
                 {
                     p_Computer->setSteps(0);
-                    debugTrace("Instruction Trap");
+                    printBuffer.Printf("Instruction Trap at %04X", programCounterAddress);
+                    debugTrace(printBuffer);
                     p_Main->eventPauseState();
                     i = numberOfTraps_;
                 }
@@ -1582,7 +1586,7 @@ void DebugWindow::cycleDebug()
     if (p_Computer->getSteps() != 0 && numberOfTregs_ > 0)
     {
         int j = -1;
-        printBuffer2 = "Register Trap: ";
+        printBuffer2.Printf("Register Trap at %04X: ", programCounterAddress);
         for (int i=0; i<numberOfTregs_; i++)
         {
             if (tregsSelected_[i])
@@ -4123,14 +4127,14 @@ wxString DebugWindow::getAssemblySep(Word* address, Byte n, wxString *printBuffe
                         break;
                         
                         case SEP_REG:
-                            storeByteAndAddress(p_Computer->getScratchpadRegister(sepDetails->registerValue >> 8), &addressValue, &byteValue);
+                            storeByteAndAddress(p_Computer->getScratchpadRegister(sepDetails->registerValue) >> 8, &addressValue, &byteValue);
                             storeByteAndAddress(p_Computer->getScratchpadRegister(sepDetails->registerValue) & 0xff, &addressValue, &byteValue);
                             printBufferTemp.Printf("%04X", addressValue);
                             *printBufferDetails += printBufferTemp;
                         break;
                         
                         case SEP_REG_HIGH:
-                            storeByteAndAddress(p_Computer->getScratchpadRegister(sepDetails->registerValue >> 8), &addressValue, &byteValue);
+                            storeByteAndAddress(p_Computer->getScratchpadRegister(sepDetails->registerValue) >> 8, &addressValue, &byteValue);
                             printBufferTemp.Printf("%02X", byteValue);
                             *printBufferDetails += printBufferTemp;
                         break;

@@ -3,11 +3,11 @@
 <body>
 <h1>File</h1>
 <p>
-<IMG SRC="images/menu_file.png" BORDER="0">
+<IMG SRC="images/menu_file.png" border="0" width="324" height ="106">
 </p>
-<h2><a href="MainConfigurations.htm">Configuration</a></h2>
+<h2>Configuration</h2>
 <p>
-<IMG SRC="images/menu_configuration.png" BORDER="0">
+<IMG SRC="images/menu_configuration.png" border="0" width="484" height ="106">
 </p>
 <h3>Save All on Exit</h3>
 <p>
@@ -15,29 +15,26 @@ If selected all global and computer emulator specific settings will be saved on 
 </p>
 <h3>Set Default (All)</h3>
 <p>
-Reset all computer emulator specific settings, 'Wav file and Real Cassette Settings' and 'Function and Hot Keys' back to Emma 02 defaults. Note remaining global settings, SB Player name, location, email address and aliases will not be reset. 
+Reset all computer emulator specific settings, 'Wav file and Real Cassette Settings' and 'Function and Hot Keys' back to Emma 02 defaults. Note remaining global settings like, SB Player name, location, email address and aliases will not be reset. 
 </p>
-<h2>Re-install</h2>
+<h3>XML ROM/RAM</h3>
 <p>
-<IMG SRC="images/menu_reinstall.png" BORDER="0">
+Default this option is set to 'Latest from GUI', meaning the ROM and RAM configuration is loaded from the XML file including changes that are done in the GUI. The second option 'Always from XML' is to force the ROM and RAM configuration to be loaded from the XML file and ignoring any GUI changes. This is mainly used when developing XML files to test changed ROM or RAM configuration.
 </p>
-<h3><a href="MainConfigurations.htm">Configuration</a> Files</h3>
+<h2>Re-install 1802 SW Files</h2>
 <p>
-This will re-install the default configuration files for the computer configurations that can be loaded from the above described 'Configuration' menu. This might be needed to install updated configuration files from the latest Emma 02 release or if current installed files are corrupt.
+<IMG SRC="images/menu_reinstall.png" border="0" width="324" height ="106">
 </p>
-<p>
-When installing a new version of Emma 02 the configuration menus will NOT be re-installed automatically to avoid overwriting changes made by users. 
-</p>
-<h3>1802 SW Files</h3>
 <p>
 This will re-install the default 1802 SW files as stored in the Emma 02 data directory. This might be needed to install updated 1802 SW files from the latest Emma 02 release or if current installed files are corrupt.
 </p>
 <p>
 When installing a new version of Emma 02 the data directory will NOT be re-installed automatically to avoid overwriting changes made by users. 
 </p>
+
 <h2>Change Data Directory</h2>
 <p>
-<IMG SRC="images/menu_change_data_dir.png" BORDER="0">
+<IMG SRC="images/menu_change_data_dir.png" border="0" width="324" height ="106">
 </p>
 <p>
 This will allow you to change the location of the data directory. 
@@ -62,7 +59,7 @@ Note that when an older versions of Emma 02 was used previously the default data
 A small window will open where with the 'browse' button (highlighted in yellow) a new location can be selected. After this 2 options are available: either to only save the new location ('Save' button, highlightedin orange) or save and move the existing data directory and files to the new location ('Move & Save' button, highlighted in blue). If the save only option is used the data folder should be moved manually. When moving the folder to another disk the process could take a few minutes (depending on the disk speed). In all cases all settings will be set to default as in the 'Set Default (All)' menu action.
 </p>
 <p>
-<IMG SRC="images/menu_change_data_dir_window.png" BORDER="0">
+<IMG SRC="images/menu_change_data_dir_window.png" border="0" width="381" height ="184">
 </p>
 <p>
 See also section <a href="MainFile.htm">Directory and File Structure</a>.

@@ -26,11 +26,12 @@
 
 #include "main.h"
 #include "panel.h"
+#include "pushbutton.h"
 #include <memory>
-
 
 BEGIN_EVENT_TABLE(HexButton, wxEvtHandler )
     EVT_TIMER(wxID_ANY, HexButton::OnTimer)
+
 END_EVENT_TABLE()
 
 HexButton::HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label)
@@ -833,11 +834,11 @@ Panel::~Panel()
             case PUSH_BUTTON_SMALL:
             case PUSH_BUTTON_RECTANGLE:
             case PUSH_BUTTON_RECTANGLE_SMALL:
-#if defined (__WXMAC__)
+//#if defined (__WXMAC__)
                 delete button->hexButton;
-#else
-                delete button->windowsButton;
-#endif
+//#else
+//                delete button->windowsButton;
+//#endif
             break;
 
             case PUSH_BUTTON_RED:
@@ -1098,11 +1099,11 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
             case PUSH_BUTTON_SMALL:
             case PUSH_BUTTON_RECTANGLE:
             case PUSH_BUTTON_RECTANGLE_SMALL:
-#if defined (__WXMAC__)
+//#if defined (__WXMAC__)
                 button->hexButton = new HexButton(dc, button->type, button->position.x, button->position.y, button->label);
-#else
-                button->windowsButton = new wxButton(this, button->value, button->label, button->position, button->size, 0, wxDefaultValidator, "");
-#endif
+//#else
+//                button->windowsButton = new wxButton(this, button->value, button->label, button->position, button->size, 0, wxDefaultValidator, "");
+//#endif
             break;
 
             case PUSH_BUTTON_RED:
@@ -1383,9 +1384,9 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
             case PUSH_BUTTON_SMALL:
             case PUSH_BUTTON_RECTANGLE:
             case PUSH_BUTTON_RECTANGLE_SMALL:
-#if defined (__WXMAC__)
+//#if defined (__WXMAC__)
                 button->hexButton->onPaint(dc);
-#endif
+//#endif
             break;
 
             case PUSH_BUTTON_RED:
@@ -1628,10 +1629,10 @@ void Panel::onMousePress(wxMouseEvent&event)
             case PUSH_BUTTON_SMALL:
             case PUSH_BUTTON_RECTANGLE:
             case PUSH_BUTTON_RECTANGLE_SMALL:
-#if defined (__WXMAC__)
+//#if defined (__WXMAC__)
                 if (button->hexButton->onMousePress(dc, x, y))
                     executeMousePressFunction(button);
-#endif
+//#endif
             break;
 
             case PUSH_BUTTON_RED:
@@ -1689,10 +1690,10 @@ void Panel::onMouseRelease(wxMouseEvent&event)
             case PUSH_BUTTON_SMALL:
             case PUSH_BUTTON_RECTANGLE:
             case PUSH_BUTTON_RECTANGLE_SMALL:
-#if defined (__WXMAC__)
+//#if defined (__WXMAC__)
                 if (button->hexButton->onMouseRelease(dc, x, y))
                     executeMouseReleaseFunction(button);
-#endif
+//#endif
             break;
 
             case PUSH_BUTTON_RED:

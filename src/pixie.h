@@ -18,7 +18,7 @@ public:
 class Pixie : public Video
 {
 public:
-    Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, int bootStrapType);
+    Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType);
     ~Pixie();
 
     void reset();
@@ -32,6 +32,7 @@ public:
     void configureCdp1864(CDP1864Configuration cdp1864Configuration);
     void initPixie();
     virtual Byte efPixie();
+    virtual Byte efCdp1864();
     virtual Byte inPixie();
     virtual void outPixie();
     virtual void outPixieBackGround();
@@ -57,6 +58,7 @@ public:
 protected:
     CDP1861Configuration cdp1861Configuration_;
     CDP1862Configuration cdp1862Configuration_;
+    CDP1864Configuration cdp1864Configuration_;
 
     PlotList *plotListPointer;
     Byte pbacking_[384][208];
@@ -94,7 +96,7 @@ private:
 class PixieFred : public Pixie
 {
 public:
-    PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, int bootStrapType);
+    PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType);
 
     void configureFredVideo(FredVideoConfiguration fredVideoConfiguration);
     void drawScreen();
@@ -110,7 +112,7 @@ private:
 class PixieVip2K : public Pixie
 {
 public:
-    PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, int bootStrapType);
+    PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType);
 
     void configureVip2K(Vip2KVideoConfiguration vip2KVideoConfiguration);
     void drawScreen();
@@ -139,7 +141,7 @@ private:
 class PixieStudioIV : public Pixie
 {
 public:
-    PixieStudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, int bootStrapType);
+    PixieStudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType);
 
     void configureSt4(Studio4VideoConfiguration studio4VideoConfiguration);
     void drawScreen();
@@ -157,7 +159,7 @@ private:
 class PixieEti : public Pixie
 {
 public:
-    PixieEti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, int bootStrapType);
+    PixieEti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType);
 
     void copyScreen();
     void drawScreen();

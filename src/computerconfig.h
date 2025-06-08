@@ -310,9 +310,9 @@ public:
     IoPort toneLatch;
     IoPort background;
     IoPort colorMemory;
-    
+    EfFlag ef;
+
     int xScale;
-    int ef;
     bool screenOn;
     int colorType;
     int startRam;
@@ -1146,6 +1146,8 @@ public:
     EfFlag inEf;
     EfFlag inEfElf;
     EfFlag startEf;
+    
+    bool oneKeyIn;
 };
 
 class MultiSegDisplayConfiguration : public IoGroupDefineConfiguration

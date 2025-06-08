@@ -471,7 +471,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.48
-#define EMMA_SUB_VERSION 8
+#define EMMA_SUB_VERSION 13
 
 #define XML 0
 

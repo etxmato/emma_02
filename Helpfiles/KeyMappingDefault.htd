@@ -6,7 +6,7 @@
 Default keyboard mapping is defined for a US keyboard layout. However a few different other layouts are provided and can be selected via menu below:
 </p>
 <p>
-<IMG SRC="images/key_map_default.png" BORDER="0">
+<IMG SRC="images/menu_keyboard.png" border="0" width="538" height ="324">
 </p>
 <p>
 Currently layouts for Dutch, German, French, Swedish / Finnish and US are provided as well as an option to specify a user specific definition. If you desire a specific mapping for your keyboard please drop me an email with your requirements and I'll try to add it in the next release.

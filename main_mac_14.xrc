@@ -24,14 +24,8 @@
 </object>
 </object>
 </object>
-<object class="wxMenu" name="Re_Install">
-<label>Re-install</label>
-<object class="wxMenuItem" name="MI_ReInstallConfig">
-<label>Configuration Files</label>
-</object>
 <object class="wxMenuItem" name="MI_ReInstallData">
-<label>1802 Software Files</label>
-</object>
+<label>Re-install 1802 Software Files</label>
 </object>
 <object class="wxMenuItem" name="MI_DataDir">
 <label>Change Data Directory</label>
