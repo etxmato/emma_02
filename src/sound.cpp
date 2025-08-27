@@ -100,6 +100,19 @@ Sound::~Sound()
         delete ploadWavePointer;
         p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
     }
+    if (ploadOn_ || ploadPaused_)
+    {
+        delete ploadWavePointer;
+        p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
+    }
+    if (psaveOn_)
+    {
+        psaveWavePointer->closeFile();
+        delete psaveWavePointer;
+        p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
+    }
+    if (wavOn_)
+        delete wavSoundPointer;
 
     delete soundBufferPointerLeft;
     delete soundBufferPointerRight;
@@ -112,7 +125,7 @@ Sound::~Sound()
     for (int i=0; i<2; i++)
         delete psaveSynthPointer[i];
     delete tapeSynthPointer;
-
+    
 #if defined (__WXMSW__) || defined(__linux__)
     if (audioIn_)
         SDL_CloseAudioIn();
@@ -896,6 +909,12 @@ void Sound::playSaveLoad()
             if (stopTapeCounter_ > 0)
             {
                 stopTapeCounter_--;
+                if (computerConfiguration_.swTapeConfiguration.flipq)
+                {
+                    if ((stopTapeCounter_ % (int)(sampleRate_ / 1000)) == 0)
+                        stopDelayQ_ = stopDelayQ_ ^ 1;
+                    psaveAmplitudeChange(stopDelayQ_);
+                }
                 if (stopTapeCounter_ == 0)
                 {
                     p_Computer->stopTape();
@@ -1199,7 +1218,6 @@ void Sound::stopTape()
     if (ploadOn_ || ploadPaused_)
     {
         delete ploadWavePointer;
-        ploadOn_ = false;
         ploadPaused_ = false;
 //        if (computerType_ == ETI) TO BE CHECKED - is it ok to execute below on all states?
 //            p_Computer->finishStopTape();
@@ -1221,7 +1239,8 @@ void Sound::stopTape()
         psaveOn_ = false;
     }
     p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
-    p_Computer->finishStopTape();
+    p_Computer->finishStopTape(ploadOn_);
+    ploadOn_ = false;
     if (p_Vt100[UART1] != NULL)
         p_Vt100[UART1]->ResetIo();
     if (p_Vt100[UART2] != NULL)

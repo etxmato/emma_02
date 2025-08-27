@@ -15,6 +15,8 @@ public:
 
 private:
     void parseXml_System(wxXmlNode &node);
+    void parseXml_ModKeys(wxXmlNode &node);
+    int getModifier(wxString modText);
     void parseXml_Basic(wxXmlNode &node);
     void parseXml_Locations(wxXmlNode &node);
     void parseXml_Bootstrap(wxXmlNode &node);

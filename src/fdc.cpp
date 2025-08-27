@@ -56,7 +56,8 @@ void Fdc::configure1793(FdcConfiguration fdcConfiguration)
     p_Computer->setInType(&fdcConfiguration.ioGroupVector, fdcConfiguration.readInput, FDC1793_READ_IN, "read register");
     p_Computer->setOutType(&fdcConfiguration.ioGroupVector, fdcConfiguration.selectOutput, FDC1793_SELECT_OUT, "register select");
     p_Computer->setOutType(&fdcConfiguration.ioGroupVector, fdcConfiguration.writeOutput, FDC1793_WRITE_OUT, "write register");
-    p_Computer->setEfType(&fdcConfiguration.ioGroupVector, fdcConfiguration.ef, FDC1793_EF, "DRQ");
+    if (fdcConfiguration.ef.flagNumber != -1)
+        p_Computer->setEfType(&fdcConfiguration.ioGroupVector, fdcConfiguration.ef, FDC1793_EF, "DRQ");
     p_Computer->setCycleType(CYCLE_TYPE_DISK_FDC, FDC_CYCLE);
 
     fdcRegisterSelect_ = 0;
@@ -158,7 +159,8 @@ void Fdc::configure1770(FdcConfiguration fdcConfiguration)
     p_Computer->setOutType(&fdcConfiguration.ioGroupVector, fdcConfiguration.writeOutput, FDC1770_WRITE_OUT, "write register");
     p_Computer->setInType(&fdcConfiguration.ioGroupVector, fdcConfiguration.intrqInput, FDC1770_INTRQ_IN, "INTRQ");
     p_Computer->setInType(&fdcConfiguration.ioGroupVector, fdcConfiguration.readInput, FDC1770_READ_IN, "read register");
-    p_Computer->setEfType(&fdcConfiguration.ioGroupVector, fdcConfiguration.ef, FDC1770_EF, "DRQ");
+    if (fdcConfiguration.ef.flagNumber != -1)
+        p_Computer->setEfType(&fdcConfiguration.ioGroupVector, fdcConfiguration.ef, FDC1770_EF, "DRQ");
     p_Computer->setCycleType(CYCLE_TYPE_DISK_FDC, FDC_CYCLE);
 
     wxString printBuffer;

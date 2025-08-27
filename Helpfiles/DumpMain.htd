@@ -47,7 +47,7 @@ Next to the main CPU memory other memory dump options are available by changing 
 <LI>Studio IV Colour: Studio IV specific colour RAM
 <LI>8275 Character: Intel 8275 character RAM
 <LI>8275 Video RAM: Intel 8275 video RAM
-<LI>VIP Video Sequencer: VIP2K Membership video sequencer ROM
+<LI>VIP2K Video Sequencer: VIP2K Membership video sequencer ROM
 <LI>RTC RAM: Elf 2000 & Pico/Elf V2 RTC RAM
 </UL>
 </p>

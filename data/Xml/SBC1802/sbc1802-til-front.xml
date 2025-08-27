@@ -6,7 +6,7 @@
     <system>
         <name>SBC1802</name>
         <config></config>
-        <clock>2.5</clock>
+        <clock>5</clock>
         <boot>0</boot>
         <init ef="1">1</init>
         <init ef="2">1</init>
@@ -320,9 +320,6 @@
         <int>1</int>
     </rtc>
     
-    <xmodem>
-    </xmodem>
-
     <locations>
         <start_xmodem_save address="0x80, 0x81, 0x82, 0x83" value="0x78, 0x73, 0x62, 0x20">0x2079</start_xmodem_save> <!-- xsb -->
         <start_xmodem_load address="0x80, 0x81, 0x82, 0x83" value="0x78, 0x72, 0x62, 0x20">0x2093</start_xmodem_load> <!-- xrb -->

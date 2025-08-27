@@ -175,7 +175,8 @@ void Cdp1854Instance::writeControlRegister(Byte value)
         vtOutBits_ -= controlRegister_[PARITY_INHIBIT];
     }
     
-    statusRegister_[TRANSMITTER_HOLDING_REGISTER] = REGISTER_EMPTY;
+    if (!cdp1854Configuration_.threUnchangedAtControl)
+        statusRegister_[TRANSMITTER_HOLDING_REGISTER] = REGISTER_EMPTY;
 
     if (terminalLoad_ && statusRegister_[DATA_AVAILABLE] && clearToSend_)
         dataAvailableUart(1);

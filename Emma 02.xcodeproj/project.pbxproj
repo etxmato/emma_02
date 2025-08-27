@@ -324,6 +324,8 @@
 		9909A21F1F2144D200B17E58 /* Splash.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Splash.pjd; sourceTree = "<group>"; };
 		9909A2231F2144D200B17E58 /* Cassette.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Cassette.pjd; sourceTree = "<group>"; };
 		9909A22F1F2144D200B17E58 /* Datadir.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Datadir.pjd; sourceTree = "<group>"; };
+		990D84BA2E2EDA8300B8119E /* win7_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = win7_11.ini; sourceTree = "<group>"; };
+		990D84BB2E2EDA8300B8119E /* win7_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = win7_12.ini; sourceTree = "<group>"; };
 		991199421E92ECC30074ADAA /* splash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = splash.cpp; path = src/splash.cpp; sourceTree = "<group>"; };
 		991199431E92ECC30074ADAA /* splash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = splash.h; path = src/splash.h; sourceTree = "<group>"; };
 		991504CB2944BD3A0078B02D /* libserialport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libserialport.a; path = ../../../../usr/local/lib/serialport_x64/libserialport.a; sourceTree = "<group>"; };
@@ -752,6 +754,8 @@
 				991A43C1279C321E0049C544 /* ubuntu.3_12.ini */,
 				991A43BE279C321E0049C544 /* ubuntu.4_11.ini */,
 				991A43BF279C321E0049C544 /* ubuntu.4_12.ini */,
+				990D84BA2E2EDA8300B8119E /* win7_11.ini */,
+				990D84BB2E2EDA8300B8119E /* win7_12.ini */,
 				991A43C9279C322E0049C544 /* win8_11.ini */,
 				991A43CA279C322E0049C544 /* win8_12.ini */,
 				991A43C4279C322D0049C544 /* win10_11.ini */,

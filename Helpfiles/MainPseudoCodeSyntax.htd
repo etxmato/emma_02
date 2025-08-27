@@ -1,0 +1,30 @@
+
+<html>
+<title>Pseudo Code Syntax</title>
+<body>
+<h1>Pseudo Code Syntax</h1>
+<p>
+This section provides links to descriptions of syntax definitions on the Emma 02 site for all pseudo languages that can be assembled and disassembled by Emma 02. For details about the assembler see section <a href="DirectMain.htm">Direct Assembler</a>. 
+</p>
+<p>
+<a href="https://www.emma02.hobby-site.com/pseudo_amvbas.html">AMVBAS Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_am4kbas.html">AM4KBAS Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_cardtran.html">CARDTRAN Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_chip8.html">Chip-8, 8X, ETI & Elf Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_fel-1.html">FEL-1 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_fpa-1.html">FPA-1 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_fpl-2.html">FPL-2 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_fpl-4.html">FPL-4 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_gpl-2.html">GPL-2 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_gpl-3.html">GPL-3 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_gpl-4.html">GPL-4 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_gpl-a_ram.html">GPL-A (2K RAM) Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_gpl-a_rom.html">GPL-A (2K ROM) Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_st2.html">ST2 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_st4.html">ST4 Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_stk.html">STK Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_test_word.html">Test-Word Syntax</a><br>
+<a href="https://www.emma02.hobby-site.com/pseudo_super_chip.html">Super-chip Syntax</a><br>
+</p>
+</body>
+</html>

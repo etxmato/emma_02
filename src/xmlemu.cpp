@@ -46,6 +46,7 @@
 #include "wx/wfstream.h"
 #include "wx/zipstrm.h"
 #include "wx/datstrm.h"
+#include <memory>
 #include <math.h>
 
 #include "main.h"
@@ -473,6 +474,7 @@ Computer::Computer(const wxString& title, double clock, int tempo, ComputerConfi
     bitKeypadValue_ = 0;
 
     gaugeValue_ = 0;
+    tapeFinished_ = 0;
     lastTapeInputInt32_ = 0;
     lastTapeInputInt16_ = 0;
     lastTapeInputChar_ = 0;
@@ -481,7 +483,13 @@ Computer::Computer(const wxString& title, double clock, int tempo, ComputerConfi
     maxTapeInputChar_ = 0;
     saveStarted_ = false;
     loadStarted_ = false;
+    visRunning_ = false;
+    dataIoSwitchBus_ = true;
+    lastIo_ = 0;
+
     numberOfCdp1877Instances_ = 0;
+    numberOfCdp1851Instances_ = 0;
+    numberOfCdp1852Frames_ = 0;
 
     soundTempoCycleSize_ = (int) (((clock * 1000000) / 8) / tempo);
     vipIIRunCycleSize_ = (int) (((clock * 800000) / 8) ) * 2;
@@ -647,6 +655,13 @@ Computer::~Computer()
         p_Main->setFrontPanelPos(panelPointer[frontPanel]->GetPosition(), frontPanel);
         delete panelPointer[frontPanel];
     }
+    if (currentComputerConfiguration.ay_3_8912Configuration.defined)
+        delete ay_3_8912InstancePointer;
+    for (int counter=0; counter<numberOfCdp1878Instances_; counter++)
+        delete cdp1878InstancePointer[counter];
+    if (currentComputerConfiguration.cdp1855Configuration.defined)
+        delete cdp1855InstancePointer;
+
     p_Main->writeXmlWindowConfig();
 }
 
@@ -680,6 +695,39 @@ void Computer::charEvent(int keycode)
         matrixKeyboardPointer->charEvent(keycode);
     if (currentComputerConfiguration.gpioPs2KeyboardConfiguration.defined)
         charEventPs2gpio(keycode);
+}
+
+void Computer::charEvent(wxKeyEvent& event, int keycode)
+{
+#ifdef __WXMAC__
+    if (event.GetModifiers() == currentComputerConfiguration.modKeyConfiguration.macModifier)
+#endif
+#ifdef __WXMSW__
+    if (event.GetModifiers() == currentComputerConfiguration.modKeyConfiguration.windowsModifier)
+#endif
+#ifdef __linux__
+    if (event.GetModifiers() == currentComputerConfiguration.modKeyConfiguration.linuxModifier)
+#endif
+    {
+        for (std::vector<int>::iterator functionKeys = currentComputerConfiguration.modKeyConfiguration.resetKey.begin (); functionKeys != currentComputerConfiguration.modKeyConfiguration.resetKey.end (); ++functionKeys)
+        {
+            if (keycode == *functionKeys)
+            {
+                p_Computer->onReset();
+                p_Computer->setClear(1);
+                p_Main->updateTitle();
+            }
+        }
+        for (std::vector<int>::iterator functionKeys = currentComputerConfiguration.modKeyConfiguration.stopKey.begin (); functionKeys != currentComputerConfiguration.modKeyConfiguration.stopKey.end (); ++functionKeys)
+        {
+            if (keycode == *functionKeys)
+            {
+                p_Computer->setClear(0);
+                p_Main->updateTitle();
+            }
+        }
+    }
+    charEvent(keycode);
 }
 
 bool Computer::keyDownPressed(int key)
@@ -1093,7 +1141,8 @@ void Computer::configureComputer()
         if (currentComputerConfiguration.multiSegDisplayConfiguration.tilFontFile != "")
             p_Computer->readIntelFile(currentComputerConfiguration.multiSegDisplayConfiguration.tilFontDirectory + currentComputerConfiguration.multiSegDisplayConfiguration.tilFontFile, &tilFontMemory);
 
-        setCycleType(CYCLE_TYPE_SEVEN_SEGMENT, MULTI_TIL_DISPLAY_CYCLE);
+        if (currentComputerConfiguration.multiSegDisplayConfiguration.cycleValue != -1)
+            setCycleType(CYCLE_TYPE_SEVEN_SEGMENT, MULTI_TIL_DISPLAY_CYCLE);
 
         p_Main->message("");
     }
@@ -1299,6 +1348,7 @@ void Computer::resetComputer()
     
     lastMode_ = UNDEFINDEDMODE;
     
+    vismacRegisterLatch_ = 0;
     thermalPrinting_ = false;
     thermalEF_ = 0;
     selectedMap_ = 0;
@@ -1569,7 +1619,7 @@ Byte Computer::ef(int flag)
                 return cassetteEf_;
         break;
 
-	case MC6845_EF:
+        case MC6845_EF:
             if (!isLoading())
                 return mc6845Pointer->ef6845();
             else
@@ -1787,6 +1837,10 @@ Byte Computer::ef(int flag)
                 return 0;
         break;
 
+        case EFSWITCH:
+            return (getEfFlags() & (0x1 << (flag-1))) >> (flag-1);
+        break;
+            
         default:
             return 1;
     }
@@ -2210,6 +2264,8 @@ Byte Computer::in(Byte port, Word address)
     if (mask != 0xff)
         ret &= mask;
     inValues_[port] = ret;
+    lastIo_ = ret;
+    showLastIo();
     return ret;
 }
 
@@ -2234,6 +2290,9 @@ void Computer::out(Byte port, Word address, Byte value)
     if (mask != 0xff)
         value &= mask;
     outValues_[port] = value;
+    lastIo_ =  value;
+    showLastIo();
+
     bool groupFound;
 
     if (currentComputerConfiguration.ioGroupConfiguration.defined)
@@ -2606,7 +2665,10 @@ void Computer::out(Byte port, Word address, Byte value)
             else
             {
                 if (stopTapeCounter_ == 0)
+                {
                     stopTapeCounter_ = (currentComputerConfiguration.swTapeConfiguration.stopDelay * sampleRate_) / 1000;
+                    stopDelayQ_ = flipFlopQ_;
+                }
             }
         break;
 
@@ -2853,6 +2915,16 @@ void Computer::out(Byte port, Word address, Byte value)
             vtPointer->out(value);
         break;
 
+        case VIDEO_TERMINAL_Q_OUT:
+        case IO_PORT_DISABLE:
+            if (currentComputerConfiguration.videoTerminalConfiguration.qOutput.portNumber[0] != -1)
+                vtPointer->switchQ(value&currentComputerConfiguration.videoTerminalConfiguration.qOutputBitMask);
+            if (currentComputerConfiguration.ioGroupConfiguration.disable.portNumber[0] != -1)
+            {
+                    currentComputerConfiguration.ioGroupConfiguration.defined = ((value&currentComputerConfiguration.ioGroupConfiguration.disableBitMask) == 0);
+            }
+        break;
+
         case EXTERNAL_VIDEO_TERMINAL_OUT:
             p_Serial->out(value);
         break;
@@ -2904,6 +2976,17 @@ void Computer::out(Byte port, Word address, Byte value)
 
         case MULTI_TIL_DISPLAY_OUT:
             segValue_ = value;
+            if (currentComputerConfiguration.multiSegDisplayConfiguration.cycleValue == -1)
+            {
+                if (value == 0xd)
+                    segNumber_ = 0;
+                else
+                {
+                    if (segNumber_ <= currentComputerConfiguration.multiSegDisplayConfiguration.multiTilNumber)
+                        for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+                            panelPointer[frontPanel]->showMulti(segNumber_++, value);
+                }
+            }
         break;
 
         case AD_CONVERTOR_OUT:
@@ -3083,8 +3166,20 @@ Byte Computer::slotShift(Byte value, int shift)
     return value;
 }
 
+void Computer::showLastIo()
+{
+    if (dataIoSwitchBus_)
+        return;
+
+    for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+        panelPointer[frontPanel]->showData(lastIo_);
+}
+
 void Computer::showData(Byte val)
 {
+    if (!dataIoSwitchBus_)
+        return;
+    
     for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
         panelPointer[frontPanel]->showData(val);
     
@@ -3111,20 +3206,23 @@ void Computer::showData(Byte val)
 
 void Computer::showCycleData(Byte val)
 {
+    if (!dataIoSwitchBus_)
+        return;
+
     if (singleStateStep_)
         showData(val);
     
     if (currentComputerConfiguration.ledDisplayConfiguration.showDataOnCycle)
     {
+        if (currentComputerConfiguration.ledDisplayConfiguration.datatil[0] && currentComputerConfiguration.ledDisplayConfiguration.datatil[1])
+            for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+                panelPointer[frontPanel]->showData(val);
         for (int i=0; i<8; i++)
         {
             for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
                 panelPointer[frontPanel]->setLed(i, val&1);
             val = val >> 1;
         }
-        if (currentComputerConfiguration.ledDisplayConfiguration.datatil[0] && currentComputerConfiguration.ledDisplayConfiguration.datatil[1])
-            for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
-                panelPointer[frontPanel]->showData(val);
     }
 }
 
@@ -3132,14 +3230,14 @@ void Computer::showCycleAddress(Word val)
 {
     if (currentComputerConfiguration.ledDisplayConfiguration.showAddressOnCycle)
     {
+        for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+            panelPointer[frontPanel]->showAddress(val);
         for (int i=8; i<24; i++)
         {
             for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
                 panelPointer[frontPanel]->setLed(i, val&1);
             val = val >> 1;
         }
-        for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
-            panelPointer[frontPanel]->showAddress(val);
     }
 }
 
@@ -3302,7 +3400,7 @@ void Computer::cycle(int type)
             multiTilCycleValue_--;
             if (multiTilCycleValue_ <= 0)
             {
-                if (segValue_ != -1)
+                if (segValue_ != -1 && segValue_ != 0xd)
                 {
                     if (segNumber_ <= currentComputerConfiguration.multiSegDisplayConfiguration.multiTilNumber)
                         for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
@@ -3312,6 +3410,7 @@ void Computer::cycle(int type)
                         segNumber_ = 0;
                     segValue_ = -1;
                 }
+
                 multiTilCycleValue_ = multiTilCycleSize_;
             }
         break;
@@ -3572,6 +3671,18 @@ void Computer::showDmaLed()
         panelPointer[frontPanel]->setStateLed(DMALED, 1);
 }
 
+void Computer::showMrdLed(int state)
+{
+    for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+        panelPointer[frontPanel]->setStateLed(MRDLED, state);
+}
+
+void Computer::showMwrLed(int state)
+{
+    for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+        panelPointer[frontPanel]->setStateLed(MWRLED, state);
+}
+
 void Computer::showIntLed()
 {
     for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
@@ -3695,11 +3806,14 @@ void Computer::switchQ(int value)
         }
     }
 
-    if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
-        vtPointer->switchQ(value);
+    if (currentComputerConfiguration.videoTerminalConfiguration.qOutput.portNumber[0] == -1)
+    {
+        if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
+            vtPointer->switchQ(value);
 
-    if (currentComputerConfiguration.videoTerminalConfiguration.external || currentComputerConfiguration.videoTerminalConfiguration.loop_back)
-        p_Serial->switchQ(value);
+        if (currentComputerConfiguration.videoTerminalConfiguration.external || currentComputerConfiguration.videoTerminalConfiguration.loop_back)
+            p_Serial->switchQ(value);
+    }
     
     if (currentComputerConfiguration.diagnosticBoardConfiguration.defined)
     {
@@ -3725,6 +3839,12 @@ void Computer::onWaitButton()
     else
         waitButtonState_ = 1;
 
+    setWait(waitButtonState_);
+}
+
+void Computer::setWaitButtonState(int value)
+{
+    waitButtonState_ = value;
     setWait(waitButtonState_);
 }
 
@@ -3804,6 +3924,12 @@ void Computer::onRunButtonPress0(wxCommandEvent&WXUNUSED(event))
 
 void Computer::onRunButtonPress(bool run0)
 {
+    if (currentComputerConfiguration.stepPressType == STEP_TYPE_SWITCH_PUSH && singleStateStep_)
+    {
+        setWait(1);
+        return;
+    }
+
     if (currentComputerConfiguration.autoBootConfiguration.defined)
         scratchpadRegister_[0] = currentComputerConfiguration.autoBootConfiguration.address;
     if (cardSwitchOn_ || readSwitchOn_)
@@ -4093,19 +4219,35 @@ void Computer::onPause(wxCommandEvent&WXUNUSED(event))
 
 void Computer::onPause()
 {
-    if (currentComputerConfiguration.stepPressType == STEP_TYPE_COSMICOS)
+    switch (currentComputerConfiguration.stepPressType)
     {
-        singleStateStep_ = true;
-        setClear(1);
-        setWait(0);
-        if (currentComputerConfiguration.cdp1864Configuration.defined)
-            cdp1864Pointer->setPixieGraphics(false);
-    }
-    else
-    {
-        setWait(0);
-        if (mpSuperButtonActive_)
-            mpButtonState_ = 0;
+        case STEP_TYPE_COSMICOS:
+            singleStateStep_ = true;
+            setClear(1);
+            setWait(0);
+            if (currentComputerConfiguration.cdp1864Configuration.defined)
+                cdp1864Pointer->setPixieGraphics(false);
+        break;
+   
+        case STEP_TYPE_SWITCH_PUSH:
+            singleStateStep_ = !singleStateStep_;
+            if (singleStateStep_)
+            {
+                setLedMsTemp(0);
+                setWait(0);
+            }
+            else
+            {
+                setLedMs(ledTimeMs_);
+                setWait(1);
+            }
+        break;
+
+        default:
+            setWait(0);
+            if (mpSuperButtonActive_)
+                mpButtonState_ = 0;
+        break;
     }
     p_Main->eventUpdateTitle();
 }
@@ -4174,6 +4316,12 @@ void Computer::onEmsButton(int buttonNumber, bool up)
     
     if (currentComputerConfiguration.multicartEmsNumber_ != -1)
         setMultiCartGame();
+}
+
+void Computer::onDataIoSwitch()
+{
+    dataIoSwitchBus_ = !dataIoSwitchBus_;
+    showLastIo();
 }
 
 void Computer::setMultiCartGame()
@@ -4296,17 +4444,20 @@ void Computer::onSingleStep(wxCommandEvent&WXUNUSED(event))
 
 void Computer::onSingleStep()
 {
-    if (currentComputerConfiguration.stepPressType == STEP_TYPE_COSMICOS)
+    switch (currentComputerConfiguration.stepPressType)
     {
-        setWait(1);
-    }
-    else
-    {
-        singleStateStep_ = !singleStateStep_;
-        if (singleStateStep_)
-            setLedMsTemp(0);
-        else
-            setLedMs(ledTimeMs_);
+        case STEP_TYPE_COSMICOS:
+        case STEP_TYPE_SWITCH_PUSH:
+            setWait(1);
+        break;
+
+        default:
+            singleStateStep_ = !singleStateStep_;
+            if (singleStateStep_)
+                setLedMsTemp(0);
+            else
+                setLedMs(ledTimeMs_);
+        break;
     }
 }
 
@@ -4317,6 +4468,12 @@ void Computer::onResetButton(wxCommandEvent&WXUNUSED(event))
 
 void Computer::onResetButton()
 {
+    if (currentComputerConfiguration.stepPressType == STEP_TYPE_SWITCH_PUSH && singleStateStep_)
+    {
+        setWait(1);
+        return;
+    }
+    
     if (currentComputerConfiguration.resetPressType == RESET_TYPE_FULL)
         onReset();
     else
@@ -4911,7 +5068,7 @@ void Computer::startComputer()
         p_Main->resetClearRtcState();
     }
 
-    if (currentComputerConfiguration.useSplashScreen_)
+    if (currentComputerConfiguration.useSplashScreen_ && !p_Main->splashHidden())
     {
         if (p_Video[VIDEOMAIN] != NULL)
             p_Video[VIDEOMAIN]->splashScreen();
@@ -4948,7 +5105,7 @@ void Computer::loadRomRam(size_t configNumber)
             p_Main->checkAndReInstallFile(currentComputerConfiguration.memoryConfiguration[configNumber].dirname + currentComputerConfiguration.memoryConfiguration[configNumber].filename, currentComputerConfiguration.memoryConfiguration[configNumber].filename);
 
         if (currentComputerConfiguration.memoryConfiguration[configNumber].filename.Right(4) == ".st2")
-            readSt2Program(currentComputerConfiguration.memoryConfiguration[configNumber].dirname, currentComputerConfiguration.memoryConfiguration[configNumber].filename, NOCHANGE);
+            readSt2Program(currentComputerConfiguration.memoryConfiguration[configNumber].dirname, currentComputerConfiguration.memoryConfiguration[configNumber].filename, ROM);
         else
             readProgram(currentComputerConfiguration.memoryConfiguration[configNumber].dirname, currentComputerConfiguration.memoryConfiguration[configNumber].filename, NOCHANGE,  currentComputerConfiguration.memoryConfiguration[configNumber].start, currentComputerConfiguration.memoryConfiguration[configNumber].loadOffSet, NONAME); 
         // type & 0xff causes loading ROM to end up without congif number in the higher 8 bit.
@@ -4967,6 +5124,20 @@ void Computer::writeMemDataType(Word address, Byte type)
 {
     size_t number = (memoryType_[address / 256] >> 8);
     address = (address | bootstrap_) & currentComputerConfiguration.memoryMask;
+
+    for (std::vector<MemoryPartConfiguration>::iterator ramPartConfigIterator = currentComputerConfiguration.memoryRamPartConfiguration.begin (); ramPartConfigIterator != currentComputerConfiguration.memoryRamPartConfiguration.end (); ++ramPartConfigIterator)
+    {
+        if (address >= ramPartConfigIterator->start && address <= ramPartConfigIterator->end)
+        {
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
+            increaseExecutedMainMemory(address, type);
+            return;
+        }
+    }
 
     int memNumber;
     switch (memoryType_[address/256]&0xff)
@@ -5479,6 +5650,33 @@ Byte Computer::readMemDebug(Word address, int function)
         }
     }
 
+    if (currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined)
+    {
+/*        wxString printBuffer;
+        if (address >= 0x1000 && address < 0xf400)
+        {
+            if (address < 0x8800 || address > 0x887f)
+            {
+                printBuffer.Printf("Exec address: %04X, read address: %04X, value: %02X", scratchpadRegister_[programCounter_], address, value);
+                p_Main->eventShowTextMessage(printBuffer);
+            }
+        }*/
+        if (currentComputerConfiguration.videoTerminalConfiguration.uartIn.addressMode)
+        {
+            if (address == currentComputerConfiguration.videoTerminalConfiguration.uartIn.portNumber[0])
+            {
+                return p_Serial->uartIn();
+            }
+        }
+        if (currentComputerConfiguration.videoTerminalConfiguration.uartStatus.addressMode)
+        {
+            if (address == currentComputerConfiguration.videoTerminalConfiguration.uartStatus.portNumber[0])
+            {
+                return p_Serial->uartStatus();
+            }
+        }
+    }
+
     size_t number = (memoryType_[address / 256] >> 8);
     
     int memNumber = 0;
@@ -5948,6 +6146,35 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
                 if (address >= memoryStart_ && address<(memoryStart_ + 256))
                     p_Main->updateDebugMemory(address);
                 p_Main->updateAssTabCheck(address);
+                return;
+            }
+        }
+    }
+
+    if (currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined)
+    {
+/*        if (address >= 0x1000 && address < 0xf400)
+        {
+            if (address < 0x8800 || address > 0x887f)
+            {
+                printBuffer.Printf("Exec address: %04X, write address: %04X, value: %02X", scratchpadRegister_[programCounter_], address, value);
+                p_Main->eventShowTextMessage(printBuffer);
+            }
+        }*/
+
+        if (currentComputerConfiguration.videoTerminalConfiguration.uartOut.addressMode)
+        {
+            if (address == currentComputerConfiguration.videoTerminalConfiguration.uartOut.portNumber[0])
+            {
+                p_Serial->uartOut(value);
+                return;
+            }
+        }
+        if (currentComputerConfiguration.videoTerminalConfiguration.uartControl.addressMode)
+        {
+            if (address == currentComputerConfiguration.videoTerminalConfiguration.uartControl.portNumber[0])
+            {
+                p_Serial->uartControl(value);
                 return;
             }
         }
@@ -6478,9 +6705,6 @@ void Computer::cpuInstruction()
             threadPointer->Sleep(1);
         }
     }
-    if (interruptRequested_ && cpuState_ == STATE_FETCH_1)
-        p_Computer->interrupt();
-
     if (interruptEnable_ && clear_ == 1 && (cpuState_ == STATE_FETCH_1 || (cpuState_ == STATE_EXECUTE_1 && instructionCode_ == 0)))
     {
         if (numberOfCdp1877Instances_ > 0)
@@ -6568,7 +6792,6 @@ void Computer::resetPressed()
         i8275Pointer->cRegWrite(0x40);
     if (currentComputerConfiguration.vis1870Configuration.defined)
     {
-        vis1870Pointer->init1870();
         if (currentComputerConfiguration.vis1870Configuration.statusBarType != STATUSBAR_NONE)
             p_Main->v1870BarSizeEvent();
 
@@ -7127,9 +7350,9 @@ void Computer::configureExtensions()
     {
         cdp1852FramePointer.resize(numberOfCdp1852Frames_+1);
 #if defined (__WXMAC__) || (__linux__)
-        cdp1852FramePointer[numberOfCdp1852Frames_] = new Cdp1852Frame("CDP1852", cdp1852->pos, wxSize(310, 180), numberOfCdp1852Frames_);
+        cdp1852FramePointer[numberOfCdp1852Frames_] = new Cdp1852Frame("CDP1852", cdp1852->pos, wxSize(310, 180), numberOfCdp1852Frames_, *cdp1852);
 #else
-        cdp1852FramePointer[numberOfCdp1852Frames_] = new Cdp1852Frame("CDP1852", cdp1852->pos, wxSize(329, 180), numberOfCdp1852Frames_);
+        cdp1852FramePointer[numberOfCdp1852Frames_] = new Cdp1852Frame("CDP1852", cdp1852->pos, wxSize(329, 180), numberOfCdp1852Frames_, *cdp1852);
 #endif
         
         p_Main->configureMessage(&cdp1852->ioGroupVector, "CDP1852");
@@ -7367,6 +7590,7 @@ void Computer::configureV1870Extension()
         defineMemoryType(0xf400, 0xf7ff, CRAM1870);
         defineMemoryType(0xf800, 0xffff, PRAM1870);
         vis1870Pointer->Show(true);
+        visRunning_ = true;
     }
 }
 
@@ -9978,7 +10202,7 @@ void Computer::startRecording(int tapeNumber)
     tapeRecording_ = p_Main->startSaveCont(tapeNumber, tapeCounter_);
 }
 
-void Computer::finishStopTape()
+void Computer::finishStopTape(bool loadDelay)
 {
     if (currentComputerConfiguration.addressLocationConfiguration.code_end_high != -1 && currentComputerConfiguration.addressLocationConfiguration.code_end_low != -1)
     {
@@ -9995,7 +10219,8 @@ void Computer::finishStopTape()
     tapeRecording_ = false;
     tapeEnd_ = true;
     cassetteEf_ = 0;
-    tapeFinished_ = (currentComputerConfiguration.swTapeConfiguration.endDelay * sampleRate_) / 1000;
+    if (loadDelay)
+        tapeFinished_ = (currentComputerConfiguration.swTapeConfiguration.endDelay * sampleRate_) / 1000;
     p_Main->eventUpdateVipIILedStatus(BAR_LED_TAPE, cassetteEf_ != 0);
 }
 
@@ -10019,7 +10244,7 @@ void Computer::resetTape()
         {
             p_Computer->stopTape();
             p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
-            finishStopTape();
+            finishStopTape(false);
         }
     }
 }
@@ -10106,6 +10331,14 @@ void Computer::setTempo(int tempo)
     soundTempoCycleSize_ = (int) (((computerClockSpeed_ * 1000000) / 8) / tempo);
 }
 
+bool Computer::ioGroupCdp1870(int ioGroup, int qState)
+{
+    if (currentComputerConfiguration.vis1870Configuration.defined && visRunning_)
+        return vis1870Pointer->ioGroupCdp1870(ioGroup, qState);
+    else
+        return false;
+}
+
 void Computer::onBackupYes(wxString dir, bool sub)
 {
     deleteAllBackup(dir, sub);
@@ -10179,8 +10412,11 @@ void Computer::readDebugFile(wxString dir, wxString name, wxString number, Word 
     
     if (wxFile::Exists(dir+name))
     {
+#ifdef __WXMSW__
         auto_ptr<wxZipEntry> entry;
-
+#else
+        unique_ptr<wxZipEntry> entry;
+#endif
         wxFFileInputStream in(dir+name);
         wxZipInputStream zip(in);
 

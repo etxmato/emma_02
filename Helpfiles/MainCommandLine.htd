@@ -38,6 +38,7 @@ Any of the Emma 02 computers can be started via the command line. If the option 
 <LI>pecom or pecom64
 <LI>picoelfv2 or pico
 <LI>questsuperelf or quest
+<LI>sbc1802
 <LI>studio2020
 <LI>studio, studioii or studio2
 <LI>studioiii or studio3
@@ -51,6 +52,8 @@ Any of the Emma 02 computers can be started via the command line. If the option 
 <LI>vip2k
 <LI>vipii or vip2
 <LI>visicom
+<LI>vis1802
+<LI>vt1802
 </UL>
 </p>
 <p>
@@ -59,6 +62,7 @@ Options valid for all command line cases:<BR>
 -p, --portable, run in portable mode (see below)<BR>
 -u, --skip update, skip update check<BR>
 -w, --window, non fixed window positions (See also <a href="MainWindow.htm">Window Settings</a><BR>
+-ns, --nosplash, don't show splash screen (help) on start<BR>
 -c, --computer=&lt;str&gt;, start emulator without gui and for specified computer
 </p>
 <p>

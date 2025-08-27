@@ -66,12 +66,14 @@
         <out mask="0x0f">2</out>
         <ef pol="rev">3</ef>
         <auto>on</auto>
+        <default>studioivdefault</default>
     </keypad>
 
     <keypad type="latch" pad="2">
         <out mask="0x0f">2</out>
         <ef pol="rev">4</ef>
         <auto>on</auto>
+        <default>studioivdefault</default>
     </keypad>
 
     <sound type="cdp1863">

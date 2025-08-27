@@ -3,11 +3,11 @@
 <body>
 <h1>File</h1>
 <p>
-<IMG SRC="images/menu_file.png" border="0" width="324" height ="106">
+<IMG SRC="images/menu_file.png" border="0" width="277" height ="104">
 </p>
 <h2>Configuration</h2>
 <p>
-<IMG SRC="images/menu_configuration.png" border="0" width="484" height ="106">
+<IMG SRC="images/menu_configuration.png" border="0" width="437" height ="104">
 </p>
 <h3>Save All on Exit</h3>
 <p>
@@ -21,20 +21,27 @@ Reset all computer emulator specific settings, 'Wav file and Real Cassette Setti
 <p>
 Default this option is set to 'Latest from GUI', meaning the ROM and RAM configuration is loaded from the XML file including changes that are done in the GUI. The second option 'Always from XML' is to force the ROM and RAM configuration to be loaded from the XML file and ignoring any GUI changes. This is mainly used when developing XML files to test changed ROM or RAM configuration.
 </p>
-<h2>Re-install 1802 SW Files</h2>
+<h2>Re-install</h2>
 <p>
-<IMG SRC="images/menu_reinstall.png" border="0" width="324" height ="106">
+<IMG SRC="images/menu_reinstall.png" border="0" width="420" height ="104">
 </p>
+<h3>1802 SW Files</h3>
 <p>
 This will re-install the default 1802 SW files as stored in the Emma 02 data directory. This might be needed to install updated 1802 SW files from the latest Emma 02 release or if current installed files are corrupt.
 </p>
 <p>
 When installing a new version of Emma 02 the data directory will NOT be re-installed automatically to avoid overwriting changes made by users. 
 </p>
-
+<h3>XML Files</h3>
+<p>
+This will re-install the default XML files as stored in the Emma 02 XML data directory. This might be needed to install updated XML files from the latest Emma 02 release or if current installed files are corrupt.
+</p>
+<p>
+When installing a new version of Emma 02 the XML data directory will NOT be re-installed automatically to avoid overwriting changes made by users. 
+</p>
 <h2>Change Data Directory</h2>
 <p>
-<IMG SRC="images/menu_change_data_dir.png" border="0" width="324" height ="106">
+<IMG SRC="images/menu_change_data_dir.png" border="0" width="276" height ="104">
 </p>
 <p>
 This will allow you to change the location of the data directory. 

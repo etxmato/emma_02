@@ -70,11 +70,11 @@ void KeybLatch::reDefineHexKeys(int hexKeyDef1[], int hexKeyDef2[], bool simDef2
     {
         keyDef1_[i] = hexKeyDef1[i];
         if (hexKeyDef1[i] != 0)
-            keyLatchConfiguration_.pc[keyDef1_[i]] = i;
+            keyLatchConfiguration_.pc[keyDef1_[i]&0x1ff] = i;
 
         keyDef2_[i] = hexKeyDef2[i];
         if (hexKeyDef2[i] != 0)
-            keyLatchConfiguration_.pc[keyDef2_[i]] = i;
+            keyLatchConfiguration_.pc[keyDef2_[i]&0x1ff] = i;
     }
     simDef2_ = simDef2;
 }

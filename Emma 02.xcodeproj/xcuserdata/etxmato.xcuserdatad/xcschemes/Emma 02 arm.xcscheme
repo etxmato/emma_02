@@ -66,6 +66,10 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "-c=elf2 -x=tinybasic-serial.xml -r=print.tiny"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "-c=evaluationkit"
             isEnabled = "NO">
          </CommandLineArgument>
@@ -218,8 +222,8 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-c=elf2 -x=tinybasic-serial.xml -r=print.tiny"
-            isEnabled = "YES">
+            argument = "-c=elf2 -x=tinybasic-serial.xml -r=print.tiny -ns"
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-c=Pecom32 -r=&quot;Osvajaci Svemira.pecom&quot;"
@@ -310,6 +314,18 @@
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
+      <AdditionalOptions>
+         <AdditionalOption
+            key = "MallocStackLogging"
+            value = ""
+            isEnabled = "YES">
+         </AdditionalOption>
+         <AdditionalOption
+            key = "PrefersMallocStackLoggingLite"
+            value = ""
+            isEnabled = "YES">
+         </AdditionalOption>
+      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Debug"

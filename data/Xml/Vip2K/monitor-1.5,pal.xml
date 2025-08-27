@@ -89,6 +89,7 @@
     <keypad type="bit" pad="1">
         <in>1</in>
         <pressed>0</pressed>
+        <default>vipdefault</default>
         <repeat>off</repeat>
         <bit0>53</bit0>   <!-- 5 -->
         <bit1>84</bit1>   <!-- T -->

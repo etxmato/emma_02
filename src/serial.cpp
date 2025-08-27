@@ -121,10 +121,9 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, VideoTerminalConfig
         else
         {
             reverseQ_ = videoTerminalConfiguration.reverseQ^1;
-            
-            dataReadyFlag_ = videoTerminalConfiguration.ef.flagNumber;
-
             if (reverseQ_) p_Computer->setFlipFlopQ(1);
+
+            dataReadyFlag_ = videoTerminalConfiguration.ef.flagNumber;
             
             if (videoTerminalConfiguration.external)
                 p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "external terminal");
@@ -134,7 +133,14 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, VideoTerminalConfig
             printBuffer = "	Serial out: Q";
             if (reverseQ_ == 1)
                 printBuffer = "	Serial out: reversed Q";
-            p_Main->message(printBuffer);
+
+            if (videoTerminalConfiguration.qOutput.portNumber[0] != -1)
+            {
+                p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.qOutput, "serial out");
+            }
+            else
+                p_Main->message(printBuffer);
+
 
             p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.output, EXTERNAL_VIDEO_TERMINAL_OUT, "vtEnable");
             p_Computer->setEfType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.ef, EXTERNAL_VIDEO_TERMINAL_EF, "serial input");
@@ -160,15 +166,45 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, VideoTerminalConfig
 
 void Serial::configureUart1854(VideoTerminalConfiguration videoTerminalConfiguration)
 {
+    wxString printBuffer;
+    
     if (videoTerminalConfiguration.external)
         p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "external terminal connected to CDP1854 UART");
     else
         p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "terminal loop back connected to CDP1854 UART");
 
-    p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartOut, EXTERNAL_VT_UART1854_LOAD_TRANSMITTER_OUT, "load transmitter");
-    p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartIn, EXTERNAL_VT_UART1854_READ_RECEIVER_IN, "read receiver");
-    p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartControl, EXTERNAL_VT_UART1854_LOAD_CONTROL_OUT, "load control");
-    p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartStatus, EXTERNAL_VT_UART1854_READ_STATUS_IN, "read status");
+    if (videoTerminalConfiguration.uartOut.addressMode)
+    {
+        printBuffer.Printf("	Write address %04X: load transmitter",  videoTerminalConfiguration.uartOut.portNumber[0]);
+        p_Main->message(printBuffer);
+    }
+    else
+        p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartOut, EXTERNAL_VT_UART1854_LOAD_TRANSMITTER_OUT, "load transmitter");
+    
+    if (videoTerminalConfiguration.uartIn.addressMode)
+    {
+        printBuffer.Printf("	Read address %04X: read receiver",  videoTerminalConfiguration.uartIn.portNumber[0]);
+        p_Main->message(printBuffer);
+    }
+    else
+        p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartIn, EXTERNAL_VT_UART1854_READ_RECEIVER_IN, "read receiver");
+    
+    if (videoTerminalConfiguration.uartControl.addressMode)
+    {
+        printBuffer.Printf("    Write address %04X: load control",  videoTerminalConfiguration.uartControl.portNumber[0]);
+        p_Main->message(printBuffer);
+    }
+    else
+        p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartControl, EXTERNAL_VT_UART1854_LOAD_CONTROL_OUT, "load control");
+    
+    if (videoTerminalConfiguration.uartStatus.addressMode)
+    {
+        printBuffer.Printf("    Read address %04X: read status",  videoTerminalConfiguration.uartStatus.portNumber[0]);
+        p_Main->message(printBuffer);
+    }
+    else
+        p_Computer->setInType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.uartStatus, EXTERNAL_VT_UART1854_READ_STATUS_IN, "read status");
+    
     if (currentComputerConfiguration.videoTerminalConfiguration.efInterrupt.flagNumber != -1)
         p_Computer->setEfType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.efInterrupt, EXTERNAL_VIDEO_TERMINAL_EF_INTERRUPT, "UART interrupt");
     if (currentComputerConfiguration.videoTerminalConfiguration.ef.flagNumber != -1)
@@ -417,6 +453,7 @@ void Serial::uartTerminalIn()
         if (loopBack_ && uartStatus_[uart_thre_bit_] == 0)
         {
             loopInput_ = rs232_;
+            rs232_ = 0;
 
             p_Computer->thrStatusSerial(0);
             uartStatus_[uart_thre_bit_] = 1;
@@ -590,6 +627,8 @@ void Serial::dataAvailable(Byte value)
     }
     else
         vtOutCount_ = baudRateT_;
+
+    uartStatus_[uart_da_bit_] = 1;
 }
 
 void Serial::dataAvailableUart(bool data)
@@ -680,7 +719,8 @@ void Serial::uartControl(Byte value)
     else
         uartControl_ = value;
     
-    uartStatus_[uart_thre_bit_] = 1;
+    if (!currentComputerConfiguration.videoTerminalConfiguration.threUnchangedAtControl)
+        uartStatus_[uart_thre_bit_] = 1;
 }
 
 Byte Serial::uartIn()

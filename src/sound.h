@@ -131,6 +131,8 @@ protected:
     long long tapePeriod_;
     bool tapeRecording_;
     long stopTapeCounter_;
+    int stopDelayQ_;
+    
     wxString tapeNumber_;
 
     int activeSoundType_;

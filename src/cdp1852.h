@@ -20,7 +20,7 @@
 class Cdp1852Screen : public Panel
 {
 public:
-    Cdp1852Screen(wxWindow *parent, const wxSize& size, int cdp1852Number);
+    Cdp1852Screen(wxWindow *parent, const wxSize& size, int cdp1852Number, Cdp1852Configuration cdp1852Configuration);
     ~Cdp1852Screen();
     
     void init();
@@ -46,6 +46,7 @@ private:
     int ioSwitchState_[8];
 
     int cdp1852Number_;
+    Cdp1852Configuration cdp1852Configuration_;
 
     Byte pioEfState_;
 };
@@ -53,7 +54,7 @@ private:
 class Cdp1852Frame : public wxFrame
 {
 public:
-    Cdp1852Frame(const wxString& title, const wxPoint& pos, const wxSize& size, int cdp1852Number);
+    Cdp1852Frame(const wxString& title, const wxPoint& pos, const wxSize& size, int cdp1852Number, Cdp1852Configuration cdp1852Configuration);
     ~Cdp1852Frame();
   
     void onClose(wxCloseEvent& event);

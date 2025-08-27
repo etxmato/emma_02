@@ -139,6 +139,9 @@ public:
     bool isAdiDefined();
     int getAdi(int i);
     
+    void onClockChange(wxScrollEvent&event);
+    void clockChange();
+
 protected:
     wxBitmap *mainBitmapPointer;
     std::vector<GuiItemConfiguration>::iterator runButton;
@@ -329,16 +332,22 @@ protected:
     wxSpinCtrl *spinCtrlAdiVolt;
     wxSpinCtrl *spinCtrlAds;
     wxSpinCtrl *spinCtrlAdsVolt;
+    
+    wxSlider *cpuSlider;
 
     bool spinCtrlAdiDefined;
     bool spinCtrlAdiVoltDefined;
     bool spinCtrlAdsDefined;
     bool spinCtrlAdsVoltDefined;
-    
+    bool cpuSliderDefined;
+
     int picInterruptNumber_;
 
     int adiArray_[16];
     int adsArray_[16];
+    
+    bool fastClock_;
+    double sliderValue_;
 
 private:
     bool functionKeyReleaseTwo_;\

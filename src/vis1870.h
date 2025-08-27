@@ -21,6 +21,7 @@ public:
     void focus();
 
     bool configure1870();
+    bool ioGroupCdp1870(int ioGroup, int qState);
     void init1870();
     Byte ef1_1870();
     void out2_1870(Byte value);
@@ -36,10 +37,12 @@ public:
     int writeCram(Word address, Byte v);
     int writeCramText(Word address, Byte v);
     int writeCramGraphic(Word address, Byte v);
+    Byte readPramDirect(Word address);
+    Byte readCramDirect(Word address);
+    void writeCramDirect(Word address, Byte v);
+    void writePramDirect(Word address, Byte v);
     void writeColourRamDirect(Word address, Byte v);
     void writeGraphicRamDirect(Word address, Byte v);
-    Byte readCramDirect(Word address);
-    void writeCramDirect(Word address, Byte value);
     Byte readPram(Word address);
     Byte readCram(Word address);
     Byte readCramText(Word address);

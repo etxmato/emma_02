@@ -255,7 +255,16 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
         break;
             
         case OS_MAJOR_VISTA_8_1:
-            windowInfoFile = "win8_" + fontSizeString + ".ini";
+            switch (osVersion.dwMinorVersion)
+            {
+                case OS_MINOR_7:
+                    windowInfoFile = "win7_" + fontSizeString + ".ini";
+                break;
+                    
+                default:
+                    windowInfoFile = "win8_" + fontSizeString + ".ini";
+                break;
+            }
         break;
             
         default:
@@ -285,31 +294,6 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
     returnValue.yBorder2 = (int)windowConfigPointer->Read("/Border/y2", 24);
     returnValue.xPrint = (int)windowConfigPointer->Read("/Print/x", 19);
     
-    returnValue.clockTextCorrectionX = (int)windowConfigPointer->Read("/Correction/clockTextX", 315);
-    returnValue.clockTextCorrectionY = (int)windowConfigPointer->Read("/Correction/clockTextY", 121);
-    returnValue.clockTextCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/clockTextSingleTabX", 316);
-    returnValue.clockTextCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/clockTextSingleTabY", 97);
-    
-    returnValue.clockCorrectionX = (int)windowConfigPointer->Read("/Correction/clockX", 279);
-    returnValue.clockCorrectionY = (int)windowConfigPointer->Read("/Correction/clockY", 124);
-    returnValue.clockCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/clockSingleTabX", 280);
-    returnValue.clockCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/clockSingleTabY", 100);
-    
-    returnValue.mhzTextCorrectionX = (int)windowConfigPointer->Read("/Correction/mhzTextX", 230);
-    returnValue.mhzTextCorrectionY = (int)windowConfigPointer->Read("/Correction/mhzTextY", 121);
-    returnValue.mhzTextCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/mhzTextSingleTabX", 231);
-    returnValue.mhzTextCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/mhzTextSingleTabY", 97);
-    
-    returnValue.stopCorrectionX = (int)windowConfigPointer->Read("/Correction/stopX", 202);
-    returnValue.stopCorrectionY = (int)windowConfigPointer->Read("/Correction/stopY", 124);
-    returnValue.stopCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/stopSingleTabX", 203);
-    returnValue.stopCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/stopSingleTabY", 100);
-    
-    returnValue.startCorrectionX = (int)windowConfigPointer->Read("/Correction/startX", 119);
-    returnValue.startCorrectionY = (int)windowConfigPointer->Read("/Correction/startY", 124);
-    returnValue.startCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/startSingleTabX", 120);
-    returnValue.startCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/startSingleTabY", 100);
-    
     returnValue.ledPosY = (int)windowConfigPointer->Read("/Bar/ledPosY", 2);
     returnValue.ledPosX1 = (int)windowConfigPointer->Read("/Bar/ledPosX1", 0l);
     returnValue.ledPosX2 = (int)windowConfigPointer->Read("/Bar/ledPosX2", 19);
@@ -328,10 +312,6 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
     returnValue.statusBarElementMeasure[2] = (int)windowConfigPointer->Read("/Bar/ElementMeasure2", 80);
     returnValue.statusBarElementMeasure[3] = (int)windowConfigPointer->Read("/Bar/ElementMeasure3", 100);
     returnValue.statusBarElementMeasure[4] = (int)windowConfigPointer->Read("/Bar/ElementMeasure4", 150);
-
-    returnValue.floatHeight = (int)windowConfigPointer->Read("/Correction/floatHeight", 21);
-    returnValue.startHeight = (int)windowConfigPointer->Read("/Correction/startHeight", -1);
-    returnValue.clockSize = (int)windowConfigPointer->Read("/Correction/clockSize", 47);
     
     returnValue.red = (int)windowConfigPointer->Read("/Colour/red", 219);
     returnValue.green = (int)windowConfigPointer->Read("/Colour/green", 219);
@@ -1499,7 +1479,7 @@ void GuiMain::onClock(wxCommandEvent&WXUNUSED(event))
 {
     double clk;
 
-    wxString clock =  clockTextCtrl->GetValue();
+    wxString clock = XRCCTRL(*this, "clockTextCtrl", wxTextCtrl)->GetValue();
     if (!toDouble(clock, (double*)&clk))
     {
         if (clock != "")
@@ -2888,20 +2868,20 @@ void GuiMain::turboOff()
 
 void GuiMain::enableStartButtonGui(bool status)
 {
-    startButton->Enable(status);
-    stopButton->Enable(false);
+    XRCCTRL(*this, "startButton", wxButton)->Enable(status);
+    XRCCTRL(*this, "stopButton", wxButton)->Enable(false);
 
     if (status)
     {
-        startButton->SetLabel("Start");
-        startButton->SetToolTip("Start " + computerInfo.name + " emulator (F12)");
+        XRCCTRL(*this, "startButton", wxButton)->SetLabel("Start");
+        XRCCTRL(*this, "startButton", wxButton)->SetToolTip("Start " + computerInfo.name + " emulator (F12)");
     }
     else
     {
-        startButton->SetLabel("Reset");
-        startButton->SetToolTip("Reset " + computerInfo.name + " emulator (F12)");
-        startButton->Enable(true);
-        stopButton->Enable(true);
+        XRCCTRL(*this, "startButton", wxButton)->SetLabel("Reset");
+        XRCCTRL(*this, "startButton", wxButton)->SetToolTip("Reset " + computerInfo.name + " emulator (F12)");
+        XRCCTRL(*this, "startButton", wxButton)->Enable(true);
+        XRCCTRL(*this, "stopButton", wxButton)->Enable(true);
     }
 }
 
@@ -3606,46 +3586,6 @@ void GuiMain::onBatchFileDialog(wxCommandEvent&WXUNUSED(event))
         XRCCTRL(*this, "BatchFileXml", wxStaticText)->SetLabel(numberStr);
 }
 
-void GuiMain::downloadWavFiles()
-{
-    int answer = wxMessageBox("Additional wav file required: " + computerConfiguration.wavConfiguration[0].fileName, "Download file?", wxICON_EXCLAMATION | wxYES_NO);
-    if (answer == wxYES)
-    {
-        wxString fileName = computerConfiguration.wavConfiguration[0].directory + computerConfiguration.wavConfiguration[0].fileName;
-        wxFileOutputStream html_stream(fileName);
-
-        wxString url = "https://www.emma02.hobby-site.com/wave/" + computerConfiguration.wavConfiguration[0].fileName;
-        url.Replace(" ", "%20");
-        wxCurlHTTP http(url);
-    
-        if (!http.Get(html_stream))
-            wxMessageBox( "Download failed", "Emma 02", wxICON_ERROR | wxOK );
-    }
-}
-/*
-void GuiMain::checkWavFileDownload()
-{
-    wxFFile inFile;
-    size_t length = 8;
-
-    char* buffer = new char[length];
-
-    if (wxFile::Exists(computerConfiguration.wavConfiguration[0].directory + computerConfiguration.wavConfiguration[0].fileName))
-    {
-        if (inFile.Open(computerConfiguration.wavConfiguration[0].directory + computerConfiguration.wavConfiguration[0].fileName, _("rb")))
-        {
-            length = inFile.Read(buffer, length);
-            if (length == 8)
-            {
-                if (buffer[0] == 'd' && buffer[1] == 'o' && buffer[2] == 'w' && buffer[3] == 'n' && buffer[4] == 'l' && buffer[5] == 'o' && buffer[6] == 'a' && buffer[7] == 'd')
-                    downloadWavFiles();
-            }
-            inFile.Close();
-        }
-    }
-
-}*/
-
 void GuiMain::checkWavFileDownload(bool downloadIfMissing)
 {
     if (computerConfiguration.wavConfiguration[0].fileName == "")
@@ -3676,7 +3616,7 @@ void GuiMain::checkWavFileDownload(bool downloadIfMissing)
             if ((waveHeader[0] == 'd' && waveHeader[1] == 'o' && waveHeader[2] == 'w' && waveHeader[3] == 'n' && waveHeader[4] == 'l' && waveHeader[5] == 'o' && waveHeader[6] == 'a' && waveHeader[7] == 'd') || length == 0 || downloadIfMissing)
             {
                 wxFileOutputStream html_stream(fileName);
-                
+               // This doesn't work in the debug version??
                 wxString url = "https://www.emma02.hobby-site.com/wave/" + computerConfiguration.wavConfiguration[0].fileName;
                 url.Replace(" ", "%20");
 #if !defined (_DEBUG)
@@ -3685,6 +3625,7 @@ void GuiMain::checkWavFileDownload(bool downloadIfMissing)
                 
                 downloadDialog.RunModal();
 #endif
+
             }
         }
     }

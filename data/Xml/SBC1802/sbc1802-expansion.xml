@@ -439,9 +439,6 @@
         <channel type="c">centre</channel>
     </sound>
 
-    <xmodem>
-    </xmodem>
-
     <locations>
         <start_xmodem_save address="0x80, 0x81, 0x82, 0x83" value="0x78, 0x73, 0x62, 0x20">0x2079</start_xmodem_save> <!-- xsb -->
         <start_xmodem_load address="0x80, 0x81, 0x82, 0x83" value="0x78, 0x72, 0x62, 0x20">0x2093</start_xmodem_load> <!-- xrb -->

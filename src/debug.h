@@ -172,6 +172,7 @@ public:
     DebugWindow(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
     ~DebugWindow();
 
+    void clearDebugMemory();
     void readDebugConfig();
     void writeDebugConfig();
 
@@ -558,6 +559,7 @@ private:
     void addTreg(); 
     wxString cdp1802disassemble(Word* address, bool includeDetails, bool showOpcode, bool textAssembler, Word start, Word end);
     bool sepTraceValid(Word address, Byte n, SepConfiguration traceInfo);
+    bool sepRegisterAndAddressValid(Word address, Byte n, SepConfiguration traceInfo);
     void storeByteAndAddress(Byte value, Word *address, Byte *byteValue);
     wxString getShortAddressOrLabel(Word address, bool textAssembler, Word start, Word end);
     wxString getLongAddressOrLabel(Word address, bool textAssembler, Word start, Word end);

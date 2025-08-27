@@ -62,6 +62,7 @@ public:
     void onClose(wxCloseEvent&event);
     void resumeComputer();
     void charEvent(int keycode);
+    void charEvent(wxKeyEvent& event, int keycode);
     bool keyDownPressed(int keycode);
     bool keyDownExtended(int keycode, wxKeyEvent& event);
     bool keyUpReleased(int keycode);
@@ -109,6 +110,7 @@ public:
     void onXmlF4(bool forceStart);
     void slotOut(Byte value);
     Byte slotShift(Byte value, int shift);
+    void showLastIo();
     void showData(Byte value);
     void showCycleData(Byte val);
     void showCycleAddress(Word val);
@@ -116,6 +118,8 @@ public:
     void setMode();
     void showState(int state);
     void showDmaLed();
+    void showMrdLed(int state);
+    void showMwrLed(int state);
     void showIntLed();
     void showStatusLed(int led, int status);
     void updateStatusBarLedStatus(bool status, int led);
@@ -126,6 +130,7 @@ public:
     int getMpButtonState();
     void onWaitButton(wxCommandEvent&event);
     void onWaitButton();
+    void setWaitButtonState(int value);
     void onStopButton(wxCommandEvent&event);
     void onPowerButton(wxCommandEvent&event);
     void onPowerButton();
@@ -142,6 +147,7 @@ public:
     void onMpButton(int buttonNumber);
     void onEmsButton(int buttonNumber, bool up);
     void onEmsButton(wxCommandEvent&event);
+    void onDataIoSwitch();
     void setMultiCartGame();
     void onRamButton(wxCommandEvent&event);
     void onRamButton();
@@ -326,7 +332,7 @@ public:
     void cassette56();
     void cassettePm();
     void startRecording(int tapeNumber);
-    void finishStopTape();
+    void finishStopTape(bool loadDelay);
     void resetTape();
     void tapeIo(Byte value);
     void onDataSwitch(wxCommandEvent&event);
@@ -347,6 +353,7 @@ public:
     int getDataBits() {return currentComputerConfiguration.hwTapeConfiguration.dataBits;};
     int getStopBit() {return currentComputerConfiguration.hwTapeConfiguration.stopBit;};
     int getIoGroup() {return ioGroup_;};
+    bool ioGroupCdp1870(int ioGroup, int qState);
 
     void onBackupYes(wxString dir, bool sub);
     void setEfKeyValue(int ef, Byte value);
@@ -542,6 +549,7 @@ private:
     int printValue_;
 
     bool ramGroupAtV1870_;
+    bool visRunning_;
         
     bool hexModemOnStart;
 
@@ -630,6 +638,9 @@ private:
     int inKey2_;
     
     Word memoryStart_;
+    
+    bool dataIoSwitchBus_;
+    Byte lastIo_;
 
     DECLARE_EVENT_TABLE()
 };

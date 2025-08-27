@@ -61,6 +61,7 @@ Cdp1851Printer::Cdp1851Printer(int pioNumber, Cdp1851Configuration cdp1851Config
 
 Cdp1851Printer::~Cdp1851Printer()
 {
+    delete p_Printer;
 }
 
 void Cdp1851Printer::init(Cdp1851Instance *cdp1851InstancePointer)
@@ -1023,6 +1024,8 @@ Cdp1851Instance::~Cdp1851Instance()
 {
     if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
         delete pioScreenPointer;
+    if (cdp1851Configuration_.connection == PIO_CONNECTION_PRINTER)
+        delete pioPrinterPointer;
 }
 
 void Cdp1851Instance::init()
@@ -1235,7 +1238,7 @@ void Cdp1851Instance::onRdyA()
         pioStatus_ |= 0x2;
 
     if (pioAInterruptEnabled_)
-        p_Computer->requestInterrupt();
+        p_Computer->requestInterrupt(INTERRUPT_TYPE_PIO_A, true, cdp1851Configuration_.picInterrupt);
 }
 
 void Cdp1851Instance::onRdyB()
@@ -1248,7 +1251,7 @@ void Cdp1851Instance::onRdyB()
         pioStatus_ |= 0x1;
 
     if (pioBInterruptEnabled_)
-        p_Computer->requestInterrupt();
+        p_Computer->requestInterrupt(INTERRUPT_TYPE_PIO_B, true, cdp1851Configuration_.picInterrupt);
 }
 
 void Cdp1851Instance::writePortA(Byte value)

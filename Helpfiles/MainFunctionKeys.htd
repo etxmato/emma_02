@@ -60,7 +60,7 @@ To restore default Emma 02 hot key mapping press the 'Default' button (highlight
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">F4</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">Show printer output window</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">COMX<br>Cosmac VIP<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>MS2000<br>TMC-600<br>Pecom 32 &amp; 64</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">All computers with printer emulation</TD>
 </TR>
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">F5</TD>
@@ -75,22 +75,22 @@ To restore default Emma 02 hot key mapping press the 'Default' button (highlight
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">F7</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">Show runtime menu. To change disk and cassette file names, load software and activate emulator panels when using Emma 02 via command line interface (without main GUI).</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">COMX-35<br>COMIX-35<br>Cosmac Elf 2000<br>Cosmicos<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Pico Elf V2<br>Membership Card<br>VIP2K Membership Card<br>VELF<br>Infinite UC1800<br>FRED 1<br>FRED 1.5<br>Microtutor<br>Microtutor II<br>CDP18S020 Evaluation Kit<br>Cosmac VIP<br>Cosmac VIP II<br>MS2000<br>MCDS<br>TMC-600<br>Telmac 1800<br>Telmac 2000<br>Oscom Nano<br>Pecom 32 &amp; 64<br>ETI-660</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">All computers</TD>
 </TR>
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">F8</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">Video Terminal Set-up</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">Cosmac Elf 2000<br>Cosmicos<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Pico Elf V2<br>Membership Card<br>VELF<br>CDP18S020 Evaluation Kit<br>Cosmac VIP<br>Microboard System<br>MS2000<br>MCDS</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">All computers with VT100 terminal emulation</TD>
 </TR>
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">F12</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">Switch RUN mode on/off</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">Cosmac Elf 2000<br>Cosmicos<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Pico Elf V2<br>Membership Card<br>VELF<br>Infinite UC1800 (only on)<br>Microtutor (only on)<br>Microtutor II<br>CDP18S020 Evaluation Kit<br>Cosmac VIP<br>Cosmac VIP II (in ROM Mode)<br>TMC-600<br>Telmac 1800<br>Telmac 2000</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">Cosmac Elf<br>Cosmac VIP<br>Cosmac VIP II<br>Infinite UC1800 (start only)<br>JVIP<br>Netronics Elf II<br>Quest Super Elf<br>VELF</TD>
 </TR>
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">F12</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">Reset computer</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">COMX-35<br>COMIX-35<br>VIP2K Membership Card<br>FRED 1<br>FRED 1.5<br>MS2000<br>MCDS<br>RCA Video Coin Arcade<br>RCA Studio II<br>RCA Studio III / Victory MPT-02<br>RCA Studio IV<br>Visicom COM-100<br>Cidelsa<br>Oscom Nano<br>Pecom 32 &amp; 64<br>ETI-660</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP18S020 Evaluation Kit<br>COMX-35<br>COMIX-35<br>Cosmac Elf 2000<br>Cidelsa Arcade Game Console<br>Conic (Apollo, Mustang, MPT-02 and M1200<br>Cosmicos - COSmac MIcro COmputer System<br>Cybervision 2001<br>ETI-660<br>FRED 1<br>FRED 1.5<br>HEC1802<br>HUG1802<br>Macbug<br>Membership Card<br>Oscom Nano<br>Pecom 32<br>Pecom 64<br>Pico/Elf V2<br>RCA COSMAC Computer Game System<br>RCA COSMAC Microboard Computer<br>RCA MicroDisk Development System MS2000<br>RCA Microboard Computer Development System<br>RCA Studio II<br>RCA Studio III<br>RCA Studio IV<br>RCA Video Coin Arcade Game Console<br>SBC1802<br>Studio 2020<br>Telmac 1800<br>Telmac 2000<br>Telmac TMC-600<br>VIP2K Membership Card<br>VIS1802<br>VT1802<br>Visicom COM-100</TD>
 </TR>
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">F12</TD>
@@ -100,7 +100,7 @@ To restore default Emma 02 hot key mapping press the 'Default' button (highlight
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">CTRL V on Windows/Linux<br><br>Command (&#8984;) V on OSX</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">Paste clipboard content to video or terminal window</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">COMX-35<br>COMIX-35<br>Cosmac Elf 2000<br>Cosmicos<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Pico Elf V2<br>Membership Card<br>VIP2K Membership Card<br>VELF<br>CDP18S020 Evaluation Kit<br>Cosmac VIP<br>Cosmac VIP II<br>Microboard System<br>MS2000<br>MCDS<br>RCA Studio IV<br>TMC-600<br>Pecom 32 &amp; 64</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">Most computers depending on video or terminal emulation</TD>
 </TR>
 </TABLE>
 </body>

@@ -167,6 +167,7 @@ public:
     Word keyValue;
     Byte bitMaskPressed;
     Byte bitMaskNotPressed;
+    Byte ctrlValue;
 };
 
 class PixieGraphics
@@ -260,7 +261,21 @@ public:
     bool defined;
     
     IoPort output;
+    IoPort disable;
     IoPort input;
+    
+    Byte disableBitMask;
+};
+
+class ModKeyConfiguration : public DefineConfiguration
+{
+public:
+    vector<int> resetKey;
+    vector<int> stopKey;
+    
+    Word macModifier;
+    Word windowsModifier;
+    Word linuxModifier;
 };
 
 // Video configuration class definitions:
@@ -380,6 +395,7 @@ public:
     bool rotateScreen;
     bool useBlockWrite;
     bool cursorBlink;
+    int qGroup;
     
     int videoMode;
 
@@ -500,6 +516,7 @@ public:
     bool hexModem_defined;
     
     IoPort output;
+    IoPort qOutput;
     IoPort uartOut;
     IoPort uartIn;
     IoPort uartControl;
@@ -507,7 +524,9 @@ public:
     EfFlag ef;
     EfFlag efInterrupt;
 
+    bool threUnchangedAtControl;
     int reverseQ;
+    Byte qOutputBitMask;
     
     bitset<32> vt52SetUpFeature;
     bitset<32> vt100SetUpFeature;
@@ -820,6 +839,7 @@ public:
     EfFlag efInterrupt;
     
     bool interrupt;
+    bool threUnchangedAtControl;
     int picInterrupt;
     
     int baudR;
@@ -893,10 +913,12 @@ public:
     IoPort writePort;
     IoPort readPort;
     EfFlag efStb;
-
+    
     bool windowOpen;
     wxPoint pos;
     wxPoint defaultPos;
+    
+    int picInterrupt;
 };
 
 // Timer configuration class definitions:
@@ -1203,6 +1225,7 @@ public:
     
     int stopDelay;
     int endDelay;
+    bool flipq;
 };
 
 class HwTapeConfiguration : public IoGroupDefineConfiguration
@@ -1610,6 +1633,9 @@ class ComputerConfiguration
 public:
     MainIoGroupConfiguration ioGroupConfiguration;
     
+    // FucntionKey configurations
+    ModKeyConfiguration modKeyConfiguration;
+
     // Video configurations
     CDP1861Configuration cdp1861Configuration;
     CDP1862Configuration cdp1862Configuration;
@@ -1761,7 +1787,9 @@ public:
     int stepPressType;
     bool useHexKeyboard;
     bool forceUpperCase;
-    
+    int numberOfPadKeys;
+    wxString defaultKeyDefinition[2];
+
     // CPU and I/O related configuration items
     wxString clock_;
     double clockSpeed_;

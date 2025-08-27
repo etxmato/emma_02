@@ -164,6 +164,8 @@ bool KeybMatrix::keyDownExtended(int keycode, wxKeyEvent& event)
         break;
 
         case WXK_ESCAPE:
+            keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_ESC_KEY].keyValue] |= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_ESC_KEY].bitMaskPressed;
+            keyDown_ = true;
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_ESC_KEY]] = 0;
             return true;
         break;
@@ -172,6 +174,7 @@ bool KeybMatrix::keyDownExtended(int keycode, wxKeyEvent& event)
             keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_RETURN_KEY].keyValue] |= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_RETURN_KEY].bitMaskPressed;
             keyDown_ = true;
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_SHIFT_KEY]] = shiftPressed;
+            efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_CTRL_KEY]] = matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_RETURN_KEY].ctrlValue;
             return true;
         break;
 
@@ -179,6 +182,7 @@ bool KeybMatrix::keyDownExtended(int keycode, wxKeyEvent& event)
             keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_END_KEY].keyValue] |= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_END_KEY].bitMaskPressed;
             keyDown_ = true;
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_SHIFT_KEY]] = shiftPressed;
+            efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_CTRL_KEY]] = matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_END_KEY].ctrlValue;
             return true;
         break;
 
@@ -186,6 +190,7 @@ bool KeybMatrix::keyDownExtended(int keycode, wxKeyEvent& event)
             keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_HOME_KEY].keyValue] |= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_HOME_KEY].bitMaskPressed;
             keyDown_ = true;
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_SHIFT_KEY]] = shiftPressed;
+            efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_CTRL_KEY]] = matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_HOME_KEY].ctrlValue;
             return true;
         break;
 
@@ -193,6 +198,7 @@ bool KeybMatrix::keyDownExtended(int keycode, wxKeyEvent& event)
             keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_DOWN_KEY].keyValue] |= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_DOWN_KEY].bitMaskPressed;
             keyDown_ = true;
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_SHIFT_KEY]] = shiftPressed;
+            efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_CTRL_KEY]] = matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_DOWN_KEY].ctrlValue;
             return true;
         break;
 
@@ -200,6 +206,7 @@ bool KeybMatrix::keyDownExtended(int keycode, wxKeyEvent& event)
             keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_LEFT_KEY].keyValue] |= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_LEFT_KEY].bitMaskPressed;
             keyDown_ = true;
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_SHIFT_KEY]] = shiftPressed;
+            efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_CTRL_KEY]] = matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_LEFT_KEY].ctrlValue;
             return true;
         break;
 
@@ -207,6 +214,7 @@ bool KeybMatrix::keyDownExtended(int keycode, wxKeyEvent& event)
             keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_RIGHT_KEY].keyValue] |= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_RIGHT_KEY].bitMaskPressed;
             keyDown_ = true;
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_SHIFT_KEY]] = shiftPressed;
+            efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_CTRL_KEY]] = matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_RIGHT_KEY].ctrlValue;
             return true;
         break;
 
@@ -214,6 +222,7 @@ bool KeybMatrix::keyDownExtended(int keycode, wxKeyEvent& event)
             keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_UP_KEY].keyValue] |= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_UP_KEY].bitMaskPressed;
             keyDown_ = true;
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_SHIFT_KEY]] = shiftPressed;
+            efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_CTRL_KEY]] = matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_UP_KEY].ctrlValue;
             return true;
         break;
     }
@@ -239,6 +248,8 @@ void KeybMatrix::keyUpExtended(int keycode)
     switch (keycode)
     {
         case WXK_ESCAPE:
+            keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_ESC_KEY].keyValue] &= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_ESC_KEY].bitMaskNotPressed;
+            keyDown_ = false;
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_ESC_KEY]] = 1;
             return;
         break;
@@ -247,18 +258,21 @@ void KeybMatrix::keyUpExtended(int keycode)
             keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_RETURN_KEY].keyValue] &= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_RETURN_KEY].bitMaskNotPressed;
             keyDown_ = false;
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_SHIFT_KEY]] = 1;
+            efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_CTRL_KEY]] = matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_RETURN_KEY].ctrlValue ^ 1;
         break;
 
         case WXK_END:
             keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_END_KEY].keyValue] &= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_END_KEY].bitMaskNotPressed;
             keyDown_ = false;
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_SHIFT_KEY]] = 1;
+            efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_CTRL_KEY]] = matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_END_KEY].ctrlValue ^ 1;
         break;
 
         case WXK_HOME:
             keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_HOME_KEY].keyValue] &= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_HOME_KEY].bitMaskNotPressed;
             keyDown_ = false;
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_SHIFT_KEY]] = 1;
+            efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_CTRL_KEY]] = matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_HOME_KEY].ctrlValue ^ 1;
         break;
 
         case WXK_SPACE:
@@ -271,24 +285,28 @@ void KeybMatrix::keyUpExtended(int keycode)
             keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_DOWN_KEY].keyValue] &= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_DOWN_KEY].bitMaskNotPressed;
             keyDown_ = false;
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_SHIFT_KEY]] = 1;
+            efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_CTRL_KEY]] = matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_DOWN_KEY].ctrlValue ^ 1;
         break;
 
         case WXK_LEFT:
             keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_LEFT_KEY].keyValue] &= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_LEFT_KEY].bitMaskNotPressed;
             keyDown_ = false;
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_SHIFT_KEY]] = 1;
+            efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_CTRL_KEY]] = matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_LEFT_KEY].ctrlValue ^ 1;
         break;
 
         case WXK_RIGHT:
             keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_RIGHT_KEY].keyValue] &= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_RIGHT_KEY].bitMaskNotPressed;
             keyDown_ = false;
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_SHIFT_KEY]] = 1;
+            efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_CTRL_KEY]] = matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_RIGHT_KEY].ctrlValue ^ 1;
         break;
 
         case WXK_UP:
             keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_UP_KEY].keyValue] &= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_UP_KEY].bitMaskNotPressed;
             keyDown_ = false;
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_SHIFT_KEY]] = 1;
+            efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_CTRL_KEY]] = matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_UP_KEY].ctrlValue ^ 1;
         break;
     }
 

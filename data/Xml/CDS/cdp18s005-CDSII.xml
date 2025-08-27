@@ -1,0 +1,279 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>RCA COSMAC Development System</name>
+        <config>CDP18S005 CDS II</config>
+        <cpu>1802</cpu>
+        <clock>2.0</clock>
+        <boot start="no">0x8000</boot>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
+        <dirname>CDS</dirname>
+    </system>
+    
+    <iogroup>
+        <out mask="0xff">1</out>
+        <in>1</in>
+    </iogroup>
+        
+    <frontpanel init="on">
+        <size>435, 245</size>
+        <item>
+            <type size="small">push</type>
+            <function type="full">reset</function>
+            <label></label>
+            <pos>60, 40</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">RESET</label>
+            <pos>40, 70</pos>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <function type="reset">run</function>
+            <label>U</label>
+            <pos>105, 40</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">RUN</label>
+            <pos>102, 70</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function type="switch_push">pause</function>
+            <init>up</init>
+            <pos>60, 165</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">STEP</label>
+            <pos>50, 140</pos>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <function type="reset">run0</function>
+            <label>P</label>
+            <pos>105, 165</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">RUN</label>
+            <pos>102, 140</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">ADDRESS</label>
+            <pos>205, 70</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>0</value>
+            <function cycle="show">addresstil</function>
+            <pos>185, 90</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>1</value>
+            <function cycle="show">addresstil</function>
+            <pos>213, 90</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>2</value>
+            <function cycle="show">addresstil</function>
+            <pos>241, 90</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>3</value>
+            <function cycle="show">addresstil</function>
+            <pos>269, 90</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">BUS</label>
+            <pos>313, 70</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>0</value>
+            <function cycle="show">datatil</function>
+            <pos>300, 90</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>1</value>
+            <function cycle="show">datatil</function>
+            <pos>328, 90</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">LOAD</label>
+            <pos>380, 70</pos>
+        </item>
+        <item>
+            <type size="small">push</type>
+            <function>load</function>
+            <pos>390, 40</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">BUS</label>
+            <pos>387, 140</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>data_io</function>
+            <init>up</init>
+            <pos>390, 165</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">I/O</label>
+            <pos>389, 195</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">SC1</label>
+            <pos>172, 157</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>1</value>
+            <function cycle="show">cpustateled</function>
+            <pos>185, 145</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">SC0</label>
+            <pos>206, 157</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <value>0</value>
+            <function cycle="show">cpustateled</function>
+            <pos>213, 145</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">W</label>
+            <pos>255, 157</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function cycle="show">waitled</function>
+            <pos>256, 145</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">C</label>
+            <pos>284, 157</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function cycle="show">clearled</function>
+            <pos>284, 145</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">Q</label>
+            <pos>309, 157</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function cycle="show">qled</function>
+            <pos>310, 145</pos>
+        </item>
+        <item>
+            <type color="grey">text</type>
+            <label size="12">RUN</label>
+            <pos>328, 157</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function cycle="show">runled</function>
+            <pos>338, 145</pos>
+        </item>
+    </frontpanel>
+
+    <gui>
+        <ledtimer>100</ledtimer>
+        <memaccess>
+            <location>off</location>
+            <start>0</start>
+        </memaccess>
+    </gui>
+
+    <memory>
+        <ram type="gui">
+            <start>0x0000</start>
+            <end>0xFFF</end>
+        </ram>
+
+        <rampart start="0x8c00" end="0x8c1F"></rampart>
+        
+        <rom type="gui">
+            <start>0x8000</start>
+            <end>0x87FF</end>
+            <pulldown mask="ut*.bin" exclude="part">CDS</pulldown>
+            <filename verify="true">ut20.bin</filename>
+        </rom>
+    </memory>
+    
+    <vt type="vt100" connection="serial">
+        <iogroup>1</iogroup>
+        <font>vt100.bin</font>
+        <ef>4</ef>
+        <out type="q" bitmask="1" pol="rev">7</out>
+        <caps />
+        <baud type="receive">300</baud>
+        <baud type="transmit">300</baud>
+        <border>0x0</border>
+        <color type="fore">0, 255, 0</color>
+        <color type="back">0, 0x40, 0</color>
+        <color type="high">0, 0xff, 0</color>
+    </vt>
+    
+    <printer>
+        <iogroup>1</iogroup>
+        <out>6</out>
+        <ef>1</ef>
+    </printer>
+
+    <disk type="1793" drives="2">
+        <iogroup>1</iogroup>
+        <out type="select">5</out>
+        <out type="write">4</out>
+        <in type="read">6</in>
+        <sides>1</sides>
+        <tracks>77</tracks>
+        <sectors>26</sectors>
+        <sectorlength>128</sectorlength>
+        <maxfmtcount>18073</maxfmtcount>
+    </disk>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

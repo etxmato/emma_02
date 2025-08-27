@@ -6,7 +6,7 @@ class Til
 public:
     Til();
     Til(bool upsideDown);
-    ~Til();
+    virtual ~Til() {};
 
     virtual void init(wxDC& dc, int x, int p);
     virtual void onPaint(wxDC& dc);

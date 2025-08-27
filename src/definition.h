@@ -59,7 +59,7 @@
 #define MAX_BIT_LEDS 24
 #define MAX_DATA_TIL 2
 #define MAX_ADDRESS_TIL 4
-#define MAX_MULTI_TIL 8
+#define MAX_MULTI_TIL 22
 #define MAX_THUMB_VALUE 2
 
 #define AD_CONVERTOR_PRINT 1
@@ -173,6 +173,8 @@ enum
     DMALED,
     INTERRUPTLED,
     DISKLED,
+    MRDLED,
+    MWRLED,
     MAX_CPU_STATE_LEDS
 };
 
@@ -221,6 +223,8 @@ enum
     BUTTON_FUNC_EF,
     BUTTON_FUNC_THUMB_MINUS,
     BUTTON_FUNC_THUMB_PLUS,
+    BUTTON_FUNC_F_S_CLOCK,
+    BUTTON_FUNC_DATA_IO,
     LED_FUNC_POWER,
     LED_FUNC_STOP,
     LED_FUNC_READY,
@@ -243,6 +247,8 @@ enum
     LED_FUNC_DMA,
     LED_FUNC_INTERRUPT,
     LED_FUNC_DISK,
+    LED_FUNC_MRD,
+    LED_FUNC_MWR,
     LED_FUNC_CPUSTATE,
     LED_FUNC_MATH,
     TIL_DATA,
@@ -289,6 +295,7 @@ enum
     ADI_VOLT_SPINCTRL,
     ADS_SPINCTRL,
     ADS_VOLT_SPINCTRL,
+    CPU_SLIDER,
     THUMB_TEXT,
     PANEL_TEXT,
     PANEL_PNG,
@@ -328,6 +335,7 @@ enum
 {
     STEP_TYPE_DEFAULT,
     STEP_TYPE_COSMICOS,
+    STEP_TYPE_SWITCH_PUSH,
 };
 
 enum
@@ -493,6 +501,7 @@ enum
     VIDEO_TERMINAL_EF = 1,
     VIDEO_TERMINAL_EF_INTERRUPT,
     VIDEO_TERMINAL_OUT,
+    VIDEO_TERMINAL_Q_OUT,
     VIDEO_TERMINAL_CYCLE,
     
     VT_UART1854_LOAD_CONTROL_OUT,
@@ -799,9 +808,12 @@ enum
     UNDEFINED_EF3,
     UNDEFINED_EF4,
     
+    EFSWITCH,
+    
     BITSWITCH_INP,
     BITLED_OUT,
     TIL_OUT,
+    DATATIL_OUT,
 
     COMX_DIAGNOSTIC_BOARD_IN1,
     COMX_DIAGNOSTIC_BOARD_IN2,
@@ -850,6 +862,8 @@ enum
     FLIPFLOP_OUT,
     FLIPFLOP_EF,
 
+    IO_PORT_DISABLE,
+    
     LAST_IO_DEFINITION
 };
 
@@ -915,6 +929,7 @@ enum
     INTERRUPT_TYPE_INPUT,
     INTERRUPT_TYPE_PIO_A,
     INTERRUPT_TYPE_PIO_B,
+    INTERRUPT_TYPE_CDP1852,
     INTERRUPT_TYPE_TIMER_A,
     INTERRUPT_TYPE_TIMER_B,
     INTERRUPT_TYPE_MAX
@@ -929,6 +944,10 @@ enum
 	SEP_REG_LOW,
 	SEP_D,
     SEP_DF,
+    SEP_EF1,
+    SEP_EF2,
+    SEP_EF3,
+    SEP_EF4,
 	SEP_BYTE_SHOW,
     SEP_BYTE_SAVE,
     SEP_BYTE_LOAD,
@@ -972,6 +991,11 @@ static wxString interruptTypeList_[]=
     "UART",
     "RTC",
     "INPUT",
+    "CDP1851 A",
+    "CDP1851 B",
+    "CDP1852",
+    "TIMER A",
+    "TIMER B",
 };
 
 static wxString commandComputerList_[]=
@@ -1063,6 +1087,9 @@ static wxString defaultComputerList_[]=
     "CDP18S020",
     "CDP18S020 Evaluation Kit",
     "tiny basic ram.xml",
+    "CDS",
+    "RCA COSMAC Development System",
+    "cdp18s007-CDSIII.xml",
     "Cidelsa",
     "Cidelsa Arcade Game Console",
     "altair.xml",
@@ -1070,7 +1097,7 @@ static wxString defaultComputerList_[]=
     "RCA Video Coin Arcade Game Console",
     "bare.xml",
     "Comix",
-    "COMIX-35",
+    "COMiX-35",
     "pal_high_speed_direct_connect.xml",
     "Comx",
     "COMX-35",
@@ -1096,6 +1123,9 @@ static wxString defaultComputerList_[]=
     "Elf2K",
     "COSMAC Elf 2000",
     "i8275.xml",
+    "EFA-datorn",
+    "EFA-datorn",
+    "efa-8-8k.xml",
     "Eti",
     "ETI-660",
     "wipeout.xml",
@@ -1201,6 +1231,9 @@ static wxString defaultComputerList_[]=
     "Visicom",
     "Visicom COM-100",
     "standard.xml",
+    "VP3000",
+    "VP3000 Interactive Data Terminal",
+    "vp3301.xml",
     "",
     "",
     "",
@@ -1227,7 +1260,9 @@ private:
 
     wxMask *maskUp;
     wxMask *maskDown;
-    
+    wxMask *maskDisabledUp;
+    wxMask *maskDisabledDown;
+
     bool enabled_;
     
     wxCoord x_;

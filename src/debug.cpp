@@ -55,30 +55,15 @@
 #define CARDTRAN_PC 0xf
 #if defined (__linux__)
 #define EDIT_ROW 16
-//#define LINE_SPACE 13
-#define EDIT_LINE 221
-#define ASS_WIDTH 268
-#define PROFILER_WIDTH 460
-#define PROFILER_OFFSET 7
-//#define CHAR_WIDTH 8
+#define PROFILER_OFFSET 6
 #endif
 #if defined (__WXMSW__)
 #define EDIT_ROW 16
-//#define LINE_SPACE 11
-#define EDIT_LINE 187
-#define ASS_WIDTH 268
-#define PROFILER_WIDTH 468
 #define PROFILER_OFFSET 6
-//#define CHAR_WIDTH 8
 #endif
 #if defined (__WXMAC__)
 #define EDIT_ROW 15
-//#define LINE_SPACE 11
-#define EDIT_LINE 176
-#define ASS_WIDTH 268
-#define PROFILER_WIDTH 460
 #define PROFILER_OFFSET 5
-//#define CHAR_WIDTH 8
 #endif
 
 enum
@@ -1089,16 +1074,18 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
 
     numberOfDebugLines_ = 35;
 
+	wxFont* exactFont;
 #if defined(__WXMAC__)
-    wxFont exactFont(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+    exactFont = new wxFont(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #else
-    wxFont exactFont(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+    exactFont = new wxFont(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #endif
-    wxSize charSize = exactFont.GetPixelSize();
+    wxSize charSize = exactFont->GetPixelSize();
     lineSpace_ = charSize.y - 2;
 
     wxScreenDC dc;
-    dc.SetFont(exactFont);
+    dc.SetFont(*exactFont);
+	delete exactFont;
     charWidth_ = dc.GetCharWidth();
 
     assWidth_ = charWidth_ * 35 + charWidth_/2;
@@ -1110,16 +1097,22 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
 
 DebugWindow::~DebugWindow()
 {
+#if defined(__WXMSW__)
+    delete imageList_;
+#endif
+    delete assBmp;
+    delete profilerBmp;
+
+    clearDebugMemory();
+}
+
+void DebugWindow::clearDebugMemory()
+{
     if (!mode_.gui)
         return;
 
     for (int i=0; i<16; i++)
         delete lineBmp[i];
-#if defined(__WXMSW__) 
-    delete imageList_;
-#endif
-    delete assBmp;
-    delete profilerBmp;
 }
 
 void DebugWindow::readDebugConfig()
@@ -1831,7 +1824,7 @@ void DebugWindow::updateWindow()
                 }
                 else
                 {
-                    if (i>3)
+                    if (i>3 && p_Computer->ioGroupCdp1870(p_Computer->getIoGroup(), p_Computer->getFlipFlopQ()))
                         buffer.Printf("%04X",p_Computer->getOutValue(i));
                     else
                         buffer.Printf("%02X",p_Computer->getOutValue(i));
@@ -3344,7 +3337,7 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
                         }
                         else
                         {
-                            if (n>3)
+                            if (n>3 && p_Computer->ioGroupCdp1870(p_Computer->getIoGroup(), p_Computer->getFlipFlopQ()))
                                 printBufferDetails.Printf("[%04X]", p_Computer->getScratchpadRegister(p_Computer->getDataPointer())-1);
                             else
                                 printBufferDetails.Printf("[%02X]", p_Computer->readMemDebug(p_Computer->getScratchpadRegister(p_Computer->getDataPointer())-1));
@@ -4085,7 +4078,7 @@ wxString DebugWindow::getAssemblySep(Word* address, Byte n, wxString *printBuffe
     if (p_Computer->readMemDataType(*address-1, &executed) == MEM_TYPE_OPCODE_SEP_CALL)
 //	if (n == computerConfiguration.debuggerConfiguration.callRegister && p_Computer->getScratchpadRegister(n) == computerConfiguration.debuggerConfiguration.callAddress)
 	{
-		*scrtProgramCounter = p_Computer->getProgramCounter();
+        *scrtProgramCounter = p_Computer->getProgramCounter();
 		*startHiddenTrace = true;
 		printBufferAssembler.Printf("CALL %02X%02X", p_Computer->readMemDebug(*address), p_Computer->readMemDebug(*address+1));
         printBufferTemp.Printf("%02X %02X ", p_Computer->readMemDebug(*address), p_Computer->readMemDebug(*address+1));
@@ -4095,7 +4088,7 @@ wxString DebugWindow::getAssemblySep(Word* address, Byte n, wxString *printBuffe
     if (p_Computer->readMemDataType(*address-1, &executed) == MEM_TYPE_OPCODE_SEP_RETURN)
 //	if (n == computerConfiguration.debuggerConfiguration.returnRegister && p_Computer->getScratchpadRegister(n) == computerConfiguration.debuggerConfiguration.returnAddress)
 	{
-		*scrtProgramCounter = p_Computer->getProgramCounter();
+        *scrtProgramCounter = p_Computer->getProgramCounter();
 		*startHiddenTrace = true;
 		printBufferAssembler.Printf("RETURN");
 	}
@@ -4105,7 +4098,7 @@ wxString DebugWindow::getAssemblySep(Word* address, Byte n, wxString *printBuffe
         {
             addressValue = 0;
             Word useAddress = *address;
-            if (sepTraceValid(useAddress, n, *traceInfo))
+            if (sepTraceValid(p_Computer->getScratchpadRegister(n), n, *traceInfo))
             {
                 *scrtProgramCounter = p_Computer->getProgramCounter();
                 *startHiddenTrace = true;
@@ -4155,7 +4148,27 @@ wxString DebugWindow::getAssemblySep(Word* address, Byte n, wxString *printBuffe
                             printBufferTemp.Printf("%01X", p_Computer->getDataFlag());
                             *printBufferDetails += printBufferTemp;
                         break;
-                        
+                            
+                        case SEP_EF1:
+                            printBufferTemp.Printf("%01X", p_Computer->getEfFlags()&1);
+                            *printBufferDetails += printBufferTemp;
+                        break;
+                            
+                        case SEP_EF2:
+                            printBufferTemp.Printf("%01X", p_Computer->getEfFlags()&2 >> 1);
+                            *printBufferDetails += printBufferTemp;
+                        break;
+
+                        case SEP_EF3:
+                            printBufferTemp.Printf("%01X", p_Computer->getEfFlags()&4 >> 2);
+                            *printBufferDetails += printBufferTemp;
+                        break;
+
+                        case SEP_EF4:
+                            printBufferTemp.Printf("%01X", p_Computer->getEfFlags()&8 >> 3);
+                            *printBufferDetails += printBufferTemp;
+                        break;
+
                         case SEP_BYTE_VALUE:
                             storeByteAndAddress(sepDetails->offset, &addressValue, &byteValue);
                             printBufferTemp.Printf("%02X", byteValue);
@@ -4241,7 +4254,7 @@ wxString DebugWindow::getAssemblySep(Word* address, Byte n, wxString *printBuffe
 bool DebugWindow::sepTraceValid(Word address, Byte n, SepConfiguration traceInfo)
 {
 	bool sepTraceValidBool = false;
-	if (n == traceInfo.sepRegister)
+	if (sepRegisterAndAddressValid(address, n, traceInfo))
 	{
 		sepTraceValidBool = true;
 		if (traceInfo.pcByte.mask !=0)
@@ -4257,6 +4270,19 @@ bool DebugWindow::sepTraceValid(Word address, Byte n, SepConfiguration traceInfo
 	}
 	
 	return sepTraceValidBool;
+}
+
+bool DebugWindow::sepRegisterAndAddressValid(Word address, Byte n, SepConfiguration traceInfo)
+{
+    bool sepRegisterAndAddressValidBool = true;
+    
+    if (n != traceInfo.sepRegister)
+        sepRegisterAndAddressValidBool = false;
+    
+    if (traceInfo.sepAddress != 0 && address != traceInfo.sepAddress)
+        sepRegisterAndAddressValidBool = false;
+
+    return sepRegisterAndAddressValidBool;
 }
 
 void DebugWindow::storeByteAndAddress(Byte value, Word *addressValue, Byte *byteValue)
@@ -8162,7 +8188,7 @@ void DebugWindow::O4(wxCommandEvent&WXUNUSED(event))
 {
     long value;
 
-    if (computerRunning_ && computerConfiguration.vis1870Configuration.defined)
+    if (p_Computer->ioGroupCdp1870(p_Computer->getIoGroup(), p_Computer->getFlipFlopQ()))
     {
         value = get16BitValue("O4");
         if (value == -1)  return;
@@ -8180,7 +8206,7 @@ void DebugWindow::O5(wxCommandEvent&WXUNUSED(event))
 {
     long value;
 
-    if (computerRunning_ && computerConfiguration.vis1870Configuration.defined)
+    if (p_Computer->ioGroupCdp1870(p_Computer->getIoGroup(), p_Computer->getFlipFlopQ()))
     {
         value = get16BitValue("O5");
         if (value == -1)  return;
@@ -8198,7 +8224,7 @@ void DebugWindow::O6(wxCommandEvent&WXUNUSED(event))
 {
     long value;
 
-    if (computerRunning_ && computerConfiguration.vis1870Configuration.defined)
+    if (p_Computer->ioGroupCdp1870(p_Computer->getIoGroup(), p_Computer->getFlipFlopQ()))
     {
         value = get16BitValue("O6");
         if (value == -1)  return;
@@ -8216,7 +8242,7 @@ void DebugWindow::O7(wxCommandEvent&WXUNUSED(event))
 {
     long value;
 
-    if (computerRunning_ && computerConfiguration.vis1870Configuration.defined)
+    if (p_Computer->ioGroupCdp1870(p_Computer->getIoGroup(), p_Computer->getFlipFlopQ()))
     {
         value = get16BitValue("O7");
         if (value == -1)  return;
@@ -8299,12 +8325,14 @@ void DebugWindow::directAss()
     int bitmapWidth = assWidth_;
     uint64_t executed;
     
+    wxFont* exactFont;
+    wxFont* exactFontBold;
 #if defined(__WXMAC__)
-    wxFont exactFont(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-    wxFont exactFontBold(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD );
+    exactFont = new wxFont(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+    exactFontBold = new wxFont(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD );
 #else
-    wxFont exactFont(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-    wxFont exactFontBold(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD );
+    exactFont = new wxFont(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+    exactFontBold = new wxFont(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD );
 #endif
     
     int numberOfDebugLines = numberOfDebugLines_;
@@ -8357,14 +8385,14 @@ void DebugWindow::directAss()
         wxColourDatabase colour;
         if (line == EDIT_ROW && selectedTab_ == DIRECTASSTAB)
         {
-            dcAss.SetFont(exactFontBold);
+            dcAss.SetFont(*exactFontBold);
             dirAssAddress_ = address;
             dcAss.SetTextForeground(guiTextColour[GUI_COL_BLACK]);
             dcAss.DrawText(">", 1, 1+line*lineSpace_);
             dcAss.DrawText("<", bitmapWidth-9, 1+EDIT_ROW*lineSpace_);
         }
         else
-            dcAss.SetFont(exactFont);
+            dcAss.SetFont(*exactFont);
             
         dcAss.SetTextForeground(guiTextColour[GUI_COL_GREY]);
         for (int i=0; i<lastRange_; i++)
@@ -8719,13 +8747,13 @@ void DebugWindow::directAss()
                 line += 1;
                 if (line == EDIT_ROW && selectedTab_ == DIRECTASSTAB)
                 {
-                    dcAss.SetFont(exactFontBold);
+                    dcAss.SetFont(*exactFontBold);
                     dirAssAddress_ = address - 3;
                     dcAss.DrawText(">", 1, 1+line*lineSpace_);
                     dcAss.DrawText("<", bitmapWidth-9, 1+EDIT_ROW*lineSpace_);
                 }
                 else
-                    dcAss.SetFont(exactFont);
+                    dcAss.SetFont(*exactFont);
                 if (line < numberOfDebugLines)
                 {
                     setProfileColor(executedColor);
@@ -8756,13 +8784,13 @@ void DebugWindow::directAss()
                 line += 1;
                 if (line == EDIT_ROW && selectedTab_ == DIRECTASSTAB)
                 {
-                    dcAss.SetFont(exactFontBold);
+                    dcAss.SetFont(*exactFontBold);
                     dirAssAddress_ = address - 3;
                     dcAss.DrawText(">", 1, 1+line*lineSpace_);
                     dcAss.DrawText("<", bitmapWidth-9, 1+EDIT_ROW*lineSpace_);
                 }
                 else
-                    dcAss.SetFont(exactFont);
+                    dcAss.SetFont(*exactFont);
                 if (line < numberOfDebugLines)
                 {
                     setProfileColor(executedColor);
@@ -8792,13 +8820,13 @@ void DebugWindow::directAss()
                 line += 1;
                 if (line == EDIT_ROW && selectedTab_ == DIRECTASSTAB)
                 {
-                    dcAss.SetFont(exactFontBold);
+                    dcAss.SetFont(*exactFontBold);
                     dirAssAddress_ = address - 3;
                     dcAss.DrawText(">", 1, 1+line*lineSpace_);
                     dcAss.DrawText("<", bitmapWidth-9, 1+EDIT_ROW*lineSpace_);
                 }
                 else
-                    dcAss.SetFont(exactFont);
+                    dcAss.SetFont(*exactFont);
                 if (line < numberOfDebugLines)
                 {
                     setProfileColor(executedColor);
@@ -8830,13 +8858,13 @@ void DebugWindow::directAss()
                 line += 1;
                 if (line == EDIT_ROW && selectedTab_ == DIRECTASSTAB)
                 {
-                    dcAss.SetFont(exactFontBold);
+                    dcAss.SetFont(*exactFontBold);
                     dirAssAddress_ = address - 3;
                     dcAss.DrawText(">", 1, 1+line*lineSpace_);
                     dcAss.DrawText("<", bitmapWidth-9, 1+EDIT_ROW*lineSpace_);
                 }
                 else
-                    dcAss.SetFont(exactFont);
+                    dcAss.SetFont(*exactFont);
                 if (line < numberOfDebugLines)
                 {
                     setProfileColor(executedColor);
@@ -9033,7 +9061,7 @@ void DebugWindow::directAss()
             break;
         }
 //        if (line == EDIT_ROW)
-//            dcAss.SetFont(exactFont);
+//            dcAss.SetFont(*exactFont);
     }
     dirAssEnd_ = address;
     dcAss.SelectObject(wxNullBitmap);
@@ -9066,6 +9094,8 @@ void DebugWindow::directAss()
     if (XRCCTRL(*this,"AssType",wxChoice)->GetCurrentSelection() == -1)
         XRCCTRL(*this,"AssType",wxChoice)->SetSelection(0);
 
+    delete exactFont;
+    delete exactFontBold;
 }
 
 void DebugWindow::setProfileColor(Byte executedColor)
@@ -14362,16 +14392,6 @@ void DebugWindow::onDebugDisplayPage(wxCommandEvent&WXUNUSED(event))
 
 void DebugWindow::DebugDisplayPage()
 {
-    if (!computerRunning_)
-    {
-        if (xmlLoaded_)
-        {
-            XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("No emulation running");
-            XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
-        }
-        return;
-    }
-
     long start = get16BitValue("DebugDisplayPage");
     if (start == -1)  return;
     XRCCTRL(*this, "DebugDisplayPage", HexEdit)->saveNumber((int)start);
@@ -16000,6 +16020,16 @@ void DebugWindow::memoryDisplaySetGuiSize(int offset)
 
 void DebugWindow::memoryDisplay()
 {
+    if (!computerRunning_)
+    {
+        if (xmlLoaded_)
+        {
+            XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("No emulation running");
+            XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+        }
+        return;
+    }
+
     switch (memoryDisplay_)
     {
         case CPU_MEMORY:

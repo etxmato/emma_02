@@ -49,10 +49,6 @@ Til::Til(bool WXUNUSED(upsideDown))
     y_ = 0;
 }
 
-Til::~Til()
-{
-}
-
 void Til::init(wxDC& WXUNUSED(dc), int WXUNUSED(x), int WXUNUSED(y))
 {
 }

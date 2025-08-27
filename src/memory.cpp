@@ -159,6 +159,7 @@ Memory::~Memory()
             free(slotMemory_[slot]);
             free(slotMemoryDataType_[slot]);
             free(slotMemoryLabelType_[slot]);
+            free(slotMemoryType_[slot]);
             if (profilerCounter_ != PROFILER_OFF)
                 free(slotMemoryExecuted_[slot]);
         }
@@ -173,6 +174,8 @@ Memory::~Memory()
             if (profilerCounter_ != PROFILER_OFF)
                 free(mcrMemoryExecuted_[mcr]);
         }
+        for (int mcrMaps=0; mcrMaps<numberOfMcrMaps_; mcrMaps++)
+            free(mcrMemoryType_[mcrMaps]);
     }
     for (std::vector<EmsMemory>::iterator emsMemory = emsMemory_.begin (); emsMemory != emsMemory_.end (); ++emsMemory)
     {

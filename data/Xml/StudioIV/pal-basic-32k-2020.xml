@@ -63,6 +63,7 @@
     <keypad type="latch" pad="1">
         <out mask="0x0f">2</out>
         <ef pol="rev">3</ef>
+        <default>studioivdefault</default>
 
         <keydef map="78" out="0x0">78</keydef> <!-- N -->
         <keydef map="65" out="0x1">65</keydef> <!-- A -->
@@ -133,6 +134,7 @@
     <keypad type="latch" pad="2">
         <out mask="0x0f">2</out>
         <ef pol="rev">4</ef>
+        <default>studioivdefault</default>
 
         <keydef map="32" out="0x0">32</keydef> <!-- space -->
         <keydef map="80" out="0x1">80</keydef> <!-- P -->

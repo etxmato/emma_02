@@ -1,4 +1,5 @@
 
+
 <html>
 <title>General</title>
 <body>
@@ -14,14 +15,15 @@ This section includes general information about the RCA 1802 and Emma 02.
 <li><a href="MenuMain.htm">Global Settings & Menu</a>
 <li><a href="MainFile.htm">Directory and File Structure</a>
 <li><a href="MainConfigurations.htm">XML Configurations</a>
-<li><a href="MachineCodeSyntax.htm">Machine Code Syntax</a>
-<li><a href="PseudoCodeSyntax.htm">Pseudo Code Syntax</a>
-<li><a href="XMLCodeSyntax.htm">XML Code Syntax</a>
+<li><a href="MainMachineCodeSyntax.htm">Machine Code Syntax</a>
+<li><a href="MainPseudoCodeSyntax.htm">Pseudo Code Syntax</a>
+<li><a href="MainXMLCodeSyntax.htm">XML Code Syntax</a>
 <li><a href="MainFunctionKeys.htm">Function and Hot Keys</a>
 <li><a href="MainWindow.htm">Window Settings</a>
 <li><a href="MainCommandLine.htm">Command Line</a>
-<li><a href="KeyMappingDefault.htm">Default Keyboard</a>
-<li><a href="ComxSb.htm">COMX SuperBoard</a>
+<li><a href="MainKeyMappingDefault.htm">Default Keyboard</a>
+<li><a href="MainComxSb.htm">COMX SuperBoard</a>
+<li><a href="MainSuperBasic.htm">Quest Super BASIC</a>
 </ul>
 </p>
 <p>

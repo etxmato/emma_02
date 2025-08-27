@@ -78,12 +78,14 @@
      </video>
 
     <keypad type="latch" pad="1">
+        <default>vipdefault</default>
         <out mask="0x0f">2</out>
         <ef pol="rev">3</ef>
         <auto>on</auto>
     </keypad>
 
     <keypad type="latch" pad="2">
+        <default>vipdefault</default>
         <out mask="0x0f">2</out>
         <ef pol="rev">4</ef>
         <auto>on</auto>

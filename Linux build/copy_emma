@@ -1,0 +1,2 @@
+#!/bin/sh
+cp -R -u -v emma_02/* /home/etxmato/workspace/emma_02/

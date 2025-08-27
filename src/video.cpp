@@ -87,6 +87,9 @@ void VideoScreen::onPaint(wxPaintEvent&WXUNUSED(event))
         return;
     
     wxPaintDC dcWindow(this);
+#ifdef __WXMAC__
+    dcWindow.SetUserScale((double)zoom_*xZoomFactor_, zoom_);
+#endif
     if (vt100_)
     {
 #ifdef __WXMAC__
@@ -100,7 +103,6 @@ void VideoScreen::onPaint(wxPaintEvent&WXUNUSED(event))
     else
     {
 #ifdef __WXMAC__
-        dcWindow.SetUserScale((double)zoom_*xZoomFactor_, zoom_);
         p_Video[videoNumber_]->reBlit(dcWindow);
 #else
         p_Video[videoNumber_]->setReBlit();
@@ -147,7 +149,7 @@ void VideoScreen::onChar(wxKeyEvent& event)
             }
         }
     }
-    p_Computer->charEvent(key);
+    p_Computer->charEvent(event, key);
 }
 
 void VideoScreen::vtOut(int value)
@@ -808,30 +810,6 @@ void Video::splashScreen()
 {
     if (p_Main->showSplashScreen())
         splashScreen_ = new SplashScreen(this);
-}
-
-Byte Video::readPramDirect(Word address)
-{
-    reDraw_ = true;
-    return pageMemory_[address];
-}
-
-Byte Video::readCramDirect(Word address)
-{
-    reDraw_ = true;
-    return characterMemory_[address];
-}
-
-void Video::writeCramDirect(Word address, Byte value)
-{
-    characterMemory_[address] = value;
-    reDraw_ = true;
-}
-
-void Video::writePramDirect(Word address, Byte value)
-{
-    pageMemory_[address] = value;
-    reDraw_ = true;
 }
 
 void Video::refreshVideo()

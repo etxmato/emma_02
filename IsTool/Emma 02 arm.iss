@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.48.8
-AppVersion=1.48.7
+AppVerName=Emma 02 - V2.00
+AppVersion=2.00
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
@@ -62,6 +62,8 @@ Source: ..\splash_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\splash_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\vt_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\vt_12.xrc; DestDir: {app}; Components: MAIN
+Source: ..\win7_11.ini; DestDir: {app}; Components: MAIN
+Source: ..\win7_12.ini; DestDir: {app}; Components: MAIN
 Source: ..\win8_11.ini; DestDir: {app}; Components: MAIN
 Source: ..\win8_12.ini; DestDir: {app}; Components: MAIN
 Source: ..\win10_11.ini; DestDir: {app}; Components: MAIN
@@ -89,6 +91,7 @@ Source: ..\data\german.ini; DestDir: {app}\data; Components: MAIN
 Source: ..\data\dutch.ini; DestDir: {app}\data; Components: MAIN
 Source: ..\data\french.ini; DestDir: {app}\data; Components: MAIN
 Source: ..\data\CDP18S020\*.*; DestDir: {app}\data\CDP18S020; Components: MAIN
+Source: ..\data\CDS\*.*; DestDir: {app}\data\CDS; Components: MAIN
 Source: ..\data\Chip-8\Chip-8 Demos\*.*; DestDir: {app}\data\Chip-8\Chip-8 Demos; Components: MAIN
 Source: ..\data\Chip-8\Chip-8 ETI660 Games\*.*; DestDir: {app}\data\Chip-8\Chip-8 ETI660 Games; Components: MAIN
 Source: ..\data\Chip-8\Chip-8 ETI660 Hybrids\*.*; DestDir: {app}\data\Chip-8\Chip-8 ETI660 Hybrids; Components: MAIN
@@ -107,8 +110,8 @@ Source: ..\data\Comx\Demo\*.*; DestDir: {app}\data\Comx\Demo; Components: MAIN
 Source: ..\data\Comx\Disks\*.*; DestDir: {app}\data\Comx\Disks; Components: MAIN
 Source: ..\data\Comx\Educatief\*.*; DestDir: {app}\data\Comx\Educatief; Components: MAIN
 Source: ..\data\Comx\Educational\*.*; DestDir: {app}\data\Comx\Educational; Components: MAIN
-Source: ..\data\Comx\F+M Basic\*.*; DestDir: {app}\data\Comx\F+M Basic; Components: MAIN
-Source: ..\data\Comx\F+M EPROM Switchboard\*.*; DestDir: {app}\data\Comx\F+M EPROM Switchboard; Components: MAIN
+Source: ..\data\Comx\F&M Basic\*.*; DestDir: {app}\data\Comx\F&M Basic; Components: MAIN
+Source: ..\data\Comx\F&M EPROM Switchboard\*.*; DestDir: {app}\data\Comx\F&M EPROM Switchboard; Components: MAIN
 Source: ..\data\Comx\Games\*.*; DestDir: {app}\data\Comx\Games; Components: MAIN
 Source: ..\data\Comx\Hulpmiddelen - Utilities\*.*; DestDir: {app}\data\Comx\Hulpmiddelen - Utilities; Components: MAIN
 Source: ..\data\Comx\Plotter\*.*; DestDir: {app}\data\Comx\Plotter; Components: MAIN
@@ -123,6 +126,7 @@ Source: ..\data\Conic\*.*; DestDir: {app}\data\Conic; Components: MAIN
 Source: ..\data\CosmacGameSystem\*.*; DestDir: {app}\data\CosmacGameSystem; Components: MAIN
 Source: ..\data\Cosmicos\*.*; DestDir: {app}\data\Cosmicos; Components: MAIN
 Source: ..\data\Cybervision\*.*; DestDir: {app}\data\Cybervision; Components: MAIN
+Source: ..\data\EFA-datorn\*.*; DestDir: {app}\data\EFA-datorn; Components: MAIN
 Source: ..\data\Elf\*.*; DestDir: {app}\data\Elf; Components: MAIN
 Source: ..\data\Elf\Biosio\*.*; DestDir: {app}\data\Elf\Biosio; Components: MAIN
 Source: ..\data\Elf\biosioPS2\*.*; DestDir: {app}\data\Elf\BiosioPS2; Components: MAIN
@@ -198,6 +202,7 @@ Source: ..\data\VT1802\*.*; DestDir: {app}\data\VT1802; Components: MAIN
 Source: ..\data\Visicom\*.*; DestDir: {app}\data\Visicom; Components: MAIN
 Source: ..\data\Xml\*.*; DestDir: {app}\data\Xml; Components: MAIN
 Source: ..\data\Xml\CDP18S020\*.*; DestDir: {app}\data\Xml\CDP18S020; Components: MAIN
+Source: ..\data\Xml\CDS\*.*; DestDir: {app}\data\Xml\CDS; Components: MAIN
 Source: ..\data\Xml\Cidelsa\*.*; DestDir: {app}\data\Xml\Cidelsa; Components: MAIN
 Source: ..\data\Xml\CoinArcade\*.*; DestDir: {app}\data\Xml\CoinArcade; Components: MAIN
 Source: ..\data\Xml\Comix\*.*; DestDir: {app}\data\Xml\Comix; Components: MAIN
@@ -207,6 +212,7 @@ Source: ..\data\Xml\CosmacElf\*.*; DestDir: {app}\data\Xml\CosmacElf; Components
 Source: ..\data\Xml\CosmacGameSystem\*.*; DestDir: {app}\data\Xml\CosmacGameSystem; Components: MAIN
 Source: ..\data\Xml\Cosmicos\*.*; DestDir: {app}\data\Xml\Cosmicos; Components: MAIN
 Source: ..\data\Xml\Cybervision\*.*; DestDir: {app}\data\Xml\Cybervision; Components: MAIN
+Source: ..\data\Xml\EFA-datorn\*.*; DestDir: {app}\data\Xml\EFA-datorn; Components: MAIN
 Source: ..\data\Xml\Elf\*.*; DestDir: {app}\data\Xml\Elf; Components: MAIN
 Source: ..\data\Xml\Elf2K\*.*; DestDir: {app}\data\Xml\Elf2K; Components: MAIN
 Source: ..\data\Xml\Eti\*.*; DestDir: {app}\data\Xml\Eti; Components: MAIN

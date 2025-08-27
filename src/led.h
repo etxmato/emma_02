@@ -16,6 +16,8 @@ private:
     wxBitmap *ledOnGreenBitmapPointer;
     wxBitmap *ledOnOrangeBitmapPointer;
     wxMask *maskOn;
+    wxMask *maskOnGreen;
+    wxMask *maskOnOrange;
     wxMask *maskOff;
 
     int ledType_;

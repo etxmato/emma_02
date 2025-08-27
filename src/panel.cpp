@@ -29,6 +29,10 @@
 #include "pushbutton.h"
 #include <memory>
 
+#if defined(__linux__)
+#include "app_icon.xpm"
+#endif
+
 BEGIN_EVENT_TABLE(HexButton, wxEvtHandler )
     EVT_TIMER(wxID_ANY, HexButton::OnTimer)
 
@@ -290,6 +294,7 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
     buttonStartY_ = 0;
     
     enabled_ = true;
+    wxColour maskColour(255, 0, 255);
 
     switch (type)
     {
@@ -324,8 +329,10 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
             disabledUpBitmapPointer = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdisabledup.png", wxBITMAP_TYPE_PNG);
             disabledDownBitmapPointer = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdisableddown.png", wxBITMAP_TYPE_PNG);
             
-            disabledUpBitmapPointer->SetMask(maskUp);
-            disabledDownBitmapPointer->SetMask(maskDown);
+            maskDisabledUp = new wxMask (*upBitmapPointer, maskColour);
+            maskDisabledDown = new wxMask (*downBitmapPointer, maskColour);
+            disabledUpBitmapPointer->SetMask(maskDisabledUp);
+            disabledDownBitmapPointer->SetMask(maskDisabledDown);
         break;
 
         case SWITCH_BUTTON_VERTICAL_GREEN:
@@ -496,8 +503,8 @@ SwitchButton::~SwitchButton()
     delete downBitmapPointer;
     if (type_ == SWITCH_BUTTON_VERTICAL_PIO)
     {
- //       delete disabledUpBitmapPointer;
- //       delete disabledDownBitmapPointer;
+        delete disabledUpBitmapPointer;
+        delete disabledDownBitmapPointer;
     }
 }
 
@@ -712,6 +719,9 @@ BEGIN_EVENT_TABLE(Panel, wxWindow)
     EVT_SPINCTRL(0x73, Panel::onAdsVolt)
     EVT_TEXT(0x74, Panel::onAdsVoltText)
 
+    EVT_COMMAND_SCROLL_THUMBTRACK(0x75, Panel::onClockChange)
+    EVT_COMMAND_SCROLL_CHANGED(0x75, Panel::onClockChange)
+
 END_EVENT_TABLE()
 
 Panel::Panel(wxWindow *parent, const wxSize& size)
@@ -777,6 +787,8 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
     addressStatus = 0;
     dataStatus = 0;
     ms_ = 100;
+    fastClock_ = true;
+    sliderValue_ = 1;
 
     functionKeyReleaseTwo_ = false;
     xmlButtonDefined_ = false;
@@ -828,6 +840,10 @@ Panel::~Panel()
 
             case ADS_VOLT_SPINCTRL:
                 delete spinCtrlAdsVolt;
+            break;
+
+            case CPU_SLIDER:
+                delete cpuSlider;
             break;
 
             case PUSH_BUTTON:
@@ -987,21 +1003,26 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
     {
         xmlButtonDefined_ = true;
                 
-        if (button->function == BUTTON_FUNC_BIT_INP)
+        switch (button->function)
         {
-            if (button->initup)
-                p_Computer->inpSwitch(button->input.portNumber[0] ,button->value&0x7);
-            p_Computer->setInType(button->input.portNumber[0], BITSWITCH_INP, 0);
-        }
-        if (button->function == LED_FUNC_BIT_OUT)
-        {
-            p_Computer->setOutType(button->output.portNumber[0], BITLED_OUT, 0);
-        }
-        if (button->function == TIL_FUNC_OUT)
-        {
-            p_Computer->setOutType(button->tilOutput.portNumber[0], TIL_OUT, 0);
-        }
+            case BUTTON_FUNC_BIT_INP:
+                if (button->initup)
+                    p_Computer->inpSwitch(button->input.portNumber[0] ,button->value&0x7);
+                p_Computer->setInType(button->input.portNumber[0], BITSWITCH_INP, 0);
+            break;
 
+            case LED_FUNC_BIT_OUT:
+                p_Computer->setOutType(button->output.portNumber[0], BITLED_OUT, 0);
+            break;
+
+            case TIL_FUNC_OUT:
+                p_Computer->setOutType(button->tilOutput.portNumber[0], TIL_OUT, 0);
+            break;
+
+            case BUTTON_FUNC_EF_SWITCH:
+                p_Computer->setEfType(button->value-0x90+1, EFSWITCH, 0);
+            break;
+        }
 
         switch (button->type)
         {
@@ -1034,6 +1055,10 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
                     break;
 
                     case BUTTON_FUNC_WAIT:
+                        if (button->initup)
+                            p_Computer->setWaitButtonState(1);
+                        else
+                            p_Computer->setWaitButtonState(0);
                         waitButton = button;
                         waitButtonDefined = true;
                     break;
@@ -1093,6 +1118,11 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
             case ADS_VOLT_SPINCTRL:
                 spinCtrlAdsVoltDefined = false;
                 spinCtrlAdsVolt = new wxSpinCtrl(this, 0x73, wxEmptyString, button->position, wxDefaultSize, wxSP_ARROW_KEYS, button->rangeLow, button->rangeHigh);
+            break;
+                
+            case CPU_SLIDER:
+                cpuSliderDefined = false;
+                cpuSlider = new wxSlider(this, 0x75, 100, 1, 100, button->position, button->size, wxSL_HORIZONTAL);
             break;
                 
             case PUSH_BUTTON:
@@ -1520,7 +1550,7 @@ void Panel::onChar(wxKeyEvent& event)
             }
         }
     }
-    p_Computer->charEvent(event.GetKeyCode());
+    p_Computer->charEvent(event, event.GetKeyCode());
 }
 
 void Panel::vtOut(int value)
@@ -1677,7 +1707,7 @@ void Panel::onMouseRelease(wxMouseEvent&event)
             break;
 
             case DIP_SWITCH_BUTTON:
-                if (button->dipSwitchButton->onMousePress(dc, x, y))
+                if (button->dipSwitchButton->onMouseRelease(dc, x, y))
                     executeMouseReleaseFunction(button);
             break;
                 
@@ -1805,7 +1835,7 @@ void Panel::executeMouseReleaseFunction(std::vector<GuiItemConfiguration>::itera
 {
     if (!button->actOnRelease)
         return;
-    
+   
     switch (button->function)
     {
         case BUTTON_FUNC_IN:
@@ -1915,7 +1945,7 @@ void Panel::executeMouseLeftFunction(std::vector<GuiItemConfiguration>::iterator
         break;
 
         case BUTTON_FUNC_EF_SWITCH:
-            p_Computer->efSwitch((button->value-1)&0x3);
+            p_Computer->efSwitch((button->value-0x90)&0x3);
         break;
 
         case BUTTON_FUNC_MP:
@@ -1944,6 +1974,15 @@ void Panel::executeMouseLeftFunction(std::vector<GuiItemConfiguration>::iterator
             
         case BUTTON_FUNC_RUN0:
             p_Computer->onRunButtonPress(true);
+        break;
+
+        case BUTTON_FUNC_F_S_CLOCK:
+            fastClock_ = !fastClock_;
+            clockChange();
+        break;
+
+        case BUTTON_FUNC_DATA_IO:
+            p_Computer->onDataIoSwitch();
         break;
 
         default:
@@ -2702,6 +2741,46 @@ bool Panel::isAdiDefined()
 int Panel::getAdi(int i)
 {
     return adiArray_[i];
+}
+
+void Panel::onClockChange(wxScrollEvent&event)
+{
+    double percentage = (double)event.GetPosition()/100;
+
+    if (sliderValue_ != percentage)
+    {
+        sliderValue_ = percentage;
+        clockChange();
+    }
+}
+
+void Panel::clockChange()
+{
+    wxString clockStr;
+    double sliderVal;
+    
+    sliderVal = sliderValue_;
+    if (!fastClock_)
+    {
+        if (sliderVal < 0.02)
+            sliderVal = 0.00235294;
+        else
+            if (sliderVal < 0.03)
+                sliderVal = 0.015;
+
+        p_Computer->setClockRate((double)0.017*sliderVal);
+        clockStr.Printf ("%1.5f", (double)0.017*sliderVal);
+    }
+    else
+    {
+        if (sliderVal < 0.03)
+            sliderVal = 0.02424242;
+        
+        p_Computer->setClockRate((double)0.33*sliderVal);
+        clockStr.Printf ("%1.3f", (double)0.33*sliderVal);
+    }
+
+    p_Main->setClockTextCtrl(clockStr);
 }
 
 BEGIN_EVENT_TABLE(PanelFrame, wxFrame)

@@ -147,6 +147,10 @@ BEGIN_EVENT_TABLE(GuiXml, GuiVipII)
     EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("TempoXml"), GuiXml::onTempo)
     EVT_COMMAND_SCROLL_CHANGED(XRCID("TempoXml"), GuiXml::onTempo)
 
+    EVT_TEXT(XRCID("clockTextCtrl"), GuiMain::onClock)
+    EVT_BUTTON(XRCID("stopButton"), Main::onStop)
+    EVT_BUTTON(XRCID("startButton"), Main::onStart)
+
     END_EVENT_TABLE()
 
 GuiXml::GuiXml(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
@@ -1441,6 +1445,17 @@ void GuiXml::setXmlDirDropDown()
     dirNameListGui_.Clear();
 
     wxDir *dir;
+    
+    if (!wxDir::Exists(computerConfiguration.xmlFileConfiguration.mainDirectory))
+    {
+        int answer = wxMessageBox("XML directory " + computerConfiguration.xmlFileConfiguration.mainDirectory + " does not exist, install default files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+        if (answer == wxYES)
+        {
+            wxDir::Make(computerConfiguration.xmlFileConfiguration.mainDirectory);
+            p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + "Xml" + pathSeparator_,  computerConfiguration.xmlFileConfiguration.mainDirectory, pathSeparator_);
+        }
+    }
+
     dir = new wxDir (computerConfiguration.xmlFileConfiguration.mainDirectory);
     
     bool dirFound = dir->GetFirst(&dirName, wxEmptyString, wxDIR_DIRS);
@@ -1752,8 +1767,7 @@ void GuiXml::setXmlGui()
     XRCCTRL(*this, "InterlaceXml", wxCheckBox)->SetValue(computerConfiguration.interlace_);
     XRCCTRL(*this, "InterlaceXml", wxCheckBox)->Enable(computerConfiguration.videoTerminalConfiguration.defined || computerConfiguration.fredVideoConfiguration.defined || computerConfiguration.mc6845Configuration.defined || computerConfiguration.i8275Configuration.defined);
 
-    if (clockTextCtrl != NULL)
-        clockTextCtrl->ChangeValue(computerConfiguration.clock_);
+    XRCCTRL(*this, "clockTextCtrl", wxTextCtrl)->ChangeValue(computerConfiguration.clock_);
 
     computerConfiguration.videoNumber_ = VIDEOMAIN;
     
@@ -1861,6 +1875,11 @@ void GuiXml::setXmlGui()
 
     if (computerConfiguration.slotConfiguration.maxSlotNumber_ > 0)
         XRCCTRL(*this, "DebugExpansionSlot", SlotEdit)->setRange(0, computerConfiguration.slotConfiguration.maxSlotNumber_-1);
+}
+
+void GuiXml::setClockTextCtrl(wxString clock)
+{
+    XRCCTRL(*this, "clockTextCtrl", wxTextCtrl)->ChangeValue(computerConfiguration.clock_);
 }
 
 void GuiXml::onVideoNumber(wxCommandEvent&WXUNUSED(event))
