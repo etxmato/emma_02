@@ -166,7 +166,6 @@ int WINDIB_OpenAudioIn(SDL_AudioSpec *requested, SDL_AudioSpec *result)
 		SDL_DestroySemaphore(writesem); writesem=NULL;
 		return(-1);
 	}
-//	free(nSpec); // This crashed real tape recording but I think was needed to solve another crash.... 
 
 	if(result)
 	{
@@ -200,6 +199,8 @@ int WINDIB_OpenAudioIn(SDL_AudioSpec *requested, SDL_AudioSpec *result)
 
 	audioin_status=SDL_AUDIO_PAUSED;
 
+	free(nSpec); // Having this just before if(result) crashed real tape recording 
+				 // but as it causes a memory leak i moved it to the end of this routine... 
 	return(0);
 }
 

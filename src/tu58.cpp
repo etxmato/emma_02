@@ -556,6 +556,7 @@ void Tu58::TxEndPacket (uint8_t bSuccess, uint16_t wCount)
   pEnd->wCount    = wCount;
   LOGF(DEBUG_LVL, "TU58 sending END, error=%d, count=%d", bSuccess, wCount);
   m_nState = STA_TXEND1;
+    p_Computer->dataAvailableUart(1, m_uartNumber);
 }
 
 //

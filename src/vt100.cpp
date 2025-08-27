@@ -253,7 +253,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     reBlink_ = false;
     newBackGround_ = false;
     updateCharacter_ = false;
-    tab_char = 8;
+    tab_char = currentComputerConfiguration.videoTerminalConfiguration.backSpaceCharacter;
 
     if (serialLog_)
     {
@@ -327,11 +327,10 @@ void Vt100::configure(VideoTerminalConfiguration videoTerminalConfiguration, Add
         else
         {
             reverseQ_ = videoTerminalConfiguration.reverseQ^1;
-            
+            if (reverseQ_) p_Computer->setFlipFlopQ(1);
+
             dataReadyFlag_ = videoTerminalConfiguration.ef.flagNumber;
 
-            if (reverseQ_) p_Computer->setFlipFlopQ(1);
-            
             if (vtType_ == VT52)
                 p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "VT52 terminal");
             else
@@ -340,7 +339,18 @@ void Vt100::configure(VideoTerminalConfiguration videoTerminalConfiguration, Add
             printBuffer = "	Serial out: Q";
             if (reverseQ_ == 1)
                 printBuffer = "	Serial out: reversed Q";
-            p_Main->message(printBuffer);
+            
+            if (videoTerminalConfiguration.qOutput.portNumber[0] != -1)
+            {
+                printBuffer = "serial output (reversed)";
+                if (reverseQ_ == 1)
+                    printBuffer = "serial output";
+
+                p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.qOutput, printBuffer);
+            }
+            else
+                p_Main->message(printBuffer);
+
 
             p_Computer->setOutType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.output, VIDEO_TERMINAL_OUT, "vtEnable");
             p_Computer->setEfType(&videoTerminalConfiguration.ioGroupVector, videoTerminalConfiguration.ef, VIDEO_TERMINAL_EF, "serial input");
@@ -573,8 +583,8 @@ void Vt100::cycleVt()
             if ((vtOut_ != 0 || dataReady) && vtEnabled_)
             {
                 vt100Ef_ = 0;
-                parity_ = Parity(vtOut_);
                 vtOutCount_ = baudRateT_;
+                parity_ = Parity(vtOut_);
                 if (SetUpFeature_[VTBITS])
                     vtOutBits_ = 10;
                 else
@@ -660,7 +670,6 @@ void Vt100::uartVtOut()
 
 void Vt100::uartVtIn()
 {
-
     vtCount_--;
     if (vtCount_ <= 0)
     {
@@ -702,6 +711,16 @@ void Vt100::serialVtOut()
     vtOutCount_--;
     if (vtOutCount_ <= 0)
     { // input from terminal
+        if (vtOutBits_ == 10)
+        {
+            parity_ = Parity(vtOut_);
+            if (SetUpFeature_[VTBITS])
+                vtOutBits_ = 10;
+            else
+                vtOutBits_ = 9;
+            if (SetUpFeature_[VTPARITY])
+                vtOutBits_++;
+        }
         vt100Ef_ = (vtOut_ & 1) ? 1 : 0;
         vtOut_ = (vtOut_ >> 1) | 128;
         vtOutCount_ = baudRateT_;
@@ -733,27 +752,24 @@ void Vt100::serialVtIn()
 {
     if (vtCount_ >= 0)
     { // output to terminal
-        //wxString buffer;
-        //buffer.Printf("%d", p_Computer->getFlipFlopQ());
-        //p_Main->messageNoReturn(buffer);
-
         vtCount_--;
         if (vtCount_ <= 0)
         {
-            //p_Main->messageInt(p_Computer->getFlipFlopQ());
-            //p_Main->message("");
+            //p_Main->eventMessageHex(flipFlopQ_);
             if (SetUpFeature_[VTPARITY])
             {
                 if (vtBits_ > 2)
                 {
                     rs232_ >>= 1;
-                    rs232_ |= (p_Computer->getFlipFlopQ() ^ reverseQ_) ? 0 : 128;
+                    rs232_ |= (flipFlopQ_ ^ reverseQ_) ? 0 : 128;
                 }
                 if (vtBits_ == 2)
                 {
                     if (!SetUpFeature_[VTBITS])
                         rs232_ >>= 1;
-                    if (Parity(rs232_) != p_Computer->getFlipFlopQ())
+                    Byte parity = Parity(rs232_);
+                    Byte qValue = (flipFlopQ_ ^ reverseQ_) ? 0 : 1;
+                    if (parity != qValue)
                         rs232_ = 2;
                 }
             }
@@ -762,7 +778,7 @@ void Vt100::serialVtIn()
                 if (vtBits_ > 1)
                 {
                     rs232_ >>= 1;
-                    rs232_ |= (p_Computer->getFlipFlopQ() ^ reverseQ_) ? 0 : 128;
+                    rs232_ |= (flipFlopQ_ ^ reverseQ_) ? 0 : 128;
                 }
                 if (vtBits_ == 1)
                 {
@@ -778,7 +794,7 @@ void Vt100::serialVtIn()
                     Display(rs232_, false);
                 else
                     Display(rs232_ & 0x7f, false);
-//                    p_Main->eventMessageHex(rs232_);
+                //p_Main->eventMessageHex(rs232_);
             }
         }
     }
@@ -1089,6 +1105,8 @@ void Vt100::switchQ(int value)
 {
     if(uart1854_ || uart16450_)
         return;
+    
+    flipFlopQ_ = value;
     
     if (vtCount_ < 0)
     {
@@ -1942,7 +1960,7 @@ void Vt100::Display(int byt, bool forceDisplay)
         ShowCursor();
         return;
     }
-    if (byt < 32 && byt != 2)
+    if ((byt < 32 && byt != 2) || byt == currentComputerConfiguration.videoTerminalConfiguration.backSpaceCharacter)
     {
         switch (byt)
         {
@@ -1950,6 +1968,7 @@ void Vt100::Display(int byt, bool forceDisplay)
                 bell();
             break;
             case 8:
+            case 0x7f:
                 cursorPosition_ --;
                 if (cursorPosition_ < 0) cursorPosition_ = 0;
             break;
@@ -3305,7 +3324,8 @@ void Vt100::uartControl(Byte value)
         clearUartInterrupt();
     }
     
-    uartStatus_[uart_thre_bit_] = 1;
+    if (!currentComputerConfiguration.videoTerminalConfiguration.threUnchangedAtControl)
+        uartStatus_[uart_thre_bit_] = 1;
 
     if (terminalLoad_ && uartStatus_[uart_da_bit_] && clearToSend_)
         dataAvailableUart(1);
@@ -3513,7 +3533,10 @@ void Vt100::checkXmlCommand()
                         }
                     }
                     else
+                    {
                         elfRunCommand_ = 0;
+                        return;
+                    }
                 }
                 elfRunCommand_++;
             }

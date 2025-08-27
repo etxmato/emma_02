@@ -15,7 +15,7 @@
     </system>
 
     <splash>
-        <text>To start VIP monitor&#xD;- Place a long branch to 0x8000 at address 0&#xD;- Flick the RUN switch up&#xD;- Activate Pixie screen&#xD;- Press and hold C while pressing IN for 3 seconds&#xD;- Release C and press 4 digit start address
+        <text>To start VELF menu&#xD;- Place a long branch to 0x8000 at address 0&#xD;- Flick the RUN switch up&#xD;&#xD;To start VIP monitor&#xD;- Place a long branch to 0x8000 at address 0&#xD;- Flick the RUN switch up&#xD;- Activate Pixie screen&#xD;- Press and hold C while pressing IN for 3 seconds&#xD;- Release C and press 4 digit start address
         </text>
     </splash>
 

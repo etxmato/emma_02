@@ -15,6 +15,8 @@ public:
 
 private:
     void parseXml_System(wxXmlNode &node);
+    void parseXml_ModKeys(wxXmlNode &node);
+    int getModifier(wxString modText);
     void parseXml_Basic(wxXmlNode &node);
     void parseXml_Locations(wxXmlNode &node);
     void parseXml_Bootstrap(wxXmlNode &node);
@@ -53,13 +55,17 @@ private:
     void parseXml_AdConvertor(wxXmlNode &node);
     void parseXml_FrontPanel(wxXmlNode &node, int frontNumber);
     void parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber);
-    void parseXml_Cdp1851(wxXmlNode &node, bool windowOn);
+    void parseXml_Cdp1851_Printer(wxXmlNode &node);
+    void parseXml_Cdp1851_PrinterPort(wxXmlNode &node, int port);
+    int get_Cdp1851_Printer_function(wxString function);
+    void parseXml_Cdp1851(wxXmlNode &node, bool windowOn, int connection);
     void parseXml_Cdp1852(wxXmlNode &node, bool windowOn);
     void parseXml_Cdp1854(wxXmlNode &node, int connection);
     void parseXml_Cdp1855(wxXmlNode &node);
     void parseXml_Cdp1877(wxXmlNode &node);
     void parseXml_Cdp1878(wxXmlNode &node);
     void parseXml_Cd4536b(wxXmlNode &node);
+    void parseXml_Mm57109(wxXmlNode &node);
     void parseXml_SerialVt(wxXmlNode &node);
     void parseXml_UartVt(wxXmlNode &node, bool uart16450);
     void parseXml_Printer(wxXmlNode &node, int printerType);
@@ -75,6 +81,8 @@ private:
     void parseXml_Debugger(wxXmlNode &node);
     void parseXml_Scrt(wxXmlNode &node);
     void parseXml_Assembler(wxXmlNode &node);
+    void parseXml_Sep(wxXmlNode &node, SepConfiguration *sep);
+    void parseXml_TraceInstruction(wxXmlNode &node);
     void parseXml_BatchWav(wxXmlNode &node);
     void parseXml_QSound(wxXmlNode &node);
     void parseXml_StudioSound(wxXmlNode &node);

@@ -338,7 +338,6 @@ public:
     bool isTapeHwFred() {return (computerConfiguration.hwTapeConfiguration.format != TAPE_FORMAT_CV && computerConfiguration.hwTapeConfiguration.defined);}
     bool isTapeHwCybervision() {return (computerConfiguration.hwTapeConfiguration.format == TAPE_FORMAT_CV && computerConfiguration.hwTapeConfiguration.defined);}
 
-    void downloadWavFiles();
     void checkWavFileDownload(bool downloadIfMissing = false);
 
 protected:
@@ -408,12 +407,6 @@ protected:
     bool fullScreenEventOngoing_;
 
     bool computerRunning_;
-
-    wxStaticText *clockText;
-    FloatEdit *clockTextCtrl;
-    wxStaticText *mhzText;
-    wxButton *startButton;
-    wxButton *stopButton;
 
     wxTimer *traceTimeoutPointer;
     wxTimer *keyDebounceTimeoutPointer;

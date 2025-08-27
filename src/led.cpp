@@ -103,6 +103,8 @@ Led::Led(wxDC& dc, int x, int y, int ledType, bool reversePol)
             ledOnOrangeBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledorangeon.png", wxBITMAP_TYPE_PNG);
             ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledcoloroff.png", wxBITMAP_TYPE_PNG);
             maskOn = new wxMask(*ledOnBitmapPointer, white);
+            maskOnGreen = new wxMask(*ledOnBitmapPointer, white);
+            maskOnOrange = new wxMask(*ledOnBitmapPointer, white);
             maskOff = new wxMask(*ledOnBitmapPointer, white);
         break;
 
@@ -112,40 +114,32 @@ Led::Led(wxDC& dc, int x, int y, int ledType, bool reversePol)
             ledOnGreenBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/leddisabled.png", wxBITMAP_TYPE_PNG);
             ledOnOrangeBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/leddisabled.png", wxBITMAP_TYPE_PNG);
             maskOn = new wxMask(*ledOnBitmapPointer, white);
+            maskOnGreen = new wxMask(*ledOnBitmapPointer, white);
+            maskOnOrange = new wxMask(*ledOnBitmapPointer, white);
             maskOff = new wxMask(*ledOnBitmapPointer, white);
         break;
     }
 
     if (ledType == LED_LARGE_COLOR || ledType == LED_SMALL_RED_DISABLE)
     {
-        ledOnBitmapPointer->SetMask(maskOn);
-        ledOnGreenBitmapPointer->SetMask(maskOn);
-        ledOnOrangeBitmapPointer->SetMask(maskOn);
-        ledOffBitmapPointer->SetMask(maskOff);
-        dc.DrawBitmap(*ledOnBitmapPointer, x_, y_, true);
+        ledOnGreenBitmapPointer->SetMask(maskOnGreen);
+        ledOnOrangeBitmapPointer->SetMask(maskOnOrange);
     }
-    else
-    {
-        ledOnBitmapPointer->SetMask(maskOn);
-        ledOffBitmapPointer->SetMask(maskOff);
-        dc.DrawBitmap(*ledOnBitmapPointer, x_, y_, true);
-    }
+    ledOnBitmapPointer->SetMask(maskOn);
+    ledOffBitmapPointer->SetMask(maskOff);
+    dc.DrawBitmap(*ledOnBitmapPointer, x_, y_, true);
 }
 
 Led::~Led()
 {
     if (ledType_ == LED_LARGE_COLOR || ledType_ == LED_SMALL_RED_DISABLE)
     {
-        delete ledOnBitmapPointer;
-//        delete ledOnGreenBitmapPointer;
-//        delete ledOnOrangeBitmapPointer;
-        delete ledOffBitmapPointer;
+        delete ledOnGreenBitmapPointer;
+        delete ledOnOrangeBitmapPointer;
     }
-    else
-    {
-        delete ledOnBitmapPointer;
-        delete ledOffBitmapPointer;
-    }
+    
+    delete ledOnBitmapPointer;
+    delete ledOffBitmapPointer;
 }
 
 void Led::onPaint(wxDC& dc)

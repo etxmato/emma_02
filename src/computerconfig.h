@@ -167,6 +167,7 @@ public:
     Word keyValue;
     Byte bitMaskPressed;
     Byte bitMaskNotPressed;
+    Byte ctrlValue;
 };
 
 class PixieGraphics
@@ -226,7 +227,7 @@ class WriteAddress
 {
 public:
     Word address;
-    Byte value;
+    int value;
     int function;
 };
 
@@ -260,7 +261,21 @@ public:
     bool defined;
     
     IoPort output;
+    IoPort disable;
     IoPort input;
+    
+    Byte disableBitMask;
+};
+
+class ModKeyConfiguration : public DefineConfiguration
+{
+public:
+    vector<int> resetKey;
+    vector<int> stopKey;
+    
+    Word macModifier;
+    Word windowsModifier;
+    Word linuxModifier;
 };
 
 // Video configuration class definitions:
@@ -310,9 +325,9 @@ public:
     IoPort toneLatch;
     IoPort background;
     IoPort colorMemory;
-    
+    EfFlag ef;
+
     int xScale;
-    int ef;
     bool screenOn;
     int colorType;
     int startRam;
@@ -380,6 +395,7 @@ public:
     bool rotateScreen;
     bool useBlockWrite;
     bool cursorBlink;
+    int qGroup;
     
     int videoMode;
 
@@ -500,6 +516,7 @@ public:
     bool hexModem_defined;
     
     IoPort output;
+    IoPort qOutput;
     IoPort uartOut;
     IoPort uartIn;
     IoPort uartControl;
@@ -507,7 +524,9 @@ public:
     EfFlag ef;
     EfFlag efInterrupt;
 
+    bool threUnchangedAtControl;
     int reverseQ;
+    Byte qOutputBitMask;
     
     bitset<32> vt52SetUpFeature;
     bitset<32> vt100SetUpFeature;
@@ -556,6 +575,8 @@ public:
     int defaultCharactersPerRow;
     int defaultCharacterWidth;
     int defaultBellFrequency;
+    
+    Byte backSpaceCharacter;
 };
 
 // Sound configuration class definitions:
@@ -818,6 +839,7 @@ public:
     EfFlag efInterrupt;
     
     bool interrupt;
+    bool threUnchangedAtControl;
     int picInterrupt;
     
     int baudR;
@@ -873,7 +895,7 @@ public:
     EfFlag efaRdy;
     EfFlag efbRdy;
     EfFlag efIrq;
-
+    
     bool windowOpen;
     wxPoint pos;
     wxPoint defaultPos;
@@ -881,6 +903,8 @@ public:
     
     Byte initPortA;
     Byte initPortB;
+    
+    int connection;
 };
 
 class Cdp1852Configuration : public IoGroupConfiguration
@@ -889,10 +913,12 @@ public:
     IoPort writePort;
     IoPort readPort;
     EfFlag efStb;
-
+    
     bool windowOpen;
     wxPoint pos;
     wxPoint defaultPos;
+    
+    int picInterrupt;
 };
 
 // Timer configuration class definitions:
@@ -920,6 +946,18 @@ class Cd4536bConfiguration : public IoGroupConfiguration
 public:
     IoPort writeControl;
     EfFlag ef;
+};
+
+// MM57109 configuration class definitions:
+
+class Mm57109Configuration : public IoGroupDefineConfiguration
+{
+public:
+    IoPort input;
+    IoPort output;
+
+    EfFlag ef;
+    double clock;
 };
 
 // Printer configuration class definitions:
@@ -967,6 +1005,41 @@ public:
     IoPort output;
     IoPort input;
     EfFlag ef;
+};
+
+class Cdp1851PrinterIo
+{
+public:
+    Byte active;
+    int bitNumber;
+    int portNumber;
+};
+
+class Cdp1851PrinterConfiguration : public IoGroupDefineConfiguration
+{
+public:
+    double busyCycleTime;
+    double ackCycleTime;
+    
+    int portFunction[2];
+    int portRdyFunction[2];
+    int portStrobeFunction[2];
+    
+    Byte ackMask;
+    Byte busyMask;
+    Byte selectInMask;
+    Byte errorMask;
+    Byte paperOutMask;
+
+    Cdp1851PrinterIo init;
+    Cdp1851PrinterIo selectOut;
+    Cdp1851PrinterIo strobe;
+    Cdp1851PrinterIo autoLf;
+    Cdp1851PrinterIo busy;
+    Cdp1851PrinterIo ack;
+    Cdp1851PrinterIo selectIn;
+    Cdp1851PrinterIo error;
+    Cdp1851PrinterIo paperOut;
 };
 
 // Memory configuration class definitions:
@@ -1095,6 +1168,8 @@ public:
     EfFlag inEf;
     EfFlag inEfElf;
     EfFlag startEf;
+    
+    bool oneKeyIn;
 };
 
 class MultiSegDisplayConfiguration : public IoGroupDefineConfiguration
@@ -1122,6 +1197,8 @@ class LedDisplayConfiguration : public IoGroupDefineConfiguration
 public:
     IoPort output;
     
+    bool outtil[8][2];
+    bool outtilDpQ[8][2];
     bool datatil[MAX_DATA_TIL];
     bool datatilDpQ[MAX_DATA_TIL];
     bool addresstil[MAX_ADDRESS_TIL];
@@ -1148,6 +1225,7 @@ public:
     
     int stopDelay;
     int endDelay;
+    bool flipq;
 };
 
 class HwTapeConfiguration : public IoGroupDefineConfiguration
@@ -1340,6 +1418,33 @@ public:
     bool videoLog_defined;
 };
 
+class TraceInstructionSepDetails
+{
+public:
+	int sepType;
+	Byte registerValue;
+	wxString stringValue;
+	Byte offset;
+};
+
+class CheckDetails
+{
+public:
+	Byte mask;
+	Byte value;
+};
+
+class SepConfiguration
+{
+public:
+    Word sepAddress;
+    Byte sepRegister;
+    int bytes;
+	CheckDetails pcByte;
+    CheckDetails preByte;
+	vector<TraceInstructionSepDetails> details;
+};
+
 // File & directory configuration class definitions:
 
 class FileConfiguration
@@ -1434,6 +1539,9 @@ public:
     wxPoint position;
     wxSize size;
     int value;
+    IoPort input;
+    IoPort output;
+    IoPort tilOutput;
     int rangeLow;
     int rangeHigh;
     int textSize;
@@ -1525,6 +1633,9 @@ class ComputerConfiguration
 public:
     MainIoGroupConfiguration ioGroupConfiguration;
     
+    // FucntionKey configurations
+    ModKeyConfiguration modKeyConfiguration;
+
     // Video configurations
     CDP1861Configuration cdp1861Configuration;
     CDP1862Configuration cdp1862Configuration;
@@ -1577,7 +1688,8 @@ public:
     
     // MDC configurations:
     Cdp1855Configuration cdp1855Configuration;
-    
+    Mm57109Configuration mm57109Configuration;
+
     // PIC configurations:
     vector<Cdp1877Configuration> cdp1877Configuration;
     
@@ -1592,6 +1704,7 @@ public:
     QSerialPrinterConfiguration qSerialPrinterConfiguration;
     CentronicsPrinterConfiguration centronicsPrinterConfiguration;
     ThermalPrinterConfiguration thermalPrinterConfiguration;
+    Cdp1851PrinterConfiguration cdp1851PrinterConfiguration;
     
     // Memory configurations:
     MemoryMapperConfiguration memoryMapperConfiguration;
@@ -1638,6 +1751,7 @@ public:
     // Assembler & Debugger configurations:
     vector<AssemblerConfiguration> assemblerConfiguration;
     DebuggerConfiguration debuggerConfiguration;
+    vector<SepConfiguration> sepConfiguration;
 
     // File & directory configurations:
     WavConfiguration wavConfiguration[2];
@@ -1673,7 +1787,9 @@ public:
     int stepPressType;
     bool useHexKeyboard;
     bool forceUpperCase;
-    
+    int numberOfPadKeys;
+    wxString defaultKeyDefinition[2];
+
     // CPU and I/O related configuration items
     wxString clock_;
     double clockSpeed_;

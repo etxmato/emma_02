@@ -172,6 +172,7 @@ public:
     DebugWindow(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
     ~DebugWindow();
 
+    void clearDebugMemory();
     void readDebugConfig();
     void writeDebugConfig();
 
@@ -452,6 +453,8 @@ public:
     void onDebugMode(wxCommandEvent& event);
     void onFxDebugMode();
 
+    wxString getAssemblySep(Word *address, Byte n, wxString *printBufferDetails, wxString *printBufferOpcode, Byte *scrtProgramCounter, bool *startHiddenTrace, bool *stopHiddenTrace, bool skipTrace);
+    void writeSepDatatype(Word address, Byte instructionCode_);
     void updateChip8DebugMenu(bool debugMode);
     void onChip8DebugMode(wxCommandEvent& event);
     void onChip8PauseButton(wxCommandEvent&event);
@@ -477,10 +480,10 @@ public:
     void onChip8PercentageClock(wxScrollEvent&event);
 
     bool getDebugScrtMode() {return computerConfiguration.debuggerConfiguration.mode;};
-    Byte getDebugCallReg() {return computerConfiguration.debuggerConfiguration.callRegister;};
-    Word getDebugCallAddress() {return computerConfiguration.debuggerConfiguration.callAddress;};
-    Byte getDebugRetReg() {return computerConfiguration.debuggerConfiguration.returnRegister;};
-    Word getDebugRetAddress() {return computerConfiguration.debuggerConfiguration.returnAddress;};
+    
+    void setJumpCorrection(Byte instruction, int value);
+    void setNumberOfBytes(Byte instruction, int value);
+    int getNumberOfBytes(Byte instruction);
 
 protected:
     void trace();
@@ -555,6 +558,9 @@ private:
     void addTrap(); 
     void addTreg(); 
     wxString cdp1802disassemble(Word* address, bool includeDetails, bool showOpcode, bool textAssembler, Word start, Word end);
+    bool sepTraceValid(Word address, Byte n, SepConfiguration traceInfo);
+    bool sepRegisterAndAddressValid(Word address, Byte n, SepConfiguration traceInfo);
+    void storeByteAndAddress(Byte value, Word *address, Byte *byteValue);
     wxString getShortAddressOrLabel(Word address, bool textAssembler, Word start, Word end);
     wxString getLongAddressOrLabel(Word address, bool textAssembler, Word start, Word end);
     wxString getSubAddressOrLabel(Word address, bool textAssembler, Word start, Word end);

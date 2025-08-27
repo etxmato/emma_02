@@ -36,7 +36,7 @@ From the printer output window it is possible to use the print button to send th
 <p>
 The printer font can be changed with the first 'Font' choice button (highlighted in blue). Default the teletype font is used which has a fixed width per line (like a matrix printer), all other fonts have a variable character width. The number of characters per line can be changed (40, 80, 96 or 120) with the second 'Font' choice button (highlighted in orange). 
 </p>
-<h3>COMX PL-80 Plotter Window</h3>
+<h2>COMX PL-80 Plotter Window</h2>
 <p>
 <IMG SRC="images/printer_plotter.png" border="0" width="443" height ="52">
 </p>
@@ -73,12 +73,29 @@ An example is also included to print the different character sets, see the file 
 <p>
 For additional PL-80 commands please have a look in the PL-80 folder on the <a href="http://www.comxclub.hobby-site.com">Dutch COMX Club</a>.
 </p>
-<h2>COMX LED disable</h2>
+<h2>COMX-35 & COMiX Specifics</h2>
+<h3>LED disable</h3>
 <p>
 It is possible to disable the COMX status LEDs by clicking one of the LEDs, a red cross shows the LEDs are disabled (highlighted in yellow). This will speed up printout especially when using higher CPU speeds.
 </p>
 <p>
 <IMG SRC="images/comx_status_leds.png" BORDER="0">
+</p>
+<h3>XML Printer Support</h3>
+<p>
+To run the COMX emulator with the Parallel printer card (as well as COMX PL-80 Plotter simulation) select one of these XML files:
+<ul>
+<li>fdc-print-32k-80col.xml
+<li>fdc-print-32k-eprom.xml
+<li>superboard-80col.xml
+<li>superboard.xml
+</ul> 
+</p>
+<p>
+To run the COMX emulator with the Serial printer card select XML file fdc-serial-32k-eprom.xml.
+</p>
+<p>
+To run the COMX emulator with the Thermal printer card select XML file fdc-thermal-32k-joy.xml.
 </p>
 </BODY>
 </HTML>

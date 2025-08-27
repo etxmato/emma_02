@@ -73,7 +73,6 @@ public:
     Byte pixieDmaOut();
 
     bool interrupt();
-    void requestInterrupt();
     void requestInterrupt(int type, bool state, int picNumber);
     void pixieInterrupt();
     void setEf(int flag, int value);
@@ -148,7 +147,7 @@ public:
     Byte get1805Counter() {return counter_;};
     Byte get1805Ch() {return ch_;};
     Byte is1805CtrRunning() {return ctrRunning_;};
-    bool getSkipTraceMode() {return skipTrace_;};
+    bool getSkipTraceMode() {return skipTrace_ || skipTraceHb_;};
     
     void writeMemLabelType(Word address, Byte type);
     Byte readMemLabelType(Word address);
@@ -199,8 +198,11 @@ protected:
     Byte bus_;
     Byte instructionCode_;
     wxString traceBuffer_;
+    wxString lastTraceBuffer_;
     bool stopHiddenTrace_;
     bool startHiddenTrace_;
+    bool stopHiddenBranchTrace_;
+    bool startHiddenBranchTrace_;
 
     int expansionSlot_;
     int ramBank_;
@@ -218,7 +220,6 @@ protected:
     Word setLatch_;
     Word romMask_;
     
-    bool interruptRequested_;
     bool interruptRequested[INTERRUPT_TYPE_MAX];
     int picInterruptNumber[INTERRUPT_TYPE_MAX];
     int interruptRequestedCounter[INTERRUPT_TYPE_MAX];
@@ -243,6 +244,7 @@ private:
 
     bool trace_;
     bool skipTrace_;
+    bool skipTraceHb_;
     bool traceDma_;
     bool traceInt_;
     bool traceChip8Int_;

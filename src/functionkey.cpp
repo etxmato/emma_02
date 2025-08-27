@@ -122,7 +122,7 @@ FunctionKeyMapDialog::FunctionKeyMapDialog(wxWindow* parent)
     XRCCTRL(*this, "EnableCtrlv", wxCheckBox)->SetValue(useCtrlvKey_);
     XRCCTRL(*this, "FunctionKeyD", wxButton)->Enable(useCtrlvKey_);
 
-    LoadAndCompare("Xml");
+//    LoadAndCompare("Xml");
     
     updateButtons();
     

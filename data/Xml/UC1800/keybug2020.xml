@@ -16,7 +16,7 @@
     
     <frontpanel init="on">
         <out>1</out>
-        <in>1</in>
+        <in default="uc1800">1</in>
         <ef type="start">1</ef>
         <size>464, 264</size>
         <item>

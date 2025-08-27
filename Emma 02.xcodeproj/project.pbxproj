@@ -18,8 +18,12 @@
 		991504CC2944BD3A0078B02D /* libserialport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 991504CB2944BD3A0078B02D /* libserialport.a */; };
 		99200F2928C299E300E94880 /* vis1870.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99200F2728C299E300E94880 /* vis1870.cpp */; };
 		99200F2A28C299E300E94880 /* vis1870.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99200F2728C299E300E94880 /* vis1870.cpp */; };
+		99201C8B2DA8581B00DCBFE0 /* cdp1851.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99201C8A2DA8581B00DCBFE0 /* cdp1851.cpp */; };
+		99201C8C2DA8581B00DCBFE0 /* cdp1851.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99201C8A2DA8581B00DCBFE0 /* cdp1851.cpp */; };
 		9926E24E2D3050C300A4530B /* cdp1877.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9926E24C2D3050C200A4530B /* cdp1877.cpp */; };
 		9926E24F2D3050C300A4530B /* cdp1877.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9926E24C2D3050C200A4530B /* cdp1877.cpp */; };
+		992E125B2D7E42590000707B /* mm57109.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 992E125A2D7E42590000707B /* mm57109.cpp */; };
+		992E125C2D7E42590000707B /* mm57109.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 992E125A2D7E42590000707B /* mm57109.cpp */; };
 		99321273285FB74F00A7793E /* mac_OS12.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99321272285FB74F00A7793E /* mac_OS12.cpp */; };
 		9935652B21446B7000A329C6 /* STK-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9935652A21446B7000A329C6 /* STK-2.syntax */; };
 		993B164A211EBD9C008A5656 /* GPL-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 993B1649211EBD9C008A5656 /* GPL-2.syntax */; };
@@ -41,7 +45,6 @@
 		995ED6422BD439DB000FA9E5 /* statusbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 995ED6402BD439CF000FA9E5 /* statusbar.cpp */; };
 		995ED6432BD439DC000FA9E5 /* statusbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 995ED6402BD439CF000FA9E5 /* statusbar.cpp */; };
 		995FE8912516136400F96DB8 /* SuperChip.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995FE8902516136300F96DB8 /* SuperChip.syntax */; };
-		99605651230AF26F009FF74F /* pio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9960564F230AF26E009FF74F /* pio.cpp */; };
 		9960FF23211953CE00DB2EDD /* GPL-A_ROM.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9960FF22211953CE00DB2EDD /* GPL-A_ROM.syntax */; };
 		996C1615212F3F130061C30B /* pseudo.def in Resources */ = {isa = PBXBuildFile; fileRef = 996C1614212F3F130061C30B /* pseudo.def */; };
 		996D0A19291D996F0021C134 /* keyblatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 996D0A17291D992A0021C134 /* keyblatch.cpp */; };
@@ -225,7 +228,6 @@
 		99F37EC0285D1D9200C57417 /* mc6845.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976473C1A61D5EE00FB9B33 /* mc6845.cpp */; };
 		99F37EC1285D1D9200C57417 /* keymaptmc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 996F46241AA643B300C88AA6 /* keymaptmc.cpp */; };
 		99F37EC3285D1D9200C57417 /* guivip2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647181A61D5EE00FB9B33 /* guivip2.cpp */; };
-		99F37EC4285D1D9200C57417 /* pio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9960564F230AF26E009FF74F /* pio.cpp */; };
 		99F37EC5285D1D9200C57417 /* i8275.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976474A1A61D5EE00FB9B33 /* i8275.cpp */; };
 		99F37EC6285D1D9200C57417 /* cdp1852.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9970174B23298F2C00D66312 /* cdp1852.cpp */; };
 		99F37ECE285D1D9200C57417 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9999EAC41CBA8B8800A50336 /* SDL2.framework */; };
@@ -322,6 +324,8 @@
 		9909A21F1F2144D200B17E58 /* Splash.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Splash.pjd; sourceTree = "<group>"; };
 		9909A2231F2144D200B17E58 /* Cassette.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Cassette.pjd; sourceTree = "<group>"; };
 		9909A22F1F2144D200B17E58 /* Datadir.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Datadir.pjd; sourceTree = "<group>"; };
+		990D84BA2E2EDA8300B8119E /* win7_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = win7_11.ini; sourceTree = "<group>"; };
+		990D84BB2E2EDA8300B8119E /* win7_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = win7_12.ini; sourceTree = "<group>"; };
 		991199421E92ECC30074ADAA /* splash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = splash.cpp; path = src/splash.cpp; sourceTree = "<group>"; };
 		991199431E92ECC30074ADAA /* splash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = splash.h; path = src/splash.h; sourceTree = "<group>"; };
 		991504CB2944BD3A0078B02D /* libserialport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libserialport.a; path = ../../../../usr/local/lib/serialport_x64/libserialport.a; sourceTree = "<group>"; };
@@ -368,8 +372,12 @@
 		991A43EB279CA7FA0049C544 /* vt_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = vt_12.xrc; sourceTree = "<group>"; };
 		99200F2728C299E300E94880 /* vis1870.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vis1870.cpp; path = src/vis1870.cpp; sourceTree = "<group>"; };
 		99200F2828C299E300E94880 /* vis1870.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vis1870.h; path = src/vis1870.h; sourceTree = "<group>"; };
+		99201C892DA8581B00DCBFE0 /* cdp1851.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = cdp1851.h; path = src/cdp1851.h; sourceTree = "<group>"; };
+		99201C8A2DA8581B00DCBFE0 /* cdp1851.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = cdp1851.cpp; path = src/cdp1851.cpp; sourceTree = "<group>"; };
 		9926E24C2D3050C200A4530B /* cdp1877.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cdp1877.cpp; path = src/cdp1877.cpp; sourceTree = "<group>"; };
 		9926E24D2D3050C200A4530B /* cdp1877.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cdp1877.h; path = src/cdp1877.h; sourceTree = "<group>"; };
+		992E125A2D7E42590000707B /* mm57109.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = mm57109.cpp; path = src/mm57109.cpp; sourceTree = "<group>"; };
+		992E125D2D7E42610000707B /* mm57109.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = mm57109.h; path = src/mm57109.h; sourceTree = "<group>"; };
 		99321272285FB74F00A7793E /* mac_OS12.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mac_OS12.cpp; path = src/mac_OS12.cpp; sourceTree = "<group>"; };
 		9935652A21446B7000A329C6 /* STK-2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "STK-2.syntax"; sourceTree = "<group>"; };
 		993B1649211EBD9C008A5656 /* GPL-2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GPL-2.syntax"; sourceTree = "<group>"; };
@@ -398,8 +406,6 @@
 		995ED6402BD439CF000FA9E5 /* statusbar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = statusbar.cpp; path = src/statusbar.cpp; sourceTree = "<group>"; };
 		995ED6412BD439CF000FA9E5 /* statusbar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = statusbar.h; path = src/statusbar.h; sourceTree = "<group>"; };
 		995FE8902516136300F96DB8 /* SuperChip.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SuperChip.syntax; sourceTree = "<group>"; };
-		9960564F230AF26E009FF74F /* pio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pio.cpp; path = src/pio.cpp; sourceTree = "<group>"; };
-		99605650230AF26F009FF74F /* pio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pio.h; path = src/pio.h; sourceTree = "<group>"; };
 		9960FF22211953CE00DB2EDD /* GPL-A_ROM.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GPL-A_ROM.syntax"; sourceTree = "<group>"; };
 		996B97391B24116B009827BF /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		996C1614212F3F130061C30B /* pseudo.def */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pseudo.def; sourceTree = "<group>"; };
@@ -748,6 +754,8 @@
 				991A43C1279C321E0049C544 /* ubuntu.3_12.ini */,
 				991A43BE279C321E0049C544 /* ubuntu.4_11.ini */,
 				991A43BF279C321E0049C544 /* ubuntu.4_12.ini */,
+				990D84BA2E2EDA8300B8119E /* win7_11.ini */,
+				990D84BB2E2EDA8300B8119E /* win7_12.ini */,
 				991A43C9279C322E0049C544 /* win8_11.ini */,
 				991A43CA279C322E0049C544 /* win8_12.ini */,
 				991A43C4279C322D0049C544 /* win10_11.ini */,
@@ -802,6 +810,8 @@
 				99048D6E2B76B72000F2F648 /* cd4536b.h */,
 				997647001A61D5EE00FB9B33 /* cdp1802.cpp */,
 				9976475C1A61D5EE00FB9B33 /* cdp1802.h */,
+				99201C8A2DA8581B00DCBFE0 /* cdp1851.cpp */,
+				99201C892DA8581B00DCBFE0 /* cdp1851.h */,
 				9970174B23298F2C00D66312 /* cdp1852.cpp */,
 				9970174C23298F2C00D66312 /* cdp1852.h */,
 				99DF0DAC2D4FCF3F00064909 /* cdp1854.cpp */,
@@ -877,12 +887,12 @@
 				997647841A61D5EE00FB9B33 /* mc6847.h */,
 				997647211A61D5EE00FB9B33 /* memory.cpp */,
 				9976475F1A61D5EE00FB9B33 /* memory.h */,
+				992E125A2D7E42590000707B /* mm57109.cpp */,
+				992E125D2D7E42610000707B /* mm57109.h */,
 				99F263CC220CD4EC00EA87B5 /* network.cpp */,
 				99F263CD220CD4ED00EA87B5 /* network.h */,
 				997647151A61D5EE00FB9B33 /* panel.cpp */,
 				997647161A61D5EE00FB9B33 /* panel.h */,
-				9960564F230AF26E009FF74F /* pio.cpp */,
-				99605650230AF26F009FF74F /* pio.h */,
 				9976474E1A61D5EE00FB9B33 /* pixie.cpp */,
 				997647621A61D5EE00FB9B33 /* pixie.h */,
 				997647351A61D5EE00FB9B33 /* portext.cpp */,
@@ -1218,6 +1228,7 @@
 				997647E91A61D5EF00FB9B33 /* keypad.cpp in Sources */,
 				99AD5DF42931600C0060EC01 /* keybmatrix.cpp in Sources */,
 				997648031A61D5EF00FB9B33 /* datadir.cpp in Sources */,
+				99201C8B2DA8581B00DCBFE0 /* cdp1851.cpp in Sources */,
 				9976480A1A61D5EF00FB9B33 /* ps2.cpp in Sources */,
 				997647EB1A61D5EF00FB9B33 /* mc6847.cpp in Sources */,
 				9903EB882BDAFBE8001FC910 /* guisb.cpp in Sources */,
@@ -1240,6 +1251,7 @@
 				997647BF1A61D5EE00FB9B33 /* main.cpp in Sources */,
 				997647BA1A61D5EE00FB9B33 /* cdp1802.cpp in Sources */,
 				997647D71A61D5EF00FB9B33 /* til313.full.cpp in Sources */,
+				992E125C2D7E42590000707B /* mm57109.cpp in Sources */,
 				99BFDEDB29BD2ED300B1F2C6 /* sn76430n.cpp in Sources */,
 				99BC74FC1DCFDB5C0000D8A9 /* upd765.cpp in Sources */,
 				99E041812A225A6F00146D04 /* wxcurl_dialog.cpp in Sources */,
@@ -1256,7 +1268,6 @@
 				996F46261AA643B300C88AA6 /* keymaptmc.cpp in Sources */,
 				997647CD1A61D5EF00FB9B33 /* guivip2.cpp in Sources */,
 				9926E24E2D3050C300A4530B /* cdp1877.cpp in Sources */,
-				99605651230AF26F009FF74F /* pio.cpp in Sources */,
 				997647F31A61D5EF00FB9B33 /* i8275.cpp in Sources */,
 				9970174D23298F2D00D66312 /* cdp1852.cpp in Sources */,
 			);
@@ -1304,6 +1315,7 @@
 				99F37E8D285D1D9200C57417 /* datadir.cpp in Sources */,
 				99AD5DF52931600C0060EC01 /* keybmatrix.cpp in Sources */,
 				99F37E8E285D1D9200C57417 /* ps2.cpp in Sources */,
+				99201C8C2DA8581B00DCBFE0 /* cdp1851.cpp in Sources */,
 				99F37E91285D1D9200C57417 /* mc6847.cpp in Sources */,
 				9903EB892BDAFBE9001FC910 /* guisb.cpp in Sources */,
 				99F37E95285D1D9200C57417 /* tms9918.cpp in Sources */,
@@ -1326,6 +1338,7 @@
 				99F37EAD285D1D9200C57417 /* main.cpp in Sources */,
 				99F37EAE285D1D9200C57417 /* cdp1802.cpp in Sources */,
 				99F37EAF285D1D9200C57417 /* til313.full.cpp in Sources */,
+				992E125B2D7E42590000707B /* mm57109.cpp in Sources */,
 				99BFDEDC29BD2ED300B1F2C6 /* sn76430n.cpp in Sources */,
 				99F37EB3285D1D9200C57417 /* upd765.cpp in Sources */,
 				99E041822A225A7000146D04 /* wxcurl_dialog.cpp in Sources */,
@@ -1342,7 +1355,6 @@
 				99F37EC1285D1D9200C57417 /* keymaptmc.cpp in Sources */,
 				99F37EC3285D1D9200C57417 /* guivip2.cpp in Sources */,
 				9926E24F2D3050C300A4530B /* cdp1877.cpp in Sources */,
-				99F37EC4285D1D9200C57417 /* pio.cpp in Sources */,
 				99F37EC5285D1D9200C57417 /* i8275.cpp in Sources */,
 				99F37EC6285D1D9200C57417 /* cdp1852.cpp in Sources */,
 			);

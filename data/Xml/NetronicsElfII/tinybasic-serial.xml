@@ -259,7 +259,7 @@
         <key_input>0xa5d, 0xbb</key_input>
 
         <!-- Machine states -->
-        <reset_state command="&#xD;&#xD;">0xbb</reset_state>
+        <reset_state command="&#xD;&#xA;">0xbb</reset_state>
         <basic_state>0xa74</basic_state>
         <run_state></run_state>
 

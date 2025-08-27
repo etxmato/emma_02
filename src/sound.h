@@ -97,7 +97,7 @@ public:
     void forwardTape(int tapeState);
     void rewindTape(int tapeState);
     void setVolume(int volume);
-    void setClockRate(double clock);
+    void setSoundClockRate(double clock);
     void setPercentageClock(double percentage);
     bool isSaving();
     bool isLoading();
@@ -131,6 +131,8 @@ protected:
     long long tapePeriod_;
     bool tapeRecording_;
     long stopTapeCounter_;
+    int stopDelayQ_;
+    
     wxString tapeNumber_;
 
     int activeSoundType_;

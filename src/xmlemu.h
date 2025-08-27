@@ -30,13 +30,14 @@
 #include "joycard.h"
 #include "usb.h"
 #include "rtc.h"
-#include "pio.h"
+#include "cdp1851.h"
 #include "cdp1852.h"
 #include "cdp1854.h"
 #include "cdp1855.h"
 #include "cdp1877.h"
 #include "cdp1878.h"
 #include "cd4536b.h"
+#include "mm57109.h"
 #include "upd765.h"
 #include "ay-3-8912.h"
 
@@ -61,6 +62,7 @@ public:
     void onClose(wxCloseEvent&event);
     void resumeComputer();
     void charEvent(int keycode);
+    void charEvent(wxKeyEvent& event, int keycode);
     bool keyDownPressed(int keycode);
     bool keyDownExtended(int keycode, wxKeyEvent& event);
     bool keyUpReleased(int keycode);
@@ -103,10 +105,12 @@ public:
     void cycleInt();
     void picInterruptRequest(int type, bool state, int picNumber);
     void cycleLed();
+    void setClockRate(double clock);
     void printOutPecom(int q);
     void onXmlF4(bool forceStart);
     void slotOut(Byte value);
     Byte slotShift(Byte value, int shift);
+    void showLastIo();
     void showData(Byte value);
     void showCycleData(Byte val);
     void showCycleAddress(Word val);
@@ -114,6 +118,8 @@ public:
     void setMode();
     void showState(int state);
     void showDmaLed();
+    void showMrdLed(int state);
+    void showMwrLed(int state);
     void showIntLed();
     void showStatusLed(int led, int status);
     void updateStatusBarLedStatus(bool status, int led);
@@ -124,6 +130,7 @@ public:
     int getMpButtonState();
     void onWaitButton(wxCommandEvent&event);
     void onWaitButton();
+    void setWaitButtonState(int value);
     void onStopButton(wxCommandEvent&event);
     void onPowerButton(wxCommandEvent&event);
     void onPowerButton();
@@ -140,6 +147,7 @@ public:
     void onMpButton(int buttonNumber);
     void onEmsButton(int buttonNumber, bool up);
     void onEmsButton(wxCommandEvent&event);
+    void onDataIoSwitch();
     void setMultiCartGame();
     void onRamButton(wxCommandEvent&event);
     void onRamButton();
@@ -163,6 +171,7 @@ public:
     void onCardButtonSwitch();
     void updateCardReadStatus();
     void dataSwitch(int i);
+    void inpSwitch(int input, int bit);
     void efSwitch(int i);
 
     void onNumberKeyDown(int i);
@@ -227,6 +236,7 @@ public:
     void writeDirect6847(Word address, int value); 
     void setLedMs(long ms);
     void setLedMsTemp(long ms);
+    void setMathLed(int i, int status);
     Byte getKey(Byte vtOut);
     void activateMainWindow();
     void releaseButtonOnScreen(HexButton* buttonPointer);
@@ -322,7 +332,7 @@ public:
     void cassette56();
     void cassettePm();
     void startRecording(int tapeNumber);
-    void finishStopTape();
+    void finishStopTape(bool loadDelay);
     void resetTape();
     void tapeIo(Byte value);
     void onDataSwitch(wxCommandEvent&event);
@@ -343,6 +353,7 @@ public:
     int getDataBits() {return currentComputerConfiguration.hwTapeConfiguration.dataBits;};
     int getStopBit() {return currentComputerConfiguration.hwTapeConfiguration.stopBit;};
     int getIoGroup() {return ioGroup_;};
+    bool ioGroupCdp1870(int ioGroup, int qState);
 
     void onBackupYes(wxString dir, bool sub);
     void setEfKeyValue(int ef, Byte value);
@@ -382,8 +393,8 @@ private:
     vector<PanelFrame *> panelPointer;
     int numberOfFrontPanels_;
 
-    vector<PioFrame *> cdp1851FramePointer;
-    int numberOfCdp1851Frames_;
+    vector<Cdp1851Instance *> cdp1851InstancePointer;
+    int numberOfCdp1851Instances_;
 
     vector<Cdp1854Instance *> cdp1854InstancePointer;
     int numberOfCdp1854Instances_;
@@ -391,7 +402,8 @@ private:
     int cdp1854Ut58Connection_;
 
     Cdp1855Instance *cdp1855InstancePointer;
-    
+    Mm57109Instance *mm57109InstancePointer;
+
     AY_3_8912Instance *ay_3_8912InstancePointer;
 
     vector<Cdp1877Instance *> cdp1877InstancePointer;
@@ -480,6 +492,8 @@ private:
     int dataSwitchState_[8];
     int efSwitchState_[4];
 
+    Byte inpSwitchState_[8];
+
     Byte lastMode_;
     bool monitor_;
     int nanoMonitor_;
@@ -535,6 +549,7 @@ private:
     int printValue_;
 
     bool ramGroupAtV1870_;
+    bool visRunning_;
         
     bool hexModemOnStart;
 
@@ -623,6 +638,9 @@ private:
     int inKey2_;
     
     Word memoryStart_;
+    
+    bool dataIoSwitchBus_;
+    Byte lastIo_;
 
     DECLARE_EVENT_TABLE()
 };

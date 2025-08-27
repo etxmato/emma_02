@@ -1,7 +1,8 @@
+
 <HTML>
-<Title>ROM, RAM, NVR</Title>
+<Title>ROM, RAM, NVR, RTC</Title>
 <BODY>
-<h2>ROM, RAM, NVR</h2>
+<h1>ROM, RAM, NVR, RTC</h1>
 <p>
 Most computer configurations will define one or two ROM @xxxx, RAM @xxxx or NVR @xxxx buttons as shown (highlighted in yellow) in screenshot below.
 </p>
@@ -17,5 +18,14 @@ Note that ROM files in binary format (extension bin, ch8, c8x, ch10, sc8, st2), 
 <p>
 During run time additional files can be loaded, see also sections <a href="ComputerMemAccess.htm">Memory Access</a>, <a href="ComputerDisk.htm">Disk Support</a>, <a href="ComputerCassette.htm">Cassette Support</a> and/or <a href="ComputerModem.htm">HEX or XMODEM Support</a>
 </p>
+<h2>NVR</h2>
+<p>
+To clear NVR memory at start-up, select the 'Clear non-volatile' RAM check box. After start-up the emulator will automatically unselect the checkbox.
+</p>
+<h2>RTC</h2>
+<p>
+To clear RTC memory at start-up, select the 'Clear non-volatile' RTC. After start-up the emulator will automatically unselect the checkbox.
+</p>
+<p>
 </BODY>
 </HTML>

@@ -80,23 +80,26 @@
         <out>4</out>
     </sound>
 
-    <keypad type="latch" pad="1">
+    <keypad type="latch" pad="1" keys="10">
         <out mask="0x0f">2</out>
         <ef pol="rev">3</ef>
         <auto>on</auto>
 
         <keydef type="file">keydefinition_studio.txt</keydef>
-        
+        <default>studiodefault</default>
+
         <diagonal key1="2" key2="4">1</diagonal>
         <diagonal key1="2" key2="6">3</diagonal>
         <diagonal key1="4" key2="8">7</diagonal>
         <diagonal key1="6" key2="8">9</diagonal>
     </keypad>
 
-    <keypad type="latch" pad="2">
+    <keypad type="latch" pad="2" keys="10">
         <out mask="0x0f">2</out>
         <ef pol="rev">4</ef>
         <auto>on</auto>
+
+        <default>studiodefault</default>
 
         <diagonal key1="2" key2="4">1</diagonal>
         <diagonal key1="2" key2="6">3</diagonal>

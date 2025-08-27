@@ -482,6 +482,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\cdp1851.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\cdp1852.cpp"
 				>
 			</File>
@@ -626,15 +630,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\mm57109.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\network.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\src\panel.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\pio.cpp"
 				>
 			</File>
 			<File
@@ -810,6 +814,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\cdp1851.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\cdp1852.h"
 				>
 			</File>
@@ -962,15 +970,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\mm57109.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\network.h"
 				>
 			</File>
 			<File
 				RelativePath=".\src\panel.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\pio.h"
 				>
 			</File>
 			<File

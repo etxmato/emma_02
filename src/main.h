@@ -301,34 +301,7 @@ public:
     int bitness;
     bool arm;
     bool suse;
-
-    int clockTextCorrectionSingleTabX;
-    int clockCorrectionSingleTabX;
-    int mhzTextCorrectionSingleTabX;
-    int stopCorrectionSingleTabX;
-    int startCorrectionSingleTabX;
-    int clockTextCorrectionX;
-    int clockCorrectionX;
-    int mhzTextCorrectionX;
-    int stopCorrectionX;
-    int startCorrectionX;
     
-    int clockTextCorrectionSingleTabY;
-    int clockCorrectionSingleTabY;
-    int mhzTextCorrectionSingleTabY;
-    int stopCorrectionSingleTabY;
-    int startCorrectionSingleTabY;
-    int clockTextCorrectionY;
-    int clockCorrectionY;
-    int mhzTextCorrectionY;
-    int stopCorrectionY;
-    int startCorrectionY;
-    
-    int floatHeight;
-    int startHeight;
-
-    int clockSize;
-
     int red;
     int green;
     int blue;
@@ -357,6 +330,7 @@ class Mode
     bool gui;
     bool verbose;
     bool portable;
+    bool hide_splash_screen;
     bool full_screen;
     bool run;
     bool load;
@@ -470,8 +444,8 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.48
-#define EMMA_SUB_VERSION 6
+#define EMMA_VERSION 2.00
+#define EMMA_SUB_VERSION 0
 
 #define XML 0
 
@@ -865,6 +839,13 @@ public:
 #define MEM_TYPE_OPERAND_LDR_3 189
 #define MEM_TYPE_OPERAND_LDR_5 190
 #define MEM_TYPE_OPCODE_LDRL_SLOT 191
+#define MEM_TYPE_OPCODE_SEP_X 192
+#define MEM_TYPE_OPERAND_SEP_X_1 193
+#define MEM_TYPE_OPERAND_SEP_X_2 194
+#define MEM_TYPE_OPERAND_SEP_X_3 195
+#define MEM_TYPE_OPERAND_SEP_X_4 196
+#define MEM_TYPE_OPCODE_SEP_CALL 197
+#define MEM_TYPE_OPCODE_SEP_RETURN 198
 
 #define LABEL_TYPE_NONE 0
 #define LABEL_TYPE_BRANCH 1
@@ -907,6 +888,7 @@ public:
 #define CR_NONE 0
 #define CR_CIDELSA 1
 #define CR_TMC600 2
+#define CR_VP3301 3
 
 class Emu1802: public wxApp
 {
@@ -958,10 +940,11 @@ public:
     void onQuit(wxCommandEvent& event);
     void onAbout(wxCommandEvent& event);
     void onDataDir(wxCommandEvent& event);
+    void onReInstallXml(wxCommandEvent& event);
     void onReInstallData(wxCommandEvent& event);
     void removeRedundantFiles();
     void deleteDir(wxString directory);
-    void reInstall(wxString source, wxString destination, wxString pathSep);
+    void reInstall(wxString source, wxString destination, wxString pathSep, wxString doNotCopy="");
     void removeOldXml(wxString dir, wxString pathSep);
     void reInstallOnNotFound(wxString fileTypeString);
     void checkAndReInstallFile(wxString fileAndPath, wxString fileTypeString);
@@ -1069,6 +1052,7 @@ public:
     void startTime();
     void showTime();
     void lapTime();
+    bool splashHidden() {return mode_.hide_splash_screen;};
     
     void sysColourChangeEvent(wxSysColourChangedEvent& event);
     void setSysColours();

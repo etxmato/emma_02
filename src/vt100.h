@@ -182,6 +182,7 @@ private:
     int vtOutBits_;
     long vtOutCount_;
     Byte vtOut_;
+    Byte flipFlopQ_;
 
     int cursorLine_;
     int cursorPosition_;

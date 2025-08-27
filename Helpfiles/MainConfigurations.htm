@@ -1,24 +1,1126 @@
 
 <HTML>
-<Title>Configuration</Title>
+<Title>XML Configurations</Title>
 <BODY>
-<h1>Configuration</h1>
-<h2>Save All on Exit</h2>
+<h1>XML Configurations</h1>
 <p>
-To automatically save all global and computer emulator specific settings on Emma 02 exit check the menu option below (highlighted in yellow):
+This section lists and explains some of the included xml files.
+</p>
+<h2>General</h2>
+
+<p><B>bare.xml</B></p>
+<p>
+Any xml file with 'bare' in the filename includes a basic configuration for that specific computer. 
+</p>
+
+<h2>CDP18S020 Evaluation Kit</h2>
+<p><B>tiny basic hex modem.xml</B></p>
+<p>
+Tiny BASIC loadable via hex modem into RAM.
+</p>
+<p><B>tiny basic ram.xml</B></p>
+<p>
+Tiny BASIC directly loaded in RAM.
+</p>
+
+<h2>COMIX-35 and COMX-35</h2>
+<p><B>diagnostic-&lt;video-type&gt;.xml</B></p>
+<p>
+COMX Diagnostic Board for video type pal or ntsc
+</p>
+<p><B>fdc-print-32k-80col.xml</B></p>
+<p>
+COMX configured with FDC, Standard Printer, 32K RAM &amp; 80 Column Card
+</p>
+<p><B>fdc-print-32k-eprom.xml</B></p>
+<p>
+COMX configured with FDC, Standard Printer, 32K RAM &amp; F&amp;M Eprom Board
+</p>
+<p><B>fdc-thermal-32k-joy.xml</B></p>
+<p>
+COMX configured with FDC, Thermal Printer, 32K RAM &amp; Joy card
+</p>
+<p><B>&lt;video-type&gt;_high_speed_direct_connect.xml</B></p>
+<p>
+COMX Configured with High Speed Direct Connect Board for video type pal or ntsc
+</p>
+<p><B>superboard-80col.xml</B></p>
+<p>
+COMX configured with SuperBoard &amp; 80 Column card
+</p>
+<p><B>superboard.xml</B></p>
+<p>
+COMX configured with SuperBoard
+</p>
+
+<h2>COSMAC Elf</h2>
+<p><B>led,keypad-multi_panel.xml</B></p>
+<p>
+COSMAC Elf configuration with separate Led &amp; Keypad panels.
+</p>
+<p><B>led,keypad-one_panel.xml</B></p>
+<p>
+COSMAC Elf configuration with one combined Led &amp; Keypad panel.
+</p>
+<p><B>led.xml</B></p>
+<p>
+COSMAC Elf configuration with Led panel.
+</p>
+
+<h2>COSMAC Elf 2000</h2>
+<p><B>bare hex.xml</B></p>
+<p>
+Bare Elf 2000 configuration using a hex panel.
+</p>
+<p><B>bare switch.xml</B></p>
+<p>
+Bare Elf 2000 configuration using a switch panel.
+</p>
+<p><B>i8275.xml</B></p>
+<p>
+Elf 2000 configuration using a Intel 8275 video card.
+</p>
+<p><B>serial.xml</B></p>
+<p>
+Elf 2000 configuration using a serial terminal.
+</p>
+<p><B>serial+pixie.xml</B></p>
+<p>
+Elf 2000 configuration using a serial terminal and a Pixie video card.
+</p>
+<p><B>uart.xml</B></p>
+<p>
+Elf 2000 configuration using a terminal connected via UART.
+</p>
+<p><B>uart+pixie.xml</B></p>
+<p>
+Elf 2000 configuration using a terminal connected via UART.
+</p>
+
+<h2>COSMAC Microtutor II</h2>
+<p><B>tops.xml</B></p>
+<p>
+Microtutor configuration using the mini OS 'TOPS' and the 'utility' memory concept.
+</p>
+
+<h2>COSMAC VIP</h2>
+<p><B>32K.xml</B></p>
+<p>
+COSMAC VIP with 32K RAM, also using the patched vip.32.rom file. 
+</p>
+<p><B>chip8.xml</B></p>
+<p>
+COSMAC VIP running Chip 8, also using the patched vip.32.rom file. Select any Chip-8 file in the RAM field or use LOAD after Start.
+</p>
+<p><B>chip8x-vp580-vp590-vp595.xml</B></p>
+<p>
+COSMAC VIP running Chip 8X, also using the patched vip.32.rom file. In addition this configuration includes the VP580, VP590 and VP595 extension boards. Select any Chip-8 file in the RAM field or use LOAD after Start.
+</p>
+<p><B>chip10.xml</B></p>
+<p>
+COSMAC VIP running Chip 10, also using the patched vip.32.rom file. Select any Chip-8 file in the RAM field or use LOAD after Start.
+</p>
+<p><B>fpb-vp590.xml</B></p>
+<p>
+COSMAC VIP running Fixed Point Basic and the VP590 board, also using the patched vip.32.rom file. 
+</p>
+<p><B>fpb.xml</B></p>
+<p>
+COSMAC VIP running Fixed Point Basic, also using the patched vip.32.rom file. 
+</p>
+<p><B>pin-8-vp550-&lt;stereo&gt;.xml</B></p>
+<p>
+COSMAC VIP running pin8 with a VP550 board in mono or stereo. 
+</p>
+<p><B>pin-8-vp551-&lt;stereo&gt;.xml</B></p>
+<p>
+COSMAC VIP running pin8 with a VP551 board in mono or stereo. 
+</p>
+<p><B>superchip-vp590-vp595.xml</B></p>
+<p>
+My own VIP SuperChip interpreter! Running with a VP590 and VP595 board.
+</p>
+<p><B>vp550.xml</B></p>
+<p>
+COSMAC VIP running with a VP550 board. 
+</p>
+<p><B>vp551xml</B></p>
+<p>
+COSMAC VIP running with a VP551 board. 
+</p>
+<p><B>vp590.xml</B></p>
+<p>
+COSMAC VIP running with a VP590 board. 
+</p>
+<p><B>vp700-vp590-vp595.xml</B></p>
+<p>
+The RCA VP700 Tine BASIC ROM, also using the patched vip.32.rom file. In addition this configuration includes the VP590 and VP595 extension boards. 
+</p>
+
+<h2>COSMAC VIP II</h2>
+<p><B>ed.xml</B></p>
+<p>
+The 'ED' is as build by Ed Keefe and described on his <a href="http://www.cosmacvip.com/VIP2/VIP2.php">Cosmac Vip II</a> page.
 </p>
 <p>
-<IMG SRC="images/configurations_save_exit.png" BORDER="0">
-</p>
-<h2>Set Default (All)</h2>
-<p>
-To reset all computer emulator specific settings, 'Wav file and Real Cassette Settings' and 'Function and Hot Keys' back to Emma 02 defaults select menu option below (highlighted in yellow). 
+Default the Cosmac Vip II 'ED' will start up in Fixed Point Basic (FPB). To start-up in ROM Mode press the 'F12' key (run switch) while pressing 'Start', after this press the 'C' key and while keeping the 'C' pressed, press 'F12' again. See also <a href="MainFunctionKeys.htm">Function and Hot Keys</a>. 
 </p>
 <p>
-<IMG SRC="images/configurations_default.png" BORDER="0">
+In FPB mode the FPB ROM is located from 0 to hex 3FFF except for hex 400-7FF and hex C00-FFF which is RAM. Also hex 4000-7FFF is RAM. In ROM Mode RAM is located from 0 to hex 7FFF. System ROM is loaded at hex hex 8000 for both modes.
+</p>
+<p><B>rca.xml</B></p>
+<p>
+The 'RCA' will emulate the RCA version a bit closer based on schematics recently found at the Hagley Museum and Library: Sarnoff/RCA Collection - Joseph A. Weisbecker's archived manuscripts and materials.
 </p>
 <p>
-<B>Note:</B> remaining global settings, SB Player name, location, email address and aliases will not be reset. 
+Default the Cosmac Vip II 'RCA' will start up in Fixed Point Basic (FPB). It is also possible to boot in RAM or VIP operating system by selecting 'Op Sys' or 'RAM' as auto boot mode instead of 'ROM - FPB'. 
 </p>
+<p>
+In run time on Windows and Linux: 'Alt 1' will restart in FPB, 'Alt 2' in RAM, 'Alt C' in the VIP operating system and 'Alt 3' will halt the VIP II.<br>
+In run time on Mac OSX: 'Command 1' will restart in FPB, 'Command 2' in RAM, 'Command C' in the VIP operating system and 'Command 3' will halt the VIP II.
+</p>
+<p>
+FPB and VIP System ROM is located from hex 8000-BFFF. 0 to hex 7FFF is reserved for RAM depending on selected size. 
+</p>
+
+<h2>Cidelsa Arcade Game Console</h2>
+<p><B>altair.xml</B></p>
+<p>
+Cidelsa Altair game ROM and HW configuration.
+</p>
+<p><B>destroyer-1.xml</B></p>
+<p>
+Cidelsa Destroyer game ROM (set 1) and HW configuration
+</p>
+<p><B>destroyer-2.xml</B></p>
+<p>
+Cidelsa Destroyer game ROM (set 2) and HW configuration
+</p>
+<p><B>draco.xml</B></p>
+<p>
+Cidelsa Draco game ROM and HW configuration
+</p>
+<p><B>xbomber-draco-32k.xml</B></p>
+<p>
+Crosslib Xbomber game running on Draco HW using 32K ROM file
+</p>
+<p><B>xchase-&lt;hw-type&gt;.xml</B></p>
+<p>
+Crosslib XChase game running on all possible cidelsa HW configurations
+</p>
+<p><B>xhorde-draco-32k</B></p>
+<p>
+Crosslib Xhorde game running on Draco HW using 32K ROM file
+</p>
+<p><B>xshoot-draco-32k.xml</B></p>
+<p>
+Crosslib Xshoot game running on Draco HW using 32K ROM file
+</p>
+
+<h2>Conic (Apollo, Mustang, MPT-02 and M1200)</h2>
+<p><B>academy_apollo80.xml</B></p>
+<p>
+Bare configuration for the Academy Apollo 80. Select any CART ROM file in ROM field.
+</p>
+<p><B>chip8.xml</B></p>
+<p>
+Conic chip-8 configuration, select any Chip-8 file in ROM field.
+</p>
+<p><B>conic_m-1200.xml</B></p>
+<p>
+Bare configuration for the Conic M-1200. Select any CART ROM file in ROM field.
+</p>
+<p><B>hamitex_mpt-02.xml</B></p>
+<p>
+Grand Pack configuration for the Hanimex MPT-02. Select any CART ROM file in ROM field.
+</p>
+<p><B>multicart.xml</B></p>
+<p>
+Conic configuration for the 40th Anniversary Multi-Cart, with system rom activated.
+</p>
+<p><B>mustang_9016.xml</B></p>
+<p>
+Bare configuration for the Mustang 9016. Select any CART ROM file in ROM field.
+</p>
+<p><B>sheen_m-1200.xml</B></p>
+<p>
+Bare configuration for the Sheen M-1200. Select any CART ROM file in ROM field.
+</p>
+<p><B>soundic_victory_mpt-02.xml</B></p>
+<p>
+Bare configuration for the Soundic Victory MPT-02. Select any CART ROM file in ROM field.
+</p>
+<p><B>test-cartridge.xml</B></p>
+<p>
+Bare configuration for the Soundic Victory MPT-02. Select any CART ROM file in ROM field.
+</p>
+<p><B>trevi_m1200.xml</B></p>
+<p>
+Conic Test Cartridge configuration.
+</p>
+
+<h2>Cosmicos - COSmac MIcro COmputer System</h2>
+<p><B>1864.xml</B></p>
+<p>
+Cosmicos configuration with a CDP1864 video chip.
+</p>
+<p><B>ascii-monitor.xml</B></p>
+<p>
+Cosmicos running the Ascii monitor.
+</p>
+<p><B>hex-multi_panel.xml</B></p>
+<p>
+Cosmicos configuration with seprate Hex and 7 Segment panels.
+</p>
+<p><B>hex-one_panel.xml</B></p>
+<p>
+Cosmicos configuration with one combined Hex and 7 Segment panel.
+</p>
+<p><B>ut4-monitor.xml</B></p>
+<p>
+Cosmicos running the Hex and UT4 Monitor.
+</p>
+
+<h2>Cybervision 2001</h2>
+<p><B>dollarwatch.xml</B></p>
+<p>
+Cybervision configuration running Dollarwatch.
+</p>
+<p><B>escape.xml</B></p>
+<p>
+Cybervision configuration running the Escape game.
+</p>
+<p><B>introseries-1a.xml</B></p>
+<p>
+Cybervision configuration running the tape: Introductory Series 1, Side A.
+</p>
+<p><B>sub-chase.xml</B></p>
+<p>
+Cybervision configuration running the Sub-Chase game.
+</p>
+
+<h2>EFA-datorn</h2>
+<p><B>efa-4.xml</B></p>
+<p>
+EFA-4 configuration.
+</p>
+<p><B>efa-8-2k.xml</B></p>
+<p>
+EFA-8 configuration with 2KB RAM
+</p>
+<p><B>efa-8-8k.xml</B></p>
+<p>
+EFA-8 configuration with 8KB RAM
+</p>
+
+<h2>Elf</h2>
+<p>
+The Elf xml folder includes more generic Elf configurations, these are not specific for any specific Elf computer. 
+</p>
+<p><B>chip8.xml</B></p>
+<p>
+Chip-8 configuration for the Elf, default Blinky is selected as chip 8 game. The Chip-8 interpreter will be loaded from address 0 to hex 1FF as well as hex E00-E6D. The selected chip-8 SW will load from hex 200. Use the LOAD button to load differnpent Chip-8 games at 0200.
+</p> 
+<p><B>elfos-biosio-&lt;type&gt;xml</B></p>
+<p>
+These xml configurations are for running ElfOs on indicated video type with BIOSIO.
+</p>
+<p><B>elfos-installation-&lt;type&gt;.xml</B></p>
+<p>
+These xml configurations are for installation of ElfOs on indicated video type with or without BIOSIO.
+</p>
+<p><B>elfos-serial.xml</B></p>
+<p>
+This xml configuration is for running ElfOs on Serial I/O.
+</p>
+<p><B>figforth-uart.xml</B></p>
+<p>
+This xml configuration will load and run Fig Forth for the 1802. This version of Forth uses a terminal connected to an UART CDP1854 for which basic support is implemented in the emulator.
+</p>
+<p><B>game-elfinvad.xml</B></p>
+<p>
+This xml configuration should run most games, default the invaders game will be selected but this can be changed to any of the other provided game files.
+</p>
+<p><B>musicmachine.xml</B></p>
+<p>
+Basic xml configuration to run the Music Maker and Christmas songs as all published in the Ipso Facto (Issue 5 and 8). Default the 'Music Maker.hex' and song 'O Christmas Tree.hex' will be loaded. Note that some songs will need a different speed which is indicated in the song file name (Double, 1_2 etc.), to play these also load the equivalent Music Maker file. The Ipso Facto articles can be found on <a href="http://www.cosmacelf.com">www.cosmacelf.com</a> and are also included in the Elf/Music directory.
+</p>
+<p><B>rcabasic3-&lt;type&gt;.xml</B></p>
+<p>
+These xml configurations will load and run RCA Basic.
+</p>
+<p><B>rcabug-serial.xml</B></p>
+<p>
+RCA Monitor program as described in IPSO facto number 10.
+</p>
+<p><B>rommapper-&lt;type&gt;.xml</B></p>
+<p>
+Richard's ROM Mapper, this uses OUT 7 to select a 32K slot from any large ROM chip. Selected ROM is switched to hex 8000-FFFF by using A15 from bit 0 on port 7, A16 from bit 1 etc. After starting the Elf hit 'return' and type RUN. To load a program type the program number or N for next page.
+</p>
+<p><B>superbasic-tapeloader.xml</B></p>
+<p>
+Quest Super Basic loader program.
+</p>
+<p><B>superbasic&lt;version&gt;-&lt;type&gt;.xml</B></p>
+<p>
+These xml configurations will load and run Quest Super Basic (version is indicated in the filename). 
+</p>
+<p><B>superbasic5.0+minimon-serial.xml</B></p>
+<p>
+EPROM board xml configuration including a mini monitor and Quest Super BASIC REL 5.0. This ROM file was created by Eric Tchong.  Of course Super BASIC itself was designed by Ron Cenker. BASIC can be started from the monitor by pressing B. For documentation on these ROM see the file section of the CosmacElf yahoo group. 
+</p>
+<p><B>supergoldmonitor-serial.xml</B></p>
+<p>
+EPROM board xml configuration including the Super Gold Monitor and assembler. This ROM file was created by Eric Tchong. For documentation about this ROM see the file section of the CosmacElf yahoo group. 
+</p>
+<p><B>tinybasic-interpreter.xml</B></p>
+<p>
+This xml configuration will load and run the Tiny Basic Interpreter for the Cosmac 1802, version 2. Designed by Robert Edwards, including output routines for an MC6847 video.
+</p>
+<p><B>ut4-serial.xml</B></p>
+<p>
+Basic UT4 xmlconfiguration with 62K RAM and UT4 running in ROM at hex 8000-81FF
+</p>
+<p><B>vdu-ascii-tinybasic.xml</B></p>
+<p>
+VDU / MC6847 xml configuration with ASCII keyboard</p>
+<p>
+<p><B>vdu-hex-game.xml</B></p>
+<p>
+VDU / MC6847 configuration with a hex keypad.</p>
+<p>
+
+<h2>FRED 1</h2>
+<p><B>21 I.xml</B></p>
+<p>
+FRED 1 configuration running the 21 I game.
+</p>
+<p>
+Use punch cards as follows:
+<UL>
+<LI>0: hex BD - new game & player one card,
+<LI>1: hex CC - Give player one card
+<LI>2: hex 78 - Give dealer one card 
+<LI>3: hex 73 - Show hand player
+<LI>4: hex B1 - Show hand dealer
+</UL>
+</p>
+<p><B>add drill.xml</B></p>
+<p>
+FRED 1 configuration running the Add Drill game.
+</p>
+<p>
+This SW needs spoken text and tones recorded on the original tape and included in Add Drill.wav (if not available it will be downloaded). Start card will be requested with card '0' (code hex FE). Press the start card 2 times and after the tone a 3rd time. Then type the sum of the 'add' question when one pops up.
+</p>
+<p><B>animate demo.xml</B></p>
+<p>
+FRED 1 configuration running the Animate demo.
+</p>
+<p>
+Demo that loads data from tape and displays that data on the screen. The data is included in the file Animate Demo Data.wav (if not available it will be downloaded). The same data is also included in binary form in the 'Animate demo data.bin' file but that one is not loadable as such in Emma 02.
+</p>
+<p><B>bowling.xml</B></p>
+<p>
+FRED 1 configuration running the Bowling game.
+</p>
+<p>
+Two players, X & O. 5 Frames, 2 balls/frame. Enter any number to roll ball. F1, F2 etc. indicates frame number. X1, X2, O1, O2 indicates player and ball number. New game = reset/run.
+</p>
+<p>
+This game used sounds on tape when a ball is rolled, the sounds on the tape are recordings from a bowling ball hitting targets; repeated multiple times. The file used here is 'Bowling.wav' which includes the rolling ball once (if not available it will be downloaded). This file can be used in Emma 02 as Emma 02 will restart the tape after every 'play' which means it is synced better than when using the file with the repeated sounds.
+</p>
+<p><B>cardtran.xml</B></p>
+<p>
+FRED 1 configuration running the CARDTRAN Interpreter, see Cardtran.readme or Cardtran.asm for more information
+</p>
+<p><B>clue.xml</B></p>
+<p>
+FRED 1 configuration running the Clue game.
+</p>
+<p>
+As described in the <a href="http://www.retrotechnology.com/memship/Sarnoff_FRED_manual_W_R_H.pdf">manual</a>. This game uses the spoken text and tones recorded on original tape and included in Clue.wav (if not available it will be downloaded).
+</p>
+<p><B>deduce-leds.xml</B></p>
+<p>
+FRED 1 configuration running the Deduce-leds game.
+</p>
+<p>
+As described in the <a href="http://www.retrotechnology.com/memship/Sarnoff_FRED_manual_W_R_H.pdf">manual</a>. This game uses the spoken text and tones recorded on original tape and included in Deduce-leds.wav (if not available it will be downloaded).
+</p>
+<p><B>demo.xml</B></p>
+<p>
+FRED 1 configuration running a demo using spoken text and tones recorded on original tape and included in Demo.wav (if not available it will be downloaded).
+</p>
+<p><B>flip I.xml</B></p>
+<p>
+FRED 1 configuration running the Flip I game.
+</p>
+<p>
+Start game with card '0' (twice). The game uses two players, white and black square. First player to get 8 squares of his type wins. Centre square indicates which player gets the next turn. Use card 1 (hex 6d), 2 (hex 97) or 3 (hex 9e) to flip squares. If no player wins by turn 50 the player with the most squares wins.
+</p>
+<p><B>Match I.xml</B></p>
+<p>
+FRED 1 configuration running the Match I game.
+</p>
+<p>
+This game is for two players (1 and 2). The object is to find matching pairs of symbols. Press card '0' to start the game (or FF in BYTE mode). A 4 x 4 array of symbols will flash on the screen. The 16 keyboard positions represent symbol positions on the screen. Player 1 presses two keyboard positions trying to find two matching symbols. If he finds two that match, they are replaced by 1 on the screen. He then gets another turn. If he doesn't find two matching symbols it is player 2's turn next. Turns alternate in this fashion until all symbols have been matched. Players always get extra turns for finding matching symbols. Count 1's and 2's showing to determine winner of game. New game = reset/run.
+</p>
+<p><B>memory test.xml</B></p>
+<p>
+FRED 1 configuration running a Memory Test game.
+</p>
+<p>
+Press a digit between 00 and 80 and after that a second byte. The second byte will be stored in memory 01xx where xx is the first byte. Also a 'binary' representation is shown on the screen. The screen has 128 positions reserved for the 128 memory locations.
+</p>
+<p><B>nimnet.xml</B></p>
+<p>
+FRED 1 configuration running the Nimnet game.
+</p>
+<p>
+This game uses cards with hex codes A1/A2, B1-B4, C1-C5, D1-D5, E1-E4 and F1/F2. I think the cards were not marked and with luck you had to create a path from the left 'dot' to the right 'dot' using random cards.
+</p>
+<p><B>prog apt test.xml</B></p>
+<p>
+FRED 1 configuration running a Prog. Apt. Test.
+</p>
+<p>
+This SW needs spoken text and tones recorded on original tapes and included in Prog. Apt. Test.wav (if not available it will be downloaded).
+</p>
+<p><B>slide puzzle I.xml</B></p>
+<p>
+FRED 1 configuration running Slide Puzzle I.
+</p>
+<p>
+Start game with card 0 (value 0) followed by card 1 (hex 31), 2 (hex 33) or 3 (hex 35). Card 1, 2 or 3 will select the game type. Move squares with card:
+<UL>
+<LI>6 (6): up
+<LI>12 (1): left
+<LI>13 (hex ff): right
+<LI>18 (hex fa): down
+</UL>
+</p>
+<p>
+For card 2/3 try to get a pattern of squares symmetrical about the centre row in a minimum number of turns (10 for card 2). For card 1 you must swap the 'full' and 'empty' squares and keep the rest as they are at the start in no more than 18 turns.
+</p>
+
+<h2>FRED 1.5</h2>
+<p><B>demo.xml</B></p>
+<p>
+FRED 1.5 configuration running the Fred Demo using the voice from the Fred Demo.wav file.
+</p>
+<p><B>fel-1.xml</B></p>
+<p>
+FRED 1.5 configuration running FEL-1.
+</p>
+<p><B>tape sw.xml</B></p>
+<p>
+FRED 1.5 configuration to load wav files into memory.
+</p>
+
+<h2>HUG1802, ETI-660and HEC1802</h2>
+<p><B>basic.xml</B></p>
+<p>
+Configuration running HUG BASIC.
+</p>
+<p><B>chip8.xml</B></p>
+<p>
+Chip-8 configuration, select any Chip-8 file in RAM field or use LOAD after Start.
+</p>
+<p><B>wipeout.xml</B></p>
+<p>
+Configuration running the Wipeout game.
+</p>
+
+<h2>Infinite UC1800</h2>
+<p><B>keybug2020.xml</B></p>
+<p>
+UC1800 running Keybug 2020.
+</p>
+
+<h2>JVIP</h2>
+<p><B>chip-8.xml</B></p>
+<p>
+Walter's JVIP including JVIP bios 310x running Chip-8. Select Chip-8 file in RAM field or use LOAD after Start. 
+</p>
+<p><B>chip-8x.xml</B></p>
+<p>
+Walter's JVIP including JVIP bios 310x running Chip-8X. Select Chip-8X file in RAM field or use LOAD after Start. 
+</p>
+
+<h2>Membership Card</h2>
+<p><B>adventure.xml</B></p>
+<p>
+Richard Goedeken's Adventureland+ game, see <a href="https://github.com/richard42/1802-adventureland-plus">Github, 1802 Adventureland+</a> for more details.
+</p>
+<p><B>front-&lt;rev&gt;.xml</B></p>
+<p>
+Membership configuration using front panel rev B, C or L as well as 64KB NVRAM.
+<p>
+<p><B>monitor-&lt;rev&gt;-rom-0000.xml</B></p>
+<p>
+Membership Card monitor loaded at address 0 in ROM, with front panel rev G, I or J.
+</p>
+<p><B>monitor-&lt;rev&gt;-rom-8000.xml</B></p>
+<p>
+Membership Card monitor loaded at address 0x8000 in ROM, with front panel rev I, J, K or L.
+</p>
+<p><B>monitor-&lt;rev&gt;-ram-0000.xml</B></p>
+<p>
+Membership Card monitor loaded at address 0 in RAM, with front panel rev I or J.
+</p>
+<p><B>monitor-i-ram-8000.xml</B></p>
+<p>
+Membership Card monitor loaded at address 0x8000 in RAM, with front panel rev I.
+</p>
+<p><B>monitor-&lt;rev&gt;-basic3-rom-8000.xml</B></p>
+<p>
+Membership Card monitor loaded at address 0x8000 in ROM, BASIC3, Adventureland, with front panel rev J, K or L.
+<p>
+
+<h2>Netronics Elf II</h2>
+<p><B>giantboard.xml</B></p>
+<p>
+Netronics Elf II configuration using the Giant Board monitor (at location hex F000).
+</p>
+<p><B>mathboard-serial.xml</B></p>
+<p>
+Netronics Elf II configuration using a Giant Board and Full BASIC Math Board.
+</p>
+<p><B>supermon.xml</B></p>
+<p>
+Netronics Elf II configuration using the Super Monitor.
+</p>
+<p><B>tinybasic-&lt;type&gt;.xml</B></p>
+<p>
+These xml configurations will load and run Netronics Tiny Basic, either on Pixie video or a VT100 terminal. Note that to start the BASIC you will need to press 'return' when using the Pixie version and press return twice on the VT100 version.
+</p>
+
+<h2>Oscom Nano</h2>
+<p><B>chip8.xml</B></p>
+<p>
+Chip-8 configuration, select any Chip-8 file in RAM field or use LOAD after Start.
+</p>
+
+<h2>Pico/Elf V2</h2>
+<p><B>elfos-diskless.xml</B></p>
+<p>
+Pico/Elf running the diskless ROM.
+</p>
+<p><B>elfos-installation-serial.xml</B></p>
+<p>
+Pico/Elf configuration to install a new Elf/Os version 4.1.0.
+</p>
+<p><B>elfos-serial.xml</B></p>
+<p>
+Pico/Elf configuration using runtime Elf/Os version 4.1.0 and a serial terminal.
+</p>
+<p><B>elfos-uart.xml</B></p>
+<p>
+Pico/Elf configuration using runtime Elf/Os version 4.1.0 and a UART 16450.
+</p>
+<p><B>elfos0.3.2-installation-serial.xml</B></p>
+<p>
+Pico/Elf configuration to install a new Elf/Os version 0.3.2.
+</p>
+<p><B>elfos0.3.2-serial.xmll</B></p>
+<p>
+Pico/Elf configuration using runtime Elf/Os version 0.3.2 and a serial terminal.
+</p>
+<p><B>elfos0.3.2-uart.xml</B></p>
+<p>
+Pico/Elf configuration using runtime Elf/Os version 0.3.2 and a UART 16450.
+</p>
+<p><B>stg,elfos-serial.xml</B></p>
+<p>
+Pico/Elf configuration using the STG ROM including Elf/Os and a serial terminal.
+</p>
+<p><B>stg,elfos-uart.xml</B></p>
+<p>
+Pico/Elf configuration using the STG ROM including Elf/Os and a UART 16450.
+</p>
+<p><B>stg,pixie,elfos-serial.xml</B></p>
+<p>
+Pico/Elf configuration using the STG video ROM including Elf/Os, Pixie video and a serial terminal.
+</p>
+<p><B>stg,pixie,elfos-uart.xml</B></p>
+<p>
+Pico/Elf configuration using the STG video ROM including Elf/Os, Pixie video and a UART 16450.
+</p>
+<p><B>stg,tms,elfos-serial.xml</B></p>
+<p>
+Pico/Elf configuration using the STG ROM including Elf/Os, TMS 9918 video and a serial terminal.
+</p>
+<p><B>stg,tms,elfos-uart.xml</B></p>
+<p>
+Pico/Elf configuration using the STG ROM including Elf/Os, TMS 9918 video and a UART 16450.
+</p>
+
+<h2>RCA COSMAC Computer Game System</h2>
+<p><B>coin_bowling.xml</B></p>
+<p>
+COSMAC Game System running the Coin Bowling game. 
+</p>
+<p>
+Key definition:
+</p>
+<ul>
+<li>C: coin / start<li>
+</li>Player 1 - roll: space<li>
+</li>Player 2 - roll: TAB</li>
+</ul>
+<p><B>katch.xml</B></p>
+<p>
+COSMAC Game System running the Katch game. 
+</p>
+<p>
+Key definition:
+</p>
+<ul>
+<li>C: coin / start<li>
+</li>Player 1 - direction keys: up/left/right/down<li>
+</li>Player 2 - direction keys: W/A/S/Z</li>
+</ul>
+<p><B>tag-bowling.xml</B></p>
+<p>
+COSMAC Game System running the Tag &amp; Bowling games. 
+</p>
+<p>
+Key definition:
+</p>
+<ul>
+<li>C: coin / start<li>
+</li>Player 1 - direction keys: up/left/right/down<li>
+</li>Player 2 - direction keys: W/A/S/Z</li>
+</ul>
+
+<h2>RCA COSMAC Development System</h2>
+<p><B>cdp18s005-CDSII.xml</B></p>
+<p>
+CDS configuration for the CDP18S005 or the CDS II System. Note that the disk emulation has not been tested as I don't have any CDOS floppy disk images.
+</p>
+<p><B>cdp18s007-CDSIII.xml</B></p>
+<p>
+CDS configuration for the CDP18S007 or the CDS III System. Note that the disk emulation has not been tested as I don't have any CDOS floppy disk images.
+</p>
+
+<h2>RCA COSMAC Microboard Computer</h2>
+<p><B>cdp18s600.xml</B></p>
+<p>
+Microboard configuration using a CDP18S600, CDP1805, UART terminal, PIO and CDP18S640 A/A1 Display.
+</p>
+<p><B>cdp18s601.xml</B></p>
+<p>
+Microboard configuration using a CDP18S601, CDP1802, serial terminal, PIO and CDP18S640 A/A1 Display.
+</p>
+<p><B>cdp18s602.xml</B></p>
+<p>
+Microboard configuration using a CDP18S602, CDP1802, UART terminal, CDP1852 and CDP18S640 A/A1 Display.
+</p>
+<p><B>cdp18s603.xml</B></p>
+<p>
+Microboard configuration using a CDP18S603, CDP1802, serial terminal, PIO and CDP18S640 A/A1 Display.
+</p>
+<p><B>cdp18s603a.xml</B></p>
+<p>
+Microboard configuration using a CDP18S603A, CDP1802, serial terminal, PIO and CDP18S640 A/A1 Display.
+</p>
+<p><B>cdp18s604b.xml</B></p>
+<p>
+Microboard configuration using a CDP18S604B, CDP1802, CDP1852, CDP18S641 UART and CDP18S640 A/A1 Display.
+</p>
+<p><B>cdp18s605.xml</B></p>
+<p>
+Microboard configuration using a CDP18S605, CDP1802, UART terminal and CDP18S640 A/A1 Display.
+</p>
+<p><B>cdp18s606.xml</B></p>
+<p>
+Microboard configuration using a CDP18S606, CDP1805, serial terminal, PIO and CDP18S640 A/A1 Display.
+</p>
+<p><B>cdp18s607.xml</B></p>
+<p>
+Microboard configuration using a CDP18S607, CDP1805, UART terminal, CDP1852 and CDP18S640 A/A1 Display.
+</p>
+<p><B>cdp18s608.xml</B></p>
+<p>
+Microboard configuration using a CDP18S608, CDP1805, serial terminal, PIO and CDP18S640 A/A1 Display.
+</p>
+<p><B>cdp18s609.xml</B></p>
+<p>
+Microboard configuration using a CDP18S609, CDP1805, CDP1852, CDP18S641 UART and CDP18S640 A/A1 Display.
+</p>
+<p><B>cdp18s610.xml</B></p>
+<p>
+Microboard configuration using a CDP18S605, CDP1805, UART terminal and CDP18S640 A/A1 Display.
+</p>
+<p><B>cdp18s693-mcds.xml</B></p>
+<p>
+RCA's low cost Microboard Computer Development System (MCDS) CDP18S693. This system includes the CDP18S601 CPU board and the CDP18S652 Memory & tape board. The CDP18S601 board includes 4K RAM but no ROM. The CDP18S652 includes the UT62 from hex 8000-87FF, BASIC 3 from hex B000-DFFF and a 1K RAM at hex 8C00.
+</p>
+<p><B>cdp18s694-mcds.xml</B></p>
+<p>
+RCA's Higher-Performance Microboard Computer Development System (MCDS) CDP18S694. This system includes the CDP18S601 CPU board and the CDP18S652 Memory & tape board. The CDP18S601 board includes 4K RAM but no ROM. The CDP18S652 includes the UT62 from hex 8000-87FF, Assembler / Editor from hex 9000-AFFF, BASIC 3 from hex B000-DFFF and a 1K RAM at hex 8C00.
+</p>
+<p>
+This configuration should be identical to the MCDS emulator however the implementation in Emma 02 is slightly different.
+</p>
+<p><B>cdp18s695-mcds.xml</B></p>
+<p>
+RCA's Higher-Performance Color Microboard Computer Development System (MCDS) CDP18S695. This system includes the CDP18S601 CPU board, the CDP18S652 Memory & tape board and the CDP18S661B Video (NTSC) board. The CDP18S601 board includes 4K RAM but no ROM. The CDP18S652 includes the UT63 from hex 8000-87FF, Assembler / Editor from hex 9000-AFFF, BASIC 3 from hex B000-DFFF and a 1K RAM at hex 8C00. 
+</p>
+<p><B>comx-demo-ntsc.xml</B></p>
+<p>
+Demo configuration loading a COMX like configuration including a CDP18S661B Video board. Note this is not a complete COMX configuration as the COMX has slightly different HW compared to the Microboard System but this shows working of the NTSC video board.
+</p>
+<p><B>comx-demo-pal.xml</B></p>
+<p>
+Demo configuration loading a COMX like configuration including a CDP18S661V3 Video board. Note this is not a complete COMX configuration as the COMX has slightly different HW compared to the Microboard System but this shows working of the PAL video board.
+</p>
+<p><B>crosslib-games.xml</B></p>
+<p>
+Crosslib game demo configuration
+</p>
+<p><B>crosslib-&lt;type&gt;.xml</B></p>
+<p>
+Crosslib configuration using ntsc1 to ntsc9, pal1 or pal2 configuration.
+</p>
+<p><B>ms2000-fdc.xml</B></p>
+<p>
+System defined as the MS2000 using FDC image files, this configuration should be identical to the MS2000 emulator however the implementation in Emma 02 is slightly different.
+</p>
+<p><B>ms2000-hd.xml</B></p>
+<p>
+System defined as the MS2000 using HD Directory simulation, this configuration should be identical to the MS2000 emulator however the implementation in Emma 02 is slightly different.
+</p>
+<p><B>xbomber.xml</B></p>
+<p>
+Crosslib Xbomber game
+</p>
+<p><B>xchase.xml</B></p>
+<p>
+Crosslib Xchase game
+</p>
+<p><B>xhorde.xml</B></p>
+<p>
+Crosslib Xhorde game
+</p>
+<p><B>xshoot.xml</B></p>
+<p>
+Crosslib Xshoot game
+</p>
+<p><B>xsnake.xml</B></p>
+<p>
+Crosslib Xsnake game
+</p>
+<p><B>xstinger.xml</B></p>
+<p>
+Crosslib Xstinger game
+</p>
+<p><B>xverbix.xml</B></p>
+<p>
+Crosslib Xverbix game
+</p>
+<p><B>xvtrex.xml</B></p>
+<p>
+Crosslib Xvtrex game
+</p>
+
+<h2>RCA MicroDisk Development System MS2000</h2>
+<p><B>fdc.xml</B></p>
+<p>
+System defined as the MS2000 using FDC image files, this configuration should be identical to the MS2000 emulator however the implementation in Emma 02 is slightly different.
+</p>
+<p><B>hd.xml</B></p>
+<p>
+System defined as the MS2000 using HD Directory simulation, this configuration should be identical to the MS2000 emulator however the implementation in Emma 02 is slightly different.
+</p>
+
+<h2>RCA Microboard Computer Development System</h2>
+<p><B>cdp18s693.xml</B></p>
+<p>
+RCA's low cost Microboard Computer Development System (MCDS) CDP18S693. This system includes the CDP18S601 CPU board and the CDP18S652 Memory & tape board. The CDP18S601 board includes 4K RAM but no ROM. The CDP18S652 includes the UT62 from hex 8000-87FF, BASIC 3 from hex B000-DFFF and a 1K RAM at hex 8C00.
+</p>
+<p><B>cdp18s694.xml</B></p>
+<p>
+RCA's Higher-Performance Microboard Computer Development System (MCDS) CDP18S694. This system includes the CDP18S601 CPU board and the CDP18S652 Memory & tape board. The CDP18S601 board includes 4K RAM but no ROM. The CDP18S652 includes the UT62 from hex 8000-87FF, Assembler / Editor from hex 9000-AFFF, BASIC 3 from hex B000-DFFF and a 1K RAM at hex 8C00.
+</p>
+<p>
+This configuration should be identical to the MCDS emulator however the implementation in Emma 02 is slightly different.
+</p>
+<p><B>cdp18s695.xml</B></p>
+<p>
+RCA's Higher-Performance Color Microboard Computer Development System (MCDS) CDP18S695. This system includes the CDP18S601 CPU board, the CDP18S652 Memory & tape board and the CDP18S661B Video (NTSC) board. The CDP18S601 board includes 4K RAM but no ROM. The CDP18S652 includes the UT63 from hex 8000-87FF, Assembler / Editor from hex 9000-AFFF, BASIC 3 from hex B000-DFFF and a 1K RAM at hex 8C00. 
+</p>
+
+<h2>RCA Studio II</h2>
+<p><B>chip8.xml</B></p>
+<p>
+Studio chip 8 interpreter with one of the chip 8 games selected as default. Select any other Chip-8 file in the ROM field.
+</p>
+<p><B>multicart-systemrom.xml</B></p>
+<p>
+FLiPs 40th Anniversary Multi-Cart, with system rom activated.
+</p>
+<p><B>multicart.xml</B></p>
+<p>
+FLiPs 40th Anniversary Multi-Cart, with system rom disabled.
+</p>
+<p><B>standard.xml</B></p>
+<p>
+Standard Studio II setup, select any cartridge ROM file in the ROM field.
+</p>
+<p><B>test-cartridge.xml</B></p>
+<p>
+Standard Studio II Test Cartridge.
+</p>
+
+<h2>RCA Studio II</h2>
+<p><B>chip8-&lt;type&gt;.xml</B></p>
+<p>
+Studio chip 8 interpreter running on video type ntsc or pal with one of the chip 8 games selected as default. Select any other Chip-8 file in the ROM field.
+</p>
+<p><B>multicart-&lt;type&gt;.xml</B></p>
+<p>
+FLiPs 40th Anniversary Multi-Cart running on video type ntsc or pal, with system rom activated.
+</p>
+<p><B>standard-&lt;type&gt;.xml</B></p>
+<p>
+Standard Studio III setup running on video type ntsc or pal, select any cartridge ROM file in the ROM field.
+</p>
+<p><B>test-cartridge-&lt;type&gt;.xml</B></p>
+<p>
+Standard Studio III Test Cartridge running on video type ntsc or pal.
+</p>
+
+<h2>RCA Studio IV</h2>
+<p><B>ntsc-basic-32k-1978.xml</B></p>
+<p>
+The original NTSC 4K BASIC from 1978, which was recently found at the Hagley Museum and Library
+</p>
+<p><B>&lt;type&gt;-basic-32k-2020.xml</B></p>
+<p>
+4K BASIC from 2020 running on video type ntsc or pal, ported by me from the VIP version. Half of this is based on the 1978 version (initially we only had half) the other half is based on the VIP code with adaptations to run on the Studio IV. 
+</p>
+<p><B>&lt;type&gt;-demo.xml</B></p>
+<p>
+Studio IV Demo running on video type ntsc or pal.
+</p>
+<p><B>&lt;type&gt;-superchip.xml</B></p>
+<p>
+My own Studio IV SuperChip interpreter! Running on video type ntsc or pal.
+</p>
+
+<h2>RCA Video Coin Arcade Game Console</h2>
+<p><B>chase.xml</B></p>
+<p>
+Coin Arcade running the Chase game. 
+</p>
+<p>
+Key definition:
+</p>
+<ul>
+<li>C: coin / start</li>
+<li>Space (after C): one player game</li>
+<li>Tab (after C): two player game</li>
+<li>Up &amp; W: Up</li>
+<li>Left &amp; A: laft</li>
+<li>Right &amp; S: right</li>
+<li>Down &amp; Z: down</li>
+</ul>
+<p><B>en_garde.xml</B></p>
+<p>
+Coin Arcade running the En Garde !! game. 
+</p>
+<p>
+Key definition:
+</p>
+<ul>
+<li>C: coin / start</li>
+<li>Up &amp; W: sword up</li>
+<li>Left &amp; S: back</li>
+<li>Right &amp; A: attack</li>
+<li>Down &amp; Z: sword down</li>
+<li>Space &amp; TaB: player shape</li>
+</ul>
+<p><B>fighter_viii.xml</B></p>
+<p>
+Coin Arcade running the Fighter VII game. 
+</p>
+<p>
+Key definition:
+</p>
+<ul>
+<li>C: coin / start</li> <li>Space (after C): one player game</li> <li>Tab (after C): two player game</li> <li>Up &amp; W: Up</li> <li>Left &amp; A: laft</li> <li>Right &amp; S: right</li> <li>Down &amp; Z: down</li> <li>Space &amp; TaB: drop mine</li>
+</ul>
+<p><B>kaleidoscope.xml</B></p>
+<p>
+Coin Arcade running the Kaleidoscope 'game'. 
+</p>
+<p>
+<p><B>mines1.xml</B></p>
+<p>
+Coin Arcade running the Mines 1 game. 
+</p>
+<p>
+Key definition:
+</p>
+<ul>
+<li>Up &amp; W: Fire</li> <li>Left &amp; A: rotate left</li> <li>Right &amp; S: rotate right</li> <li>Down &amp; Z: change direction</li> <li>Space &amp; TaB: drop mines</li>
+</ul>
+<p><B>mines2.xml</B></p>
+<p>
+Coin Arcade running the Mines 2 game. 
+</p>
+<p>
+Key definition:
+</p>
+<ul>
+<li>C: coin / start</li> <li>Space (after C): one player game</li> <li>Tab (after C): two player game</li> <li>Up &amp; W: Up</li> <li>Left &amp; A: laft</li> <li>Right &amp; S: right</li> <li>Down &amp; Z: down</li> <li>Space &amp; TaB: drop mine</li>
+</ul>
+<p><B>scramble-split_second.xml</B></p>
+<p>
+Coin Arcade running the Scramble and Split-second games. 
+</p>
+<p>
+Key definition:
+</p>
+<ul>
+<li>C: coin / start</li> <li>Right (after C): Scramble</li> <li>A (after C): Split-second</li> <li>Up &amp; W: Up</li> <li>Left &amp; A: left</li> <li>Right &amp; S: right</li> <li>Down &amp; Z: down</li> <li>Space &amp; TaB: fire</li>
+</ul>
+<p><B>swords.xml</B></p>
+<p>
+Coin Arcade running the Swords game. 
+</p>
+<p>
+Key definition:
+</p>
+<ul>
+<li>C: coin / start</li> <li>Space (after C): one player game</li> <li>Tab (after C): two player game</li> <li>Up &amp; W: Up</li> <li>Left &amp; S: back or player shape</li> <li>Right &amp; A: attack</li> <li>Down &amp; Z: down</li> <li>Space &amp; TaB: sword up/down</li>
+</ul>
+<p><B>touche.xml</B></p>
+<p>
+Coin Arcade running the Touche !! game. 
+</p>
+<p>
+Key definition:
+</p>
+<ul>
+<li>C: coin / start</li> <li>Up &amp; W: Up</li> <li>Left &amp; S: back or player shape</li> <li>Right &amp; A: attack</li> <li>Down &amp; Z: down</li> <li>Space &amp; TaB: sword up/down</li>
+</ul>
+
+<h2>SBC1802</h2>
+<p><B>sbc1802-expansion.xml</B></p>
+<p>
+Fully configured SBC1802 including the expansion board.
+</p>
+<p><B>sbc1802-led-front.xml</B></p>
+<p>
+SBC1802 configuration using only the main board and a led based front panel.
+</p>
+<p><B>sbc1802-till-dial-front.xml</B></p>
+<p>
+SBC1802 configuration using only the main board and a TIL based front panel with a hex dial switch.
+</p>
+<p><B>sbc1802-til-front.xml</B></p>
+<p>
+SBC1802 configuration using only the main board and a TIL based front panel.
+</p>
+
+<h2>Studio 2020</h2>
+<p><B>&lt;type&gt;.xml</B></p>
+<p>
+Type ntsc or pal version of the Studio 2020 project Ed and myself started (and never finsihed) during Covid.
+</p>
+
+<h2>Telmac 1800</h2>
+<p><B>chip8.xml</B></p>
+<p>
+TMC-1800 running chip 8 with one of the chip 8 games selected as default. Select any Chip-8 file in the RAM field or use LOAD after Start.
+</p>
+
+<h2>Telmac 2000</h2>
+<p><B>chip8.xml</B></p>
+<p>
+TMC-2000 running chip 8 with one of the chip 8 games selected as default. Select any Chip-8 file in the RAM field or use LOAD after Start.
+</p>
+
+<h2>Telmac TMC-600</h2>
+<p><B>exp-151182.xml</B></p>
+<p>
+TMC-600 including Expansion 151182 and 37K RAM.
+</p>
+
+<h2>VELF</h2>
+<p><B>bare-autoboot.xml</B></p>
+<p>
+Josh's VELF including VELF bios v3.1 and auto booting at address 0x8000.
+</p>
+
+<h2>VIP2K Membership Card</h2>
+<p><B>monitor-1.3a.xml</B></p>
+<p>
+Chuck's VIP2K monitor version 1.3a
+</p>
+<p><B>monitor-1.4,&lt;type&gt;.xml</B></p>
+<p>
+Chuck's VIP2K monitor version 1.4, running on video type ntsc or pal.
+</p>
+<p><B>monitor-1.5,&lt;type&gt;,chip8</B></p>
+<p>
+Chuck's VIP2K monitor version 1.5, running on video type ntsc or pal and Chip-8 ready.
+</p>
+<p><B>monitor-1.5,&lt;type&gt;</B></p>
+<p>
+Chuck's VIP2K monitor version 1.5, running on video type ntsc or pal.
+</p><p>
+Note that in the default setting a VT100 terminal is supported but no VT window will open. This as the VIP2K when running the standard ROM doesn't use any terminal I/O except for the file transfer functions of the monitor and BASIC. The file I/O will work even if no video terminal is opened. 
+</p>
+<p>
+VIP2K video emulation is not exactly the same as on the real VIP2K. This is affecting the top 8 scan lines of the screen which in normal operation should be blank and as such this difference is not noticeable. If data is shown on those lines it will not match the real VIP2K.
+</p>
+
+<h2>VIS1802</h2>
+<p><B>vis1802.xml</B></p>
+<p>
+VIS1802 terminal running on NTSC video.
+</p>
+
+<h2>VP3000 Interactive Data Terminal</h2>
+<p><B>vp3301.xml</B></p>
+<p>
+VP3301 terminal running on NTSC video.
+</p>
+
+<h2>VT1802</h2>
+<p><B>vt1802-12Mhz-7pixels-loop.xml</B></p>
+<p>
+Loopback VT1802 terminal running online with character size 7x9 and screensize 80x25. Running on a CPU speed of 12 MHz.
+</p>
+<p><B>vt1802-12Mhz-7pixels.xml</B></p>
+<p>
+VT1802 terminal running BASIC localaly with character size 7x9 and screensize 80x25. Running on a CPU speed of 12 MHz.
+</p>
+<p><B>vt1802-12Mhz-8pixels.xml</B></p>
+<p>
+VT1802 terminal running BASIC localaly with character size 8x10 and screensize 80x24. Running on a CPU speed of 12 MHz.
+</p>
+<p><B>vt1802-14Mhz-8pixels-loop.xml</B></p>
+<p>
+Loopback VT1802 terminal running online with character size 8x9 and screensize 80x26. Running on a CPU speed of 14 MHz.
+</p>
+<p><B>vt1802-14Mhz-8pixels.xml</B></p>
+<p>
+VT1802 terminal running BASIC localaly with character size 8x9 and screensize 80x26. Running on a CPU speed of 14 MHz.
+</p>
+<p><B>vt1802-14Mhz-9pixels.xml</B></p>
+<p>
+VT1802 terminal running BASIC localaly with character size 9x9 screensize 80x25. Running on a CPU speed of 14 MHz.
+</p>
+
+<h2>Visicom COM-100</h2>
+<p><B>standard.xml</B></p>
+<p>
+Standard Visicom COM-100 setup, select any cartridge ROM file in the ROM field.
+</p>
+
 </BODY>
 </HTML>

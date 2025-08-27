@@ -460,10 +460,16 @@
   <ItemGroup>
     <ClCompile Include="src\about.cpp" />
     <ClCompile Include="src\audioin_windib.c" />
+    <ClCompile Include="src\ay-3-8912.cpp" />
     <ClCompile Include="src\Blip_Buffer.cpp" />
     <ClCompile Include="src\cd4536b.cpp" />
     <ClCompile Include="src\cdp1802.cpp" />
+    <ClCompile Include="src\cdp1851.cpp" />
     <ClCompile Include="src\cdp1852.cpp" />
+    <ClCompile Include="src\cdp1854.cpp" />
+    <ClCompile Include="src\cdp1855.cpp" />
+    <ClCompile Include="src\cdp1877.cpp" />
+    <ClCompile Include="src\cdp1878.cpp" />
     <ClCompile Include="src\datadir.cpp" />
     <ClCompile Include="src\debug.cpp" />
     <ClCompile Include="src\encrypt.cpp" />
@@ -476,6 +482,7 @@
     <ClCompile Include="src\guixml.cpp" />
     <ClCompile Include="src\i8275.cpp" />
     <ClCompile Include="src\ide.cpp" />
+    <ClCompile Include="src\ImageFile.cpp" />
     <ClCompile Include="src\iodevice.cpp" />
     <ClCompile Include="src\joycard.cpp" />
     <ClCompile Include="src\keyboard.cpp" />
@@ -488,8 +495,8 @@
     <ClCompile Include="src\mc6845.cpp" />
     <ClCompile Include="src\mc6847.cpp" />
     <ClCompile Include="src\memory.cpp" />
+    <ClCompile Include="src\mm57109.cpp" />
     <ClCompile Include="src\network.cpp" />
-    <ClCompile Include="src\pio.cpp" />
     <ClCompile Include="src\pixie.cpp" />
     <ClCompile Include="src\portext.cpp" />
     <ClCompile Include="src\printer.cpp" />
@@ -504,6 +511,7 @@
     <ClCompile Include="src\Sync_Audio.cpp" />
     <ClCompile Include="src\til313.full.cpp" />
     <ClCompile Include="src\tms9918.cpp" />
+    <ClCompile Include="src\tu58.cpp" />
     <ClCompile Include="src\upd765.cpp" />
     <ClCompile Include="src\usb.cpp" />
     <ClCompile Include="src\video.cpp" />
@@ -536,10 +544,16 @@
   <ItemGroup>
     <ClInclude Include="src\about.h" />
     <ClInclude Include="src\audio_detect.h" />
+    <ClInclude Include="src\ay-3-8912.h" />
     <ClInclude Include="src\Blip_Buffer.h" />
     <ClInclude Include="src\cd4536b.h" />
     <ClInclude Include="src\cdp1802.h" />
+    <ClInclude Include="src\cdp1851.h" />
     <ClInclude Include="src\cdp1852.h" />
+    <ClInclude Include="src\cdp1854.h" />
+    <ClInclude Include="src\cdp1855.h" />
+    <ClInclude Include="src\cdp1877.h" />
+    <ClInclude Include="src\cdp1878.h" />
     <ClInclude Include="src\computerconfig.h" />
     <ClInclude Include="src\datadir.h" />
     <ClInclude Include="src\debug.h" />
@@ -553,6 +567,7 @@
     <ClInclude Include="src\guixml.h" />
     <ClInclude Include="src\i8275.h" />
     <ClInclude Include="src\ide.h" />
+    <ClInclude Include="src\ImageFile.hpp" />
     <ClInclude Include="src\iodevice.h" />
     <ClInclude Include="src\joycard.h" />
     <ClInclude Include="src\keyboard.h" />
@@ -565,8 +580,8 @@
     <ClInclude Include="src\mc6845.h" />
     <ClInclude Include="src\mc6847.h" />
     <ClInclude Include="src\memory.h" />
+    <ClInclude Include="src\mm57109.h" />
     <ClInclude Include="src\network.h" />
-    <ClInclude Include="src\pio.h" />
     <ClInclude Include="src\pixie.h" />
     <ClInclude Include="src\portext.h" />
     <ClInclude Include="src\printer.h" />
@@ -582,6 +597,7 @@
     <ClInclude Include="src\Sync_Audio.h" />
     <ClInclude Include="src\til313.full.h" />
     <ClInclude Include="src\tms9918.h" />
+    <ClInclude Include="src\tu58.h" />
     <ClInclude Include="src\upd765.h" />
     <ClInclude Include="src\usb.h" />
     <ClInclude Include="src\video.h" />

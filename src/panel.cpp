@@ -26,11 +26,16 @@
 
 #include "main.h"
 #include "panel.h"
+#include "pushbutton.h"
 #include <memory>
 
+#if defined(__linux__)
+#include "app_icon.xpm"
+#endif
 
 BEGIN_EVENT_TABLE(HexButton, wxEvtHandler )
     EVT_TIMER(wxID_ANY, HexButton::OnTimer)
+
 END_EVENT_TABLE()
 
 HexButton::HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label)
@@ -289,6 +294,7 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
     buttonStartY_ = 0;
     
     enabled_ = true;
+    wxColour maskColour(255, 0, 255);
 
     switch (type)
     {
@@ -299,9 +305,19 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
             buttonSize_.y = 22;
             buttonStartX_ = 3;
             buttonStartY_ = 3;
+            maskBitmap();
         break;
 
         case SWITCH_BUTTON_VERTICAL_RED:
+            upBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swupred.png", wxBITMAP_TYPE_PNG);
+            downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdownred.png", wxBITMAP_TYPE_PNG);
+            buttonSize_.x = 22;
+            buttonSize_.y = 22;
+            buttonStartX_ = 3;
+            buttonStartY_ = 3;
+            maskBitmap();
+        break;
+            
         case SWITCH_BUTTON_VERTICAL_PIO:
             upBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swupred.png", wxBITMAP_TYPE_PNG);
             downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdownred.png", wxBITMAP_TYPE_PNG);
@@ -309,6 +325,14 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
             buttonSize_.y = 22;
             buttonStartX_ = 3;
             buttonStartY_ = 3;
+            maskBitmap();
+            disabledUpBitmapPointer = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdisabledup.png", wxBITMAP_TYPE_PNG);
+            disabledDownBitmapPointer = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdisableddown.png", wxBITMAP_TYPE_PNG);
+            
+            maskDisabledUp = new wxMask (*upBitmapPointer, maskColour);
+            maskDisabledDown = new wxMask (*downBitmapPointer, maskColour);
+            disabledUpBitmapPointer->SetMask(maskDisabledUp);
+            disabledDownBitmapPointer->SetMask(maskDisabledDown);
         break;
 
         case SWITCH_BUTTON_VERTICAL_GREEN:
@@ -318,36 +342,44 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
             buttonSize_.y = 22;
             buttonStartX_ = 3;
             buttonStartY_ = 3;
+            maskBitmap();
         break;
 
         case SWITCH_BUTTON_HORIZONTAL:
             upBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/swright.png", wxBITMAP_TYPE_PNG);
             downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/swleft.png", wxBITMAP_TYPE_PNG);
+            maskBitmap();
         break;
 
         case PUSH_BUTTON_ROUND_RED:
             upBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushup.png", wxBITMAP_TYPE_PNG);
             downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushdown.png", wxBITMAP_TYPE_PNG);
+            maskBitmap();
         break;
 
         case PUSH_BUTTON_ROUND_RED_LARGE:
             upBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushupLarge.png", wxBITMAP_TYPE_PNG);
             downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushdownLarge.png", wxBITMAP_TYPE_PNG);
+            maskBitmap();
         break;
 
         case PUSH_BUTTON_ROUND_GREEN_LARGE:
             upBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushupLargeGreen.png", wxBITMAP_TYPE_PNG);
             downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushdownLargeGreen.png", wxBITMAP_TYPE_PNG);
+            maskBitmap();
         break;
 
         case PUSH_BUTTON_ROUND_BLACK:
             upBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushupblack.png", wxBITMAP_TYPE_PNG);
             downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushdownblack.png", wxBITMAP_TYPE_PNG);
+            maskBitmap();
+            type = PUSH_BUTTON_ROUND_RED;
         break;
 
         case ELF2K_POWER_BUTTON:
             upBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Kon.png", wxBITMAP_TYPE_PNG);
             downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Koff.png", wxBITMAP_TYPE_PNG);
+            maskBitmap();
         break;
 
         case ELF2K_LOAD_BUTTON:
@@ -356,6 +388,7 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
             downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/loadButtonDown.png", wxBITMAP_TYPE_PNG);
             buttonSize_.x = 30;
             buttonSize_.y = 30;
+            maskBitmap(label, upBitmap, downBitmap);
         break;
 
         case ELF2K_MP_BUTTON:
@@ -364,6 +397,7 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
             downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/mpButtonDown.png", wxBITMAP_TYPE_PNG);
             buttonSize_.x = 30;
             buttonSize_.y = 30;
+            maskBitmap(label, upBitmap, downBitmap);
         break;
 
         case ELF2K_RUN_BUTTON:
@@ -372,6 +406,7 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
             downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/runButtonDown.png", wxBITMAP_TYPE_PNG);
             buttonSize_.x = 30;
             buttonSize_.y = 30;
+            maskBitmap(label, upBitmap, downBitmap);
         break;
 
         case ELF2K_IN_BUTTON:
@@ -380,6 +415,7 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
             downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/inButtonDown.png", wxBITMAP_TYPE_PNG);
             buttonSize_.x = 30;
             buttonSize_.y = 30;
+            maskBitmap(label, upBitmap, downBitmap);
         break;
 
         case DIP_SWITCH_BUTTON:
@@ -387,6 +423,7 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
             downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/dip_switch_off.png", wxBITMAP_TYPE_PNG);
             buttonSize_.x = 8;
             buttonSize_.y = 20;
+            maskBitmap();
         break;
 
         case THUMB_MINUS_BUTTON:
@@ -394,6 +431,7 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
             downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/thumb-minus_down.png", wxBITMAP_TYPE_PNG);
             buttonSize_.x = 18;
             buttonSize_.y = 14;
+            maskBitmap();
         break;
             
         case THUMB_PLUS_BUTTON:
@@ -401,62 +439,16 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
             downBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/thumb-plus_down.png", wxBITMAP_TYPE_PNG);
             buttonSize_.x = 18;
             buttonSize_.y = 14;
+            maskBitmap();
         break;
 
         default:
             upBitmapPointer = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swup.png", wxBITMAP_TYPE_PNG);
             downBitmapPointer = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdown.png", wxBITMAP_TYPE_PNG);
+            maskBitmap();
         break;
     }
     
-    if (type == PUSH_BUTTON_ROUND_BLACK)
-        type = PUSH_BUTTON_ROUND_RED;
-
-    wxColour maskColour(255, 0, 255);
-
-    if (type >= SWITCH_BUTTON_ORANGE && type <= SWITCH_BUTTON_BLUE)
-    {
-        upBitmapPointer = new wxBitmap(buttonSize_);
-
-        wxMemoryDC memDC(*upBitmapPointer);
-        wxSize labelSize = memDC.GetTextExtent(label);
-        wxCoord xPosition = (buttonSize_.x - labelSize.x)/2;
-        wxCoord yPosition = (buttonSize_.y - labelSize.y)/2;
-        memDC.Clear();
-        memDC.DrawBitmap(*upBitmap, 0, 0);
-        memDC.SetTextForeground(*wxWHITE);
-        memDC.DrawText(label, xPosition, yPosition);
-        memDC.SelectObject(wxNullBitmap);
-        
-        downBitmapPointer = new wxBitmap(buttonSize_);
-
-        memDC.SelectObject(*downBitmapPointer);
-        memDC.Clear();
-        memDC.DrawBitmap(*downBitmap, 0, 0);
-        memDC.SetTextForeground(*wxWHITE);
-        memDC.DrawText(label, xPosition, yPosition);
-        memDC.SelectObject(wxNullBitmap);
-        
-        delete upBitmap;
-        delete downBitmap;
-    }
-    else
-    {
-        maskUp = new wxMask (*upBitmapPointer, maskColour);
-        upBitmapPointer->SetMask(maskUp);
-        maskDown = new wxMask (*downBitmapPointer, maskColour);
-        downBitmapPointer->SetMask(maskDown);
-    }
-
-    if (type == SWITCH_BUTTON_VERTICAL_PIO)
-    {
-        disabledUpBitmapPointer = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdisabledup.png", wxBITMAP_TYPE_PNG);
-        disabledDownBitmapPointer = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdisableddown.png", wxBITMAP_TYPE_PNG);
-        
-        disabledUpBitmapPointer->SetMask(maskUp);
-        disabledDownBitmapPointer->SetMask(maskDown);
-    }
-
     x_ = x;
     y_ = y;
     state_ = state;
@@ -468,14 +460,51 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
         dc.DrawBitmap(*downBitmapPointer, x, y, true);
 }
 
+void SwitchButton::maskBitmap(wxString label, wxBitmap *upBitmap, wxBitmap *downBitmap)
+{
+    upBitmapPointer = new wxBitmap(buttonSize_);
+
+    wxMemoryDC memDC(*upBitmapPointer);
+    wxSize labelSize = memDC.GetTextExtent(label);
+    wxCoord xPosition = (buttonSize_.x - labelSize.x)/2;
+    wxCoord yPosition = (buttonSize_.y - labelSize.y)/2;
+    memDC.Clear();
+    memDC.DrawBitmap(*upBitmap, 0, 0);
+    memDC.SetTextForeground(*wxWHITE);
+    memDC.DrawText(label, xPosition, yPosition);
+    memDC.SelectObject(wxNullBitmap);
+    
+    downBitmapPointer = new wxBitmap(buttonSize_);
+
+    memDC.SelectObject(*downBitmapPointer);
+    memDC.Clear();
+    memDC.DrawBitmap(*downBitmap, 0, 0);
+    memDC.SetTextForeground(*wxWHITE);
+    memDC.DrawText(label, xPosition, yPosition);
+    memDC.SelectObject(wxNullBitmap);
+    
+    delete upBitmap;
+    delete downBitmap;
+}
+
+void SwitchButton::maskBitmap()
+{
+    wxColour maskColour(255, 0, 255);
+
+    maskUp = new wxMask (*upBitmapPointer, maskColour);
+    upBitmapPointer->SetMask(maskUp);
+    maskDown = new wxMask (*downBitmapPointer, maskColour);
+    downBitmapPointer->SetMask(maskDown);
+}
+
 SwitchButton::~SwitchButton()
 {
     delete upBitmapPointer;
     delete downBitmapPointer;
     if (type_ == SWITCH_BUTTON_VERTICAL_PIO)
     {
- //       delete disabledUpBitmapPointer;
- //       delete disabledDownBitmapPointer;
+        delete disabledUpBitmapPointer;
+        delete disabledDownBitmapPointer;
     }
 }
 
@@ -690,6 +719,9 @@ BEGIN_EVENT_TABLE(Panel, wxWindow)
     EVT_SPINCTRL(0x73, Panel::onAdsVolt)
     EVT_TEXT(0x74, Panel::onAdsVoltText)
 
+    EVT_COMMAND_SCROLL_THUMBTRACK(0x75, Panel::onClockChange)
+    EVT_COMMAND_SCROLL_CHANGED(0x75, Panel::onClockChange)
+
 END_EVENT_TABLE()
 
 Panel::Panel(wxWindow *parent, const wxSize& size)
@@ -706,6 +738,9 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
         nibbleLedPointerDefined[i] = false;
         nibbleLedStatus[i] = 0;
         updateNibbleLed_[i] = false;
+        mathLedPointerDefined[i] = false;
+        mathLedStatus[i] = 0;
+        updateMathLed_[i] = false;
         updateDp313_[i] = false;
         dpStatus[i] = false;
     }
@@ -714,6 +749,15 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
         ledPointerDefined[i] = false;
         ledStatus[i] = 0;
         updateLed_[i] = false;
+    }
+    for (int output=0; output<8; output++)
+    {
+        for (int i=0; i<8; i++)
+        {
+            if (ledOutPointerDefined[output][i])
+                updateOutLed_[output][i] = false;
+        }
+        updateTilOut_[output] = false;
     }
     for (int i=0; i<MAX_ADDRESS_TIL; i++)
     {
@@ -743,6 +787,8 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
     addressStatus = 0;
     dataStatus = 0;
     ms_ = 100;
+    fastClock_ = true;
+    sliderValue_ = 1;
 
     functionKeyReleaseTwo_ = false;
     xmlButtonDefined_ = false;
@@ -796,15 +842,19 @@ Panel::~Panel()
                 delete spinCtrlAdsVolt;
             break;
 
+            case CPU_SLIDER:
+                delete cpuSlider;
+            break;
+
             case PUSH_BUTTON:
             case PUSH_BUTTON_SMALL:
             case PUSH_BUTTON_RECTANGLE:
             case PUSH_BUTTON_RECTANGLE_SMALL:
-#if defined (__WXMAC__)
+//#if defined (__WXMAC__)
                 delete button->hexButton;
-#else
-                delete button->windowsButton;
-#endif
+//#else
+//                delete button->windowsButton;
+//#endif
             break;
 
             case PUSH_BUTTON_RED:
@@ -845,10 +895,17 @@ Panel::~Panel()
                     case LED_FUNC_NIBBLE:
                         delete nibbleLedPointer[button->value];
                     break;
+                    case LED_FUNC_MATH:
+                        delete mathLedPointer[button->value];
+                    break;
                     case LED_FUNC_BIT:
                     case LED_FUNC_BUTTON:
                     case LED_FUNC_SWITCH:
                         delete ledPointer[button->value];
+                    break;
+                    case LED_FUNC_BIT_OUT:
+                        if (ledOutPointerDefined[button->output.portNumber[0]][button->value])
+                            delete ledOutPointer[button->output.portNumber[0]][button->value];
                     break;
                     case LED_FUNC_ADDRESS:
                         delete ledPointer[button->value+8];
@@ -866,6 +923,10 @@ Panel::~Panel()
                 {
                     case TIL_DATA:
                         delete dataPointer[button->value];
+                    break;
+
+                    case TIL_FUNC_OUT:
+                        delete tilOutPointer[button->tilOutput.portNumber[0]][button->value];
                     break;
 
                     case TIL_ADDRESS:
@@ -898,6 +959,7 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
     {
         tilDataPointerDefined[i] = false;
         nibbleLedPointerDefined[i] = false;
+        mathLedPointerDefined[i] = false;
     }
     for (int i=0; i<MAX_BIT_LEDS; i++)
         ledPointerDefined[i] = false;
@@ -941,6 +1003,27 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
     {
         xmlButtonDefined_ = true;
                 
+        switch (button->function)
+        {
+            case BUTTON_FUNC_BIT_INP:
+                if (button->initup)
+                    p_Computer->inpSwitch(button->input.portNumber[0] ,button->value&0x7);
+                p_Computer->setInType(button->input.portNumber[0], BITSWITCH_INP, 0);
+            break;
+
+            case LED_FUNC_BIT_OUT:
+                p_Computer->setOutType(button->output.portNumber[0], BITLED_OUT, 0);
+            break;
+
+            case TIL_FUNC_OUT:
+                p_Computer->setOutType(button->tilOutput.portNumber[0], TIL_OUT, 0);
+            break;
+
+            case BUTTON_FUNC_EF_SWITCH:
+                p_Computer->setEfType(button->value-0x90+1, EFSWITCH, 0);
+            break;
+        }
+
         switch (button->type)
         {
             case SWITCH_BUTTON_VERTICAL:
@@ -972,6 +1055,10 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
                     break;
 
                     case BUTTON_FUNC_WAIT:
+                        if (button->initup)
+                            p_Computer->setWaitButtonState(1);
+                        else
+                            p_Computer->setWaitButtonState(0);
                         waitButton = button;
                         waitButtonDefined = true;
                     break;
@@ -1033,15 +1120,20 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
                 spinCtrlAdsVolt = new wxSpinCtrl(this, 0x73, wxEmptyString, button->position, wxDefaultSize, wxSP_ARROW_KEYS, button->rangeLow, button->rangeHigh);
             break;
                 
+            case CPU_SLIDER:
+                cpuSliderDefined = false;
+                cpuSlider = new wxSlider(this, 0x75, 100, 1, 100, button->position, button->size, wxSL_HORIZONTAL);
+            break;
+                
             case PUSH_BUTTON:
             case PUSH_BUTTON_SMALL:
             case PUSH_BUTTON_RECTANGLE:
             case PUSH_BUTTON_RECTANGLE_SMALL:
-#if defined (__WXMAC__)
+//#if defined (__WXMAC__)
                 button->hexButton = new HexButton(dc, button->type, button->position.x, button->position.y, button->label);
-#else
-                button->windowsButton = new wxButton(this, button->value, button->label, button->position, button->size, 0, wxDefaultValidator, "");
-#endif
+//#else
+//                button->windowsButton = new wxButton(this, button->value, button->label, button->position, button->size, 0, wxDefaultValidator, "");
+//#endif
             break;
 
             case PUSH_BUTTON_RED:
@@ -1090,6 +1182,12 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
                         nibbleLedPointer[button->value] = new Led(dc, button->position.x, button->position.y, button->type, button->reversePol);
                         nibbleLedPointerDefined[button->value] = true;
                     break;
+                    case LED_FUNC_MATH:
+                        if (button->value >= 2)
+                            button->value = 1;
+                        mathLedPointer[button->value] = new Led(dc, button->position.x, button->position.y, button->type, button->reversePol);
+                        mathLedPointerDefined[button->value] = true;
+                    break;
                     case LED_FUNC_BIT:
                     case LED_FUNC_BUTTON:
                     case LED_FUNC_SWITCH:
@@ -1097,6 +1195,12 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
                             button->value = MAX_BIT_LEDS -1;
                         ledPointer[button->value] = new Led(dc, button->position.x, button->position.y, button->type, button->reversePol);
                         ledPointerDefined[button->value] = true;
+                    break;
+                    case LED_FUNC_BIT_OUT:
+                        if (button->value >= 8)
+                            button->value = 7;
+                        ledOutPointer[button->output.portNumber[0]][button->value] = new Led(dc, button->position.x, button->position.y, button->type, button->reversePol);
+                        ledOutPointerDefined[button->output.portNumber[0]][button->value] = true;
                     break;
                     case LED_FUNC_ADDRESS:
                         if ((button->value+8) >= MAX_BIT_LEDS)
@@ -1121,6 +1225,13 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
                         dataPointer[button->value]->init(dc, button->position.x, button->position.y);
                         tilDataPointerDefined[button->value] = true;
                         updateData_ = true;
+                    break;
+
+                    case TIL_FUNC_OUT:
+                        tilOutPointer[button->tilOutput.portNumber[0]][button->value] = new Til311();
+                        tilOutPointer[button->tilOutput.portNumber[0]][button->value]->init(dc, button->position.x, button->position.y);
+                        tilOutPointerDefined[button->tilOutput.portNumber[0]][button->value] = true;
+                        updateTilOut_[button->tilOutput.portNumber[0]] = true;
                     break;
 
                     case TIL_ADDRESS:
@@ -1149,6 +1260,13 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
                         updateData_ = true;
                     break;
 
+                    case TIL_FUNC_OUT:
+                        tilOutPointer[button->tilOutput.portNumber[0]][button->value] = new Til313();
+                        tilOutPointer[button->tilOutput.portNumber[0]][button->value]->init(dc, button->position.x, button->position.y);
+                        tilOutPointerDefined[button->tilOutput.portNumber[0]][button->value] = true;
+                        updateTilOut_[button->tilOutput.portNumber[0]] = true;
+                    break;
+
                     case TIL_ADDRESS:
                         addressPointer[button->value] = new Til313();
                         addressPointer[button->value]->init(dc, button->position.x, button->position.y);
@@ -1173,6 +1291,14 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
                         dataPointer[button->value]->init(dc, button->position.x, button->position.y);
                         tilDataPointerDefined[button->value] = true;
                         updateData_ = true;
+                    break;
+
+                    case TIL_FUNC_OUT:
+                        tilOutPointer[button->tilOutput.portNumber[0]][button->value] = new Til313Italic(false);
+
+                        tilOutPointer[button->tilOutput.portNumber[0]][button->value]->init(dc, button->position.x, button->position.y);
+                        tilOutPointerDefined[button->tilOutput.portNumber[0]][button->value] = true;
+                        updateTilOut_[button->tilOutput.portNumber[0]] = true;
                     break;
 
                     case TIL_ADDRESS:
@@ -1288,9 +1414,9 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
             case PUSH_BUTTON_SMALL:
             case PUSH_BUTTON_RECTANGLE:
             case PUSH_BUTTON_RECTANGLE_SMALL:
-#if defined (__WXMAC__)
+//#if defined (__WXMAC__)
                 button->hexButton->onPaint(dc);
-#endif
+//#endif
             break;
 
             case PUSH_BUTTON_RED:
@@ -1331,10 +1457,16 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
                     case LED_FUNC_NIBBLE:
                         nibbleLedPointer[button->value]->onPaint(dc);
                     break;
+                    case LED_FUNC_MATH:
+                        mathLedPointer[button->value]->onPaint(dc);
+                    break;
                     case LED_FUNC_BIT:
                     case LED_FUNC_BUTTON:
                     case LED_FUNC_SWITCH:
                         ledPointer[button->value]->onPaint(dc);
+                    break;
+                    case LED_FUNC_BIT_OUT:
+                        ledOutPointer[button->output.portNumber[0]][button->value]->onPaint(dc);
                     break;
                     case LED_FUNC_ADDRESS:
                         ledPointer[button->value+8]->onPaint(dc);
@@ -1379,6 +1511,10 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
                         dataPointer[button->value]->onPaint(dc);
                     break;
 
+                    case TIL_FUNC_OUT:
+                        tilOutPointer[button->tilOutput.portNumber[0]][button->value]->onPaint(dc);
+                    break;
+
                     case TIL_ADDRESS:
                         addressPointer[button->value]->onPaint(dc);
                     break;
@@ -1414,7 +1550,7 @@ void Panel::onChar(wxKeyEvent& event)
             }
         }
     }
-    p_Computer->charEvent(event.GetKeyCode());
+    p_Computer->charEvent(event, event.GetKeyCode());
 }
 
 void Panel::vtOut(int value)
@@ -1523,10 +1659,10 @@ void Panel::onMousePress(wxMouseEvent&event)
             case PUSH_BUTTON_SMALL:
             case PUSH_BUTTON_RECTANGLE:
             case PUSH_BUTTON_RECTANGLE_SMALL:
-#if defined (__WXMAC__)
+//#if defined (__WXMAC__)
                 if (button->hexButton->onMousePress(dc, x, y))
                     executeMousePressFunction(button);
-#endif
+//#endif
             break;
 
             case PUSH_BUTTON_RED:
@@ -1571,7 +1707,7 @@ void Panel::onMouseRelease(wxMouseEvent&event)
             break;
 
             case DIP_SWITCH_BUTTON:
-                if (button->dipSwitchButton->onMousePress(dc, x, y))
+                if (button->dipSwitchButton->onMouseRelease(dc, x, y))
                     executeMouseReleaseFunction(button);
             break;
                 
@@ -1584,10 +1720,10 @@ void Panel::onMouseRelease(wxMouseEvent&event)
             case PUSH_BUTTON_SMALL:
             case PUSH_BUTTON_RECTANGLE:
             case PUSH_BUTTON_RECTANGLE_SMALL:
-#if defined (__WXMAC__)
+//#if defined (__WXMAC__)
                 if (button->hexButton->onMouseRelease(dc, x, y))
                     executeMouseReleaseFunction(button);
-#endif
+//#endif
             break;
 
             case PUSH_BUTTON_RED:
@@ -1699,7 +1835,7 @@ void Panel::executeMouseReleaseFunction(std::vector<GuiItemConfiguration>::itera
 {
     if (!button->actOnRelease)
         return;
-    
+   
     switch (button->function)
     {
         case BUTTON_FUNC_IN:
@@ -1804,8 +1940,12 @@ void Panel::executeMouseLeftFunction(std::vector<GuiItemConfiguration>::iterator
             p_Computer->dataSwitch(button->value&0x7);
         break;
             
+        case BUTTON_FUNC_BIT_INP:
+            p_Computer->inpSwitch(button->input.portNumber[0], button->value&0x7);
+        break;
+
         case BUTTON_FUNC_EF_SWITCH:
-            p_Computer->efSwitch((button->value-1)&0x3);
+            p_Computer->efSwitch((button->value-0x90)&0x3);
         break;
 
         case BUTTON_FUNC_MP:
@@ -1834,6 +1974,15 @@ void Panel::executeMouseLeftFunction(std::vector<GuiItemConfiguration>::iterator
             
         case BUTTON_FUNC_RUN0:
             p_Computer->onRunButtonPress(true);
+        break;
+
+        case BUTTON_FUNC_F_S_CLOCK:
+            fastClock_ = !fastClock_;
+            clockChange();
+        break;
+
+        case BUTTON_FUNC_DATA_IO:
+            p_Computer->onDataIoSwitch();
         break;
 
         default:
@@ -1878,11 +2027,22 @@ void Panel::rePaintLeds(wxDC& dc)
     {
         if (nibbleLedPointerDefined[i])
             updateNibbleLed(dc, i);
+        if (mathLedPointerDefined[i])
+            updateMathLed(dc, i);
     }
     for (int i=0; i<MAX_BIT_LEDS; i++)
     {
         if (ledPointerDefined[i])
             updateLed(dc, i);
+    }
+    for (int output=0; output<8; output++)
+    {
+        for (int i=0; i<8; i++)
+        {
+            if (ledOutPointerDefined[output][i])
+                updateOutLed(dc, output, i);
+        }
+        updateTilOut(dc, output);
     }
     for (int i=0; i<MAX_CPU_STATE_LEDS; i++)
     {
@@ -2090,6 +2250,48 @@ void Panel::refreshLed(wxDC& dc, int i)
     updateLed_[i] = false;
 }
 
+void Panel::setOutLeds(int output, Byte value)
+{
+    Byte status;
+    for (int led=0; led<8; led++)
+    {
+        if (ledOutPointerDefined[output][led])
+        {
+            status = value & 1;
+            value = value >> 1;
+            if (ledOutStatus[output][led] != status)
+            {
+                ledOutStatus[output][led] = status;
+                updateOutLed_[output][led] = true;
+                if (ms_ == 0)
+                {
+#if defined(__WXMAC__)
+                    p_Main->eventRefreshPanel();
+#else
+                    wxClientDC dc(this);
+                    updateOutLed(dc, output, led);
+#endif
+                }
+            }
+        }
+    }
+}
+
+void Panel::updateOutLed(wxDC& dc, int output, int i)
+{
+    if (updateOutLed_[output][i])
+    {
+        ledOutPointer[output][i]->setStatus(dc, ledOutStatus[output][i]);
+        updateOutLed_[output][i] = false;
+    }
+}
+
+void Panel::refreshOutLed(wxDC& dc, int output, int i)
+{
+    ledOutPointer[output][i]->setStatus(dc, ledOutStatus[output][i]);
+    updateOutLed_[output][i] = false;
+}
+
 void Panel::setNibbleLed(int i, int status)
 {
     if (!nibbleLedPointerDefined[i])
@@ -2120,6 +2322,36 @@ void Panel::updateNibbleLed(wxDC& dc, int i)
     }
 }
 
+void Panel::setMathLed(int i, int status)
+{
+    if (!mathLedPointerDefined[i])
+        return;
+    
+    if (mathLedStatus[i] != status)
+    {
+        mathLedStatus[i] = status;
+        updateMathLed_[i] = true;
+        if (ms_ == 0)
+        {
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
+            wxClientDC dc(this);
+            updateMathLed(dc, i);
+#endif
+        }
+    }
+}
+
+void Panel::updateMathLed(wxDC& dc, int i)
+{
+    if (updateMathLed_[i])
+    {
+        mathLedPointer[i]->setStatus(dc, mathLedStatus[i]);
+        updateMathLed_[i] = false;
+    }
+}
+
 void Panel::setStateLed(int i, int status)
 {
     if (!stateLedPointerDefined[i])
@@ -2147,6 +2379,36 @@ void Panel::updateStateLed(wxDC& dc, int i)
     {
         stateLedPointer[i]->setStatus(dc, stateLedStatus[i]);
         updateStateLed_[i] = false;
+    }
+}
+
+void Panel::setTilOut(int output, Byte value)
+{
+    if (tilOutStatus[output] != value)
+    {
+        tilOutStatus[output] = value;
+        updateTilOut_[output] = true;
+        if (ms_ == 0)
+        {
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
+            wxClientDC dc(this);
+            updateTilOut(dc, output);
+#endif
+        }
+    }
+}
+
+void Panel::updateTilOut(wxDC& dc, int output)
+{
+    if (updateTilOut_[output])
+    {
+        if (tilOutPointerDefined[output][0])
+            tilOutPointer[output][0]->update(dc,tilOutStatus[output]&15);
+        if (tilOutPointerDefined[output][1])
+            tilOutPointer[output][1]->update(dc,(tilOutStatus[output]>>4)&15);
+        updateTilOut_[output] = false;
     }
 }
 
@@ -2479,6 +2741,46 @@ bool Panel::isAdiDefined()
 int Panel::getAdi(int i)
 {
     return adiArray_[i];
+}
+
+void Panel::onClockChange(wxScrollEvent&event)
+{
+    double percentage = (double)event.GetPosition()/100;
+
+    if (sliderValue_ != percentage)
+    {
+        sliderValue_ = percentage;
+        clockChange();
+    }
+}
+
+void Panel::clockChange()
+{
+    wxString clockStr;
+    double sliderVal;
+    
+    sliderVal = sliderValue_;
+    if (!fastClock_)
+    {
+        if (sliderVal < 0.02)
+            sliderVal = 0.00235294;
+        else
+            if (sliderVal < 0.03)
+                sliderVal = 0.015;
+
+        p_Computer->setClockRate((double)0.017*sliderVal);
+        clockStr.Printf ("%1.5f", (double)0.017*sliderVal);
+    }
+    else
+    {
+        if (sliderVal < 0.03)
+            sliderVal = 0.02424242;
+        
+        p_Computer->setClockRate((double)0.33*sliderVal);
+        clockStr.Printf ("%1.3f", (double)0.33*sliderVal);
+    }
+
+    p_Main->setClockTextCtrl(clockStr);
 }
 
 BEGIN_EVENT_TABLE(PanelFrame, wxFrame)

@@ -88,6 +88,7 @@ public:
     void setPrintModeXml();
     void setRomRamButtonOrder();
     void setXmlGui();
+    void setClockTextCtrl(wxString clock);
     void onVideoNumber(wxCommandEvent&event);
     void onPrintFile(wxCommandEvent& event);
     void onXmlPrintFileText(wxCommandEvent&event);

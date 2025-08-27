@@ -80,7 +80,8 @@
     <cassette decks="1">
         <out>7</out>
         <ef>2</ef>
-        <stopdelay>20</stopdelay>
+        <stopdelay flipq="yes">40</stopdelay>
+        <endtapedelay>10000</endtapedelay>
     </cassette>
 
     <sound type="cdp1863">
@@ -106,9 +107,9 @@
 
     <basic>
         <pload>tiny</pload>
-        <defus>0x79</defus>
-        <eop>0x24</eop>
-        <ram>0x1140</ram>
+        <defus>0x827</defus>
+        <eop>0x118E</eop>
+        <ram>0x1200</ram>
     </basic>
 
     <debugger>
@@ -122,6 +123,35 @@
             <code_start>0x000</code_start>
             <code_end>0xFFF</code_end>
         </assembler>
+
+        <sep reg="0xb" bytes="1" address="0x471">
+            <string>WAV  Q</string>
+            <string_exec>DF=</string_exec>
+            <df />
+        </sep>
+
+        <sep reg="0xb" bytes="1" address="0x485">
+            <string>WAV  EF2</string>
+        </sep>
+        
+  <!--      <sep reg="0x3" bytes="1" address="0x44a">
+            <string>WAV  EF2</string>
+            <string_exec>DF=</string_exec>
+            <df />
+        </sep>
+
+        <sep reg="0x3" bytes="1" address="0x451">
+            <string>WAV  EF2</string>
+            <string_exec>DF=</string_exec>
+            <df />
+        </sep>
+
+        <sep reg="0x3" bytes="1" address="0x45C">
+            <string>WAV  EF2</string>
+            <string_exec>DF=</string_exec>
+            <df />
+        </sep>-->
+
     </debugger>
 
 </emmaconfig>

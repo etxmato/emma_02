@@ -151,8 +151,8 @@ void Cdp1802::initCpu()
     traceInt_ = false;
     traceChip8Int_ = false;
     skipTrace_ = false;
+    skipTraceHb_ = false;
     singleStateStep_ = false;
-    interruptRequested_ = false;
     for (int type=0; type<INTERRUPT_TYPE_MAX; type++)
     {
         interruptRequested[type] = false;
@@ -160,6 +160,8 @@ void Cdp1802::initCpu()
     }
     stopHiddenTrace_ = false;
     startHiddenTrace_ = false;
+    stopHiddenBranchTrace_ = false;
+    startHiddenBranchTrace_ = false;
 }
 
 void Cdp1802::resetCpu()
@@ -279,6 +281,7 @@ Byte Cdp1802::dmaIn(Byte value)
         return dmaInValue;
 
     writeMem(scratchpadRegister_[0], value, false);
+    p_Computer->showMwrLed(1);
     dmaInValue = readMem(scratchpadRegister_[0]);
     address_ = scratchpadRegister_[0]++;
     idle_=0;
@@ -537,7 +540,6 @@ void Cdp1802::setEf(int flag,int value)
 
 bool Cdp1802::interrupt()
 {
-    interruptRequested_ = false;
     p_Computer->showIntLed();
     
     if (p_Main->isDiagActive())
@@ -585,11 +587,6 @@ bool Cdp1802::interrupt()
     }
     idle_=0;
     return false;
-}
-
-void Cdp1802::requestInterrupt()
-{
-    interruptRequested_ = true;
 }
 
 void Cdp1802::requestInterrupt(int type, bool state, int picNumber)
@@ -1201,14 +1198,14 @@ void Cdp1802::cpuCycleExecute2_1805()
                             tempWord += 6;
                         if ((tempWord & 0xf0) > 0x90 || (tempWord & 0x100) == 0x100)
                         {
-                            dataFlag_=1;
+                            dataFlag_ = 1;
                             tempWord += 0x60;
                         }
                         accumulator_ = tempWord & 255;
 
                         if (trace_)
                         {
-                            buffer.Printf("DADC      D=%02X", accumulator_);
+                            buffer.Printf("DADC      D=%02X, DF=%1X", accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
                         }
                         bus_ = 0;
@@ -1262,14 +1259,14 @@ void Cdp1802::cpuCycleExecute2_1805()
                             tempWord += 6;
                         if ((tempWord & 0xf0) > 0x90 || (tempWord & 0x100) == 0x100)
                         {
-                            dataFlag_=1;
+                            dataFlag_ = 1;
                             tempWord += 0x60;
                         }
                         accumulator_ = tempWord & 255;
 
                         if (trace_)  
                         {
-                            buffer.Printf("DACI %02X   D=%02X", bus_, accumulator_);
+                            buffer.Printf("DACI %02X   D=%02X, DF=%1X", bus_, accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
                         }
                         bus_ = 0;
@@ -1396,14 +1393,14 @@ void Cdp1802::cpuCycleExecute2_1805()
                             tempWord += 6;
                         if ((tempWord & 0xf0) > 0x90 || (tempWord & 0x100) == 0x100)
                         {
-                            dataFlag_=1;
+                            dataFlag_ = 1;
                             tempWord += 0x60;
                         }
                         accumulator_ = tempWord & 255;
 
                         if (trace_)
                         {
-                            buffer.Printf("DADD      D=%02X", accumulator_);
+                            buffer.Printf("DADD      D=%02X, DF=%1X", accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
                         }
                         bus_ = 0;
@@ -1447,14 +1444,14 @@ void Cdp1802::cpuCycleExecute2_1805()
                             tempWord += 6;
                         if ((tempWord & 0xf0) > 0x90 || (tempWord & 0x100) == 0x100)
                         {
-                            dataFlag_=1;
+                            dataFlag_ = 1;
                             tempWord += 0x60;
                         }
                         accumulator_ = tempWord & 255;
 
                         if (trace_)
                         {
-                            buffer.Printf("DADI %02X   D=%02X", bus_, accumulator_);
+                            buffer.Printf("DADI %02X   D=%02X, DF=%1X", bus_, accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
                         }
                         bus_=0;
@@ -1528,6 +1525,8 @@ void Cdp1802::cpuCycleStep()
 {
     int numberOfCycles;
     
+    p_Computer->showMrdLed(0);
+    p_Computer->showMwrLed(0);
     switch (cpuState_)
     {
         case STATE_FETCH_1:
@@ -1658,6 +1657,7 @@ void Cdp1802::cpuCycleFetch()
         traceBuffer_.Printf("%04X: ",scratchpadRegister_[programCounter_]);
     
     instructionCode_=readMem(scratchpadRegister_[programCounter_]);
+    p_Computer->showMrdLed(1);
 // ** address log
 //    p_Main->addressLog(scratchpadRegister_[programCounter_]);
     bus_=instructionCode_;
@@ -1756,6 +1756,7 @@ void Cdp1802::cpuCycleFetch2()
 {
     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
     instructionCode_ = readMem(scratchpadRegister_[programCounter_]++);
+    p_Computer->showMrdLed(1);
     bus_=instructionCode_;
     
     cpuState_ = STATE_EXECUTE_1_1805;
@@ -1763,15 +1764,18 @@ void Cdp1802::cpuCycleFetch2()
 
 void Cdp1802::cpuCycleExecute1()
 {
-    wxString buffer;
+    wxString buffer, tempstring1, tempstring2;
     Byte i, n;
     int tempWord;
     Byte df1;
     uint64_t executed;
+    Word tempAddress;
 
     stopHiddenTrace_ = false;
     startHiddenTrace_ = false;
-    
+    stopHiddenBranchTrace_ = false;
+    startHiddenBranchTrace_ = false;
+
     n = instructionCode_ & 15;
     i = instructionCode_>>4;
 
@@ -1781,6 +1785,7 @@ void Cdp1802::cpuCycleExecute1()
             if (cpuType_ == SYSTEM00)
             {
                 bus_=readMem(scratchpadRegister_[n]);
+                p_Computer->showMrdLed(1);
                 p_Computer->showDataLeds(bus_);
                 if (trace_)
                 {
@@ -1796,6 +1801,7 @@ void Cdp1802::cpuCycleExecute1()
                 if (n == 0)
                 {
                     bus_=readMem(scratchpadRegister_[0]);
+                    p_Computer->showMrdLed(1);
                     if (trace_)
                     {
                         traceBuffer_ = traceBuffer_ + "IDL";
@@ -1818,10 +1824,11 @@ void Cdp1802::cpuCycleExecute1()
                     else
                     {
                         bus_=readMem(scratchpadRegister_[n]);
+                        p_Computer->showMrdLed(1);
                         accumulator_=bus_;
                         if (trace_)
                         {
-                            buffer.Printf("LDN  R%X   D=%02X",n,accumulator_);
+                            buffer.Printf("LDN  R%X   D=M(%04X)=%02X",n,scratchpadRegister_[n],accumulator_);
                             traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
@@ -1867,6 +1874,7 @@ void Cdp1802::cpuCycleExecute1()
                 case 0:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->showMrdLed(1);
                     scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
                     p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                     if (trace_)
@@ -1891,6 +1899,7 @@ void Cdp1802::cpuCycleExecute1()
                         {
                             p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                             bus_=readMem(scratchpadRegister_[programCounter_]);
+                            p_Computer->showMrdLed(1);
                             p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                             if (accumulator_)
                             {
@@ -1910,6 +1919,7 @@ void Cdp1802::cpuCycleExecute1()
                     {
                         p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                         bus_=readMem(scratchpadRegister_[programCounter_]);
+                        p_Computer->showMrdLed(1);
                         p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                         if (flipFlopQ_)
                         {
@@ -1926,6 +1936,7 @@ void Cdp1802::cpuCycleExecute1()
                 case 2:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->showMrdLed(1);
                     p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                     if (!accumulator_)
                     {
@@ -1942,6 +1953,7 @@ void Cdp1802::cpuCycleExecute1()
                 case 3:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->showMrdLed(1);
                     p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                     if (dataFlag_)
                     {
@@ -1966,6 +1978,7 @@ void Cdp1802::cpuCycleExecute1()
                 case 4:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->showMrdLed(1);
                     p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                     readyToReceiveData[0] = true;
                     if (!(efFlags_ & 1))
@@ -1978,11 +1991,14 @@ void Cdp1802::cpuCycleExecute1()
                     {
                         buffer.Printf("B1   %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
+                        if (lastTraceBuffer_ == traceBuffer_)
+                            startHiddenBranchTrace_ = true;
                     }
                 break;
                 case 5:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->showMrdLed(1);
                     p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                     readyToReceiveData[1] = true;
                     if (!(efFlags_ & 2))
@@ -1995,11 +2011,14 @@ void Cdp1802::cpuCycleExecute1()
                     {
                         buffer.Printf("B2   %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
+                        if (lastTraceBuffer_ == traceBuffer_)
+                            startHiddenBranchTrace_ = true;
                     }
                 break;
                 case 6:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->showMrdLed(1);
                     p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                     readyToReceiveData[2] = true;
                     if (!(efFlags_ & 4))
@@ -2012,11 +2031,14 @@ void Cdp1802::cpuCycleExecute1()
                     {
                         buffer.Printf("B3   %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
+                        if (lastTraceBuffer_ == traceBuffer_)
+                            startHiddenBranchTrace_ = true;
                     }
                 break;
                 case 7:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->showMrdLed(1);
                     p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                     readyToReceiveData[3] = true;
                     if (!(efFlags_ & 8))
@@ -2029,10 +2051,13 @@ void Cdp1802::cpuCycleExecute1()
                     {
                         buffer.Printf("B4   %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
+                        if (lastTraceBuffer_ == traceBuffer_)
+                            startHiddenBranchTrace_ = true;
                     }
                 break;
                 case 8:
                     bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->showMrdLed(1);
                     scratchpadRegister_[programCounter_]++;
                     if (trace_)
                     {
@@ -2057,6 +2082,7 @@ void Cdp1802::cpuCycleExecute1()
                     {
                         p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                         bus_=readMem(scratchpadRegister_[programCounter_]);
+                        p_Computer->showMrdLed(1);
                         p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                         if (!flipFlopQ_)
                         {
@@ -2074,6 +2100,7 @@ void Cdp1802::cpuCycleExecute1()
                 case 0xa:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->showMrdLed(1);
                     p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                     if (accumulator_)
                     {
@@ -2090,6 +2117,7 @@ void Cdp1802::cpuCycleExecute1()
                 case 0xb:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->showMrdLed(1);
                     p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                     if (!dataFlag_)
                     {
@@ -2114,6 +2142,7 @@ void Cdp1802::cpuCycleExecute1()
                 case 0xc:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->showMrdLed(1);
                     p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                     readyToReceiveData[0] = true;
                     if (efFlags_ & 1)
@@ -2126,11 +2155,14 @@ void Cdp1802::cpuCycleExecute1()
                     {
                         buffer.Printf("BN1  %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
+                        if (lastTraceBuffer_ == traceBuffer_)
+                            startHiddenBranchTrace_ = true;
                     }
                 break;
                 case 0xd:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->showMrdLed(1);
                     p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                     readyToReceiveData[1] = true;
                     if (efFlags_ & 2)
@@ -2143,11 +2175,14 @@ void Cdp1802::cpuCycleExecute1()
                     {
                         buffer.Printf("BN2  %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
+                        if (lastTraceBuffer_ == traceBuffer_)
+                            startHiddenBranchTrace_ = true;
                     }
                 break;
                 case 0xe:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->showMrdLed(1);
                     p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                     readyToReceiveData[2] = true;
                     if (efFlags_ & 4)
@@ -2160,11 +2195,14 @@ void Cdp1802::cpuCycleExecute1()
                     {
                         buffer.Printf("BN3  %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
+                        if (lastTraceBuffer_ == traceBuffer_)
+                            startHiddenBranchTrace_ = true;
                     }
                 break;
                 case 0xf:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->showMrdLed(1);
                     p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                     readyToReceiveData[3] = true;
                     if (efFlags_ & 8)
@@ -2177,12 +2215,15 @@ void Cdp1802::cpuCycleExecute1()
                     {
                         buffer.Printf("BN4  %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
+                        if (lastTraceBuffer_ == traceBuffer_)
+                            startHiddenBranchTrace_ = true;
                     }
                 break;
             }
         break;
         case 4:
             bus_=readMem(scratchpadRegister_[n]++);
+            p_Computer->showMrdLed(1);
             accumulator_=bus_;
             if (trace_)
             {
@@ -2193,6 +2234,7 @@ void Cdp1802::cpuCycleExecute1()
         case 5:
             bus_=accumulator_;
             writeMem(scratchpadRegister_[n], accumulator_, false);
+            p_Computer->showMwrLed(1);
             if (trace_)
             {
                 buffer.Printf("STR  R%X   M(%04X)=%02X",n,scratchpadRegister_[n],accumulator_);
@@ -2212,6 +2254,7 @@ void Cdp1802::cpuCycleExecute1()
                     case 6:
                     case 7:
                         bus_ = readMem(scratchpadRegister_[dataPointer_]++);
+                        p_Computer->showMrdLed(1);
                         p_Computer->out(n, scratchpadRegister_[dataPointer_]-1, bus_);
                         if (trace_)
                         {
@@ -2223,6 +2266,7 @@ void Cdp1802::cpuCycleExecute1()
                     case 8:
                         bus_= p_Computer->in((Byte)(n-8), scratchpadRegister_[dataPointer_]);
                         writeMem(scratchpadRegister_[dataPointer_], bus_, false);
+                        p_Computer->showMwrLed(1);
 //                      SYSTEM 00 doesn't load INP byte in D
                         if (trace_)
                         {
@@ -2245,6 +2289,7 @@ void Cdp1802::cpuCycleExecute1()
             if (n == 0 && cpuType_ != CPU1801)
             {
                 bus_=readMem(scratchpadRegister_[dataPointer_]);
+                p_Computer->showMrdLed(1);
                 scratchpadRegister_[dataPointer_]++;
                 if (trace_)
                 {
@@ -2262,6 +2307,7 @@ void Cdp1802::cpuCycleExecute1()
             if (n <= 7)
             {
                 bus_ = readMem(scratchpadRegister_[dataPointer_]++);
+                p_Computer->showMrdLed(1);
                 p_Computer->out(n, scratchpadRegister_[dataPointer_]-1, bus_);
                 if (p_Main->getLapTimeTrigger() == (LAPTIME_OUT - 1 + n))
                     p_Main->lapTime();
@@ -2278,7 +2324,7 @@ void Cdp1802::cpuCycleExecute1()
                         }
                         else
                         {
-                            if (n>3)
+                            if (n>3 && p_Computer->ioGroupCdp1870(p_Computer->getIoGroup(), p_Computer->getFlipFlopQ()))
                                 buffer.Printf("OUT  %X    [%04X]",n,scratchpadRegister_[dataPointer_]-1);
                             else
                                 buffer.Printf("OUT  %X    [%02X]",n,bus_);
@@ -2293,6 +2339,7 @@ void Cdp1802::cpuCycleExecute1()
             }
             bus_= p_Computer->in((Byte)(n-8), scratchpadRegister_[dataPointer_]);
             writeMem(scratchpadRegister_[dataPointer_], bus_, false);
+            p_Computer->showMwrLed(1);
             if (cpuType_ != CPU1801)  // 1801 doesn't load INP x byte in D
                 accumulator_=bus_;
             if (trace_)
@@ -2306,6 +2353,7 @@ void Cdp1802::cpuCycleExecute1()
             {
                  case 0:
                     bus_=readMem(scratchpadRegister_[dataPointer_]++);
+                    p_Computer->showMrdLed(1);
                     programCounter_=bus_ & 15;
                     dataPointer_= (bus_>>4);
                     interruptEnable_=1;
@@ -2328,6 +2376,7 @@ void Cdp1802::cpuCycleExecute1()
                     else
                     {
                         bus_=readMem(scratchpadRegister_[dataPointer_]++);
+                        p_Computer->showMrdLed(1);
                         programCounter_=bus_ & 15;
                         dataPointer_=bus_>>4;
                         interruptEnable_=0;
@@ -2351,6 +2400,7 @@ void Cdp1802::cpuCycleExecute1()
                     else
                     {
                         bus_ = readMem(scratchpadRegister_[dataPointer_]++);
+                        p_Computer->showMrdLed(1);
                         accumulator_ = bus_;
                         if (trace_)
                         {
@@ -2372,6 +2422,7 @@ void Cdp1802::cpuCycleExecute1()
                     else
                     {
                         writeMem(scratchpadRegister_[dataPointer_]--, accumulator_, false);
+                        p_Computer->showMwrLed(1);
                         bus_=accumulator_;
                         if (trace_)
                         {
@@ -2393,20 +2444,21 @@ void Cdp1802::cpuCycleExecute1()
                     else
                     {
                         bus_ = readMem(scratchpadRegister_[dataPointer_]);
+                        p_Computer->showMrdLed(1);
                         tempWord=accumulator_ + bus_ + dataFlag_;
                         if (tempWord>255)
                         {
                             accumulator_ = tempWord & 255;
-                            dataFlag_=1;
+                            dataFlag_ = 1;
                         }
                         else
                         {
                             accumulator_=tempWord;
-                            dataFlag_=0;
+                            dataFlag_ = 0;
                         }
                         if (trace_)
                         {
-                            buffer.Printf("ADC       D=%02X", accumulator_);
+                            buffer.Printf("ADC       D=%02X, DF=%1X", accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
@@ -2424,20 +2476,21 @@ void Cdp1802::cpuCycleExecute1()
                     else
                     {
                         bus_ = readMem(scratchpadRegister_[dataPointer_]);
+                        p_Computer->showMrdLed(1);
                         tempWord=bus_ +((~accumulator_)&0xff) + dataFlag_;
                         if (tempWord>255)
                         {
                             accumulator_ = tempWord&255;
-                            dataFlag_=1;
+                            dataFlag_ = 1;
                         }
                         else
                         {
                             accumulator_=tempWord&255;
-                            dataFlag_=0;
+                            dataFlag_ = 0;
                         }
                         if (trace_)
                         {
-                            buffer.Printf("SDB       D=%02X", accumulator_);
+                            buffer.Printf("SDB       D=%02X, DF=%1X", accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
@@ -2460,9 +2513,9 @@ void Cdp1802::cpuCycleExecute1()
                         if (trace_)
                         {
                             if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1, &executed) == MEM_TYPE_OPCODE_RSHR)
-                                buffer.Printf("RSHR      D=%02X", accumulator_);
+                                buffer.Printf("RSHR      D=%02X, DF=%1X", accumulator_, dataFlag_);
                             else
-                                buffer.Printf("SHRC      D=%02X", accumulator_);
+                                buffer.Printf("SHRC      D=%02X, DF=%1X", accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
                         }
                         address_=scratchpadRegister_[dataPointer_];
@@ -2481,20 +2534,21 @@ void Cdp1802::cpuCycleExecute1()
                     else
                     {
                         bus_ = readMem(scratchpadRegister_[dataPointer_]);
+                        p_Computer->showMrdLed(1);
                         tempWord=accumulator_ +((~bus_)&0xff) + dataFlag_;
                         if (tempWord>255)
                         {
                             accumulator_ = tempWord & 0xff;
-                            dataFlag_=1;
+                            dataFlag_ = 1;
                         }
                         else
                         {
                             accumulator_=tempWord&255;
-                            dataFlag_=0;
+                            dataFlag_ = 0;
                         }
                         if (trace_)
                         {
-                            buffer.Printf("SMB       D=%02X", accumulator_);
+                            buffer.Printf("SMB       D=%02X, DF=%1X", accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
@@ -2502,6 +2556,7 @@ void Cdp1802::cpuCycleExecute1()
                 case 8:
                     bus_ = registerT_;
                     writeMem(scratchpadRegister_[dataPointer_], registerT_, false);
+                    p_Computer->showMwrLed(1);
                     if (trace_)
                     {
                         buffer.Printf("SAV       M(%04X)=%02X",scratchpadRegister_[dataPointer_], registerT_);
@@ -2523,6 +2578,7 @@ void Cdp1802::cpuCycleExecute1()
                         registerT_= (dataPointer_<<4) | programCounter_;
                         bus_ = registerT_;
                         writeMem(scratchpadRegister_[2]--, registerT_, false);
+                        p_Computer->showMwrLed(1);
                         dataPointer_=programCounter_;
                         if (trace_)
                         {
@@ -2591,20 +2647,21 @@ void Cdp1802::cpuCycleExecute1()
                     {
                         p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                         bus_=readMem(scratchpadRegister_[programCounter_]++);
+                        p_Computer->showMrdLed(1);
                         tempWord=accumulator_ + bus_ + dataFlag_;
                         if (tempWord>255)
                         {
                             accumulator_ = tempWord & 255;
-                            dataFlag_=1;
+                            dataFlag_ = 1;
                         }
                         else
                         {
                             accumulator_=tempWord;
-                            dataFlag_=0;
+                            dataFlag_ = 0;
                         }
                         if (trace_)
                         {
-                            buffer.Printf("ADCI %02X   D=%02X", bus_, accumulator_);
+                            buffer.Printf("ADCI %02X   D=%02X, DF=%1X", bus_, accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
@@ -2623,20 +2680,21 @@ void Cdp1802::cpuCycleExecute1()
                     {
                         p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                         bus_=readMem(scratchpadRegister_[programCounter_]++);
+                        p_Computer->showMrdLed(1);
                         tempWord=bus_ +((~accumulator_)&0xff) + dataFlag_;
                         if (tempWord>255)
                         {
                             accumulator_ = tempWord & 0xff;
-                            dataFlag_=1;
+                            dataFlag_ = 1;
                         }
                         else
                         {
                             accumulator_=tempWord&255;
-                            dataFlag_=0;
+                            dataFlag_ = 0;
                         }
                         if (trace_)
                         {
-                            buffer.Printf("SDBI %02X   D=%02X", bus_, accumulator_);
+                            buffer.Printf("SDBI %02X   D=%02X, DF=%1X", bus_, accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
@@ -2659,9 +2717,9 @@ void Cdp1802::cpuCycleExecute1()
                         if (trace_)
                         {
                             if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1, &executed) == MEM_TYPE_OPCODE_RSHL)
-                                buffer.Printf("RSHL      D=%02X", accumulator_);
+                                buffer.Printf("RSHL      D=%02X, DF=%1X", accumulator_, dataFlag_);
                             else
-                                buffer.Printf("SHLC      D=%02X", accumulator_);
+                                buffer.Printf("SHLC      D=%02X, DF=%1X", accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
                         }
                         address_=scratchpadRegister_[programCounter_];
@@ -2681,21 +2739,22 @@ void Cdp1802::cpuCycleExecute1()
                     {
                         p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                         bus_=readMem(scratchpadRegister_[programCounter_]++);
+                        p_Computer->showMrdLed(1);
             //            bus_= (~readMem(scratchpadRegister_[programCounter_]++)) & 0xff;
                         tempWord=accumulator_ + (~bus_ & 0xff) + dataFlag_;
                         if (tempWord>255)
                         {
                             accumulator_ = tempWord & 0xff;
-                            dataFlag_=1;
+                            dataFlag_ = 1;
                         }
                         else
                         {
                             accumulator_=tempWord&255;
-                            dataFlag_=0;
+                            dataFlag_ = 0;
                         }
                         if (trace_)
                         {
-                            buffer.Printf("SMBI %02X   D=%02X", bus_, accumulator_);
+                            buffer.Printf("SMBI %02X   D=%02X, DF=%1X", bus_, accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
@@ -2775,35 +2834,15 @@ void Cdp1802::cpuCycleExecute1()
             }
         break;
         case 0xd:
+            p_Main->writeSepDatatype(scratchpadRegister_[programCounter_], instructionCode_);
             if (trace_)
             {
-                buffer.Printf("SEP  R%X",n);
-                traceBuffer_ = traceBuffer_ + buffer;
-                
-                if (p_Main->getDebugScrtMode())
-                {
-                    if (n == scrtProgramCounter_ && skipTrace_)
-                    {
-                        if (programCounter_ == p_Main->getDebugRetReg() && scratchpadRegister_[p_Main->getDebugRetReg()] == p_Main->getDebugRetAddress())
-                            stopHiddenTrace_ = true;
-                        if (programCounter_ == p_Main->getDebugCallReg() && scratchpadRegister_[p_Main->getDebugCallReg()] == p_Main->getDebugCallAddress())
-                            stopHiddenTrace_ = true;
-                    }
-                    if (n == p_Main->getDebugCallReg() && scratchpadRegister_[n] == p_Main->getDebugCallAddress())
-                    {
-                        scrtProgramCounter_ = programCounter_;
-                        startHiddenTrace_ = true;
-                        buffer.Printf("   CALL %02X%02X", readMem(scratchpadRegister_[programCounter_]), readMem(scratchpadRegister_[programCounter_]+1));
-                        traceBuffer_ = traceBuffer_ + buffer;
-                    }
-                    if (n == p_Main->getDebugRetReg() && scratchpadRegister_[n] == p_Main->getDebugRetAddress())
-                    {
-                        scrtProgramCounter_ = programCounter_;
-                        startHiddenTrace_ = true;
-                        buffer.Printf("   RETURN");
-                        traceBuffer_ = traceBuffer_ + buffer;
-                    }
-                }
+                tempAddress = scratchpadRegister_[programCounter_];
+                traceBuffer_ = traceBuffer_ + p_Main->getAssemblySep(&tempAddress, n, &tempstring1, &tempstring2, &scrtProgramCounter_, &startHiddenTrace_, &stopHiddenTrace_, skipTrace_);
+                while(traceBuffer_.Len() < 16) traceBuffer_.operator += (" ");
+                traceBuffer_ = traceBuffer_ + tempstring1;
+                traceBuffer_.Replace("\\n", "\n      ");
+                traceBuffer_.Replace(";", "\n      ");
             }
             bus_=n+16*n;
             programCounter_=n;
@@ -2835,6 +2874,7 @@ void Cdp1802::cpuCycleExecute1()
             {
                 case 0:
                     bus_=readMem(scratchpadRegister_[dataPointer_]);
+                    p_Computer->showMrdLed(1);
                     accumulator_=bus_;
                     if (trace_)
                     {
@@ -2844,6 +2884,7 @@ void Cdp1802::cpuCycleExecute1()
                 break;
                 case 1:
                     bus_=readMem(scratchpadRegister_[dataPointer_]);
+                    p_Computer->showMrdLed(1);
                     accumulator_=bus_ | accumulator_;
                     if (trace_)
                     {
@@ -2853,6 +2894,7 @@ void Cdp1802::cpuCycleExecute1()
                 break;
                 case 2:
                     bus_=readMem(scratchpadRegister_[dataPointer_]);
+                    p_Computer->showMrdLed(1);
                     accumulator_=bus_ & accumulator_;
                     if (trace_) {
                         buffer.Printf("AND       D=%02X",accumulator_);
@@ -2861,6 +2903,7 @@ void Cdp1802::cpuCycleExecute1()
                 break;
                 case 3:
                     bus_=readMem(scratchpadRegister_[dataPointer_]);
+                    p_Computer->showMrdLed(1);
                     accumulator_=bus_ ^ accumulator_;
                     if (trace_)
                     {
@@ -2870,75 +2913,79 @@ void Cdp1802::cpuCycleExecute1()
                 break;
                 case 4:
                     bus_=readMem(scratchpadRegister_[dataPointer_]);
+                    p_Computer->showMrdLed(1);
                     tempWord=accumulator_ + bus_;
                     if (tempWord>255)
                     {
                         accumulator_ = tempWord & 255;
-                        dataFlag_=1;
+                        dataFlag_ = 1;
                     }
                     else
                     {
                         accumulator_=tempWord;
-                        dataFlag_=0;
+                        dataFlag_ = 0;
                     }
                     if (trace_)
                     {
-                        buffer.Printf("ADD       D=%02X",accumulator_);
+                        buffer.Printf("ADD       D=%02X, DF=%1X", accumulator_, dataFlag_);
                         traceBuffer_ = traceBuffer_ + buffer;
                     }
                 break;
                 case 5:
                     bus_=readMem(scratchpadRegister_[dataPointer_]);
+                    p_Computer->showMrdLed(1);
                     tempWord=bus_ +((~accumulator_)&0xff)+1;
                     if (tempWord>255)
                     {
                         accumulator_ = tempWord & 0xff;
-                        dataFlag_=1;
+                        dataFlag_ = 1;
                     }
                     else
                     {
                         accumulator_=tempWord&255;
-                        dataFlag_=0;
+                        dataFlag_ = 0;
                     }
                     if (trace_)
                     {
-                        buffer.Printf("SD        D=%02X", accumulator_);
+                        buffer.Printf("SD        D=%02X, DF=%1X", accumulator_, dataFlag_);
                         traceBuffer_ = traceBuffer_ + buffer;
                     }
                  break;
                 case 6:
                     bus_=0;
-                    dataFlag_= (accumulator_ & 1)? 1 : 0;
+                    dataFlag_ = (accumulator_ & 1)? 1 : 0;
                     accumulator_=accumulator_>>1;
                     if (trace_)
                     {
-                        buffer.Printf("SHR       D=%02X",accumulator_);
+                        buffer.Printf("SHR       D=%02X, DF=%1X", accumulator_, dataFlag_);
                         traceBuffer_ = traceBuffer_ + buffer;
                     }
                     address_=scratchpadRegister_[dataPointer_];
                 break;
                 case 7:
                     bus_=readMem(scratchpadRegister_[dataPointer_]);
+                    p_Computer->showMrdLed(1);
                     tempWord=accumulator_+((~bus_)&0xff)+1;
                     if (tempWord>255)
                     {
                         accumulator_ = tempWord & 0xff;
-                        dataFlag_=1;
+                        dataFlag_ = 1;
                     }
                     else
                     {
                         accumulator_=tempWord&255;
-                        dataFlag_=0;
+                        dataFlag_ = 0;
                     }
                     if (trace_)
                     {
-                        buffer.Printf("SM        D=%02X", accumulator_);
+                        buffer.Printf("SM        D=%02X, DF=%1X", accumulator_, dataFlag_);
                         traceBuffer_ = traceBuffer_ + buffer;
                     }
                 break;
                 case 8:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]++);
+                    p_Computer->showMrdLed(1);
                     accumulator_=bus_;
                     if (trace_)
                     {
@@ -2949,6 +2996,7 @@ void Cdp1802::cpuCycleExecute1()
                 case 9:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]++);
+                    p_Computer->showMrdLed(1);
                     accumulator_ |= bus_;
                     if (trace_)
                     {
@@ -2959,6 +3007,7 @@ void Cdp1802::cpuCycleExecute1()
                 case 10:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]++);
+                    p_Computer->showMrdLed(1);
                     accumulator_ &= bus_;
                     if (trace_)
                     {
@@ -2969,6 +3018,7 @@ void Cdp1802::cpuCycleExecute1()
                 case 11:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]++);
+                    p_Computer->showMrdLed(1);
                     accumulator_ ^= bus_;
                     if (trace_)
                     {
@@ -2979,40 +3029,42 @@ void Cdp1802::cpuCycleExecute1()
                 case 12:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]++);
+                    p_Computer->showMrdLed(1);
                     tempWord=accumulator_ + bus_;
                     if (tempWord>255)
                     {
                         accumulator_ = tempWord & 255;
-                        dataFlag_=1;
+                        dataFlag_ = 1;
                     }
                     else
                     {
                         accumulator_=tempWord;
-                        dataFlag_=0;
+                        dataFlag_ = 0;
                     }
                     if (trace_)
                     {
-                        buffer.Printf("ADI  %02X   D=%02X",bus_,accumulator_);
+                        buffer.Printf("ADI  %02X   D=%02X, DF=%1X", bus_, accumulator_, dataFlag_);
                         traceBuffer_ = traceBuffer_ + buffer;
                     }
                  break;
                 case 13:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]++);
+                    p_Computer->showMrdLed(1);
                     tempWord=bus_+((~accumulator_)&0xff)+1;
                     if (tempWord>255)
                     {
                         accumulator_ = tempWord&0xff;
-                        dataFlag_=1;
+                        dataFlag_ = 1;
                     }
                     else
                     {
                         accumulator_=tempWord&255;
-                        dataFlag_=0;
+                        dataFlag_ = 0;
                     }
                     if (trace_)
                     {
-                        buffer.Printf("SDI  %02X   D=%02X",bus_, accumulator_);
+                        buffer.Printf("SDI  %02X   D=%02X, DF=%1X", bus_, accumulator_, dataFlag_);
                         traceBuffer_ = traceBuffer_ + buffer;
                     }
                 break;
@@ -3028,11 +3080,11 @@ void Cdp1802::cpuCycleExecute1()
                     }
                     else
                     {
-                        dataFlag_= (accumulator_ & 128)? 1 : 0;
+                        dataFlag_ = (accumulator_ & 128)? 1 : 0;
                         accumulator_=accumulator_<<1;
                         if (trace_)
                         {
-                            buffer.Printf("SHL       D=%02X",accumulator_);
+                            buffer.Printf("SHL       D=%02X, DF=%1X", accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
                         }
                         address_=scratchpadRegister_[programCounter_];
@@ -3041,20 +3093,21 @@ void Cdp1802::cpuCycleExecute1()
                 case 15:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     bus_=readMem(scratchpadRegister_[programCounter_]++);
+                    p_Computer->showMrdLed(1);
                     tempWord=accumulator_+(~bus_&0xff)+1;
                     if (tempWord>255)
                     {
                         accumulator_ = tempWord&0xff;
-                        dataFlag_=1;
+                        dataFlag_ = 1;
                     }
                     else
                     {
                         accumulator_=tempWord&255;
-                        dataFlag_=0;
+                        dataFlag_ = 0;
                     }
                     if (trace_)
                     {
-                        buffer.Printf("SMI  %02X   D=%02X",bus_,accumulator_);
+                        buffer.Printf("SMI  %02X   D=%02X, DF=%1X", bus_, accumulator_, dataFlag_);
     //                                     XXX       R
                          traceBuffer_ = traceBuffer_ + buffer;
                     }
@@ -3062,6 +3115,10 @@ void Cdp1802::cpuCycleExecute1()
             }
         break;
     }
+    if (lastTraceBuffer_ != traceBuffer_)
+        stopHiddenBranchTrace_ = true;
+
+    lastTraceBuffer_ = traceBuffer_;
     cpuCycleFinalize();
 }
 
@@ -3071,6 +3128,7 @@ void Cdp1802::cpuCycleExecute1_LBR()
 
     address_ = scratchpadRegister_[programCounter_];
     bus_ = readMem(address_);
+    p_Computer->showMrdLed(1);
 
     switch(n)
     {
@@ -3171,6 +3229,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
 
     Byte highByteBranchAddress=bus_;
     Byte lowByteBranchAddress=readMem(secondOperandAddress);
+    p_Computer->showMrdLed(1);
     Word branchAddress=(registerB_<<8)|lowByteBranchAddress;
 
     switch(n)
@@ -3425,14 +3484,14 @@ void Cdp1802::cpuCycleFinalize()
 {
     if (!idle_)
     {
-        if (trace_ && !skipTrace_)
+        if (trace_ && !skipTrace_ && !skipTraceHb_)
             p_Main->debugTrace(traceBuffer_);
 
         cpuState_ = STATE_FETCH_1;
     }
     else
     {
-        if (trace_ && !skipTrace_ && traceBuffer_ != ".")
+        if (trace_ && !skipTrace_ && !skipTraceHb_ && traceBuffer_ != ".")
             p_Main->debugTrace(traceBuffer_);
 
         machineCycle();
@@ -3452,6 +3511,10 @@ void Cdp1802::cpuCycleFinalize()
         skipTrace_ = false;
     if (startHiddenTrace_)
         skipTrace_ = true;
+    if (stopHiddenBranchTrace_)
+        skipTraceHb_ = false;
+    if (startHiddenBranchTrace_)
+        skipTraceHb_ = true;
 }
 
 bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool showFilename)

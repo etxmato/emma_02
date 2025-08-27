@@ -89,6 +89,8 @@ wxString cpuName[] =
 
 wxString guiSizers[] =
 {
+    "ComputerBottomLeft",
+    "ComputerBottomRight",
     "AssBottomRight",
     "DebugRight",
     "MemoryDumpBottomRight",
@@ -497,6 +499,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_MENU(XRCID(GUIDEFAULTWINDOWPOS), Main::onDefaultWindowPosition)
     EVT_MENU(XRCID(GUIDEFAULTGUISIZE), Main::onDefaultGuiSize)
     EVT_MENU(XRCID("MI_ReInstallData"), Main::onReInstallData)
+    EVT_MENU(XRCID("MI_ReInstallXml"), Main::onReInstallXml)
     EVT_MENU(XRCID("MI_FixedWindowPosition"), Main::onFixedWindowPosition)
     EVT_MENU(XRCID("MI_NumPad"), Main::onUseNumPad)
     EVT_MENU(XRCID("MI_FunctionKeys"), Main::onFunctionKeys)
@@ -722,7 +725,8 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
     { wxCMD_LINE_SWITCH, "v", "verbose", "verbose output"},                              // only valid in combination with -c
     { wxCMD_LINE_SWITCH, "f", "fullscreen", "full screen mode"},                         // only valid in combination with -c
     { wxCMD_LINE_SWITCH, "u", "skipupdate", "skip update check"},                                    
-    { wxCMD_LINE_SWITCH, "w", "window", "non fixed window positions"},                                    
+    { wxCMD_LINE_SWITCH, "w", "window", "non fixed window positions"},
+    { wxCMD_LINE_SWITCH, "ns", "nosplash", "don't show splash screen on start" },
     { wxCMD_LINE_OPTION, "c", "computer", "start emulator without gui and for specified computer" }, // Switch off GUI
     { wxCMD_LINE_OPTION, "s", "software", "load specified software on start" },          // only valid in combination with -c
     { wxCMD_LINE_OPTION, "s0", "software0", "load binary software in gui slot 0 on start" },  // only valid in combination with -c
@@ -749,6 +753,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
     mode_.verbose = parser.Found("v");
     mode_.full_screen = parser.Found("f");
     mode_.update_check = !parser.Found("u");
+    mode_.hide_splash_screen = parser.Found("ns");
 
     SetVendorName("Marcel van Tongeren");
 #if defined(__linux__)
@@ -792,14 +797,16 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
             wxDir::Make(iniDirectory_);
     }
     else
+    {
         iniDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    }
 
     if (!wxFile::Exists(iniDirectory_ + "emma_02.ini"))
     {
         wxConfigBase *regPointer;
         regPointer = wxConfigBase::Get();
         regPointer->SetRecordDefaults();
-        dataDir_ = regPointer->Read("/DataDir", "");
+        dataDir_ = regPointer->Read("/DataDir", iniDirectory_);
         if (wxFile::Exists(dataDir_ + "emma_02.ini"))
         {
             if (wxCopyFile(dataDir_ + "emma_02.ini", iniDirectory_ + "emma_02.ini"))
@@ -924,6 +931,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                 else
                 {
                    wxMessageOutput::Get()->Printf("Xml file not found");
+                   delete dir;
                    return false;
                 }
             }
@@ -943,6 +951,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                 if (xmlFile == "")
                 {
                    wxMessageOutput::Get()->Printf("Xml file not found");
+                   delete dir;
                    return false;
                 }
             }
@@ -1011,7 +1020,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                mode_.load = true;
                getSoftware("Xml", "St2_File", software);
             }
-
+            delete dir;
             return true;
         }
         wxMessageOutput::Get()->Printf("Incorrect computer name specified");
@@ -1024,7 +1033,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 void Emu1802::getSoftware(wxString computer, wxString type, wxString software)
 {
     wxFileName FullPath = wxFileName(software, wxPATH_NATIVE);
-    if (FullPath.IsRelative())
+    if (FullPath.IsRelative() || FullPath.GetVolume() != "")
     {
         configPointer->Write(computer + "/"+type, software);
     }
@@ -1515,6 +1524,9 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     bool forceGuiSizeReset;
     configPointer->Read("/Main/ForceGuiSizeReset", &forceGuiSizeReset, false);
 
+    windowInfo.mainwX = 650;
+    windowInfo.mainwY = 500;
+
     if (mode_.gui)
     {
         SetMenuBar(wxXmlResource::Get()->LoadMenuBar("Main_Menu"));
@@ -1627,15 +1639,21 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     double oldVersion;
     oldVersionString.ToDouble(&oldVersion);
 
-    if ((int)(EMMA_VERSION*10000 + EMMA_SUB_VERSION) > (int)oldVersion)
+    if ((int)(EMMA_VERSION*10000 + EMMA_SUB_VERSION) > (int)oldVersion && !mode_.portable)
     {
         oldVersionString.Printf("%d", (int)(EMMA_VERSION*10000 + EMMA_SUB_VERSION));
         configPointer->Write("/Main/OldVersion", oldVersionString);
 
-        int answer = wxMessageBox("New release detected: \n\nRe-install of 1802 software files recommended\n\nThis will overwrite files in the 1802 software directory:\n"+dataDir_+"\n\nContinue to install default 1802 software files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+        int answer = wxMessageBox("New release detected: \n\nRe-install of XML files recommended\n\nThis will overwrite files in the XML directory:\n"+dataDir_+"Xml"+pathSeparator_+"\n\nContinue to install default XML files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
         if (answer == wxYES)
         {
-            reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_);
+           reInstall(applicationDirectory_ + "data" + pathSeparator_ + "Xml" + pathSeparator_, dataDir_ + "Xml" + pathSeparator_, pathSeparator_);
+        }
+
+        answer = wxMessageBox("New release detected: \n\nRe-install of 1802 software files recommended\n\nThis will overwrite files in the 1802 software directory:\n"+dataDir_+"\n\nContinue to install default 1802 software files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+        if (answer == wxYES)
+        {
+            reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_, "Xml");
            
             if (wxFile::Exists(dataDir_ + "CosmacElf"  + pathSeparator_+ "cosmac-elf,bare.xml"))
             {
@@ -1658,6 +1676,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     while (dirFound)
     {
         configPointer->Read(dirName + "/SoftwareDirInstalled", &softwareDirInstalled, false);
+        if (mode_.portable)
+            softwareDirInstalled = true;
         if (!softwareDirInstalled)
         {
             if (!wxDir::Exists(dataDir + dirName))
@@ -1681,7 +1701,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
                 configPointer->Write(dirName + "/SoftwareDirInstalled", true);
             }
         }
-       dirFound = dir->GetNext(&dirName);
+        dirFound = dir->GetNext(&dirName);
     }
     delete dir;
     bool redundantFilesRemoveCheck;
@@ -1692,8 +1712,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         configPointer->Write("/Main/RedundantFilesRemoveCheck", true);
     }
  
-   if (forceGuiSizeReset && mode_.window_position_fixed)
-       fixedWindowPosition();
+    if (forceGuiSizeReset && mode_.window_position_fixed)
+        fixedWindowPosition();
 
     readConfig();
     
@@ -1724,14 +1744,6 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 
 Main::~Main()
 {
-    if (mode_.gui)
-    {
-       delete clockText;
-       delete clockTextCtrl;
-       delete mhzText;
-       delete startButton;
-    }
-
     delete vuPointer;
     delete directAssPointer;
 //    delete cpuPointer;
@@ -1799,8 +1811,8 @@ wxSize Main::getDefaultGuiSize()
     size.y += 86;
 #endif
 #if defined (__linux__)
-    size.x += 30;
-    size.y += 110;
+    size.x += 24;
+    size.y += 126;
 #endif
 #if defined (__WXMSW__)
     size.x += 44;
@@ -2122,42 +2134,10 @@ void Main::initConfig()
     setScreenInfo(0, COL_MAX, colour, VIDEOXMLMAX, borderX, borderY);
     setComputerInfo("Xml", "");
         
-#if defined(__WXMAC__)
-    wxFont* defaultFont;
-    if (fontSize_ == 11)
-    {
-        defaultFont = new wxFont(wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
-        defaultFont->SetPointSize(fontSize_);
-    }
-    else
-        defaultFont = new wxFont(fontSize_, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-#endif
-
     if (mode_.gui)
-    {
-         clockText = new wxStaticText(XRCCTRL(*this, "Computer", wxPanel), wxID_ANY, "Clock:", wxPoint(defaultGuiSize_.x - windowInfo.clockTextCorrectionSingleTabX, defaultGuiSize_.y - windowInfo.clockTextCorrectionSingleTabY+13));
-         clockTextCtrl = new FloatEdit(XRCCTRL(*this, "Computer", wxPanel), GUI_CLOCK_TEXTCTRL + 0, "", wxPoint(defaultGuiSize_.x - windowInfo.clockCorrectionSingleTabX, defaultGuiSize_.y - windowInfo.clockCorrectionSingleTabY+13), wxSize(windowInfo.clockSize, windowInfo.floatHeight));
-         mhzText = new wxStaticText(XRCCTRL(*this, "Computer", wxPanel), wxID_ANY, "MHz", wxPoint(defaultGuiSize_.x - windowInfo.mhzTextCorrectionSingleTabX, defaultGuiSize_.y - windowInfo.mhzTextCorrectionSingleTabY+13));
-         stopButton = new wxButton(XRCCTRL(*this, "Computer", wxPanel), GUI_STOP_BUTTON + 0, "Stop", wxPoint(defaultGuiSize_.x - windowInfo.stopCorrectionSingleTabX, defaultGuiSize_.y - windowInfo.stopCorrectionSingleTabY+13), wxSize(80, windowInfo.startHeight));
-         startButton = new wxButton(XRCCTRL(*this, "Computer", wxPanel), GUI_START_BUTTON + 0, "Start", wxPoint(defaultGuiSize_.x - windowInfo.startCorrectionSingleTabX, defaultGuiSize_.y - windowInfo.startCorrectionSingleTabY+13), wxSize(80, windowInfo.startHeight));
-         
-#if defined(__WXMAC__)
-          clockText->SetFont(*defaultFont);
-          clockTextCtrl->SetFont(*defaultFont);
-          mhzText->SetFont(*defaultFont);
-          startButton->SetFont(*defaultFont);
-          stopButton->SetFont(*defaultFont);
-#endif
-          this->Connect(GUI_CLOCK_TEXTCTRL + 0, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(GuiMain::onClock));
-          this->Connect(GUI_START_BUTTON + 0, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Main::onStart));
-          this->Connect(GUI_STOP_BUTTON + 0, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Main::onStop));
-          stopButton->Enable(false);
-    }
+         XRCCTRL(*this, "stopButton", wxButton)->Enable(false);
 
     computerConfiguration.memAccessConfiguration.saveStart = 0;
-#if defined(__WXMAC__)
-    delete defaultFont;
-#endif
 }
 
 void Main::readConfig()
@@ -2214,17 +2194,17 @@ void Main::readConfig()
     keyboardTypeMenuItem_ = configPointer->Read("/Main/Keyboard_Type", "KeyboardUs");
     wxString equalizationString = configPointer->Read("/Main/Equalization", "TV Speaker");
 
-    wxFont* defaultFont;
-    if (fontSize_ == 11)
-    {
-        defaultFont = new wxFont(wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
-        defaultFont->SetPointSize(fontSize_);
-    }
-    else
-        defaultFont = new wxFont(fontSize_, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-
     if (mode_.gui)
     {
+        wxFont* defaultFont;
+        if (fontSize_ == 11)
+        {
+            defaultFont = new wxFont(wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
+            defaultFont->SetPointSize(fontSize_);
+        }
+        else
+            defaultFont = new wxFont(fontSize_, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+
         XRCCTRL(*this, "LapTimeTrigger", wxChoice)->SetSelection(lapTimeTrigger_);
         XRCCTRL(*this, "AssSaveDebugFile", wxCheckBox)->SetValue(saveDebugFile_);
         menubarPointer->Check(XRCID(GUISAVEONEXIT), saveOnExit_);
@@ -2344,7 +2324,7 @@ void Main::readConfig()
         XRCCTRL(*this, "DebuggerChoiceBook", wxNotebook)->SetClientSize(mainWindowSize.x - offset, mainWindowSize.y - offset);
 
 #if defined (__WXMSW__)
-        if (windowInfo.operatingSystem != OS_WINDOWS_2000 )
+        if (windowInfo.operatingSystem == OS_WINDOWS_XP )
         {
             XRCCTRL(*this, "Computer", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "Configuration", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -2356,7 +2336,6 @@ void Main::readConfig()
         }
 #endif
     }
-//    XRCCTRL(*this, "Computer", wxNotebook)->DeletePage(8); // *** to be removed
    
     psaveData_[0] = (int)configPointer->Read("/Main/Psave_Volume", 15l);
     psaveData_[1] = (int)configPointer->Read("/Main/Psave_Bit_Rate", 1l);
@@ -2397,32 +2376,55 @@ void Main::windowSizeChanged(wxSizeEvent& event)
 void Main::adjustGuiSize()
 {
     wxSize mainWindowSize = this->GetClientSize();
-    int borderSizeX, borderSizeX2, borderSizeY, borderSizeY2, borderSizeY3;
     
     if (mainWindowSize.x > 2000)
         mainWindowSize.x = 2000;
     if (mainWindowSize.y > 2000)
         mainWindowSize.y = 2000;
 #if defined(__linux__)
-    borderSizeX = 8;
-    borderSizeX2 = 6;
-    borderSizeY = 8;
-    borderSizeY2 = 70;  // -33 due to move to regular tab
-    borderSizeY3 = 10;
+#define BORDER_COR_X 8
+#define BORDER_COR_Y 8
+#define BORDER_COR_MESSAGE_X 6
+#define BORDER_COR_MESSAGE_Y 35
+#define BORDER_COR_1802TRACE_X 8
+#define BORDER_COR_1802TRACE_Y 45
+#define BORDER_COR_BREAK_X 6
+#define BORDER_COR_BREAK_Y 35
+#define BORDER_COR_PSEUDOTRACE_X 8
+#define BORDER_COR_PSEUDOTRACE_Y 45
+#define BORDER_COR_PSEUDOBREAK_X 6
+#define BORDER_COR_PSEUDOBREAK_Y 35
+#define BORDER_COR_DEBUGGER_Y 35
 #endif
 #if defined (__WXMSW__)
-    borderSizeX = 10;
-    borderSizeX2 = 6;
-    borderSizeY = 10;
-    borderSizeY2 = 19;  // -37 due to move to regular tab
-    borderSizeY3 = 10;
+#define BORDER_COR_X 10
+#define BORDER_COR_Y 10
+#define BORDER_COR_MESSAGE_X 6
+#define BORDER_COR_MESSAGE_Y 25
+#define BORDER_COR_1802TRACE_X 8
+#define BORDER_COR_1802TRACE_Y 48
+#define BORDER_COR_BREAK_X 6
+#define BORDER_COR_BREAK_Y 49
+#define BORDER_COR_PSEUDOTRACE_X 18
+#define BORDER_COR_PSEUDOTRACE_Y 49
+#define BORDER_COR_PSEUDOBREAK_X 2
+#define BORDER_COR_PSEUDOBREAK_Y 49
+#define BORDER_COR_DEBUGGER_Y 29
 #endif
 #if defined(__WXMAC__)
-    borderSizeX = 21;
-    borderSizeX2 = 6;
-    borderSizeY = 8;
-    borderSizeY2 = 35;  // -37 due to move to regular tab
-    borderSizeY3 = 10;
+#define BORDER_COR_X 21
+#define BORDER_COR_Y 8
+#define BORDER_COR_MESSAGE_X 6
+#define BORDER_COR_MESSAGE_Y 30
+#define BORDER_COR_1802TRACE_X 11
+#define BORDER_COR_1802TRACE_Y 62
+#define BORDER_COR_BREAK_X 6
+#define BORDER_COR_BREAK_Y 62
+#define BORDER_COR_PSEUDOTRACE_X 21
+#define BORDER_COR_PSEUDOTRACE_Y 62
+#define BORDER_COR_PSEUDOBREAK_X 2
+#define BORDER_COR_PSEUDOBREAK_Y 62
+#define BORDER_COR_DEBUGGER_Y 35
 #endif
     
     if (xmlLoaded_)
@@ -2439,35 +2441,37 @@ void Main::adjustGuiSize()
             fontFactorY = 6;
             debugTraceWindowX = 0;
         }
-        XRCCTRL(*this, "DebuggerChoiceBook", wxNotebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
-        
+        XRCCTRL(*this, "DebuggerChoiceBook", wxNotebook)->SetClientSize(mainWindowSize.x-BORDER_COR_X, mainWindowSize.y-BORDER_COR_Y);
+        XRCCTRL(*this, "PanelDirectAssembler", wxPanel)->SetClientSize(mainWindowSize.x-BORDER_COR_X, mainWindowSize.y-BORDER_COR_Y);
+        XRCCTRL(*this, "PanelProfiler", wxPanel)->SetClientSize(mainWindowSize.x-BORDER_COR_X, mainWindowSize.y-BORDER_COR_Y);
+
         wxPoint position, positionBreakPointWindow, positionBreakPointWindowText;
         
         position = XRCCTRL(*this, "Message_Window", wxTextCtrl)->GetPosition();
-        XRCCTRL(*this, "Message_Window", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-borderSizeX2-fontFactorX, mainWindowSize.y-position.y-borderSizeY2-fontFactorY);
+        XRCCTRL(*this, "Message_Window", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-BORDER_COR_MESSAGE_X-fontFactorX, mainWindowSize.y-position.y-BORDER_COR_MESSAGE_Y-fontFactorY);
         
         position = XRCCTRL(*this, "TraceWindow", wxTextCtrl)->GetPosition();
-        XRCCTRL(*this, "TraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-borderSizeX-fontFactorX-debugTraceWindowX, mainWindowSize.y-position.y-borderSizeY2-borderSizeY3-fontFactorY);
+        XRCCTRL(*this, "TraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-BORDER_COR_1802TRACE_X-fontFactorX-debugTraceWindowX, mainWindowSize.y-position.y-BORDER_COR_1802TRACE_Y-fontFactorY);
         positionBreakPointWindow = XRCCTRL(*this, "BreakPointWindow", wxListCtrl)->GetPosition();
         positionBreakPointWindowText = XRCCTRL(*this, "BreakPointWindowText", wxStaticText)->GetPosition();
-        XRCCTRL(*this, "BreakPointWindow", wxListCtrl)->SetSize((position.x-6)/3, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2-fontFactorY);
+        XRCCTRL(*this, "BreakPointWindow", wxListCtrl)->SetSize((position.x-BORDER_COR_BREAK_X)/3, mainWindowSize.y-positionBreakPointWindow.y-BORDER_COR_BREAK_Y-fontFactorY);
         positionBreakPointWindow.x += (position.x/3);
         positionBreakPointWindowText.x = positionBreakPointWindow.x;
         XRCCTRL(*this, "TregWindowText", wxStaticText)->SetPosition(positionBreakPointWindowText);
         XRCCTRL(*this, "TregWindow", wxListCtrl)->SetPosition(positionBreakPointWindow);
-        XRCCTRL(*this, "TregWindow", wxListCtrl)->SetSize((position.x-6)/3, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2-fontFactorY);
+        XRCCTRL(*this, "TregWindow", wxListCtrl)->SetSize((position.x-BORDER_COR_BREAK_X)/3, mainWindowSize.y-positionBreakPointWindow.y-BORDER_COR_BREAK_Y-fontFactorY);
         positionBreakPointWindow.x += (position.x/3);
         positionBreakPointWindowText.x = positionBreakPointWindow.x;
         XRCCTRL(*this, "TrapWindowText", wxStaticText)->SetPosition(positionBreakPointWindowText);
         XRCCTRL(*this, "TrapWindow", wxListCtrl)->SetPosition(positionBreakPointWindow);
-        XRCCTRL(*this, "TrapWindow", wxListCtrl)->SetSize((position.x-6)/3, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2-fontFactorY);
+        XRCCTRL(*this, "TrapWindow", wxListCtrl)->SetSize((position.x-BORDER_COR_BREAK_X)/3, mainWindowSize.y-positionBreakPointWindow.y-BORDER_COR_BREAK_Y-fontFactorY);
         
         position = XRCCTRL(*this, "Chip8TraceWindow", wxTextCtrl)->GetPosition();
         positionBreakPointWindow = XRCCTRL(*this, "Chip8BreakPointWindow", wxListCtrl)->GetPosition();
-            XRCCTRL(*this, "Chip8TraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-borderSizeX-fontFactorX, mainWindowSize.y-position.y-borderSizeY2-borderSizeY3-fontFactorY);
-            XRCCTRL(*this, "Chip8BreakPointWindow", wxListCtrl)->SetSize(position.x-6, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2-fontFactorY);
+            XRCCTRL(*this, "Chip8TraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-BORDER_COR_PSEUDOTRACE_X-fontFactorX, mainWindowSize.y-position.y-BORDER_COR_PSEUDOTRACE_Y-fontFactorY);
+            XRCCTRL(*this, "Chip8BreakPointWindow", wxListCtrl)->SetSize(position.x-BORDER_COR_PSEUDOBREAK_X, mainWindowSize.y-positionBreakPointWindow.y-BORDER_COR_PSEUDOBREAK_Y-fontFactorY);
         
-        changeNumberOfDebugLines(mainWindowSize.y - borderSizeY2);
+        changeNumberOfDebugLines(mainWindowSize.y - BORDER_COR_DEBUGGER_Y);
     }
 }
 
@@ -2515,7 +2519,7 @@ bool Main::checkUpdateEmma()
     version.Printf("%1.2f", EMMA_VERSION);
 
     latestVersion_ = downloadString("https://www.emma02.hobby-site.com/Emma_02_version.txt");
-    
+
     if (latestVersion_ == "")
         return false;
 
@@ -2588,20 +2592,22 @@ bool Main::updateEmma()
         }
         return true;
 #elif defined(__WXMAC__)
-        if (windowInfo.operatingSystem == OS_MAC_PRE_10_10)
-            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=15"); // 32 bit & pre 10_10
-        else
-           if (windowInfo.arm)
-            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=19"); // arm
-           else
-            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=18"); // x86
-        return true;
+       if (windowInfo.operatingSystem == OS_MAC_PRE_10_10)
+           ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=15"); // 32 bit & pre 10_10
+       else
+           ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=19"); // arm & x86
+       return true;
 #else
-        if (wxIsPlatform64Bit())
-            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=17"); // windows 64
-        else
-            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=16"); // windows 32
-        return true;
+       if (windowInfo.arm)
+          ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=25"); // arm
+       else
+       {
+          if (wxIsPlatform64Bit())
+             ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=17"); // windows 64
+          else
+             ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=16"); // windows 32
+          return true;
+       }
 #endif
     }
     return false;
@@ -2646,12 +2652,21 @@ void Main::onDataDir(wxCommandEvent&WXUNUSED(event))
     dataDialog.ShowModal();
 }
 
+void Main::onReInstallXml(wxCommandEvent&WXUNUSED(event))
+{
+    int answer = wxMessageBox("This will overwrite files in the XML directory:\n"+dataDir_+"Xml"+pathSeparator_+"\n\nContinue to install default XML files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+    if (answer == wxYES)
+    {
+       reInstall(applicationDirectory_ + "data" + pathSeparator_ + "Xml" + pathSeparator_, dataDir_ + "Xml" + pathSeparator_, pathSeparator_);
+    }
+}
+
 void Main::onReInstallData(wxCommandEvent&WXUNUSED(event))
 {
    int answer = wxMessageBox("This will overwrite files in the 1802 software directory:\n"+dataDir_+"\n\nContinue to install default 1802 software files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
    if (answer == wxYES)
    {
-      reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_);
+      reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_, "Xml");
 
       if (wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "CosmacElf" + pathSeparator_+ "cosmac-elf,bare.xml") || wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "Cosmac Elf" + pathSeparator_+ "cosmac-elf,bare.xml") )
       {
@@ -2730,7 +2745,7 @@ void Main::deleteDir(wxString directory)
     delete dir;
 }
 
-void Main::reInstall(wxString sourceDir, wxString destinationDir, wxString pathSep)
+void Main::reInstall(wxString sourceDir, wxString destinationDir, wxString pathSep, wxString doNotCopy)
 {
    wxString filename;
 
@@ -2740,6 +2755,10 @@ void Main::reInstall(wxString sourceDir, wxString destinationDir, wxString pathS
 
    while ( cont )
    {
+     if (filename == doNotCopy)
+         cont = dir.GetNext(&filename);
+     if (!cont)
+         return;
      if (wxDir::Exists(sourceDir + filename))
          filename += pathSep;
      
@@ -2890,6 +2909,90 @@ void Main::removeOldXml(wxString dirName, wxString pathSep)
       "tmc-600,exp-151182.xml",
       "TMC-600",
       ".DS_Store",
+      "Comx",
+      "comx,bare-ntsc.xml",
+      "Comx",
+      "comx,bare-pal.xml",
+      "Comx",
+      "comx,diagnostic-ntsc.xml",
+      "Comx",
+      "comx,diagnostic-pal.xml",
+      "Comx",
+      "comx,fdc-print-32k-80col.xml",
+      "Comx",
+      "comx,fdc-print-32k-eprom.xml",
+      "Comx",
+      "comx,fdc-thermal-32k-joy.xml",
+      "Comx",
+      "comx,superboard-80col.xml",
+      "Comx",
+      "comx,superboard.xml",
+      "Comix",
+      "comix,bare-ntsc.xml",
+      "Comix",
+      "comix,bare-pal.xml",
+      "Comix",
+      "comix,diagnostic-ntsc.xml",
+      "Comix",
+      "comix,diagnostic-pal.xml",
+      "Comix",
+      "comix,fdc-print-32k-80col.xml",
+      "Comix",
+      "comix,fdc-print-32k-eprom.xml",
+      "Comix",
+      "comix,fdc-thermal-32k-joy.xml",
+      "Comix",
+      "comix,superboard-80col.xml",
+      "Comix",
+      "comix,superboard.xml",
+      "Cidelsa",
+      "cidelsa,altair.xml",
+      "Cidelsa",
+      "cidelsa,destroyer-1.xml",
+      "Cidelsa",
+      "cidelsa,destroyer-2.xml",
+      "Cidelsa",
+      "cidelsa,draco.xml",
+      "CosmacElf",
+      "led,keypad.xml",
+      "Cosmicos",
+      "hex.xml",
+      "Cybervision",
+      "cybervision2001.xml",
+      "Cybervision",
+      "cybervision2001,dollarwatch.xml",
+      "Cybervision",
+      "cybervision2001,escape.xml",
+      "Cybervision",
+      "cybervision2001,introseries-1a.xml",
+      "Cybervision",
+      "cybervision2001,sub-chase.xml",
+      "Elf",
+      "elf,chip8.xml",
+      "Elf",
+      "elf,elfos-biosio-mc6845.xml",
+      "Elf",
+      "elf,elfos-biosio-mc6847.xml",
+      "Elf",
+      "elf,elfos-biosio-pixie.xml",
+      "Elf",
+      "elf,elfos-biosio-tms9918.xml",
+      "Elf",
+      "elf,elfos-biosio-tms-graphic.xml",
+      "Elf2K",
+      "elf2k - bare hex.xml",
+      "Elf2K",
+      "elf2k - bare switch.xml",
+      "Elf2K",
+      "elf2k - i8275.xml",
+      "Elf2K",
+      "elf2k - serial.xml",
+      "Elf2K",
+      "elf2k - serial + pixie.xml",
+      "Elf2K",
+      "elf2k - uart.xml",
+      "Elf2K",
+      "elf2k - uart + pixie.xml",
       "",
       "",
    };
@@ -3207,6 +3310,7 @@ void Main::setDefaultSettings()
     configPointer->Write("/Comx/AliasNumberOf", (unsigned int)numberOfAlias_); 
     oldXmlFileName_ = "";
 
+    clearDebugMemory();
     readConfig();
 }
 
@@ -3898,7 +4002,6 @@ void Main::onStart(wxCommandEvent&WXUNUSED(event))
 void Main::onStart()
 {
     double zoom;
-    long ms;
     int stereo = 1;
     int toneChannels = 1;
     int noiseChannels = 1;
@@ -3925,6 +4028,7 @@ void Main::onStart()
     wxSetWorkingDirectory(workingDir_);
 #endif
     setClock();
+    computerConfiguration.videoNumber_ = VIDEOMAIN;
     toDouble(computerConfiguration.zoom_[computerConfiguration.videoNumber_], &zoom);
 
     if (!fullScreenFloat_)
@@ -3950,8 +4054,7 @@ void Main::onStart()
          noiseChannels = 6;
       }
 
-    computerConfiguration.ledTime_.ToLong(&ms);
-    computerConfiguration.ledTimeMs_ = ms;
+    computerConfiguration.ledTime_.ToLong(&computerConfiguration.ledTimeMs_);
 
     if (mode_.gui)
     {
@@ -4187,7 +4290,7 @@ void Main::enableGui(bool status)
          XRCCTRL(*this, "VTBaudTTextXml", wxStaticText)->Enable(status);
          XRCCTRL(*this, "VtSetupXml", wxButton)->Enable(status);
      }
-     if (!(computerConfiguration.videoTerminalConfiguration.external || computerConfiguration.videoTerminalConfiguration.loop_back))
+     if (!computerConfiguration.videoTerminalConfiguration.external)
      {
         XRCCTRL(*this,"FullScreenF3Xml", wxButton)->Enable(!status&(computerConfiguration.cdp1861Configuration.defined||computerConfiguration.cdp1864Configuration.defined||computerConfiguration.coinConfiguration.defined||computerConfiguration.vip2KVideoConfiguration.defined||computerConfiguration.fredVideoConfiguration.defined||computerConfiguration.studio4VideoConfiguration.defined||computerConfiguration.tmsConfiguration.defined||computerConfiguration.i8275Configuration.defined||computerConfiguration.sn76430NConfiguration.defined||computerConfiguration.mc6845Configuration.defined||computerConfiguration.mc6847Configuration.defined||computerConfiguration.vis1870Configuration.defined||(computerConfiguration.videoTerminalConfiguration.type != VTNONE)));
         XRCCTRL(*this,"ScreenDumpF5Xml", wxButton)->Enable(!status&(computerConfiguration.cdp1861Configuration.defined||computerConfiguration.cdp1864Configuration.defined||computerConfiguration.coinConfiguration.defined||computerConfiguration.vip2KVideoConfiguration.defined||computerConfiguration.fredVideoConfiguration.defined||computerConfiguration.studio4VideoConfiguration.defined||computerConfiguration.tmsConfiguration.defined||computerConfiguration.i8275Configuration.defined||computerConfiguration.sn76430NConfiguration.defined||computerConfiguration.mc6845Configuration.defined||computerConfiguration.mc6847Configuration.defined||computerConfiguration.vis1870Configuration.defined||(computerConfiguration.videoTerminalConfiguration.type != VTNONE)));
@@ -4941,7 +5044,7 @@ void Main::eventSetLocation(bool state)
 
 void Main::setEnableClockEvent(guiEvent& event)
 {
-   clockTextCtrl->Enable(event.GetBoolValue());
+   XRCCTRL(*this, "clockTextCtrl", wxTextCtrl)->Enable(event.GetBoolValue());
 }
 
 void Main::eventEnableClock(bool state)
@@ -6311,100 +6414,56 @@ void Main::getDefaultHexKeys(wxString computerStr, wxString player, int keysHex1
    bool simDefA2_;
    bool simDefB2_;
    
+   for (int i=0; i<16; i++)
+   {
+      keyDefA1_[i] = 0;
+      keyDefB1_[i] = 0;
+      keyDefA2_[i] = 0;
+      keyDefB2_[i] = 0;
+   }
+
 //    int keyDefGameHexA_[5];
    int keyDefGameHexB_[5];
    
    wxString keyStr;
    bool keysFound;
 
-   if (computerStr == "StudioII" || computerStr == "CoinArcade" || computerStr == "Conic")
-   {
-      keysFound = loadKeyDefinition("", "studiodefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_);
-   }
-   else if (computerStr == "Visicom")
-   {
-      keysFound = loadKeyDefinition("", "studiodefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_);
-   }
-   else if (computerStr == "Vip" || computerStr == "Vip2K")
-   {
-      if (computerConfiguration.keyLatchConfiguration[2].defined)
-         keysFound = loadKeyDefinition("", "vipdefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_);
-      else
-         keysFound = loadKeyDefinition("", "vipiidefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_);
-   }
-   else if (computerStr == "Visicom")
-   {
-      keysFound = loadKeyDefinition("", "studioivdefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_);
-   }
-   else if (computerStr == "Elf" || computerStr == "CosmacElf" || computerStr == "NetronicsElfII" || computerStr == "QuestSuperElf" || computerStr == "Elf2K" || computerStr == "Cosmicos" || computerStr == "PicoElfV2")
-   {
-      keysFound = loadKeyDefinition("", "elfdefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_);
-   }
-   else if (computerStr == "UC1800")
-   {
-      keysFound = loadKeyDefinition("", "uc1800default", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_);
-   }
-   else if (computerStr == "FRED1" || computerStr == "FRED1_5")
-   {
-      keysFound = loadKeyDefinition("", "freddefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_);
-   }
-   else if (computerStr == "VipII" || computerStr == "Velf" || computerStr == "JVIP")
-   {
-      keysFound = loadKeyDefinition("", "vipiidefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_);
-   }
-   else
-   {
-      keysFound = loadKeyDefinition("", "vipiidefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_);
-   }
+   keysFound = loadKeyDefinition("", computerConfiguration.defaultKeyDefinition[0], keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_);
+   
+   if (computerConfiguration.keyLatchConfiguration[2].defined)
+      keysFound = loadKeyDefinition("", computerConfiguration.defaultKeyDefinition[1], keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_);
 
    if (keysFound)
    {
-      if (computerStr == "StudioII" || computerStr == "CoinArcade" || computerStr == "Conic" || computerStr == "Visicom")
+      if (player == "A")
       {
-         if (player == "A")
+          for (int i=0; i<computerConfiguration.numberOfPadKeys; i++)
+          {
+              keyStr.Printf("/HexKeySet1"+player+"%01X",i);
+              keysHex1[i] = getConfigItem(computerStr+keyStr, keyDefA1_[i]);
+              keyStr.Printf("/HexKeySet2"+player+"%01X",i);
+              keysHex2[i] = getConfigItem(computerStr+keyStr, keyDefA2_[i]);
+          }
+         for (int i=computerConfiguration.numberOfPadKeys; i<16; i++)
          {
-             for (int i=0; i<10; i++)
-             {
-                 keyStr.Printf("/HexKeySet1"+player+"%01X",i);
-                 keysHex1[i] = getConfigItem(computerStr+keyStr, keyDefA1_[i]);
-                 keyStr.Printf("/HexKeySet2"+player+"%01X",i);
-                 keysHex2[i] = getConfigItem(computerStr+keyStr, keyDefA2_[i]);
-             }
-         }
-         else
-         {
-             for (int i=0; i<10; i++)
-             {
-                 keyStr.Printf("/HexKeySet1"+player+"%01X",i);
-                 keysHex1[i] = getConfigItem(computerStr+keyStr, keyDefB1_[i]);
-                 keyStr.Printf("/HexKeySet2"+player+"%01X",i);
-                 keysHex2[i] = getConfigItem(computerStr+keyStr, keyDefB2_[i]);
-             }
+              keysHex1[i] = 0;
+              keysHex2[i] = 0;
          }
       }
-      else if (computerStr == "FRED1" || computerStr == "FRED1_5" || computerStr == "Vip" || computerStr == "Vip2K" || computerStr == "Elf" || computerStr == "CosmacElf" || computerStr == "NetronicsElfII" || computerStr == "QuestSuperElf" || computerStr == "Elf2K" || computerStr == "Cosmicos" || computerStr == "PicoElfV2" || computerStr == "Eti" || computerStr == "HEC1802" || computerStr == "HUG1802" || computerStr == "UC1800" || computerStr == "TMC1800" || computerStr == "TMC2000" || computerStr == "Nano" || computerStr == "VipII" || computerStr == "Velf" || computerStr == "JVIP")
+      else
       {
-         if (player == "A")
-         {
-             for (int i=0; i<16; i++)
-             {
-                 keyStr.Printf("/HexKeySet1"+player+"%01X",i);
-                 keysHex1[i] = getConfigItem(computerStr+keyStr, keyDefA1_[i]);
-                 keyStr.Printf("/HexKeySet2"+player+"%01X",i);
-                 keysHex2[i] = getConfigItem(computerStr+keyStr, keyDefA2_[i]);
-                 
-             }
-         }
-         else
-         {
-             for (int i=0; i<16; i++)
-             {
-                 keyStr.Printf("/HexKeySet1"+player+"%01X",i);
-                 keysHex1[i] = getConfigItem(computerStr+keyStr, keyDefB1_[i]);
-                 keyStr.Printf("/HexKeySet2"+player+"%01X",i);
-                 keysHex2[i] = getConfigItem(computerStr+keyStr, keyDefB2_[i]);
-             }
-         }
+          for (int i=0; i<computerConfiguration.numberOfPadKeys; i++)
+          {
+              keyStr.Printf("/HexKeySet1"+player+"%01X",i);
+              keysHex1[i] = getConfigItem(computerStr+keyStr, keyDefB1_[i]);
+              keyStr.Printf("/HexKeySet2"+player+"%01X",i);
+              keysHex2[i] = getConfigItem(computerStr+keyStr, keyDefB2_[i]);
+          }
+          for (int i=computerConfiguration.numberOfPadKeys; i<16; i++)
+          {
+              keysHex1[i] = 0;
+              keysHex2[i] = 0;
+          }
       }
     }
     else

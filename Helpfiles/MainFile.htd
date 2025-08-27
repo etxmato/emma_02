@@ -3,10 +3,10 @@
 <BODY>
 <h1>Directory and File Structure</h1>
 <p>
-After initial start-up of Emma 02 a default directory and file structure will be made available according to the subsections below. These files can be re-installed at any time with the menu option below (highlighted in yellow): 
+After initial start-up of Emma 02 a default directory and file structure will be made available according to the subsections below. These files can be re-installed at any time with the menu option below: 
 </p>
 <p>
-<IMG SRC="images/dir_reinstall_sw_files.png" BORDER="0">
+<IMG SRC="images/menu_reinstall.png" border="0" width="420" height ="106">
 </p>
 <p>
 The location for the data directory is default set to:
@@ -29,20 +29,20 @@ Note that when an older versions of Emma 02 was used previously the default data
 To change the location of these files use the menu item below:
 </p>
 <p>
-<IMG SRC="images/menu_change_data_dir.png" BORDER="0">
+<IMG SRC="images/menu_change_data_dir.png" border="0" width="324" height ="106">
 </p>
 <p>
 A small window will open where with the 'browse' button (highlighted in yellow) a new location can be selected. After this 2 options are available: either to only save the new location ('Save' button, highlighted in orange) or save and move the existing data directory and files to the new location ('Move & Save' button, highlighted in blue). If the save only option is used the data folder should be moved manually. When moving the folder to another disk the process could take a few minutes (depending on the disk speed). In all cases all settings will be set to default as in the ''Set Default (All)' menu action.
 </p>
 <p>
-<IMG SRC="images/menu_change_data_dir_window.png" BORDER="0">
+<IMG SRC="images/menu_change_data_dir_window.png" border="0" width="381" height ="184">
 </p>
 <p>
 <B>Note:</B> When installing a new version of Emma 02 the data directory will NOT be re-installed automatically to avoid overwriting changes made by users. To install all the latest files from the Emma 02 installation package follow the instructions at the top of this page. 
 </p>
 <h2>CDP18S020</h2>
 <p>
-Directory including the <a href="Cdp18s020Main.htm">CDP18S020 Evaluation Kit</a> UT4 ROM and Tiny Basic.
+Directory including the <a href="https://www.emma02.hobby-site.com/cdp18s020.html">CDP18S020 Evaluation Kit</a> UT4 ROM and Tiny Basic.
 </p>
 <h2>Chip 8</h2>
 <p>
@@ -57,19 +57,19 @@ Directory including Chip 8, Chip 8X, Chip 10 and Super-chip software. This softw
 <li>Chip-8 Programs
 <li>Chip-8X, SW using the chip-8X interpreter
 <li>Chip-10, SW using the chip-10 interpreter and HW
-<li>Super-chip Games, SW using my own <a href="DebuggerSyntaxSuperchip.htm">Super-chip</a> interpreter for a modified VIP (chip10 modification) and Studio IV 
+<li>Super-chip Games, SW using my own <a href="https://www.emma02.hobby-site.com/pseudo_super_chip.html">Super-chip</a> interpreter for a modified VIP (chip10 modification) and Studio IV 
 </UL>
 <h2>Cidelsa</h2>
 <p>
-All available <a href="CidelsaMain.htm">Cidelsa</a> ROMs and CrossLib games: Xbomber, Xchase, Xshoot.
+All available <a href="https://www.emma02.hobby-site.com/cidelsa.html">Cidelsa</a> ROMs and CrossLib games: Xbomber, Xchase, Xshoot.
 </p>
 <h2>CoinArcade</h2>
 <p>
-All available <a href="CoinMain.htm">RCA Video Coin Arcade</a> ROMs.
+All available <a href="https://www.emma02.hobby-site.com/coin_arcade.html">RCA Video Coin Arcade</a> ROMs.
 </p>
 <h2>Comx</h2>
 <p>
-Directory including all available <a href="ComxMain.htm">COMX-35</a> system and expansion ROM files. With the sub directories:
+Directory including all available <a href="https://www.emma02.hobby-site.com/comx.html">COMX-35</a> system and expansion ROM files. With the sub directories:
 </p>
 <h3>Comx/Demo</h3>
 <p>
@@ -127,13 +127,25 @@ All available computer languages.
 <p>
 COMX Super Board firmware files, for more info please see our <a href="http://www.comx35.com/superboard.html">COMX Super Board</a> page.
 </p>
+<h2>Conic</h2>
+<p>
+Directory including the <a href="https://www.emma02.hobby-site.com/victory.html">RCA Studio III / Conic</a> ROM files, multi-cart ROM, Studio II chip 8 and some cartridge files (with st2 extension) for some additional game ROMs.
+</p>
+<h2>CosmacGameSystem</h2>
+<p>
+All available <a href="https://www.emma02.hobby-site.com/rca_game_system.html">RCA COSMAC Computer Game System</a> ROMs.
+</p>
 <h2>Cosmicos</h2>
 <p>
-Directory including some <a href="CosmicosMain.htm">Cosmicos</a> software including the Ascii monitor, hex and UT4 monitor, hex monitor, hexmops and mops.
+Directory including some <a href="https://www.emma02.hobby-site.com/cosmicos.html">Cosmicos</a> software including the Ascii monitor, hex and UT4 monitor, hex monitor, hexmops and mops.
+</p>
+<h2>Cybervision</h2>
+<p>
+All available <a href="https://www.emma02.hobby-site.com/cybervision.html">Cybervision 2001</a> firmware.
 </p>
 <h2>Elf</h2>
 <p>
-Directory including some Elf software including ElfOs, Giant Board Monitor, Fig Forth and Quest Super Basic (for copyright details see <a href="ElfSuperBasic.htm">Quest Super Basic</a>)
+Directory including some Elf software including ElfOs, Giant Board Monitor, Fig Forth and Quest Super Basic (for copyright details see <a href="https://www.emma02.hobby-site.com/basic_quest_6_0.html">Quest Super Basic</a>)
 </p>
 <h3>Bisoio</h3>
 <p>
@@ -168,11 +180,11 @@ Fig Forth assembler, list and hex file.
 </p>
 <h3>Elf/Games</h3>
 <p>
-Directory with some Elf Games. Please see the configurations part of section <a href="CosmacMain.htm">Cosmac Elf</a> for instructions of loading the Game Mode configuration.
+Directory with some Elf Games. Please see the configurations part of section <a href="https://www.emma02.hobby-site.com/elf.html">Cosmac Elf</a> for instructions of loading the Game Mode configuration.
 </p>
 <h3>Elf/Music</h3>
 <p>
-Directory with some Elf Music software and Christmas songs. Please see the configurations part of section <a href="CosmacMain.htm">Cosmac Elf</a> for instructions of loading the Music Machine configuration.
+Directory with some Elf Music software and Christmas songs. Please see the configurations part of section <a href="https://www.emma02.hobby-site.com/elf.html">Cosmac Elf</a> for instructions of loading the Music Machine configuration.
 </p>
 <h3>Elf/Netronics Tiny Basic</h3>
 <p>
@@ -180,7 +192,7 @@ Directory with Netronics Tiny Basic assembler code and manual.
 </p>
 <h3>Elf/Pico Elf</h3>
 <p>
-Directory with all <a href="PicoMain.htm">Pico/Elf V2</a> system ROMs as well as some command and lbr files.
+Directory with all <a href="https://www.emma02.hobby-site.com/picoelf.html">Pico/Elf V2</a> system ROMs as well as some command and lbr files.
 </p>
 <h3>Elf/Pico Elf/TMS9918</h3>
 <p>
@@ -192,7 +204,7 @@ Directory with some example code from Quest Data.
 </p>
 <h3>Elf/SuperBasic</h3>
 <p>
-Directory with some <a href="ElfSuperBasic.htm">Quest Super Basic</a> example programs.
+Directory with some <a href="https://www.emma02.hobby-site.com/basic_quest_6_0.html">Quest Super Basic</a> example programs.
 </p>
 <h3>Elf/TinyBasic</h3>
 <p>
@@ -204,115 +216,155 @@ Netronics TinyBasic for the Elf/Os operating system.
 </p>
 <h3>Elf/VDU</h3>
 <p>
-Software supporting the ACE VDU board. Two configurations are provided 'VDU / Ascii keyboard' and 'VDU / Hex keypad', the first for Tiny basic and Monitor, the second for the games. Please see the configurations part of section <a href="CosmacMain.htm">Cosmac Elf</a> for instructions of loading these configuration.
+Software supporting the ACE VDU board. Two configurations are provided 'VDU / Ascii keyboard' and 'VDU / Hex keypad', the first for Tiny basic and Monitor, the second for the games. Please see the configurations part of section <a href="https://www.emma02.hobby-site.com/elf.html">Cosmac Elf</a> for instructions of loading these configuration.
 </p>
-<h3>Elf2K</h3>
+<h2>Elf2K</h2>
 <p>
-Directory including <a href="Elf2KMain.htm">Cosmac Elf 2000</a> firmware and software.
+Directory including <a href="https://www.emma02.hobby-site.com/elf2000.html">Cosmac Elf 2000</a> firmware and software.
 </p>
 <h2>Eti</h2>
 <p>
-Directory including <a href="EtiMain.htm">ETI 660</a> firmware and software.
+Directory including <a href="https://www.emma02.hobby-site.com/eti.html">ETI 660</a> firmware and software.
 </p>
 <h2>FRED1</h2>
 <p>
-Directory including <a href="Fred1Main.htm">FRED 1</a> software.
+Directory including <a href="https://www.emma02.hobby-site.com/fred1.html">FRED 1</a> software.
 </p>
 <h2>FRED1_5</h2>
 <p>
-Directory including <a href="Fred1.5Main.htm">FRED 1.5</a> software.
+Directory including <a href="https://www.emma02.hobby-site.com/fred1_5.html">FRED 1.5</a> software.
+</p>
+<h2>HEC1802</h2>
+<p>
+Directory including <a href="https://www.emma02.hobby-site.com/eti.html">HEC1802</a> firmware and software.
+</p>
+<h2>HUG1802</h2>
+<p>
+Directory including <a href="https://www.emma02.hobby-site.com/eti.html">HUG1802</a> firmware and software.
+</p>
+<h2>Macbug</h2>
+<p>
+Directory including <a href="https://www.emma02.hobby-site.com/macbug.html">Macbug</a> firmware.
 </p>
 <h2>MCDS</h2>
 <p>
-Directory including <a href="McdsMain.htm">MCDS</a> firmware, ut62, basic3 and edit_asm.
+Directory including <a href="https://www.emma02.hobby-site.com/mcds.html">MCDS</a> firmware, ut62, basic3 and edit_asm.
 </p>
 <h2>Membership</h2>
 <p>
-Directory including some <a href="MembershipMain.htm">Membership Card</a> software including the program3 example from the manual.
+Directory including some <a href="https://www.emma02.hobby-site.com/member.html">Membership Card</a> software including the program3 example from the manual.
 </p>
 <h2>Microboard</h2>
 <p>
-Directory including <a href="MicroboardMain.htm">Microboard System</a> ROMs and software.
+Directory including <a href="https://www.emma02.hobby-site.com/microboard.html">Microboard System</a> ROMs and software.
 </p>
 <h2>Microtutor</h2>
 <p>
-Directory including the Nim.bin example program for the <a href="MicrotutorMain.htm">Microtutor</a>
+Directory including the Nim.bin example program for the <a href="https://www.emma02.hobby-site.com/microtutor.html">Microtutor</a>
 </p>
 <h2>Microtutor2</h2>
 <p>
-Directory including <a href="Microtutor2Main.htm">Microtutor II</a> software.
+Directory including <a href="https://www.emma02.hobby-site.com/microtutor2.html">Microtutor II</a> software.
 </p>
 <h2>MS2000</h2>
 <p>
-Directory including <a href="MS2000Main.htm">MS2000</a> ut71 firmware and disk images including MicroDos, PLM 18000 and BASIC1. 
+Directory including <a href="https://www.emma02.hobby-site.com/ms2000.html">MS2000</a> ut71 firmware and disk images including MicroDos, PLM 18000 and BASIC1. 
 </p>
-<h2>MS2000/Software</h2>
+<h3>MS2000/Software</h3>
 <p>
-Directory including all SW from disk images MicroDos, PLM 18000 and BASIC1 in modern PC format. These files are usable via the HD Directory simulation. See also section <a href="MS2000Disk.htm">Disk File and HD Directory</a>
+Directory including all SW from disk images MicroDos, PLM 18000 and BASIC1 in modern PC format. These files are usable via the HD Directory simulation. See also section <a href="ComputerDisk.htm">Disk Support</a>
 </p>
 <h2>Nano</h2>
 <p>
-Directory including the <a href="NanoMain.htm">OscomNano</a> ROM file, Chip 8 interpreter file and some Nano example software. For Chip 8 software see Chip 8 directory.
+Directory including the <a href="https://www.emma02.hobby-site.com/nano.html">OscomNano</a> ROM file, Chip 8 interpreter file and some Nano example software. For Chip 8 software see Chip 8 directory.
+</p>
+<h2>NetronicsElfII</h2>
+<p>
+Directory including the <a href="https://www.emma02.hobby-site.com/elf2.html">Netronics Elf II</a> software, currently mainly used for the FULL BASIC Math/ROM Board files.
 </p>
 <h2>Pecom</h2>
 <p>
-Directory including <a href="PecomMain.htm">Pecom 32/64</a> firmware and software.
+Directory including <a href="https://www.emma02.hobby-site.com/pecom.html">Pecom 32/64</a> firmware and software.
 </p>
-<h3>Pico</h3>
+<h2>Pico</h2>
 <p>
-Directory with all <a href="PicoMain.htm">Pico/Elf V2</a> system ROMs as well as some command and lbr files.
+Directory with all <a href="https://www.emma02.hobby-site.com/picoelf.html">Pico/Elf V2</a> system ROMs as well as some command and lbr files.
 </p>
 <h3>Pico/TMS9918</h3>
 <p>
 Directory with multiple TMS9918 examples written by Glenn Jolly. All examples should be loaded and started at hex address 0x2000.
 </p>
-<h2>Studio2</h2>
+<h2>SBC1802</h2>
 <p>
-Directory including the <a href="StudioMain.htm">RCA Studio II</a> ROM file, multi-cart ROM, Studio II chip 8 and some cartridge files (with st2 extension) for some additional game ROMs.
+Directory with all <a href="https://www.emma02.hobby-site.com/sbc1802.html">SBC1802</a> firmware and software.
+</p>
+<h2>st2</h2>
+<p>
+Directory including Studio II, Studio III and Visicom software.
+</p>
+<h2>Studio2020</h2>
+<p>
+Directory with all <a href="https://www.emma02.hobby-site.com/studio2020.html">Studio 2020</a> firmware.
+</p>
+<h2>StudioII</h2>
+<p>
+Directory including the <a href="https://www.emma02.hobby-site.com/studio.html">RCA Studio II</a> ROM file, multi-cart ROM and Studio II chip 8.
+</p>
+<h2>StudioIII</h2>
+<p>
+Directory including the <a href="https://www.emma02.hobby-site.com/victory.html">RCA Studio III</a> ROM file, multi-cart ROM and Studio II chip 8.
 </p>
 <h2>StudioIV</h2>
 <p>
-Directory including the <a href="StudioIVMain.htm">RCA Studio IV</a> ROM files, Tiny Basic and my own <a href="DebuggerSyntaxSuperchip.htm">Super-chip</a> interpreter.
+Directory including the <a href="https://www.emma02.hobby-site.com/studioiv.html">RCA Studio IV</a> ROM files, Tiny Basic and my own <a href="https://www.emma02.hobby-site.com/pseudo_super_chip.html">Super-chip</a> interpreter.
 </p>
-<h2>TMC-600</h2>
+<h2>TMC600</h2>
 <p>
-Directory including some <a href="TMC-600Main.htm">Telmac TMC-600</a> ROM file and example software. 
+Directory including some <a href="https://www.emma02.hobby-site.com/telmac600.html">Telmac TMC-600</a> ROM file and example software. 
 </p>
-<h2>TMC-1800</h2>
+<h2>TMC1800</h2>
 <p>
-Directory including the <a href="TMC-2000Main.htm">Telmac TMC-1800</a> ROM file, Chip 8 interpreter file and some TMC example software. For Chip 8 software see Chip 8 directory.
+Directory including the <a href="https://www.emma02.hobby-site.com/telmac1800.html">Telmac TMC-1800</a> ROM file, Chip 8 interpreter file and some TMC example software. For Chip 8 software see Chip 8 directory.
 </p>
-<h2>TMC-2000</h2>
+<h2>TMC2000</h2>
 <p>
-Directory including the <a href="TMC-2000Main.htm">Telmac TMC-2000</a> ROM file, Chip 8 interpreter file and some TMC example software. For Chip 8 software see Chip 8 directory.
+Directory including the <a href="https://www.emma02.hobby-site.com/telmac2000.html">Telmac TMC-2000</a> ROM file, Chip 8 interpreter file and some TMC example software. For Chip 8 software see Chip 8 directory.
 </p>
 <h2>UC1800</h2>
 <p>
-Directory including my keybug2020 program for the <a href="Uc1800Main.htm">Infinite UC1800</a>.
+Directory including my keybug2020 program for the <a href="https://www.emma02.hobby-site.com/uc1800.html">Infinite UC1800</a>.
 </p>
 <h2>Velf</h2>
 <p>
-Directory including the <a href="VelfMain.htm">VELF</a> and Jvip ROM file.
-</p>
-<h2>Victory</h2>
-<p>
-Directory including the <a href="VictoryMain.htm">RCA Studio III / Victory MPT-02</a> ROM files, multi-cart ROM, Studio II chip 8 and some cartridge files (with st2 extension) for some additional game ROMs.
+Directory including the <a href="https://www.emma02.hobby-site.com/velf.html">VELF</a> and Jvip ROM file.
 </p>
 <h2>Vip</h2>
 <p>
-Directory including the <a href="VipMain.htm">Cosmac VIP</a> ROM file, Chip 8/8X/10 interpreter files and some Vip example software. For Chip 8/8x software see Chip 8 directory.
+Directory including the <a href="https://www.emma02.hobby-site.com/vip.html">Cosmac VIP</a> ROM file, Chip 8/8X/10 interpreter files and some Vip example software. For Chip 8/8x software see Chip 8 directory.
 </p>
 <h2>Vip2K</h2>
 <p>
-Directory including <a href="Vip2KMain.htm">VIP2K Membership Card</a> software and the video sequencer state machine ROMs.
+Directory including <a href="https://www.emma02.hobby-site.com/vip2k.html">VIP2K Membership Card</a> software and the video sequencer state machine ROMs.
 </p>
 <h2>VipII</h2>
 <p>
-Directory including the <a href="VipIIMain.htm">Cosmac VIP II</a> ROM file, FP Basic, Chip 8/8X/10 interpreter files. For Chip 8/8x software see Chip 8 directory.
+Directory including the <a href="https://www.emma02.hobby-site.com/vipii.html">Cosmac VIP II</a> ROM file, FP Basic, Chip 8/8X/10 interpreter files. For Chip 8/8x software see Chip 8 directory.
+</p>
+<h2>VIS1802</h2>
+<p>
+Directory with all <a href="https://www.emma02.hobby-site.com/vis1802.html">SBC1802</a> firmware and software.
 </p>
 <h2>Visicom</h2>
 <p>
-Directory including the <a href="VisicomMain.htm">Visicom COM-100</a> ROM file.
+Directory including the <a href="https://www.emma02.hobby-site.com/visicom.html">Visicom COM-100</a> ROM file.
+</p>
+<h2>VT1802</h2>
+<p>
+Directory with all <a href="https://www.emma02.hobby-site.com/vt1802.html">SBC1802</a> firmware and software.
+</p>
+<h2>Xml</h2>
+<p>
+Directory with all XML files.
 </p>
 </BODY>
 </HTML>

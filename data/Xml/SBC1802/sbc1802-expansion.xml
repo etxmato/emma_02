@@ -301,22 +301,39 @@
     <xmodem>
     </xmodem>
 
-    <cdp1851 init="off">
+    <cdp1851 connection="printer">
         <init type="a">0xff</init>
         <init type="b">0xff</init>
         <iogroup>5</iogroup>
-        <pos>310, 0</pos>
         <out type="a">4</out>
         <out type="b">6</out>
         <in type="a">4</in>
         <in type="b">6</in>
         <out type="control">2</out>
         <in type="status">2</in>
-        <ef type="a">1</ef>
+        <ef type="a" pol="rev">1</ef>
         <ef type="b">2</ef>
         <ef type="irq" pol="rev">3</ef>
         <int>6</int>
     </cdp1851>
+
+    <printer connection="cdp1851">
+        <busy>10</busy>
+        <ack>0.5</ack>
+        <port_a type="latch">
+            <rdy active="1">strobe</rdy>
+            <strobe active="1">ack</strobe>
+        </port_a>
+        <port_b type="io">
+            <bit num="0" active="0">init</bit>
+            <bit num="1" active="1">select_in</bit>
+            <bit num="2" active="0">select_out</bit>
+            <bit num="3" active="0">error</bit>
+            <bit num="4" active="1">paper_out</bit>
+            <rdy active="0">auto_lf</rdy>
+            <strobe active="1">busy</strobe>
+        </port_b>
+    </printer>
 
     <cdp1854 connection="vt100">
         <iogroup>0, 1</iogroup>
@@ -421,9 +438,6 @@
         <channel type="b">right</channel>
         <channel type="c">centre</channel>
     </sound>
-
-    <xmodem>
-    </xmodem>
 
     <locations>
         <start_xmodem_save address="0x80, 0x81, 0x82, 0x83" value="0x78, 0x73, 0x62, 0x20">0x2079</start_xmodem_save> <!-- xsb -->

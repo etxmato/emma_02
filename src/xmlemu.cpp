@@ -46,6 +46,7 @@
 #include "wx/wfstream.h"
 #include "wx/zipstrm.h"
 #include "wx/datstrm.h"
+#include <memory>
 #include <math.h>
 
 #include "main.h"
@@ -473,6 +474,7 @@ Computer::Computer(const wxString& title, double clock, int tempo, ComputerConfi
     bitKeypadValue_ = 0;
 
     gaugeValue_ = 0;
+    tapeFinished_ = 0;
     lastTapeInputInt32_ = 0;
     lastTapeInputInt16_ = 0;
     lastTapeInputChar_ = 0;
@@ -481,7 +483,13 @@ Computer::Computer(const wxString& title, double clock, int tempo, ComputerConfi
     maxTapeInputChar_ = 0;
     saveStarted_ = false;
     loadStarted_ = false;
+    visRunning_ = false;
+    dataIoSwitchBus_ = true;
+    lastIo_ = 0;
+
     numberOfCdp1877Instances_ = 0;
+    numberOfCdp1851Instances_ = 0;
+    numberOfCdp1852Frames_ = 0;
 
     soundTempoCycleSize_ = (int) (((clock * 1000000) / 8) / tempo);
     vipIIRunCycleSize_ = (int) (((clock * 800000) / 8) ) * 2;
@@ -580,10 +588,10 @@ Computer::~Computer()
         p_Main->setV1870Pos(sn76430nPointer->GetPosition());
         sn76430nPointer->Destroy();
     }
-    for (int num=0; num<numberOfCdp1851Frames_; num++)
+    for (int num=0; num<numberOfCdp1851Instances_; num++)
     {
-        p_Main->setCdp1851Pos(cdp1851FramePointer[num]->GetPosition(), num);
-        cdp1851FramePointer[num]->Destroy();
+        p_Main->setCdp1851Pos(cdp1851InstancePointer[num]->GetPosition(), num);
+        cdp1851InstancePointer[num]->Destroy();
     }
     for (int num=0; num<numberOfCdp1852Frames_; num++)
     {
@@ -647,6 +655,13 @@ Computer::~Computer()
         p_Main->setFrontPanelPos(panelPointer[frontPanel]->GetPosition(), frontPanel);
         delete panelPointer[frontPanel];
     }
+    if (currentComputerConfiguration.ay_3_8912Configuration.defined)
+        delete ay_3_8912InstancePointer;
+    for (int counter=0; counter<numberOfCdp1878Instances_; counter++)
+        delete cdp1878InstancePointer[counter];
+    if (currentComputerConfiguration.cdp1855Configuration.defined)
+        delete cdp1855InstancePointer;
+
     p_Main->writeXmlWindowConfig();
 }
 
@@ -680,6 +695,39 @@ void Computer::charEvent(int keycode)
         matrixKeyboardPointer->charEvent(keycode);
     if (currentComputerConfiguration.gpioPs2KeyboardConfiguration.defined)
         charEventPs2gpio(keycode);
+}
+
+void Computer::charEvent(wxKeyEvent& event, int keycode)
+{
+#ifdef __WXMAC__
+    if (event.GetModifiers() == currentComputerConfiguration.modKeyConfiguration.macModifier)
+#endif
+#ifdef __WXMSW__
+    if (event.GetModifiers() == currentComputerConfiguration.modKeyConfiguration.windowsModifier)
+#endif
+#ifdef __linux__
+    if (event.GetModifiers() == currentComputerConfiguration.modKeyConfiguration.linuxModifier)
+#endif
+    {
+        for (std::vector<int>::iterator functionKeys = currentComputerConfiguration.modKeyConfiguration.resetKey.begin (); functionKeys != currentComputerConfiguration.modKeyConfiguration.resetKey.end (); ++functionKeys)
+        {
+            if (keycode == *functionKeys)
+            {
+                p_Computer->onReset();
+                p_Computer->setClear(1);
+                p_Main->updateTitle();
+            }
+        }
+        for (std::vector<int>::iterator functionKeys = currentComputerConfiguration.modKeyConfiguration.stopKey.begin (); functionKeys != currentComputerConfiguration.modKeyConfiguration.stopKey.end (); ++functionKeys)
+        {
+            if (keycode == *functionKeys)
+            {
+                p_Computer->setClear(0);
+                p_Main->updateTitle();
+            }
+        }
+    }
+    charEvent(keycode);
 }
 
 bool Computer::keyDownPressed(int key)
@@ -1093,7 +1141,8 @@ void Computer::configureComputer()
         if (currentComputerConfiguration.multiSegDisplayConfiguration.tilFontFile != "")
             p_Computer->readIntelFile(currentComputerConfiguration.multiSegDisplayConfiguration.tilFontDirectory + currentComputerConfiguration.multiSegDisplayConfiguration.tilFontFile, &tilFontMemory);
 
-        setCycleType(CYCLE_TYPE_SEVEN_SEGMENT, MULTI_TIL_DISPLAY_CYCLE);
+        if (currentComputerConfiguration.multiSegDisplayConfiguration.cycleValue != -1)
+            setCycleType(CYCLE_TYPE_SEVEN_SEGMENT, MULTI_TIL_DISPLAY_CYCLE);
 
         p_Main->message("");
     }
@@ -1178,6 +1227,9 @@ void Computer::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
 void Computer::initComputer()
 {
 //    Show(p_Main->showFrontPanel());
+    for (int i=0; i<8; i++)
+        inpSwitchState_[i]=0;
+
     for (std::vector<FrontPanelConfiguration>::iterator frontPanel = currentComputerConfiguration.frontPanelConfiguration.begin (); frontPanel != currentComputerConfiguration.frontPanelConfiguration.end (); ++frontPanel)
     {
         panelPointer.resize(numberOfFrontPanels_+1);
@@ -1214,7 +1266,7 @@ void Computer::initComputer()
         if (currentComputerConfiguration.efButtonsConfiguration.key[ef].defined)
             efKeyValue[ef] = currentComputerConfiguration.efButtonsConfiguration.keyPressed ^ 1;
     }
-    
+
     bootstrap_ = 0;
 
     pulseCountStopTone_ = 2000;
@@ -1231,6 +1283,7 @@ void Computer::initComputer()
     tapedataReady_ = 1;
     runPressed_ = false;
 
+    tapeRunSwitch_ = 0x2;
     tapeRunSwitch_ = 0x2;
     tapeError_ = 1;
     inpMode_ = INP_MODE_NONE;
@@ -1295,6 +1348,7 @@ void Computer::resetComputer()
     
     lastMode_ = UNDEFINDEDMODE;
     
+    vismacRegisterLatch_ = 0;
     thermalPrinting_ = false;
     thermalEF_ = 0;
     selectedMap_ = 0;
@@ -1455,10 +1509,10 @@ Byte Computer::ef(int flag)
 
     if (currentComputerConfiguration.cdp1864Configuration.defined)
     {
-        if (currentComputerConfiguration.cdp1864Configuration.ef == flag)
+        if (currentComputerConfiguration.cdp1864Configuration.ef.flagNumber == flag)
         {
             if (cdp1864Pointer->arePixieGraphicsOn() || !currentComputerConfiguration.cdp1864Configuration.screenOn)
-                return cdp1864Pointer->efPixie();
+                return cdp1864Pointer->efCdp1864();
         }
     }
 
@@ -1558,6 +1612,13 @@ Byte Computer::ef(int flag)
             return cdp1855InstancePointer->readStatus();
         break;
 
+        case MM_EF:
+            if (!isLoading())
+                return mm57109InstancePointer->ef();
+            else
+                return cassetteEf_;
+        break;
+
         case MC6845_EF:
             if (!isLoading())
                 return mc6845Pointer->ef6845();
@@ -1646,15 +1707,15 @@ Byte Computer::ef(int flag)
         break;
 
         case CDP1851_A_EF:
-            return cdp1851FramePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->getEfState(1);
+            return cdp1851InstancePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->getEfState1();
         break;
 
         case CDP1851_B_EF:
-            return cdp1851FramePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->getEfState(2);
+            return cdp1851InstancePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->getEfState2();
         break;
 
         case CDP1851_IRQ:
-            return cdp1851FramePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->getIrqState();
+            return cdp1851InstancePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->getIrqState();
         break;
 
         case CDP1852_EF:
@@ -1776,6 +1837,10 @@ Byte Computer::ef(int flag)
                 return 0;
         break;
 
+        case EFSWITCH:
+            return (getEfFlags() & (0x1 << (flag-1))) >> (flag-1);
+        break;
+            
         default:
             return 1;
     }
@@ -1817,6 +1882,10 @@ Byte Computer::in(Byte port, Word address)
         
     switch (inType_[qState_][ioGroup_+1][port])
     {
+        case BITSWITCH_INP:
+            ret = inpSwitchState_[port];
+        break;
+            
         case VT_UART1854_READ_RECEIVER_IN:
             ret = vtPointer->uartIn();
         break;
@@ -1880,6 +1949,10 @@ Byte Computer::in(Byte port, Word address)
 
         case MDU_STATUS:
             return cdp1855InstancePointer->readStatus();
+        break;
+
+        case MM_INPUT:
+            return mm57109InstancePointer->input();
         break;
 
         case IDE_READ_STATUS_IN:
@@ -2031,15 +2104,15 @@ Byte Computer::in(Byte port, Word address)
         break;
             
         case CDP1851_READ_A_OUT:
-            return cdp1851FramePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readPortA();
+            return cdp1851InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readPortA();
         break;
 
         case CDP1851_READ_B_OUT:
-            return cdp1851FramePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readPortB();
+            return cdp1851InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readPortB();
         break;
 
         case CDP1851_READ_STATUS_IN:
-            return cdp1851FramePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readStatusRegister();
+            return cdp1851InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readStatusRegister();
         break;
 
         case CDP1852_READ_IN:
@@ -2096,6 +2169,8 @@ Byte Computer::in(Byte port, Word address)
 
         case HEX_KEY_IN:
             inPressed_ = false;
+            if (currentComputerConfiguration.hexDisplayConfiguration.oneKeyIn)
+                hexEfState_ = 1;
             ret = getData(false);
         break;
             
@@ -2189,6 +2264,8 @@ Byte Computer::in(Byte port, Word address)
     if (mask != 0xff)
         ret &= mask;
     inValues_[port] = ret;
+    lastIo_ = ret;
+    showLastIo();
     return ret;
 }
 
@@ -2213,6 +2290,9 @@ void Computer::out(Byte port, Word address, Byte value)
     if (mask != 0xff)
         value &= mask;
     outValues_[port] = value;
+    lastIo_ =  value;
+    showLastIo();
+
     bool groupFound;
 
     if (currentComputerConfiguration.ioGroupConfiguration.defined)
@@ -2284,6 +2364,16 @@ void Computer::out(Byte port, Word address, Byte value)
     
     switch (outType_[qState_][ioGroup_+1][port])
     {
+        case BITLED_OUT:
+            for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+                panelPointer[frontPanel]->setOutLeds(port, value);
+        break;
+            
+        case TIL_OUT:
+            for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+                panelPointer[frontPanel]->setTilOut(port, value);
+        break;
+            
         case FLIPFLOP_OUT:
             if (value > 3)
                 value = value;
@@ -2407,6 +2497,10 @@ void Computer::out(Byte port, Word address, Byte value)
 
         case MDU_CONTROL:
             cdp1855InstancePointer->writeControl(value);
+        break;
+
+        case MM_OUTPUT:
+            mm57109InstancePointer->output(value);
         break;
 
         case VIS1870_OUT2:
@@ -2571,7 +2665,10 @@ void Computer::out(Byte port, Word address, Byte value)
             else
             {
                 if (stopTapeCounter_ == 0)
+                {
                     stopTapeCounter_ = (currentComputerConfiguration.swTapeConfiguration.stopDelay * sampleRate_) / 1000;
+                    stopDelayQ_ = flipFlopQ_;
+                }
             }
         break;
 
@@ -2739,18 +2836,18 @@ void Computer::out(Byte port, Word address, Byte value)
         break;
 
         case CDP1851_WRITE_A_OUT:
-            cdp1851FramePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writePortA(value);
-            cdp1851FramePointer[outItemNumber_[qState_][ioGroup_+1][port]]->refreshLeds();
+            cdp1851InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writePortA(value);
+            cdp1851InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->refreshLeds();
         break;
 
         case CDP1851_WRITE_B_OUT:
-            cdp1851FramePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writePortB(value);
-            cdp1851FramePointer[outItemNumber_[qState_][ioGroup_+1][port]]->refreshLeds();
+            cdp1851InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writePortB(value);
+            cdp1851InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->refreshLeds();
         break;
 
         case CDP1851_WRITE_CONTROL_OUT:
-            cdp1851FramePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeControlRegister(value);
-            cdp1851FramePointer[outItemNumber_[qState_][ioGroup_+1][port]]->refreshLeds();
+            cdp1851InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeControlRegister(value);
+            cdp1851InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->refreshLeds();
         break;
 
         case CDP1852_WRITE_OUT:
@@ -2818,6 +2915,16 @@ void Computer::out(Byte port, Word address, Byte value)
             vtPointer->out(value);
         break;
 
+        case VIDEO_TERMINAL_Q_OUT:
+        case IO_PORT_DISABLE:
+            if (currentComputerConfiguration.videoTerminalConfiguration.qOutput.portNumber[0] != -1)
+                vtPointer->switchQ(value&currentComputerConfiguration.videoTerminalConfiguration.qOutputBitMask);
+            if (currentComputerConfiguration.ioGroupConfiguration.disable.portNumber[0] != -1)
+            {
+                    currentComputerConfiguration.ioGroupConfiguration.defined = ((value&currentComputerConfiguration.ioGroupConfiguration.disableBitMask) == 0);
+            }
+        break;
+
         case EXTERNAL_VIDEO_TERMINAL_OUT:
             p_Serial->out(value);
         break;
@@ -2869,6 +2976,17 @@ void Computer::out(Byte port, Word address, Byte value)
 
         case MULTI_TIL_DISPLAY_OUT:
             segValue_ = value;
+            if (currentComputerConfiguration.multiSegDisplayConfiguration.cycleValue == -1)
+            {
+                if (value == 0xd)
+                    segNumber_ = 0;
+                else
+                {
+                    if (segNumber_ <= currentComputerConfiguration.multiSegDisplayConfiguration.multiTilNumber)
+                        for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+                            panelPointer[frontPanel]->showMulti(segNumber_++, value);
+                }
+            }
         break;
 
         case AD_CONVERTOR_OUT:
@@ -2893,6 +3011,13 @@ void Computer::out(Byte port, Word address, Byte value)
         break;
 
     }
+}
+
+void Computer::setClockRate(double clock)
+{
+    setSoundClockRate(clock);
+    if (currentComputerConfiguration.mm57109Configuration.defined)
+        mm57109InstancePointer->setSpeedFactor(computerClockSpeed_, currentComputerConfiguration.mm57109Configuration.clock);
 }
 
 void Computer::printOutPecom(int q)
@@ -3041,8 +3166,20 @@ Byte Computer::slotShift(Byte value, int shift)
     return value;
 }
 
+void Computer::showLastIo()
+{
+    if (dataIoSwitchBus_)
+        return;
+
+    for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+        panelPointer[frontPanel]->showData(lastIo_);
+}
+
 void Computer::showData(Byte val)
 {
+    if (!dataIoSwitchBus_)
+        return;
+    
     for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
         panelPointer[frontPanel]->showData(val);
     
@@ -3069,20 +3206,23 @@ void Computer::showData(Byte val)
 
 void Computer::showCycleData(Byte val)
 {
+    if (!dataIoSwitchBus_)
+        return;
+
     if (singleStateStep_)
         showData(val);
     
     if (currentComputerConfiguration.ledDisplayConfiguration.showDataOnCycle)
     {
+        if (currentComputerConfiguration.ledDisplayConfiguration.datatil[0] && currentComputerConfiguration.ledDisplayConfiguration.datatil[1])
+            for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+                panelPointer[frontPanel]->showData(val);
         for (int i=0; i<8; i++)
         {
             for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
                 panelPointer[frontPanel]->setLed(i, val&1);
             val = val >> 1;
         }
-        if (currentComputerConfiguration.ledDisplayConfiguration.datatil[0] && currentComputerConfiguration.ledDisplayConfiguration.datatil[1])
-            for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
-                panelPointer[frontPanel]->showData(val);
     }
 }
 
@@ -3090,14 +3230,14 @@ void Computer::showCycleAddress(Word val)
 {
     if (currentComputerConfiguration.ledDisplayConfiguration.showAddressOnCycle)
     {
+        for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+            panelPointer[frontPanel]->showAddress(val);
         for (int i=8; i<24; i++)
         {
             for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
                 panelPointer[frontPanel]->setLed(i, val&1);
             val = val >> 1;
         }
-        for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
-            panelPointer[frontPanel]->showAddress(val);
     }
 }
 
@@ -3119,6 +3259,10 @@ void Computer::cycle(int type)
 
         case MDU_CYCLE:
             cdp1855InstancePointer->cycle();
+        break;
+
+        case MM_CYCLE:
+            mm57109InstancePointer->cycle();
         break;
 
         case KEY_FRED_CYCLE:
@@ -3216,8 +3360,8 @@ void Computer::cycle(int type)
 
         case LED_CYCLE:
             cycleLed();
-            for (int num=0; num<numberOfCdp1851Frames_; num++)
-                cdp1851FramePointer[num]->interruptCycle();
+            for (int num=0; num<numberOfCdp1851Instances_; num++)
+                cdp1851InstancePointer[num]->interruptCycle();
         break;
 
         case VIS1870_CYCLE:
@@ -3256,7 +3400,7 @@ void Computer::cycle(int type)
             multiTilCycleValue_--;
             if (multiTilCycleValue_ <= 0)
             {
-                if (segValue_ != -1)
+                if (segValue_ != -1 && segValue_ != 0xd)
                 {
                     if (segNumber_ <= currentComputerConfiguration.multiSegDisplayConfiguration.multiTilNumber)
                         for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
@@ -3266,6 +3410,7 @@ void Computer::cycle(int type)
                         segNumber_ = 0;
                     segValue_ = -1;
                 }
+
                 multiTilCycleValue_ = multiTilCycleSize_;
             }
         break;
@@ -3277,7 +3422,7 @@ void Computer::cycle(int type)
         case CD4536B_CYCLE:
             cycleCd();
         break;
-            
+                        
         case TIMER_CYCLE:
             for (int counter=0; counter<numberOfCdp1878Instances_; counter++)
             {
@@ -3403,8 +3548,8 @@ void Computer::cycleLed()
         if (ledCycleValue_ <= 0)
         {
             ledCycleValue_ = ledCycleSize_;
-            for (int num=0; num<numberOfCdp1851Frames_; num++)
-                cdp1851FramePointer[num]->ledTimeout();
+            for (int num=0; num<numberOfCdp1851Instances_; num++)
+                cdp1851InstancePointer[num]->ledTimeout();
             for (int num=0; num<numberOfCdp1852Frames_; num++)
                 cdp1852FramePointer[num]->ledTimeout();
             for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
@@ -3495,8 +3640,8 @@ void Computer::setMode()
 
     if (clear_ == 0)
     {
-        for (int num=0; num<numberOfCdp1851Frames_; num++)
-            cdp1851FramePointer[num]->reset();
+        for (int num=0; num<numberOfCdp1851Instances_; num++)
+            cdp1851InstancePointer[num]->reset();
         for (int num=0; num<numberOfCdp1852Frames_; num++)
             cdp1852FramePointer[num]->reset();
     }
@@ -3524,6 +3669,18 @@ void Computer::showDmaLed()
 {
     for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
         panelPointer[frontPanel]->setStateLed(DMALED, 1);
+}
+
+void Computer::showMrdLed(int state)
+{
+    for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+        panelPointer[frontPanel]->setStateLed(MRDLED, state);
+}
+
+void Computer::showMwrLed(int state)
+{
+    for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+        panelPointer[frontPanel]->setStateLed(MWRLED, state);
 }
 
 void Computer::showIntLed()
@@ -3649,11 +3806,14 @@ void Computer::switchQ(int value)
         }
     }
 
-    if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
-        vtPointer->switchQ(value);
+    if (currentComputerConfiguration.videoTerminalConfiguration.qOutput.portNumber[0] == -1)
+    {
+        if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
+            vtPointer->switchQ(value);
 
-    if (currentComputerConfiguration.videoTerminalConfiguration.external || currentComputerConfiguration.videoTerminalConfiguration.loop_back)
-        p_Serial->switchQ(value);
+        if (currentComputerConfiguration.videoTerminalConfiguration.external || currentComputerConfiguration.videoTerminalConfiguration.loop_back)
+            p_Serial->switchQ(value);
+    }
     
     if (currentComputerConfiguration.diagnosticBoardConfiguration.defined)
     {
@@ -3679,6 +3839,12 @@ void Computer::onWaitButton()
     else
         waitButtonState_ = 1;
 
+    setWait(waitButtonState_);
+}
+
+void Computer::setWaitButtonState(int value)
+{
+    waitButtonState_ = value;
     setWait(waitButtonState_);
 }
 
@@ -3758,6 +3924,12 @@ void Computer::onRunButtonPress0(wxCommandEvent&WXUNUSED(event))
 
 void Computer::onRunButtonPress(bool run0)
 {
+    if (currentComputerConfiguration.stepPressType == STEP_TYPE_SWITCH_PUSH && singleStateStep_)
+    {
+        setWait(1);
+        return;
+    }
+
     if (currentComputerConfiguration.autoBootConfiguration.defined)
         scratchpadRegister_[0] = currentComputerConfiguration.autoBootConfiguration.address;
     if (cardSwitchOn_ || readSwitchOn_)
@@ -4047,19 +4219,35 @@ void Computer::onPause(wxCommandEvent&WXUNUSED(event))
 
 void Computer::onPause()
 {
-    if (currentComputerConfiguration.stepPressType == STEP_TYPE_COSMICOS)
+    switch (currentComputerConfiguration.stepPressType)
     {
-        singleStateStep_ = true;
-        setClear(1);
-        setWait(0);
-        if (currentComputerConfiguration.cdp1864Configuration.defined)
-            cdp1864Pointer->setPixieGraphics(false);
-    }
-    else
-    {
-        setWait(0);
-        if (mpSuperButtonActive_)
-            mpButtonState_ = 0;
+        case STEP_TYPE_COSMICOS:
+            singleStateStep_ = true;
+            setClear(1);
+            setWait(0);
+            if (currentComputerConfiguration.cdp1864Configuration.defined)
+                cdp1864Pointer->setPixieGraphics(false);
+        break;
+   
+        case STEP_TYPE_SWITCH_PUSH:
+            singleStateStep_ = !singleStateStep_;
+            if (singleStateStep_)
+            {
+                setLedMsTemp(0);
+                setWait(0);
+            }
+            else
+            {
+                setLedMs(ledTimeMs_);
+                setWait(1);
+            }
+        break;
+
+        default:
+            setWait(0);
+            if (mpSuperButtonActive_)
+                mpButtonState_ = 0;
+        break;
     }
     p_Main->eventUpdateTitle();
 }
@@ -4128,6 +4316,12 @@ void Computer::onEmsButton(int buttonNumber, bool up)
     
     if (currentComputerConfiguration.multicartEmsNumber_ != -1)
         setMultiCartGame();
+}
+
+void Computer::onDataIoSwitch()
+{
+    dataIoSwitchBus_ = !dataIoSwitchBus_;
+    showLastIo();
 }
 
 void Computer::setMultiCartGame()
@@ -4250,17 +4444,20 @@ void Computer::onSingleStep(wxCommandEvent&WXUNUSED(event))
 
 void Computer::onSingleStep()
 {
-    if (currentComputerConfiguration.stepPressType == STEP_TYPE_COSMICOS)
+    switch (currentComputerConfiguration.stepPressType)
     {
-        setWait(1);
-    }
-    else
-    {
-        singleStateStep_ = !singleStateStep_;
-        if (singleStateStep_)
-            setLedMsTemp(0);
-        else
-            setLedMs(ledTimeMs_);
+        case STEP_TYPE_COSMICOS:
+        case STEP_TYPE_SWITCH_PUSH:
+            setWait(1);
+        break;
+
+        default:
+            singleStateStep_ = !singleStateStep_;
+            if (singleStateStep_)
+                setLedMsTemp(0);
+            else
+                setLedMs(ledTimeMs_);
+        break;
     }
 }
 
@@ -4271,6 +4468,12 @@ void Computer::onResetButton(wxCommandEvent&WXUNUSED(event))
 
 void Computer::onResetButton()
 {
+    if (currentComputerConfiguration.stepPressType == STEP_TYPE_SWITCH_PUSH && singleStateStep_)
+    {
+        setWait(1);
+        return;
+    }
+    
     if (currentComputerConfiguration.resetPressType == RESET_TYPE_FULL)
         onReset();
     else
@@ -4403,6 +4606,12 @@ void Computer::dataSwitch(int i)
             panelPointer[frontPanel]->setLed(i,dataSwitchState_[i]);
 }
 
+void Computer::inpSwitch(int input, int bit)
+{
+    Byte bitSwitch = 1 << bit;
+    inpSwitchState_[input] ^= bitSwitch;
+}
+
 void Computer::efSwitch(int i)
 {
     if (efSwitchState_[i])
@@ -4450,7 +4659,10 @@ void Computer::onNumberKeyDown(int id)
     else
     {
         hexEfState_ = 0;
-        switches_ = ((switches_ << 4) & 0xf0) | id;
+        if (currentComputerConfiguration.hexDisplayConfiguration.oneKeyIn)
+            switches_ = id;
+        else
+            switches_ = ((switches_ << 4) & 0xf0) | id;
     }
 }
 
@@ -4762,10 +4974,10 @@ void Computer::startComputer()
         ledCycleSize_ = (((computerClockSpeed_ * 1000000) / 8) / 1000) * ledTimeMs_;
     ledCycleValue_ = ledCycleSize_;
     
-    for (int num=0; num<numberOfCdp1851Frames_; num++)
+    for (int num=0; num<numberOfCdp1851Instances_; num++)
     {
-        cdp1851FramePointer[num]->setLedMs(ledTimeMs_);
-        cdp1851FramePointer[num]->Show(currentComputerConfiguration.cdp1851Configuration[num].windowOpen);
+        cdp1851InstancePointer[num]->setLedMs(ledTimeMs_);
+        cdp1851InstancePointer[num]->Show(currentComputerConfiguration.cdp1851Configuration[num].windowOpen);
     }
     for (int num=0; num<numberOfCdp1852Frames_; num++)
     {
@@ -4856,7 +5068,7 @@ void Computer::startComputer()
         p_Main->resetClearRtcState();
     }
 
-    if (currentComputerConfiguration.useSplashScreen_)
+    if (currentComputerConfiguration.useSplashScreen_ && !p_Main->splashHidden())
     {
         if (p_Video[VIDEOMAIN] != NULL)
             p_Video[VIDEOMAIN]->splashScreen();
@@ -4893,7 +5105,7 @@ void Computer::loadRomRam(size_t configNumber)
             p_Main->checkAndReInstallFile(currentComputerConfiguration.memoryConfiguration[configNumber].dirname + currentComputerConfiguration.memoryConfiguration[configNumber].filename, currentComputerConfiguration.memoryConfiguration[configNumber].filename);
 
         if (currentComputerConfiguration.memoryConfiguration[configNumber].filename.Right(4) == ".st2")
-            readSt2Program(currentComputerConfiguration.memoryConfiguration[configNumber].dirname, currentComputerConfiguration.memoryConfiguration[configNumber].filename, NOCHANGE);
+            readSt2Program(currentComputerConfiguration.memoryConfiguration[configNumber].dirname, currentComputerConfiguration.memoryConfiguration[configNumber].filename, ROM);
         else
             readProgram(currentComputerConfiguration.memoryConfiguration[configNumber].dirname, currentComputerConfiguration.memoryConfiguration[configNumber].filename, NOCHANGE,  currentComputerConfiguration.memoryConfiguration[configNumber].start, currentComputerConfiguration.memoryConfiguration[configNumber].loadOffSet, NONAME); 
         // type & 0xff causes loading ROM to end up without congif number in the higher 8 bit.
@@ -4912,6 +5124,20 @@ void Computer::writeMemDataType(Word address, Byte type)
 {
     size_t number = (memoryType_[address / 256] >> 8);
     address = (address | bootstrap_) & currentComputerConfiguration.memoryMask;
+
+    for (std::vector<MemoryPartConfiguration>::iterator ramPartConfigIterator = currentComputerConfiguration.memoryRamPartConfiguration.begin (); ramPartConfigIterator != currentComputerConfiguration.memoryRamPartConfiguration.end (); ++ramPartConfigIterator)
+    {
+        if (address >= ramPartConfigIterator->start && address <= ramPartConfigIterator->end)
+        {
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
+            increaseExecutedMainMemory(address, type);
+            return;
+        }
+    }
 
     int memNumber;
     switch (memoryType_[address/256]&0xff)
@@ -5424,6 +5650,33 @@ Byte Computer::readMemDebug(Word address, int function)
         }
     }
 
+    if (currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined)
+    {
+/*        wxString printBuffer;
+        if (address >= 0x1000 && address < 0xf400)
+        {
+            if (address < 0x8800 || address > 0x887f)
+            {
+                printBuffer.Printf("Exec address: %04X, read address: %04X, value: %02X", scratchpadRegister_[programCounter_], address, value);
+                p_Main->eventShowTextMessage(printBuffer);
+            }
+        }*/
+        if (currentComputerConfiguration.videoTerminalConfiguration.uartIn.addressMode)
+        {
+            if (address == currentComputerConfiguration.videoTerminalConfiguration.uartIn.portNumber[0])
+            {
+                return p_Serial->uartIn();
+            }
+        }
+        if (currentComputerConfiguration.videoTerminalConfiguration.uartStatus.addressMode)
+        {
+            if (address == currentComputerConfiguration.videoTerminalConfiguration.uartStatus.portNumber[0])
+            {
+                return p_Serial->uartStatus();
+            }
+        }
+    }
+
     size_t number = (memoryType_[address / 256] >> 8);
     
     int memNumber = 0;
@@ -5556,6 +5809,7 @@ Byte Computer::readMemDebug(Word address, int function)
                 address = (address & currentComputerConfiguration.memoryConfiguration[number].memMask) | (currentComputerConfiguration.memoryConfiguration[number].start&0xff00);
             }
             
+            value = mainMemory_[address];
             return mainMemory_[address];
         break;
 
@@ -5897,6 +6151,35 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
         }
     }
 
+    if (currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined)
+    {
+/*        if (address >= 0x1000 && address < 0xf400)
+        {
+            if (address < 0x8800 || address > 0x887f)
+            {
+                printBuffer.Printf("Exec address: %04X, write address: %04X, value: %02X", scratchpadRegister_[programCounter_], address, value);
+                p_Main->eventShowTextMessage(printBuffer);
+            }
+        }*/
+
+        if (currentComputerConfiguration.videoTerminalConfiguration.uartOut.addressMode)
+        {
+            if (address == currentComputerConfiguration.videoTerminalConfiguration.uartOut.portNumber[0])
+            {
+                p_Serial->uartOut(value);
+                return;
+            }
+        }
+        if (currentComputerConfiguration.videoTerminalConfiguration.uartControl.addressMode)
+        {
+            if (address == currentComputerConfiguration.videoTerminalConfiguration.uartControl.portNumber[0])
+            {
+                p_Serial->uartControl(value);
+                return;
+            }
+        }
+    }
+
     if (currentComputerConfiguration.soundConfiguration.type == SOUND_SUPER_VP551)
     {
         switch (address)
@@ -6187,12 +6470,12 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
             
             for (std::vector<WriteAddress>::iterator i = currentComputerConfiguration.addressLocationConfiguration.writeAddress.begin (); i != currentComputerConfiguration.addressLocationConfiguration.writeAddress.end (); ++i)
             {
-                if (address == i->address && value == i->value)
+                if (address == i->address && (value == i->value || i->value == -1))
                 {
                     switch (i->function)
                     {
                         case WRITE_ADDRESS_DEBUG:
-                            printBuffer.Printf("Exec address: %04X, write address: %04X, value: %02X", scratchpadRegister_[programCounter_], i->address, i->value);
+                            printBuffer.Printf("Exec address: %04X, write address: %04X, value: %02X", scratchpadRegister_[programCounter_], address, value);
                             p_Main->eventShowTextMessage(printBuffer);
                         break;
                     }
@@ -6422,9 +6705,6 @@ void Computer::cpuInstruction()
             threadPointer->Sleep(1);
         }
     }
-    if (interruptRequested_ && cpuState_ == STATE_FETCH_1)
-        p_Computer->interrupt();
-
     if (interruptEnable_ && clear_ == 1 && (cpuState_ == STATE_FETCH_1 || (cpuState_ == STATE_EXECUTE_1 && instructionCode_ == 0)))
     {
         if (numberOfCdp1877Instances_ > 0)
@@ -6512,7 +6792,6 @@ void Computer::resetPressed()
         i8275Pointer->cRegWrite(0x40);
     if (currentComputerConfiguration.vis1870Configuration.defined)
     {
-        vis1870Pointer->init1870();
         if (currentComputerConfiguration.vis1870Configuration.statusBarType != STATUSBAR_NONE)
             p_Main->v1870BarSizeEvent();
 
@@ -6554,7 +6833,6 @@ void Computer::resetPressed()
         }
     }
     resetPressed_ = false;
-    currentComputerConfiguration.diagnosticBoardConfiguration.active = p_Main->isDiagOn();
 
     elfRunState_ = RESETSTATE;
 
@@ -6671,8 +6949,6 @@ void Computer::configureMemory()
                 
             case DIAGROM:
                 defineMemoryType(memConfig->start, memConfig->end, memConfig->type);
-
-                diagRomActive_ = true;
             break;
                                 
             case RAM:
@@ -6833,9 +7109,14 @@ void Computer::configureMemory()
         switch (currentComputerConfiguration.memoryConfiguration[memConfNumber].type & 0xff)
         {
             case ROM:
-            case DIAGROM:
             case RAM:
                 loadRomRam(memConfNumber);
+            break;
+
+            case DIAGROM:
+                diagRomActive_ = true;
+                loadRomRam(memConfNumber);
+                diagRomActive_ = false;
             break;
 
             case NVRAM:
@@ -6858,6 +7139,7 @@ void Computer::configureMemory()
         if ((currentComputerConfiguration.memoryConfiguration[p_Main->getRomRamButton1()].type & 0xff) != UNDEFINED)
             loadRomRam(p_Main->getRomRamButton1());
     }
+    diagRomActive_ = currentComputerConfiguration.diagnosticBoardConfiguration.active;
 }
 
 void Computer::configureExtensions()
@@ -6971,11 +7253,9 @@ void Computer::configureExtensions()
         
         p_Main->message("");
 
-        diagRomActive_ = currentComputerConfiguration.diagnosticBoardConfiguration.active;
-
         if (currentComputerConfiguration.vis1870Configuration.defined)
         {
-            p_Main->eventUpdateLedStatus(diagRomActive_, 1);
+            p_Main->eventUpdateLedStatus(currentComputerConfiguration.diagnosticBoardConfiguration.active, 1);
             p_Main->eventUpdateLedStatus(diagDmaLedOn_, 2);
         }
     }
@@ -6984,6 +7264,13 @@ void Computer::configureExtensions()
     {
         cdp1855InstancePointer = new Cdp1855Instance();
         cdp1855InstancePointer->configureCdp1855(currentComputerConfiguration.cdp1855Configuration);
+    }
+
+    if (currentComputerConfiguration.mm57109Configuration.defined)
+    {
+        mm57109InstancePointer = new Mm57109Instance();
+        mm57109InstancePointer->setSpeedFactor(computerClockSpeed_, currentComputerConfiguration.mm57109Configuration.clock);
+        mm57109InstancePointer->configureMm57109(currentComputerConfiguration.mm57109Configuration);
     }
 
     if (currentComputerConfiguration.ay_3_8912Configuration.defined)
@@ -7017,32 +7304,44 @@ void Computer::configureExtensions()
         numberOfCdp1878Instances_++;
     }
 
-    cdp1851FramePointer.clear();
-    numberOfCdp1851Frames_ = 0;
+    cdp1851InstancePointer.clear();
+    numberOfCdp1851Instances_ = 0;
     for (std::vector<Cdp1851Configuration>::iterator cdp1851 = currentComputerConfiguration.cdp1851Configuration.begin (); cdp1851 != currentComputerConfiguration.cdp1851Configuration.end (); ++cdp1851)
     {
-        cdp1851FramePointer.resize(numberOfCdp1851Frames_+1);
+        cdp1851InstancePointer.resize(numberOfCdp1851Instances_+1);
+
+        switch (cdp1851->connection)
+        {
+            case PIO_CONNECTION_WINDOW:
 #if defined (__WXMAC__) || (__linux__)
-        cdp1851FramePointer[numberOfCdp1851Frames_] = new PioFrame("CDP1851 PIO", cdp1851->pos, wxSize(310, 180), numberOfCdp1851Frames_, *cdp1851);
+            cdp1851InstancePointer[numberOfCdp1851Instances_] = new Cdp1851Instance("CDP1851 PIO", cdp1851->pos, wxSize(310, 180), numberOfCdp1851Instances_, *cdp1851);
 #else
-        cdp1851FramePointer[numberOfCdp1851Frames_] = new PioFrame("CDP1851 PIO", cdp1851->pos, wxSize(329, 180), numberOfCdp1851Frames_, *cdp1851);
+            cdp1851InstancePointer[numberOfCdp1851Instances_] = new Cdp1851Instance("CDP1851 PIO", cdp1851->pos, wxSize(329, 180), numberOfCdp1851Instances_, *cdp1851);
 #endif
+            break;
+                                
+            default:
+                cdp1851InstancePointer[numberOfCdp1851Instances_] = new Cdp1851Instance(numberOfCdp1851Instances_, *cdp1851, currentComputerConfiguration.cdp1851PrinterConfiguration, computerClockSpeed_);
+            break;
+        }
         
+        cdp1851InstancePointer[numberOfCdp1851Instances_]->connection_ = cdp1851->connection;
+
         p_Main->configureMessage(&cdp1851->ioGroupVector, "CDP1851 PIO");
-        setOutType(&cdp1851->ioGroupVector, cdp1851->writePortA, "write to port A", numberOfCdp1851Frames_);
-        setOutType(&cdp1851->ioGroupVector, cdp1851->writePortB, "write to port B", numberOfCdp1851Frames_);
-        setInType(&cdp1851->ioGroupVector, cdp1851->readPortA, "read port A", numberOfCdp1851Frames_);
-        setInType(&cdp1851->ioGroupVector, cdp1851->readPortB, "read port B", numberOfCdp1851Frames_);
-        setOutType(&cdp1851->ioGroupVector, cdp1851->writeControl, "write control register", numberOfCdp1851Frames_);
-        setInType(&cdp1851->ioGroupVector, cdp1851->readStatus, "read status", numberOfCdp1851Frames_);
-        setEfType(&cdp1851->ioGroupVector, cdp1851->efaRdy, "ARDY", numberOfCdp1851Frames_);
-        setEfType(&cdp1851->ioGroupVector, cdp1851->efbRdy, "BRDY", numberOfCdp1851Frames_);
-        setEfType(&cdp1851->ioGroupVector, cdp1851->efIrq, "IRQ", numberOfCdp1851Frames_);
+        setOutType(&cdp1851->ioGroupVector, cdp1851->writePortA, "write to port A", numberOfCdp1851Instances_);
+        setOutType(&cdp1851->ioGroupVector, cdp1851->writePortB, "write to port B", numberOfCdp1851Instances_);
+        setInType(&cdp1851->ioGroupVector, cdp1851->readPortA, "read port A", numberOfCdp1851Instances_);
+        setInType(&cdp1851->ioGroupVector, cdp1851->readPortB, "read port B", numberOfCdp1851Instances_);
+        setOutType(&cdp1851->ioGroupVector, cdp1851->writeControl, "write control register", numberOfCdp1851Instances_);
+        setInType(&cdp1851->ioGroupVector, cdp1851->readStatus, "read status", numberOfCdp1851Instances_);
+        setEfType(&cdp1851->ioGroupVector, cdp1851->efaRdy, "ARDY", numberOfCdp1851Instances_);
+        setEfType(&cdp1851->ioGroupVector, cdp1851->efbRdy, "BRDY", numberOfCdp1851Instances_);
+        setEfType(&cdp1851->ioGroupVector, cdp1851->efIrq, "IRQ", numberOfCdp1851Instances_);
 
         p_Main->message("");
 
-        cdp1851FramePointer[numberOfCdp1851Frames_]->reset();
-        numberOfCdp1851Frames_++;
+        cdp1851InstancePointer[numberOfCdp1851Instances_]->reset();
+        numberOfCdp1851Instances_++;
     }
 
     cdp1852FramePointer.clear();
@@ -7051,9 +7350,9 @@ void Computer::configureExtensions()
     {
         cdp1852FramePointer.resize(numberOfCdp1852Frames_+1);
 #if defined (__WXMAC__) || (__linux__)
-        cdp1852FramePointer[numberOfCdp1852Frames_] = new Cdp1852Frame("CDP1852", cdp1852->pos, wxSize(310, 180), numberOfCdp1852Frames_);
+        cdp1852FramePointer[numberOfCdp1852Frames_] = new Cdp1852Frame("CDP1852", cdp1852->pos, wxSize(310, 180), numberOfCdp1852Frames_, *cdp1852);
 #else
-        cdp1852FramePointer[numberOfCdp1852Frames_] = new Cdp1852Frame("CDP1852", cdp1852->pos, wxSize(329, 180), numberOfCdp1852Frames_);
+        cdp1852FramePointer[numberOfCdp1852Frames_] = new Cdp1852Frame("CDP1852", cdp1852->pos, wxSize(329, 180), numberOfCdp1852Frames_, *cdp1852);
 #endif
         
         p_Main->configureMessage(&cdp1852->ioGroupVector, "CDP1852");
@@ -7115,7 +7414,7 @@ void Computer::configureVideoExtensions()
     if (currentComputerConfiguration.coinConfiguration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.coinConfiguration.videoNumber);
-        coinPointer = new Pixie(p_Main->getRunningComputerText() + " - Coin Video", p_Main->getCoinPos(), wxSize(64*zoom*currentComputerConfiguration.coinConfiguration.xScale, 128*zoom), zoom, currentComputerConfiguration.coinConfiguration.xScale, currentComputerConfiguration.coinConfiguration.videoNumber, VIDEOCOIN, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.bootstrapConfiguration.type);
+        coinPointer = new Pixie(p_Main->getRunningComputerText() + " - Coin Video", p_Main->getCoinPos(), wxSize(64*zoom*currentComputerConfiguration.coinConfiguration.xScale, 128*zoom), zoom, currentComputerConfiguration.coinConfiguration.xScale, currentComputerConfiguration.coinConfiguration.videoNumber, VIDEOCOIN, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.cdp1864Configuration, currentComputerConfiguration.bootstrapConfiguration.type);
         p_Video[currentComputerConfiguration.coinConfiguration.videoNumber] = coinPointer;
         coinPointer->configurePixieCoinArcade(currentComputerConfiguration.coinConfiguration);
         coinPointer->initPixie();
@@ -7126,7 +7425,7 @@ void Computer::configureVideoExtensions()
     if (currentComputerConfiguration.cdp1861Configuration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.cdp1861Configuration.videoNumber);
-        pixiePointer = new Pixie(p_Main->getRunningComputerText() + " - Pixie", p_Main->getPixiePos(), wxSize(64*zoom*currentComputerConfiguration.cdp1861Configuration.xScale, 128*zoom), zoom, currentComputerConfiguration.cdp1861Configuration.xScale, currentComputerConfiguration.cdp1861Configuration.videoNumber, VIDEOXMLPIXIE, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.bootstrapConfiguration.type);
+        pixiePointer = new Pixie(p_Main->getRunningComputerText() + " - Pixie", p_Main->getPixiePos(), wxSize(64*zoom*currentComputerConfiguration.cdp1861Configuration.xScale, 128*zoom), zoom, currentComputerConfiguration.cdp1861Configuration.xScale, currentComputerConfiguration.cdp1861Configuration.videoNumber, VIDEOXMLPIXIE, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.cdp1864Configuration, currentComputerConfiguration.bootstrapConfiguration.type);
         p_Video[currentComputerConfiguration.cdp1861Configuration.videoNumber] = pixiePointer;
         
         switch (currentComputerConfiguration.cdp1861Configuration.doubleScreenIo)
@@ -7161,7 +7460,7 @@ void Computer::configureVideoExtensions()
     if (currentComputerConfiguration.cdp1864Configuration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.cdp1864Configuration.videoNumber);
-        cdp1864Pointer = new Pixie(p_Main->getRunningComputerText() + " - CDP1864", p_Main->getCdp1864Pos(), wxSize(64*zoom*currentComputerConfiguration.cdp1864Configuration.xScale, 192*zoom), zoom, currentComputerConfiguration.cdp1864Configuration.xScale, currentComputerConfiguration.cdp1864Configuration.videoNumber, VIDEOXML1864, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.bootstrapConfiguration.type);
+        cdp1864Pointer = new Pixie(p_Main->getRunningComputerText() + " - CDP1864", p_Main->getCdp1864Pos(), wxSize(64*zoom*currentComputerConfiguration.cdp1864Configuration.xScale, 192*zoom), zoom, currentComputerConfiguration.cdp1864Configuration.xScale, currentComputerConfiguration.cdp1864Configuration.videoNumber, VIDEOXML1864, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.cdp1864Configuration, currentComputerConfiguration.bootstrapConfiguration.type);
         p_Video[currentComputerConfiguration.cdp1864Configuration.videoNumber] = cdp1864Pointer;
         if (!currentComputerConfiguration.cdp1864Configuration.colorLatch)
             if (currentComputerConfiguration.cdp1864Configuration.startRam != -1 && currentComputerConfiguration.cdp1864Configuration.endRam != -1)
@@ -7180,7 +7479,7 @@ void Computer::configureVideoExtensions()
     if (currentComputerConfiguration.studio4VideoConfiguration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.studio4VideoConfiguration.videoNumber);
-        st4VideoPointer = new PixieStudioIV(p_Main->getRunningComputerText(), p_Main->getSt4Pos(), wxSize(64*zoom*currentComputerConfiguration.studio4VideoConfiguration.xScale, 192*zoom), zoom, currentComputerConfiguration.studio4VideoConfiguration.xScale, currentComputerConfiguration.studio4VideoConfiguration.videoNumber, VIDEOSTUDIOIV, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.bootstrapConfiguration.type);
+        st4VideoPointer = new PixieStudioIV(p_Main->getRunningComputerText(), p_Main->getSt4Pos(), wxSize(64*zoom*currentComputerConfiguration.studio4VideoConfiguration.xScale, 192*zoom), zoom, currentComputerConfiguration.studio4VideoConfiguration.xScale, currentComputerConfiguration.studio4VideoConfiguration.videoNumber, VIDEOSTUDIOIV, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.cdp1864Configuration, currentComputerConfiguration.bootstrapConfiguration.type);
         p_Video[currentComputerConfiguration.studio4VideoConfiguration.videoNumber] = st4VideoPointer;
         if (currentComputerConfiguration.studio4VideoConfiguration.startRam != -1 && currentComputerConfiguration.studio4VideoConfiguration.endRam != -1)
             defineMemoryType(currentComputerConfiguration.studio4VideoConfiguration.startRam, currentComputerConfiguration.studio4VideoConfiguration.endRam, COLOURRAMST4);
@@ -7193,7 +7492,7 @@ void Computer::configureVideoExtensions()
     if (currentComputerConfiguration.vip2KVideoConfiguration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.vip2KVideoConfiguration.videoNumber);
-        vip2KVideoPointer = new PixieVip2K(p_Main->getRunningComputerText(), p_Main->getVip2KPos(), wxSize(64*zoom*currentComputerConfiguration.vip2KVideoConfiguration.xScale, 192*zoom), zoom, currentComputerConfiguration.vip2KVideoConfiguration.xScale, currentComputerConfiguration.vip2KVideoConfiguration.videoNumber, VIDEOVIP2K, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.bootstrapConfiguration.type);
+        vip2KVideoPointer = new PixieVip2K(p_Main->getRunningComputerText(), p_Main->getVip2KPos(), wxSize(64*zoom*currentComputerConfiguration.vip2KVideoConfiguration.xScale, 192*zoom), zoom, currentComputerConfiguration.vip2KVideoConfiguration.xScale, currentComputerConfiguration.vip2KVideoConfiguration.videoNumber, VIDEOVIP2K, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.cdp1864Configuration, currentComputerConfiguration.bootstrapConfiguration.type);
         p_Video[currentComputerConfiguration.vip2KVideoConfiguration.videoNumber] = vip2KVideoPointer;
         p_Computer->readIntelFile(currentComputerConfiguration.vip2KVideoConfiguration.sequencerDirectory + currentComputerConfiguration.vip2KVideoConfiguration.sequencerFile, &sequencerMemory, 2048);
         vip2KVideoPointer->configureVip2K(currentComputerConfiguration.vip2KVideoConfiguration);
@@ -7205,7 +7504,7 @@ void Computer::configureVideoExtensions()
     if (currentComputerConfiguration.fredVideoConfiguration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.fredVideoConfiguration.videoNumber);
-        fredVideoPointer = new PixieFred(p_Main->getRunningComputerText(), p_Main->getFredPos(), wxSize(192*zoom*currentComputerConfiguration.fredVideoConfiguration.xScale, 128*zoom), zoom, currentComputerConfiguration.fredVideoConfiguration.xScale, currentComputerConfiguration.fredVideoConfiguration.videoNumber, VIDEOFRED, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.bootstrapConfiguration.type);
+        fredVideoPointer = new PixieFred(p_Main->getRunningComputerText(), p_Main->getFredPos(), wxSize(192*zoom*currentComputerConfiguration.fredVideoConfiguration.xScale, 128*zoom), zoom, currentComputerConfiguration.fredVideoConfiguration.xScale, currentComputerConfiguration.fredVideoConfiguration.videoNumber, VIDEOFRED, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.cdp1864Configuration, currentComputerConfiguration.bootstrapConfiguration.type);
         p_Video[currentComputerConfiguration.fredVideoConfiguration.videoNumber] = fredVideoPointer;
         fredVideoPointer->configureFredVideo(currentComputerConfiguration.fredVideoConfiguration);
         fredVideoPointer->initPixie();
@@ -7291,6 +7590,7 @@ void Computer::configureV1870Extension()
         defineMemoryType(0xf400, 0xf7ff, CRAM1870);
         defineMemoryType(0xf800, 0xffff, PRAM1870);
         vis1870Pointer->Show(true);
+        visRunning_ = true;
     }
 }
 
@@ -7606,8 +7906,8 @@ void Computer::moveWindows()
         sn76430nPointer->Move(p_Main->getSN76430NPos());
     if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
         vtPointer->Move(p_Main->getVtPos());
-    for (int num=0; num<numberOfCdp1851Frames_; num++)
-        cdp1851FramePointer[num]->Move(p_Main->getCdp1851Pos(num));
+    for (int num=0; num<numberOfCdp1851Instances_; num++)
+        cdp1851InstancePointer[num]->Move(p_Main->getCdp1851Pos(num));
     for (int num=0; num<numberOfCdp1852Frames_; num++)
         cdp1852FramePointer[num]->Move(p_Main->getCdp1852Pos(num));
     for (int num=0; num<numberOfFrontPanels_; num++)
@@ -7648,7 +7948,7 @@ void Computer::updateTitle(wxString Title)
 
 void Computer::releaseButtonOnScreen1851(HexButton* buttonPointer, int WXUNUSED(buttonType), int pioNumber)
 {
-    cdp1851FramePointer[pioNumber]->releaseButtonOnScreen(buttonPointer);
+    cdp1851InstancePointer[pioNumber]->releaseButtonOnScreen(buttonPointer);
 }
 
 void Computer::releaseButtonOnScreen1852(HexButton* buttonPointer, int WXUNUSED(buttonType), int pioNumber)
@@ -7658,9 +7958,9 @@ void Computer::releaseButtonOnScreen1852(HexButton* buttonPointer, int WXUNUSED(
 
 void Computer::showCdp1851(int pioNumber, bool state)
 {
-    cdp1851FramePointer[pioNumber]->Show(state);
+    cdp1851InstancePointer[pioNumber]->Show(state);
     if (state)
-        cdp1851FramePointer[pioNumber]->refreshLeds();
+        cdp1851InstancePointer[pioNumber]->refreshLeds();
 }
 
 void Computer::showCdp1852(int pioNumber, bool state)
@@ -7823,8 +8123,8 @@ void Computer::setLedMs(long ms)
 {
     ledTimeMs_ = ms;
     setLedMsTemp(ms);
-    for (int num=0; num<numberOfCdp1851Frames_; num++)
-        cdp1851FramePointer[num]->setLedMs(ms);
+    for (int num=0; num<numberOfCdp1851Instances_; num++)
+        cdp1851InstancePointer[num]->setLedMs(ms);
     for (int num=0; num<numberOfCdp1852Frames_; num++)
         cdp1852FramePointer[num]->setLedMs(ms);
 }
@@ -7838,6 +8138,12 @@ void Computer::setLedMsTemp(long ms)
     else
         ledCycleSize_ = (((computerClockSpeed_ * 1000000) / 8) / 1000) * ms;
     ledCycleValue_ = ledCycleSize_;
+}
+
+void Computer::setMathLed(int i, int status)
+{
+    for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+        panelPointer[frontPanel]->setMathLed(i, status);
 }
 
 Byte Computer::getKey(Byte vtOut)
@@ -9896,7 +10202,7 @@ void Computer::startRecording(int tapeNumber)
     tapeRecording_ = p_Main->startSaveCont(tapeNumber, tapeCounter_);
 }
 
-void Computer::finishStopTape()
+void Computer::finishStopTape(bool loadDelay)
 {
     if (currentComputerConfiguration.addressLocationConfiguration.code_end_high != -1 && currentComputerConfiguration.addressLocationConfiguration.code_end_low != -1)
     {
@@ -9913,7 +10219,8 @@ void Computer::finishStopTape()
     tapeRecording_ = false;
     tapeEnd_ = true;
     cassetteEf_ = 0;
-    tapeFinished_ = (currentComputerConfiguration.swTapeConfiguration.endDelay * sampleRate_) / 1000;
+    if (loadDelay)
+        tapeFinished_ = (currentComputerConfiguration.swTapeConfiguration.endDelay * sampleRate_) / 1000;
     p_Main->eventUpdateVipIILedStatus(BAR_LED_TAPE, cassetteEf_ != 0);
 }
 
@@ -9937,7 +10244,7 @@ void Computer::resetTape()
         {
             p_Computer->stopTape();
             p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
-            finishStopTape();
+            finishStopTape(false);
         }
     }
 }
@@ -10024,6 +10331,14 @@ void Computer::setTempo(int tempo)
     soundTempoCycleSize_ = (int) (((computerClockSpeed_ * 1000000) / 8) / tempo);
 }
 
+bool Computer::ioGroupCdp1870(int ioGroup, int qState)
+{
+    if (currentComputerConfiguration.vis1870Configuration.defined && visRunning_)
+        return vis1870Pointer->ioGroupCdp1870(ioGroup, qState);
+    else
+        return false;
+}
+
 void Computer::onBackupYes(wxString dir, bool sub)
 {
     deleteAllBackup(dir, sub);
@@ -10097,8 +10412,11 @@ void Computer::readDebugFile(wxString dir, wxString name, wxString number, Word 
     
     if (wxFile::Exists(dir+name))
     {
+#ifdef __WXMSW__
         auto_ptr<wxZipEntry> entry;
-
+#else
+        unique_ptr<wxZipEntry> entry;
+#endif
         wxFFileInputStream in(dir+name);
         wxZipInputStream zip(in);
 

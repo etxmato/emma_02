@@ -59,6 +59,7 @@ public:
     void configureIde(wxString ideFile1, wxString ideFile2, IdeConfiguration ideConfiguration);
     void setIdeDiskname(int disk, wxString fileName);
     void initializeIde(wxString ideFile);
+    bool initializeIde(wxString ideFile, wxString extension);
     Byte inIde();
     void outIde(Byte value);
     void selectIdeRegister(Byte value);
@@ -72,8 +73,13 @@ private:
     void readSector();
     void readId();
     void setGeometry(int cyl,int hd,int sc);
-    void writeIdeRegister(int reg,Word value);
+    void writeIdeRegister(int reg, Word value);
+    void writeSectorBuffer(Word value);
+    void setFeatures(Byte value);
+    void setCommand(Byte value);
+    void setDeviceControl(Byte value);
     Word readIdeRegister(int reg);
+    Word readSectorBuffer();
     void onCommand();
 
     DriveGeometry geometry_[2];
@@ -83,18 +89,19 @@ private:
 
     Byte sectorBuffer_[512];
     Word bufferPosition_;
-    Byte error_;
     Byte sectorCount_;
     Byte startSector_;
     Word cylinder_;
-    Byte headDevice_;
-    Byte status_;
     Byte command_;
     Byte activeStatus_;
-    Byte inter_;
     int registerSelect_;
-    Byte dataMode_;
+    bool dataMode16bit_;
     long ideCycles_;
+    
+    bitset<8> statusRegister_;
+    bitset<8> deviceHeadRegister_;
+    bitset<8> errorRegister_;
+    bitset<8> deviceControlRegister_;
 };
 
 #endif  // IDE_H

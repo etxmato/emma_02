@@ -30,13 +30,13 @@
 </object>
 </object>
 </object>
-<object class="wxMenu" name="Re_Install">
+<object class="wxMenu" name="Re-install">
 <label>Re-install</label>
-<object class="wxMenuItem" name="MI_ReInstallConfig">
-<label>Configuration Files</label>
-</object>
 <object class="wxMenuItem" name="MI_ReInstallData">
 <label>1802 Software Files</label>
+</object>
+<object class="wxMenuItem" name="MI_ReInstallXml">
+<label>XML Files</label>
 </object>
 </object>
 <object class="wxMenuItem" name="MI_DataDir">
@@ -885,6 +885,13 @@
 <label>0 Files selected </label>
 </object>
 </object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="ComputerBottomLeft">
+<label> </label>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -1552,8 +1559,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>6</border>
 <object class="wxStaticText" name="ZoomTextVtXml">
 <font>
 <size>12</size>
@@ -1694,6 +1701,72 @@
 </object>
 </object>
 </object>
+<object class="sizeritem">
+<flag>wxGROW|wxTOP</flag>
+<border>24</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>2</border>
+<object class="wxStaticText" name="clockText">
+<font>
+<size>12</size>
+</font>
+<label>Clock: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALL</flag>
+<border>2</border>
+<object class="wxTextCtrl" name="clockTextCtrl" subclass="FloatEdit">
+<size>36,-1d</size>
+<font>
+<size>12</size>
+</font>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>8</border>
+<object class="wxStaticText" name="mhzText">
+<font>
+<size>12</size>
+</font>
+<label>MHz </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>2</border>
+<object class="wxButton" name="stopButton">
+<font>
+<size>12</size>
+</font>
+<enabled>0</enabled>
+<label>Stop</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>2</border>
+<object class="wxButton" name="startButton">
+<font>
+<size>12</size>
+</font>
+<label>Start</label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
+<border>0</border>
+<object class="wxStaticText" name="ComputerBottomRight">
+<size>-1,1d</size>
+<label> </label>
+</object>
+</object>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -1723,7 +1796,7 @@
 <flag>wxALIGN_TOP|wxALL</flag>
 <border>0</border>
 <object class="wxStaticBitmap" name="AssBitmap">
-<size>152,214d</size>
+<size>162,-1d</size>
 <bg>#000000</bg>
 </object>
 </object>
@@ -2763,7 +2836,7 @@
 <flag>wxALIGN_TOP|wxALL</flag>
 <border>0</border>
 <object class="wxStaticBitmap" name="ProfilerBitmap">
-<size>262,178d</size>
+<size>262,-1d</size>
 <bg>#000000</bg>
 </object>
 </object>
@@ -3279,7 +3352,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="MEM00" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3292,7 +3365,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="MEM01" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3305,7 +3378,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="MEM02" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3318,7 +3391,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="MEM03" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3331,7 +3404,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="MEM04" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3344,7 +3417,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="MEM05" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3357,7 +3430,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="MEM06" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3370,7 +3443,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="MEM07" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3383,7 +3456,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="MEM08" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3396,7 +3469,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM09" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3409,7 +3482,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM0A" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3422,7 +3495,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM0B" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3435,7 +3508,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM0C" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3448,7 +3521,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM0D" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3461,7 +3534,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM0E" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3474,7 +3547,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM0F" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3512,7 +3585,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM10" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3525,7 +3598,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM11" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3538,7 +3611,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM12" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3551,7 +3624,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM13" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3564,7 +3637,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM14" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3578,7 +3651,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM15" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3591,7 +3664,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM16" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3604,7 +3677,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM17" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3617,7 +3690,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM18" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3630,7 +3703,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM19" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3643,7 +3716,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM1A" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3656,7 +3729,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM1B" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3669,7 +3742,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM1C" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3682,7 +3755,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM1D" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3695,7 +3768,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM1E" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3708,7 +3781,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM1F" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3746,7 +3819,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM20" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3759,7 +3832,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM21" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3772,7 +3845,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM22" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3785,7 +3858,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM23" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3798,7 +3871,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM24" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3811,7 +3884,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM25" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3824,7 +3897,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM26" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3837,7 +3910,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM27" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3850,7 +3923,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM28" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3863,7 +3936,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM29" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3876,7 +3949,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM2A" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3889,7 +3962,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM2B" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3902,7 +3975,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM2C" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3915,7 +3988,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM2D" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3928,7 +4001,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM2E" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3941,7 +4014,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM2F" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3979,7 +4052,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM30" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -3992,7 +4065,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM31" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4005,7 +4078,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM32" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4018,7 +4091,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM33" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4031,7 +4104,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM34" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4044,7 +4117,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM35" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4057,7 +4130,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM36" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4070,7 +4143,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM37" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4083,7 +4156,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM38" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4096,7 +4169,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM39" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4109,7 +4182,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM3A" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4122,7 +4195,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM3B" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4135,7 +4208,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM3C" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4148,7 +4221,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM3D" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4161,7 +4234,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM3E" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4174,7 +4247,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM3F" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4212,7 +4285,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM40" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4225,7 +4298,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM41" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4238,7 +4311,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM42" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4251,7 +4324,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM43" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4264,7 +4337,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM44" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4277,7 +4350,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM45" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4290,7 +4363,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM46" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4303,7 +4376,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM47" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4316,7 +4389,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM48" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4329,7 +4402,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM49" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4342,7 +4415,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM4A" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4355,7 +4428,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM4B" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4368,7 +4441,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM4C" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4381,7 +4454,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM4D" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4394,7 +4467,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM4E" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4407,7 +4480,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM4F" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4445,7 +4518,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM50" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4458,7 +4531,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM51" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4471,7 +4544,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM52" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4484,7 +4557,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM53" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4497,7 +4570,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM54" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4510,7 +4583,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM55" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4523,7 +4596,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM56" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4536,7 +4609,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM57" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4549,7 +4622,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM58" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4562,7 +4635,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM59" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4575,7 +4648,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM5A" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4588,7 +4661,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM5B" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4601,7 +4674,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM5C" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4614,7 +4687,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM5D" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4627,7 +4700,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM5E" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4640,7 +4713,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM5F" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4678,7 +4751,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM60" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4691,7 +4764,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM61" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4704,7 +4777,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM62" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4717,7 +4790,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM63" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4730,7 +4803,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM64" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4743,7 +4816,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM65" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4756,7 +4829,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM66" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4769,7 +4842,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM67" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4782,7 +4855,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM68" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4795,7 +4868,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM69" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4808,7 +4881,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM6A" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4821,7 +4894,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM6B" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4834,7 +4907,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM6C" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4847,7 +4920,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM6D" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4860,7 +4933,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM6E" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4873,7 +4946,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM6F" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4911,7 +4984,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM70" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4924,7 +4997,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM71" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4937,7 +5010,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM72" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4950,7 +5023,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM73" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4963,7 +5036,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM74" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4976,7 +5049,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM75" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -4989,7 +5062,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM76" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5002,7 +5075,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM77" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5015,7 +5088,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM78" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5028,7 +5101,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM79" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5041,7 +5114,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM7A" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5054,7 +5127,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM7B" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5067,7 +5140,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM7C" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5080,7 +5153,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM7D" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5093,7 +5166,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM7E" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5106,7 +5179,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM7F" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5144,7 +5217,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM80" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5157,7 +5230,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM81" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5170,7 +5243,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM82" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5183,7 +5256,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM83" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5196,7 +5269,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM84" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5209,7 +5282,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM85" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5222,7 +5295,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM86" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5235,7 +5308,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM87" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5248,7 +5321,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM88" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5261,7 +5334,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM89" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5274,7 +5347,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM8A" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5287,7 +5360,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM8B" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5300,7 +5373,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM8C" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5313,7 +5386,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM8D" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5326,7 +5399,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM8E" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5339,7 +5412,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM8F" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5377,7 +5450,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM90" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5390,7 +5463,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM91" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5403,7 +5476,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM92" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5416,7 +5489,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM93" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5429,7 +5502,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM94" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5442,7 +5515,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM95" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5455,7 +5528,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM96" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5468,7 +5541,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM97" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5481,7 +5554,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM98" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5494,7 +5567,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM99" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5507,7 +5580,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM9A" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5520,7 +5593,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM9B" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5533,7 +5606,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM9C" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5546,7 +5619,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM9D" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5559,7 +5632,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM9E" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5572,7 +5645,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEM9F" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5610,7 +5683,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMA0" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5623,7 +5696,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMA1" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5636,7 +5709,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMA2" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5649,7 +5722,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMA3" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5662,7 +5735,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMA4" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5675,7 +5748,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMA5" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5688,7 +5761,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMA6" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5701,7 +5774,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMA7" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5714,7 +5787,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMA8" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5727,7 +5800,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMA9" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5740,7 +5813,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMAA" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5753,7 +5826,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMAB" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5766,7 +5839,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMAC" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5779,7 +5852,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMAD" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5792,7 +5865,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMAE" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5805,7 +5878,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMAF" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5843,7 +5916,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMB0" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5856,7 +5929,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMB1" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5869,7 +5942,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMB2" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5882,7 +5955,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMB3" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5895,7 +5968,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMB4" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5908,7 +5981,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMB5" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5921,7 +5994,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMB6" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5934,7 +6007,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMB7" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5947,7 +6020,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMB8" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5960,7 +6033,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMB9" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5973,7 +6046,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMBA" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5986,7 +6059,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMBB" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -5999,7 +6072,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMBC" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6012,7 +6085,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMBD" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6025,7 +6098,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMBE" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6038,7 +6111,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMBF" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6076,7 +6149,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMC0" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6089,7 +6162,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMC1" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6102,7 +6175,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMC2" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6115,7 +6188,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMC3" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6128,7 +6201,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMC4" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6141,7 +6214,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMC5" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6154,7 +6227,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMC6" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6167,7 +6240,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMC7" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6180,7 +6253,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMC8" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6193,7 +6266,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMC9" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6206,7 +6279,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMCA" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6219,7 +6292,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMCB" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6232,7 +6305,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMCC" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6245,7 +6318,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMCD" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6258,7 +6331,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMCE" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6271,7 +6344,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMCF" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6309,7 +6382,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMD0" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6322,7 +6395,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMD1" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6335,7 +6408,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMD2" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6348,7 +6421,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMD3" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6361,7 +6434,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMD4" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6374,7 +6447,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMD5" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6387,7 +6460,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMD6" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6400,7 +6473,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMD7" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6413,7 +6486,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMD8" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6426,7 +6499,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMD9" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6439,7 +6512,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMDA" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6452,7 +6525,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMDB" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6465,7 +6538,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMDC" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6478,7 +6551,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMDD" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6491,7 +6564,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMDE" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6504,7 +6577,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMDF" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6542,7 +6615,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEME0" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6555,7 +6628,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEME1" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6568,7 +6641,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEME2" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6581,7 +6654,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEME3" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6594,7 +6667,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEME4" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6607,7 +6680,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEME5" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6620,7 +6693,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEME6" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6633,7 +6706,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEME7" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6646,7 +6719,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEME8" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6659,7 +6732,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEME9" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6672,7 +6745,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMEA" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6685,7 +6758,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMEB" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6698,7 +6771,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMEC" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6711,7 +6784,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMED" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6724,7 +6797,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMEE" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6737,7 +6810,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMEF" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6775,7 +6848,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMF0" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6788,7 +6861,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMF1" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6801,7 +6874,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMF2" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6814,7 +6887,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMF3" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6827,7 +6900,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMF4" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6840,7 +6913,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMF5" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6853,7 +6926,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMF6" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6866,7 +6939,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMF7" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6879,7 +6952,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMF8" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6892,7 +6965,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMF9" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6905,7 +6978,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMFA" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6918,7 +6991,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMFB" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6931,7 +7004,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMFC" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6944,7 +7017,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMFD" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6957,7 +7030,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMFE" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -6970,7 +7043,7 @@
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="MEMFF" subclass="MemEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <font>
 <size>12</size>
 </font>
@@ -7396,7 +7469,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxStaticText" name="DButton">
 <tooltip>Accumulator/data register value</tooltip>
@@ -7423,10 +7496,10 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>5,3d</size>
+<size>2,3d</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxStaticText" name="XButton">
 <tooltip>Data pointer register</tooltip>
@@ -7453,10 +7526,10 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>5,3d</size>
+<size>2,3d</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxStaticText" name="PButton">
 <tooltip>Program counter register</tooltip>
@@ -7483,10 +7556,10 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>5,3d</size>
+<size>2,3d</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxStaticText" name="TButton">
 <tooltip>Temporary register value (old X, P after interrupt)</tooltip>
@@ -7513,10 +7586,10 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>5,3d</size>
+<size>2,3d</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxStaticText" name="BButton">
 <tooltip>Temporary register B</tooltip>
@@ -7643,13 +7716,13 @@
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <flag>wxALIGN_BOTTOM|wxRIGHT|wxTOP</flag>
-<border>6</border>
+<border>2</border>
 <object class="wxStaticBoxSizer" name="wxID_ANY">
 <orient>wxHORIZONTAL</orient>
 <label>I/O Ports</label>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>6</border>
+<border>2</border>
 <object class="wxFlexGridSizer">
 <cols>4</cols>
 <rows>7</rows>
@@ -7682,8 +7755,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
 <object class="wxStaticText" name="O1Text">
 <font>
 <size>12</size>
@@ -7734,8 +7807,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
 <object class="wxStaticText" name="O2Text">
 <font>
 <size>12</size>
@@ -7786,8 +7859,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
 <object class="wxStaticText" name="O3Text">
 <font>
 <size>12</size>
@@ -7838,8 +7911,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
 <object class="wxStaticText" name="O4Text">
 <font>
 <size>12</size>
@@ -7890,8 +7963,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
 <object class="wxStaticText" name="O5Text">
 <font>
 <size>12</size>
@@ -7942,8 +8015,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
 <object class="wxStaticText" name="O6Text">
 <font>
 <size>12</size>
@@ -7994,8 +8067,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>4</border>
 <object class="wxStaticText" name="O7Text">
 <font>
 <size>12</size>
@@ -8025,13 +8098,13 @@
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_BOTTOM|wxLEFT|wxRIGHT|wxTOP</flag>
-<border>6</border>
+<border>2</border>
 <object class="wxStaticBoxSizer" name="wxID_ANY">
 <orient>wxVERTICAL</orient>
 <label>Flags</label>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-<border>6</border>
+<border>2</border>
 <object class="wxFlexGridSizer">
 <cols>2</cols>
 <rows>7</rows>
@@ -8230,8 +8303,8 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_BOTTOM|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_BOTTOM|wxLEFT|wxRIGHT</flag>
+<border>2</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
@@ -8240,7 +8313,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
 <border>6</border>
 <object class="wxStaticText" name="PercentageClockText">
 <font>
@@ -8269,14 +8342,14 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
+<flag>wxALIGN_LEFT</flag>
 <border>6</border>
 <object class="wxStaticBoxSizer" name="wxID_ANY">
 <orient>wxVERTICAL</orient>
 <label>Registers</label>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-<border>6</border>
+<border>2</border>
 <object class="wxFlexGridSizer">
 <cols>4</cols>
 <rows>8</rows>
@@ -9091,7 +9164,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxListCtrl" name="BreakPointWindow" subclass="CheckBoxListCtrl">
-<size>57,61d</size>
+<size>57,101d</size>
 <font>
 <size>12</size>
 <face>Courier New</face>
@@ -9119,7 +9192,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxListCtrl" name="TregWindow" subclass="CheckBoxListCtrl">
-<size>62,61d</size>
+<size>62,101d</size>
 <font>
 <size>12</size>
 <face>Courier New</face>
@@ -9147,7 +9220,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxListCtrl" name="TrapWindow" subclass="CheckBoxListCtrl">
-<size>69,61d</size>
+<size>69,101d</size>
 <font>
 <size>12</size>
 <face>Courier New</face>
@@ -9345,7 +9418,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="DebugCallReg" subclass="HexEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <tooltip>Call register</tooltip>
 <font>
 <size>12</size>
@@ -9357,7 +9430,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="DebugCallAddress" subclass="HexEdit">
-<size>36,-1d</size>
+<size>27,-1d</size>
 <tooltip>Call address</tooltip>
 <font>
 <size>12</size>
@@ -9380,7 +9453,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="DebugRetReg" subclass="HexEdit">
-<size>14,-1d</size>
+<size>12,-1d</size>
 <tooltip>Return register</tooltip>
 <font>
 <size>12</size>
@@ -9392,7 +9465,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="DebugRetAddress" subclass="HexEdit">
-<size>36,-1d</size>
+<size>27,-1d</size>
 <tooltip>Return address</tooltip>
 <font>
 <size>12</size>
@@ -9415,7 +9488,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="TraceWindow">
-<size>137,212d</size>
+<size>139,208d</size>
 <tooltip>Window showing trace results</tooltip>
 <font>
 <size>12</size>
@@ -10057,7 +10130,7 @@
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxALL</flag>
-<border>6</border>
+<border>0</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
@@ -10079,18 +10152,6 @@
 </font>
 <style>wxALIGN_LEFT</style>
 <label>Break Points: </label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP</flag>
-<border>2</border>
-<object class="wxListCtrl" name="Chip8BreakPointWindow" subclass="CheckBoxListCtrl">
-<size>51,74d</size>
-<font>
-<size>12</size>
-<face>Courier New</face>
-</font>
-<style>wxLC_SMALL_ICON|wxLC_EDIT_LABELS|wxLC_SINGLE_SEL|wxSUNKEN_BORDER</style>
 </object>
 </object>
 </object>
@@ -10134,6 +10195,18 @@
 </object>
 </object>
 </object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxTOP</flag>
+<border>2</border>
+<object class="wxListCtrl" name="Chip8BreakPointWindow" subclass="CheckBoxListCtrl">
+<size>115,112d</size>
+<font>
+<size>12</size>
+<face>Courier New</face>
+</font>
+<style>wxLC_SMALL_ICON|wxLC_EDIT_LABELS|wxLC_SINGLE_SEL|wxSUNKEN_BORDER</style>
 </object>
 </object>
 </object>
@@ -10249,7 +10322,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="Chip8TraceWindow">
-<size>200,228d</size>
+<size>212,241d</size>
 <tooltip>Window showing Chip 8 trace results</tooltip>
 <font>
 <size>12</size>
@@ -10289,7 +10362,7 @@
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
 <object class="wxTextCtrl" name="Message_Window">
-<size>327,190d</size>
+<size>329,274d</size>
 <font>
 <size>12</size>
 </font>

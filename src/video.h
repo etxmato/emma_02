@@ -125,10 +125,10 @@ public:
     void drawPointMutex(wxCoord x, wxCoord y);
     void splashScreen();
  
-    Byte readPramDirect(Word address);
-    virtual Byte readCramDirect(Word address);
-    virtual void writeCramDirect(Word address, Byte v);
-    void writePramDirect(Word address, Byte v);
+    virtual Byte readPramDirect(Word WXUNUSED(address)) {return 0;};
+    virtual Byte readCramDirect(Word WXUNUSED(address)) {return 0;};
+    virtual void writeCramDirect(Word WXUNUSED(address), Byte WXUNUSED(v)) {};
+    virtual void writePramDirect(Word WXUNUSED(address), Byte WXUNUSED(v)) {};
     Word getPageMemorySize()  {return pageMemorySize_;};
     Word getCharMemorySize()  {return charMemorySize_;};
     Word getGraphicMemorySize()  {return graphicMemorySize_;};

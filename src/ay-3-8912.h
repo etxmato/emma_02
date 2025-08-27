@@ -2,6 +2,7 @@
 #define AY_3_8912_H
 
 #define MAX_AY 2
+#define MAX_REGISTER 16
 #define TONE_MAX 6
 
 class AY_3_8912Instance
@@ -23,6 +24,7 @@ private:
     Byte selectedRegister_;
     int ayNumber_;
     
+    Byte registerValue_[MAX_AY][MAX_REGISTER];
     bool portTypeInputA_[MAX_AY];
     Byte portValueA_[MAX_AY];
 

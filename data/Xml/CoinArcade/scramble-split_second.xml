@@ -56,9 +56,11 @@
         <ef4 type="reset" in="6">67</ef4>
     </efbuttons>
     
-    <keypad type="bit" pad="a">
+    <keypad type="bit" pad="a" keys="10">
         <in>6</in>
         <pressed>1</pressed>
+        <default>studiodefault</default>
+
         <bit key="314">0</bit>    <!-- A left-->
         <bit key="315">1</bit>    <!-- A Up-->
         <bit key="316">2</bit>    <!-- A Right-->

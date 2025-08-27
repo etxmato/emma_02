@@ -8,7 +8,7 @@ class EmmaStatusBar : public wxStatusBar
 {
 public:
     EmmaStatusBar(wxWindow *parent);
-    ~EmmaStatusBar();
+     ~EmmaStatusBar();
 
     virtual void init(bool WXUNUSED(expansionConfiguration_defined)) {};
     virtual void configure(int WXUNUSED(ledOut)) {};

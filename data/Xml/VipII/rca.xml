@@ -8,14 +8,22 @@
         <config>RCA version</config>
         <clock>1.7898</clock>
         <boot>0</boot>
-        <f12>stop</f12>
         <init ef="1">1</init>
         <init ef="2">1</init>
         <init ef="3">1</init>
         <init ef="4">1</init>
+        <f12>stop</f12>
         <statusbar>vip2</statusbar>
         <dirname>VipII</dirname>
     </system>
+    
+    <modkeys>
+        <mac>cmd</mac>
+        <windows>alt</windows>
+        <linux>alt</linux>
+        <reset>49, 50, 99, 67</reset>
+        <stop>51</stop>
+    </modkeys>
     
     <splash>
         <mac>⌘ 1 (Cmd 1): Fixed Point BASIC&#xD;⌘ 2 (Cmd 2): Boot in RAM&#xD;⌘ 3 (Cmd 3): Halt VIP II&#xD;⌘ C (Cmd C): VIP Operating System&#xD;</mac>

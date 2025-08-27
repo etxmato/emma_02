@@ -1454,7 +1454,7 @@ void Printer::configureThermalPrinter(ThermalPrinterConfiguration thermalPrinter
     p_Computer->setEfType(&thermalPrinterConfiguration.ioGroupVector, thermalPrinterConfiguration.ef, "busy");
     p_Computer->setCycleType(CYCLE_TYPE_PRINT, THERMAL_PRINTER_CYCLE);
 
-    printBuffer.Printf("	Q = mode\n");
+    p_Main->message("	Q = mode\n");
 }
 
 void Printer::configureBasicPrinter(BasicPrinterConfiguration basicPrinterConfiguration)
@@ -1617,7 +1617,7 @@ void Printer::printerOut(Byte value)
                 p_Computer->sleepComputer(1000);
         }
 
-        if (value == 0xd)
+        if (value == 0xd || value == 0xa)
         {
             printerFramePointer->matrixLine(line_);
             line_ = "";

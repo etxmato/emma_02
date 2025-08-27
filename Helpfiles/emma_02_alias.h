@@ -1,4 +1,4 @@
 General=GeneralMain.htm
-Syntax=MachineCodeSyntax.htm
-Syntax=PseudoCodeSyntax.htm
-Syntax=XMLCodeSyntax.htm
+Syntax=MainMachineCodeSyntax.htm
+Syntax=MainPseudoCodeSyntax.htm
+Syntax=MainXMLCodeSyntax.htm

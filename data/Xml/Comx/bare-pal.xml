@@ -150,6 +150,29 @@
             <code_start>0x4400</code_start>
             <code_end>0x53FF</code_end>
         </assembler>
+
+        <sep reg="0xD" address="0x3303" byte_pre_mask="0xff" byte_pre_value="0x1d" bytes="2">
+            <string>CALL 32</string>
+            <byte_pc />
+        </sep>
+
+        <sep reg="0xD" address="0x3302" byte_pc_mask="0x80" byte_pc_value="0x80" bytes="2">
+            <string>LD   M(</string>
+            <byte_value>0x42</byte_value>
+            <byte_pc />
+            <string>)</string>
+            <string_exec>=</string_exec>
+            <word_get_address_data>0</word_get_address_data>
+        </sep>
+        
+        <sep reg="0xD" address="0x3302" byte_pc_mask="0x80" byte_pc_value="0" bytes="2">
+            <string>STR  M(42</string>
+            <byte_pc>0x80</byte_pc>
+            <string>)</string>
+            <string_exec>=</string_exec>
+            <d />
+        </sep>
+
     </debugger>
 
 </emmaconfig>

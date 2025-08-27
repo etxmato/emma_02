@@ -4,7 +4,7 @@
 <body>
 <h1>Emma 02</h1>
 <p>
-The Emma 02 emulator is able to emulate multiple computers all based on the <a href="Main1802.htm">RCA 1802</a> microprocessor. Additional information can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
+The Emma 02 emulator is able to emulate multiple computers all based on the <a href="Main1802.htm">RCA 1802</a> microprocessor. 
 </p>
 <p>
 The GUI includes different tabs, to switch between these select the desired tab (highlighted in yellow) as shown in screenshot below.
@@ -13,7 +13,8 @@ The GUI includes different tabs, to switch between these select the desired tab 
 <IMG SRC="images/main_tab.png" border="0" width="443" height ="376">
 </p> 
 <p>
-The sections below describe the fucntion of each tab. 
+The sections below describe the funcions for each tab. For information how certain computers work, have a look at my <a href="http://www.emma02.hobby-site.com">Emma 02</a> site in the 'Computers
+ List' section. Some details how certain things are emulated can be found in the <a href="FaqMain.htm">FAQ</a>.
 </p>
 <p>
 See section <a href="GeneralMain.htm">General</a> for:
@@ -24,22 +25,25 @@ See section <a href="GeneralMain.htm">General</a> for:
 <li><a href="FaqMain.htm">FAQ</a>
 <li><a href="MenuMain.htm">Global Settings & Menu</a>
 <li><a href="MainFile.htm">Directory and File Structure</a>
-<li><a href="MainConfigurations.htm">Configuration</a>
-<li><a href="MachineCodeSyntax.htm">Machine Code Syntax</a>
-<li><a href="PseudoCodeSyntax.htm">Pseudo Code Syntax</a>
-<li><a href="XMLCodeSyntax.htm">XML Code Syntax</a>
+<li><a href="MainConfigurations.htm">XML Configurations</a>
+<li><a href="MainMachineCodeSyntax.htm">Machine Code Syntax</a>
+<li><a href="MainPseudoCodeSyntax.htm">Pseudo Code Syntax</a>
+<li><a href="MainXMLCodeSyntax.htm">XML Code Syntax</a>
 <li><a href="MainFunctionKeys.htm">Function and Hot Keys</a>
 <li><a href="MainWindow.htm">Window Settings</a>
 <li><a href="MainCommandLine.htm">Command Line</a>
+<li><a href="MainKeyMappingDefault.htm">Default Keyboard</a>
+<li><a href="MainComxSb.htm">COMX SuperBoard</a>
+<li><a href="MainSuperBasic.htm">Quest Super BASIC</a>
 </ul>
 </p>
-<h2><a href="ComputerMain.htm">Computer</a></h2>
+<h2>Computer</h2>
 <p>
-The main tab where the emulated computer can be configured (by selecting pre-configured XML files), adjusted, controlled and started.
+The main tab where the emulated <a href="ComputerMain.htm">Computer</a> can be configured (by selecting pre-configured XML files), adjusted, controlled and started.
 </p>
-<h2><a href="DirectMain.htm">Direct Assembler</a></h2>
+<h2>Direct Assembler</h2>
 <p>
-A powerful assembler and disassembler, which depending on the running computer handles any 180x related code (SYSTEM00, 1801, 1802, 1804 and 1805/1806) as well as multiple pseudo code variants (Chip-8, Super-chip, ST2, ST4 etc.). See also the <a href="SyntaxMain.htm">Syntax</a> section for specification of the accepted syntax. 
+A powerful <a href="DirectMain.htm">Direct Assembler</a> (and disassembler), which depending on the running computer handles any 180x related code (SYSTEM00, 1801, 1802, 1804 and 1805/1806) as well as multiple pseudo code variants (Chip-8, Super-chip, ST2, ST4 etc.). See also the <a href="SyntaxMain.htm">Syntax</a> section for specification of the accepted syntax. 
 </p>
 <p>
 The assembler can be used for writing anything from small pieces of software to larger projects. The complete COMX Super Board FW was written using the Emma 02 assembler. 
@@ -48,17 +52,21 @@ The assembler can be used for writing anything from small pieces of software to 
 The Direct Assembler is very powerful for debugging and patching existing code. See also the <a href="DirectExistingCode.htm">Debugging Existing Code - Example</a> for a short 'how-to'.
 </p>
 <p>
-<h2><a href="ProfilerMain.htm">Profiler</a></h2>
+<h2>Profiler</h2>
 <p>
-Main purpose of the Profiler is to find hot code spots, dead code, analyse code & test coverage as well as analyse timing for the running computer and CPU. 
+Main purpose of the <a href="ProfilerMain.htm">Profiler</a> is to find hot code spots, dead code, analyse code & test coverage as well as analyse timing for the running computer and CPU. 
 </p>
-<h2><a href="DumpMain.htm">Memory Dump</a></h2>
+<h2>Memory Dump</h2>
 <p>
-The Memory Dump shows an overview of one page (256 bytes) of memory, shown in hexadecimal format. Next to options to show regular and video memory it is also possible to show what type of memory (RAM, ROM, video etc) is connect or see an overview of the profile counters.
+The <a href="DumpMain.htm">Memory Dump</a> shows an overview of one page (256 bytes) of memory, shown in hexadecimal format. Next to options to show regular and video memory it is also possible to show what type of memory (RAM, ROM, video etc) is connect or see an overview of the profile counters.
 </p>
-<h2><a href="DebuggerMain.htm">Debugger</a></h2>
+<h2>Debugger</h2>
 <p>
-The debugger will (among other things) allow you to trace code, set break points or check specific register values. Two debugger tabs are available one for the <a href="DebuggerTrace.htm">1802</a> and one for <a href="DebuggerChip8.htm">pseudo</a> code.
+The <a href="DebuggerMain.htm">Debugger</a>, will (among other things) allow you to trace code, set break points or check specific register values. Two debugger tabs are available one for the <a href="DebuggerTrace.htm">1802</a> and one for <a href="DebuggerChip8.htm">pseudo</a> code.
+</p>
+<h2>Configuration</h2>
+<p>
+The Configuration will show the high level configuration for the started computer, including all I/O details.
 </p>
 </body>
 </html>
