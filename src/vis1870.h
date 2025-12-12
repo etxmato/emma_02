@@ -24,12 +24,23 @@ public:
     bool ioGroupCdp1870(int ioGroup, int qState);
     void init1870();
     Byte ef1_1870();
+    void setRegisterSelect_1870(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    Byte getRegisterSelect_1870() {return vismacRegisterLatch_;};
+    Word setOutData_1870(Word address, Byte value, int showTrace = SHOW_ADDRESS_TRACE);
     void out2_1870(Byte value);
     void out3_1870(Byte value);
     void out4_1870(Word address);
     void out5_1870(Word address);
     void out6_1870(Word address);
     void out7_1870(Word address);
+    
+    Byte getRegister2(){return vismacColorLatch_;};
+    Byte getRegister3(){return register3_;};
+    Word getRegister4(){return register4_;};
+    Word getRegister5(){return register5_;};
+    Word getRegister6(){return register6_;};
+    Word getRegister7(){return register7_;};
+
     void cycle1870();
     void blink1870();
 
@@ -110,6 +121,8 @@ private:
     Word register5_;
     Word register6_;
     Word register7_;
+
+    Byte vismacRegisterLatch_;
 
     int cmemAccessMode_;
     int charactersPerRow_;

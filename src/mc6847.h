@@ -22,7 +22,13 @@ public:
     void init6847();
     void setMCBit(int bit, int selection);
     void cycle6847();
-    void outMc6847(Byte value);
+    void outMc6847(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    int invBit(int value, int *bitshift, int showTrace = SHOW_ADDRESS_TRACE);
+    int extBit(int value, int *bitshift, int showTrace = SHOW_ADDRESS_TRACE);
+    int cssBit(int value, int *bitshift, int showTrace = SHOW_ADDRESS_TRACE);
+    int asBit(int value, int *bitshift, int showTrace = SHOW_ADDRESS_TRACE);
+    int agBit(int value, int *bitshift, int showTrace = SHOW_ADDRESS_TRACE);
+    void gmBits(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
     void setGraphicMode();
     void copyScreen();
     void drawScreen();
@@ -42,6 +48,7 @@ public:
     bool readCharRomFile(wxString romDir, wxString romFile);
     void setFullScreen(bool fullScreenSet);
     void onF3();
+    int getGraphicModeBit(int number) {return gmBit[number];};
 
 private:
     CharacterList6847 *characterListPointer6847;
@@ -66,7 +73,7 @@ private:
     int cycleSize_;
     int nonDisplay_;
     int updateCharacter_;
-    int graphicMode_;
+    Byte graphicMode_;
     int outLatch_;
 
     int invBit_;
@@ -74,18 +81,13 @@ private:
     int cssBit_;
     int asBit_;
     int agBit_;
-    int gm0Bit_;
-    int gm1Bit_;
-    int gm2Bit_;
+    int gmBit[3];
 
     int inv_;
     int ext_;
     int css_;
     int as_;
     int ag_;
-    int gm0_;
-    int gm1_;
-    int gm2_;
 };
 
 #endif  // MC6847_H

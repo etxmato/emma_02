@@ -65,7 +65,6 @@ Memory::Memory()
                 colorMemory1862_[i] = 0;
                 colorMemory1864_[i] = 0;
             }
-            for (int i=0; i<16383; i++) mc6845ram_[i] = 0;
         break;
             
         case STARTUP_RANDOM:
@@ -74,7 +73,6 @@ Memory::Memory()
                 colorMemory1862_[i] = rand() % 0x100;
                 colorMemory1864_[i] = rand() % 0x100;
             }
-            for (int i=0; i<16383; i++) mc6845ram_[i] = rand() % 0x100;
         break;
             
         case STARTUP_DYNAMIC:
@@ -85,8 +83,6 @@ Memory::Memory()
                 colorMemory1864_[i] = getDynamicByte(i);
             }
             setDynamicRandomByte();
-            for (int i=0; i<16383; i++)
-                mc6845ram_[i] = getDynamicByte(i);
         break;
     }
     

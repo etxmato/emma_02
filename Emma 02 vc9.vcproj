@@ -498,11 +498,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\cdp1862_config.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\cdp1864_config.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\cdp1877.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\src\cdp1878.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\coin_video_config.cpp"
 				>
 			</File>
 			<File
@@ -523,6 +535,10 @@
 			</File>
 			<File
 				RelativePath=".\src\fdc.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\fred_video_config.cpp"
 				>
 			</File>
 			<File
@@ -555,6 +571,10 @@
 			</File>
 			<File
 				RelativePath=".\src\i8275.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\i8275_config.cpp"
 				>
 			</File>
 			<File
@@ -622,7 +642,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\mc6845_config.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\mc6847.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\mc6847_config.cpp"
 				>
 			</File>
 			<File
@@ -643,6 +671,10 @@
 			</File>
 			<File
 				RelativePath=".\src\pixie.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\pixie_config.cpp"
 				>
 			</File>
 			<File
@@ -674,6 +706,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\scn2671.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\scn2672.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\scn2672_config.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\SDL_audioin.c"
 				>
 			</File>
@@ -686,6 +730,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\sn76430n_config.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\sound.cpp"
 				>
 			</File>
@@ -695,6 +743,10 @@
 			</File>
 			<File
 				RelativePath=".\src\statusbar.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\studioiv_video_config.cpp"
 				>
 			</File>
 			<File
@@ -714,6 +766,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\tms9918_config.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\tu58.cpp"
 				>
 			</File>
@@ -730,7 +786,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\video_config.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\vip2k_video_config.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\vis1870.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\vis1870_config.cpp"
 				>
 			</File>
 			<File
@@ -771,6 +839,10 @@
 			</File>
 			<File
 				RelativePath=".\src\wxcurl_thread.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\xmlbase.cpp"
 				>
 			</File>
 			<File
@@ -830,11 +902,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\cdp1862_config.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\cdp1864_config.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\cdp1877.h"
 				>
 			</File>
 			<File
 				RelativePath=".\src\cdp1878.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\coin_video_config.h"
 				>
 			</File>
 			<File
@@ -863,6 +947,10 @@
 			</File>
 			<File
 				RelativePath=".\src\fred.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\fred_video_config.h"
 				>
 			</File>
 			<File
@@ -895,6 +983,10 @@
 			</File>
 			<File
 				RelativePath=".\src\i8275.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\i8275_config.h"
 				>
 			</File>
 			<File
@@ -962,7 +1054,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\mc6845_config.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\mc6847.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\mc6847_config.h"
 				>
 			</File>
 			<File
@@ -983,6 +1083,10 @@
 			</File>
 			<File
 				RelativePath=".\src\pixie.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\pixie_config.h"
 				>
 			</File>
 			<File
@@ -1014,6 +1118,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\scn2671.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\scn2672.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\scn2672_config.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\SDL_audioin.h"
 				>
 			</File>
@@ -1030,6 +1146,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\sn76430n_config.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\sound.h"
 				>
 			</File>
@@ -1039,6 +1159,10 @@
 			</File>
 			<File
 				RelativePath=".\src\statusbar.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\studioiv_video_config.h"
 				>
 			</File>
 			<File
@@ -1058,6 +1182,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\tms9918_config.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\tu58.h"
 				>
 			</File>
@@ -1074,7 +1202,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\video_config.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\vip2k_video_config.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\vis1870.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\vis1870_config.h"
 				>
 			</File>
 			<File
@@ -1115,6 +1255,10 @@
 			</File>
 			<File
 				RelativePath=".\src\wxcurl_thread.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\xmlbase.h"
 				>
 			</File>
 			<File

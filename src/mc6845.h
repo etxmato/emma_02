@@ -18,7 +18,6 @@ public:
     ~MC6845();
 
     void configure6845();
-    void configureSuperVideo();
     void init6845();
     Byte ef6845();
     void cycle6845();
@@ -26,11 +25,11 @@ public:
 
     void setClock(double clock);
     void setCycle();
-    void writeRegister6845(Word addr, Byte value);
-    void writeRegister6845(Byte value);
+    void writeAddressRegister6845(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
     Byte readData6845(Word addr);
     Byte readDataDirect6845(Word addr);
-    void writeData6845(Byte value);
+    void writeData6845(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    void writeRegister6845(Byte regNumber, Byte value, int showTrace = SHOW_ADDRESS_TRACE);
     Byte read6845(Word addr);
     void write6845(Word addr, Byte value);
     Byte read6845CharRom(Word addr);
@@ -51,7 +50,7 @@ public:
 private:
     Mc6845Configuration mc6845Configuration_;
     
-    Byte mc6845ram_[2048];
+    Byte mc6845ram_[16384];
     Byte mc6845CharRom_[2048];
 
     CharacterList6845 *characterListPointer6845;

@@ -754,9 +754,11 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
     {
         for (int i=0; i<8; i++)
         {
-            if (ledOutPointerDefined[output][i])
-                updateOutLed_[output][i] = false;
+            ledOutPointerDefined[output][i] = false;
+            updateOutLed_[output][i] = false;
         }
+        for (int i=0; i<2; i++)
+            tilOutPointerDefined[output][i] = false;
         updateTilOut_[output] = false;
     }
     for (int i=0; i<MAX_ADDRESS_TIL; i++)
@@ -2255,10 +2257,10 @@ void Panel::setOutLeds(int output, Byte value)
     Byte status;
     for (int led=0; led<8; led++)
     {
+        status = value & 1;
+        value = value >> 1;
         if (ledOutPointerDefined[output][led])
         {
-            status = value & 1;
-            value = value >> 1;
             if (ledOutStatus[output][led] != status)
             {
                 ledOutStatus[output][led] = status;

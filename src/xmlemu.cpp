@@ -67,7 +67,6 @@ BEGIN_EVENT_TABLE(Computer, wxFrame)
     EVT_TIMER(900, Computer::OnRtcTimer)
     EVT_TIMER(901, Computer::OnCdp1878TimerA)
     EVT_TIMER(902, Computer::OnCdp1878TimerB)
-
 END_EVENT_TABLE()
 #else
 BEGIN_EVENT_TABLE(Computer, wxFrame)
@@ -487,9 +486,16 @@ Computer::Computer(const wxString& title, double clock, int tempo, ComputerConfi
     dataIoSwitchBus_ = true;
     lastIo_ = 0;
 
-    numberOfCdp1877Instances_ = 0;
+    lastReadAddress_ = -1;
+    lastWriteAddress_ = -1;
+    secondLastReadAddress_ = -1;
+
     numberOfCdp1851Instances_ = 0;
     numberOfCdp1852Frames_ = 0;
+    numberOfCdp1854Instances_ = 0;
+    numberOfCdp1877Instances_ = 0;
+    numberOfCdp1878Instances_ = 0;
+    numberOfScn2671Instances_ = 0;
 
     soundTempoCycleSize_ = (int) (((clock * 1000000) / 8) / tempo);
     vipIIRunCycleSize_ = (int) (((clock * 800000) / 8) ) * 2;
@@ -563,6 +569,11 @@ Computer::~Computer()
         p_Main->setTmsPos(tmsPointer->GetPosition());
         tmsPointer->Destroy();
     }
+    if (currentComputerConfiguration.scn2672Configuration.defined)
+    {
+        p_Main->setScn2672Pos(scn2672Pointer->GetPosition());
+        scn2672Pointer->Destroy();
+    }
     if (currentComputerConfiguration.mc6845Configuration.defined)
     {
         p_Main->set6845Pos(mc6845Pointer->GetPosition());
@@ -598,6 +609,8 @@ Computer::~Computer()
         p_Main->setCdp1852Pos(cdp1852FramePointer[num]->GetPosition(), num);
         cdp1852FramePointer[num]->Destroy();
     }
+    for (int num=numberOfCdp1854Instances_; num<numberOfScn2671Instances_ ; num++)
+        delete scn2671InstancePointer[num];
     for (int num=0; num<numberOfCdp1854Instances_ ; num++)
         delete cdp1854InstancePointer[num];
     for (int num=0; num<numberOfCdp1877Instances_ ; num++)
@@ -727,6 +740,8 @@ void Computer::charEvent(wxKeyEvent& event, int keycode)
             }
         }
     }
+    for (int num=numberOfCdp1854Instances_; num<numberOfScn2671Instances_ ; num++)
+        scn2671InstancePointer[num]->charEventKeyboardScn2671(event, keycode);
     charEvent(keycode);
 }
 
@@ -785,13 +800,15 @@ bool Computer::keyDownExtended(int keycode, wxKeyEvent& event)
             {
                 if (currentComputerConfiguration.efButtonsConfiguration.key[ef].mod)
                 {
-                    efKeyValue[ef] = currentComputerConfiguration.efButtonsConfiguration.keyPressed ^ 1;
+                    if (!currentComputerConfiguration.efButtonsConfiguration.multiMode)
+                        efKeyValue[ef] = currentComputerConfiguration.efButtonsConfiguration.keyPressed ^ 1;
                     if (currentComputerConfiguration.efButtonsConfiguration.key[ef].value == event.GetModifiers())
                         efKeyValue[ef] = currentComputerConfiguration.efButtonsConfiguration.keyPressed;
                 }
                 else
                 {
-                    efKeyValue[ef] = currentComputerConfiguration.efButtonsConfiguration.keyPressed ^ 1;
+                    if (!currentComputerConfiguration.efButtonsConfiguration.multiMode)
+                        efKeyValue[ef] = currentComputerConfiguration.efButtonsConfiguration.keyPressed ^ 1;
                     if (currentComputerConfiguration.efButtonsConfiguration.key[ef].value == keycode)
                         efKeyValue[ef] = currentComputerConfiguration.efButtonsConfiguration.keyPressed;
                 }
@@ -1292,8 +1309,9 @@ void Computer::initComputer()
     colourMask1862_ = 0xff;
     colourLatch_ = false;
     
-    cdp1854Vt100Connection_ = -1;
-    cdp1854Ut58Connection_ = -1;
+    uartVt100Connection_ = -1;
+    uartUt58Connection_ = -1;
+    uartLoopBackConnection_ = -1;
 
     if (currentComputerConfiguration.runPressType == RUN_TYPE_UC1800)
         runButtonState_ = 1;
@@ -1348,7 +1366,6 @@ void Computer::resetComputer()
     
     lastMode_ = UNDEFINDEDMODE;
     
-    vismacRegisterLatch_ = 0;
     thermalPrinting_ = false;
     thermalEF_ = 0;
     selectedMap_ = 0;
@@ -1400,7 +1417,7 @@ Byte Computer::ef(int flag)
     {
         groupFound = false;
         
-        if (currentComputerConfiguration.mc6845Configuration.ioGroupVector.size() == 0)
+        if (currentComputerConfiguration.hexDisplayConfiguration.ioGroupVector.size() == 0)
             groupFound = true;
         else
         {
@@ -1757,7 +1774,7 @@ Byte Computer::ef(int flag)
             if (isLoading() && (currentComputerConfiguration.swTapeConfiguration.ef.flagNumber == flag || currentComputerConfiguration.hwTapeConfiguration.ef.flagNumber == flag))
                 return cassetteEf_;
             else
-                return cdp1854InstancePointer[inItemNumber_[qState_][ioGroup_+1][flag]]->efSerialDataInput();
+                return cdp1854InstancePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->efSerialDataInput();
         break;
 
         case VIDEO_TERMINAL_EF_INTERRUPT:
@@ -1771,7 +1788,7 @@ Byte Computer::ef(int flag)
             if (isLoading() && (currentComputerConfiguration.swTapeConfiguration.ef.flagNumber == flag || currentComputerConfiguration.hwTapeConfiguration.ef.flagNumber == flag))
                 return cassetteEf_;
             else
-                return cdp1854InstancePointer[inItemNumber_[qState_][ioGroup_+1][flag]]->efInterrupt();
+                return cdp1854InstancePointer[efItemNumber_[qState_][ioGroup_+1][flag]]->efInterrupt();
         break;
             
         case EXTERNAL_VIDEO_TERMINAL_EF:
@@ -1848,12 +1865,12 @@ Byte Computer::ef(int flag)
 
 Byte Computer::in(Byte port, Word address)
 {
-    Byte ret = 255;
-
+    Byte returnValue = 0;
+    
     if (currentComputerConfiguration.ioGroupConfiguration.defined)
     {
         if  (currentComputerConfiguration.ioGroupConfiguration.input.portNumber[0] == port)
-            ret = ioGroup_ & currentComputerConfiguration.ioGroupConfiguration.input.mask;
+            returnValue = ioGroup_ & currentComputerConfiguration.ioGroupConfiguration.input.mask;
     }
 
     if (currentComputerConfiguration.bootstrapConfiguration.defined)
@@ -1879,8 +1896,25 @@ Byte Computer::in(Byte port, Word address)
             }
         }
     }
+
+    for (std::vector<InputConfiguration>::iterator inConfigurationIterator = inputConfiguration.begin (); inConfigurationIterator != inputConfiguration.end (); ++inConfigurationIterator)
+    {
+        if (inConfigurationIterator->type[qState_][ioGroup_+1][port] != 0)
+            returnValue |= inConfiguration(*inConfigurationIterator, port, address);
+    }
+
+    inValues_[port] = returnValue;
+    lastIo_ = returnValue;
+    showLastIo();
+    
+    return returnValue;
+}
+
+Byte Computer::inConfiguration(InputConfiguration inConfiguration, Byte port, Word address)
+{
+    Byte ret = 255;
         
-    switch (inType_[qState_][ioGroup_+1][port])
+    switch (inConfiguration.type[qState_][ioGroup_+1][port])
     {
         case BITSWITCH_INP:
             ret = inpSwitchState_[port];
@@ -1891,7 +1925,7 @@ Byte Computer::in(Byte port, Word address)
         break;
 
         case UART1854_READ_RECEIVER_IN:
-            ret = cdp1854InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readReceiverHoldingRegister_();
+            ret = cdp1854InstancePointer[inConfiguration.itemNumber[qState_][ioGroup_+1][port]]->readReceiverHoldingRegister();
         break;
 
         case EXTERNAL_VT_UART1854_READ_RECEIVER_IN:
@@ -1903,7 +1937,7 @@ Byte Computer::in(Byte port, Word address)
         break;
 
         case UART1854_READ_STATUS_IN:
-            ret = cdp1854InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readStatusRegister();
+            ret = cdp1854InstancePointer[inConfiguration.itemNumber[qState_][ioGroup_+1][port]]->readStatusRegister();
         break;
 
         case EXTERNAL_VT_UART1854_READ_STATUS_IN:
@@ -2020,10 +2054,10 @@ Byte Computer::in(Byte port, Word address)
         case BIT_KEYPAD_IN_4:
         case BIT_KEYPAD_IN_5:
         case BIT_KEYPAD_IN_6:
-            ret = bitkeypadPointer[inType_[qState_][ioGroup_+1][port]-BIT_KEYPAD_IN_0]->in();
+            ret = bitkeypadPointer[inConfiguration.type[qState_][ioGroup_+1][port]-BIT_KEYPAD_IN_0]->in();
             if (bitKeypadValue_ != 0)
             {
-                if ( (ret != 0xff && currentComputerConfiguration.bitKeypadConfiguration[inType_[qState_][ioGroup_+1][port]-BIT_KEYPAD_IN_0].bitKeyPressed == 0) || (ret != 0 && currentComputerConfiguration.bitKeypadConfiguration[inType_[qState_][ioGroup_+1][port]-BIT_KEYPAD_IN_0].bitKeyPressed == 1) )
+                if ( (ret != 0xff && currentComputerConfiguration.bitKeypadConfiguration[inConfiguration.type[qState_][ioGroup_+1][port]-BIT_KEYPAD_IN_0].bitKeyPressed == 0) || (ret != 0 && currentComputerConfiguration.bitKeypadConfiguration[inConfiguration.type[qState_][ioGroup_+1][port]-BIT_KEYPAD_IN_0].bitKeyPressed == 1) )
                 {
                     for (int pad=0; pad<=lastBitKeyPad_; pad++)
                         bitkeypadPointer[pad]->keysUp();
@@ -2058,20 +2092,28 @@ Byte Computer::in(Byte port, Word address)
 
         case CDP1864_ENABLE_IN:
             ret = cdp1864Pointer->inPixie();
+            p_Main->setCdp1864Register(CDP1864_ENABLE, true, SHOW_ADDRESS_TRACE);
+            p_Main->setCdp1864Register(CDP1864_DISABLE, false, DO_NOT_SHOW_ANY_TRACE);
         break;
 
         case CDP1864_DISABLE_IN:
             ret = 255;
             cdp1864Pointer->outPixie();
+            p_Main->setCdp1864Register(CDP1864_DISABLE, true, SHOW_ADDRESS_TRACE);
+            p_Main->setCdp1864Register(CDP1864_ENABLE, false, DO_NOT_SHOW_ANY_TRACE);
         break;
 
         case VIP2K_VIDEO_ENABLE_IN:
             ret = vip2KVideoPointer->inPixie();
+            p_Main->setVip2KVideoRegister(VIP2K_VIDEO_ENABLE, true, SHOW_ADDRESS_TRACE);
+            p_Main->setVip2KVideoRegister(VIP2K_VIDEO_DISABLE, false, DO_NOT_SHOW_ANY_TRACE);
         break;
 
         case VIP2K_VIDEO_DISABLE_OUT:
             ret = 255;
             vip2KVideoPointer->outPixie();
+            p_Main->setVip2KVideoRegister(VIP2K_VIDEO_DISABLE, true, SHOW_ADDRESS_TRACE);
+            p_Main->setVip2KVideoRegister(VIP2K_VIDEO_ENABLE, false, DO_NOT_SHOW_ANY_TRACE);
         break;
 
         case TAPE_CV_READ_DATA_IN:
@@ -2104,33 +2146,33 @@ Byte Computer::in(Byte port, Word address)
         break;
             
         case CDP1851_READ_A_OUT:
-            return cdp1851InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readPortA();
+            return cdp1851InstancePointer[inConfiguration.itemNumber[qState_][ioGroup_+1][port]]->readPortA();
         break;
 
         case CDP1851_READ_B_OUT:
-            return cdp1851InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readPortB();
+            return cdp1851InstancePointer[inConfiguration.itemNumber[qState_][ioGroup_+1][port]]->readPortB();
         break;
 
         case CDP1851_READ_STATUS_IN:
-            return cdp1851InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readStatusRegister();
+            return cdp1851InstancePointer[inConfiguration.itemNumber[qState_][ioGroup_+1][port]]->readStatusRegister();
         break;
 
         case CDP1852_READ_IN:
-            return cdp1852FramePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readPort();
+            return cdp1852FramePointer[inConfiguration.itemNumber[qState_][ioGroup_+1][port]]->readPort();
         break;
 
         case TIMER_INTERRUPT:
-            return cdp1878InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readInterrupt();
+            return cdp1878InstancePointer[inConfiguration.itemNumber[qState_][ioGroup_+1][port]]->readInterrupt();
         break;
 
         case TIMER_COUNTER_HIGH_A:
         case TIMER_COUNTER_HIGH_B:
-            return cdp1878InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readCounterHigh(inType_[qState_][ioGroup_+1][port]-TIMER_COUNTER_HIGH_A);
+            return cdp1878InstancePointer[inConfiguration.itemNumber[qState_][ioGroup_+1][port]]->readCounterHigh(inConfiguration.type[qState_][ioGroup_+1][port]-TIMER_COUNTER_HIGH_A);
         break;
 
         case TIMER_COUNTER_LOW_A:
         case TIMER_COUNTER_LOW_B:
-            return cdp1878InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->readCounterLow(inType_[qState_][ioGroup_+1][port]-TIMER_COUNTER_LOW_A);
+            return cdp1878InstancePointer[inConfiguration.itemNumber[qState_][ioGroup_+1][port]]->readCounterLow(inConfiguration.type[qState_][ioGroup_+1][port]-TIMER_COUNTER_LOW_A);
         break;
 
         // Folowing I/O is not adapted to ioGroups
@@ -2144,11 +2186,15 @@ Byte Computer::in(Byte port, Word address)
 
         case CDP1861_ENABLE_IN:
             ret = pixiePointer->inPixie();
+            p_Main->setPixieRegister(PIXIE_ENABLE, true, SHOW_ADDRESS_TRACE);
+            p_Main->setPixieRegister(PIXIE_DISABLE, false, DO_NOT_SHOW_ANY_TRACE);
         break;
 
         case CDP1861_DISABLE_OUT:
             ret = 255;
             pixiePointer->outPixie();
+            p_Main->setPixieRegister(PIXIE_DISABLE, true, SHOW_ADDRESS_TRACE);
+            p_Main->setPixieRegister(PIXIE_ENABLE, false, DO_NOT_SHOW_ANY_TRACE);
         break;
 
         case I8275_READ_PARAMETER_IN:
@@ -2214,7 +2260,8 @@ Byte Computer::in(Byte port, Word address)
         break;
             
         case DIP_IN:
-            ret = inDip();
+            ret =  currentComputerConfiguration.dipConfigurationNew[inConfiguration.itemNumber[qState_][ioGroup_+1][port]].value;
+//            ret = inDip();
         break;
 
         case AD_CONVERTOR_IN:
@@ -2260,18 +2307,10 @@ Byte Computer::in(Byte port, Word address)
         break;
     }
    
-    Byte mask = currentComputerConfiguration.ioMask[inType_[qState_][ioGroup_+1][port]];
+    Byte mask = currentComputerConfiguration.ioMask[inConfiguration.type[qState_][ioGroup_+1][port]];
     if (mask != 0xff)
         ret &= mask;
-    inValues_[port] = ret;
-    lastIo_ = ret;
-    showLastIo();
     return ret;
-}
-
-Byte Computer::inDip()
-{
-    return currentComputerConfiguration.dipConfiguration.value;
 }
 
 Byte Computer::getData(bool switchButton)
@@ -2286,9 +2325,6 @@ Byte Computer::getData(bool switchButton)
 
 void Computer::out(Byte port, Word address, Byte value)
 {
-    Byte mask = currentComputerConfiguration.ioMask[outType_[qState_][ioGroup_+1][port]];
-    if (mask != 0xff)
-        value &= mask;
     outValues_[port] = value;
     lastIo_ =  value;
     showLastIo();
@@ -2355,14 +2391,28 @@ void Computer::out(Byte port, Word address, Byte value)
                     if (port == *portNumber)
                     {
                         if (value != 0)
-                            printLatch_ = value;
+                            printLatch_ = value & currentComputerConfiguration.centronicsPrinterConfiguration.output.mask;
                     }
                 }
             }
         }
     }
-    
-    switch (outType_[qState_][ioGroup_+1][port])
+
+    for (std::vector<OutputConfiguration>::iterator outConfigurationIterator = outputConfiguration.begin (); outConfigurationIterator != outputConfiguration.end (); ++outConfigurationIterator)
+    {
+        if (outConfigurationIterator->type[qState_][ioGroup_+1][port] != 0)
+            outConfiguration(*outConfigurationIterator, port, address, value);
+    }
+}
+
+void Computer::outConfiguration(OutputConfiguration outConfiguration, Byte port, Word address, Byte value)
+{
+    int showTrace;
+    Byte mask = currentComputerConfiguration.ioMask[outConfiguration.type[qState_][ioGroup_+1][port]];
+    if (mask != 0xff)
+        value &= mask;
+
+    switch (outConfiguration.type[qState_][ioGroup_+1][port])
     {
         case BITLED_OUT:
             for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
@@ -2401,12 +2451,17 @@ void Computer::out(Byte port, Word address, Byte value)
                     break;
 
                     case FLIPFLOP_RS232_CTS:
-                        if (cdp1854Vt100Connection_ != -1)
-                            cdp1854InstancePointer[cdp1854Vt100Connection_]->uartCts(value & 0x3);
+                        if (uartVt100Connection_ != -1)
+                            cdp1854InstancePointer[uartVt100Connection_]->uartCts(value & 0x3);
                         else
                         {
-                            if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
-                                vtPointer->uartCts(value & 0x3);
+                            if (uartLoopBackConnection_ != -1)
+                                cdp1854InstancePointer[uartLoopBackConnection_]->uartCts(value & 0x3);
+                            else
+                            {
+                                if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
+                                    vtPointer->uartCts(value & 0x3);
+                            }
                         }
                     break;
 
@@ -2423,7 +2478,7 @@ void Computer::out(Byte port, Word address, Byte value)
         break;
 
         case UART1854_LOAD_TRANSMITTER_OUT:
-            cdp1854InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->writeTransmitterHoldingRegister(value);
+            cdp1854InstancePointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->writeTransmitterHoldingRegister(value);
         break;
 
         case EXTERNAL_VT_UART1854_LOAD_TRANSMITTER_OUT:
@@ -2435,7 +2490,7 @@ void Computer::out(Byte port, Word address, Byte value)
         break;
             
         case UART1854_LOAD_CONTROL_OUT:
-            cdp1854InstancePointer[inItemNumber_[qState_][ioGroup_+1][port]]->writeControlRegister(value);
+            cdp1854InstancePointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->writeControlRegister(value);
         break;
             
         case EXTERNAL_VT_UART1854_LOAD_CONTROL_OUT:
@@ -2476,7 +2531,7 @@ void Computer::out(Byte port, Word address, Byte value)
 
         case AY_3_8912_REGISTER_ADDRESS_1:
         case AY_3_8912_REGISTER_ADDRESS_2:
-            ay_3_8912InstancePointer->writeRegister(outType_[qState_][ioGroup_+1][port]-AY_3_8912_REGISTER_ADDRESS_1, value);
+            ay_3_8912InstancePointer->writeRegister(outConfiguration.type[qState_][ioGroup_+1][port]-AY_3_8912_REGISTER_ADDRESS_1, value);
         break;
 
         case AY_3_8912_DATA:
@@ -2505,71 +2560,50 @@ void Computer::out(Byte port, Word address, Byte value)
 
         case VIS1870_OUT2:
             vis1870Pointer->setInterruptEnable(value == 1);
+            p_Main->setVisRegister(VIS_INT_ENABLE, value);
         break;
             
         case VIS1870_INT_RESET:
             requestInterrupt(INTERRUPT_TYPE_VIS, false, currentComputerConfiguration.vis1870Configuration.picInterrupt);
+            p_Main->setVisRegister(VIS_INT_REQUEST, value);
         break;
-
+            
         case VIS1870_OUT3:
             vis1870Pointer->out3_1870(value);
+            p_Main->setVisRegister(VIS_R3, value);
         break;
             
         case VIS1870_OUT4:
             outValues_[port] = address;
             vis1870Pointer->out4_1870(address);
+            p_Main->setVisRegister(VIS_R4, (Word)(address & 0x7fff));
         break;
             
         case VIS1870_OUT5:
             outValues_[port] = address;
             vis1870Pointer->out5_1870(address);
+            showTrace = p_Main->setVisRegister(VIS_R5_1, (Byte)(address >> 8));
+            p_Main->setVisRegister(VIS_R5_0, (Byte)(address & 0xe9), showTrace);
         break;
             
         case VIS1870_OUT6:
             outValues_[port] = address;
             vis1870Pointer->out6_1870(address);
+            p_Main->setVisRegister(VIS_R6, (Word)(address & 0x3ff));
         break;
             
         case VIS1870_OUT7:
             outValues_[port] = address;
             vis1870Pointer->out7_1870(address);
+            p_Main->setVisRegister(VIS_R7, (Word)(address & 0x3fc));
         break;
 
         case VIS1870_TELMAC_REGISTER_OUT:
-            vismacRegisterLatch_ = value;
+            vis1870Pointer->setRegisterSelect_1870(value);
         break;
             
         case VIS1870_TELMAC_DATA_OUT:
-            switch (vismacRegisterLatch_)
-            {
-                case 0x20:
-                    vis1870Pointer->out2_1870(value);
-                break;
-                    
-                case 0x30:
-                    vis1870Pointer->out3_1870(value);
-                break;
-                
-                case 0x40:
-                    outValues_[port] = address;
-                    vis1870Pointer->out4_1870(address);
-                break;
-                    
-                case 0x50:
-                    outValues_[port] = address;
-                    vis1870Pointer->out5_1870(address);
-                break;
-                    
-                case 0x60:
-                    outValues_[port] = address;
-                    vis1870Pointer->out6_1870(address);
-                break;
-                    
-                case 0x70:
-                    outValues_[port] = address;
-                    vis1870Pointer->out7_1870(address);
-                break;
-            }
+            outValues_[port] = vis1870Pointer->setOutData_1870(address, value);
         break;
 
         case FDC1770_SELECT_OUT:
@@ -2629,7 +2663,7 @@ void Computer::out(Byte port, Word address, Byte value)
         case LATCH_KEYBOARD_OUT:
         case LATCH_KEYPAD_OUT1:
         case LATCH_KEYPAD_OUT2:
-            latchKeyPointer[outType_[qState_][ioGroup_+1][port] - LATCH_KEYBOARD_OUT]->out(value);
+            latchKeyPointer[outConfiguration.type[qState_][ioGroup_+1][port] - LATCH_KEYBOARD_OUT]->out(value);
         break;
 
         case LATCH_KEYPAD_DOUBLE_OUT:
@@ -2686,11 +2720,11 @@ void Computer::out(Byte port, Word address, Byte value)
         break;
 
         case CDP1862_BACKGROUND_OUT:
-            pixiePointer->outPixieBackGround();
+            pixiePointer->outCdp1862BackGround();
         break;
 
         case CDP1864_BACKGROUND_OUT:
-            cdp1864Pointer->outPixieBackGround();
+            cdp1864Pointer->outCdp1864BackGround();
         break;
 
         case STUDIOIV_VIDEO_OUT:
@@ -2704,6 +2738,7 @@ void Computer::out(Byte port, Word address, Byte value)
         case CDP1864_COLORRAM_OUT:
             address = ((address >> 1) & 0xf8) + (address & 0x7);
             colorMemory1864_[address] = value;
+            p_Main->setCdp1864RegisterNible(CDP1864_COLOR_RAM, address, (Byte)(value & 0xf));
             if (address >= memoryStart_ && address <(memoryStart_+256))
                 p_Main->updateDebugMemory(address);
         break;
@@ -2711,17 +2746,17 @@ void Computer::out(Byte port, Word address, Byte value)
         case CDP1862_COLORRAM_OUT:
             address = ((address >> 1) & 0xf8) + (address & 0x7);
             colorMemory1862_[address] = value;
+            p_Main->setCdp1862RegisterNible(CDP1862_COLOR_RAM, address, (Byte)(value & 0xf));
             if (address >= memoryStart_ && address <(memoryStart_+256))
                 p_Main->updateDebugMemory(address);
         break;
 
         case CDP1863_TONE_LATCH_OUT:
+            setCdp1863ColorToneLatch(value);
+        break;
+
         case CDP1864_TONE_LATCH_OUT:
-            if (currentComputerConfiguration.cdp1864Configuration.colorLatch)
-                colourLatch_ = (value & 1) == 1;
-            if (value == 0)  value = 128;
-            setTonePeriod(0, 32 *(value + 1), false);
-            setTonePeriod(1, 32 *(value + 1), false);
+            setCdp1864ColorToneLatch(value);
         break;
 
         case CDP1863_TONE_SWITCH_OUT1:
@@ -2740,17 +2775,18 @@ void Computer::out(Byte port, Word address, Byte value)
 
         case VIP2K_VIDEO_ENABLE_IN:
             vip2KVideoPointer->inPixie();
+            p_Main->setVip2KVideoRegister(VIP2K_VIDEO_ENABLE, true, SHOW_ADDRESS_TRACE);
+            p_Main->setVip2KVideoRegister(VIP2K_VIDEO_DISABLE, false, DO_NOT_SHOW_ANY_TRACE);
         break;
 
         case VIP2K_VIDEO_DISABLE_OUT:
             vip2KVideoPointer->outPixie();
+            p_Main->setVip2KVideoRegister(VIP2K_VIDEO_DISABLE, true, SHOW_ADDRESS_TRACE);
+            p_Main->setVip2KVideoRegister(VIP2K_VIDEO_ENABLE, false, DO_NOT_SHOW_ANY_TRACE);
         break;
 
         case FRED_VIDEO_TYPE_OUT:
-            if (value == 0)
-                fredVideoPointer->outPixie();
-            else
-                fredVideoPointer->inPixie();
+			fredVideoPointer->enableScreen(value != 0);
             fredVideoPointer->setDisplayType(value);
         break;
 
@@ -2836,42 +2872,42 @@ void Computer::out(Byte port, Word address, Byte value)
         break;
 
         case CDP1851_WRITE_A_OUT:
-            cdp1851InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writePortA(value);
-            cdp1851InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->refreshLeds();
+            cdp1851InstancePointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->writePortA(value);
+            cdp1851InstancePointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->refreshLeds();
         break;
 
         case CDP1851_WRITE_B_OUT:
-            cdp1851InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writePortB(value);
-            cdp1851InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->refreshLeds();
+            cdp1851InstancePointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->writePortB(value);
+            cdp1851InstancePointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->refreshLeds();
         break;
 
         case CDP1851_WRITE_CONTROL_OUT:
-            cdp1851InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeControlRegister(value);
-            cdp1851InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->refreshLeds();
+            cdp1851InstancePointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->writeControlRegister(value);
+            cdp1851InstancePointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->refreshLeds();
         break;
 
         case CDP1852_WRITE_OUT:
-            cdp1852FramePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writePort(value);
-            cdp1852FramePointer[outItemNumber_[qState_][ioGroup_+1][port]]->refreshLeds();
+            cdp1852FramePointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->writePort(value);
+            cdp1852FramePointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->refreshLeds();
         break;
 
         case TIMER_CONTROL_A:
         case TIMER_CONTROL_B:
-            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeControl(outType_[qState_][ioGroup_+1][port]-TIMER_CONTROL_A, value);
+            cdp1878InstancePointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->writeControl(outConfiguration.type[qState_][ioGroup_+1][port]-TIMER_CONTROL_A, value);
         break;
 
         case TIMER_COUNTER_HIGH_A:
         case TIMER_COUNTER_HIGH_B:
-            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeCounterHigh(outType_[qState_][ioGroup_+1][port]-TIMER_COUNTER_HIGH_A, value);
+            cdp1878InstancePointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->writeCounterHigh(outConfiguration.type[qState_][ioGroup_+1][port]-TIMER_COUNTER_HIGH_A, value);
         break;
 
         case TIMER_COUNTER_LOW_A:
         case TIMER_COUNTER_LOW_B:
-            cdp1878InstancePointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeCounterLow(outType_[qState_][ioGroup_+1][port]-TIMER_COUNTER_LOW_A, value);
+            cdp1878InstancePointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->writeCounterLow(outConfiguration.type[qState_][ioGroup_+1][port]-TIMER_COUNTER_LOW_A, value);
         break;
 
         case CD4536B_WRITE_OUT:
-            cd4536bPointer[outItemNumber_[qState_][ioGroup_+1][port]]->writeControl(value);
+            cd4536bPointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->writeControl(value);
         break;
 
             // Folowing I/O is not adapted to ioGroups
@@ -2889,14 +2925,19 @@ void Computer::out(Byte port, Word address, Byte value)
 
         case COIN_VIDEO_ENABLE_OUT:
             coinPointer->inPixie();
+            p_Main->setCoinVideoRegister(COIN_VIDEO_ENABLE, true, SHOW_ADDRESS_TRACE);
         break;
 
         case CDP1861_DISABLE_OUT:
             pixiePointer->outPixie();
+            p_Main->setPixieRegister(PIXIE_DISABLE, true, SHOW_ADDRESS_TRACE);
+            p_Main->setPixieRegister(PIXIE_ENABLE, false, DO_NOT_SHOW_ANY_TRACE);
         break;
 
         case CDP1861_ENABLE_IN:
             pixiePointer->inPixie();
+            p_Main->setPixieRegister(PIXIE_ENABLE, true, SHOW_ADDRESS_TRACE);
+            p_Main->setPixieRegister(PIXIE_DISABLE, false, DO_NOT_SHOW_ANY_TRACE);
         break;
 
         case MC6847_OUT:
@@ -3009,8 +3050,29 @@ void Computer::out(Byte port, Word address, Byte value)
                 break;
             }
         break;
-
     }
+}
+
+void Computer::setCdp1863ColorToneLatch(Byte value, int showTrace)
+{
+    if (value == 0)  value = 128;
+
+    setTonePeriod(0, 32 *(value + 1), false);
+    setTonePeriod(1, 32 *(value + 1), false);
+}
+
+void Computer::setCdp1864ColorToneLatch(Byte value, int showTrace)
+{
+    if (value == 0)  value = 128;
+    if (currentComputerConfiguration.cdp1864Configuration.colorLatch)
+    {
+        colourLatch_ = (value & 1) == 1;
+        p_Main->setCdp1864Register(CDP1864_COLOR_TONE_LATCH, value, showTrace);
+    }
+    else
+        p_Main->setCdp1864Register(CDP1864_TONE_LATCH, value, showTrace);
+    setTonePeriod(0, 32 *(value + 1), false);
+    setTonePeriod(1, 32 *(value + 1), false);
 }
 
 void Computer::setClockRate(double clock)
@@ -3317,6 +3379,14 @@ void Computer::cycle(int type)
             mc6847Pointer->cycle6847();
         break;
 
+        case SCN2672_CYCLE:
+            scn2672Pointer->cycleScn2672();
+        break;
+
+        case SCN2672_BLINK_CYCLE:
+            scn2672Pointer->blinkScn2672();
+        break;
+
         case MC6845_BLINK_CYCLE:
             mc6845Pointer->blink6845();
         break;
@@ -3340,6 +3410,11 @@ void Computer::cycle(int type)
         case UART1854_CYCLE:
             for (int num=0; num<numberOfCdp1854Instances_ ; num++)
                 cdp1854InstancePointer[num]->cycle();
+        break;
+
+        case SCN2671_CYCLE:
+            for (int num=numberOfCdp1854Instances_; num<numberOfScn2671Instances_ ; num++)
+                scn2671InstancePointer[num]->cycle();
         break;
 
         case EXTERNAL_VIDEO_TERMINAL_CYCLE:
@@ -3517,7 +3592,7 @@ void Computer::cycleInt()
         intCounter_--;
         if (intCounter_ == 0)
         {
-            interrupt();
+            p_Computer->requestInterrupt(INTERRUPT_TYPE_TIMED, true, 0);
             intCounter_ = currentComputerConfiguration.interruptConfiguration.cycleValue;
         }
     }
@@ -4428,6 +4503,8 @@ void Computer::onLoadButton(bool pushButton)
     if (currentComputerConfiguration.cdp1864Configuration.defined)
     {
         cdp1864Pointer->outPixie();
+        p_Main->setCdp1864Register(CDP1864_DISABLE, true, DO_NOT_SHOW_ANY_TRACE);
+        p_Main->setCdp1864Register(CDP1864_ENABLE, false, DO_NOT_SHOW_ANY_TRACE);
         cdp1864Pointer->setPixieGraphics(false);
     }
     if (currentComputerConfiguration.i8275Configuration.defined)
@@ -5488,7 +5565,22 @@ Byte Computer::readMemDebug(Word address, int function)
         0x6c, 0x64, 0x3f, 0x07, 0x37, 0x0c, 0x3a, 0x11,
         0xd3, 0xe3, 0xf6, 0x33, 0x17, 0x7b, 0x6c, 0x64,
         0x23, 0x3f, 0x13, 0x37, 0x1b, 0x13, 0x30, 0x13 };
-    
+
+    wxString printBuffer;
+    for (std::vector<ReadAddress>::iterator i = currentComputerConfiguration.addressLocationConfiguration.readAddress.begin (); i != currentComputerConfiguration.addressLocationConfiguration.readAddress.end (); ++i)
+    {
+        if (address == i->address)
+        {
+            switch (i->function)
+            {
+                case READ_ADDRESS_DEBUG:
+                    printBuffer.Printf("Exec address: %04X, read address: %04X", scratchpadRegister_[programCounter_], address);
+                    p_Main->eventShowTextMessage(printBuffer);
+                break;
+            }
+        }
+    }
+
     for (std::vector<MemoryPartConfiguration>::iterator copyConfigIterator = currentComputerConfiguration.memoryCopyConfiguration.begin (); copyConfigIterator != currentComputerConfiguration.memoryCopyConfiguration.end (); ++copyConfigIterator)
     {
         if (address >= copyConfigIterator->start && address <= copyConfigIterator->end)
@@ -5500,6 +5592,165 @@ Byte Computer::readMemDebug(Word address, int function)
     {
         if (address >= ramPartConfigIterator->start && address <= ramPartConfigIterator->end)
                 return mainMemory_[address];
+    }
+
+    if (currentComputerConfiguration.scn2672Configuration.defined)
+    {
+        groupFound = false;
+        
+        if (currentComputerConfiguration.scn2672Configuration.ioGroupVector.size() == 0)
+            groupFound = true;
+        else
+        {
+            for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.scn2672Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.scn2672Configuration.ioGroupVector.end (); ++ioGroupIterator)
+            {
+                if (*ioGroupIterator == ioGroup_)
+                    groupFound = true;
+            }
+        }
+        if (groupFound)
+        {
+            if (currentComputerConfiguration.scn2672Configuration.data.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.data.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.data.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.data.addressMask) == *port)
+                        return scn2672Pointer->readDataScn2672();
+                }
+            }
+            if (currentComputerConfiguration.crt8002Configuration.attribute.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.crt8002Configuration.attribute.portNumber.begin (); port != currentComputerConfiguration.crt8002Configuration.attribute.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.crt8002Configuration.attribute.addressMask) == *port)
+                        return scn2672Pointer->readAttribute();
+                }
+            }
+            if (currentComputerConfiguration.crt8002Configuration.attributeScreen1.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.crt8002Configuration.attributeScreen1.portNumber.begin (); port != currentComputerConfiguration.crt8002Configuration.attributeScreen1.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.crt8002Configuration.attributeScreen1.addressMask) == *port)
+                        return scn2672Pointer->readAttributeScreen1();
+                }
+            }
+            if (currentComputerConfiguration.scn2672Configuration.status.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.status.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.status.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.status.addressMask) == *port)
+                        return scn2672Pointer->readStatusScn2672();
+                }
+            }
+            if (currentComputerConfiguration.scn2672Configuration.interrupt.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.interrupt.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.interrupt.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.interrupt.addressMask) == *port)
+                        return scn2672Pointer->readInterruptScn2672();
+                }
+            }
+            if (currentComputerConfiguration.scn2672Configuration.screenStart.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.screenStart.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.screenStart.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.screenStart.addressMask) == *port)
+                        return scn2672Pointer->readScreenStartLowScn2672();
+                    if ((address&currentComputerConfiguration.scn2672Configuration.screenStart.addressMask) == (*port + 1))
+                        return scn2672Pointer->readScreenStartHighScn2672();
+                }
+            }
+            if (currentComputerConfiguration.scn2672Configuration.cursor.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.cursor.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.cursor.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.cursor.addressMask) == *port)
+                        return scn2672Pointer->readCursorLowScn2672();
+                    if ((address&currentComputerConfiguration.scn2672Configuration.cursor.addressMask) == (*port + 1))
+                        return scn2672Pointer->readCursorHighScn2672();
+                }
+            }
+
+   /*         wxString printBuffer;
+            if (address >= 0xc300 && address <0xCF00 && lastReadAddress_ != scratchpadRegister_[programCounter_] && secondLastReadAddress_ != scratchpadRegister_[programCounter_])
+            {
+                secondLastReadAddress_ = lastReadAddress_;
+                lastReadAddress_ = scratchpadRegister_[programCounter_];
+                printBuffer.Printf("Exec address: %04X, read address: %04X", lastReadAddress_, address);
+                p_Main->eventShowTextMessage(printBuffer);
+            }*/
+        }
+    }
+
+    for (int instance=numberOfCdp1854Instances_; instance<numberOfScn2671Instances_; instance++)
+    {
+        if (scn2671InstancePointer[instance]->ioGroupScn2671(ioGroup_))
+        {
+            if (currentComputerConfiguration.scn2671Configuration[instance].isr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].isr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].isr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].isr.addressMask) == *port)
+                        return (scn2671InstancePointer[instance]->readInterruptStatusRegister() | scn2672Pointer->readInterruptStatusRegister());
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].cmr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].cmr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].cmr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].cmr.addressMask) == *port)
+                        return scn2671InstancePointer[instance]->readCommunicationModeRegister();
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].rxhr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].rxhr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].rxhr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].rxhr.addressMask) == *port)
+                        return scn2671InstancePointer[instance]->readReceiverHoldingRegister();
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].csr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].csr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].csr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].csr.addressMask) == *port)
+                        return scn2671InstancePointer[instance]->readCommunicationsStatusRegister();
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].imr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].imr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].imr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].imr.addressMask) == *port)
+                        return scn2671InstancePointer[instance]->readInterruptMaskRegister();
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].kmr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].kmr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].kmr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].kmr.addressMask) == *port)
+                        return scn2671InstancePointer[instance]->readKeyboardModeRegister();
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].khr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].khr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].khr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].khr.addressMask) == *port)
+                        return scn2671InstancePointer[instance]->readKeyboardHoldingRegister();
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].ksr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].ksr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].ksr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].ksr.addressMask) == *port)
+                        return scn2671InstancePointer[instance]->readKeyboardStatusRegister();
+                }
+            }
+        }
     }
 
     if (currentComputerConfiguration.mc6845Configuration.defined)
@@ -5532,6 +5783,15 @@ Byte Computer::readMemDebug(Word address, int function)
         {
             if (address == currentComputerConfiguration.matrixKeyboardConfiguration.input.portNumber[0])
                 return matrixKeyboardPointer->in();
+        }
+    }
+
+    for (int instance=0; instance<numberOfDipInstances_; instance++)
+    {
+        if (currentComputerConfiguration.dipConfigurationNew[instance].input.addressMode)
+        {
+            if (address == currentComputerConfiguration.dipConfigurationNew[instance].input.portNumber[0])
+                return currentComputerConfiguration.dipConfigurationNew[instance].value;
         }
     }
 
@@ -5924,6 +6184,20 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
     if (address > endSave_)
         endSave_ = address;
 
+    for (std::vector<WriteAddress>::iterator i = currentComputerConfiguration.addressLocationConfiguration.writeAddress.begin (); i != currentComputerConfiguration.addressLocationConfiguration.writeAddress.end (); ++i)
+    {
+        if (address == i->address && (value == i->value || i->value == -1))
+        {
+            switch (i->function)
+            {
+                case WRITE_ADDRESS_DEBUG:
+                    printBuffer.Printf("Exec address: %04X, write address: %04X, value: %02X", scratchpadRegister_[programCounter_], address, value);
+                    p_Main->eventShowTextMessage(printBuffer);
+                break;
+            }
+        }
+    }
+    
     for (std::vector<MemoryPartConfiguration>::iterator ramPartConfigIterator = currentComputerConfiguration.memoryRamPartConfiguration.begin (); ramPartConfigIterator != currentComputerConfiguration.memoryRamPartConfiguration.end (); ++ramPartConfigIterator)
     {
         if (address >= ramPartConfigIterator->start && address <= ramPartConfigIterator->end)
@@ -6085,6 +6359,196 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
         }
     }
 
+    if (currentComputerConfiguration.basicPrinterConfiguration.output.addressMode)
+    {
+        if (address == currentComputerConfiguration.basicPrinterConfiguration.output.portNumber[0])
+        {
+            p_Printer->printerOut(value^currentComputerConfiguration.basicPrinterConfiguration.reversePolarityOutput);
+            return;
+        }
+    }
+
+    if (currentComputerConfiguration.scn2672Configuration.defined)
+    {
+        bool groupFound = false;
+        
+        if (currentComputerConfiguration.scn2672Configuration.ioGroupVector.size() == 0)
+            groupFound = true;
+        else
+        {
+            for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.scn2672Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.scn2672Configuration.ioGroupVector.end (); ++ioGroupIterator)
+            {
+                if (*ioGroupIterator == ioGroup_)
+                    groupFound = true;
+            }
+        }
+        if (groupFound)
+        {
+            if (currentComputerConfiguration.scn2672Configuration.data.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.data.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.data.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.data.addressMask) == *port)
+                    {
+                        scn2672Pointer->writeDataScn2672(value);
+                        return;
+                    }
+                }
+            }
+            if (currentComputerConfiguration.crt8002Configuration.attribute.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.crt8002Configuration.attribute.portNumber.begin (); port != currentComputerConfiguration.crt8002Configuration.attribute.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.crt8002Configuration.attribute.addressMask) == *port)
+                    {
+                        scn2672Pointer->writeAttribute(value);
+                        return;
+                    }
+                }
+            }
+            if (currentComputerConfiguration.scn2672Configuration.initializationRegister.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.initializationRegister.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.initializationRegister.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.initializationRegister.addressMask) == *port)
+                    {
+                        scn2672Pointer->writeInitializationRegisterScn2672(value);
+                        return;
+                    }
+                }
+            }
+            if (currentComputerConfiguration.scn2672Configuration.command.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.command.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.command.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.command.addressMask) == *port)
+                    {
+                        scn2672Pointer->writeCommandScn2672(value);
+                        return;
+                    }
+                }
+            }
+            if (currentComputerConfiguration.scn2672Configuration.screenStart.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.screenStart.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.screenStart.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.screenStart.addressMask) == *port)
+                    {
+                        scn2672Pointer->writeScreenStartLowScn2672(value);
+                        return;
+                    }
+                    if ((address&currentComputerConfiguration.scn2672Configuration.screenStart.addressMask) == (*port + 1))
+                    {
+                        scn2672Pointer->writeScreenStartHighScn2672(value);
+                        return;
+                    }
+                }
+            }
+            if (currentComputerConfiguration.scn2672Configuration.cursor.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.cursor.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.cursor.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.cursor.addressMask) == *port)
+                    {
+                        scn2672Pointer->writeCursorLowScn2672(value);
+                        return;
+                    }
+                    if ((address&currentComputerConfiguration.scn2672Configuration.cursor.addressMask) == (*port + 1))
+                    {
+                        scn2672Pointer->writeCursorHighScn2672(value);
+                        return;
+                    }
+                }
+            }
+            if (currentComputerConfiguration.scn2672Configuration.pointer.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.pointer.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.pointer.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.pointer.addressMask) == *port)
+                    {
+                        scn2672Pointer->writePointerLowScn2672(value);
+                        return;
+                    }
+                    if ((address&currentComputerConfiguration.scn2672Configuration.pointer.addressMask) == (*port + 1))
+                    {
+                        scn2672Pointer->writePointerHighScn2672(value);
+                        return;
+                    }
+                }
+            }
+
+    /*        if (address >= 0xc300 && address <0xCF00 && lastReadAddress_ != scratchpadRegister_[programCounter_])
+            {
+                lastReadAddress_ = scratchpadRegister_[programCounter_];
+                printBuffer.Printf("Exec address: %04X, write address: %04X, value: %02X", lastReadAddress_, address, value);
+                p_Main->eventShowTextMessage(printBuffer);
+            }*/
+        }
+    }
+
+    for (int instance=numberOfCdp1854Instances_; instance<numberOfScn2671Instances_; instance++)
+    {
+        if (scn2671InstancePointer[instance]->ioGroupScn2671(ioGroup_))
+        {
+            if (currentComputerConfiguration.scn2671Configuration[instance].command.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].command.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].command.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].command.addressMask) == *port)
+                        scn2671InstancePointer[instance]->resetCommand(value);
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].cmr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].cmr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].cmr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].cmr.addressMask) == *port)
+                        scn2671InstancePointer[instance]->writeCommunicationModeRegister(value);
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].txhr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].txhr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].txhr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].txhr.addressMask) == *port)
+                        scn2671InstancePointer[instance]->writeTransmitterHoldingRegister(value);
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].brr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].brr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].brr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].brr.addressMask) == *port)
+                        scn2671InstancePointer[instance]->writeBaudRateControlRegister(value, computerClockSpeed_);
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].imr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].imr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].imr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].imr.addressMask) == *port)
+                        scn2671InstancePointer[instance]->writeInterruptMaskRegister(value);
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].kmr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].kmr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].kmr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].kmr.addressMask) == *port)
+                        scn2671InstancePointer[instance]->writeKeyboardModeRegister(value);
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].commandMisc.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].commandMisc.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].commandMisc.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].commandMisc.addressMask) == *port)
+                        scn2671InstancePointer[instance]->commandMisc(value);
+                }
+            }
+        }
+    }
+
     if (currentComputerConfiguration.mc6845Configuration.defined)
     {
         bool groupFound = false;
@@ -6109,7 +6573,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
 
             if ((address&currentComputerConfiguration.mc6845Configuration.addressMask) == currentComputerConfiguration.mc6845Configuration.address)
             {
-                mc6845Pointer->writeRegister6845(value);
+                mc6845Pointer->writeAddressRegister6845(value);
                 return;
             }
 
@@ -6468,7 +6932,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
                 p_Main->updateAssTabCheck(address);
             }
             
-            for (std::vector<WriteAddress>::iterator i = currentComputerConfiguration.addressLocationConfiguration.writeAddress.begin (); i != currentComputerConfiguration.addressLocationConfiguration.writeAddress.end (); ++i)
+ /*           for (std::vector<WriteAddress>::iterator i = currentComputerConfiguration.addressLocationConfiguration.writeAddress.begin (); i != currentComputerConfiguration.addressLocationConfiguration.writeAddress.end (); ++i)
             {
                 if (address == i->address && (value == i->value || i->value == -1))
                 {
@@ -6480,7 +6944,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
                         break;
                     }
                 }
-            }
+            }*/
 
             switch (address)
             {
@@ -6721,13 +7185,13 @@ void Computer::cpuInstruction()
             
             for (int type=0; type<INTERRUPT_TYPE_MAX; type++)
             {
-                if (interruptRequested[type] && interruptRequestedCounter[type] > 0)
-                    interruptRequestedCounter[type]--;
+                if (interruptStatus[type].requested && interruptStatus[type].requestedCounter > 0)
+                    interruptStatus[type].requestedCounter--;
                 
-                if (interruptRequested[type] && interruptRequestedCounter[type] == 0)
+                if (interruptStatus[type].requested && interruptStatus[type].mask && interruptStatus[type].requestedCounter == 0)
                 {
-                    interruptRequest |= interruptRequested[type];
-                    interruptRequestedCounter[type] = 0;
+                    interruptRequest |= interruptStatus[type].requested;
+                    interruptStatus[type].requestedCounter = 0;
                 }
             }
             if (interruptRequest)
@@ -6736,11 +7200,13 @@ void Computer::cpuInstruction()
                 {
                     if (currentComputerConfiguration.vis1870Configuration.defined)
                         if (currentComputerConfiguration.vis1870Configuration.outputInterruptReset.portNumber[0] == -1)
-                            interruptRequested[INTERRUPT_TYPE_VIS] = false;
-                    interruptRequested[INTERRUPT_TYPE_INPUT] = false;
+                            interruptStatus[INTERRUPT_TYPE_VIS].requested = false;
+                    interruptStatus[INTERRUPT_TYPE_INPUT].requested = false;
+                    interruptStatus[INTERRUPT_TYPE_TIMED].requested = false;
+                    interruptStatus[INTERRUPT_TYPE_SCN2672].requested = false;
                     if (currentComputerConfiguration.i8275Configuration.defined)
                     {
-                        interruptRequested[INTERRUPT_TYPE_I8275_4] = false;
+                        interruptStatus[INTERRUPT_TYPE_I8275_4].requested = false;
                         i8275Pointer->setRowEf8275(1);
                     }
                 }
@@ -7169,18 +7635,6 @@ void Computer::configureExtensions()
         vtPointer->drawScreen();
     }
 
-    if (currentComputerConfiguration.videoTerminalConfiguration.external)
-    {
-        p_Serial = new Serial(XML, computerClockSpeed_, currentComputerConfiguration);
-        p_Serial->configure(currentComputerConfiguration.videoTerminalConfiguration.baudR, currentComputerConfiguration.videoTerminalConfiguration.baudT, currentComputerConfiguration.videoTerminalConfiguration);
-    }
-
-    if (currentComputerConfiguration.videoTerminalConfiguration.loop_back)
-    {
-        p_Serial = new Serial(XML, computerClockSpeed_, currentComputerConfiguration);
-        p_Serial->configure(currentComputerConfiguration.videoTerminalConfiguration.baudR, currentComputerConfiguration.videoTerminalConfiguration.baudT, currentComputerConfiguration.videoTerminalConfiguration);
-    }
-
     if (currentComputerConfiguration.rtcM48t58Configuration.defined)
     {
         message.Printf("RTC M48T58 at address %04X-%04X\n", currentComputerConfiguration.rtcM48t58Configuration.control, currentComputerConfiguration.rtcM48t58Configuration.year);
@@ -7193,14 +7647,17 @@ void Computer::configureExtensions()
     if (currentComputerConfiguration.rtcDs12887Configuration.defined)
         configureRtcDs12788(currentComputerConfiguration.rtcDs12887Configuration);
 
-    if (currentComputerConfiguration.dipConfiguration.defined)
+    numberOfDipInstances_ = 0;
+    for (std::vector<DipConfiguration>::iterator dip = currentComputerConfiguration.dipConfigurationNew.begin (); dip != currentComputerConfiguration.dipConfigurationNew.end (); ++dip)
     {
-        p_Main->configureMessage(&currentComputerConfiguration.dipConfiguration.ioGroupVector, "DIP switch");
+        p_Main->configureMessage(&dip->ioGroupVector, "DIP switch");
         
-        message.Printf("hex value: %02X", currentComputerConfiguration.dipConfiguration.value);
-        setInType(&currentComputerConfiguration.dipConfiguration.ioGroupVector, currentComputerConfiguration.dipConfiguration.input, message);
+        message.Printf("hex value: %02X", dip->value);
+        
+        setInType(&dip->ioGroupVector, dip->input, message);
 
         p_Main->message("");
+        numberOfDipInstances_++;
     }
     
     if (currentComputerConfiguration.adConvertorConfiguration.defined)
@@ -7378,22 +7835,57 @@ void Computer::configureExtensions()
         switch (cdp1854->connection)
         {
             case UART_CONNECTION_TU58:
-                cdp1854Ut58Connection_ = numberOfCdp1854Instances_;
+                uartUt58Connection_ = numberOfCdp1854Instances_;
             break;
 
             case UART_CONNECTION_VT1802:
             break;
 
             case UART_CONNECTION_VIS1802:
-                
             break;
 
             case UART_CONNECTION_VT100:
-                cdp1854Vt100Connection_ = numberOfCdp1854Instances_;
+                uartVt100Connection_ = numberOfCdp1854Instances_;
             break;
 
+            case UART_CONNECTION_LOOP_BACK:
+                uartLoopBackConnection_ = numberOfCdp1854Instances_;
+            break;
         }
         numberOfCdp1854Instances_++;
+    }
+
+    scn2671InstancePointer.clear();
+    numberOfScn2671Instances_ = numberOfCdp1854Instances_;
+    scn2671InstancePointer.resize(numberOfScn2671Instances_);
+    for (std::vector<Scn2671Configuration>::iterator scn2671 = currentComputerConfiguration.scn2671Configuration.begin(); scn2671 != currentComputerConfiguration.scn2671Configuration.end(); ++scn2671)
+    {
+        scn2671InstancePointer.resize(numberOfScn2671Instances_+1);
+        scn2671InstancePointer[numberOfScn2671Instances_] = new Scn2671Instance(numberOfScn2671Instances_);
+        
+        scn2671InstancePointer[numberOfScn2671Instances_]->configureScn2671(*scn2671, computerClockSpeed_, currentComputerConfiguration.scn2671Configuration.size());
+    
+        switch (scn2671->connection)
+        {
+            case UART_CONNECTION_TU58:
+                uartUt58Connection_ = numberOfScn2671Instances_;
+            break;
+
+            case UART_CONNECTION_VT1802:
+            break;
+
+            case UART_CONNECTION_VIS1802:
+            break;
+
+            case UART_CONNECTION_VT100:
+                uartVt100Connection_ = numberOfScn2671Instances_;
+            break;
+
+            case UART_CONNECTION_LOOP_BACK:
+                uartLoopBackConnection_ = numberOfScn2671Instances_;
+            break;
+        }
+        numberOfScn2671Instances_++;
     }
 
     cd4536bPointer.clear();
@@ -7406,6 +7898,18 @@ void Computer::configureExtensions()
         cd4536bPointer[numberOfCd4536b_]->Configure(*cd4536bIo, numberOfCd4536b_);
 
         numberOfCd4536b_++;
+    }
+
+    if (currentComputerConfiguration.videoTerminalConfiguration.external)
+    {
+        p_Serial = new Serial(XML, computerClockSpeed_, currentComputerConfiguration, -1);
+        p_Serial->configure(currentComputerConfiguration.videoTerminalConfiguration.baudR, currentComputerConfiguration.videoTerminalConfiguration.baudT, currentComputerConfiguration.videoTerminalConfiguration);
+    }
+
+    if (currentComputerConfiguration.videoTerminalConfiguration.loop_back)
+    {
+        p_Serial = new Serial(XML, computerClockSpeed_, currentComputerConfiguration, uartLoopBackConnection_);
+        p_Serial->configure(currentComputerConfiguration.videoTerminalConfiguration.baudR, currentComputerConfiguration.videoTerminalConfiguration.baudT, currentComputerConfiguration.videoTerminalConfiguration);
     }
 }
 
@@ -7455,6 +7959,9 @@ void Computer::configureVideoExtensions()
         pixiePointer->initPixie();
         pixiePointer->setZoom(zoom);
         pixiePointer->Show(true);
+
+        p_Main->setPixieRegister(PIXIE_DISABLE, true, DO_NOT_SHOW_ANY_TRACE);
+        p_Main->setPixieRegister(PIXIE_ENABLE, false, DO_NOT_SHOW_ANY_TRACE);
     }
 
     if (currentComputerConfiguration.cdp1864Configuration.defined)
@@ -7469,6 +7976,9 @@ void Computer::configureVideoExtensions()
         cdp1864Pointer->initPixie();
         cdp1864Pointer->setZoom(zoom);
         cdp1864Pointer->Show(true);
+
+        p_Main->setCdp1864Register(CDP1864_DISABLE, true, DO_NOT_SHOW_ANY_TRACE);
+        p_Main->setCdp1864Register(CDP1864_ENABLE, false, DO_NOT_SHOW_ANY_TRACE);
     }
     else
     {
@@ -7511,16 +8021,28 @@ void Computer::configureVideoExtensions()
         fredVideoPointer->setZoom(zoom);
         fredVideoPointer->Show(true);
     }
-    
+   
+    if (currentComputerConfiguration.scn2672Configuration.defined)
+    {
+        double zoom = p_Main->getZoom(currentComputerConfiguration.scn2672Configuration.videoNumber);
+        scn2672Pointer = new Scn2672(p_Main->getRunningComputerText() + " - SCN2672", p_Main->getScn2672Pos(), wxSize(currentComputerConfiguration.scn2672Configuration.screenSize.x*currentComputerConfiguration.scn2672Configuration.charSize.x*zoom, currentComputerConfiguration.scn2672Configuration.screenSize.y*currentComputerConfiguration.scn2672Configuration.charSize.y*zoom), zoom, computerClockSpeed_, currentComputerConfiguration.scn2672Configuration, currentComputerConfiguration.crt8002Configuration);
+        scn2672Pointer->Move(p_Main->getScn2672Pos());
+        p_Video[currentComputerConfiguration.scn2672Configuration.videoNumber] = scn2672Pointer;
+        scn2672Pointer->configureScn2672();
+        scn2672Pointer->configureCrt8002();
+        scn2672Pointer->initScn2672();
+        scn2672Pointer->Show(true);
+    }
+
     if (currentComputerConfiguration.mc6845Configuration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.mc6845Configuration.videoNumber);
         mc6845Pointer = new MC6845(p_Main->getRunningComputerText() + " - MC6845", p_Main->get6845Pos(), wxSize(currentComputerConfiguration.mc6845Configuration.screenSize.x*currentComputerConfiguration.mc6845Configuration.charSize.x*zoom, currentComputerConfiguration.mc6845Configuration.screenSize.y*(currentComputerConfiguration.mc6845Configuration.charSize.y+1)*zoom), zoom, computerClockSpeed_, currentComputerConfiguration.mc6845Configuration);
+        mc6845Pointer->Move(p_Main->get6845Pos());
         p_Video[currentComputerConfiguration.mc6845Configuration.videoNumber] = mc6845Pointer;
         mc6845Pointer->configure6845();
         mc6845Pointer->init6845();
         mc6845Pointer->Show(true);
-        currentComputerConfiguration.mc6845Configuration.defined = true;
     }
 
     if (currentComputerConfiguration.i8275Configuration.defined)
@@ -7894,6 +8416,8 @@ void Computer::moveWindows()
         fredVideoPointer->Move(p_Main->getFredPos());
     if (currentComputerConfiguration.tmsConfiguration.defined)
         tmsPointer->Move(p_Main->getTmsPos());
+    if (currentComputerConfiguration.scn2672Configuration.defined)
+        scn2672Pointer->Move(p_Main->getScn2672Pos());
     if (currentComputerConfiguration.mc6845Configuration.defined)
         mc6845Pointer->Move(p_Main->get6845Pos());
     if (currentComputerConfiguration.mc6847Configuration.defined)
@@ -7930,6 +8454,8 @@ void Computer::updateTitle(wxString Title)
         fredVideoPointer->SetTitle(p_Main->getRunningComputerText() +Title);
     if (currentComputerConfiguration.tmsConfiguration.defined)
         tmsPointer->SetTitle(p_Main->getRunningComputerText() + " - TMS 9918"+Title);
+    if (currentComputerConfiguration.scn2672Configuration.defined)
+        scn2672Pointer->SetTitle(p_Main->getRunningComputerText() + " - SCN2672"+Title);
     if (currentComputerConfiguration.mc6845Configuration.defined)
         mc6845Pointer->SetTitle(p_Main->getRunningComputerText() + " - MC6845"+Title);
     if (currentComputerConfiguration.mc6847Configuration.defined)
@@ -8011,6 +8537,16 @@ void Computer::sleepComputer(long ms)
     threadPointer->Sleep(ms);
 }
 
+Byte Computer::getTmsMemory(int address)
+{
+    return tmsPointer->getTmsMemory(address);
+}
+
+void Computer::setTmsMemory(int address, Byte value)
+{
+    tmsPointer->setTmsMemory(address, value);
+}
+
 Byte Computer::read8275CharRom(Word address)
 {
     if (currentComputerConfiguration.i8275Configuration.defined)
@@ -8067,6 +8603,20 @@ Byte Computer::readSt4ColorDirect(Word addr)
 void Computer::writeSt4ColorDirect(Word addr, Byte value)
 {
     colorMemory1864_[addr] = value;
+}
+
+Byte Computer::readScn2672Ram(Word address)
+{
+    if (currentComputerConfiguration.scn2672Configuration.defined)
+        return scn2672Pointer->readScn2672Ram(address);
+    else
+        return 0;
+}
+
+void Computer::writeScn2672Ram(Word address, Byte value)
+{
+    if (currentComputerConfiguration.scn2672Configuration.defined)
+        scn2672Pointer->writeScn2672Ram(address, value);
 }
 
 Byte Computer::read6845CharRom(Word address)
@@ -8593,37 +9143,37 @@ void Computer::executeFunction(int function, Word additionalAddress)
         break;
 
         case INFO_START_XMODEM_SAVE:
-            interruptRequestedCounter[INTERRUPT_TYPE_UART] = 2;
+            interruptStatus[INTERRUPT_TYPE_UART].requestedCounter = 2;
             p_Main->startAutoTerminalSave(TERM_XMODEM_SAVE);
         break;
 
         case INFO_START_XMODEM_LOAD:
-            interruptRequestedCounter[INTERRUPT_TYPE_UART] = 2;
+            interruptStatus[INTERRUPT_TYPE_UART].requestedCounter = 2;
             p_Main->startAutoTerminalLoad(TERM_XMODEM_LOAD);
         break;
             
         case INFO_START_YMODEM_SAVE:
-            interruptRequestedCounter[INTERRUPT_TYPE_UART] = 2;
+            interruptStatus[INTERRUPT_TYPE_UART].requestedCounter = 2;
             p_Main->startYsTerminalSave(TERM_YMODEM_SAVE);
         break;
             
         case INFO_START_HEXMODEM_SAVE:
-            interruptRequestedCounter[INTERRUPT_TYPE_UART] = 2;
+            interruptStatus[INTERRUPT_TYPE_UART].requestedCounter = 2;
             p_Main->startAutoTerminalSave(TERM_HEX);
         break;
 
         case INFO_START_HEXMODEM_LOAD:
-            interruptRequestedCounter[INTERRUPT_TYPE_UART] = 2;
+            interruptStatus[INTERRUPT_TYPE_UART].requestedCounter = 2;
             p_Main->startAutoTerminalLoad(TERM_HEX);
         break;
             
         case INFO_START_BINMODEM_SAVE:
-            interruptRequestedCounter[INTERRUPT_TYPE_UART] = 2;
+            interruptStatus[INTERRUPT_TYPE_UART].requestedCounter = 2;
             p_Main->startAutoTerminalSave(TERM_BIN);
         break;
 
         case INFO_START_BINMODEM_LOAD:
-            interruptRequestedCounter[INTERRUPT_TYPE_UART] = 2;
+            interruptStatus[INTERRUPT_TYPE_UART].requestedCounter = 2;
             p_Main->startAutoTerminalLoad(TERM_BIN);
         break;
             
@@ -10507,6 +11057,10 @@ bool Computer::serialDataOutput(int connection, Byte transmitterHoldingRegister,
             if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
                 vtPointer->serialDataOutput(transmitterHoldingRegister);
         break;
+
+        case UART_CONNECTION_LOOP_BACK:
+            p_Serial->serialDataOutput(transmitterHoldingRegister);
+        break;
     }
     return false;
 }
@@ -10527,6 +11081,9 @@ void Computer::sendSerialBreakComputer(int connection, bool fBreak)
 
         case UART_CONNECTION_VT100:
         break;
+
+        case UART_CONNECTION_LOOP_BACK:
+        break;
     }
 }
 
@@ -10537,9 +11094,12 @@ Byte Computer::readReceiverHoldingRegister(int uartNumber)
         return vtPointer->readReceiverHoldingRegister();
     else
         return 0;*/
-    if (cdp1854Vt100Connection_ == uartNumber)
+    if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE && currentComputerConfiguration.videoTerminalConfiguration.type != EXTERNAL_TERMINAL && uartVt100Connection_ == uartNumber)
+//    if (uartVt100Connection_ == uartNumber)
         return vtPointer->readReceiverHoldingRegister();
-    if (cdp1854Ut58Connection_ == uartNumber)
+    if (uartLoopBackConnection_ == uartNumber)
+        return p_Serial->readReceiverHoldingRegister();
+    if (uartUt58Connection_ == uartNumber)
     {
         TxToHost(returnValue, uartNumber);
         return returnValue;
@@ -10549,49 +11109,205 @@ Byte Computer::readReceiverHoldingRegister(int uartNumber)
 
 void Computer::setSendPacket(bool status)
 {
-    if (cdp1854Vt100Connection_ != -1)
-        cdp1854InstancePointer[cdp1854Vt100Connection_]->setSendPacket(status);
+    if (uartVt100Connection_ < numberOfCdp1854Instances_)
+    {
+        if (uartVt100Connection_ != -1)
+            cdp1854InstancePointer[uartVt100Connection_]->setSendPacket(status);
+    }
+    else
+    {
+        if (uartVt100Connection_ != -1)
+            scn2671InstancePointer[uartVt100Connection_]->setSendPacket(status);
+    }
+    if (uartLoopBackConnection_ < numberOfCdp1854Instances_)
+    {
+        if (uartLoopBackConnection_ != -1)
+            cdp1854InstancePointer[uartLoopBackConnection_]->setSendPacket(status);
+    }
+    else
+    {
+        if (uartLoopBackConnection_ != -1)
+            scn2671InstancePointer[uartLoopBackConnection_]->setSendPacket(status);
+    }
 }
 
 void Computer::setTerminalLoad(bool status)
 {
-    if (cdp1854Vt100Connection_ != -1)
-        cdp1854InstancePointer[cdp1854Vt100Connection_]->setTerminalLoad(status);
+    if (uartVt100Connection_ < numberOfCdp1854Instances_)
+    {
+        if (uartVt100Connection_ != -1)
+            cdp1854InstancePointer[uartVt100Connection_]->setTerminalLoad(status);
+    }
+    else
+    {
+        if (uartVt100Connection_ != -1)
+            scn2671InstancePointer[uartVt100Connection_]->setTerminalLoad(status);
+    }
+    if (uartLoopBackConnection_ < numberOfCdp1854Instances_)
+    {
+        if (uartLoopBackConnection_ != -1)
+            cdp1854InstancePointer[uartLoopBackConnection_]->setTerminalLoad(status);
+    }
+    else
+    {
+        if (uartLoopBackConnection_ != -1)
+            scn2671InstancePointer[uartLoopBackConnection_]->setTerminalLoad(status);
+    }
 }
 
 void Computer::setTerminalSave(bool status)
 {
-    if (cdp1854Vt100Connection_ != -1)
-        cdp1854InstancePointer[cdp1854Vt100Connection_]->setTerminalSave(status);
+    if (uartVt100Connection_ < numberOfCdp1854Instances_)
+    {
+        if (uartVt100Connection_ != -1)
+            cdp1854InstancePointer[uartVt100Connection_]->setTerminalSave(status);
+    }
+    else
+    {
+        if (uartVt100Connection_ != -1)
+            scn2671InstancePointer[uartVt100Connection_]->setTerminalSave(status);
+    }
+    if (uartLoopBackConnection_ < numberOfCdp1854Instances_)
+    {
+        if (uartLoopBackConnection_ != -1)
+            cdp1854InstancePointer[uartLoopBackConnection_]->setTerminalSave(status);
+    }
+    else
+    {
+        if (uartLoopBackConnection_ != -1)
+            scn2671InstancePointer[uartLoopBackConnection_]->setTerminalSave(status);
+    }
 }
 
 void Computer::dataAvailable(int uartNumber)
 {
-    if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE && uartNumber == 0)
+    if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE && currentComputerConfiguration.videoTerminalConfiguration.type != EXTERNAL_TERMINAL && uartNumber == 0)
         p_Vt100[uartNumber]->dataAvailable();
-    if (cdp1854Vt100Connection_ == uartNumber)
-        cdp1854InstancePointer[cdp1854Vt100Connection_]->dataAvailable();
-    if (cdp1854Ut58Connection_ == uartNumber)
-        cdp1854InstancePointer[cdp1854Ut58Connection_]->dataAvailable();
+
+    if (uartNumber == -1)
+    {
+        if (p_Serial != NULL)
+            p_Serial->dataAvailable();
+        return;
+    }
+    
+    if (uartVt100Connection_ < numberOfCdp1854Instances_)
+    {
+        if (uartVt100Connection_ == uartNumber)
+            cdp1854InstancePointer[uartVt100Connection_]->dataAvailable();
+    }
+    else
+    {
+        if (uartVt100Connection_ == uartNumber)
+            scn2671InstancePointer[uartVt100Connection_]->dataAvailable();
+    }
+    if (uartLoopBackConnection_ < numberOfCdp1854Instances_)
+    {
+        if (uartLoopBackConnection_ == uartNumber)
+            cdp1854InstancePointer[uartLoopBackConnection_]->dataAvailable();
+    }
+    else
+    {
+        if (uartLoopBackConnection_ == uartNumber)
+            scn2671InstancePointer[uartLoopBackConnection_]->dataAvailable();
+    }
+    if (uartUt58Connection_ < numberOfCdp1854Instances_)
+    {
+        if (uartUt58Connection_ == uartNumber)
+            cdp1854InstancePointer[uartUt58Connection_]->dataAvailable();
+    }
+    else
+    {
+        if (uartUt58Connection_ == uartNumber)
+            scn2671InstancePointer[uartUt58Connection_]->dataAvailable();
+    }
 }
 
 void Computer::dataAvailable(Byte data, int uartNumber)
 {
-    if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE && uartNumber == 0)
+    if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE && currentComputerConfiguration.videoTerminalConfiguration.type != EXTERNAL_TERMINAL && uartNumber == 0)
         p_Vt100[uartNumber]->dataAvailable(data);
-    if (cdp1854Vt100Connection_ == uartNumber)
-        cdp1854InstancePointer[cdp1854Vt100Connection_]->dataAvailable(data);
-    if (cdp1854Ut58Connection_ == uartNumber)
-        cdp1854InstancePointer[cdp1854Ut58Connection_]->dataAvailable(data);
+
+    if (uartNumber == -1)
+    {
+        if (p_Serial != NULL)
+            p_Serial->dataAvailable(data);
+        return;
+    }
+    
+    if (uartVt100Connection_ < numberOfCdp1854Instances_)
+    {
+        if (uartVt100Connection_ == uartNumber)
+            cdp1854InstancePointer[uartVt100Connection_]->dataAvailable(data);
+    }
+    else
+    {
+        if (uartVt100Connection_ == uartNumber)
+            scn2671InstancePointer[uartVt100Connection_]->dataAvailable(data);
+    }
+    if (uartLoopBackConnection_ < numberOfCdp1854Instances_)
+    {
+        if (uartLoopBackConnection_ == uartNumber)
+            cdp1854InstancePointer[uartLoopBackConnection_]->dataAvailable(data);
+    }
+    else
+    {
+        if (uartLoopBackConnection_ == uartNumber)
+            scn2671InstancePointer[uartLoopBackConnection_]->dataAvailable(data);
+    }
+    if (uartUt58Connection_ < numberOfCdp1854Instances_)
+    {
+        if (uartUt58Connection_ == uartNumber)
+            cdp1854InstancePointer[uartUt58Connection_]->dataAvailable(data);
+    }
+    else
+    {
+        if (uartUt58Connection_ == uartNumber)
+            scn2671InstancePointer[uartUt58Connection_]->dataAvailable(data);
+    }
 }
 
 void Computer::dataAvailableUart(bool data, int uartNumber)
 {
-    if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE && uartNumber == 0)
+    if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE && currentComputerConfiguration.videoTerminalConfiguration.type != EXTERNAL_TERMINAL && uartNumber == 0)
         p_Vt100[uartNumber]->dataAvailableUart(data);
-    if (cdp1854Vt100Connection_ == uartNumber)
-        cdp1854InstancePointer[cdp1854Vt100Connection_]->dataAvailableUart(data);
-    if (cdp1854Ut58Connection_ == uartNumber)
-        cdp1854InstancePointer[cdp1854Ut58Connection_]->dataAvailableUart(data);
+
+    if (uartNumber == -1)
+    {
+        if (p_Serial != NULL)
+            p_Serial->dataAvailableUart(data);
+        return;
+    }
+    
+    if (uartVt100Connection_ < numberOfCdp1854Instances_)
+    {
+        if (uartVt100Connection_ == uartNumber)
+            cdp1854InstancePointer[uartVt100Connection_]->dataAvailableUart(data);
+    }
+    else
+    {
+        if (uartVt100Connection_ == uartNumber)
+            scn2671InstancePointer[uartVt100Connection_]->dataAvailableUart(data);
+    }
+    if (uartLoopBackConnection_ < numberOfCdp1854Instances_)
+    {
+        if (uartLoopBackConnection_ == uartNumber)
+            cdp1854InstancePointer[uartLoopBackConnection_]->dataAvailableUart(data);
+    }
+    else
+    {
+        if (uartLoopBackConnection_ == uartNumber)
+            scn2671InstancePointer[uartLoopBackConnection_]->dataAvailableUart(data);
+    }
+    if (uartUt58Connection_ < numberOfCdp1854Instances_)
+    {
+        if (uartUt58Connection_ == uartNumber)
+            cdp1854InstancePointer[uartUt58Connection_]->dataAvailableUart(data);
+    }
+    else
+    {
+        if (uartUt58Connection_ == uartNumber)
+            scn2671InstancePointer[uartUt58Connection_]->dataAvailableUart(data);
+    }
 }
 

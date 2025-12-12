@@ -55,7 +55,7 @@ SN76430N::SN76430N(const wxString& title, const wxPoint& pos, const wxSize& size
     clock_ = clock;
     videoClock_ = videoClock;
     videoType_ = VIDEOXMLSN76430N;
-    videoNumber_ = sn76430NConfiguration.videoNumber;
+    sn76430NConfiguration_ = sn76430NConfiguration;
  
     colourIndex_ = COL_SN76430N_WHITE;
 
@@ -75,8 +75,7 @@ SN76430N::SN76430N(const wxString& title, const wxPoint& pos, const wxSize& size
     offsetX_ = 0;
     offsetY_ = 0;
         
-
-    videoScreenPointer = new VideoScreen(this, wxSize(videoWidth_, videoHeight_), zoom, videoNumber_);
+    videoScreenPointer = new VideoScreen(this, wxSize(videoWidth_, videoHeight_), zoom, sn76430NConfiguration_.videoNumber);
     
     setCycle();
     defineColours();
@@ -175,7 +174,7 @@ void SN76430N::copyScreen()
             brushColour_[i] = brushColourNew_[i];
             penColour_[i] = penColourNew_[i];
         }
-        for (int i=0; i<10; i++)
+        for (int i=0; i<VIDEOXMLMAX; i++)
         {
             borderX_[i] = borderXNew_[i];
             borderY_[i] = borderYNew_[i];
@@ -196,7 +195,7 @@ void SN76430N::copyScreen()
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
-        p_Main->eventRefreshVideo(false, videoNumber_);
+        p_Main->eventRefreshVideo(false, sn76430NConfiguration_.videoNumber);
         reBlit_ = false;
         reDraw_ = false;
     }
@@ -230,7 +229,7 @@ void SN76430N::drawScreen()
     setColour(COL_SN76430N_BLACK);
     drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
 
-    for (Word address=0x800; address<=0xfff; address++)
+    for (Word address=sn76430NConfiguration_.startRam; address<=sn76430NConfiguration_.endRam; address++)
     {
         int x = (address & 0x3f)*2;
         int y = ((address & 0x7c0) >> 6)*3;
@@ -289,7 +288,7 @@ void SN76430N::setFullScreen(bool fullScreenSet)
 void SN76430N::onF3()
 {
     fullScreenSet_ = !fullScreenSet_;
-    p_Main->eventVideoSetFullScreen(fullScreenSet_, videoNumber_);
+    p_Main->eventVideoSetFullScreen(fullScreenSet_, sn76430NConfiguration_.videoNumber);
 }
 
 void SN76430N::reBlit(wxDC &dc)

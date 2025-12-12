@@ -307,7 +307,8 @@ Video::Video(const wxString& title, const wxPoint& pos, const wxSize& size)
     zoomChanged_ = 0;
     videoType_ = 0;
     videoSyncCount_ = 0;
-    memoryDCvalid_ = true;
+//    memoryDCvalid_ = true;
+    memoryDCvalid_ = false;
     colourIndex_ = 0;
 }
 
@@ -449,7 +450,7 @@ void Video::defineColours()
         brushColour_[i] = wxBrush(colour_[i]);
         penColour_[i] = wxPen(colour_[i], 1);
     }
-    for (int i=0; i<screenInfo.numberVideo; i++)
+    for (int i=0; i<VIDEOXMLMAX; i++)
     {
         button.Printf("%d", i);
         button.Trim(false);
@@ -485,7 +486,7 @@ void Video::setScreenSize()
     if (fullScreenSet_)
         return;
     if (wxIsMainThread())
-        SetClientSize(destinationWidth_, destinationHeight_);
+        SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_);
     else
     {
         if (videoScreenPointer->isVt())

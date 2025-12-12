@@ -150,6 +150,8 @@ public:
     virtual void pixieBarSize() {};
 
 protected:
+    Sn76430NConfiguration sn76430NConfiguration_;
+    
     Byte pageMemory_[4096];
     Byte characterMemory_[4096];
     Byte graphicMemory_[8192];

@@ -122,8 +122,6 @@ protected:
     Byte* pagerMemoryType_;
     int colorMemory1862_[255];
     int colorMemory1864_[1024];
-    Byte mc6845ram_[16383];
-    Byte mc6845CharRom_[2048];
     Byte diagRomReplacement_[4096];
     
     MemoryDefinition sequencerMemory;

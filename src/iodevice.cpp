@@ -35,6 +35,9 @@ IoDevice::IoDevice()
 
 void IoDevice::initIo()
 {
+    outputConfiguration.resize(1);
+    inputConfiguration.resize(2);
+
     for (int group=0; group<257; group++)
     {
         for (int io=0; io<5; io++)
@@ -49,10 +52,13 @@ void IoDevice::initIo()
         {
             for (int q=0; q<2; q++)
             {
-                inType_[q][group][io] = 0;
-                inItemNumber_[q][group][io] = 0;
-                outType_[q][group][io] = 0;
-                outItemNumber_[q][group][io] = 0;
+                for (int confNumber=0; confNumber<2; confNumber++)
+                {
+                    inputConfiguration[confNumber].type[q][group][io] = 0;
+                    inputConfiguration[confNumber].itemNumber[q][group][io] = 0;
+                }
+                outputConfiguration[0].type[q][group][io] = 0;
+                outputConfiguration[0].itemNumber[q][group][io] = 0;
             }
         }
     }
@@ -146,12 +152,16 @@ void IoDevice::setInType(int number, int inType, int itemNumber)
     if (inType == 0)
         return;
 
+    size_t inputConfigurationNumber;
     for (int q=0; q<2; q++)
+    {
         for (int iogroup=0; iogroup<257; iogroup++)
         {
-            inType_[q][iogroup][number] = inType;
-            inItemNumber_[q][iogroup][number] = itemNumber;
+            inputConfigurationNumber = getInputConfiguration(q, iogroup, number);
+            inputConfiguration[inputConfigurationNumber].type[q][iogroup][number] = inType;
+            inputConfiguration[inputConfigurationNumber].itemNumber[q][iogroup][number] = itemNumber;
         }
+    }
 }
 
 void IoDevice::setInType(vector<int>* ioGroup, int number, int inType, int itemNumber)
@@ -159,6 +169,7 @@ void IoDevice::setInType(vector<int>* ioGroup, int number, int inType, int itemN
     if (inType == 0)
         return;
     
+    size_t inputConfigurationNumber;
     if (ioGroup->size() == 0)
         setInType(number, inType, itemNumber);
     else
@@ -167,8 +178,9 @@ void IoDevice::setInType(vector<int>* ioGroup, int number, int inType, int itemN
         {
             for (int q=0; q<2; q++)
             {
-                inType_[q][*ioGroupIterator+1][number] = inType;
-                inItemNumber_[q][*ioGroupIterator+1][number] = itemNumber;
+                inputConfigurationNumber = getInputConfiguration(q, *ioGroupIterator+1, number);
+                inputConfiguration[inputConfigurationNumber].type[q][*ioGroupIterator+1][number] = inType;
+                inputConfiguration[inputConfigurationNumber].itemNumber[q][*ioGroupIterator+1][number] = itemNumber;
             }
         }
     }
@@ -179,6 +191,7 @@ void IoDevice::setInType(int q, vector<int>* ioGroup, int number, int inType, in
     if (inType == 0)
         return;
     
+    size_t inputConfigurationNumber;
     if (q == -1)
         setInType(ioGroup, number, inType, itemNumber);
     else
@@ -187,16 +200,18 @@ void IoDevice::setInType(int q, vector<int>* ioGroup, int number, int inType, in
         {
             for (int group=0; group<257; group++)
             {
-                inType_[q][group][number] = inType;
-                inItemNumber_[q][group][number] = itemNumber;
+                inputConfigurationNumber = getInputConfiguration(q, group, number);
+                inputConfiguration[inputConfigurationNumber].type[q][group][number] = inType;
+                inputConfiguration[inputConfigurationNumber].itemNumber[q][group][number] = itemNumber;
             }
         }
         else
         {
             for (std::vector<int>::iterator ioGroupIterator = ioGroup->begin (); ioGroupIterator != ioGroup->end (); ++ioGroupIterator)
             {
-                inType_[q][*ioGroupIterator+1][number] = inType;
-                inItemNumber_[q][*ioGroupIterator+1][number] = itemNumber;
+                inputConfigurationNumber = getInputConfiguration(q, *ioGroupIterator+1, number);
+                inputConfiguration[inputConfigurationNumber].type[q][*ioGroupIterator+1][number] = inType;
+                inputConfiguration[inputConfigurationNumber].itemNumber[q][*ioGroupIterator+1][number] = itemNumber;
             }
         }
     }
@@ -217,7 +232,12 @@ void IoDevice::setInType(vector<int>* ioGroup, IoPort port, wxString message, in
     wxString inputQtext;
     
     if (port.qValue == -1)
-        inputQtext = "	Input ";
+    {
+        if (port.addressMode)
+            inputQtext = "	Read ";
+        else
+            inputQtext = "	Input ";
+    }
     else
         inputQtext.Printf("	Q = %d & input ", port.qValue);
 
@@ -226,7 +246,10 @@ void IoDevice::setInType(vector<int>* ioGroup, IoPort port, wxString message, in
         setInType(port.qValue, ioGroup, *portNumber, port.ioDefinition, itemNumber);
         if (inputPorts != "")
             inputPorts += ", ";
-        inputPorts.Printf(inputPorts + "%d", *portNumber);
+        if (port.addressMode)
+            inputPorts.Printf(inputPorts + "address %04X", *portNumber);
+        else
+            inputPorts.Printf(inputPorts + "%d", *portNumber);
     }
     
     p_Main->message(inputQtext + inputPorts + ": " + message);
@@ -237,12 +260,16 @@ void IoDevice::setOutType(int number, int outType, int itemNumber)
     if (outType == 0)
         return;
 
+    size_t outputConfigurationNumber;
     for (int q=0; q<2; q++)
+    {
         for (int iogroup=0; iogroup<257; iogroup++)
         {
-            outType_[q][iogroup][number] = outType;
-            outItemNumber_[q][iogroup][number] = itemNumber;
+            outputConfigurationNumber = getOutputConfiguration(q, iogroup, number);
+            outputConfiguration[outputConfigurationNumber].type[q][iogroup][number] = outType;
+            outputConfiguration[outputConfigurationNumber].itemNumber[q][iogroup][number] = itemNumber;
         }
+    }
 }
 
 void IoDevice::setOutType(vector<int>* ioGroup, int number, int outType, int itemNumber)
@@ -250,6 +277,7 @@ void IoDevice::setOutType(vector<int>* ioGroup, int number, int outType, int ite
     if (outType == 0)
         return;
 
+    size_t outputConfigurationNumber;
     if (ioGroup->size() == 0)
         setOutType(number, outType, itemNumber);
     else
@@ -258,8 +286,9 @@ void IoDevice::setOutType(vector<int>* ioGroup, int number, int outType, int ite
         {
             for (std::vector<int>::iterator ioGroupIterator = ioGroup->begin (); ioGroupIterator != ioGroup->end (); ++ioGroupIterator)
             {
-                outType_[q][*ioGroupIterator+1][number] = outType;
-                outItemNumber_[q][*ioGroupIterator+1][number] = itemNumber;
+                outputConfigurationNumber = getOutputConfiguration(q, *ioGroupIterator+1, number);
+                outputConfiguration[outputConfigurationNumber].type[q][*ioGroupIterator+1][number] = outType;
+                outputConfiguration[outputConfigurationNumber].itemNumber[q][*ioGroupIterator+1][number] = itemNumber;
             }
         }
     }
@@ -270,6 +299,7 @@ void IoDevice::setOutType(int q, vector<int>* ioGroup, int number, int outType, 
     if (outType == 0)
         return;
 
+    size_t outputConfigurationNumber;
     if (q == -1)
         setOutType(ioGroup, number, outType, itemNumber);
     else
@@ -278,16 +308,18 @@ void IoDevice::setOutType(int q, vector<int>* ioGroup, int number, int outType, 
         {
             for (int group=0; group<257; group++)
             {
-                outType_[q][group][number] = outType;
-                outItemNumber_[q][group][number] = itemNumber;
+                outputConfigurationNumber = getOutputConfiguration(q, group, number);
+                outputConfiguration[outputConfigurationNumber].type[q][group][number] = outType;
+                outputConfiguration[outputConfigurationNumber].itemNumber[q][group][number] = itemNumber;
             }
         }
         else
         {
             for (std::vector<int>::iterator ioGroupIterator = ioGroup->begin (); ioGroupIterator != ioGroup->end (); ++ioGroupIterator)
             {
-                outType_[q][*ioGroupIterator+1][number] = outType;
-                outItemNumber_[q][*ioGroupIterator+1][number] = itemNumber;
+                outputConfigurationNumber = getOutputConfiguration(q, *ioGroupIterator+1, number);
+                outputConfiguration[outputConfigurationNumber].type[q][*ioGroupIterator+1][number] = outType;
+                outputConfiguration[outputConfigurationNumber].itemNumber[q][*ioGroupIterator+1][number] = itemNumber;
             }
         }
     }
@@ -308,7 +340,12 @@ void IoDevice::setOutType(vector<int>* ioGroup, IoPort port, wxString message, i
     wxString outputQtext;
     
     if (port.qValue == -1)
-        outputQtext = "	Output ";
+    {
+        if (port.addressMode)
+            outputQtext = "	Write ";
+        else
+            outputQtext = "	Output ";
+    }
     else
         outputQtext.Printf("	Q = %d & output ", port.qValue);
 
@@ -317,9 +354,67 @@ void IoDevice::setOutType(vector<int>* ioGroup, IoPort port, wxString message, i
         setOutType(port.qValue, ioGroup, *portNumber, port.ioDefinition, itemNumber);
         if (outputPorts != "")
             outputPorts += ", ";
-        outputPorts.Printf(outputPorts + "%d", *portNumber);
+        if (port.addressMode)
+            outputPorts.Printf(outputPorts + "address %04X", *portNumber);
+        else
+            outputPorts.Printf(outputPorts + "%d", *portNumber);
     }
     
     p_Main->message(outputQtext + outputPorts + ": " + message);
 }
 
+size_t IoDevice::getInputConfiguration(int q, int group, int number)
+{
+    if (number > 7)
+        return 0;
+    
+    size_t inputConfigurationNumber = 0;
+    while (inputConfiguration[inputConfigurationNumber].type[q][group][number] != 0)
+    {
+        inputConfigurationNumber++;
+        if (inputConfigurationNumber >= inputConfiguration.size())
+        {
+            inputConfiguration.resize(inputConfigurationNumber+1);
+            for (int group=0; group<257; group++)
+            {
+                for (int io=0; io<8; io++)
+                {
+                    for (int q=0; q<2; q++)
+                    {
+                        inputConfiguration[inputConfigurationNumber].type[q][group][io] = 0;
+                        inputConfiguration[inputConfigurationNumber].itemNumber[q][group][io] = 0;
+                    }
+                }
+            }
+        }
+    }
+    return inputConfigurationNumber;
+}
+
+size_t IoDevice::getOutputConfiguration(int q, int group, int number)
+{
+    if (number > 7)
+        return 0;
+    
+    size_t outputConfigurationNumber = 0;
+    while (outputConfiguration[outputConfigurationNumber].type[q][group][number] != 0)
+    {
+        outputConfigurationNumber++;
+        if (outputConfigurationNumber >= outputConfiguration.size())
+        {
+            outputConfiguration.resize(outputConfigurationNumber+1);
+            for (int group=0; group<257; group++)
+            {
+                for (int io=0; io<8; io++)
+                {
+                    for (int q=0; q<2; q++)
+                    {
+                        outputConfiguration[outputConfigurationNumber].type[q][group][io] = 0;
+                        outputConfiguration[outputConfigurationNumber].itemNumber[q][group][io] = 0;
+                    }
+                }
+            }
+        }
+    }
+    return outputConfigurationNumber;
+}

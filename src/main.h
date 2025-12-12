@@ -256,7 +256,7 @@ protected:
 #define EVENT_ZOOM 39
 #define SET_CONVERT_STATE 40
 #define SET_STATUS_BAR_LED 41
-//
+#define BEEP_TIMER 42
 #define ENABLE_CLOCK 43
 #define PAUSE_STATE 44
 #define SET_BUTTON_LABEL 45
@@ -433,7 +433,6 @@ public:
     int start;
     int number;
     wxString defaultColour[COL_MAX];
-    int numberVideo;
     int borderX[VIDEOXMLMAX];
     int borderY[VIDEOXMLMAX];
 };
@@ -445,7 +444,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 2.00
-#define EMMA_SUB_VERSION 0
+#define EMMA_SUB_VERSION 2
 
 #define XML 0
 
@@ -485,6 +484,8 @@ public:
 #define PRINTERFONT 6006
 #define PAL 0
 #define NTSC 1
+#define ST4_NTSC 0
+#define ST4_PAL 1
 
 // GUI TAB values
 #define XMLTAB 0
@@ -497,6 +498,9 @@ public:
 #define TRACETAB 0
 #define CHIP8TAB 1
 #define LASTDEBUGGERTAB 1
+
+#define MAINTAB 0
+#define VIDEOTAB 1
 
 #define DISKNONE 0
 #define DISKFDC 1
@@ -539,6 +543,7 @@ public:
 #define VIDEOVIP2K 10
 #define VIDEOFRED 11
 #define VIDEOSTUDIOIV 12
+#define VIDEOSCN2672 13
 //#define VIDEOXMLMAX 14
 
 #define VIDEOVT 0
@@ -1008,6 +1013,7 @@ public:
 
     void onComputer(wxNotebookEvent& event);
     void onDebuggerChoiceBook(wxNotebookEvent& event);
+    void onMessageChoiceBook(wxNotebookEvent& event);
     void onStart(wxCommandEvent& event);
     void onStart();
     void onStop(wxCommandEvent& event);
@@ -1019,6 +1025,7 @@ public:
     wxString getGroupMessage(int ioGroup);
     void configureMessage(vector<int>* ioGroup, wxString text);
     wxString getGroupMessage(vector<int>* ioGroup);
+    wxString getGroupMessageXml(vector<int>* ioGroup);
     void message(wxString buffer);
     void messageNoReturn(wxString buffer);
     void messageInt(int value);
@@ -1159,6 +1166,7 @@ public:
     wxSize eventGetClientSize(bool isVt, int uart_video_Number);
 
     void SetClientSizeEvent(guiEvent& event);
+    void setClientSizeEvent(wxSize size, bool changeScreenSize, bool isVt, int uartNumber);
     void eventSetClientSize(wxSize size, bool changeScreenSize, bool isVt, int uartNumber);
     void eventSetClientSize(int sizex, int sizey, bool changeScreenSize, bool isVt, int uartNumber);
 
@@ -1205,6 +1213,10 @@ public:
     void debounceTimeout(wxTimerEvent& event);
     void setDebounceTimer(guiEvent& event);
     void eventDebounceTimer();
+
+    void beepTimeout(wxTimerEvent& event);
+    void setBeepTimer(guiEvent& event);
+    void eventBeepTimer(int frequency, int ms);
 
     void guiSizeTimeout(wxTimerEvent& event);
  
@@ -1259,8 +1271,8 @@ private:
 
     wxString message_;
     time_t startTime_;
-    time_t lapTime_;
-    time_t lapTimeStart_;
+    wxLongLong lapTime_;
+    wxLongLong lapTimeStart_;
     uint64_t lastNumberOfCpuCycles_;
     uint64_t lastInstructionCounter_;
     bool cpuCyclesOverflow_;
@@ -1293,6 +1305,18 @@ private:
 
 EXT Main *p_Main;
 EXT Video *p_Video[VIDEOXMLMAX];
+EXT VIS1870 *vis1870Pointer;
+EXT Tms9918 *tmsPointer;
+EXT i8275 *i8275Pointer;
+EXT MC6845 *mc6845Pointer;
+EXT Scn2672 *scn2672Pointer;
+EXT mc6847 *mc6847Pointer;
+EXT Pixie *pixiePointer;
+EXT Pixie *coinPointer;
+EXT Pixie *cdp1864Pointer;
+EXT PixieFred *fredVideoPointer;
+EXT PixieVip2K *vip2KVideoPointer;
+EXT PixieStudioIV *st4VideoPointer;
 EXT Video *p_Vt100[2];
 EXT Serial *p_Serial;
 EXT Computer *p_Computer;

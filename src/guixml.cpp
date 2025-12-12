@@ -349,6 +349,8 @@ void GuiXml::readXmlWindowConfig()
     computerConfiguration.fredVideoConfiguration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_FRED_Y", computerConfiguration.fredVideoConfiguration.defaultY);
     computerConfiguration.tmsConfiguration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Tms_X", computerConfiguration.tmsConfiguration.defaultX);
     computerConfiguration.tmsConfiguration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Tms_Y", computerConfiguration.tmsConfiguration.defaultY);
+    computerConfiguration.scn2672Configuration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_SCN2672_X", computerConfiguration.scn2672Configuration.defaultX);
+    computerConfiguration.scn2672Configuration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_SCN2672_Y", computerConfiguration.scn2672Configuration.defaultY);
     computerConfiguration.mc6845Configuration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_MC6845_X", computerConfiguration.mc6845Configuration.defaultX);
     computerConfiguration.mc6845Configuration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_MC6845_Y", computerConfiguration.mc6845Configuration.defaultY);
     computerConfiguration.mc6847Configuration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_MC6847_X", computerConfiguration.mc6847Configuration.defaultX);
@@ -430,6 +432,13 @@ void GuiXml::writeXmlWindowConfig()
             configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Tms_X", computerConfiguration.tmsConfiguration.x);
         if (computerConfiguration.tmsConfiguration.y > 0)
             configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_Tms_Y", computerConfiguration.tmsConfiguration.y);
+    }
+    if (computerConfiguration.scn2672Configuration.defined)
+    {
+        if (computerConfiguration.scn2672Configuration.x > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_SCN2672_X", computerConfiguration.scn2672Configuration.x);
+        if (computerConfiguration.scn2672Configuration.y > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_SCN2672_Y", computerConfiguration.scn2672Configuration.y);
     }
     if (computerConfiguration.mc6845Configuration.defined)
     {
@@ -1310,6 +1319,8 @@ void GuiXml::setXmlDirFileGui()
     dropdownUpdateOngoing_ = false;
     
     parseXmlFile(computerConfiguration.xmlFileConfiguration.directory, computerConfiguration.xmlFileConfiguration.fileName);
+    p_Main->adjustGuiSize();
+    
     if (computerConfiguration.xmlFileConfiguration.fileName != "")
         if (dirNameListGui_.GetCount() > 0)
             dirNameListGui_[xmlDirComboSelection] = computerInfo.name;
@@ -1765,7 +1776,7 @@ void GuiXml::setXmlGui()
     XRCCTRL(*this,"ControlWindowsXml", wxCheckBox)->Enable(computerConfiguration.frontPanelConfiguration[PANEL_MAIN].defined);
 
     XRCCTRL(*this, "InterlaceXml", wxCheckBox)->SetValue(computerConfiguration.interlace_);
-    XRCCTRL(*this, "InterlaceXml", wxCheckBox)->Enable(computerConfiguration.videoTerminalConfiguration.defined || computerConfiguration.fredVideoConfiguration.defined || computerConfiguration.mc6845Configuration.defined || computerConfiguration.i8275Configuration.defined);
+    XRCCTRL(*this, "InterlaceXml", wxCheckBox)->Enable(computerConfiguration.videoTerminalConfiguration.defined || computerConfiguration.fredVideoConfiguration.defined  || computerConfiguration.scn2672Configuration.defined || computerConfiguration.mc6845Configuration.defined || computerConfiguration.i8275Configuration.defined);
 
     XRCCTRL(*this, "clockTextCtrl", wxTextCtrl)->ChangeValue(computerConfiguration.clock_);
 
@@ -1879,7 +1890,7 @@ void GuiXml::setXmlGui()
 
 void GuiXml::setClockTextCtrl(wxString clock)
 {
-    XRCCTRL(*this, "clockTextCtrl", wxTextCtrl)->ChangeValue(computerConfiguration.clock_);
+    XRCCTRL(*this, "clockTextCtrl", wxTextCtrl)->ChangeValue(clock);
 }
 
 void GuiXml::onVideoNumber(wxCommandEvent&WXUNUSED(event))

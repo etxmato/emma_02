@@ -64,8 +64,8 @@ public:
     void octaveSuper(int channel, int octave);
     void toneSuper();  
     void toneSuperOff();
-    void changeBeepFrequency(int frequency);
-    
+    void toneBeep(int frequency, bool status);
+
     void soundCycle();
     void toneSoundCycle(int channel);
     void envelopeSoundCycle(int channel);

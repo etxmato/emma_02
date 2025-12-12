@@ -16,6 +16,8 @@
 #include "pixie.h"
 #include "mc6847.h"
 #include "mc6845.h"
+#include "scn2671.h"
+#include "scn2672.h"
 #include "i8275.h"
 #include "vis1870.h"
 #include "sn76430n.h"
@@ -94,9 +96,10 @@ public:
     void resetComputer();
     Byte ef(int flag);
     Byte in(Byte port, Word address);
-    Byte inDip();
+    Byte inConfiguration(InputConfiguration inConfiguration, Byte port, Word address);
     Byte getData(bool switchButton);
     void out(Byte port, Word address, Byte value);
+    void outConfiguration(OutputConfiguration outConfiguration, Byte port, Word address, Byte value);
     void cycle(int type);
     void cycleCd();
     void cycleVP550();
@@ -105,6 +108,8 @@ public:
     void cycleInt();
     void picInterruptRequest(int type, bool state, int picNumber);
     void cycleLed();
+    void setCdp1863ColorToneLatch(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    void setCdp1864ColorToneLatch(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
     void setClockRate(double clock);
     void printOutPecom(int q);
     void onXmlF4(bool forceStart);
@@ -215,8 +220,8 @@ public:
     void onReset();
     void sleepComputer(long ms);
 
-    Byte getTmsMemory(int address) {return tmsPointer->getTmsMemory(address);};
-    void setTmsMemory(int address, Byte value) {tmsPointer->setTmsMemory(address, value);};
+    Byte getTmsMemory(int address);
+    void setTmsMemory(int address, Byte value);
     Byte read8275CharRom(Word address);
     void write8275CharRom(Word address, Byte value);
     Byte read8275VideoRam(Word address);
@@ -227,6 +232,8 @@ public:
     void write1864ColorDirect(Word address, Byte value);
     Byte readSt4ColorDirect(Word address);
     void writeSt4ColorDirect(Word address, Byte value);
+    Byte readScn2672Ram(Word address);
+    void writeScn2672Ram(Word address, Byte value);
     Byte read6845CharRom(Word address);
     void write6845CharRom(Word address, Byte value);
     Byte read6847CharRom(Word address);
@@ -398,8 +405,13 @@ private:
 
     vector<Cdp1854Instance *> cdp1854InstancePointer;
     int numberOfCdp1854Instances_;
-    int cdp1854Vt100Connection_;
-    int cdp1854Ut58Connection_;
+    
+    vector<Scn2671Instance *> scn2671InstancePointer;
+    int numberOfScn2671Instances_;
+    
+    int uartVt100Connection_;
+    int uartLoopBackConnection_;
+    int uartUt58Connection_;
 
     Cdp1855Instance *cdp1855InstancePointer;
     Mm57109Instance *mm57109InstancePointer;
@@ -418,18 +430,9 @@ private:
     vector<Cd4536b *> cd4536bPointer;
     int numberOfCd4536b_;
 
-    Tms9918 *tmsPointer;
+    int numberOfDipInstances_;
+
     SN76430N *sn76430nPointer;
-    Pixie *coinPointer;
-    Pixie *pixiePointer;
-    Pixie *cdp1864Pointer;
-    PixieStudioIV *st4VideoPointer;
-    PixieVip2K *vip2KVideoPointer;
-    PixieFred *fredVideoPointer;
-    MC6845 *mc6845Pointer;
-    mc6847 *mc6847Pointer;
-    i8275 *i8275Pointer;
-    VIS1870 *vis1870Pointer;
     BitKeypad *bitkeypadPointer[MAX_BITKEYPADS];
     CvKeypad *cvkeypadPointer;
     EtiKeypad *etikeypadPointer;
@@ -497,9 +500,7 @@ private:
     Byte lastMode_;
     bool monitor_;
     int nanoMonitor_;
-    
-    Byte vismacRegisterLatch_;
-    
+        
     bool thermalPrinting_;
     Byte thermalEF_;
 
@@ -641,6 +642,10 @@ private:
     
     bool dataIoSwitchBus_;
     Byte lastIo_;
+
+    int secondLastReadAddress_;
+    int lastReadAddress_;
+    int lastWriteAddress_;
 
     DECLARE_EVENT_TABLE()
 };

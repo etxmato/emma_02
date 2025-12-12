@@ -24,10 +24,17 @@ public:
     Byte readEf();
     Byte readDataPort();
     Byte readVRAM();
-    void modeHighOut(Byte value);
-    void writeVRAM(Byte value);
+    void modeHighOut(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    void writeVRAM(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
     void cycleTms();
-    void writeRegister(Byte reg, Byte value);
+    void writeRegister(Byte reg, Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    void writeRegisterDirect(Byte reg, Word value, int showTrace);
+    Byte setDisplayMode();
+    void setFifthSprite(Byte value);
+    void setStatus(Byte value);
+    void setDisplayModeDirect(Byte value);
+    void setCurrentReadAddress(Word value);
+    void setCurrentWriteAddress(Word value);
 
     void setClock(double clock);
     void setCycle();
@@ -69,7 +76,7 @@ private:
     Byte multiColour_[512][384];
     
     Byte statusRegister_;
-    Byte registers_[8];
+    Byte registers_[2];
     Byte mode_;
     Word nameAddress_;
     Word colorAddress_;
@@ -90,6 +97,7 @@ private:
     int spriteSize_;
     bool enableInterrupt_;
     bool disableScreen_;
+    Word videoMemoryMask_;
 
     bool toggle_;
     Byte value_;

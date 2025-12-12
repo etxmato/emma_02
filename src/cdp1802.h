@@ -39,6 +39,15 @@ using namespace std;
 #define DMA_VISICOM 3
 #define DMA_COLOR 4*/
 
+class Interrupt
+{
+public:
+    bool requested;
+    bool mask;
+    int picNumber;
+    int requestedCounter;
+};
+
 class Cdp1802 : public IoDevice, public Memory, public Sound
 {
 public:
@@ -74,6 +83,7 @@ public:
 
     bool interrupt();
     void requestInterrupt(int type, bool state, int picNumber);
+    void maskInterrupt(int type, bool state);
     void pixieInterrupt();
     void setEf(int flag, int value);
 
@@ -169,7 +179,6 @@ public:
     void clearProfiler();
     
     void setCpuMode(int mode);
-//    bool getInterruptRequestState(int type){return interruptRequested[type];};
 
 protected:
     Byte cycle0_;
@@ -220,9 +229,8 @@ protected:
     Word setLatch_;
     Word romMask_;
     
-    bool interruptRequested[INTERRUPT_TYPE_MAX];
-    int picInterruptNumber[INTERRUPT_TYPE_MAX];
-    int interruptRequestedCounter[INTERRUPT_TYPE_MAX];
+    Interrupt interruptStatus[INTERRUPT_TYPE_MAX];
+    
     bool pseudoLoaded_;
     
     bool resetPressed_;

@@ -155,8 +155,9 @@ void Cdp1802::initCpu()
     singleStateStep_ = false;
     for (int type=0; type<INTERRUPT_TYPE_MAX; type++)
     {
-        interruptRequested[type] = false;
-        interruptRequestedCounter[type] = 0;
+        interruptStatus[type].requested = false;
+        interruptStatus[type].mask = true;
+        interruptStatus[type].requestedCounter = 0;
     }
     stopHiddenTrace_ = false;
     startHiddenTrace_ = false;
@@ -192,8 +193,8 @@ void Cdp1802::resetCpu()
     }
     for (int type=0; type<INTERRUPT_TYPE_MAX; type++)
     {
-        interruptRequested[type] = false;
-        interruptRequestedCounter[type] = 0;
+        interruptStatus[type].requested = false;
+        interruptStatus[type].requestedCounter = 0;
     }
 }
 
@@ -541,7 +542,9 @@ void Cdp1802::setEf(int flag,int value)
 bool Cdp1802::interrupt()
 {
     p_Computer->showIntLed();
-    
+    if (p_Main->getLapTimeTrigger() == (LAPTIME_OUT - 1 + 8))
+        p_Main->lapTime();
+
     if (p_Main->isDiagActive())
     {
         if (interruptEnable_ && (clear_ == 1))
@@ -576,6 +579,12 @@ bool Cdp1802::interrupt()
         
         cpuState_ = STATE_FETCH_1;
         
+        if (debugMode_)
+        {
+            p_Main->showInstructionTrace();
+            p_Main->cycleDebug();
+        }
+        
         if (singleStateStep_)
         {
             p_Computer->showCycleAddress(scratchpadRegister_[programCounter_]);
@@ -593,17 +602,22 @@ void Cdp1802::requestInterrupt(int type, bool state, int picNumber)
 {
     if (traceInt_)
     {
-        if (type != INTERRUPT_TYPE_I8275_1 && type != INTERRUPT_TYPE_I8275_4)
+        if (type != INTERRUPT_TYPE_I8275_1 && type != INTERRUPT_TYPE_I8275_4 && type != INTERRUPT_TYPE_SCN2672)
         {
-            if (state && !interruptRequested[type])
+            if (state && !interruptStatus[type].requested)
                 p_Main->debugTrace("----  Int. request: " + interruptTypeList_[type]);
-            if (!state && interruptRequested[type])
+            if (!state && interruptStatus[type].requested)
                 p_Main->debugTrace("----  Int. cleared: " + interruptTypeList_[type]);
         }
     }
-    interruptRequested[type]= state;
-    picInterruptNumber[type]= picNumber;
+    interruptStatus[type].requested = state;
+    interruptStatus[type].picNumber = picNumber;
     p_Computer->picInterruptRequest(type, state, picNumber);
+}
+
+void Cdp1802::maskInterrupt(int type, bool state)
+{
+    interruptStatus[type].mask = state;
 }
 
 void Cdp1802::pixieInterrupt()

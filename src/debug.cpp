@@ -1088,6 +1088,9 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
 	delete exactFont;
     charWidth_ = dc.GetCharWidth();
 
+    if (charWidth_ == 0)
+        charWidth_ = 8;
+    
     assWidth_ = charWidth_ * 35 + charWidth_/2;
     profilerWidth_ = charWidth_ * 57 + charWidth_/2;
 
@@ -1502,8 +1505,12 @@ void DebugWindow::cycleDebug()
     Byte instruction;
 
     if (percentageClock_ != 1)
+    {
         if (selectedTab_ == DEBUGGERTAB && debuggerChoice_ == TRACETAB)
             p_Main->updateWindow();
+        if (selectedTab_ == MESSAGETAB && messageChoice_ == VIDEOTAB)
+            p_Main->updateVideoPanel();
+    }
 
     if (p_Computer->getSteps() != 0 && numberOfBreakPoints_ > 0)
     {
@@ -7160,6 +7167,11 @@ void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
             fileName = "studioivcolorramdump";
         break;
 
+        case SCN2672_RAM:
+            memoryStr = "SCN2672 Video Ram";
+            fileName = "scn2672ramdump";
+        break;
+
         case V_6845:
             memoryStr = "MC6845 Char Rom";
             fileName = "mc6845charromdump";
@@ -8264,15 +8276,15 @@ void DebugWindow::onProtectedMode(wxCommandEvent&event)
 
 void DebugWindow::onDebugDisplayPageSpinUp(wxSpinEvent&WXUNUSED(event))
 {
-    debugDisplayPageSpinUp();
+    debugDisplayPageSpinUp(0x100);
 }
 
-void DebugWindow::debugDisplayPageSpinUp()
+void DebugWindow::debugDisplayPageSpinUp(Word offset)
 {
     long address = get16BitValue("DebugDisplayPage");
     if (address == -1)  return;
 
-    address += 0x100;
+    address += offset;
 
     Word ramMask = getAddressMask();
 
@@ -8294,10 +8306,14 @@ void DebugWindow::debugDisplayPageSpinUp()
 
 void DebugWindow::onDebugDisplayPageSpinDown(wxSpinEvent&WXUNUSED(event))
 {
+    onDebugDisplayPageSpinDown(0x100);
+}
+void DebugWindow::onDebugDisplayPageSpinDown(Word offset)
+{
     long address = get16BitValue("DebugDisplayPage");
     if (address == -1)  return;
 
-    address -= 0x100;
+    address -= offset;
 
     Word ramMask = getAddressMask();
 
@@ -15329,6 +15345,65 @@ void DebugWindow::DebugDisplay1864ColorRam()
     }
 }
 
+void DebugWindow::DebugDisplayScn2672Ram()
+{
+    if (!(computerConfiguration.scn2672Configuration.defined))
+    {
+        if (xmlLoaded_)
+        {
+            XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("SCN2672 not running");
+            XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+        }
+        return;
+    }
+
+    long start = get16BitValue("DebugDisplayPage");
+    if (start == -1)  return;
+    XRCCTRL(*this, "DebugDisplayPage", HexEdit)->saveNumber((int)start);
+
+    wxString idReference, value;
+
+    Word ramMask = getAddressMask();
+    while (start > ramMask)
+        start -=  (ramMask + 1);
+
+    memoryStart_ = (unsigned int)start;
+    p_Computer->setDebugMemoryStart(start);
+
+    XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("");
+
+    for (int x=0; x<16; x++)
+    {
+        idReference.Printf("TOP_HEADER%01X", x);
+        value.Printf("  %01X", (unsigned int)((start+x)&0xf));
+        XRCCTRL(*this, idReference, wxStaticText)->SetLabel(value);
+    }
+    for (int y=0; y<16; y++)
+    {
+        idReference.Printf("MEM_HEADER%01X", y);
+        XRCCTRL(*this, idReference, wxStaticText)->SetForegroundColour(guiTextColour[GUI_COL_BLACK]);
+
+        value.Printf("%04X", (unsigned int)start);
+        XRCCTRL(*this, idReference, wxStaticText)->SetLabel(value);
+
+        ShowCharacters(start, y);
+        for (int x=0; x<16; x++)
+        {
+            idReference.Printf("MEM%01X%01X", y, x);
+            value.Printf("%02X", debugReadMem(start));
+
+            XRCCTRL(*this, idReference, MemEdit)->SetForegroundColour(guiTextColour[GUI_COL_BLACK]);
+
+            XRCCTRL(*this, idReference, wxTextCtrl)->ChangeValue("");
+            XRCCTRL(*this, idReference, MemEdit)->ChangeValue(value);
+
+            start++;
+            while (start > ramMask)
+            start -=  (ramMask + 1);
+        }
+    }
+}
+
 void DebugWindow::DebugDisplay6845CharRom()
 {
     if (!(computerConfiguration.mc6845Configuration.defined))
@@ -15872,6 +15947,7 @@ void DebugWindow::onEditMemory(wxCommandEvent&event)
         case CDP_1862:
         case CDP_1864:
         case STUDIO_IV_COLOR:
+        case SCN2672_RAM:
         case V_6845:
         case I_8275:
         case I_8275_RAM:
@@ -15897,7 +15973,7 @@ void DebugWindow::onEditMemory(wxCommandEvent&event)
             {
                 if (id == 255)
                 {
-                    debugDisplayPageSpinUp();
+                    debugDisplayPageSpinUp(0x100);
                     XRCCTRL(*this, "MEM00", MemEdit)->SetFocus();
                     XRCCTRL(*this, "MEM00", MemEdit)->SelectAll();
                 }
@@ -16088,6 +16164,10 @@ void DebugWindow::memoryDisplay()
             DebugDisplay8275VideoRam();
         break;
             
+        case SCN2672_RAM:
+            DebugDisplayScn2672Ram();
+        break;
+
         case V_6845:
             DebugDisplay6845CharRom();
         break;
@@ -16175,6 +16255,10 @@ Word DebugWindow::getAddressMask()
         case V_6845:
         case V_6847:
             return 0x7ff;
+        break;
+
+        case SCN2672_RAM:
+            return 0x7fff;
         break;
 
         case V_6847_RAM:
@@ -16505,6 +16589,14 @@ Byte DebugWindow::debugReadMem(Word address)
                 return 0;
         break;
             
+        case SCN2672_RAM:
+            if (computerConfiguration.scn2672Configuration.defined)
+                return p_Computer->readScn2672Ram(address);
+            else
+                return 0;
+    break;
+        break;
+
         case V_6845:
             if (computerConfiguration.mc6845Configuration.defined)
                 return p_Computer->read6845CharRom(address);
@@ -16609,6 +16701,11 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
                 p_Computer->write8275VideoRam(address, value);
         break;
             
+        case SCN2672_RAM:
+            if (computerConfiguration.scn2672Configuration.defined)
+                p_Computer->writeScn2672Ram(address, value);
+        break;
+
         case V_6845:
             if (computerConfiguration.mc6845Configuration.defined)
                 p_Computer->write6845CharRom(address, value);

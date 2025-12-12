@@ -1159,7 +1159,7 @@ void Vt100::copyScreen()
             brushColour_[i] = brushColourNew_[i];
             penColour_[i] = penColourNew_[i];
         }
-        for (int i=0; i<10; i++)
+        for (int i=0; i<VIDEOXMLMAX; i++)
         {
             borderX_[i] = borderXNew_[i];
             borderY_[i] = borderYNew_[i];

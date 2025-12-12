@@ -1633,6 +1633,31 @@ long GuiMain::getBitValue(wxString reference)
     return value;
 }
 
+long GuiMain::get4BitValue(wxString reference)
+{
+    wxString strValue = XRCCTRL(*this, reference, wxTextCtrl)->GetValue();
+    if (strValue == "")
+        return -1;
+
+    long value;
+
+    if (!strValue.ToLong(&value, 16))
+    {
+        (void)wxMessageBox( "Please specify value in hexadecimal\n",
+                                    "Emma 02", wxICON_ERROR | wxOK );
+        return -1;
+    }
+
+    if (value > 0xf)
+    {
+        (void)wxMessageBox( "Please specify value of 4 bit max\n",
+                                    "Emma 02", wxICON_ERROR | wxOK );
+        return -1;
+    }
+
+    return value;
+}
+
 long GuiMain::get8BitValue(wxString reference)
 {
     wxString strValue = XRCCTRL(*this, reference, wxTextCtrl)->GetValue();
@@ -1804,6 +1829,32 @@ void GuiMain::setTextCtrl(wxString info, wxString value)
 {
     if (mode_.gui)
         XRCCTRL(*this, info, wxTextCtrl)->SetValue(value);
+}
+
+void GuiMain::setTextCtrl(wxString info, Word value)
+{
+    if (mode_.gui)
+    {
+        wxString valueStr;
+        valueStr.Printf("%04X", value);
+        XRCCTRL(*this, info, wxTextCtrl)->SetValue(valueStr);
+    }
+}
+
+void GuiMain::setTextCtrl(wxString info, Byte value)
+{
+    if (mode_.gui)
+    {
+        wxString valueStr;
+        valueStr.Printf("%02X", value);
+        XRCCTRL(*this, info, wxTextCtrl)->SetValue(valueStr);
+    }
+}
+
+void GuiMain::setRadioButton(wxString info, bool value)
+{
+    if (mode_.gui)
+        XRCCTRL(*this, info, wxRadioButton)->SetValue(value);
 }
 
 void GuiMain::onHexKeyDef(wxCommandEvent&WXUNUSED(event))
@@ -2001,6 +2052,27 @@ void GuiMain::setVtPos(wxPoint position)
             computerConfiguration.videoTerminalConfiguration.x = position.x;
         if (position.y > 0)
             computerConfiguration.videoTerminalConfiguration.y = position.y;
+    }
+}
+
+wxPoint GuiMain::getScn2672Pos()
+{
+    return wxPoint(computerConfiguration.scn2672Configuration.x, computerConfiguration.scn2672Configuration.y);
+}
+
+void GuiMain::setScn2672Pos(wxPoint position)
+{
+    if (!mode_.window_position_fixed)
+    {
+        computerConfiguration.scn2672Configuration.x = -1;
+        computerConfiguration.scn2672Configuration.y = -1;
+    }
+    else
+    {
+        if (position.x > 0)
+            computerConfiguration.scn2672Configuration.x = position.x;
+        if (position.y > 0)
+            computerConfiguration.scn2672Configuration.y = position.y;
     }
 }
 
@@ -3181,23 +3253,13 @@ void GuiMain::setComputerInfo(wxString name, wxString ploadExtension)
     computerInfo.ploadExtension = ploadExtension;
 }
 
-void GuiMain::setScreenInfo(int start, int end, wxString colour[])
+void GuiMain::setScreenInfo(int start, int end, wxString colour[], int borderX[], int borderY[])
 {
     screenInfo.start = start;
     screenInfo.number = end;
-    screenInfo.numberVideo = 0;
     for (int i=start; i<end; i++)
         screenInfo.defaultColour[i] = colour[i];
-}
-
-void GuiMain::setScreenInfo(int start, int end, wxString colour[], int numberVideo, int borderX[], int borderY[])
-{
-    screenInfo.start = start;
-    screenInfo.number = end;
-    screenInfo.numberVideo = numberVideo;
-    for (int i=start; i<end; i++)
-        screenInfo.defaultColour[i] = colour[i];
-    for (int i=0; i<screenInfo.numberVideo; i++)
+    for (int i=0; i<VIDEOXMLMAX; i++)
     {
         screenInfo.borderX[i] = borderX[i];
         screenInfo.borderY[i] = borderY[i];

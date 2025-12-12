@@ -8,7 +8,7 @@ class Serial
 {
 public:
 
-    Serial(int computerType, double clock, ComputerConfiguration computerConfig);
+    Serial(int computerType, double clock, ComputerConfiguration computerConfig, int uartNumber);
     ~Serial();
 
     void configure(int selectedBaudR, int selectedBaudT, VideoTerminalConfiguration videoTerminalConfiguration);
@@ -25,6 +25,8 @@ public:
     void uartTerminalIn();
     void serialTerminalOut();
     void serialTerminalIn();
+    Byte readReceiverHoldingRegister();
+    void serialDataOutput(Byte transmitterHoldingRegister);
     void switchQ(int value);
     void setCycle();
     int Parity(int value);
@@ -76,10 +78,10 @@ private:
     int reverseEf_;
     int reverseQ_;
 
+    int terminalType_;
+    
     Byte uartControl_;
     bitset<8> uartStatus_;
-    bool uart1854_;
-    bool uart16450_;
     bool serialOpen_;
     bool loopBack_;
     Byte loopInput_;
@@ -99,6 +101,7 @@ private:
     Byte thr_;
     
     int registerSelect_;
+    int uartNumber_;
 };
 
 #endif  // SERIAL_H

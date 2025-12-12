@@ -168,6 +168,7 @@ public:
     Byte bitMaskPressed;
     Byte bitMaskNotPressed;
     Byte ctrlValue;
+    Byte shiftValue;
 };
 
 class PixieGraphics
@@ -228,6 +229,13 @@ class WriteAddress
 public:
     Word address;
     int value;
+    int function;
+};
+
+class ReadAddress
+{
+public:
+    Word address;
     int function;
 };
 
@@ -450,6 +458,58 @@ public:
 
 class Sn76430NConfiguration : public VideoConfiguration
 {
+public:
+    Word startRam;
+    Word endRam;
+};
+
+class Scn2672Configuration : public VideoConfiguration
+{
+public:
+    IoPort initializationRegister;
+    IoPort command;
+    IoPort screenStart;
+    IoPort cursor;
+    IoPort pointer;
+    IoPort data;
+    IoPort status;
+    IoPort interrupt;
+
+	bool videoMode;
+	double videoClock;
+    int picInterrupt;
+	
+    double xScale;
+
+    wxSize charSize;
+    wxSize screenSize;
+};
+
+class Attribute
+{
+public:
+    int bitNumber;
+    bool reversePolarity;
+};
+
+class Crt8002Configuration : public VideoConfiguration
+{
+public:
+    IoPort attribute;
+    IoPort attributeScreen1;
+    
+    Attribute reverse;
+    Attribute blink;
+    Attribute graphic_ms0;
+    Attribute graphic_ms1;
+    Attribute underline;
+    Attribute strikeThru;
+    Attribute blank;
+    
+    int underlineLine1;
+    int underlineLine2;
+    int strikeThruLine1;
+    int strikeThruLine2;
 };
 
 class Mc6845Configuration : public VideoConfiguration
@@ -503,6 +563,15 @@ public:
     int b0;
     int dd7;
     int dd6;
+    
+    int inv;
+    int ext;
+    int css;
+    int as;
+    int ag;
+    int gm0;
+    int gm1;
+    int gm2;
 };
 
 // Video Terminal configuration class definitions:
@@ -510,6 +579,7 @@ public:
 class VideoTerminalConfiguration : public VideoConfiguration
 {
 public:
+    bool scn2671_defined;
     bool uart1854_defined;
     bool uart16450_defined;
     bool xModem_defined;
@@ -824,9 +894,42 @@ public:
     EfKey key[5];
     vector<EfButton> efButton;
     Byte keyPressed;
+    bool multiMode;
 };
 
-// CDP1855 configuration class definitions:
+// SCN2671 configuration class definitions:
+
+class Scn2671Configuration : public IoGroupConfiguration
+{
+public:
+    IoPort command;
+    IoPort isr;
+    IoPort cmr;
+    IoPort txhr;
+    IoPort rxhr;
+    IoPort brr;
+    IoPort csr;
+    IoPort imr;
+    IoPort kmr;
+    IoPort khr;
+    IoPort ksr;
+    IoPort commandMisc;
+        
+    bool interrupt;
+    int picInterrupt;
+    
+    int baudR;
+    int baudT;
+    double baudCorrectionR;
+    double baudCorrectionT;
+    
+    int connection;
+    
+    KeyDefinition textKey[LAST_MATRIX_TEXT_KEY];
+    bool vt4801coding;
+};
+
+// CDP1854 configuration class definitions:
 
 class Cdp1854Configuration : public IoGroupConfiguration
 {
@@ -967,6 +1070,8 @@ class BasicPrinterConfiguration : public IoGroupDefineConfiguration
 public:
     IoPort output;
     EfFlag ef;
+    
+    Byte reversePolarityOutput;
 };
 
 class ParallelPrinterConfiguration : public IoGroupDefineConfiguration
@@ -1373,6 +1478,7 @@ public:
     vector<Word> keyInputAddress;
     vector<Word> inReleaseAddress;
     vector<WriteAddress> writeAddress;
+    vector<ReadAddress> readAddress;
     int code_start;
     int code_start_high;
     int code_start_low;
@@ -1627,7 +1733,6 @@ public:
     int function[4];
 };
 
-
 class ComputerConfiguration
 {
 public:
@@ -1647,6 +1752,8 @@ public:
     TmsConfiguration tmsConfiguration;
     I8275Configuration i8275Configuration;
     Sn76430NConfiguration sn76430NConfiguration;
+    Scn2672Configuration scn2672Configuration;
+    Crt8002Configuration crt8002Configuration;
     Mc6845Configuration mc6845Configuration;
     Mc6847Configuration mc6847Configuration;
     Vis1870Configuration vis1870Configuration;
@@ -1685,6 +1792,7 @@ public:
     
     // UART configurations:
     vector<Cdp1854Configuration> cdp1854Configuration;
+    vector<Scn2671Configuration> scn2671Configuration;
     
     // MDC configurations:
     Cdp1855Configuration cdp1855Configuration;
@@ -1736,8 +1844,8 @@ public:
     RtcDs12887Configuration rtcDs12887Configuration;
     
     // DIP configurations:
-    DipConfiguration dipConfiguration;
-    
+    vector<DipConfiguration> dipConfigurationNew;
+
     // SuperBoard configurations:
     SuperBoardConfiguration superBoardConfiguration;
     

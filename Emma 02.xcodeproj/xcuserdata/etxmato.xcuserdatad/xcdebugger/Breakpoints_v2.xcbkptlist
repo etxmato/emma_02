@@ -7,592 +7,176 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C227E16B-A2CA-4307-B41B-EA0ABC44721B"
+            uuid = "EF225999-3B43-4717-BDD1-8386EAE14664"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/cdp1851.cpp"
+            filePath = "src/serial.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1004"
-            endingLineNumber = "1004"
-            landmarkName = "Cdp1851Instance::Cdp1851Instance(title, pos, size, pioNumber, cdp1851Configuration)"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
+            landmarkName = "Serial::startSerial()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F4E99083-D44E-4926-BA56-7F1DDB294DAA"
+            uuid = "30F97CB4-C759-4D14-9290-14D3383220BB"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/cdp1851.cpp"
+            filePath = "src/serial.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1026"
-            endingLineNumber = "1026"
-            landmarkName = "Cdp1851Instance::~Cdp1851Instance()"
+            startingLineNumber = "290"
+            endingLineNumber = "290"
+            landmarkName = "Serial::startSerial()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "71DFC3FB-0509-4EFA-BD3D-B78239729B28"
+            uuid = "6608AA74-FD57-4994-B525-E1C741A49933"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/cdp1851.cpp"
+            filePath = "src/serial.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "377"
-            endingLineNumber = "377"
-            landmarkName = "Cdp1851Screen::init(cdp1851InstancePointer)"
+            startingLineNumber = "292"
+            endingLineNumber = "292"
+            landmarkName = "Serial::startSerial()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5969DAB4-8E45-47E9-830E-932CB373D0C8"
+            uuid = "69646C83-03E9-4789-87E6-ACEA9FD4881C"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/cdp1851.cpp"
+            filePath = "src/serial.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "405"
-            endingLineNumber = "405"
-            landmarkName = "Cdp1851Screen::init(cdp1851InstancePointer)"
+            startingLineNumber = "295"
+            endingLineNumber = "295"
+            landmarkName = "Serial::startSerial()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "803619B8-9121-4DDA-96F3-C8D2561B42DF"
+            uuid = "F4788E15-3042-4854-AE9E-D9CC9FC8B5AF"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/cdp1851.cpp"
+            filePath = "src/serial.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "358"
-            endingLineNumber = "358"
-            landmarkName = "Cdp1851Screen::~Cdp1851Screen()"
+            startingLineNumber = "280"
+            endingLineNumber = "280"
+            landmarkName = "Serial::startSerial()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "09C209E8-8DFC-4A86-A793-C6C3A7622659"
+            uuid = "C0179743-4A0A-4A17-B7DB-F7AEAF6A0635"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/panel.cpp"
+            filePath = "src/serial.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "799"
-            endingLineNumber = "799"
-            landmarkName = "Panel::~Panel()"
+            startingLineNumber = "277"
+            endingLineNumber = "277"
+            landmarkName = "Serial::startSerial()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "983CD79A-2E38-4828-B237-A44C2CDBCFAC"
+            uuid = "7EF97866-7E61-42BA-B172-83008D0DD64B"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/cdp1851.cpp"
+            filePath = "src/scn2672_config.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1014"
-            endingLineNumber = "1014"
-            landmarkName = "Cdp1851Instance::Cdp1851Instance(pioNumber, cdp1851Configuration, cdp1851PrinterConfiguration, clock)"
+            startingLineNumber = "603"
+            endingLineNumber = "603"
+            landmarkName = "Scn2672Config::updateScn2672Panel()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5BE603FA-6F3F-4C88-8B84-C4AFD3762DC8"
+            uuid = "476EABCC-6C3E-43B2-8510-A3FAB9470381"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/led.cpp"
+            filePath = "src/scn2672_config.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
-            landmarkName = "Led::~Led()"
+            startingLineNumber = "605"
+            endingLineNumber = "605"
+            landmarkName = "Scn2672Config::updateScn2672Panel()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4D5CD43A-41DD-4F5A-A565-0AEE96550298"
+            uuid = "4D1E40B8-E327-4390-817F-6E136DC7C83B"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/main.cpp"
+            filePath = "src/scn2672_config.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6199"
-            endingLineNumber = "6199"
-            landmarkName = "Main::loadKeyDefinition(findFile1, findFile2, keyDefA1, keyDefB1, keyDefA2, simDefA2, keyDefB2, simDefB2, inButton1, inButton2, gameKeysA, gameKeysB)"
+            startingLineNumber = "808"
+            endingLineNumber = "808"
+            landmarkName = "Scn2672Config::setScn2672SelectorValue(selectorNumber, selectorValue, showTrace)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "87B00996-7A37-4C97-8972-93214A0440BE"
+            uuid = "9FC2619A-6631-4740-B5CE-9E2C08FBAC03"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/main.cpp"
+            filePath = "src/iodevice.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6207"
-            endingLineNumber = "6207"
-            landmarkName = "Main::loadKeyDefinition(findFile1, findFile2, keyDefA1, keyDefB1, keyDefA2, simDefA2, keyDefB2, simDefB2, inButton1, inButton2, gameKeysA, gameKeysB)"
+            startingLineNumber = "372"
+            endingLineNumber = "372"
+            landmarkName = "IoDevice::getInputConfiguration(q, group, number)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D12BFB6F-6622-4F9D-8FD1-9BC3D9DF34B6"
+            uuid = "3AA15238-DC9E-4AAF-84E2-A071092AA63A"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/xmlemu.cpp"
+            filePath = "src/iodevice.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7159"
-            endingLineNumber = "7159"
-            landmarkName = "Computer::configureExtensions()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "0121E5E7-0E75-441A-8DDB-C6DA88AB05D9"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/xmlparser.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "839"
-            endingLineNumber = "839"
-            landmarkName = "XmlParser::parseXmlFile(xmlDir, xmlFile)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "24307CD0-6A26-46EB-B907-B4C249F28580"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/xmlparser.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6604"
-            endingLineNumber = "6604"
-            landmarkName = "XmlParser::parseXml_LatchKeypad(pad, node)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A475FD2A-110E-497B-AEC3-01CE7FAC6DB4"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/main.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6431"
-            endingLineNumber = "6431"
-            landmarkName = "Main::getDefaultHexKeys(computerStr, player, keysHex1, keysHex2, keyDefGameHexA_)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "965145F7-C97E-4C3C-8B8F-D9AC29661450"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/main.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6179"
-            endingLineNumber = "6179"
-            landmarkName = "Main::loadKeyDefinition(findFile1, findFile2, keyDefA1, keyDefB1, keyDefA2, simDefA2, keyDefB2, simDefB2, inButton1, inButton2, gameKeysA, gameKeysB)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C11760C4-EED4-404D-8FFC-3AA907DB651A"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/xmlemu.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5108"
-            endingLineNumber = "5108"
-            landmarkName = "Computer::loadRomRam(configNumber)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E59D36B8-FB39-49EA-A54E-8FF1FB3147BA"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/cdp1802.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4241"
-            endingLineNumber = "4241"
-            landmarkName = "Cdp1802::readSt2Program(fileNameFull, memoryType)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "DCD116FC-9736-44C4-AD27-21DE9B52B716"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/xmlemu.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4899"
-            endingLineNumber = "4899"
-            landmarkName = "Computer::startComputer()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "13B47509-D59B-42EF-A966-F8545EA67A1C"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/keyblatch.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "KeybLatch::keyDown(keycode, event)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "04E110B2-9D9A-4949-9A46-238F4B4368BD"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/keyblatch.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
-            landmarkName = "KeybLatch::keyDown(keycode)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "820D1151-8576-4682-9272-3C70D2A12E84"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/keyblatch.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "299"
-            endingLineNumber = "299"
-            landmarkName = "KeybLatch::ef()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "2B807FDB-8CA9-49DF-AABB-5C0B417600A2"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/keyblatch.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "304"
-            endingLineNumber = "304"
-            landmarkName = "KeybLatch::out(value)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "744B1626-4C5D-446C-8E7A-FD2C13870607"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/xmlemu.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2292"
-            endingLineNumber = "2292"
-            landmarkName = "Computer::out(port, address, value)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A3410A9F-E8DE-463E-A65B-A4789A9EBEE7"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/xmlparser.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "14117"
-            endingLineNumber = "14117"
-            landmarkName = "XmlParser::parseXml_IoPort(node, ioDefinition, defaultMask)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "F3B9F7EE-30BF-4B62-BB56-84B4F1C2E64D"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/video.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "811"
-            endingLineNumber = "811"
-            landmarkName = "Video::splashScreen()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A1B39E24-8AC4-46F8-ABFC-9CE3DF562C15"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/xmlemu.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5071"
-            endingLineNumber = "5071"
-            landmarkName = "Computer::startComputer()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "6EC8EBC5-9DE2-4580-B0FB-6950EE72C2EF"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/xmlparser.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "10854"
-            endingLineNumber = "10854"
-            landmarkName = "XmlParser::parseXml_Splash(node)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D09577A7-865E-4F5B-B6FC-8C11F19806E7"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/main.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2506"
-            endingLineNumber = "2506"
-            landmarkName = "Main::downloadString(urlString)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "F22422A2-1A87-4669-9562-89DAFF8A6A8D"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/guimain.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3591"
-            endingLineNumber = "3591"
-            landmarkName = "GuiMain::checkWavFileDownload(downloadIfMissing)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D00E206C-7682-4A53-ACBF-B8E57272B798"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/xmlparser.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "572"
-            endingLineNumber = "572"
-            landmarkName = "XmlParser::parseXmlFile(xmlDir, xmlFile)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7A9C4D52-CA15-451B-92A7-1901D38757EA"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/xmlparser.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "10468"
-            endingLineNumber = "10468"
-            landmarkName = "XmlParser::parseXml_SwCassette(node)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D5B51C7E-8ED6-4350-B109-D2D9DCFB144F"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/xmlparser.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "617"
-            endingLineNumber = "617"
-            landmarkName = "XmlParser::parseXmlFile(xmlDir, xmlFile)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "DC1AC61B-39BB-416B-A7AC-C58757FDE32B"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/guimain.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3600"
-            endingLineNumber = "3600"
-            landmarkName = "GuiMain::checkWavFileDownload(downloadIfMissing)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "AA88A92C-3668-4909-A5A8-1E4B43351215"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/main.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2523"
-            endingLineNumber = "2523"
-            landmarkName = "Main::checkUpdateEmma()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E9136B11-64C3-4BBF-BF64-DE62BD1319EB"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/main.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2750"
-            endingLineNumber = "2750"
-            landmarkName = "Main::reInstall(sourceDir, destinationDir, pathSep, doNotCopy)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8C738154-65E8-4A58-AF94-BE6A8066F5BF"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/guimain.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
-            landmarkName = "GuiMain::GuiMain(title, pos, size, mode, dataDir, iniDir)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C9A5143D-F288-4853-8041-18791C75E437"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/guimain.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
-            landmarkName = "GuiMain::GuiMain(title, pos, size, mode, dataDir, iniDir)"
+            startingLineNumber = "371"
+            endingLineNumber = "371"
+            landmarkName = "IoDevice::getInputConfiguration(q, group, number)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

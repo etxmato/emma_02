@@ -149,6 +149,8 @@ VIS1870::VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, 
         break;
     }
 
+    vismacRegisterLatch_ = 0;
+
     setCycle();
 
     videoScreenPointer = new VideoScreen(this, wxSize(videoWidth_, videoHeight_), zoom, videoNumber_);
@@ -218,7 +220,7 @@ bool VIS1870::configure1870()
     p_Main->configureMessage(&vis1870Configuration_.ioGroupVector, "Video Interface System CDP 1869/1870");
     
     p_Computer->setOutType(&vis1870Configuration_.ioGroupVector, vis1870Configuration_.outputInterruptEnable, "Interrupt enable");
-    p_Computer->setOutType(&vis1870Configuration_.ioGroupVector, vis1870Configuration_.outputInterruptReset, "Interrupt reset");
+    p_Computer->setOutType(&vis1870Configuration_.ioGroupVector, vis1870Configuration_.outputInterruptReset, "Interrupt request");
     if (vis1870Configuration_.outputWrite.portNumber[0] == -1 && vis1870Configuration_.outputSelect.portNumber[0] == -1)
     {
         p_Main->message("	Output 3 to 7: VIS OUT 3 to 7");
@@ -363,6 +365,58 @@ void VIS1870::init1870()
 Byte VIS1870::ef1_1870()
 {
     return ef1Value_^vis1870Configuration_.ef.reverse;
+}
+
+void VIS1870::setRegisterSelect_1870(Byte value, int showTrace)
+{
+    vismacRegisterLatch_ = value;
+    p_Main->setVisRegister(VIS_REGISTER, value, showTrace);
+}
+
+Word VIS1870::setOutData_1870(Word address, Byte value, int showTrace)
+{
+    switch (vismacRegisterLatch_)
+    {
+        case 0x20:
+            vis1870Pointer->out2_1870(value);
+            showTrace = p_Main->setVisRegister(VIS_DATA, value, showTrace);
+            p_Main->setVisRegister(VIS_COLOR_LATCH, value, showTrace);
+            return value;
+        break;
+            
+        case 0x30:
+            vis1870Pointer->out3_1870(value);
+            showTrace = p_Main->setVisRegister(VIS_DATA, value, showTrace);
+            p_Main->setVisRegister(VIS_R3, value, showTrace);
+            return value;
+        break;
+        
+        case 0x40:
+            vis1870Pointer->out4_1870(address);
+            showTrace = p_Main->setVisRegister(VIS_DATA, address, showTrace);
+            p_Main->setVisRegister(VIS_R4, address, showTrace);
+        break;
+            
+        case 0x50:
+            vis1870Pointer->out5_1870(address);
+            showTrace = p_Main->setVisRegister(VIS_DATA, address, showTrace);
+            showTrace = p_Main->setVisRegister(VIS_R5_1, (Byte)(address >> 8), showTrace);
+            p_Main->setVisRegister(VIS_R5_0, (Byte)(address & 0xe9), showTrace);
+        break;
+            
+        case 0x60:
+            vis1870Pointer->out6_1870(address);
+            showTrace = p_Main->setVisRegister(VIS_DATA, address, showTrace);
+            p_Main->setVisRegister(VIS_R6, address, showTrace);
+        break;
+            
+        case 0x70:
+            vis1870Pointer->out7_1870(address);
+            showTrace = p_Main->setVisRegister(VIS_DATA, address, showTrace);
+            p_Main->setVisRegister(VIS_R7, address, showTrace);
+        break;
+    }
+    return address;
 }
 
 void VIS1870::out2_1870(Byte value)
@@ -915,7 +969,7 @@ void VIS1870::copyScreen()
             brushColour_[i] = brushColourNew_[i];
             penColour_[i] = penColourNew_[i];
         }
-        for (int i=0; i<10; i++)
+        for (int i=0; i<VIDEOXMLMAX; i++)
         {
             borderX_[i] = borderXNew_[i];
             borderY_[i] = borderYNew_[i];

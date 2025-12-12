@@ -157,7 +157,6 @@ public:
     wxString getTerminalPath(int filenumber) {return computerConfiguration.videoTerminalConfiguration.terminalPaths[filenumber];}
     wxArrayString getTerminalFiles() {return computerConfiguration.videoTerminalConfiguration.terminalFiles;}
     size_t getNumberOfTerminalFiles() {return computerConfiguration.videoTerminalConfiguration.numberOfTerminalFiles;}
-    int getIoMask(size_t number) {return computerConfiguration.ioMask[number];};
 
     wxString getSplashDialog() {return computerConfiguration.splashConfiguration.dialog;};
     wxString getSplashText() {return computerConfiguration.splashConfiguration.text;};
@@ -197,6 +196,7 @@ public:
     ComputerConfiguration getConfiguration(){ return computerConfiguration;};
 
     long getBitValue(wxString reference);
+    long get4BitValue(wxString reference);
     long get8BitValue(wxString reference);
     long get12BitValue(wxString reference);
     long get16BitValue(wxString reference);
@@ -215,6 +215,9 @@ public:
     void setConfigBool(wxString Item, bool Value);
     int getChoiceSelection(wxString info);
     void setTextCtrl(wxString info, wxString value);
+    void setTextCtrl(wxString info, Word value);
+    void setTextCtrl(wxString info, Byte value);
+    void setRadioButton(wxString info, bool value);
     void setCheckBox(wxString info, bool status);
     void onHexKeyDef(wxCommandEvent&event);
 
@@ -236,6 +239,8 @@ public:
     void setTmsPos(wxPoint position);
     wxPoint getVtPos();
     void setVtPos(wxPoint position);
+    wxPoint getScn2672Pos();
+    void setScn2672Pos(wxPoint position);
     wxPoint get6845Pos();
     void set6845Pos(wxPoint position);
     wxPoint get6847Pos();
@@ -283,8 +288,7 @@ public:
     void setTapeState(int tapeState, wxString tapeNumber);
     void turboGui();
     void setComputerInfo(wxString name, wxString ploadExtension);
-    void setScreenInfo(int start, int end, wxString colour[]);
-    void setScreenInfo(int start, int end, wxString colour[], int numberVideo, int borderX[], int borderY[]);
+    void setScreenInfo(int start, int end, wxString colour[], int borderX[], int borderY[]);
     void setVtType(int Selection, bool GuiChange);
     void setBaudChoice();
     void setRealCas();
@@ -373,6 +377,7 @@ protected:
 
     bool guiInitialized_;
     int debuggerChoice_;
+    int messageChoice_;
     int selectedTab_;
     bool fullScreenFloat_;
     bool useNumPad_;
@@ -409,6 +414,7 @@ protected:
     bool computerRunning_;
 
     wxTimer *traceTimeoutPointer;
+    wxTimer *beepTimerPointer;
     wxTimer *keyDebounceTimeoutPointer;
     wxTimer *vuPointer;
     wxTimer *directAssPointer;

@@ -541,8 +541,10 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_MENU(XRCID("XML"), Main::onXmlRomRamOptionXml)
 
     EVT_NOTEBOOK_PAGE_CHANGED(XRCID("DebuggerChoiceBook"), Main::onDebuggerChoiceBook)
+    EVT_NOTEBOOK_PAGE_CHANGED(XRCID("IoChoiceBook"), Main::onMessageChoiceBook)
+
     EVT_TIMER(902, Main::vuTimeout)
-//    EVT_TIMER(903, Main::cpuTimeout)
+    EVT_TIMER(903, Main::beepTimeout)
     EVT_TIMER(905, Main::updateCheckTimeout)
     EVT_TIMER(906, Main::traceTimeout)
     EVT_TIMER(907, Main::debounceTimeout)
@@ -584,6 +586,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_GUI_MSG(UPDATE_TITLE, Main::setUpdateTitle)
     EVT_GUI_MSG(SHOW_MESSAGE, Main::showMessageEvent)
     EVT_GUI_MSG(SHOW_TEXT_MESSAGE, Main::showTextMessageEvent)
+   EVT_GUI_MSG(BEEP_TIMER, Main::setBeepTimer)
     EVT_GUI_MSG(DEBOUNCE_TIMER, Main::setDebounceTimer)
     EVT_GUI_MSG(ZOOM_CHANGE, Main::setZoomChange)
     EVT_GUI_MSG(ZOOMVT_CHANGE, Main::setZoomVtChange)
@@ -1623,6 +1626,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         bTextPointer = XRCCTRL(*this,"B", wxTextCtrl);
 
         traceWindowPointer = XRCCTRL(*this,"TraceWindow", wxTextCtrl);
+        videoTraceWindowPointer = XRCCTRL(*this,"VideoTraceWindow", wxTextCtrl);
         assInputWindowPointer = XRCCTRL(*this,"AssInputWindow", wxTextCtrl);
         assErrorWindowPointer = XRCCTRL(*this,"AssErrorMultiLine", wxTextCtrl);
         breakPointWindowPointer = XRCCTRL(*this,"BreakPointWindow", wxListCtrl);
@@ -1719,7 +1723,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     
     oldGauge_ = 1;
     vuPointer = new wxTimer(this, 902);
- //   cpuPointer = new wxTimer(this, 903);
+    beepTimerPointer = new wxTimer(this, 903);
     updateCheckPointer = new wxTimer(this, 905);
     traceTimeoutPointer = new wxTimer(this, 906);
     keyDebounceTimeoutPointer = new wxTimer(this, 907);
@@ -1749,6 +1753,7 @@ Main::~Main()
 //    delete cpuPointer;
     delete updateCheckPointer;
     delete traceTimeoutPointer;
+    delete beepTimerPointer;
     delete keyDebounceTimeoutPointer;
     delete guiSizeTimeoutPointer;
     delete guiRedrawBarTimeOutPointer;
@@ -2045,14 +2050,18 @@ void Main::initConfig()
     borderX[VIDEOXML1864] = 8;
     borderY[VIDEOXML1864] = 32;  //1864
     borderX[VIDEOXMLSN76430N] = 0;
-    borderY[VIDEOXMLSN76430N] = 0;  //1864
+    borderY[VIDEOXMLSN76430N] = 0;  //Cybervision
     borderX[VIDEOVIP2K] = 0;
     borderY[VIDEOVIP2K] = 0;  //VIP2K
     borderX[VIDEOFRED] = 0;
     borderY[VIDEOFRED] = 0;  //FRED
     borderX[VIDEOCOIN] = 11;
     borderY[VIDEOCOIN] = 33;  //Coin
-
+    borderX[VIDEOSTUDIOIV] = 33;
+    borderY[VIDEOSTUDIOIV] = 20;  //Studio IV
+    borderX[VIDEOSCN2672] = 4;
+    borderY[VIDEOSCN2672] = 4;  //SCN2672
+   
     colour[COL_PIXIE_FORE] = "#ffffff";    // foreground pixie
     colour[COL_PIXIE_BACK] = "#000000";    // background pixie
     colour[COL_CDP1862_BLACK] = "#141414";
@@ -2130,8 +2139,10 @@ void Main::initConfig()
     colour[COL_ST4_BACK_YELLOW] = "#d0d000";
     colour[COL_ST4_BACK_CYAN] = "#00d0d0";
     colour[COL_ST4_BACK_WHITE] = "#fbfbfb";
+    colour[COL_SCN2672_FORE] = "#00ff00";    // foreground SCN2672
+    colour[COL_SCN2672_BACK] = "#004000";    // background SCN2672
 
-    setScreenInfo(0, COL_MAX, colour, VIDEOXMLMAX, borderX, borderY);
+    setScreenInfo(0, COL_MAX, colour, borderX, borderY);
     setComputerInfo("Xml", "");
         
     if (mode_.gui)
@@ -2314,7 +2325,7 @@ void Main::readConfig()
         XRCCTRL(*this, "DebuggerChoiceBook", wxNotebook)->SetSelection(selected_tab);
 
         selected_tab = configPointer->Read("/Main/Selected_Tab", 0l);
-        if (selected_tab > DEBUGGERTAB)
+        if (selected_tab > MESSAGETAB)
             selected_tab = 0;
         XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(selected_tab);
         eventChangeNoteBook();
@@ -2327,7 +2338,7 @@ void Main::readConfig()
         if (windowInfo.operatingSystem == OS_WINDOWS_XP )
         {
             XRCCTRL(*this, "Computer", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "Configuration", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "Startup", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "DirectAssembler", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "Profiler", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelTrace", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -2384,10 +2395,14 @@ void Main::adjustGuiSize()
 #if defined(__linux__)
 #define BORDER_COR_X 8
 #define BORDER_COR_Y 8
-#define BORDER_COR_MESSAGE_X 6
-#define BORDER_COR_MESSAGE_Y 35
+#define BORDER_COR_MESSAGE_X 21
+#define BORDER_COR_MESSAGE_Y 67
+#define BORDER_COR_CONFIG_X 20
+#define BORDER_COR_CONFIG_Y 65
 #define BORDER_COR_1802TRACE_X 8
 #define BORDER_COR_1802TRACE_Y 45
+#define BORDER_COR_VIDEO_TRACE_X 17
+#define BORDER_COR_VIDEO_TRACE_Y 45
 #define BORDER_COR_BREAK_X 6
 #define BORDER_COR_BREAK_Y 35
 #define BORDER_COR_PSEUDOTRACE_X 8
@@ -2399,10 +2414,14 @@ void Main::adjustGuiSize()
 #if defined (__WXMSW__)
 #define BORDER_COR_X 10
 #define BORDER_COR_Y 10
-#define BORDER_COR_MESSAGE_X 6
-#define BORDER_COR_MESSAGE_Y 25
+#define BORDER_COR_MESSAGE_X 21
+#define BORDER_COR_MESSAGE_Y 57
+#define BORDER_COR_CONFIG_X 20
+#define BORDER_COR_CONFIG_Y 55
 #define BORDER_COR_1802TRACE_X 8
 #define BORDER_COR_1802TRACE_Y 48
+#define BORDER_COR_VIDEO_TRACE_X 17
+#define BORDER_COR_VIDEO_TRACE_Y 48
 #define BORDER_COR_BREAK_X 6
 #define BORDER_COR_BREAK_Y 49
 #define BORDER_COR_PSEUDOTRACE_X 18
@@ -2414,10 +2433,14 @@ void Main::adjustGuiSize()
 #if defined(__WXMAC__)
 #define BORDER_COR_X 21
 #define BORDER_COR_Y 8
-#define BORDER_COR_MESSAGE_X 6
-#define BORDER_COR_MESSAGE_Y 30
+#define BORDER_COR_MESSAGE_X 21
+#define BORDER_COR_MESSAGE_Y 62
+#define BORDER_COR_CONFIG_X 20
+#define BORDER_COR_CONFIG_Y 60
 #define BORDER_COR_1802TRACE_X 11
 #define BORDER_COR_1802TRACE_Y 62
+#define BORDER_COR_VIDEO_TRACE_X 20
+#define BORDER_COR_VIDEO_TRACE_Y 62
 #define BORDER_COR_BREAK_X 6
 #define BORDER_COR_BREAK_Y 62
 #define BORDER_COR_PSEUDOTRACE_X 21
@@ -2441,7 +2464,8 @@ void Main::adjustGuiSize()
             fontFactorY = 6;
             debugTraceWindowX = 0;
         }
-        XRCCTRL(*this, "DebuggerChoiceBook", wxNotebook)->SetClientSize(mainWindowSize.x-BORDER_COR_X, mainWindowSize.y-BORDER_COR_Y);
+       XRCCTRL(*this, "DebuggerChoiceBook", wxNotebook)->SetClientSize(mainWindowSize.x-BORDER_COR_X, mainWindowSize.y-BORDER_COR_Y);
+       XRCCTRL(*this, "IoChoiceBook", wxNotebook)->SetClientSize(mainWindowSize.x-BORDER_COR_X, mainWindowSize.y-BORDER_COR_Y);
         XRCCTRL(*this, "PanelDirectAssembler", wxPanel)->SetClientSize(mainWindowSize.x-BORDER_COR_X, mainWindowSize.y-BORDER_COR_Y);
         XRCCTRL(*this, "PanelProfiler", wxPanel)->SetClientSize(mainWindowSize.x-BORDER_COR_X, mainWindowSize.y-BORDER_COR_Y);
 
@@ -2449,7 +2473,10 @@ void Main::adjustGuiSize()
         
         position = XRCCTRL(*this, "Message_Window", wxTextCtrl)->GetPosition();
         XRCCTRL(*this, "Message_Window", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-BORDER_COR_MESSAGE_X-fontFactorX, mainWindowSize.y-position.y-BORDER_COR_MESSAGE_Y-fontFactorY);
-        
+       
+        position = XRCCTRL(*this, "VideoTraceWindow", wxTextCtrl)->GetPosition();
+        XRCCTRL(*this, "VideoTraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-BORDER_COR_VIDEO_TRACE_X-fontFactorX, mainWindowSize.y-position.y-BORDER_COR_VIDEO_TRACE_Y-fontFactorY);
+
         position = XRCCTRL(*this, "TraceWindow", wxTextCtrl)->GetPosition();
         XRCCTRL(*this, "TraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-BORDER_COR_1802TRACE_X-fontFactorX-debugTraceWindowX, mainWindowSize.y-position.y-BORDER_COR_1802TRACE_Y-fontFactorY);
         positionBreakPointWindow = XRCCTRL(*this, "BreakPointWindow", wxListCtrl)->GetPosition();
@@ -3596,31 +3623,55 @@ void Main::onWheel(wxMouseEvent& event)
     int rot = event.GetWheelRotation ();
     if (rot > 0)
     {
-        if (computerRunning_ && (selectedTab_ == PROFILERTAB || selectedTab_ == DIRECTASSTAB))
+        if (computerRunning_)
         {
-            if (event.GetModifiers() == wxMOD_SHIFT)
-                onAssSpinPageUp();
-            else
-            {
-                assSpinUpScroll();
-                directAss();
-            }
-            return;
+           switch (selectedTab_)
+           {
+              case PROFILERTAB:
+              case DIRECTASSTAB:
+                  if (event.GetModifiers() == wxMOD_SHIFT)
+                      onAssSpinPageUp();
+                  else
+                  {
+                      assSpinUpScroll();
+                      directAss();
+                  }
+              return;
+
+              case MEMORYTAB:
+                 if (event.GetModifiers() == wxMOD_SHIFT)
+                    debugDisplayPageSpinUp(0x100);
+                 else
+                    debugDisplayPageSpinUp(0x10);
+              return;
+           }
         }
     }
 
     if (rot < 0)
     {
-        if (computerRunning_ && (selectedTab_ == PROFILERTAB || selectedTab_ == DIRECTASSTAB))
+        if (computerRunning_)
         {
-            if (event.GetModifiers() == wxMOD_SHIFT)
-                onAssSpinPageDown();
-            else
-            {
-                assSpinDownScroll();
-                directAss();
-            }
-            return;
+           switch (selectedTab_)
+           {
+              case PROFILERTAB:
+              case DIRECTASSTAB:
+                  if (event.GetModifiers() == wxMOD_SHIFT)
+                      onAssSpinPageDown();
+                  else
+                  {
+                      assSpinDownScroll();
+                      directAss();
+                  }
+              return;
+
+              case MEMORYTAB:
+                 if (event.GetModifiers() == wxMOD_SHIFT)
+                    onDebugDisplayPageSpinDown(0x100);
+                 else
+                    onDebugDisplayPageSpinDown(0x10);
+              return;
+           }
         }
     }
 
@@ -3629,7 +3680,8 @@ void Main::onWheel(wxMouseEvent& event)
 
 bool Main::checkFunctionKey(wxKeyEvent& event)
 {
-    if (event.GetModifiers() == wxMOD_SHIFT)
+   int modifier = event.GetModifiers();
+    if (modifier == wxMOD_SHIFT || modifier == wxMOD_CONTROL)
         return false;
 
     int key = event.GetKeyCode();
@@ -3899,6 +3951,8 @@ void Main::nonFixedWindowPosition()
     computerConfiguration.cdp1861Configuration.y = -1;
     computerConfiguration.tmsConfiguration.x = -1;
     computerConfiguration.tmsConfiguration.y = -1;
+    computerConfiguration.scn2672Configuration.x = -1;
+    computerConfiguration.scn2672Configuration.y = -1;
     computerConfiguration.mc6845Configuration.x = -1;
     computerConfiguration.mc6845Configuration.y = -1;
     computerConfiguration.mc6847Configuration.x = -1;
@@ -3948,6 +4002,8 @@ void Main::fixedWindowPosition()
     computerConfiguration.cdp1861Configuration.y = computerConfiguration.cdp1861Configuration.defaultY;
     computerConfiguration.tmsConfiguration.x = computerConfiguration.tmsConfiguration.defaultX;
     computerConfiguration.tmsConfiguration.y = computerConfiguration.tmsConfiguration.defaultY;
+    computerConfiguration.scn2672Configuration.x = computerConfiguration.scn2672Configuration.defaultX;
+    computerConfiguration.scn2672Configuration.y = computerConfiguration.scn2672Configuration.defaultY;
     computerConfiguration.mc6845Configuration.x = computerConfiguration.mc6845Configuration.defaultX;
     computerConfiguration.mc6845Configuration.y = computerConfiguration.mc6845Configuration.defaultY;
     computerConfiguration.mc6847Configuration.x = computerConfiguration.mc6847Configuration.defaultX;
@@ -4183,9 +4239,21 @@ void Main::onComputer(wxNotebookEvent&event)
             memoryDisplay();
         break;
 
-       case MESSAGETAB:
+        case MESSAGETAB:
+
+            switch(XRCCTRL(*this, "IoChoiceBook", wxNotebook)->GetSelection())
+            {
+               case MAINTAB:
+                   messageChoice_ = MAINTAB;
+               break;
+
+               case VIDEOTAB:
+                   messageChoice_ = VIDEOTAB;
+                   p_Main->updateVideoPanel();
+               break;
+            }
             selectedTab_ = MESSAGETAB;
-       break;
+        break;
 
         case DEBUGGERTAB:
             switch(XRCCTRL(*this, "DebuggerChoiceBook", wxNotebook)->GetSelection())
@@ -4215,6 +4283,21 @@ void Main::onDebuggerChoiceBook(wxNotebookEvent&event)
             debuggerChoice_ = CHIP8TAB;
             if (computerRunning_ && pseudoLoaded_)
                 updateChip8Window();
+        break;
+    }
+}
+
+void Main::onMessageChoiceBook(wxNotebookEvent&event)
+{
+    switch(event.GetSelection())
+    {
+        case MAINTAB:
+            messageChoice_ = MAINTAB;
+        break;
+
+        case VIDEOTAB:
+            messageChoice_ = VIDEOTAB;
+            p_Main->updateVideoPanel();
         break;
     }
 }
@@ -4292,8 +4375,8 @@ void Main::enableGui(bool status)
      }
      if (!computerConfiguration.videoTerminalConfiguration.external)
      {
-        XRCCTRL(*this,"FullScreenF3Xml", wxButton)->Enable(!status&(computerConfiguration.cdp1861Configuration.defined||computerConfiguration.cdp1864Configuration.defined||computerConfiguration.coinConfiguration.defined||computerConfiguration.vip2KVideoConfiguration.defined||computerConfiguration.fredVideoConfiguration.defined||computerConfiguration.studio4VideoConfiguration.defined||computerConfiguration.tmsConfiguration.defined||computerConfiguration.i8275Configuration.defined||computerConfiguration.sn76430NConfiguration.defined||computerConfiguration.mc6845Configuration.defined||computerConfiguration.mc6847Configuration.defined||computerConfiguration.vis1870Configuration.defined||(computerConfiguration.videoTerminalConfiguration.type != VTNONE)));
-        XRCCTRL(*this,"ScreenDumpF5Xml", wxButton)->Enable(!status&(computerConfiguration.cdp1861Configuration.defined||computerConfiguration.cdp1864Configuration.defined||computerConfiguration.coinConfiguration.defined||computerConfiguration.vip2KVideoConfiguration.defined||computerConfiguration.fredVideoConfiguration.defined||computerConfiguration.studio4VideoConfiguration.defined||computerConfiguration.tmsConfiguration.defined||computerConfiguration.i8275Configuration.defined||computerConfiguration.sn76430NConfiguration.defined||computerConfiguration.mc6845Configuration.defined||computerConfiguration.mc6847Configuration.defined||computerConfiguration.vis1870Configuration.defined||(computerConfiguration.videoTerminalConfiguration.type != VTNONE)));
+        XRCCTRL(*this,"FullScreenF3Xml", wxButton)->Enable(!status&(computerConfiguration.cdp1861Configuration.defined||computerConfiguration.cdp1864Configuration.defined||computerConfiguration.coinConfiguration.defined||computerConfiguration.vip2KVideoConfiguration.defined||computerConfiguration.fredVideoConfiguration.defined||computerConfiguration.studio4VideoConfiguration.defined||computerConfiguration.tmsConfiguration.defined||computerConfiguration.i8275Configuration.defined||computerConfiguration.sn76430NConfiguration.defined||computerConfiguration.scn2672Configuration.defined||computerConfiguration.mc6845Configuration.defined||computerConfiguration.mc6847Configuration.defined||computerConfiguration.vis1870Configuration.defined||(computerConfiguration.videoTerminalConfiguration.type != VTNONE)));
+        XRCCTRL(*this,"ScreenDumpF5Xml", wxButton)->Enable(!status&(computerConfiguration.cdp1861Configuration.defined||computerConfiguration.cdp1864Configuration.defined||computerConfiguration.coinConfiguration.defined||computerConfiguration.vip2KVideoConfiguration.defined||computerConfiguration.fredVideoConfiguration.defined||computerConfiguration.studio4VideoConfiguration.defined||computerConfiguration.tmsConfiguration.defined||computerConfiguration.i8275Configuration.defined||computerConfiguration.sn76430NConfiguration.defined||computerConfiguration.scn2672Configuration.defined||computerConfiguration.mc6845Configuration.defined||computerConfiguration.mc6847Configuration.defined||computerConfiguration.vis1870Configuration.defined||(computerConfiguration.videoTerminalConfiguration.type != VTNONE)));
     }
      
     enableMemAccessGui(!status);
@@ -4345,6 +4428,22 @@ wxString Main::getGroupMessage(vector<int>* ioGroup)
        return "";
    
     wxString ioGroupString = " on group ", tempIoGroup = "%d";
+    for (std::vector<int>::iterator ioGroupIterator = ioGroup->begin (); ioGroupIterator != ioGroup->end (); ++ioGroupIterator)
+    {
+        tempIoGroup.Printf(tempIoGroup, *ioGroupIterator);
+        ioGroupString += tempIoGroup;
+        tempIoGroup = ", %d";
+    }
+
+    return ioGroupString;
+}
+
+wxString Main::getGroupMessageXml(vector<int>* ioGroup)
+{
+    if (ioGroup->size() == 0)
+       return "";
+   
+    wxString ioGroupString = "I/O group ", tempIoGroup = "%d";
     for (std::vector<int>::iterator ioGroupIterator = ioGroup->begin (); ioGroupIterator != ioGroup->end (); ++ioGroupIterator)
     {
         tempIoGroup.Printf(tempIoGroup, *ioGroupIterator);
@@ -4513,6 +4612,17 @@ void Main::traceTimeout(wxTimerEvent&WXUNUSED(event))
             chip8TraceWindowPointer->WriteText(buffer);
         }
     }
+   if (selectedTab_ == MESSAGETAB && messageChoice_ == VIDEOTAB)
+   {
+       wxString buffer;
+       if (videoTraceString_ != "")
+       {
+           buffer = videoTraceString_;
+           videoTraceString_ = "";
+           videoTraceWindowPointer->SetInsertionPointEnd();
+           videoTraceWindowPointer->WriteText(buffer);
+       }
+   }
 }
 
 void Main::directAssTimeout(wxTimerEvent&WXUNUSED(event))
@@ -4622,6 +4732,15 @@ void Main::directAssTimeout(wxTimerEvent&WXUNUSED(event))
             break;
         }
     }
+   if (selectedTab_ == MESSAGETAB)
+   {
+       switch (messageChoice_)
+       {
+           case VIDEOTAB:
+              updateVideoPanel();
+           break;
+       }
+   }
 }
 
 void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
@@ -4671,7 +4790,7 @@ void Main::startTime()
 {
     startTime_ = wxGetLocalTime();
     lapTime_ = 0;
-    lapTimeStart_ = 0;
+    lapTimeStart_.Assign(0);
     lastNumberOfCpuCycles_ = 0;
     lastInstructionCounter_= 0;
     cpuCyclesOverflow_ = false;
@@ -4680,7 +4799,7 @@ void Main::startTime()
 void Main::showTime()
 {
     wxString print_buffer;
-    int h,m,s;
+    int h,m,s, millis;
     double f1,f2;
     float videoFreq;
     time_t endTime;
@@ -4753,18 +4872,23 @@ void Main::showTime()
         XRCCTRL(*this, "RunTime", wxStaticText)->SetLabel(print_buffer);
 #endif
 
+        wxLongLong endTimeMillis;
         if (lapTimeStart_ != 0)
         {
-            endTime = wxGetLocalTime();
-            lapTime_ = (int)(endTime - lapTimeStart_);
+            endTimeMillis = wxGetLocalTimeMillis();
+            lapTime_ = endTimeMillis - lapTimeStart_;
         }
-        s = (int)(lapTime_);
+        millis = lapTime_.GetLo();
+        s = (int)(millis/1000);
         h = s / 3600;
         s -= (h * 3600);
         m = s / 60;
         s -= (m * 60);
+        millis -= (h * 3600000);
+        millis -= (m * 60000);
+        millis -= (s * 1000);
 
-        print_buffer.Printf("%02d:%02d:%02d",h,m,s);
+        print_buffer.Printf("%02d:%02d:%02d:%03d",h,m,s,millis);
 #if wxCHECK_VERSION(2, 9, 0)
         XRCCTRL(*this, "LapTime", wxStaticText)->SetLabelText(print_buffer);
 #else
@@ -4804,15 +4928,15 @@ void Main::showTime()
 void Main::lapTime()
 {
     if (lapTimeStart_ == 0)
-        lapTimeStart_ = wxGetLocalTime();
+        lapTimeStart_ = wxGetLocalTimeMillis();
     else
     {
-        time_t endTime;
+        wxLongLong endTime;
 
-        endTime = wxGetLocalTime();
-        lapTime_ = (int)(endTime - lapTimeStart_);
+        endTime = wxGetLocalTimeMillis();
+        lapTime_ = endTime - lapTimeStart_;
 
-        lapTimeStart_ = 0;
+        lapTimeStart_.Assign(0);
     }
 }
 
@@ -5711,19 +5835,24 @@ void Main::SetClientSizeEvent(guiEvent&event)
     bool isVt = event.GetBoolValue1();
     int uart_video_Number = event.GetInt();
 
-    if (isVt)
-    {
-        p_Vt100[uart_video_Number]->setClientSize(size);
-        if (changeScreenSize)
-            p_Vt100[uart_video_Number]->changeScreenSize();
-    }
-    else
-    {
-        p_Video[uart_video_Number]->setClientSize(size);
-        if (changeScreenSize)
-            p_Video[uart_video_Number]->changeScreenSize();
-    }
-    sizeChanged_ = true;
+    setClientSizeEvent(size, changeScreenSize, isVt, uart_video_Number);
+}
+
+void Main::setClientSizeEvent(wxSize size, bool changeScreenSize, bool isVt, int uart_video_Number)
+{
+   if (isVt)
+   {
+       p_Vt100[uart_video_Number]->setClientSize(size);
+       if (changeScreenSize)
+           p_Vt100[uart_video_Number]->changeScreenSize();
+   }
+   else
+   {
+       p_Video[uart_video_Number]->setClientSize(size);
+       if (changeScreenSize)
+           p_Video[uart_video_Number]->changeScreenSize();
+   }
+   sizeChanged_ = true;
 }
 
 void Main::eventSetClientSize(wxSize size, bool changeScreenSize, bool isVt, int uart_video_Number)
@@ -5748,20 +5877,24 @@ void Main::eventSetClientSize(wxSize size, bool changeScreenSize, bool isVt, int
     }
 }
 
-void Main::eventSetClientSize(int sizex, int sizey, bool changeScreenSize, bool isVt, int uartNumber)
+void Main::eventSetClientSize(int sizex, int sizey, bool changeScreenSize, bool isVt, int uart_video_Number)
 {
+   wxSize size;
+   size.x = sizex;
+   size.y = sizey;
+
+   if (wxIsMainThread())
+   {
+      setClientSizeEvent(size, changeScreenSize, isVt, uart_video_Number);
+      return;
+   }
     sizeChanged_ = false;
     guiEvent event(GUI_MSG, SET_CLIENT_SIZE);
     event.SetEventObject( p_Main );
    
     event.SetBoolValue(changeScreenSize);
     event.SetBoolValue1(isVt);
-    event.SetInt(uartNumber);
-
-    wxSize size;
-    size.x = sizex;
-    size.y = sizey;
-
+    event.SetInt(uart_video_Number);
     event.SetSizeValue(size);
 
     GetEventHandler()->AddPendingEvent(event);
@@ -5774,7 +5907,6 @@ void Main::eventSetClientSize(int sizex, int sizey, bool changeScreenSize, bool 
             wxYield();
     }
 }
-
 
 void Main::ShowAddressPopupEvent(guiEvent&event)
 {
@@ -6128,6 +6260,28 @@ void Main::eventDebounceTimer()
     guiEvent event(GUI_MSG, DEBOUNCE_TIMER);
     event.SetEventObject(p_Main);
     
+    GetEventHandler()->AddPendingEvent(event);
+}
+
+void Main::beepTimeout(wxTimerEvent& WXUNUSED(event))
+{
+    p_Computer->toneBeep(-1, false);
+}
+
+void Main::setBeepTimer(guiEvent& event)
+{
+    int ms = event.GetInt();
+    beepTimerPointer->Start(ms, wxTIMER_ONE_SHOT);
+}
+
+void Main::eventBeepTimer(int frequency, int ms)
+{
+    p_Computer->toneBeep(frequency, true);
+    guiEvent event(GUI_MSG, BEEP_TIMER);
+    event.SetEventObject(p_Main);
+ 
+    event.SetInt(ms);
+
     GetEventHandler()->AddPendingEvent(event);
 }
 

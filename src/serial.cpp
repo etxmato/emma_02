@@ -64,14 +64,21 @@ int baudRateValueSerial_[] =
     38400, 19200, 9600, 4800, 3600, 2400, 2000, 1800, 1200, 600, 300, 200, 150, 134, 110, 75, 50
 };
 
-Serial::Serial(int computerType, double clock, ComputerConfiguration computerConfig)
+Serial::Serial(int computerType, double clock, ComputerConfiguration computerConfig, int uartNumber)
 {
     currentComputerConfiguration = computerConfig;
     computerType_ = computerType;
     clock_ = clock;
+    uartNumber_ = uartNumber;
 
-    uart1854_ = currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined;
-    uart16450_ = currentComputerConfiguration.videoTerminalConfiguration.uart16450_defined;
+    terminalType_ = TERMINAL_SERIAL;
+    if (currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined)
+        terminalType_ = TERMINAL_UART1854;
+    if (currentComputerConfiguration.videoTerminalConfiguration.uart16450_defined)
+        terminalType_ = TERMINAL_UART16450;
+    if (currentComputerConfiguration.videoTerminalConfiguration.scn2671_defined)
+        terminalType_ = TERMINAL_SCN2671;
+    
     loopBack_ = false;
     loopInput_ = 0;
 
@@ -112,14 +119,24 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, VideoTerminalConfig
 
     reverseEf_ = videoTerminalConfiguration.ef.reverse^1;
 
-    if (uart1854_)
-        configureUart1854(videoTerminalConfiguration);
-    else
+    switch (terminalType_)
     {
-        if (uart16450_)
+        case TERMINAL_UART1854:
+            configureUart1854(videoTerminalConfiguration);
+        break;
+
+        case TERMINAL_UART16450:
             configureUart16450(videoTerminalConfiguration);
-        else
-        {
+        break;
+
+        case TERMINAL_SCN2671:
+            p_Computer->setCycleType(CYCLE_TYPE_VIDEO_TERMINAL, EXTERNAL_VIDEO_TERMINAL_CYCLE);
+            if (!videoTerminalConfiguration.external)
+                startLoopBack();
+            rs232_ = 0;
+        break;
+
+        default:
             reverseQ_ = videoTerminalConfiguration.reverseQ^1;
             if (reverseQ_) p_Computer->setFlipFlopQ(1);
 
@@ -130,9 +147,9 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, VideoTerminalConfig
             else
                 p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "terminal loop back");
 
-            printBuffer = "	Serial out: Q";
+            printBuffer = "    Serial out: Q";
             if (reverseQ_ == 1)
-                printBuffer = "	Serial out: reversed Q";
+                printBuffer = "    Serial out: reversed Q";
 
             if (videoTerminalConfiguration.qOutput.portNumber[0] != -1)
             {
@@ -149,7 +166,7 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, VideoTerminalConfig
                 startSerial();
             else
                 startLoopBack();
-        }
+        break;
     }
     
     printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
@@ -223,8 +240,6 @@ void Serial::configureUart1854(VideoTerminalConfiguration videoTerminalConfigura
 
 void Serial::configureUart16450(VideoTerminalConfiguration videoTerminalConfiguration)
 {
-    uart16450_ = true;
-
     if (videoTerminalConfiguration.external)
         p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "external terminal connected to 16450/550 UART");
     else
@@ -320,7 +335,7 @@ void Serial::cycleVt()
     if (cycleValue_ <= 0)
     {
         size_t numberOfBytes = 0;
-        if (uart1854_ || uart16450_)
+        if (terminalType_ != TERMINAL_SERIAL)
         {
             if (serialOpen_)
                 numberOfBytes = sp_input_waiting(port);
@@ -330,7 +345,7 @@ void Serial::cycleVt()
                     numberOfBytes = 1;
             }
             if (numberOfBytes >= 1)
-                dataAvailableUart(1);
+                p_Computer->dataAvailableUart(1, uartNumber_);
         }
         else
         {
@@ -356,7 +371,7 @@ void Serial::cycleVt()
         cycleValue_ = cycleSize_;
     }
 
-    if (uart1854_ || uart16450_)
+    if (terminalType_ != TERMINAL_SERIAL)
     {
         if (vtOutCount_ > 0)
             uartTerminalOut();
@@ -554,6 +569,36 @@ void Serial::serialTerminalIn()
     }
 }
 
+Byte Serial::readReceiverHoldingRegister()
+{
+    Byte input = 0;
+    if (serialOpen_)
+        sp_nonblocking_read(port, &input, 1);
+    if (loopBack_ && loopInput_ != 0)
+    {
+        input = loopInput_;
+        loopInput_ = 0;
+    }
+
+    return input;
+}
+
+void Serial::serialDataOutput(Byte transmitterHoldingRegister)
+{
+    if (serialOpen_)
+    {
+#if defined(__ARM64__)
+        sp_blocking_write(port, &transmitterHoldingRegister, 1, 60);
+#else
+        sp_nonblocking_write(port, &transmitterHoldingRegister, 1);
+#endif
+        while (sp_output_waiting(port) > 0)
+                       ;
+    }
+    if (loopBack_)
+        loopInput_ = transmitterHoldingRegister;
+}
+
 void Serial::switchQ(int value)
 {
     if (vtCount_ < 0)
@@ -601,7 +646,7 @@ int Serial::Parity(int value)
 
 void Serial::dataAvailable()
 {
-    if (!uart1854_ && !uart16450_)
+    if (terminalType_ == TERMINAL_SERIAL)
         return;
     
     if (uartEf_)
@@ -612,7 +657,7 @@ void Serial::dataAvailable()
 
 void Serial::dataAvailable(Byte value)
 {
-    if (!uart1854_ && !uart16450_)
+    if (terminalType_ == TERMINAL_SERIAL)
         return;
     
     vtOut_ = value;
@@ -782,7 +827,7 @@ void Serial::thrStatusUart16450(bool data)
 
 void Serial::uartInterrupt()
 {
-    if (uart16450_)
+    if (terminalType_ == TERMINAL_UART16450)
         return;
     
     if ((uartControl_ & 0x20) == 0x20 && currentComputerConfiguration.videoTerminalConfiguration.interrupt)
@@ -793,7 +838,7 @@ void Serial::uartInterrupt()
 
 void Serial::clearUartInterrupt()
 {
-    if (uart16450_)
+    if (terminalType_ == TERMINAL_UART16450)
         return;
     
     p_Computer->requestInterrupt(INTERRUPT_TYPE_UART, false, currentComputerConfiguration.videoTerminalConfiguration.picInterrupt);

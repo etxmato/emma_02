@@ -54,14 +54,15 @@ public:
 #define V_6847 8
 #define V_6847_RAM 9
 #define TMS_MEMORY 10
-#define VT_RAM 11
-#define CDP_1862 12
-#define CDP_1864 13
-#define STUDIO_IV_COLOR 14
-#define I_8275 15
-#define I_8275_RAM 16
-#define VIP2KSEQUENCER 17
-#define RTCRAM 18
+#define SCN2672_RAM 11
+#define VT_RAM 12
+#define CDP_1862 13
+#define CDP_1864 14
+#define STUDIO_IV_COLOR 15
+#define I_8275 16
+#define I_8275_RAM 17
+#define VIP2KSEQUENCER 18
+#define RTCRAM 19
 
 #define TEXT_ASSEMBLER true
 #define DIRECT_ASSEMBLER false
@@ -166,7 +167,7 @@ public:
     Word outOfRangeAddress;
 };
 
-class DebugWindow : public GuiComx 
+class DebugWindow : public GuiComx
 {
 public:
     DebugWindow(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
@@ -401,8 +402,9 @@ public:
 
     void onDebugDisplayPage(wxCommandEvent&event); 
     void onDebugDisplayPageSpinUp(wxSpinEvent&event);
-    void debugDisplayPageSpinUp(); 
+    void debugDisplayPageSpinUp(Word offset);
     void onDebugDisplayPageSpinDown(wxSpinEvent&event);
+    void onDebugDisplayPageSpinDown(Word offset);
     void DebugDisplayPage();
     void DebugDisplayProfiler();
     void ShowCharacters(Word address, int y);
@@ -437,6 +439,7 @@ public:
     void DebugDisplay1864ColorRam();
     void DebugDisplay8275CharRom();
     void DebugDisplay8275VideoRam();
+    void DebugDisplayScn2672Ram();
     void DebugDisplay6845CharRom();
     void DebugDisplay6847CharRom();
     void DebugDisplay6847VideoRam();

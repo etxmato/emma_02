@@ -40,11 +40,6 @@
 #include "main.h"
 #include "tms9918.h"
 
-#define TMS_GRAPHICS_I 0
-#define TMS_GRAPHICS_II 1
-#define TMS_MULTICOLOR 2
-#define TMS_TEXT 4
-
 #define SPRITE_8_8 0
 #define SPRITE_8_8_MAG 1
 #define SPRITE_16_16 2
@@ -108,6 +103,20 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
     spriteAttributeTableAddress_ = 0;
     spritePatternTableAddress_ = 0;
     statusRegister_ = 0;
+    videoMemoryMask_  = 0xfff;
+    disableScreen_ = true;
+    enableInterrupt_ = false;
+    spriteSize16_ = 0;
+    spriteMagnify_ = 0;
+    spriteSelect_ = 0;
+
+    p_Main->setTms9918Register(TMS9918_STATUS, statusRegister_, DO_NOT_SHOW_ANY_TRACE);
+    p_Main->setTms9918Register(TMS9918_FIFTH_SPRITE, (Byte)(statusRegister_ & 0x1f), DO_NOT_SHOW_ANY_TRACE);
+    p_Main->setTms9918SelectorValue(TMS9918_MEMORY_SIZE_LARGE, videoMemoryMask_ == 0x3fff, DO_NOT_SHOW_ANY_TRACE);
+    p_Main->setTms9918SelectorValue(TMS9918_DISPLAY_ENABLE, !disableScreen_, DO_NOT_SHOW_ANY_TRACE);
+    p_Main->setTms9918SelectorValue(TMS9918_INTERRUPT_ENABLE, enableInterrupt_, DO_NOT_SHOW_ANY_TRACE);
+    p_Main->setTms9918DisplayMode(mode_, DO_NOT_SHOW_ANY_TRACE);
+    p_Main->setTms9918SelectorValue(TMS9918_SPRITE_SIZE, spriteSelect_, DO_NOT_SHOW_ANY_TRACE);
 
     switch (p_Main->getCpuStartupVideoRam())
     {
@@ -128,11 +137,11 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
     switch (p_Main->getCpuStartupRegisters())
     {
         case STARTUP_ZEROED:
-            for (int i=0; i<8; i++) writeRegister(i, 0);
+            for (int i=0; i<8; i++) writeRegister(i, 0, DO_NOT_SHOW_ANY_TRACE);
         break;
             
         case STARTUP_RANDOM:
-            for (int i=0; i<8; i++) writeRegister(i, rand() % 0x100);
+            for (int i=0; i<8; i++) writeRegister(i, rand() % 0x100, DO_NOT_SHOW_ANY_TRACE);
         break;
     }
         
@@ -162,8 +171,7 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
     fullScreenSet_ = false;
     updateTile_ = 0;
     tileListPointer = NULL;
-    reDrawSprites_ = true;
-    disableScreen_ = true;
+    reDrawSprites_ = false;
 
     videoWidth_ = 256;
     videoHeight_ = 192;
@@ -234,31 +242,39 @@ Byte Tms9918::readDataPort()
     Byte returnValue = statusRegister_;
     
     statusRegister_ = statusRegister_ & 0x1f;
+    p_Main->setTms9918Register(TMS9918_STATUS, statusRegister_);
     return returnValue;
 }
 
 Byte Tms9918::readVRAM()
 {
-    return tmsMemory_[currentReadAddress_++];
+    Byte returnValue = tmsMemory_[currentReadAddress_++];
+    currentReadAddress_ &= videoMemoryMask_;
+    int showTrace = p_Main->setTms9918Register(TMS9918_DATA, returnValue);
+    p_Main->setTms9918Register(TMS9918_READ_ADDRESS, currentReadAddress_, showTrace);
+    return returnValue;
 }
 
-void Tms9918::modeHighOut(Byte value)
+void Tms9918::modeHighOut(Byte value, int showTrace)
 {
     if (toggle_)
     {
+        showTrace = p_Main->setTms9918Register(TMS9918_REGISTER, value, showTrace);
         if ((value & 0xf8) == 0x80 )
         {
-            writeRegister(value & 7, value_);
+            writeRegister(value & 7, value_, showTrace);
             reBlit_ = true;
             reDraw_ = true;
         }
         if ((value & 0xc0) == 0)
         {
-            currentReadAddress_ = value_ +((value & 0x3f) << 8);
+            currentReadAddress_ = (value_ +((value & 0x3f) << 8)) & videoMemoryMask_;
+            p_Main->setTms9918Register(TMS9918_READ_ADDRESS, currentReadAddress_, showTrace);
         }
         if ((value & 0xc0) == 0x40)
         {
-            currentWriteAddress_ = value_ +((value & 0x3f) << 8);
+            currentWriteAddress_ = (value_ +((value & 0x3f) << 8)) & videoMemoryMask_;
+            p_Main->setTms9918Register(TMS9918_WRITE_ADDRESS, currentWriteAddress_, showTrace);
             reBlit_ = true;
     //        reDraw_ = true; //** test code!
         }
@@ -266,13 +282,15 @@ void Tms9918::modeHighOut(Byte value)
     }
     else
     {
+        p_Main->setTms9918RegisterValue(TMS9918_REGISTER, value, showTrace);
         value_ = value;
         toggle_ = true;
     }
 }
 
-void Tms9918::writeVRAM(Byte value)
+void Tms9918::writeVRAM(Byte value, int showTrace)
 {
+    showTrace = p_Main->setTms9918Register(TMS9918_DATA, value, showTrace);
     int  p;
     Word addr;
 
@@ -280,10 +298,14 @@ void Tms9918::writeVRAM(Byte value)
     if (value == tmsMemory_[currentWriteAddress_])
     {
         currentWriteAddress_++;
+        currentWriteAddress_ &= videoMemoryMask_;
+        p_Main->setTms9918Register(TMS9918_WRITE_ADDRESS, currentWriteAddress_, showTrace);
         return;
     }
     
     tmsMemory_[currentWriteAddress_++] = value;
+    currentWriteAddress_ &= videoMemoryMask_;
+    p_Main->setTms9918Register(TMS9918_WRITE_ADDRESS, currentWriteAddress_, showTrace);
     Word memoryStart = p_Computer->getDebugMemoryStart();
     if (addr >= memoryStart && addr<(memoryStart + 256))
         p_Main->updateDebugMemory(addr);
@@ -405,7 +427,10 @@ void Tms9918::cycleTms()
         copyScreen();
         videoSyncCount_++;
         if (enableInterrupt_)
+        {
             statusRegister_ = statusRegister_ | 0x80;
+            p_Main->setTms9918Register(TMS9918_STATUS, statusRegister_, DO_NOT_SHOW_ANY_TRACE);
+        }
         if (changeScreenSize_)
         {
             changeScreenSize();
@@ -414,28 +439,28 @@ void Tms9918::cycleTms()
     }
 }
 
-void Tms9918::writeRegister(Byte reg, Byte value)
+void Tms9918::writeRegister(Byte reg, Byte value, int showTrace)
 {
-    registers_[reg] = value_;
-    
-    mode_ = TMS_GRAPHICS_I; // Graphics I
-    if (registers_[0] & 2)
-        mode_ = TMS_GRAPHICS_II; // Graphics II
-    if (registers_[1] & 8)
-        mode_ = TMS_MULTICOLOR; // Multicolor
-    if (registers_[1] & 16)
-        mode_ = TMS_TEXT; // Text
-
     switch (reg)
     {
         case 0:
+            registers_[reg] = value & 0x3;
+            mode_ = setDisplayMode();
+            showTrace = p_Main->setTms9918RegisterNibble(TMS9918_R0, registers_[reg], showTrace);
+            p_Main->setTms9918DisplayMode(mode_, showTrace);
         break;
 
         case 1:
-            enableInterrupt_ = ((value_ & 0x20) == 0x20);
-            spriteSize16_ = ((value_ & 0x2) == 0x2);
-            spriteMagnify_ = ((value_ & 0x1) == 0x1);
-            disableScreen_ = ((value_ & 0x40) != 0x40);
+            registers_[reg] = value;
+            mode_ = setDisplayMode();
+            spriteMagnify_ = ((value & 0x1) == 0x1);
+            spriteSize16_ = ((value & 0x2) == 0x2);
+            enableInterrupt_ = ((value & 0x20) == 0x20);
+            disableScreen_ = ((value & 0x40) != 0x40);
+            if ((value & 0x80) == 0x80)
+                videoMemoryMask_  = 0x3fff;
+            else
+                videoMemoryMask_  = 0xfff;
             spriteSelect_ = value & 0x3;
 
             switch (spriteSelect_)
@@ -460,43 +485,213 @@ void Tms9918::writeRegister(Byte reg, Byte value)
                     spriteMagnifyFactor_ = 16;
                 break;
             }
-            if (spriteSize_ == 8)
+            showTrace = p_Main->setTms9918Register(TMS9918_R1, registers_[reg], showTrace);
+            showTrace = p_Main->setTms9918SelectorValue(TMS9918_SPRITE_SIZE, spriteSelect_, showTrace);
+            showTrace = p_Main->setTms9918DisplayMode(mode_, showTrace);
+            showTrace = p_Main->setTms9918SelectorValue(TMS9918_INTERRUPT_ENABLE, enableInterrupt_, showTrace);
+            showTrace = p_Main->setTms9918SelectorValue(TMS9918_DISPLAY_ENABLE, !disableScreen_, showTrace);
+            showTrace = p_Main->setTms9918SelectorValue(TMS9918_MEMORY_SIZE_LARGE, videoMemoryMask_ == 0x3fff, showTrace);
         break;
 
         case 2:
-            nameAddress_ = (registers_[2] & 0xf) << 10;
+            nameAddress_ = (value & 0xf) << 10;
+            p_Main->setTms9918Register(TMS9918_R2, nameAddress_, showTrace);
         break;
 
         case 3:
+            if (mode_ == TMS_GRAPHICS_II)
+                colorAddress_ = (value & 128) ? 0x2000 : 0;
+            else
+                colorAddress_ = value << 6;
+            p_Main->setTms9918Register(TMS9918_R3, colorAddress_, showTrace);
         break;
 
         case 4:
+            if (mode_ == TMS_GRAPHICS_II)
+                patternAddress_ = (value & 4) ? 0x2000 : 0;
+            else
+                patternAddress_ = (value & 0x7) << 11;
+            p_Main->setTms9918Register(TMS9918_R4, patternAddress_, showTrace);
         break;
 
         case 5:
-            spriteAttributeTableAddress_ = (value_ & 0x7f) << 7;
+            spriteAttributeTableAddress_ = (value & 0x7f) << 7;
+            p_Main->setTms9918Register(TMS9918_R5, spriteAttributeTableAddress_, showTrace);
         break;
 
         case 6:
-            spritePatternTableAddress_ = (value_ & 0x7) << 11;
+            spritePatternTableAddress_ = (value & 0x7) << 11;
+            p_Main->setTms9918Register(TMS9918_R6, spritePatternTableAddress_, showTrace);
        break;
 
         case 7:
-            textColor_ = (value_ & 0xf0) >> 4;
-            backgroundColor_ = value_ & 0xf;
+            textColor_ = (value & 0xf0) >> 4;
+            backgroundColor_ = value & 0xf;
+            p_Main->setTms9918Register(TMS9918_R7, value, showTrace);
        break;
     }
+}
+
+void Tms9918::writeRegisterDirect(Byte reg, Word value, int showTrace)
+{
+    switch (reg)
+    {
+        case 0:
+            registers_[reg] = value & 0x3;
+            mode_ = setDisplayMode();
+            showTrace = p_Main->setTms9918RegisterNibble(TMS9918_R0, registers_[reg], showTrace);
+            p_Main->setTms9918DisplayMode(mode_, showTrace);
+            reDraw_ = true;
+        break;
+
+        case 1:
+            registers_[reg] = value & 0xff;
+            mode_ = setDisplayMode();
+            showTrace = p_Main->setTms9918Register(TMS9918_R1, registers_[reg], showTrace);
+            p_Main->setTms9918DisplayMode(mode_, showTrace);
+            enableInterrupt_ = ((value & 0x20) == 0x20);
+            spriteSize16_ = ((value & 0x2) == 0x2);
+            spriteMagnify_ = ((value & 0x1) == 0x1);
+            disableScreen_ = ((value & 0x40) != 0x40);
+            if ((value & 0x80) == 0x80)
+                videoMemoryMask_  = 0x3fff;
+            else
+                videoMemoryMask_  = 0xfff;
+            showTrace = p_Main->setTms9918SelectorValue(TMS9918_DISPLAY_ENABLE, !disableScreen_, showTrace);
+            showTrace = p_Main->setTms9918SelectorValue(TMS9918_INTERRUPT_ENABLE, enableInterrupt_, showTrace);
+            showTrace = p_Main->setTms9918SelectorValue(TMS9918_MEMORY_SIZE_LARGE, videoMemoryMask_ == 0x3fff, showTrace);
+            spriteSelect_ = value & 0x3;
+
+            switch (spriteSelect_)
+            {
+                case SPRITE_8_8:
+                    spriteSize_ = 8;
+                    spriteMagnifyFactor_ = 0;
+                break;
+
+                case SPRITE_8_8_MAG:
+                    spriteSize_ = 16;
+                    spriteMagnifyFactor_ = 0;
+                break;
+                    
+                case SPRITE_16_16:
+                    spriteSize_ = 16;
+                    spriteMagnifyFactor_ = 8;
+                break;
+
+                case SPRITE_16_16_MAG:
+                    spriteSize_ = 32;
+                    spriteMagnifyFactor_ = 16;
+                break;
+            }
+            p_Main->setTms9918SelectorValue(TMS9918_SPRITE_SIZE, spriteSelect_);
+            reDraw_ = true;
+        break;
+
+        case 2:
+            nameAddress_ = value & 0x3c00;
+            p_Main->setTms9918Register(TMS9918_R2, nameAddress_, showTrace);
+            reDraw_ = true;
+        break;
+
+        case 3:
+            colorAddress_ = value & 0x3fc0;
+            p_Main->setTms9918Register(TMS9918_R3, colorAddress_, showTrace);
+            reDraw_ = true;
+        break;
+
+        case 4:
+            patternAddress_ = value & 0x3800;
+            p_Main->setTms9918Register(TMS9918_R4, patternAddress_, showTrace);
+            reDraw_ = true;
+        break;
+
+        case 5:
+            spriteAttributeTableAddress_ = value & 0x3f80;
+            p_Main->setTms9918Register(TMS9918_R5, spriteAttributeTableAddress_, showTrace);
+            reDrawSprites_ = true;
+        break;
+
+        case 6:
+            spritePatternTableAddress_ = value & 0x3800;
+            p_Main->setTms9918Register(TMS9918_R6, spritePatternTableAddress_, showTrace);
+            reDrawSprites_ = true;
+       break;
+
+        case 7:
+            textColor_ = (value & 0xf0) >> 4;
+            backgroundColor_ = value & 0xf;
+            p_Main->setTms9918Register(TMS9918_R7, value, showTrace);
+            reDraw_ = true;
+       break;
+    }
+}
+
+Byte Tms9918::setDisplayMode()
+{
+    Byte mode = TMS_GRAPHICS_I; // Graphics I
+    if (registers_[0] & 2)
+        mode = TMS_GRAPHICS_II; // Graphics II
+    if (registers_[1] & 8)
+        mode = TMS_MULTICOLOR; // Multicolor
+    if (registers_[1] & 16)
+        mode = TMS_TEXT; // Text
+
+    return mode;
+}
+
+void Tms9918::setStatus(Byte value)
+{
+    statusRegister_ = value;
     
-    if (mode_ == TMS_GRAPHICS_II)
+    p_Main->setTms9918Register(TMS9918_STATUS, value, DO_NOT_SHOW_ADDRESS_TRACE);
+}
+
+void Tms9918::setFifthSprite(Byte value)
+{
+    statusRegister_ &= 0xe0;
+    statusRegister_ |= (value & 0x1f);
+
+    p_Main->setTms9918Register(TMS9918_FIFTH_SPRITE, (Byte)(value & 0x1f), DO_NOT_SHOW_ADDRESS_TRACE);
+    p_Main->setTms9918Register(TMS9918_STATUS, statusRegister_, DO_NOT_SHOW_ADDRESS_TRACE);
+}
+
+void Tms9918::setDisplayModeDirect(Byte value)
+{
+    reDraw_ = true;
+    mode_ = value & 0x7;
+    registers_[0] &= 0xfd;
+    registers_[1] &= 0xe7;
+    switch (mode_)
     {
-        colorAddress_ = (registers_[3] & 128) ? 0x2000 : 0;
-        patternAddress_ = (registers_[4] & 4) ? 0x2000 : 0;
+        case TMS_GRAPHICS_II:
+            registers_[0] |= 0x2;
+        break;
+
+        case TMS_MULTICOLOR:
+            registers_[1] |= 0x8;
+        break;
+
+        case TMS_TEXT:
+            registers_[1] |= 0x10;
+        break;
     }
-    else
-    {
-        colorAddress_ = registers_[3] << 6;
-        patternAddress_ = (registers_[4] & 0x7) << 11;
-    }
+    p_Main->setTms9918DisplayMode(mode_, DO_NOT_SHOW_ADDRESS_TRACE);
+    p_Main->setTms9918RegisterNibble(TMS9918_R0, registers_[0], DO_NOT_SHOW_ADDRESS_TRACE);
+    p_Main->setTms9918Register(TMS9918_R1, registers_[1], DO_NOT_SHOW_ADDRESS_TRACE);
+    p_Main->setTms9918Register(TMS9918_DISPLAY_MODE, value, DO_NOT_SHOW_ADDRESS_TRACE);
+}
+
+void Tms9918::setCurrentReadAddress(Word value)
+{
+    currentReadAddress_ = value & videoMemoryMask_;
+    p_Main->setTms9918Register(TMS9918_READ_ADDRESS, currentReadAddress_, DO_NOT_SHOW_ADDRESS_TRACE);
+}
+
+void Tms9918::setCurrentWriteAddress(Word value)
+{
+    currentWriteAddress_ = value & videoMemoryMask_;
+    p_Main->setTms9918Register(TMS9918_WRITE_ADDRESS, currentWriteAddress_, DO_NOT_SHOW_ADDRESS_TRACE);
 }
 
 void Tms9918::setClock(double clock)
@@ -528,7 +723,7 @@ void Tms9918::copyScreen()
             brushColour_[i] = brushColourNew_[i];
             penColour_[i] = penColourNew_[i];
         }
-        for (int i=0; i<10; i++)
+        for (int i=0; i<VIDEOXMLMAX; i++)
         {
             borderX_[i] = borderXNew_[i];
             borderY_[i] = borderYNew_[i];
@@ -737,7 +932,10 @@ void Tms9918::drawSprite(Byte namePointer, Word spritePatternTableAddress, wxCoo
                     if (pixel >= 0 && pixel <= 255)
                     {
                         if (scanLineMap_[scanLine].test(pixel))
+                        {
                             statusRegister_ |= 0x20;
+                            p_Main->setTms9918Register(TMS9918_STATUS, statusRegister_, DO_NOT_SHOW_ANY_TRACE);
+                        }
                         else
                         {
                             scanLineMap_[scanLine].set(pixel);
@@ -758,7 +956,10 @@ void Tms9918::drawSprite(Byte namePointer, Word spritePatternTableAddress, wxCoo
                         if (pixel >= 0 && pixel <= 255)
                         {
                             if (scanLineMap_[scanLine].test(pixel))
+                            {
                                 statusRegister_ |= 0x20;
+                                p_Main->setTms9918Register(TMS9918_STATUS, statusRegister_, DO_NOT_SHOW_ANY_TRACE);
+                            }
                             else
                             {
                                 scanLineMap_[scanLine].set(pixel);
@@ -778,6 +979,8 @@ void Tms9918::drawSprite(Byte namePointer, Word spritePatternTableAddress, wxCoo
                 statusRegister_ |= 0x40;
                 statusRegister_ &= 0xe0;
                 statusRegister_ |= namePointer;
+                p_Main->setTms9918Register(TMS9918_STATUS, statusRegister_, DO_NOT_SHOW_ANY_TRACE);
+                p_Main->setTms9918Register(TMS9918_FIFTH_SPRITE, (Byte)(statusRegister_ & 0x1f), DO_NOT_SHOW_ANY_TRACE);
             }
         }
         spritePatternTableAddress++;
@@ -826,7 +1029,10 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                         if (pixel >= 0 && pixel <= 255)
                         {
                             if (scanLineMap_[scanLine].test(pixel))
+                            {
                                 statusRegister_ |= 0x20;
+                                p_Main->setTms9918Register(TMS9918_STATUS, statusRegister_, DO_NOT_SHOW_ANY_TRACE);
+                            }
                             else
                             {
                                 scanLineMap_[scanLine].set(pixel);
@@ -837,7 +1043,10 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                         if (pixel >= 0 && pixel <= 255)
                         {
                             if (scanLineMap_[scanLine].test(pixel))
+                            {
                                 statusRegister_ |= 0x20;
+                                p_Main->setTms9918Register(TMS9918_STATUS, statusRegister_, DO_NOT_SHOW_ANY_TRACE);
+                            }
                             else
                             {
                                 scanLineMap_[scanLine].set(pixel);
@@ -860,7 +1069,10 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                             if (pixel >= 0 && pixel <= 255)
                             {
                                 if (scanLineMap_[scanLine].test(pixel))
+                                {
                                     statusRegister_ |= 0x20;
+                                    p_Main->setTms9918Register(TMS9918_STATUS, statusRegister_, DO_NOT_SHOW_ANY_TRACE);
+                                }
                                 else
                                 {
                                     scanLineMap_[scanLine].set(pixel);
@@ -871,7 +1083,10 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                             if (pixel >= 0 && pixel <= 255)
                             {
                                 if (scanLineMap_[scanLine].test(pixel))
+                                {
                                     statusRegister_ |= 0x20;
+                                    p_Main->setTms9918Register(TMS9918_STATUS, statusRegister_, DO_NOT_SHOW_ANY_TRACE);
+                                }
                                 else
                                 {
                                     scanLineMap_[scanLine].set(pixel);
@@ -893,6 +1108,8 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                     statusRegister_ |= 0x40;
                     statusRegister_ &= 0xe0;
                     statusRegister_ |= namePointer;
+                    p_Main->setTms9918Register(TMS9918_STATUS, statusRegister_, DO_NOT_SHOW_ANY_TRACE);
+                    p_Main->setTms9918Register(TMS9918_FIFTH_SPRITE, (Byte)(statusRegister_ & 0x1f), DO_NOT_SHOW_ANY_TRACE);
                 }
             }
             
@@ -916,7 +1133,10 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                         if (pixel >= 0 && pixel <= 255)
                         {
                             if (scanLineMap_[scanLine].test(pixel))
+                            {
                                 statusRegister_ |= 0x20;
+                                p_Main->setTms9918Register(TMS9918_STATUS, statusRegister_, DO_NOT_SHOW_ANY_TRACE);
+                            }
                             else
                             {
                                 scanLineMap_[scanLine].set(pixel);
@@ -927,7 +1147,10 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                         if (pixel >= 0 && pixel <= 255)
                         {
                             if (scanLineMap_[scanLine].test(pixel))
+                            {
                                 statusRegister_ |= 0x20;
+                                p_Main->setTms9918Register(TMS9918_STATUS, statusRegister_, DO_NOT_SHOW_ANY_TRACE);
+                            }
                             else
                             {
                                 scanLineMap_[scanLine].set(pixel);
@@ -950,7 +1173,10 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                             if (pixel >= 0 && pixel <= 255)
                             {
                                 if (scanLineMap_[scanLine].test(pixel))
+                                {
                                     statusRegister_ |= 0x20;
+                                    p_Main->setTms9918Register(TMS9918_STATUS, statusRegister_, DO_NOT_SHOW_ANY_TRACE);
+                                }
                                 else
                                 {
                                     scanLineMap_[scanLine].set(pixel);
@@ -961,7 +1187,10 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                             if (pixel >= 0 && pixel <= 255)
                             {
                                 if (scanLineMap_[scanLine].test(pixel))
+                                {
                                     statusRegister_ |= 0x20;
+                                    p_Main->setTms9918Register(TMS9918_STATUS, statusRegister_, DO_NOT_SHOW_ANY_TRACE);
+                                }
                                 else
                                 {
                                     scanLineMap_[scanLine].set(pixel);
@@ -983,6 +1212,8 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
                     statusRegister_ |= 0x40;
                     statusRegister_ &= 0xe0;
                     statusRegister_ |= namePointer;
+                    p_Main->setTms9918Register(TMS9918_STATUS, statusRegister_, DO_NOT_SHOW_ANY_TRACE);
+                    p_Main->setTms9918Register(TMS9918_FIFTH_SPRITE, (Byte)(statusRegister_ & 0x1f), DO_NOT_SHOW_ANY_TRACE);
                 }
             }
             spritePatternTableAddress++;

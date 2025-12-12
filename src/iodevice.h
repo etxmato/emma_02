@@ -4,7 +4,21 @@
 
 #include "computerconfig.h"
 
-class IoDevice 
+class OutputConfiguration
+{
+public:
+    int type[2][257][8];
+    int itemNumber[2][257][8];
+};
+
+class InputConfiguration
+{
+public:
+    int type[2][257][8];
+    int itemNumber[2][257][8];
+};
+
+class IoDevice
 {
 public:
     IoDevice();
@@ -31,17 +45,17 @@ public:
     void setOutType(vector<int>* ioGroup, IoPort port, wxString message, int itemNumber = 0);
 
 protected:
+    vector<OutputConfiguration> outputConfiguration;
+    vector<InputConfiguration> inputConfiguration;
+
     int efType_[2][257][5];
     int efItemNumber_[2][257][5];
-    int inType_[2][257][8];
-    int inItemNumber_[2][257][8];
-    int outType_[2][257][8];
-    int outItemNumber_[2][257][8];
     
     int cycleType_[CYCLE_TYPE_MAX];
 
 private:
-
+    size_t getInputConfiguration(int q, int group, int number);
+    size_t getOutputConfiguration(int q, int group, int number);
 };
 
 #endif  // IODEVICE_H

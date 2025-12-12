@@ -14,7 +14,7 @@ public:
     void writeControlRegister(Byte value);
     Byte readStatusRegister();
     void writeTransmitterHoldingRegister(Byte value);
-    Byte readReceiverHoldingRegister_();
+    Byte readReceiverHoldingRegister();
     Byte efSerialDataInput();
     Byte efInterrupt();
     void cycle();

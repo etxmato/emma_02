@@ -1459,8 +1459,15 @@ void Printer::configureThermalPrinter(ThermalPrinterConfiguration thermalPrinter
 
 void Printer::configureBasicPrinter(BasicPrinterConfiguration basicPrinterConfiguration)
 {
+    wxString printBuffer;
     p_Main->configureMessage(&basicPrinterConfiguration.ioGroupVector, "Printer");
-    p_Computer->setOutType(&basicPrinterConfiguration.ioGroupVector, basicPrinterConfiguration.output, "write data");
+    if (basicPrinterConfiguration.output.addressMode)
+    {
+        printBuffer.Printf("	Write address %04X: write data", basicPrinterConfiguration.output.portNumber[0]);
+        p_Main->message(printBuffer);
+    }
+    else
+        p_Computer->setOutType(&basicPrinterConfiguration.ioGroupVector, basicPrinterConfiguration.output, "write data");
     p_Computer->setEfType(&basicPrinterConfiguration.ioGroupVector, basicPrinterConfiguration.ef, "data ready");
 
     p_Main->message("");

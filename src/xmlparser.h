@@ -1,10 +1,10 @@
 #ifndef XMLFILEPARSER_H
 #define XMLFILEPARSER_H
 
-#include "guimain.h"
+#include "vis1870_config.h"
 #include "computerconfig.h"
 
-class XmlParser: public GuiMain
+class XmlParser: public Vis1870Config
 {
 public:
 
@@ -24,20 +24,6 @@ private:
     void parseXml_FdcDisk(wxXmlNode &node);
     void parseXml_Upd765(wxXmlNode &node);
     void parseXml_Tu58Disk(wxXmlNode &node);
-    void parseXml_CoinVideo(wxXmlNode &node);
-    void parseXml_PixieVideo(wxXmlNode &node);
-    void parseXml_1862Video(wxXmlNode &node);
-    void parseXml_1864Video(wxXmlNode &node);
-    void parseXml_St4Video(wxXmlNode &node);
-    void parseXml_Vip2KVideo(wxXmlNode &node);
-    void parseXml_fredVideo(wxXmlNode &node);
-    void parseXml_pixieGraphics(wxXmlNode &node);
-    void parseXml_MC6845Video(wxXmlNode &node);
-    void parseXml_MC6847Video(wxXmlNode &node);
-    void parseXml_TMS9918Video(wxXmlNode &node);
-    void parseXml_Intel8275Video(wxXmlNode &node);
-    void parseXml_VisVideo(wxXmlNode &node);
-    void parseXml_SN76430NVideo(wxXmlNode &node);
     void parseXml_Ps2Keyboard(wxXmlNode &node);
     void parseXml_Gpio(wxXmlNode &node);
     void parseXml_AsciiKeyboard(wxXmlNode &node);
@@ -54,7 +40,7 @@ private:
     void parseXml_EfButtons(wxXmlNode &node);
     void parseXml_AdConvertor(wxXmlNode &node);
     void parseXml_FrontPanel(wxXmlNode &node, int frontNumber);
-    void parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber);
+    void parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoint origin);
     void parseXml_Cdp1851_Printer(wxXmlNode &node);
     void parseXml_Cdp1851_PrinterPort(wxXmlNode &node, int port);
     int get_Cdp1851_Printer_function(wxString function);
@@ -66,7 +52,9 @@ private:
     void parseXml_Cdp1878(wxXmlNode &node);
     void parseXml_Cd4536b(wxXmlNode &node);
     void parseXml_Mm57109(wxXmlNode &node);
+    void parseXml_Scn2671(wxXmlNode &node, int connection);
     void parseXml_SerialVt(wxXmlNode &node);
+    void parseXml_Scn2671Vt(wxXmlNode &node);
     void parseXml_UartVt(wxXmlNode &node, bool uart16450);
     void parseXml_Printer(wxXmlNode &node, int printerType);
     void parseXml_SwCassette(wxXmlNode &node);
@@ -109,30 +97,17 @@ private:
     void parseXml_MapRomRam(wxXmlNode &node, int mapNum, int memNum, int type);
     void parseXml_MapIO(wxXmlNode &node, int memNum);
     void parseXml_portExt(wxXmlNode &node, int type, size_t configNumber);
-    void parseXml_Mc6857BitSetup(wxXmlNode &node, int bitNumber, wxString childName);
     void parseXml_RtcCdp1879(wxXmlNode &node);
     void parseXml_RtcM48T58(wxXmlNode &node);
     void parseXml_RtcDS12887(wxXmlNode &node);
     void parseXml_UsbSuperBoard(wxXmlNode &node);
     void parseXml_nvRamMp(wxXmlNode &node);
-    IoPort parseXml_IoPort(wxXmlNode &node, int ioDefinition = 0, Byte defaultMask = 0xff);
-    IoPort init_IoPort();
-    EfFlag parseXml_EfFlag(wxXmlNode &node, int ioDefinition = 0);
-    EfFlag init_EfFlag();
-    long parseXml_Number(wxXmlNode &node);
-    long parseXml_Number(wxXmlNode &node, wxString attribute);
-    bool parseXml_Range(wxXmlNode &node, long *start, long *end);
-    long getHexDec(wxString numberString);
-    long getNextHexDec(wxString *numberString);
-    bool parseXml_Size(wxXmlNode &node, long *width, long *height);
-    wxString getDoubleString(wxString doubleSting, wxString tag, double max, wxString maxStr);
-    double getDouble(wxString doubleSting, wxString tag, double max, wxString maxStr, bool allowZero);
 
     size_t guiItemConfigNumber_;
     size_t memConfigNumber_;
 
     int defaultFrontPanelX_, defaultFrontPanelY_;
-    
+        
     DECLARE_EVENT_TABLE()
 };
 

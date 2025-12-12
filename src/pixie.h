@@ -35,11 +35,13 @@ public:
     virtual Byte efCdp1864();
     virtual Byte inPixie();
     virtual void outPixie();
-    virtual void outPixieBackGround();
+    void outCdp1862BackGround();
+    void outCdp1862BackGround(Byte background);
+    void outCdp1864BackGround();
+    void outCdp1864BackGround(Byte background);
     virtual void cyclePixie();
     void cyclePixieCoinArcade();
     void cyclePixieCdp1864();
-    void dmaEnable();
     
     virtual void copyScreen();
     void drawBackgroundLine();
@@ -101,7 +103,8 @@ public:
     void configureFredVideo(FredVideoConfiguration fredVideoConfiguration);
     void drawScreen();
     void cyclePixie();
-    void setDisplayType(int displayType);
+	void enableScreen(bool enable, int showTrace = SHOW_ADDRESS_TRACE);
+    void setDisplayType(int displayType, int showTrace = SHOW_ADDRESS_TRACE);
   
 private:
     int displayType_;
@@ -148,26 +151,18 @@ public:
     void cyclePixie();
     Byte efPixie();
     void outPixie();
-    void outPixieBackGround();
-    void outPixieStudioIV(int value);
-//    void switchVideoMode(int videoMode);
+    void dmaEnable(int showTrace = SHOW_ADDRESS_TRACE);
+    int st4BackGround(int value, int showTrace = SHOW_ADDRESS_TRACE);
+    int enableScreen(bool enable, int showTrace = SHOW_ADDRESS_TRACE);
+    int st4PalNtsc(int palNtsc, int showTrace = SHOW_ADDRESS_TRACE);
+    int st4WhiteForeground(bool white, int showTrace = SHOW_ADDRESS_TRACE);
+    void outPixieStudioIV(int value, int showTrace = SHOW_ADDRESS_TRACE);
+    void switchVideoMode(int videoMode);
 
 private:
     Studio4VideoConfiguration studio4VideoConfiguration_;
-};
-
-class PixieEti : public Pixie
-{
-public:
-    PixieEti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType);
-
-    void copyScreen();
-    void drawScreen();
-    void cyclePixie();
-    void outPixie();
-    void outPixieBackGround();
-
-private:
+    
+    int videoMode_;
 };
 
 #endif  // PIXIE_H

@@ -523,6 +523,20 @@ void Sound::toneSuperOff()
         toneOn_[i] = false;
 }
 
+void Sound::toneBeep(int frequency, bool status)
+{
+    if (status)
+    {
+        setToneFrequency(0, frequency, true);
+        setToneFrequency(1, frequency, true);
+    }
+    else
+    {
+        startTone(0, false);
+        startTone(1, false);
+    }
+}
+
 void Sound::soundCycle()
 {
     for (int channel=0; channel<toneChannels_; channel++)

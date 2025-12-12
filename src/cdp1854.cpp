@@ -195,7 +195,7 @@ void Cdp1854Instance::writeTransmitterHoldingRegister(Byte value)
     statusRegister_[TRANSMITTER_SHIFT_REGISTER] = REGISTER_FULL;
 }
 
-Byte Cdp1854Instance::readReceiverHoldingRegister_()
+Byte Cdp1854Instance::readReceiverHoldingRegister()
 {
     framingError(0);
     dataAvailableUart(0);

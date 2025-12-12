@@ -24,11 +24,23 @@ public:
     Byte frameEf8275();
     Byte rowEf8275();
     void setRowEf8275(Byte value);
+    void setStatus(Byte value) {status_ = value;};
 
     void setClock(double clock);
     void setCycle();
-    void pRegWrite(Byte value);
-    void cRegWrite(Byte value);
+    void pRegWrite(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    int setCharRow(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    int setVerticalRetrace(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    int setRowsFrame(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    int setUnderline(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    int setLinesRow(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    int setCursorFormat(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    int setHorizontalRetrace(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    int setCursorChar(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    int setCursorRow(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    void cRegWrite(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    int setBurstSpaceCode(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    int setDmaCyclesBurst(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
     Byte pRegRead();
     Byte sRegRead();
     Byte read8275CharRom(Word addr);
@@ -46,15 +58,15 @@ public:
     void onF3();
 
 private:
-    Byte i8275ram_[5120];
-    bool cursorReset_[5120];
-    bool reverseScr_[5120];
-    bool underlineScr_[5120];
-    bool highlightScr_[5120];
-    int gpaScr_[5120];
-    bool blinkScr_[5120];
-    bool graphicLineScr_[5120];
-    Byte i8275CharRom_[8192];
+    Byte i8275ram_[0x2000];
+    bool cursorReset_[0x2000];
+    bool reverseScr_[0x2000];
+    bool underlineScr_[0x2000];
+    bool highlightScr_[0x2000];
+    int gpaScr_[0x2000];
+    bool blinkScr_[0x2000];
+    bool graphicLineScr_[0x2000];
+    Byte i8275CharRom_[0x2000];
 
     CharacterList8275 *characterListPointer8275;
     I8275Configuration i8275Configuration_;

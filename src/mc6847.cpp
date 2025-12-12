@@ -111,21 +111,6 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
     else
         ext_ = 0;
 
-    if (mc6847Configuration.forceHighGm2)
-        gm2_ = 1;
-    else
-        gm2_ = 0;
-
-    if (mc6847Configuration.forceHighGm1)
-        gm1_ = 1;
-    else
-        gm1_ = 0;
-
-    if (mc6847Configuration.forceHighGm0)
-        gm0_ = 1;
-    else
-        gm0_ = 0;
-
     if (mc6847Configuration.forceHighCss)
         css_ = 1;
     else
@@ -135,6 +120,16 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
         inv_ = 1;
     else
         inv_ = 0;
+
+    graphicMode_ = 0;
+    if (mc6847Configuration.forceHighGm2)
+        graphicMode_ = 4;
+
+    if (mc6847Configuration.forceHighGm1)
+        graphicMode_ |= 2;
+
+    if (mc6847Configuration.forceHighGm0)
+        graphicMode_ |= 1;
 
     setGraphicMode();
 
@@ -210,9 +205,9 @@ void mc6847::configure()
     cssBit_ = 16;
     asBit_ = 16;
     agBit_ = 16;
-    gm0Bit_ = 16;
-    gm1Bit_ = 16;
-    gm2Bit_ = 16;
+    gmBit[0] = 16;
+    gmBit[1] = 16;
+    gmBit[2] = 16;
     
     setMCBit(15, mc6847Configuration_.b7);
     setMCBit(14, mc6847Configuration_.b6);
@@ -274,56 +269,110 @@ void mc6847::setMCBit(int bit, int selection)
         break;
 
         case MC_GM0:
-            gm0Bit_ = bit;
+            gmBit[0] = bit;
         break;
 
         case MC_GM1:
-            gm1Bit_ = bit;
+            gmBit[1] = bit;
         break;
 
         case MC_GM2:
-            gm2Bit_ = bit;
+            gmBit[2] = bit;
         break;
     }
 }
 
-void mc6847::outMc6847(Byte v)
+void mc6847::outMc6847(Byte v, int showTrace)
 {
-    int newMode, value;
+    showTrace = p_Main->setMc6847Register(MC6847_VIDEO_MODE, v, showTrace);
+    int value, dummyBitshift;
 
     value = v * 256;
 
-    if (agBit_ != 16)
-    {
-        newMode = (((value >> agBit_) & 1) == 1);
-        if (newMode != ag_)
-            reDraw_ = true;
-        ag_ = newMode;
-    }
-
-    if (invBit_ != 16)
-        inv_ = (value >> invBit_) & 1;
-    if (extBit_ != 16)
-        ext_ = (value >> extBit_) & 1;
-    if (cssBit_ != 16)
-        css_ = (value >> cssBit_) & 1;
-    if (asBit_ != 16)
-        as_ = (value >> asBit_) & 1;
-    if (gm0Bit_ != 16)
-        gm0_ = (value >> gm0Bit_) & 1;
-    if (gm1Bit_ != 16)
-        gm1_ = (value >> gm1Bit_) & 1;
-    if (gm2Bit_ != 16)
-        gm2_ = (value >> gm2Bit_) & 1;
-
-    newMode = gm0_ + (gm1_ << 1) + (gm2_ << 2);
-    if (newMode != graphicMode_)
-        reDraw_ = true;
-    graphicMode_ = newMode;
-
-    setGraphicMode();
+    showTrace = agBit((value >> agBit_) & 1, &dummyBitshift, showTrace);
+    showTrace = invBit((value >> invBit_) & 1, &dummyBitshift , showTrace);
+    showTrace = extBit((value >> extBit_) & 1, &dummyBitshift, showTrace);
+    showTrace = cssBit((value >> cssBit_) & 1, &dummyBitshift, showTrace);
+    showTrace = asBit((value >> asBit_) & 1, &dummyBitshift, showTrace);
+    gmBits(((value >> gmBit[0]) & 1) + (((value >> gmBit[1]) & 1) << 1) + (((value >> gmBit[2]) & 1) << 2), showTrace);
 
     outLatch_ = value & 0xf00;
+}
+
+int mc6847::invBit(int value, int *bitshift, int showTrace)
+{
+    *bitshift = invBit_;
+    
+    if (invBit_ == 16)
+        return showTrace;
+
+    if (value != invBit_)
+        reDraw_ = true;
+
+    inv_ = value;
+    return p_Main->setMc6847RegisterNibble(MC6847_VIDEO_INV, inv_, showTrace);
+}
+
+int mc6847::extBit(int value, int *bitshift, int showTrace)
+{
+    *bitshift = extBit_;
+    
+    if (extBit_ == 16)
+        return showTrace;
+
+    ext_ = value;
+    return p_Main->setMc6847RegisterNibble(MC6847_VIDEO_EXT, ext_, showTrace);
+}
+
+int mc6847::cssBit(int value, int *bitshift, int showTrace)
+{
+    *bitshift = cssBit_;
+
+    if (cssBit_ == 16)
+        return showTrace;
+
+    css_ = value;
+    return p_Main->setMc6847RegisterNibble(MC6847_VIDEO_CSS, css_, showTrace);
+}
+
+int mc6847::asBit(int value, int *bitshift, int showTrace)
+{
+    *bitshift = asBit_;
+
+    if (asBit_ == 16)
+        return showTrace;
+
+    as_ = value;
+    return p_Main->setMc6847RegisterNibble(MC6847_VIDEO_AS, as_, showTrace);
+}
+
+int mc6847::agBit(int value, int *bitshift, int showTrace)
+{
+    *bitshift = agBit_;
+
+    if (agBit_ == 16)
+        return showTrace;
+    
+    if (value != ag_)
+        reDraw_ = true;
+    
+    ag_ = value;
+    return p_Main->setMc6847RegisterNibble(MC6847_VIDEO_AG, ag_, showTrace);
+}
+
+void mc6847::gmBits(Byte value, int showTrace)
+{
+    if (gmBit[0] == 16 && gmBit[1] == 16 && gmBit[2] == 16)
+        return;
+    
+    if (value != graphicMode_)
+        reDraw_ = true;
+    
+    graphicMode_ = value;
+    p_Main->setMc6847RegisterNibble(MC6847_VIDEO_GM, graphicMode_, showTrace);
+    setGraphicMode();
+
+    return;
 }
 
 void mc6847::setGraphicMode()
@@ -341,7 +390,6 @@ void mc6847::setGraphicMode()
     else
     {
         addLine_ = 1;
-        graphicMode_ = gm0_ + (gm1_ << 1) + (gm2_ << 2);
         switch(graphicMode_)
         {
             case 0:
@@ -433,7 +481,7 @@ void mc6847::copyScreen()
             brushColour_[i] = brushColourNew_[i];
             penColour_[i] = penColourNew_[i];
         }
-        for (int i=0; i<10; i++)
+        for (int i=0; i<VIDEOXMLMAX; i++)
         {
             borderX_[i] = borderXNew_[i];
             borderY_[i] = borderYNew_[i];
@@ -582,13 +630,13 @@ void mc6847::drawCharacter(wxCoord x, wxCoord y, int v)
     wxColour backGroundClr;
     wxColour foreGroundClr;
 
-    if (cssBit_ < 12) 
+    if (cssBit_ < 8)
         css_ = (v >> cssBit_) & 1;
-    if (asBit_ < 12) 
+    if (asBit_ < 8)
         as_ = (v >> asBit_) & 1;
-    if (invBit_ < 12) 
+    if (invBit_ < 8)
         inv_ = (v >> invBit_) & 1;
-    if (extBit_ < 12) 
+    if (extBit_ < 8)
         ext_ = (v >> extBit_) & 1;
 
     if (as_ == 0)
@@ -712,7 +760,7 @@ void mc6847::drawGraphic(wxCoord x, wxCoord y, int v)
     if (cssBit_ < 12) 
         css_ = (v >> cssBit_) & 1;
 
-    if (gm0_ == 0)
+    if ((graphicMode_ & 1) == 0)
     {
         for (wxCoord i=x; i<x+charWidth_; i+=elementWidth_)
         {

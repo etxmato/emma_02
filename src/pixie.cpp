@@ -142,8 +142,6 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     offsetX_ = 0;
     offsetY_ = 0;
     
-    defineColours();
-
     plotListPointer = NULL;
     colourType_ = cdp1861Configuration_.colorType;
     bgChanged = false;
@@ -184,6 +182,8 @@ void Pixie::reset()
 
 void Pixie::configurePixie()
 {
+    defineColours();
+
     p_Main->configureMessage(&cdp1861Configuration_.ioGroupVector, "CDP 1861");
     p_Computer->setOutType(&cdp1861Configuration_.ioGroupVector, cdp1861Configuration_.output, "disable graphics");
     p_Computer->setInType(&cdp1861Configuration_.ioGroupVector, cdp1861Configuration_.input, "enable graphics");
@@ -201,6 +201,8 @@ void Pixie::configurePixie()
 
 void Pixie::configurePixieIn()
 {
+    defineColours();
+
     p_Main->configureMessage(&cdp1861Configuration_.ioGroupVector, "CDP 1861");
     p_Computer->setInType(&cdp1861Configuration_.ioGroupVector, cdp1861Configuration_.output, "disable graphics");
     p_Computer->setInType(&cdp1861Configuration_.ioGroupVector, cdp1861Configuration_.input, "enable graphics");
@@ -218,6 +220,8 @@ void Pixie::configurePixieIn()
 
 void Pixie::configurePixieOut()
 {
+    defineColours();
+
     p_Main->configureMessage(&cdp1861Configuration_.ioGroupVector, "CDP 1861");
     p_Computer->setOutType(&cdp1861Configuration_.ioGroupVector, cdp1861Configuration_.output, "disable graphics");
     p_Computer->setOutType(&cdp1861Configuration_.ioGroupVector, cdp1861Configuration_.input, "enable graphics");
@@ -235,6 +239,8 @@ void Pixie::configurePixieOut()
 
 void Pixie::configurePixieSuper()
 {
+    defineColours();
+
     p_Main->configureMessage(&cdp1861Configuration_.ioGroupVector, "CDP 1861");
     p_Computer->setInType(&cdp1861Configuration_.ioGroupVector, cdp1861Configuration_.output, "disable graphics");
     p_Computer->setOutType(&cdp1861Configuration_.ioGroupVector, cdp1861Configuration_.output, "disable graphics");
@@ -251,6 +257,8 @@ void Pixie::configurePixieSuper()
 
 void Pixie::configurePixieCoinArcade(CoinConfiguration coinConfiguration)
 {
+    defineColours();
+
     p_Main->configureMessage(&coinConfiguration.ioGroupVector, "Coin Arcade Video");
     p_Computer->setOutType(&coinConfiguration.ioGroupVector, coinConfiguration.output, "enable graphics");
     p_Computer->setCycleType(CYCLE_TYPE_VIDEO_COIN, COIN_VIDEO_CYCLE);
@@ -263,6 +271,8 @@ void Pixie::configurePixieCoinArcade(CoinConfiguration coinConfiguration)
 
 void Pixie::configureCdp1862(bool autoBoot)
 {
+    defineColours();
+
     wxString printBuffer = "";
 
     p_Main->configureMessage(&cdp1862Configuration_.ioGroupVector, "CDP 1862");
@@ -270,7 +280,7 @@ void Pixie::configureCdp1862(bool autoBoot)
     p_Computer->setOutType(&cdp1862Configuration_.ioGroupVector, cdp1862Configuration_.background, "switch background colour");
     if (cdp1862Configuration_.colorMemory.portNumber[0] != -1)
     {
-        printBuffer.Printf("color RAM (mask %02X)", p_Main->getIoMask(CDP1862_COLORRAM_OUT));
+        printBuffer.Printf("color RAM (mask %02X)", cdp1862Configuration_.colorMemory.mask);
         p_Computer->setOutType(&cdp1862Configuration_.ioGroupVector, cdp1862Configuration_.colorMemory, printBuffer);
     }
     p_Computer->setCycleType(CYCLE_TYPE_VIDEO_CDP1861, CDP1862_CYCLE);
@@ -278,6 +288,7 @@ void Pixie::configureCdp1862(bool autoBoot)
     p_Main->message("");
 
     backGroundInit_ = COL_CDP1862_BACK_BLUE-COL_CDP1862_WHITE;
+    p_Main->setCdp1862RegisterNible(CDP1862_BACKGROUND, (Byte)backGround_ - backGroundInit_, DO_NOT_SHOW_ANY_TRACE);
     colourMask_ = 0;
     colourType_ = cdp1862Configuration_.colorType;
     
@@ -287,6 +298,8 @@ void Pixie::configureCdp1862(bool autoBoot)
 
 void Pixie::configureCdp1864(CDP1864Configuration cdp1864Configuration)
 {
+    defineColours();
+
     wxString printBuffer = "";
 
     p_Main->configureMessage(&cdp1864Configuration.ioGroupVector, "CDP 1864");
@@ -296,7 +309,7 @@ void Pixie::configureCdp1864(CDP1864Configuration cdp1864Configuration)
     p_Computer->setOutType(&cdp1864Configuration.ioGroupVector, cdp1864Configuration.background, "switch background colour");
     if (cdp1864Configuration.colorMemory.portNumber[0] != -1)
     {
-        printBuffer.Printf("color RAM (mask %02X)", p_Main->getIoMask(CDP1864_COLORRAM_OUT));
+        printBuffer.Printf("color RAM (mask %02X)", cdp1864Configuration.colorMemory.mask);
         p_Computer->setOutType(&cdp1864Configuration.ioGroupVector, cdp1864Configuration.colorMemory, printBuffer);
     }
     if (cdp1864Configuration.colorLatch)
@@ -305,10 +318,12 @@ void Pixie::configureCdp1864(CDP1864Configuration cdp1864Configuration)
         p_Computer->setOutType(&cdp1864Configuration.ioGroupVector, cdp1864Configuration.toneLatch, "tone latch");
         
     p_Computer->setEfType(&cdp1864Configuration_.ioGroupVector, cdp1864Configuration_.ef, "in frame indicator");
+    p_Main->message("");
 
     p_Computer->setCycleType(CYCLE_TYPE_VIDEO_CDP1864, CDP1864_CYCLE);
 
     backGroundInit_ = COL_CDP1864_BACK_BLUE-COL_CDP1864_WHITE;
+    p_Main->setCdp1864RegisterNible(CDP1864_BACKGROUND, (Byte)backGround_ - backGroundInit_, DO_NOT_SHOW_ANY_TRACE);
     colourMask_ = 0;
     colourType_ = cdp1864Configuration.colorType;
     
@@ -387,13 +402,42 @@ void Pixie::outPixie()
     reBlit_ = true;
 }
 
-void Pixie::outPixieBackGround()
+void Pixie::outCdp1862BackGround()
 {
     graphicsOn_ = true;
     backGround_++;
     if (backGround_ == 12)  backGround_ = 8;
     newBackGround_ = true;
     reBlit_ = true;
+    p_Main->setCdp1862RegisterNible(CDP1862_BACKGROUND, (Byte)(backGround_ - backGroundInit_));
+}
+
+void Pixie::outCdp1862BackGround(Byte background)
+{
+    graphicsOn_ = true;
+    backGround_ = background + backGroundInit_;
+    newBackGround_ = true;
+    reBlit_ = true;
+    p_Main->setCdp1862RegisterNible(CDP1862_BACKGROUND, (Byte)backGround_ - backGroundInit_, DO_NOT_SHOW_ADDRESS_TRACE);
+}
+
+void Pixie::outCdp1864BackGround()
+{
+    graphicsOn_ = true;
+    backGround_++;
+    if (backGround_ == 12)  backGround_ = 8;
+    newBackGround_ = true;
+    reBlit_ = true;
+    p_Main->setCdp1864RegisterNible(CDP1864_BACKGROUND, (Byte)(backGround_ - backGroundInit_));
+}
+
+void Pixie::outCdp1864BackGround(Byte background)
+{
+    graphicsOn_ = true;
+    backGround_ = background + backGroundInit_;
+    newBackGround_ = true;
+    reBlit_ = true;
+    p_Main->setCdp1864RegisterNible(CDP1864_BACKGROUND, (Byte)backGround_ - backGroundInit_, DO_NOT_SHOW_ADDRESS_TRACE);
 }
 
 void Pixie::cyclePixie()
@@ -483,22 +527,6 @@ void Pixie::cyclePixie()
     graphicsNext_ += 1;
     if (graphicsNext_ > (5+graphicsX_))
         graphicsNext_ = 0;
-}
-
-void Pixie::dmaEnable()
-{
-    Byte v;
-    int color;
-
-    for(int j=0; j<128; j+=8)
-    {
-        v = p_Computer->pixieDmaOut(&color, colourType_);
-        for (int i=0; i<8; i++)
-        {
-            plot(j+i, (int)graphicsMode_ - cdp1861Configuration_.pixieGraphics.start,(v & 128) ? 1 : 0, (color|colourMask_)&7);
-            v <<= 1;
-        }
-    }
 }
 
 void Pixie::cyclePixieCoinArcade()
@@ -644,7 +672,7 @@ void Pixie::copyScreen()
             brushColour_[i] = brushColourNew_[i];
             penColour_[i] = penColourNew_[i];
         }
-        for (int i=0; i<10; i++)
+        for (int i=0; i<VIDEOXMLMAX; i++)
         {
             borderX_[i] = borderXNew_[i];
             borderY_[i] = borderYNew_[i];
@@ -923,15 +951,17 @@ PixieFred::PixieFred(const wxString& title, const wxPoint& pos, const wxSize& si
 : Pixie(title, pos, size, zoom, zoomfactor, videoNumber, videoType, cdp1861Configuration, cdp1862Configuration, cdp1864Configuration, bootStrapType)
 {
     displayType_ = 3;
-    setDisplayType(displayType_);
+    setDisplayType(displayType_, DO_NOT_SHOW_ANY_TRACE);
     colourIndex_ = COL_PIXIE_FORE;
     videoNumber_ = videoNumber;
 }
 
 void PixieFred::configureFredVideo(FredVideoConfiguration fredVideoConfiguration)
 {
+    defineColours();
+
     p_Main->configureMessage(&fredVideoConfiguration.ioGroupVector, "FRED Video");
-    p_Computer->setOutType(&fredVideoConfiguration.ioGroupVector, fredVideoConfiguration.output, "bit 0-2 background colour, bit 3 white foreground, bit 4-5 enable graphics, bit 6 PAL/NTSC");
+    p_Computer->setOutType(&fredVideoConfiguration.ioGroupVector, fredVideoConfiguration.output, "display type 0 = TV off, 1 = 32x32, 2 = 64x16, 3 = 64x32\n");
     p_Computer->setCycleType(CYCLE_TYPE_VIDEO_FRED, FRED_VIDEO_CYCLE);
 
     p_Main->message("");
@@ -966,9 +996,27 @@ void PixieFred::drawScreen()
     }
 }
 
-void PixieFred::setDisplayType(int displayType)
+void PixieFred::enableScreen(bool enable, int showTrace)
+{
+    if (enable)
+	{
+		fredVideoPointer->inPixie();
+    	p_Main->setFredVideoRegister(FRED_VIDEO_ENABLE, true, showTrace);
+    	p_Main->setFredVideoRegister(FRED_VIDEO_DISABLE, false, DO_NOT_SHOW_ANY_TRACE);
+	}
+    else
+	{
+		fredVideoPointer->outPixie();
+		p_Main->setFredVideoRegister(FRED_VIDEO_DISABLE, true, showTrace);
+    	p_Main->setFredVideoRegister(FRED_VIDEO_ENABLE, false, DO_NOT_SHOW_ANY_TRACE);
+	}
+}
+
+void PixieFred::setDisplayType(int displayType, int showTrace)
 {
     displayType_ = displayType;
+    p_Main->setFredVideoRegisterNible(FRED_VIDEO_TYPE, (Byte)displayType, showTrace);
+	
     if ((displayType & 0x2) == 0)
     {
         xInterlace_ = 6;
@@ -1087,6 +1135,8 @@ PixieVip2K::PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& 
 
 void PixieVip2K::configureVip2K(Vip2KVideoConfiguration vip2KVideoConfiguration)
 {
+    defineColours();
+
     vip2KVideoConfiguration_ = vip2KVideoConfiguration;
     
     p_Main->configureMessage(&vip2KVideoConfiguration.ioGroupVector, "VIP2K Video");
@@ -1316,10 +1366,13 @@ void PixieVip2K::outPixie()
 PixieStudioIV::PixieStudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType)
 : Pixie(title, pos, size, zoom, zoomfactor, videoNumber, videoType, cdp1861Configuration, cdp1862Configuration, cdp1864Configuration, bootStrapType)
 {
+    videoMode_ = ST4_NTSC;
 }
 
 void PixieStudioIV::configureSt4(Studio4VideoConfiguration studio4VideoConfiguration)
 {
+    defineColours();
+
     studio4VideoConfiguration_ = studio4VideoConfiguration;
     
     p_Main->configureMessage(&studio4VideoConfiguration.ioGroupVector, "RCA Studio IV Video Chip");
@@ -1413,17 +1466,24 @@ void PixieStudioIV::outPixie()
 #endif
 }
 
-void PixieStudioIV::outPixieBackGround()
+void PixieStudioIV::dmaEnable(int showTrace)
 {
-    graphicsOn_ = true;
-    backGround_++;
-    if (backGround_ == 12)  backGround_ = 8;
-    newBackGround_ = true;
-    reBlit_ = true;
-    drawScreen();
+    Byte v;
+    int color;
+
+    for(int j=0; j<128; j+=8)
+    {
+        v = p_Computer->pixieDmaOut(&color, colourType_);
+        for (int i=0; i<8; i++)
+        {
+            plot(j+i, (int)graphicsMode_ - cdp1861Configuration_.pixieGraphics.start,(v & 128) ? 1 : 0, (color|colourMask_)&7);
+            v <<= 1;
+        }
+    }
+    p_Main->setSt4VideoRegister(ST4_VIDEO_DMA_ENABLE, false, showTrace);
 }
 
-void PixieStudioIV::outPixieStudioIV(int value)
+int PixieStudioIV::st4BackGround(int value, int showTrace)
 {
     int newBackground = (value &0x7) + 8;
     
@@ -1434,8 +1494,34 @@ void PixieStudioIV::outPixieStudioIV(int value)
         reBlit_ = true;
         drawScreen();
     }
-    
-    if ((value & 0x8) == 0x8)
+    return p_Main->setSt4VideoRegisterNibleBackground(ST4_VIDEO_BACKGROUND, (Byte)(value &0x7), showTrace);
+}
+
+int PixieStudioIV::enableScreen(bool enable, int showTrace)
+{
+    if (enable)
+    {
+        inPixie();
+        p_Main->setSt4VideoRegister(ST4_VIDEO_DISABLE, false, DO_NOT_SHOW_ANY_TRACE);
+        return p_Main->setSt4VideoRegister(ST4_VIDEO_ENABLE, true, showTrace);
+    }
+    else
+    {
+        outPixie();
+        p_Main->setSt4VideoRegister(ST4_VIDEO_ENABLE, false, DO_NOT_SHOW_ANY_TRACE);
+        return p_Main->setSt4VideoRegister(ST4_VIDEO_DISABLE, true, showTrace);
+    }
+}
+
+int PixieStudioIV::st4PalNtsc(int palNtsc, int showTrace)
+{
+    switchVideoMode(palNtsc);
+    return p_Main->setSt4SelectorValue(ST4_VIDEO_STANDARD, palNtsc == ST4_PAL, showTrace);
+}
+
+int PixieStudioIV::st4WhiteForeground(bool white, int showTrace)
+{
+    if (white)
     {
         if (colourMask_ != 7)
         {
@@ -1454,27 +1540,28 @@ void PixieStudioIV::outPixieStudioIV(int value)
         }
         colourMask_ = 0;
     }
-    
-    if ((value & 0x30) == 0x30)
-        inPixie();
-    else
-        outPixie();
-    
-//           if ((value&0x40) == 0x40)
-//               switchVideoMode(PAL);
-//           else
-//               switchVideoMode(NTSC);
+    return p_Main->setSt4SelectorValue(ST4_VIDEO_WHITE_FOREGROUND, white, showTrace);
 }
 
-/*
+void PixieStudioIV::outPixieStudioIV(int value, int showTrace)
+{
+    showTrace = p_Main->setSt4VideoRegister(ST4_VIDEO_MODE, (Byte)value, showTrace);
+
+    showTrace = st4BackGround(value, showTrace);
+    showTrace = st4WhiteForeground((value & 0x8) == 0x8, showTrace);
+    showTrace = enableScreen((value & 0x30) == 0x30, showTrace);
+    st4PalNtsc ((value & 0x40) >> 6, showTrace);
+}
+
+
 void PixieStudioIV::switchVideoMode(int videoMode)
 {
-    if (videoMode == p_videoMode_)
+    if (videoMode == videoMode_)
         return;
     
-    p_videoMode_ = videoMode;
+    videoMode_ = videoMode;
     
-    if (p_videoMode_ == PAL)
+    if (videoMode_ == ST4_PAL)
     {
         cdp1861Configuration_.pixieGraphics.interrupt = 74;
         cdp1861Configuration_.pixieGraphics.start = 76;
@@ -1491,192 +1578,5 @@ void PixieStudioIV::switchVideoMode(int videoMode)
         videoHeight_ = 128;
     }
     p_Main->eventSetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_, DON_T_CALL_CHANGE_SCREEN_SIZE, false, videoNumber_);
-}*/
-
-PixieEti::PixieEti(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType)
-: Pixie(title, pos, size, zoom, zoomfactor, videoNumber, videoType, cdp1861Configuration, cdp1862Configuration, cdp1864Configuration, bootStrapType)
-{
-}
-
-void PixieEti::copyScreen()
-{
-    if (p_Main->isZoomEventOngoing())
-        return;
-
-    if (!graphicsOn_)
-        return;
-
-    if (reColour_)
-    {
-        for (int i=0; i<numberOfColours_; i++)
-        {
-            colour_[i] = colourNew_[i];
-            brushColour_[i] = brushColourNew_[i];
-            penColour_[i] = penColourNew_[i];
-        }
-        for (int i=0; i<10; i++)
-        {
-            borderX_[i] = borderXNew_[i];
-            borderY_[i] = borderYNew_[i];
-        }
-        xZoomFactor_ = xZoomFactorNew_/highRes_;
-        videoScreenPointer->setScale(xZoomFactor_);
-        setScreenSize();
-        reDraw_ = true;
-        reBlit_ = true;
-        newBackGround_ = true;
-        reColour_ = false;
-    }
-
-    if (reDraw_)
-        drawScreen();
-
-#if defined(__WXMAC__)
-    if (reBlit_ || reDraw_)
-    {
-        p_Main->eventRefreshVideo(false, videoNumber_);
-        reBlit_ = false;
-        reDraw_ = false;
-    }
-#else
-    if (extraBackGround_ && newBackGround_)
-        drawExtraBackground(colour_[colourIndex_+backGround_]);
-
-    PlotList *temp;
-
-    if (reBlit_ || reDraw_ )
-    {
-        videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
-        reBlit_ = false;
-        reDraw_ = false;
-        if (updatePlot_ > 0)
-        {
-            updatePlot_ = 0;
-            while(plotListPointer != NULL)
-            {
-                temp = plotListPointer;
-                plotListPointer = temp->nextPlot;
-                delete temp;
-            }
-        }
-    }
-    if (updatePlot_ > 0)
-    {
-        updatePlot_ = 0;
-        while(plotListPointer != NULL)
-        {
-            videoScreenPointer->blit(offsetX_+ plotListPointer->x, offsetY_+plotListPointer->y, plotListPointer->width, plotListPointer->height, &dcMemory, offsetX_+plotListPointer->x, offsetY_+plotListPointer->y);
-            temp = plotListPointer;
-            plotListPointer = temp->nextPlot;
-            delete temp;
-        }
-    }
-#endif
-}
-
-void PixieEti::drawScreen()
-{
-    int v;
-    int color;
-
-    setColour(backGround_);
-    drawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
-
-    for (int x=0; x<videoWidth_; x++)
-    {
-        for (int y=0; y<videoHeight_; y++)
-        {
-            v = pbacking_[x][y];
-            color = color_[x][y];
-            if (v)
-            {
-                setColour(colourIndex_+color);
-                drawPoint(x+offsetX_, y+offsetY_);
-            }
-        }
-    }
-}
-
-void PixieEti::cyclePixie()
-{
-    int j;
-    Byte v;
-    int color;
-
-    if (graphicsNext_ == 0)
-    {
-        p_Computer->debugTrace("----  H.Sync");
-        graphicsMode_++;
-        if (graphicsMode_ == cdp1861Configuration_.pixieGraphics.interrupt-2) pixieEf_ = 0;
-        if (graphicsMode_ == cdp1861Configuration_.pixieGraphics.start) pixieEf_ = 1;
-        if (graphicsMode_ == cdp1861Configuration_.pixieGraphics.start+videoHeight_-4) pixieEf_ = 0;
-        if (graphicsMode_ == cdp1861Configuration_.pixieGraphics.start+videoHeight_) pixieEf_ = 1;
-        if (graphicsMode_ >= cdp1861Configuration_.pixieGraphics.screenend)
-        {
-            if (changeScreenSize_)
-            {
-                changeScreenSize();
-                if (!fullScreenSet_)
-                    p_Main->pixieBarSizeEvent();
-                changeScreenSize_ = false;
-            }
-            graphicsMode_ = 0;
-            copyScreen();
-            videoSyncCount_++;
-        }
-    }
-    if (graphicsNext_ == 2)
-    {
-        if (graphicsMode_ == cdp1861Configuration_.pixieGraphics.interrupt)
-        {
-            if (graphicsOn_)
-            {
-                p_Computer->pixieInterrupt();
-                vidInt_ = 1;
-                p_Computer->setCycle0();
-            }
-            else vidInt_ = 0;
-        }
-    }
-    if (graphicsMode_ >= cdp1861Configuration_.pixieGraphics.start && graphicsMode_ <=cdp1861Configuration_.pixieGraphics.end && graphicsOn_ && vidInt_ == 1 && graphicsNext_ >=4 && graphicsNext_ <=11)
-    {
-        j = 0;
-        while(graphicsNext_ >= 4 && graphicsNext_ <= 11)
-        {
-            graphicsNext_ ++;
-            v = p_Computer->pixieDmaOut(&color, colourType_);
-            for (int i=0; i<8; i++)
-            {
-                plot(j+i, (int)graphicsMode_-cdp1861Configuration_.pixieGraphics.start, (v & 128) ? 1 : 0, (color|colourMask_)&7);
-                v <<= 1;
-            }
-            j += 8;
-        }
-        p_Computer->setCycle0();
-        graphicsNext_ -= 1;
-    }
-    graphicsNext_ += 1;
-    if (graphicsNext_ > 13)
-        graphicsNext_ = 0;
-}
-
-void PixieEti::outPixie()
-{
-    graphicsOn_ = false;
-#if defined(__WXMAC__)
-    p_Main->eventRefreshVideo(false, videoNumber_);
-#else
-    videoScreenPointer->disableScreen(colour_[colourIndex_+backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
-#endif
-}
-
-void PixieEti::outPixieBackGround()
-{
-    graphicsOn_ = true;
-    backGround_++;
-    if (backGround_ == 12)  backGround_ = 8;
-    newBackGround_ = true;
-    reBlit_ = true;
-    drawScreen();
 }
 
