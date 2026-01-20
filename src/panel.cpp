@@ -756,6 +756,7 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
         {
             ledOutPointerDefined[output][i] = false;
             updateOutLed_[output][i] = false;
+            bitTextStatus[output][i] = false;
         }
         for (int i=0; i<2; i++)
             tilOutPointerDefined[output][i] = false;
@@ -940,7 +941,11 @@ Panel::~Panel()
                     break;
                 }
             break;
-                
+
+            case LCD_CD4056:
+                delete tilOutPointer[button->tilOutput.portNumber[0]][button->value];
+            break;
+
             case PANEL_PNG:
                 delete button->bitmapPointer;
             break;
@@ -1017,7 +1022,12 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
                 p_Computer->setOutType(button->output.portNumber[0], BITLED_OUT, 0);
             break;
 
+            case LCD_TEXT_FUNC_BIT_OUT:
+                p_Computer->setOutType(button->output.portNumber[0], BITTEXT_OUT, 0);
+            break;
+
             case TIL_FUNC_OUT:
+            case LCD_FUNC_OUT:
                 p_Computer->setOutType(button->tilOutput.portNumber[0], TIL_OUT, 0);
             break;
 
@@ -1285,6 +1295,13 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
                 }
             break;
 
+            case LCD_CD4056:
+                tilOutPointer[button->tilOutput.portNumber[0]][button->value] = new Til313("cd4056");
+                tilOutPointer[button->tilOutput.portNumber[0]][button->value]->init(dc, button->position.x, button->position.y);
+                tilOutPointerDefined[button->tilOutput.portNumber[0]][button->value] = true;
+                updateTilOut_[button->tilOutput.portNumber[0]] = true;
+            break;
+            
             case TIL_313_ITALIC:
                 switch (button->function)
                 {
@@ -1384,6 +1401,7 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
 
     for (std::vector<GuiItemConfiguration>::iterator button = guiItemConfiguration.begin (); button != guiItemConfiguration.end (); ++button)
     {
+        wxFont defaultFont(button->textSize, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
         switch (button->type)
         {
             case PUSH_BUTTON_ROUND_RED:
@@ -1479,14 +1497,36 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
                 }
             break;
 
+            case PANEL_BIT_TEXT:
+                dc.SetFont(defaultFont);
+                if (bitTextStatus[button->output.portNumber[0]][button->value])
+                {
+                    if (button->systemColor2 == -1)
+                        dc.SetTextForeground(button->color2);
+                    else
+                        dc.SetTextForeground(p_Main->getGuiTextColour(button->systemColor2));
+                    dc.DrawText(button->label2, button->position.x, button->position.y);
+                }
+                else
+                {
+                    if (button->systemColor1 == -1)
+                        dc.SetTextForeground(button->color1);
+                    else
+                        dc.SetTextForeground(p_Main->getGuiTextColour(button->systemColor1));
+                    dc.DrawText(button->label, button->position.x, button->position.y);
+                }
+            break;
+
             case PANEL_PNG:
                 dc.DrawBitmap(*button->bitmapPointer, button->position.x, button->position.y);
             break;
 
             case PANEL_TEXT:
             case THUMB_TEXT:
-                dc.SetTextForeground(p_Main->getGuiTextColour(button->color));
-                wxFont defaultFont(button->textSize, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+                if (button->systemColor1 == -1)
+                    dc.SetTextForeground(button->color1);
+                else
+                    dc.SetTextForeground(p_Main->getGuiTextColour(button->systemColor1));
                 dc.SetFont(defaultFont);
                 if (button->type == PANEL_TEXT)
                     dc.DrawText(button->label, button->position.x, button->position.y);
@@ -1525,6 +1565,10 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
                         multiPointer[button->value]->onPaint(dc);
                     break;
                 }
+            break;
+                
+            case LCD_CD4056:
+                tilOutPointer[button->tilOutput.portNumber[0]][button->value]->onPaint(dc);
             break;
         }
     }
@@ -2277,6 +2321,22 @@ void Panel::setOutLeds(int output, Byte value)
             }
         }
     }
+}
+
+void Panel::setOutText(int output, Byte value)
+{
+    bool refreshPanel = false;
+    for (int textBit=0; textBit<8; textBit++)
+    {
+        if (bitTextStatus[output][textBit] != (value & 1))
+        {
+            bitTextStatus[output][textBit] = value & 1;
+            refreshPanel = true;
+        }
+        value = value >> 1;
+    }
+    if (refreshPanel)
+        this->Refresh();
 }
 
 void Panel::updateOutLed(wxDC& dc, int output, int i)

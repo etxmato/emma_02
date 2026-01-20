@@ -115,8 +115,8 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 
     stretchDot_ = currentComputerConfiguration.videoTerminalConfiguration.stretchDot;
     serialLog_ = currentComputerConfiguration.videoTerminalConfiguration.serialLog;
-    uart1854_ = currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined;
-    uart16450_ = currentComputerConfiguration.videoTerminalConfiguration.uart16450_defined;
+    uart1854_ = currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined;
+    uart16450_ = currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart16450_defined;
 
     fullScreenSet_ = false;
     zoom_ = zoom;
@@ -141,11 +141,11 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     switch (vtType_)
     {
         case VT52:
-            if (currentComputerConfiguration.videoTerminalConfiguration.charactersPerRow == 64)
-                charactersPerRow_ = currentComputerConfiguration.videoTerminalConfiguration.charactersPerRow;
+            if (currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].charactersPerRow == 64)
+                charactersPerRow_ = currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].charactersPerRow;
             else
                 charactersPerRow_ = 80;
-            SetUpFeature_ = currentComputerConfiguration.videoTerminalConfiguration.vt52SetUpFeature;
+            SetUpFeature_ = currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].vt52SetUpFeature;
             tabs_ = "        T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T";
             charWidth_ = currentComputerConfiguration.videoTerminalConfiguration.characterWidth;
             rowsPerFrame_ = 24;
@@ -155,10 +155,10 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
             scrollEnd_ = rowsPerFrame_;
         break;
         case VT100:
-            SetUpFeature_ = currentComputerConfiguration.videoTerminalConfiguration.vt100SetUpFeature;
+            SetUpFeature_ = currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].vt100SetUpFeature;
             tabs_ = p_Main->getConfigItem("Computer/VT100Tabs", "        T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T");
             answerBackMessage_ = p_Main->getConfigItem("Computer/VT100AnswerBack", "                    ");
-            charactersPerRow_ = currentComputerConfiguration.videoTerminalConfiguration.charactersPerRow;
+            charactersPerRow_ = currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].charactersPerRow;
             charWidth_ = currentComputerConfiguration.videoTerminalConfiguration.characterWidth;
             rowsPerFrame_ = 25;
             linesPerCharacter_ = 10;
@@ -316,7 +316,7 @@ void Vt100::configure(VideoTerminalConfiguration videoTerminalConfiguration, Add
     baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_])+videoTerminalConfiguration.baudCorrectionT);
     baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_])+videoTerminalConfiguration.baudCorrectionR);
 
-    reverseEf_ = videoTerminalConfiguration.ef.reverse^1;
+    reverseEf_ = currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].efReverse^1;
 
     if (uart1854_)
         configureUart1854(videoTerminalConfiguration);
@@ -326,7 +326,7 @@ void Vt100::configure(VideoTerminalConfiguration videoTerminalConfiguration, Add
             configureUart16450(videoTerminalConfiguration);
         else
         {
-            reverseQ_ = videoTerminalConfiguration.reverseQ^1;
+            reverseQ_ = videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].reverseQ;
             if (reverseQ_) p_Computer->setFlipFlopQ(1);
 
             dataReadyFlag_ = videoTerminalConfiguration.ef.flagNumber;
@@ -752,41 +752,39 @@ void Vt100::serialVtIn()
 {
     if (vtCount_ >= 0)
     { // output to terminal
+        int bitCountBorder = 2;
+
         vtCount_--;
         if (vtCount_ <= 0)
         {
             //p_Main->eventMessageHex(flipFlopQ_);
             if (SetUpFeature_[VTPARITY])
+                bitCountBorder = 3;
+
+            if (vtBits_ > bitCountBorder)
             {
-                if (vtBits_ > 2)
-                {
+                rs232_ >>= 1;
+                rs232_ |= (flipFlopQ_ ^ reverseQ_) ? 128 : 0;
+            }
+            if (vtBits_ == bitCountBorder)
+            {
+                if (!SetUpFeature_[VTBITS])
                     rs232_ >>= 1;
-                    rs232_ |= (flipFlopQ_ ^ reverseQ_) ? 0 : 128;
-                }
-                if (vtBits_ == 2)
+                    
+                if (SetUpFeature_[VTPARITY])
                 {
-                    if (!SetUpFeature_[VTBITS])
-                        rs232_ >>= 1;
                     Byte parity = Parity(rs232_);
-                    Byte qValue = (flipFlopQ_ ^ reverseQ_) ? 0 : 1;
+                    Byte qValue = (flipFlopQ_ ^ reverseQ_) ? 1 : 0;
                     if (parity != qValue)
                         rs232_ = 2;
-                }
+                 }
             }
-            else
-            {
-                if (vtBits_ > 1)
-                {
-                    rs232_ >>= 1;
-                    rs232_ |= (flipFlopQ_ ^ reverseQ_) ? 0 : 128;
-                }
-                if (vtBits_ == 1)
-                {
-                    if (!SetUpFeature_[VTBITS])
-                        rs232_ >>= 1;
-                }
-            }
+
             vtCount_ = baudRateR_;
+            if (vtBits_ == 2)
+                vtCount_ = baudRateR_ * currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].stopBit;
+            if (vtCount_ == 0)
+                vtBits_ = 1;
             if (--vtBits_ == 0)
             {
                 vtCount_ = -1;
@@ -1110,13 +1108,13 @@ void Vt100::switchQ(int value)
     
     if (vtCount_ < 0)
     {
-        if (value ^ reverseQ_)
+        if ((value ^ reverseQ_) == 0)
         {
             vtCount_ = baudRateR_ + baudRateR_ / 2;
             if (SetUpFeature_[VTBITS])
-                vtBits_ = 9;
+                vtBits_ = 10;
             else
-                vtBits_ = 8;
+                vtBits_ = 9;
             if (SetUpFeature_[VTPARITY])
                 vtBits_++;
             //                    p_Main->message("start");
@@ -4705,7 +4703,7 @@ void Vt100::setupSave()
 
 void Vt100::setupLoad()
 {
-    long value = currentComputerConfiguration.videoTerminalConfiguration.vt100DefaultSetUpFeature.to_ulong();
+    long value = currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].vt100SetUpFeature.to_ulong();
     SetUpFeature_ = p_Main->getConfigItem("Computer/VT100Setup/"+currentComputerConfiguration.xmlFileConfiguration.directory+currentComputerConfiguration.xmlFileConfiguration.fileName, value);
     tabs_ = p_Main->getConfigItem("Computer/VT100Tabs", "        T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T       T");
     answerBackMessage_ = p_Main->getConfigItem("Computer/VT100AnswerBack", "                    ");
@@ -4727,8 +4725,8 @@ void Vt100::bell()
 {
     if (SetUpFeature_[VTBELL])
     {
-        if (currentComputerConfiguration.videoTerminalConfiguration.wavFileName != "")
-            p_Computer->startWavSound(currentComputerConfiguration.videoTerminalConfiguration.wavDirectory + currentComputerConfiguration.videoTerminalConfiguration.wavFileName);
+        if (currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].wavFileName != "")
+            p_Computer->startWavSound(currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].wavDirectory + currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].wavFileName);
         else
         {
             p_Computer->setToneFrequency(0, currentComputerConfiguration.videoTerminalConfiguration.bellFrequency, true);

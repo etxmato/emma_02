@@ -203,22 +203,6 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     }
     
     xmlBaseConfigInit();
-    videoConfigInit();
-    visConfigInit();
-    tms9918ConfigInit();
-    i8275ConfigInit();
-    scn2672ConfigInit();
-    crt8002ConfigInit();
-    mc6845ConfigInit();
-    mc6847ConfigInit();
-    pixieConfigInit();
-    coinVideoConfigInit();
-    sn76430NConfigInit();
-    cdp1862ConfigInit();
-    cdp1864ConfigInit();
-    fredVideoConfigInit();
-	vip2KVideoConfigInit();
-    st4VideoConfigInit();
 	
     memConfigNumber_ = 2;
     computerConfiguration.memoryConfiguration.resize(memConfigNumber_);
@@ -317,21 +301,24 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
 
     computerConfiguration.videoTerminalConfiguration.type = VTNONE;
     computerConfiguration.videoTerminalConfiguration.show = true;
-    computerConfiguration.videoTerminalConfiguration.reverseQ = -1;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].reverseQ = -1;
     computerConfiguration.videoTerminalConfiguration.efInterrupt = init_EfFlag();
     computerConfiguration.videoTerminalConfiguration.ef = init_EfFlag();
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].efReverse = false;
     computerConfiguration.videoTerminalConfiguration.ef.flagNumber = 4;
     computerConfiguration.videoTerminalConfiguration.external = false;
     computerConfiguration.videoTerminalConfiguration.loop_back = false;
     computerConfiguration.videoTerminalConfiguration.scn2671_defined = false;
-    computerConfiguration.videoTerminalConfiguration.uart1854_defined = false;
-    computerConfiguration.videoTerminalConfiguration.uart16450_defined = false;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].uart1854_defined = false;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].uart16450_defined = false;
     computerConfiguration.videoTerminalConfiguration.baudR = 4;
     computerConfiguration.videoTerminalConfiguration.baudT = 4;
     computerConfiguration.videoTerminalConfiguration.baudCorrectionR = 0.5;
     computerConfiguration.videoTerminalConfiguration.baudCorrectionT = 0.5;
-    computerConfiguration.videoTerminalConfiguration.serialPort = "";
-    
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].serialPort = "";
+    for (int i=0; i<XML_VT_MAX; i++)
+        computerConfiguration.videoTerminalConfiguration.specifiedInXml[i] = false;
+
     computerConfiguration.autoCassetteLoad_ = true;
     computerConfiguration.turbo_ = true;
     computerConfiguration.ledTime_ = "100";
@@ -376,7 +363,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.cdp1878Configuration.clear();
     computerConfiguration.cd4536bConfiguration.clear();
     computerConfiguration.scn2671Configuration.clear();
-    computerConfiguration.dipConfigurationNew.clear();
+    computerConfiguration.dipConfiguration.clear();
     computerConfiguration.sepConfiguration.clear();
     computerConfiguration.memoryRamPartConfiguration.clear();
     computerConfiguration.memoryCopyConfiguration.clear();
@@ -390,8 +377,8 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.memoryConfiguration[1].pulldownExclude.Clear();
     computerConfiguration.memoryConfiguration[1].pulldownExclude2.Clear();
 
-    computerConfiguration.videoTerminalConfiguration.vtCharRomFileName = "vt100.bin";
-    computerConfiguration.videoTerminalConfiguration.wavFileName = "";
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomFileName = "vt100.bin";
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavFileName = "";
 
     computerConfiguration.addressLocationConfiguration.code_start = -1;
     computerConfiguration.addressLocationConfiguration.code_start_high = -1;
@@ -499,9 +486,10 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     defaultFrontPanelX_ = mainWindowX_+windowInfo.xBorder2;
     defaultFrontPanelY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
         
-    computerConfiguration.videoTerminalConfiguration.vt52DefaultSetUpFeature = 0x4092l;
-    computerConfiguration.videoTerminalConfiguration.vt100DefaultSetUpFeature = 0xcad2l;
-    computerConfiguration.videoTerminalConfiguration.vtExternalDefaultSetUpFeature = 0xcad2l;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vt52SetUpFeature = 0x4092l;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vt100SetUpFeature = 0xcad2l;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].parity = false;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].paritySense = false;
     computerConfiguration.videoTerminalConfiguration.defaultBellFrequency = 800;
 
     configPointer->Read("/Xml/DebugScrt", &computerConfiguration.debuggerConfiguration.mode, true);
@@ -570,7 +558,24 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
         }
     }
 
-    // Reset dirnames - this should come after parseXml_System, so mainDir is set according to system/dirname from xml file
+    // These & reset dirnames - this should come after parseXml_System, so mainDir is set according to system/dirname from xml file
+    videoConfigInit();
+    visConfigInit();
+    tms9918ConfigInit();
+    i8275ConfigInit();
+    scn2672ConfigInit();
+    crt8002ConfigInit();
+    mc6845ConfigInit();
+    mc6847ConfigInit();
+    pixieConfigInit();
+    coinVideoConfigInit();
+    sn76430NConfigInit();
+    cdp1862ConfigInit();
+    cdp1864ConfigInit();
+    fredVideoConfigInit();
+    vip2KVideoConfigInit();
+    st4VideoConfigInit();
+
     for (int fdcType = 0; fdcType<FDCTYPE_MAX; fdcType++)
     {
         for (int disk=0; disk<4; disk++)
@@ -596,8 +601,8 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.screenDumpFileConfiguration.directory = computerConfiguration.mainDir_;
     computerConfiguration.videoTerminalConfiguration.xmodemDirectory = computerConfiguration.mainDir_;
     computerConfiguration.multiSegDisplayConfiguration.tilFontDirectory = computerConfiguration.mainDir_;
-    computerConfiguration.videoTerminalConfiguration.vtCharRomDirectory = computerConfiguration.mainDir_ ;
-    computerConfiguration.videoTerminalConfiguration.wavDirectory = computerConfiguration.mainDir_ ;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory = computerConfiguration.mainDir_ ;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavDirectory = computerConfiguration.mainDir_ ;
     computerConfiguration.videoTerminalConfiguration.qOutput = init_IoPort();
     for (int cassetteNumber=0; cassetteNumber<2; cassetteNumber++)
         computerConfiguration.wavConfiguration[cassetteNumber].directory = computerConfiguration.mainDir_ ;
@@ -910,7 +915,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
                 if (child->GetAttribute("type") == "vt52")
                 {
                     computerConfiguration.videoTerminalConfiguration.type = VT52;
-                    computerConfiguration.videoTerminalConfiguration.vtCharRomFileName = "vt52.a.bin";
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomFileName = "vt52.a.bin";
                 }
                 if (child->GetAttribute("type") == "external")
                 {
@@ -923,7 +928,11 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
                     computerConfiguration.videoTerminalConfiguration.type = VTNONE;
                 }
                 if (child->GetAttribute("connection") == "serial")
+                {
+                    computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_UART_16450] = true;
+                    computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_UART_1854] = true;
                     parseXml_SerialVt (*child);
+                }
                 if (child->GetAttribute("connection") == "scn2671")
                 {
                     computerConfiguration.videoTerminalConfiguration.scn2671_defined = true;
@@ -931,12 +940,16 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
                 }
                 if (child->GetAttribute("connection") == "uart1854")
                 {
-                    computerConfiguration.videoTerminalConfiguration.uart1854_defined = true;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].uart1854_defined = true;
+                    computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_UART_16450] = true;
+                    computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_UART_1854] = true;
                     parseXml_UartVt (*child, false);
                 }
                 if (child->GetAttribute("connection") == "uart16450")
                 {
-                    computerConfiguration.videoTerminalConfiguration.uart16450_defined = true;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].uart16450_defined = true;
+                    computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_UART_16450] = true;
+                    computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_UART_1854] = true;
                     parseXml_UartVt (*child, true);
                 }
             break;
@@ -4346,7 +4359,8 @@ void XmlParser::parseXml_FrontPanel(wxXmlNode &node, int frontNumber)
     computerConfiguration.frontPanelConfiguration[frontNumber].posType = POS_TYPE_RELATIVE;
     
     computerConfiguration.frontPanelConfiguration[frontNumber].picInterrupt = 0;
-    
+    computerConfiguration.frontPanelConfiguration[frontNumber].frontPanelNumberBitText = -1;
+
     wxXmlNode *child = node.GetChildren();
     while (child)
     {
@@ -4490,6 +4504,8 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         "range",
         "function",
         "label",
+        "label1",
+        "label2",
         "init",
         "pos",
         "size",
@@ -4508,6 +4524,8 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         TAG_RANGE,
         TAG_FUNCTION,
         TAG_LABEL,
+        TAG_LABEL1,
+        TAG_LABEL2,
         TAG_INIT,
         TAG_POS,
         TAG_SIZE,
@@ -4585,6 +4603,8 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         "out_til",
         "addresstil",
         "multitil",
+        "lcd_out",
+        "lcd_text",
         "undefined"
     };
 
@@ -4656,6 +4676,8 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         TIL_FUNC_OUT,
         TIL_ADDRESS,
         TIL_MULTI,
+        LCD_FUNC_OUT,
+        LCD_TEXT_FUNC_BIT_OUT,
         0
     };
 
@@ -4676,6 +4698,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].actOnRelease = false;
     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].actOnPress = false;
     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].label = "";
+    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].label2 = "";
     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].position = wxPoint(0,0);
     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].textSize = 12;
     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].initup = BUTTON_DOWN;
@@ -4684,7 +4707,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].output = init_IoPort();;
     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].tilOutput = init_IoPort();;
     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].useImageDir = false;
-    
+
     wxXmlNode *child = node.GetChildren();
     while (child)
     {
@@ -4835,35 +4858,41 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
 
                 if (child->GetNodeContent() == "text")
                 {
-                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].color = GUI_COL_BLACK;
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PANEL_TEXT;
-                    if (child->HasAttribute("color"))
+                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 = textToColorCode(child->GetAttribute("color"));
+
+                    if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 == -1)
                     {
-                        if (child->GetAttribute("color") == "grey")
-                        {
-                            computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].color = GUI_COL_GREY;
-                        }
-                        if (child->GetAttribute("color") == "white")
-                        {
-                            computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].color = GUI_COL_WHITE;
-                        }
+                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].color1 = textToWxColour(child->GetAttribute("color"));
                     }
+                }
+                
+               if (child->GetNodeContent() == "lcd_text")
+                {
+                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PANEL_BIT_TEXT;
+                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 = textToColorCode(child->GetAttribute("color1"), true);
+                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor2 = textToColorCode(child->GetAttribute("color2"), true);
+                    
+                    if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 == -1)
+                    {
+                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].color1 = textToWxColour(child->GetAttribute("color1"));
+                    }
+                    if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor2 == -1)
+                    {
+                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].color2 = textToWxColour(child->GetAttribute("color2"));
+                    }
+                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function = LCD_TEXT_FUNC_BIT_OUT;
+                    computerConfiguration.frontPanelConfiguration[frontNumber].frontPanelNumberBitText = frontNumber;
                 }
 
                 if (child->GetNodeContent() == "thumb_text")
                 {
-                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].color = GUI_COL_BLACK;
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = THUMB_TEXT;
-                    if (child->HasAttribute("color"))
+                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 = textToColorCode(child->GetAttribute("color"));
+
+                    if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 == -1)
                     {
-                        if (child->GetAttribute("color") == "grey")
-                        {
-                            computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].color = GUI_COL_GREY;
-                        }
-                        if (child->GetAttribute("color") == "white")
-                        {
-                            computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].color = GUI_COL_WHITE;
-                        }
+                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].color1 = textToWxColour(child->GetAttribute("color"));
                     }
                 }
 
@@ -4902,6 +4931,12 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                         computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = TIL_313_ITALIC;
                 }
 
+                if (child->GetNodeContent() == "lcd")
+                {
+                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function = LCD_FUNC_OUT;
+                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = LCD_CD4056;
+                }
+
                 if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type >= SWITCH_BUTTON_VERTICAL && computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type < SWITCH_BUTTON_VERTICAL_PIO && computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function == BUTTON_FUNC_BIT)
                     computerConfiguration.mainFrontPanelConfiguration.dataSwitchButtons = true;
                 if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type >= PUSH_BUTTON && computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function == BUTTON_FUNC_BIT)
@@ -4913,7 +4948,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
             break;
 
             case TAG_OUT:
-                if (child->GetAttribute("type") == "til")
+                if (child->GetAttribute("type") == "til" || child->GetAttribute("type") == "lcd")
                 {
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].tilOutput = parseXml_IoPort(*child, TIL_OUT);
                     if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value != -1 && computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].tilOutput.portNumber[0] != -1)
@@ -4969,6 +5004,11 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                         if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value >= 8)
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value = 0;
 //                        if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value != -1)
+                    break;
+
+                    case LCD_TEXT_FUNC_BIT_OUT:
+                        if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value >= 8)
+                            computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value = 0;
                     break;
 
                     case LED_FUNC_ADDRESS:
@@ -5310,7 +5350,18 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
             break;
 
             case TAG_LABEL:
+            case TAG_LABEL1:
                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].label = child->GetNodeContent();
+                if (child->HasAttribute("size"))
+#if defined (__WXMAC__)
+                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].textSize = (int)parseXml_Number(*child, "size")+4;
+#else
+                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].textSize = (int)parseXml_Number(*child, "size");
+#endif
+            break;
+
+            case TAG_LABEL2:
+                computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].label2 = child->GetNodeContent();
                 if (child->HasAttribute("size"))
 #if defined (__WXMAC__)
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].textSize = (int)parseXml_Number(*child, "size")+4;
@@ -6698,6 +6749,8 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
         "caps",
         "show",
         "iogroup",
+        "blocking_write",
+        "stopbit",
         "comment",
         "undefined"
     };
@@ -6739,6 +6792,8 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
         TAG_CAPS,
         TAG_SHOW,
         TAG_IOGROUP,
+        TAG_BLOCKING_WRITE,
+        TAG_STOPBIT,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
@@ -6751,19 +6806,23 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
 
     computerConfiguration.videoTerminalConfiguration.ioGroupVector.clear();
     computerConfiguration.videoTerminalConfiguration.output = init_IoPort();
-    computerConfiguration.videoTerminalConfiguration.defaultCharactersPerRow = 80;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].charactersPerRow = 80;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter = 8;
     computerConfiguration.videoTerminalConfiguration.defaultCharacterWidth = 10;
     computerConfiguration.videoTerminalConfiguration.backSpaceCharacter = 8;
+#if defined(__ARM64__)
+    computerConfiguration.videoTerminalConfiguration.externalBlockingWrite = true;
+#else
+    computerConfiguration.videoTerminalConfiguration.externalBlockingWrite = false;
+#endif
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBit = 1;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBitString = "1";
 
     bitset<32> SetUpFeature;
     if (computerConfiguration.videoTerminalConfiguration.type == VT52)
-        SetUpFeature = computerConfiguration.videoTerminalConfiguration.vt52DefaultSetUpFeature;
+        SetUpFeature = computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vt52SetUpFeature;
     if (computerConfiguration.videoTerminalConfiguration.type == VT100)
-        SetUpFeature = computerConfiguration.videoTerminalConfiguration.vt100DefaultSetUpFeature;
-    if (computerConfiguration.videoTerminalConfiguration.external)
-        SetUpFeature = computerConfiguration.videoTerminalConfiguration.vtExternalDefaultSetUpFeature;
-    if (computerConfiguration.videoTerminalConfiguration.loop_back)
-        SetUpFeature = computerConfiguration.videoTerminalConfiguration.vtLoopBackDefaultSetUpFeature;
+        SetUpFeature = computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vt100SetUpFeature;
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -6777,25 +6836,27 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_FONT:
-                computerConfiguration.videoTerminalConfiguration.vtCharRomFileName = child->GetNodeContent();
+                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomFileName = child->GetNodeContent();
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_CHAR_ROM] = true;
             break;
 
             case TAG_WAV:
-                computerConfiguration.videoTerminalConfiguration.wavFileName = child->GetNodeContent();
+                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavFileName = child->GetNodeContent();
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_WAV_FILE] = true;
             break;
 
             case TAG_DIRNAME:
                 if (child->GetAttribute("type") == "font")
                 {
-                    computerConfiguration.videoTerminalConfiguration.vtCharRomDirectory = dataDir_ + child->GetNodeContent();
-                    if (computerConfiguration.videoTerminalConfiguration.vtCharRomDirectory.Right(1) != pathSeparator_)
-                        computerConfiguration.videoTerminalConfiguration.vtCharRomDirectory += pathSeparator_;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory = dataDir_ + child->GetNodeContent();
+                    if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory.Right(1) != pathSeparator_)
+                        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory += pathSeparator_;
                 }
                 if (child->GetAttribute("type") == "wav")
                 {
-                    computerConfiguration.videoTerminalConfiguration.wavDirectory = dataDir_ + child->GetNodeContent();
-                    if (computerConfiguration.videoTerminalConfiguration.wavDirectory.Right(1) != pathSeparator_)
-                        computerConfiguration.videoTerminalConfiguration.wavDirectory += pathSeparator_;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavDirectory = dataDir_ + child->GetNodeContent();
+                    if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavDirectory.Right(1) != pathSeparator_)
+                        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavDirectory += pathSeparator_;
                 }
             break;
 
@@ -6805,9 +6866,10 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                     computerConfiguration.videoTerminalConfiguration.qOutput = parseXml_IoPort(*child, VIDEO_TERMINAL_Q_OUT);
                     computerConfiguration.videoTerminalConfiguration.qOutputBitMask = parseXml_Number(*child, "bitmask");
                     if (child->GetAttribute("pol") == "rev")
-                        computerConfiguration.videoTerminalConfiguration.reverseQ = 0;
+                        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].reverseQ = 1;
                     else
-                        computerConfiguration.videoTerminalConfiguration.reverseQ = 1;
+                        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].reverseQ = 0;
+                    computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_Q] = true;
                 }
                 else
                     computerConfiguration.videoTerminalConfiguration.output = parseXml_IoPort(*child);
@@ -6817,7 +6879,11 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                 if (child->GetAttribute("type") == "int")
                     computerConfiguration.videoTerminalConfiguration.efInterrupt = parseXml_EfFlag(*child);
                 else
+                {
                     computerConfiguration.videoTerminalConfiguration.ef = parseXml_EfFlag(*child);
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].efReverse = (computerConfiguration.videoTerminalConfiguration.ef.reverse == 1);
+                    computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_EF] = true;
+                }
             break;
                 
             case TAG_INTERRUPT:
@@ -6827,13 +6893,15 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
 
             case TAG_Q:
                 if (child->GetAttribute("pol") == "rev")
-                    computerConfiguration.videoTerminalConfiguration.reverseQ = 0;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].reverseQ = 1;
                 else
-                    computerConfiguration.videoTerminalConfiguration.reverseQ = 1;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].reverseQ = 0;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_Q] = true;
             break;
                 
             case TAG_SERIALPORT:
-                computerConfiguration.videoTerminalConfiguration.serialPort = child->GetNodeContent();
+                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].serialPort = child->GetNodeContent();
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_SERIAL_PORT] = true;
             break;
 
             case TAG_BAUD:
@@ -6862,14 +6930,15 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
             case TAG_CHARACTERS:
                 if (child->GetNodeContent() == "132")
                 {
-                    computerConfiguration.videoTerminalConfiguration.defaultCharactersPerRow = 132;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].charactersPerRow = 132;
                     computerConfiguration.videoTerminalConfiguration.defaultCharacterWidth = 8;
                 }
                 if (child->GetNodeContent() == "64")
                 {
-                    computerConfiguration.videoTerminalConfiguration.defaultCharactersPerRow = 64;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].charactersPerRow = 64;
                     computerConfiguration.videoTerminalConfiguration.defaultCharacterWidth = 10;
                 }
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_CHARACTERS] = true;
             break;
 
             case TAG_POWER:
@@ -6877,27 +6946,55 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                     SetUpFeature[VTPOWER] = 0;
                 if (child->GetNodeContent() == "50")
                     SetUpFeature[VTPOWER] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT0] = true;
             break;
                 
             case TAG_BITS:
-                if (child->GetNodeContent() == "7")
-                    SetUpFeature[VTBITS] = 0;
-                if (child->GetNodeContent() == "8")
-                    SetUpFeature[VTBITS] = 1;
+                if (computerConfiguration.videoTerminalConfiguration.external || computerConfiguration.videoTerminalConfiguration.loop_back)
+                {
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter = (int)parseXml_Number(*child);
+                    if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter < 5)
+                        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter = 5;
+                    if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter > 8)
+                        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter = 8;
+                    computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BITS_PER_CHARACTER] = true;
+                }
+                else
+                {
+                    if (child->GetNodeContent() == "7")
+                        SetUpFeature[VTBITS] = 0;
+                    if (child->GetNodeContent() == "8")
+                        SetUpFeature[VTBITS] = 1;
+                    computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT1] = true;
+                }
             break;
                 
             case TAG_PARITY:
                 if (child->GetNodeContent() == "off")
+                {
                     SetUpFeature[VTPARITY] = 0;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].parity = false;
+                }
                 if (child->GetNodeContent() == "on")
+                {
                     SetUpFeature[VTPARITY] = 1;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].parity = true;
+                }
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT2] = true;
             break;
                 
             case TAG_PARITY_SENSE:
-                if (child->GetNodeContent() == "0dd")
+                if (child->GetNodeContent() == "odd")
+                {
                     SetUpFeature[VTPARITYSENSE] = 0;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].paritySense = false;
+                }
                 if (child->GetNodeContent() == "even")
+                {
                     SetUpFeature[VTPARITYSENSE] = 1;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].paritySense = true;
+                }
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT3] = true;
             break;
                 
             case TAG_INTERLACE:
@@ -6905,6 +7002,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                     SetUpFeature[VTINTERLACE] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTINTERLACE] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT4] = true;
             break;
                 
             case TAG_NEW_LINE:
@@ -6912,6 +7010,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                     SetUpFeature[VTNEWLINE] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTNEWLINE] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT5] = true;
             break;
                 
             case TAG_WRAP_AROUND:
@@ -6919,6 +7018,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                     SetUpFeature[VTWRAPAROUND] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTWRAPAROUND] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT6] = true;
             break;
 
             case TAG_SHIFT_3:
@@ -6926,6 +7026,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                     SetUpFeature[VTUSASCII] = 0;
                 if (child->GetNodeContent() == "us")
                     SetUpFeature[VTUSASCII] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT7] = true;
             break;
                 
             case TAG_XON_XOFF:
@@ -6933,6 +7034,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                     SetUpFeature[VTAUTOXON] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTAUTOXON] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT8] = true;
             break;
 
             case TAG_ANSI_VT52:
@@ -6940,6 +7042,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                     SetUpFeature[VTANSI] = 0;
                 if (child->GetNodeContent() == "ansi")
                     SetUpFeature[VTANSI] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT9] = true;
             break;
 
             case TAG_KEY_CLICK:
@@ -6947,6 +7050,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                     SetUpFeature[VTKEYCLICK] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTKEYCLICK] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT10] = true;
             break;
 
             case TAG_BELL:
@@ -6954,6 +7058,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                     SetUpFeature[VTBELL] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTBELL] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT11] = true;
             break;
 
             case TAG_FREQUENCY:
@@ -6965,6 +7070,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                     SetUpFeature[VTCURSORBLOCK] = 0;
                 if (child->GetNodeContent() == "block")
                     SetUpFeature[VTCURSORBLOCK] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT12] = true;
             break;
 
             case TAG_SCREEN:
@@ -6972,6 +7078,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                     SetUpFeature[VTREVERSESCREEN] = 0;
                 if (child->GetNodeContent() == "light")
                     SetUpFeature[VTREVERSESCREEN] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT13] = true;
             break;
 
             case TAG_REPEAT:
@@ -6979,6 +7086,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                     SetUpFeature[VTREPEAT] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTREPEAT] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT14] = true;
             break;
 
             case TAG_SCROLL:
@@ -6986,6 +7094,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                     SetUpFeature[VTSMOOTHSCROLL] = 0;
                 if (child->GetNodeContent() == "smooth")
                     SetUpFeature[VTSMOOTHSCROLL] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT15] = true;
             break;
 
             case TAG_ECHO:
@@ -6993,6 +7102,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                     SetUpFeature[VTLOCALECHO] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTLOCALECHO] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT16] = true;
             break;
 
             case TAG_BORDER:
@@ -7053,6 +7163,19 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                 }
             break;
 
+            case TAG_BLOCKING_WRITE:
+                if (child->GetNodeContent() == "no")
+                    computerConfiguration.videoTerminalConfiguration.externalBlockingWrite = false;
+                else
+                    computerConfiguration.videoTerminalConfiguration.externalBlockingWrite = true;
+            break;
+
+            case TAG_STOPBIT:
+                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBitString = convertLocale(child->GetNodeContent());
+                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBit = getDouble(computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBitString, childName, -1, "", false);
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_STOPBITS] = true;
+            break;
+
             case TAG_COMMENT:
             break;
 
@@ -7067,13 +7190,9 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
     }
     
     if (computerConfiguration.videoTerminalConfiguration.type == VT52)
-        computerConfiguration.videoTerminalConfiguration.vt52DefaultSetUpFeature = SetUpFeature;
+        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vt52SetUpFeature = SetUpFeature;
     if (computerConfiguration.videoTerminalConfiguration.type == VT100)
-        computerConfiguration.videoTerminalConfiguration.vt100DefaultSetUpFeature = SetUpFeature;
-    if (computerConfiguration.videoTerminalConfiguration.external)
-        computerConfiguration.videoTerminalConfiguration.vtExternalDefaultSetUpFeature = SetUpFeature;
-    if (computerConfiguration.videoTerminalConfiguration.loop_back)
-        computerConfiguration.videoTerminalConfiguration.vtLoopBackDefaultSetUpFeature = SetUpFeature;
+        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vt100SetUpFeature = SetUpFeature;
 }
 
 void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
@@ -7169,7 +7288,8 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
     computerConfiguration.videoTerminalConfiguration.ioGroupVector.clear();
     computerConfiguration.videoTerminalConfiguration.ef = init_EfFlag();
     computerConfiguration.videoTerminalConfiguration.efInterrupt = init_EfFlag();
-    computerConfiguration.videoTerminalConfiguration.defaultCharactersPerRow = 80;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].charactersPerRow = 80;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter = 8;
     computerConfiguration.videoTerminalConfiguration.defaultCharacterWidth = 10;
     computerConfiguration.videoTerminalConfiguration.interrupt = false;
     computerConfiguration.videoTerminalConfiguration.uartOut = init_IoPort();
@@ -7183,13 +7303,9 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
 
     bitset<32> SetUpFeature;
     if (computerConfiguration.videoTerminalConfiguration.type == VT52)
-        SetUpFeature = computerConfiguration.videoTerminalConfiguration.vt52DefaultSetUpFeature;
+        SetUpFeature = computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vt52SetUpFeature;
     if (computerConfiguration.videoTerminalConfiguration.type == VT100)
-        SetUpFeature = computerConfiguration.videoTerminalConfiguration.vt100DefaultSetUpFeature;
-    if (computerConfiguration.videoTerminalConfiguration.external)
-        SetUpFeature = computerConfiguration.videoTerminalConfiguration.vtExternalDefaultSetUpFeature;
-    if (computerConfiguration.videoTerminalConfiguration.loop_back)
-        SetUpFeature = computerConfiguration.videoTerminalConfiguration.vtLoopBackDefaultSetUpFeature;
+        SetUpFeature = computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vt100SetUpFeature;
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -7203,25 +7319,27 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_FONT:
-                computerConfiguration.videoTerminalConfiguration.vtCharRomFileName = child->GetNodeContent();
+                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomFileName = child->GetNodeContent();
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_CHAR_ROM] = true;
             break;
 
             case TAG_WAV:
-                computerConfiguration.videoTerminalConfiguration.wavFileName = child->GetNodeContent();
+                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavFileName = child->GetNodeContent();
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_WAV_FILE] = true;
             break;
 
             case TAG_DIRNAME:
                 if (child->GetAttribute("type") == "font")
                 {
-                    computerConfiguration.videoTerminalConfiguration.vtCharRomDirectory = dataDir_ + child->GetNodeContent();
-                    if (computerConfiguration.videoTerminalConfiguration.vtCharRomDirectory.Right(1) != pathSeparator_)
-                        computerConfiguration.videoTerminalConfiguration.vtCharRomDirectory += pathSeparator_;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory = dataDir_ + child->GetNodeContent();
+                    if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory.Right(1) != pathSeparator_)
+                        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory += pathSeparator_;
                 }
                 if (child->GetAttribute("type") == "wav")
                 {
-                    computerConfiguration.videoTerminalConfiguration.wavDirectory = dataDir_ + child->GetNodeContent();
-                    if (computerConfiguration.videoTerminalConfiguration.wavDirectory.Right(1) != pathSeparator_)
-                        computerConfiguration.videoTerminalConfiguration.wavDirectory += pathSeparator_;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavDirectory = dataDir_ + child->GetNodeContent();
+                    if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavDirectory.Right(1) != pathSeparator_)
+                        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavDirectory += pathSeparator_;
                 }
             break;
                 
@@ -7245,7 +7363,10 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
                 if (child->GetAttribute("type") == "int")
                     computerConfiguration.videoTerminalConfiguration.efInterrupt = parseXml_EfFlag(*child);
                 else
+                {
                     computerConfiguration.videoTerminalConfiguration.ef = parseXml_EfFlag(*child);
+                    computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_EF] = true;
+                }
             break;
                 
             case TAG_INTERRUPT:
@@ -7254,7 +7375,8 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
             break;
 
             case TAG_SERIALPORT:
-                computerConfiguration.videoTerminalConfiguration.serialPort = child->GetNodeContent();
+                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].serialPort = child->GetNodeContent();
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_SERIAL_PORT] = true;
             break;
 
             case TAG_BAUD:
@@ -7275,14 +7397,15 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
             case TAG_CHARACTERS:
                 if (child->GetNodeContent() == "132")
                 {
-                    computerConfiguration.videoTerminalConfiguration.defaultCharactersPerRow = 132;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].charactersPerRow = 132;
                     computerConfiguration.videoTerminalConfiguration.defaultCharacterWidth = 8;
                 }
                 if (child->GetNodeContent() == "64")
                 {
-                    computerConfiguration.videoTerminalConfiguration.defaultCharactersPerRow = 64;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].charactersPerRow = 64;
                     computerConfiguration.videoTerminalConfiguration.defaultCharacterWidth = 10;
                 }
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_CHARACTERS] = true;
             break;
                 
             case TAG_POWER:
@@ -7290,27 +7413,55 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
                     SetUpFeature[VTPOWER] = 0;
                 if (child->GetNodeContent() == "50")
                     SetUpFeature[VTPOWER] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT0] = true;
             break;
                 
             case TAG_BITS:
-                if (child->GetNodeContent() == "7")
-                    SetUpFeature[VTBITS] = 0;
-                if (child->GetNodeContent() == "8")
-                    SetUpFeature[VTBITS] = 1;
+                if (computerConfiguration.videoTerminalConfiguration.external || computerConfiguration.videoTerminalConfiguration.loop_back)
+                {
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter = (int)parseXml_Number(*child);
+                    if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter < 5)
+                        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter = 5;
+                    if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter > 8)
+                        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter = 8;
+                    computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BITS_PER_CHARACTER] = true;
+                }
+                else
+                {
+                    if (child->GetNodeContent() == "7")
+                        SetUpFeature[VTBITS] = 0;
+                    if (child->GetNodeContent() == "8")
+                        SetUpFeature[VTBITS] = 1;
+                    computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT1] = true;
+                }
             break;
                 
             case TAG_PARITY:
                 if (child->GetNodeContent() == "off")
+                {
                     SetUpFeature[VTPARITY] = 0;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].parity = false;
+                }
                 if (child->GetNodeContent() == "on")
+                {
                     SetUpFeature[VTPARITY] = 1;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].parity = true;
+                }
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT2] = true;
             break;
                 
             case TAG_PARITY_SENSE:
-                if (child->GetNodeContent() == "0dd")
+                if (child->GetNodeContent() == "odd")
+                {
                     SetUpFeature[VTPARITYSENSE] = 0;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].paritySense = false;
+                }
                 if (child->GetNodeContent() == "even")
+                {
                     SetUpFeature[VTPARITYSENSE] = 1;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].paritySense = true;
+                }
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT3] = true;
             break;
                 
             case TAG_INTERLACE:
@@ -7318,6 +7469,7 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
                     SetUpFeature[VTINTERLACE] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTINTERLACE] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT4] = true;
             break;
                 
             case TAG_NEW_LINE:
@@ -7325,6 +7477,7 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
                     SetUpFeature[VTNEWLINE] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTNEWLINE] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT5] = true;
             break;
                 
             case TAG_WRAP_AROUND:
@@ -7332,6 +7485,7 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
                     SetUpFeature[VTWRAPAROUND] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTWRAPAROUND] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT6] = true;
             break;
 
             case TAG_SHIFT_3:
@@ -7339,6 +7493,7 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
                     SetUpFeature[VTUSASCII] = 0;
                 if (child->GetNodeContent() == "us")
                     SetUpFeature[VTUSASCII] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT7] = true;
             break;
                 
             case TAG_XON_XOFF:
@@ -7346,6 +7501,7 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
                     SetUpFeature[VTAUTOXON] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTAUTOXON] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT8] = true;
             break;
 
             case TAG_ANSI_VT52:
@@ -7353,6 +7509,7 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
                     SetUpFeature[VTANSI] = 0;
                 if (child->GetNodeContent() == "ansi")
                     SetUpFeature[VTANSI] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT9] = true;
             break;
 
             case TAG_KEY_CLICK:
@@ -7360,6 +7517,7 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
                     SetUpFeature[VTKEYCLICK] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTKEYCLICK] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT10] = true;
             break;
 
             case TAG_BELL:
@@ -7367,6 +7525,7 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
                     SetUpFeature[VTBELL] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTBELL] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT11] = true;
             break;
 
             case TAG_FREQUENCY:
@@ -7378,6 +7537,7 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
                     SetUpFeature[VTCURSORBLOCK] = 0;
                 if (child->GetNodeContent() == "block")
                     SetUpFeature[VTCURSORBLOCK] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT12] = true;
             break;
 
             case TAG_SCREEN:
@@ -7385,6 +7545,7 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
                     SetUpFeature[VTREVERSESCREEN] = 0;
                 if (child->GetNodeContent() == "light")
                     SetUpFeature[VTREVERSESCREEN] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT13] = true;
             break;
 
             case TAG_REPEAT:
@@ -7392,6 +7553,7 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
                     SetUpFeature[VTREPEAT] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTREPEAT] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT14] = true;
             break;
 
             case TAG_SCROLL:
@@ -7399,6 +7561,7 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
                     SetUpFeature[VTSMOOTHSCROLL] = 0;
                 if (child->GetNodeContent() == "smooth")
                     SetUpFeature[VTSMOOTHSCROLL] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT15] = true;
             break;
 
             case TAG_ECHO:
@@ -7406,6 +7569,7 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
                     SetUpFeature[VTLOCALECHO] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTLOCALECHO] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT16] = true;
             break;
 
             case TAG_BORDER:
@@ -7480,13 +7644,9 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
     }
     
     if (computerConfiguration.videoTerminalConfiguration.type == VT52)
-        computerConfiguration.videoTerminalConfiguration.vt52DefaultSetUpFeature = SetUpFeature;
+        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vt52SetUpFeature = SetUpFeature;
     if (computerConfiguration.videoTerminalConfiguration.type == VT100)
-        computerConfiguration.videoTerminalConfiguration.vt100DefaultSetUpFeature = SetUpFeature;
-    if (computerConfiguration.videoTerminalConfiguration.external)
-        computerConfiguration.videoTerminalConfiguration.vtExternalDefaultSetUpFeature = SetUpFeature;
-    if (computerConfiguration.videoTerminalConfiguration.loop_back)
-        computerConfiguration.videoTerminalConfiguration.vtLoopBackDefaultSetUpFeature = SetUpFeature;
+        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vt100SetUpFeature = SetUpFeature;
 }
 
 
@@ -7529,6 +7689,8 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
         "caps",
         "show",
         "iogroup",
+        "blocking_write",
+        "stopbit",
         "comment",
         "undefined"
     };
@@ -7570,6 +7732,8 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
         TAG_CAPS,
         TAG_SHOW,
         TAG_IOGROUP,
+        TAG_BLOCKING_WRITE,
+        TAG_STOPBIT,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
@@ -7583,7 +7747,8 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
     computerConfiguration.videoTerminalConfiguration.ioGroupVector.clear();
     computerConfiguration.videoTerminalConfiguration.ef = init_EfFlag();
     computerConfiguration.videoTerminalConfiguration.efInterrupt = init_EfFlag();
-    computerConfiguration.videoTerminalConfiguration.defaultCharactersPerRow = 80;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].charactersPerRow = 80;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter = 8;
     computerConfiguration.videoTerminalConfiguration.defaultCharacterWidth = 10;
     computerConfiguration.videoTerminalConfiguration.interrupt = false;
     computerConfiguration.videoTerminalConfiguration.uartOut = init_IoPort();
@@ -7592,18 +7757,21 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
     computerConfiguration.videoTerminalConfiguration.uartStatus = init_IoPort();
     computerConfiguration.videoTerminalConfiguration.backSpaceCharacter = 8;
     computerConfiguration.videoTerminalConfiguration.threUnchangedAtControl = false;
-    
+#if defined(__ARM64__)
+    computerConfiguration.videoTerminalConfiguration.externalBlockingWrite = true;
+#else
+    computerConfiguration.videoTerminalConfiguration.externalBlockingWrite = false;
+#endif
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBit = 0;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBitString = "0";
+
     computerConfiguration.videoTerminalConfiguration.picInterrupt = 0;
 
     bitset<32> SetUpFeature;
     if (computerConfiguration.videoTerminalConfiguration.type == VT52)
-        SetUpFeature = computerConfiguration.videoTerminalConfiguration.vt52DefaultSetUpFeature;
+        SetUpFeature = computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vt52SetUpFeature;
     if (computerConfiguration.videoTerminalConfiguration.type == VT100)
-        SetUpFeature = computerConfiguration.videoTerminalConfiguration.vt100DefaultSetUpFeature;
-    if (computerConfiguration.videoTerminalConfiguration.external)
-        SetUpFeature = computerConfiguration.videoTerminalConfiguration.vtExternalDefaultSetUpFeature;
-    if (computerConfiguration.videoTerminalConfiguration.loop_back)
-        SetUpFeature = computerConfiguration.videoTerminalConfiguration.vtLoopBackDefaultSetUpFeature;
+        SetUpFeature = computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vt100SetUpFeature;
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -7617,25 +7785,27 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
         switch (tagTypeInt)
         {
             case TAG_FONT:
-                computerConfiguration.videoTerminalConfiguration.vtCharRomFileName = child->GetNodeContent();
+                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomFileName = child->GetNodeContent();
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_CHAR_ROM] = true;
             break;
 
             case TAG_WAV:
-                computerConfiguration.videoTerminalConfiguration.wavFileName = child->GetNodeContent();
+                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavFileName = child->GetNodeContent();
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_WAV_FILE] = true;
             break;
 
             case TAG_DIRNAME:
                 if (child->GetAttribute("type") == "font")
                 {
-                    computerConfiguration.videoTerminalConfiguration.vtCharRomDirectory = dataDir_ + child->GetNodeContent();
-                    if (computerConfiguration.videoTerminalConfiguration.vtCharRomDirectory.Right(1) != pathSeparator_)
-                        computerConfiguration.videoTerminalConfiguration.vtCharRomDirectory += pathSeparator_;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory = dataDir_ + child->GetNodeContent();
+                    if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory.Right(1) != pathSeparator_)
+                        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory += pathSeparator_;
                 }
                 if (child->GetAttribute("type") == "wav")
                 {
-                    computerConfiguration.videoTerminalConfiguration.wavDirectory = dataDir_ + child->GetNodeContent();
-                    if (computerConfiguration.videoTerminalConfiguration.wavDirectory.Right(1) != pathSeparator_)
-                        computerConfiguration.videoTerminalConfiguration.wavDirectory += pathSeparator_;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavDirectory = dataDir_ + child->GetNodeContent();
+                    if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavDirectory.Right(1) != pathSeparator_)
+                        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavDirectory += pathSeparator_;
                 }
             break;
                 
@@ -7679,7 +7849,11 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                 if (child->GetAttribute("type") == "int")
                     computerConfiguration.videoTerminalConfiguration.efInterrupt = parseXml_EfFlag(*child);
                 else
+                {
                     computerConfiguration.videoTerminalConfiguration.ef = parseXml_EfFlag(*child);
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].efReverse = (computerConfiguration.videoTerminalConfiguration.ef.reverse == 1);
+                    computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_EF] = true;
+                }
             break;
                 
             case TAG_INTERRUPT:
@@ -7688,7 +7862,8 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
             break;
 
             case TAG_SERIALPORT:
-                computerConfiguration.videoTerminalConfiguration.serialPort = child->GetNodeContent();
+                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].serialPort = child->GetNodeContent();
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_SERIAL_PORT] = true;
             break;
 
             case TAG_BAUD:
@@ -7709,14 +7884,15 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
             case TAG_CHARACTERS:
                 if (child->GetNodeContent() == "132")
                 {
-                    computerConfiguration.videoTerminalConfiguration.defaultCharactersPerRow = 132;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].charactersPerRow = 132;
                     computerConfiguration.videoTerminalConfiguration.defaultCharacterWidth = 8;
                 }
                 if (child->GetNodeContent() == "64")
                 {
-                    computerConfiguration.videoTerminalConfiguration.defaultCharactersPerRow = 64;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].charactersPerRow = 64;
                     computerConfiguration.videoTerminalConfiguration.defaultCharacterWidth = 10;
                 }
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_CHARACTERS] = true;
             break;
                 
             case TAG_POWER:
@@ -7724,27 +7900,55 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                     SetUpFeature[VTPOWER] = 0;
                 if (child->GetNodeContent() == "50")
                     SetUpFeature[VTPOWER] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT0] = true;
             break;
                 
             case TAG_BITS:
-                if (child->GetNodeContent() == "7")
-                    SetUpFeature[VTBITS] = 0;
-                if (child->GetNodeContent() == "8")
-                    SetUpFeature[VTBITS] = 1;
+                if (computerConfiguration.videoTerminalConfiguration.external || computerConfiguration.videoTerminalConfiguration.loop_back)
+                {
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter = (int)parseXml_Number(*child);
+                    if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter < 5)
+                        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter = 5;
+                    if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter > 8)
+                        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter = 8;
+                    computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BITS_PER_CHARACTER] = true;
+                }
+                else
+                {
+                    if (child->GetNodeContent() == "7")
+                        SetUpFeature[VTBITS] = 0;
+                    if (child->GetNodeContent() == "8")
+                        SetUpFeature[VTBITS] = 1;
+                    computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT1] = true;
+                }
             break;
                 
             case TAG_PARITY:
                 if (child->GetNodeContent() == "off")
+                {
                     SetUpFeature[VTPARITY] = 0;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].parity = false;
+                }
                 if (child->GetNodeContent() == "on")
+                {
                     SetUpFeature[VTPARITY] = 1;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].parity = true;
+                }
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT2] = true;
             break;
                 
             case TAG_PARITY_SENSE:
-                if (child->GetNodeContent() == "0dd")
+                if (child->GetNodeContent() == "odd")
+                {
                     SetUpFeature[VTPARITYSENSE] = 0;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].paritySense = false;
+                }
                 if (child->GetNodeContent() == "even")
+                {
                     SetUpFeature[VTPARITYSENSE] = 1;
+                    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].paritySense = true;
+                }
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT3] = true;
             break;
                 
             case TAG_INTERLACE:
@@ -7752,6 +7956,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                     SetUpFeature[VTINTERLACE] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTINTERLACE] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT4] = true;
             break;
                 
             case TAG_NEW_LINE:
@@ -7759,6 +7964,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                     SetUpFeature[VTNEWLINE] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTNEWLINE] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT5] = true;
             break;
                 
             case TAG_WRAP_AROUND:
@@ -7766,6 +7972,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                     SetUpFeature[VTWRAPAROUND] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTWRAPAROUND] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT6] = true;
             break;
 
             case TAG_SHIFT_3:
@@ -7773,6 +7980,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                     SetUpFeature[VTUSASCII] = 0;
                 if (child->GetNodeContent() == "us")
                     SetUpFeature[VTUSASCII] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT7] = true;
             break;
                 
             case TAG_XON_XOFF:
@@ -7780,6 +7988,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                     SetUpFeature[VTAUTOXON] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTAUTOXON] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT8] = true;
             break;
 
             case TAG_ANSI_VT52:
@@ -7787,6 +7996,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                     SetUpFeature[VTANSI] = 0;
                 if (child->GetNodeContent() == "ansi")
                     SetUpFeature[VTANSI] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT9] = true;
             break;
 
             case TAG_KEY_CLICK:
@@ -7794,6 +8004,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                     SetUpFeature[VTKEYCLICK] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTKEYCLICK] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT10] = true;
             break;
 
             case TAG_BELL:
@@ -7801,6 +8012,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                     SetUpFeature[VTBELL] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTBELL] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT11] = true;
             break;
 
             case TAG_FREQUENCY:
@@ -7812,6 +8024,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                     SetUpFeature[VTCURSORBLOCK] = 0;
                 if (child->GetNodeContent() == "block")
                     SetUpFeature[VTCURSORBLOCK] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT12] = true;
             break;
 
             case TAG_SCREEN:
@@ -7819,6 +8032,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                     SetUpFeature[VTREVERSESCREEN] = 0;
                 if (child->GetNodeContent() == "light")
                     SetUpFeature[VTREVERSESCREEN] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT13] = true;
             break;
 
             case TAG_REPEAT:
@@ -7826,6 +8040,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                     SetUpFeature[VTREPEAT] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTREPEAT] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT14] = true;
             break;
 
             case TAG_SCROLL:
@@ -7833,6 +8048,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                     SetUpFeature[VTSMOOTHSCROLL] = 0;
                 if (child->GetNodeContent() == "smooth")
                     SetUpFeature[VTSMOOTHSCROLL] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT15] = true;
             break;
 
             case TAG_ECHO:
@@ -7840,6 +8056,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                     SetUpFeature[VTLOCALECHO] = 0;
                 if (child->GetNodeContent() == "on")
                     SetUpFeature[VTLOCALECHO] = 1;
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BIT16] = true;
             break;
 
             case TAG_BORDER:
@@ -7891,6 +8108,19 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                 }
             break;
 
+            case TAG_BLOCKING_WRITE:
+                if (child->GetNodeContent() == "no")
+                    computerConfiguration.videoTerminalConfiguration.externalBlockingWrite = false;
+                else
+                    computerConfiguration.videoTerminalConfiguration.externalBlockingWrite = true;
+            break;
+
+            case TAG_STOPBIT:
+                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBitString = convertLocale(child->GetNodeContent());
+                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBit = getDouble(computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBitString, childName, -1, "", false);
+                computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_STOPBITS] = true;
+            break;
+
             case TAG_CAPS:
                 computerConfiguration.forceUpperCase = true;
             break;
@@ -7914,13 +8144,9 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
     }
     
     if (computerConfiguration.videoTerminalConfiguration.type == VT52)
-        computerConfiguration.videoTerminalConfiguration.vt52DefaultSetUpFeature = SetUpFeature;
+        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vt52SetUpFeature = SetUpFeature;
     if (computerConfiguration.videoTerminalConfiguration.type == VT100)
-        computerConfiguration.videoTerminalConfiguration.vt100DefaultSetUpFeature = SetUpFeature;
-    if (computerConfiguration.videoTerminalConfiguration.external)
-        computerConfiguration.videoTerminalConfiguration.vtExternalDefaultSetUpFeature = SetUpFeature;
-    if (computerConfiguration.videoTerminalConfiguration.loop_back)
-        computerConfiguration.videoTerminalConfiguration.vtLoopBackDefaultSetUpFeature = SetUpFeature;
+        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vt100SetUpFeature = SetUpFeature;
 }
 
 void XmlParser::parseXml_Printer(wxXmlNode &node, int printerType)
@@ -9898,7 +10124,7 @@ void XmlParser::parseXml_Dip(wxXmlNode &node)
         child = child->GetNext();
     }
     
-    computerConfiguration.dipConfigurationNew.push_back(dip);
+    computerConfiguration.dipConfiguration.push_back(dip);
 }
 
 void XmlParser::parseXml_IoGroup(wxXmlNode &node)

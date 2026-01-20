@@ -19,8 +19,8 @@ protected:
     void parseXml_pixieGraphics(wxXmlNode &node);
     void disableIoPortConfig(wxString registerIdentifier);
     void disableIoPortConfigRadio(wxString registerIdentifier);
-    void setIoPortConfig(IoPort ioport, wxString registerIdentifier, wxString checkBoxLabel, wxString label, bool sixteenBit = false);
-    void setIoPortConfig(wxString registerIdentifier, wxString checkBoxLabel, wxString label);
+    void setIoPortConfig(IoPort ioport, wxString registerIdentifier, wxString checkBoxLabel, wxString directionLabel, bool sixteenBit = false, wxString qLabel = "-");
+    void setIoPortConfig(wxString registerIdentifier, wxString checkBoxLabel, wxString directionLabel, wxString portLabel = "-", wxString qLabel = "-");
     void setIoPortConfigRadio(IoPort ioport, wxString registerIdentifier, wxString checkBoxLabel, wxString label);
     void setEfFlagConfig(EfFlag efflag, wxString text, wxString flagId);
     IoPort parseXml_IoPort(wxXmlNode &node, int ioDefinition = 0, Byte defaultMask = 0xff);
@@ -34,6 +34,8 @@ protected:
     bool parseXml_Size(wxXmlNode &node, long *width, long *height);
     wxString getDoubleString(wxString doubleSting, wxString tag, double max, wxString maxStr);
     double getDouble(wxString doubleSting, wxString tag, double max, wxString maxStr, bool allowZero);
+    int textToColorCode(wxString color, bool returnMinusOnNotFound = false);
+    wxColour textToWxColour(wxString color);
 
 private:
     size_t guiItemConfigNumber_;

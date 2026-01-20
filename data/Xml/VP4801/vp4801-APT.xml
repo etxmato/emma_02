@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>VP4801</name>
+        <config>RCA APT - Warm startup</config>
+        <clock>2.835</clock>
+        <boot>0</boot>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <dirname>VP4801</dirname>
+    </system>
+        
+    <efbuttons>
+        <pressed>0</pressed>
+        <multi />
+        <ef1>349</ef1>
+        <ef2>350</ef2>
+    </efbuttons>
+
+    <memory>
+        <rom type="gui">
+            <start>0</start>
+            <end>0x1FFF</end>
+            <pulldown mask="*.bin">VP4801</pulldown>
+            <filename verify="true">RCA_302-9290-001_u703_633C.bin</filename>
+        </rom>
+        
+        <rom type="gui">
+            <start>0x4000</start>
+            <end>0x6FFF</end>
+            <pulldown mask="*.bin">VP4801</pulldown>
+            <filename verify="true">RCA_302-9291-001_u704_0B08.bin</filename>
+        </rom>
+
+        <nvram type="gui">
+           <start>0x8000</start>
+           <end>0x8FFF</end>
+           <dump>ramdump-apt.bin</dump>
+        </nvram>
+    </memory>
+
+    <dip>
+        <in>0xce02</in>
+        <value>0x2f</value>
+    </dip>
+
+    <video type="scn2672">
+        <out type="ir">0xC000</out>
+        <out type="command">0xC001</out>
+        <io type="screen_start">0xC002</io>
+        <io type="cursor">0xC004</io>
+        <out type="pointer">0xC006</out>
+        <io type="data">0xC800</io>
+        <in type="interrupt">0xC000</in>
+        <in type="status">0xC001</in>
+        <screen>80x24</screen>
+        <border>30x50</border>
+        <char>7x17</char>
+        <zoom>1.00</zoom>
+        <xscale>2</xscale>
+        <interlace />
+    </video>
+
+    <video type="crt8002">
+        <font>crt8002-018.bin</font>
+        <io type="attribute">0xCC01</io>
+        <in type="attribute_screen1">0xCE01</in>
+        <reverse>0</reverse>
+        <blink>1</blink>
+        <graphic_ms0 pol="rev">2</graphic_ms0>
+        <graphic_ms1 pol="rev">3</graphic_ms1>
+        <underline line1="7" line2="8">4</underline>
+        <strike_thru line1="4">5</strike_thru>
+        <blank>6</blank>
+    </video>
+
+    <xmodem>
+    </xmodem>
+
+    <printer>
+        <out pol="rev">0xC600</out>
+    </printer>
+
+    <scn2671 connection="loop_back">
+        <out type="command">0xC200</out>
+        <in type="isr">0xC200</in>
+        <io type="cmr">0xC201</io>
+        <out type="txhr">0xC202</out>
+        <in type="rxhr">0xC202</in>
+        <out type="brr">0xC203</out>
+        <in type="csr">0xC203</in>
+        <io type="imr">0xC204</io>
+        <io type="kmr">0xC205</io>
+        <in type="khr">0xC206</in>
+        <out type="command_misc">0xC207</out>
+        <in type="ksr">0xC207</in>
+        <keydef type="vt4801" />
+        <keydef type="text" value="3">F1</keydef>                   <!-- SHIFT F1 -->
+        <keydef type="text" value="0xb">F2</keydef>
+        <keydef type="text" value="0x33">F3</keydef>
+        <keydef type="text" value="0x3B">F4</keydef>
+        <keydef type="text" value="3" vt="shift">F5</keydef>
+        <keydef type="text" value="0xb" vt="shift">F6</keydef>
+        <keydef type="text" value="0x33" vt="shift">F7</keydef>
+        <keydef type="text" value="0x3B" vt="shift">F8</keydef>     <!-- SHIFT F8 -->
+        <keydef type="text" value="3" vt="ctrl">CTRL_F1</keydef>    <!-- CTRL F1 -->
+        <keydef type="text" value="0xb" vt="ctrl">CTRL_F2</keydef>  <!-- CTRL F2 -->
+        <keydef type="text" value="4">F10</keydef>                  <!-- USER KEY1 -->
+        <keydef type="text" value="0xe">F11</keydef>                <!-- USER KEY2 -->
+        <int />
+    </scn2671>
+
+    <vt type="loop_back" connection="scn2671">
+         <font>vt100.bin</font>
+         <baud type="receive">9600</baud>
+         <baud type="transmit">9600</baud>
+    </vt>
+    
+    <locations>
+    </locations>
+    
+    <debugger>
+        <scrt mode="on">
+            <call reg="4">0x47</call>
+            <return reg="5">0x59</return>
+        </scrt>
+        
+        <assembler>
+            <filename>mycode</filename>
+            <code_start>0x8000</code_start>
+            <code_end>0x81FF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

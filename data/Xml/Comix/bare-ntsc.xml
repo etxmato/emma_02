@@ -4,7 +4,7 @@
 <emmaconfig>
     
     <system>
-        <name>COMIX-35</name>
+        <name>COMiX-35</name>
         <config>Bare, NTSC</config>
         <clock>2.835</clock>
         <boot>0</boot>

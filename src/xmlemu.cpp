@@ -496,6 +496,7 @@ Computer::Computer(const wxString& title, double clock, int tempo, ComputerConfi
     numberOfCdp1877Instances_ = 0;
     numberOfCdp1878Instances_ = 0;
     numberOfScn2671Instances_ = 0;
+    numberOfDipInstances_ = 0;
 
     soundTempoCycleSize_ = (int) (((clock * 1000000) / 8) / tempo);
     vipIIRunCycleSize_ = (int) (((clock * 800000) / 8) ) * 2;
@@ -617,6 +618,8 @@ Computer::~Computer()
         delete cdp1877InstancePointer[num];
     for (int num=0; num<numberOfCd4536b_; num++)
         delete cd4536bPointer[num];
+    for (int num=0; num<numberOfDipInstances_ ; num++)
+        delete dipPointer[num];
     if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
     {
         p_Main->setVtPos(vtPointer->GetPosition());
@@ -2260,8 +2263,7 @@ Byte Computer::inConfiguration(InputConfiguration inConfiguration, Byte port, Wo
         break;
             
         case DIP_IN:
-            ret =  currentComputerConfiguration.dipConfigurationNew[inConfiguration.itemNumber[qState_][ioGroup_+1][port]].value;
-//            ret = inDip();
+            ret = dipPointer[inConfiguration.itemNumber[qState_][ioGroup_+1][port]]->getValue();
         break;
 
         case AD_CONVERTOR_IN:
@@ -2417,6 +2419,14 @@ void Computer::outConfiguration(OutputConfiguration outConfiguration, Byte port,
         case BITLED_OUT:
             for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
                 panelPointer[frontPanel]->setOutLeds(port, value);
+        break;
+            
+        case BITTEXT_OUT:
+            for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+            {
+                if (currentComputerConfiguration.frontPanelConfiguration[frontPanel].frontPanelNumberBitText == frontPanel)
+                    panelPointer[frontPanel]->setOutText(port, value);
+            }
         break;
             
         case TIL_OUT:
@@ -5594,6 +5604,41 @@ Byte Computer::readMemDebug(Word address, int function)
                 return mainMemory_[address];
     }
 
+    if (currentComputerConfiguration.crt8002Configuration.defined)
+    {
+        groupFound = false;
+        
+        if (currentComputerConfiguration.crt8002Configuration.ioGroupVector.size() == 0)
+            groupFound = true;
+        else
+        {
+            for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.crt8002Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.crt8002Configuration.ioGroupVector.end (); ++ioGroupIterator)
+            {
+                if (*ioGroupIterator == ioGroup_)
+                    groupFound = true;
+            }
+        }
+        if (groupFound)
+        {
+            if (currentComputerConfiguration.crt8002Configuration.attribute.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.crt8002Configuration.attribute.portNumber.begin (); port != currentComputerConfiguration.crt8002Configuration.attribute.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.crt8002Configuration.attribute.addressMask) == *port)
+                        return scn2672Pointer->readAttribute();
+                }
+            }
+            if (currentComputerConfiguration.crt8002Configuration.attributeScreen1.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.crt8002Configuration.attributeScreen1.portNumber.begin (); port != currentComputerConfiguration.crt8002Configuration.attributeScreen1.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.crt8002Configuration.attributeScreen1.addressMask) == *port)
+                        return scn2672Pointer->readAttributeScreen1();
+                }
+            }
+		}
+	}
+	
     if (currentComputerConfiguration.scn2672Configuration.defined)
     {
         groupFound = false;
@@ -5616,22 +5661,6 @@ Byte Computer::readMemDebug(Word address, int function)
                 {
                     if ((address&currentComputerConfiguration.scn2672Configuration.data.addressMask) == *port)
                         return scn2672Pointer->readDataScn2672();
-                }
-            }
-            if (currentComputerConfiguration.crt8002Configuration.attribute.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.crt8002Configuration.attribute.portNumber.begin (); port != currentComputerConfiguration.crt8002Configuration.attribute.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.crt8002Configuration.attribute.addressMask) == *port)
-                        return scn2672Pointer->readAttribute();
-                }
-            }
-            if (currentComputerConfiguration.crt8002Configuration.attributeScreen1.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.crt8002Configuration.attributeScreen1.portNumber.begin (); port != currentComputerConfiguration.crt8002Configuration.attributeScreen1.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.crt8002Configuration.attributeScreen1.addressMask) == *port)
-                        return scn2672Pointer->readAttributeScreen1();
                 }
             }
             if (currentComputerConfiguration.scn2672Configuration.status.addressMode)
@@ -5671,7 +5700,9 @@ Byte Computer::readMemDebug(Word address, int function)
                 }
             }
 
-   /*         wxString printBuffer;
+   /*         if (address == 0xce02)
+                return 0x2f;
+            wxString printBuffer;
             if (address >= 0xc300 && address <0xCF00 && lastReadAddress_ != scratchpadRegister_[programCounter_] && secondLastReadAddress_ != scratchpadRegister_[programCounter_])
             {
                 secondLastReadAddress_ = lastReadAddress_;
@@ -5788,10 +5819,13 @@ Byte Computer::readMemDebug(Word address, int function)
 
     for (int instance=0; instance<numberOfDipInstances_; instance++)
     {
-        if (currentComputerConfiguration.dipConfigurationNew[instance].input.addressMode)
+        if (dipPointer[instance]->ioGroupDip(ioGroup_))
         {
-            if (address == currentComputerConfiguration.dipConfigurationNew[instance].input.portNumber[0])
-                return currentComputerConfiguration.dipConfigurationNew[instance].value;
+            if (dipPointer[instance]->isAddressMode())
+            {
+                if (dipPointer[instance]->isAddressValid(address))
+                    return dipPointer[instance]->getValue();
+            }
         }
     }
 
@@ -5910,7 +5944,7 @@ Byte Computer::readMemDebug(Word address, int function)
         }
     }
 
-    if (currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined)
+    if (currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined)
     {
 /*        wxString printBuffer;
         if (address >= 0x1000 && address < 0xf400)
@@ -6340,7 +6374,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
 
     if (currentComputerConfiguration.mc6847Configuration.outputMode == 1 && currentComputerConfiguration.mc6847Configuration.defined)
     {
-        bool groupFound = false;
+        groupFound = false;
         
         if (currentComputerConfiguration.mc6847Configuration.ioGroupVector.size() == 0)
             groupFound = true;
@@ -6359,18 +6393,51 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
         }
     }
 
-    if (currentComputerConfiguration.basicPrinterConfiguration.output.addressMode)
+    if (currentComputerConfiguration.basicPrinterConfiguration.defined)
     {
-        if (address == currentComputerConfiguration.basicPrinterConfiguration.output.portNumber[0])
+        if (currentComputerConfiguration.basicPrinterConfiguration.output.addressMode)
         {
-            p_Printer->printerOut(value^currentComputerConfiguration.basicPrinterConfiguration.reversePolarityOutput);
-            return;
+            if (address == currentComputerConfiguration.basicPrinterConfiguration.output.portNumber[0])
+            {
+                p_Printer->printerOut(value^currentComputerConfiguration.basicPrinterConfiguration.reversePolarityOutput);
+                return;
+            }
+        }
+    }
+    
+    if (currentComputerConfiguration.crt8002Configuration.defined)
+    {
+        groupFound = false;
+        
+        if (currentComputerConfiguration.crt8002Configuration.ioGroupVector.size() == 0)
+            groupFound = true;
+        else
+        {
+            for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.crt8002Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.crt8002Configuration.ioGroupVector.end (); ++ioGroupIterator)
+            {
+                if (*ioGroupIterator == ioGroup_)
+                    groupFound = true;
+            }
+        }
+        if (groupFound)
+        {
+            if (currentComputerConfiguration.crt8002Configuration.attribute.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.crt8002Configuration.attribute.portNumber.begin (); port != currentComputerConfiguration.crt8002Configuration.attribute.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.crt8002Configuration.attribute.addressMask) == *port)
+                    {
+                        scn2672Pointer->writeAttribute(value);
+                        return;
+                    }
+                }
+            }
         }
     }
 
     if (currentComputerConfiguration.scn2672Configuration.defined)
     {
-        bool groupFound = false;
+        groupFound = false;
         
         if (currentComputerConfiguration.scn2672Configuration.ioGroupVector.size() == 0)
             groupFound = true;
@@ -6391,17 +6458,6 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
                     if ((address&currentComputerConfiguration.scn2672Configuration.data.addressMask) == *port)
                     {
                         scn2672Pointer->writeDataScn2672(value);
-                        return;
-                    }
-                }
-            }
-            if (currentComputerConfiguration.crt8002Configuration.attribute.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.crt8002Configuration.attribute.portNumber.begin (); port != currentComputerConfiguration.crt8002Configuration.attribute.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.crt8002Configuration.attribute.addressMask) == *port)
-                    {
-                        scn2672Pointer->writeAttribute(value);
                         return;
                     }
                 }
@@ -6551,7 +6607,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
 
     if (currentComputerConfiguration.mc6845Configuration.defined)
     {
-        bool groupFound = false;
+        groupFound = false;
         
         if (currentComputerConfiguration.mc6845Configuration.ioGroupVector.size() == 0)
             groupFound = true;
@@ -6615,7 +6671,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
         }
     }
 
-    if (currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined)
+    if (currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined)
     {
 /*        if (address >= 0x1000 && address < 0xf400)
         {
@@ -7647,16 +7703,13 @@ void Computer::configureExtensions()
     if (currentComputerConfiguration.rtcDs12887Configuration.defined)
         configureRtcDs12788(currentComputerConfiguration.rtcDs12887Configuration);
 
+    dipPointer.clear();
     numberOfDipInstances_ = 0;
-    for (std::vector<DipConfiguration>::iterator dip = currentComputerConfiguration.dipConfigurationNew.begin (); dip != currentComputerConfiguration.dipConfigurationNew.end (); ++dip)
+    for (std::vector<DipConfiguration>::iterator dip = currentComputerConfiguration.dipConfiguration.begin (); dip != currentComputerConfiguration.dipConfiguration.end (); ++dip)
     {
-        p_Main->configureMessage(&dip->ioGroupVector, "DIP switch");
-        
-        message.Printf("hex value: %02X", dip->value);
-        
-        setInType(&dip->ioGroupVector, dip->input, message);
-
-        p_Main->message("");
+        dipPointer.resize(numberOfDipInstances_+1);
+        dipPointer[numberOfDipInstances_] = new DipInstance(numberOfDipInstances_);
+        dipPointer[numberOfDipInstances_]->configureDip(*dip);
         numberOfDipInstances_++;
     }
     
@@ -8029,11 +8082,15 @@ void Computer::configureVideoExtensions()
         scn2672Pointer->Move(p_Main->getScn2672Pos());
         p_Video[currentComputerConfiguration.scn2672Configuration.videoNumber] = scn2672Pointer;
         scn2672Pointer->configureScn2672();
-        scn2672Pointer->configureCrt8002();
         scn2672Pointer->initScn2672();
         scn2672Pointer->Show(true);
     }
 
+    if (currentComputerConfiguration.crt8002Configuration.defined)
+    {
+        scn2672Pointer->configureCrt8002();
+    }
+  
     if (currentComputerConfiguration.mc6845Configuration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.mc6845Configuration.videoNumber);
@@ -9771,7 +9828,7 @@ void Computer::closeKeyFile()
 
 void Computer::resetV1870VideoModeEf()
 {
-    if (p_Computer->getFlipFlopQ() || (currentComputerConfiguration.videoTerminalConfiguration.reverseQ == 1))
+    if (p_Computer->getFlipFlopQ() || (currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].reverseQ == 1))
         currentComputerConfiguration.vis1870Configuration.useVideoModeEf = false;
 }
 

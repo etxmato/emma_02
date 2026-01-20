@@ -170,7 +170,7 @@
     <vt type="vt100" connection="serial">
         <font>vt100.bin</font>
         <ef pol="rev">3</ef>
-        <q></q>
+        <q pol="rev"></q>
         <caps />
         <baud type="receive" correction="2">9600</baud>
         <baud type="transmit" correction="2">9600</baud>

@@ -576,12 +576,38 @@ public:
 
 // Video Terminal configuration class definitions:
 
+class TerminalInterfaceSetting
+{
+public:
+    bitset<32> vt52SetUpFeature;
+    bitset<32> vt100SetUpFeature;
+
+    int charactersPerRow;
+    
+    double stopBit;
+    wxString stopBitString;
+    
+    wxString vtCharRomDirectory;
+    wxString vtCharRomFileName;
+    
+    wxString wavDirectory;
+    wxString wavFileName;
+    
+    bool uart1854_defined;
+    bool uart16450_defined;
+    bool efReverse;
+    bool parity;
+    bool paritySense;
+    
+    int reverseQ;
+    int bitsPerCharacter;
+    wxString serialPort;
+};
+
 class VideoTerminalConfiguration : public VideoConfiguration
 {
 public:
     bool scn2671_defined;
-    bool uart1854_defined;
-    bool uart16450_defined;
     bool xModem_defined;
     bool hexModem_defined;
     
@@ -595,23 +621,17 @@ public:
     EfFlag efInterrupt;
 
     bool threUnchangedAtControl;
-    int reverseQ;
     Byte qOutputBitMask;
     
-    bitset<32> vt52SetUpFeature;
-    bitset<32> vt100SetUpFeature;
-    bitset<32> vtExternalSetUpFeature;
-    bitset<32> vtLoopBackSetUpFeature;
-
     wxString zoom;
     int type;
     bool external;
     bool loop_back;
     bool show;
     bool interrupt;
+    bool externalBlockingWrite;
     int picInterrupt;
 
-    int charactersPerRow;
     int characterWidth;
     bool stretchDot;
     
@@ -632,17 +652,11 @@ public:
     wxArrayString terminalFiles;
     size_t numberOfTerminalFiles;
 
-    wxString wavDirectory;
-    wxString wavFileName;
-    wxString vtCharRomDirectory;
-    wxString vtCharRomFileName;
-    wxString serialPort;
+    bool specifiedInXml[XML_VT_MAX];
     
-    bitset<32> vt52DefaultSetUpFeature;
-    bitset<32> vt100DefaultSetUpFeature;
-    bitset<32> vtExternalDefaultSetUpFeature;
-    bitset<32> vtLoopBackDefaultSetUpFeature;
-    int defaultCharactersPerRow;
+    TerminalInterfaceSetting terminalInterfaceSetting[2];
+    int selectedTerminalSetting;
+    
     int defaultCharacterWidth;
     int defaultBellFrequency;
     
@@ -1642,6 +1656,7 @@ public:
     bool actOnPress;
     bool initup;        // BUTTON_DOWN (false) or BUTTON_UP (true)
     wxString label;
+    wxString label2;
     wxPoint position;
     wxSize size;
     int value;
@@ -1651,11 +1666,15 @@ public:
     int rangeLow;
     int rangeHigh;
     int textSize;
-    int color;
+    int systemColor1;
+    int systemColor2;
     bool useImageDir;
     wxString fileName;
     wxString dirName;
     bool reversePol;
+    
+    wxColour color1;
+    wxColour color2;
     
     wxBitmap *bitmapPointer;
 
@@ -1691,6 +1710,8 @@ public:
     wxPoint defaultPos;
     int posType;
     int picInterrupt;
+    
+    int frontPanelNumberBitText;
 
     vector<GuiItemConfiguration> guiItemConfiguration;
 };
@@ -1844,7 +1865,8 @@ public:
     RtcDs12887Configuration rtcDs12887Configuration;
     
     // DIP configurations:
-    vector<DipConfiguration> dipConfigurationNew;
+    vector<DipConfiguration> dipConfiguration;
+//    int numberOfDipInstances_;
 
     // SuperBoard configurations:
     SuperBoardConfiguration superBoardConfiguration;

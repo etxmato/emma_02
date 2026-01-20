@@ -46,7 +46,7 @@
         <show>no</show>
         <font>vt100.bin</font>
         <ef pol="rev">4</ef>
-        <q pol="rev"></q>
+        <q></q>
         <pos>0, 530</pos>
         <caps />
         <baud type="receive">9600</baud>

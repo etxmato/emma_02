@@ -60,6 +60,9 @@ END_EVENT_TABLE()
 Scn2672::Scn2672(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, Scn2672Configuration scn2672Configuration, Crt8002Configuration crt8002Configuration)
 : Video(title, pos, size)
 {
+//    int regVal [11] = {0x38, 0x11, 0x11, 0xb4, scn2672Configuration_.screenSize.y-1, scn2672Configuration_.screenSize.x-1, 7, 0x20, 0x80, 0x10, 0x12};
+
+    memoryDCBeingUsed_ = false;
     clock_ = clock;
     videoNumber_ = scn2672Configuration.videoNumber;
     scn2672Configuration_ = scn2672Configuration;
@@ -68,8 +71,6 @@ Scn2672::Scn2672(const wxString& title, const wxPoint& pos, const wxSize& size, 
     xZoomFactor_ = scn2672Configuration.xScale;
     if (!p_Main->isFullScreenFloat())
         xZoomFactor_ = (int) xZoomFactor_;
-
-    int regVal [11] = {0x38, 0x11, 0x11, 0xb4, scn2672Configuration.screenSize.y-1, scn2672Configuration.screenSize.x-1, 7, 0x20, 0x80, 0x10, 0x12};
 
     windowSize_ = size;
     characterListPointerScn2672 = NULL;
@@ -98,13 +99,16 @@ Scn2672::Scn2672(const wxString& title, const wxPoint& pos, const wxSize& size, 
     
     cursorOn_ = false;
     displayOn_ = false;
+    setVideoConfiguration_ = false;
+    initializationRegistersLoaded_ = false;
 
     videoType_ = VIDEOSCN2672;
     colourIndex_ = COL_SCN2672_FORE-2;
 
     interlace_ = SCN2672_INTERLACED;
     interlaceOR_ = p_Main->getInterlace();
-    
+    p_Main->setScn2672SelectorValue(SCN2672_SEL_INTERLACE, 1 | (p_Main->getInterlace() << 1), DO_NOT_SHOW_ANY_TRACE);
+
     readCharRomFile(p_Main->getCharRomDir(), p_Main->getCharRomFile());
 
     switch (p_Main->getCpuStartupVideoRam())
@@ -161,22 +165,36 @@ Scn2672::Scn2672(const wxString& title, const wxPoint& pos, const wxSize& size, 
     cursorBlink_ = true;
     cursorBlinkOn_ = false;
     characterBlinkOn_ = false;
+    characterBlinkTimeSize_ = 16;
+    p_Main->setScn2672SelectorValue(SCN2672_SEL_CHAR_BLINK_RATE, false, DO_NOT_SHOW_ANY_TRACE);
     cursorBlinkTimeSize_ = 16;
+    p_Main->setScn2672SelectorValue(SCN2672_SEL_CURSOR_BLINK_RATE, false, DO_NOT_SHOW_ANY_TRACE);
     activeCharactersPerRow_ = 40;
+//    p_Main->setScn2672RegisterByte(SCN2672_CHAR_PER_ROW, (Byte)activeCharactersPerRow_, DO_NOT_SHOW_ANY_TRACE);
     characterRowsPerScreen_ = 24;
+//    p_Main->setScn2672RegisterByte(SCN2672_SCREEN_ROWS, (Byte)characterRowsPerScreen_, DO_NOT_SHOW_ANY_TRACE);
     scanLinesPerCharacterRow_ = 17;
+//    p_Main->setScn2672RegisterByte(SCN2672_SCANLINES, (Byte)scanLinesPerCharacterRow_, DO_NOT_SHOW_ANY_TRACE);
+    p_Main->setScn2672RegisterByte(SCN2672_CHAR_WIDTH, (Byte)scn2672Configuration_.charSize.x, DO_NOT_SHOW_ANY_TRACE);
+    underLineScanLine_ = 0;
+//    p_Main->setScn2672RegisterByte(SCN2672_UNDERLINE_LINE, (Byte)underLineScanLine_, DO_NOT_SHOW_ANY_TRACE);
+
     cursorBlinkTimeValue_ = cursorBlinkTimeSize_;
-    characterBlinkTimeValue_ = cursorBlinkTimeSize_;
+    characterBlinkTimeValue_ = characterBlinkTimeSize_;
 
     backGround_ = BACKGROUND;
+    
+    for (int registerNummber=0; registerNummber<11; registerNummber++)
+    {
+        initializationRegisterLoaded[registerNummber] = false;
+        initializationRegister[registerNummber] = 0;
+    }
 
-    for (int i=0; i<11; i++)
-        writeInitializationRegisterScn2672(regVal[i], DO_NOT_SHOW_ANY_TRACE);
-
-    setCycle();
     zoom_ = zoom;
     this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_);
     this->SetBackgroundColour(colour_[colourIndex_+backGround_]);
+
+    setCycle();
 }
 
 Scn2672::~Scn2672()
@@ -271,6 +289,29 @@ void Scn2672::configureCrt8002()
         p_Main->message(printBuffer);
     }
 
+    if (crt8002Configuration_.reverse.bitNumber != -1)
+        p_Main->setCrt8002RegisterNibble(CRT8002_REVERSE,crt8002Configuration_.reverse.bitNumber, DO_NOT_SHOW_ANY_TRACE);
+    if (crt8002Configuration_.blink.bitNumber != -1)
+        p_Main->setCrt8002RegisterNibble(CRT8002_BLINK, crt8002Configuration_.blink.bitNumber, DO_NOT_SHOW_ANY_TRACE);
+    if (crt8002Configuration_.graphic_ms0.bitNumber != -1)
+        p_Main->setCrt8002RegisterNibble(CRT8002_GRAPHIC_MS0, crt8002Configuration_.graphic_ms0.bitNumber, DO_NOT_SHOW_ANY_TRACE);
+    if (crt8002Configuration_.graphic_ms1.bitNumber != -1)
+        p_Main->setCrt8002RegisterNibble(CRT8002_GRAPHIC_MS1, crt8002Configuration_.graphic_ms1.bitNumber, DO_NOT_SHOW_ANY_TRACE);
+    if (crt8002Configuration_.underline.bitNumber != -1)
+        p_Main->setCrt8002RegisterNibble(CRT8002_UNDERLINE, crt8002Configuration_.underline.bitNumber, DO_NOT_SHOW_ANY_TRACE);
+    if (crt8002Configuration_.strikeThru.bitNumber != -1)
+        p_Main->setCrt8002RegisterNibble(CRT8002_STRIKE_THRU, crt8002Configuration_.strikeThru.bitNumber, DO_NOT_SHOW_ANY_TRACE);
+    if (crt8002Configuration_.blank.bitNumber != -1)
+        p_Main->setCrt8002RegisterNibble(CRT8002_BLANK, crt8002Configuration_.blank.bitNumber, DO_NOT_SHOW_ANY_TRACE);
+    if (crt8002Configuration_.underlineLine1 != -1)
+        p_Main->setCrt8002RegisterNibble(CRT8002_UNDERLINE_LINE1, crt8002Configuration_.underlineLine1, DO_NOT_SHOW_ANY_TRACE);
+    if (crt8002Configuration_.underlineLine2 != -1)
+        p_Main->setCrt8002RegisterNibble(CRT8002_UNDERLINE_LINE2, crt8002Configuration_.underlineLine2, DO_NOT_SHOW_ANY_TRACE);
+    if (crt8002Configuration_.strikeThruLine1 != -1)
+        p_Main->setCrt8002RegisterNibble(CRT8002_STRIKE_THRU_LINE1, crt8002Configuration_.strikeThruLine1, DO_NOT_SHOW_ANY_TRACE);
+    if (crt8002Configuration_.strikeThruLine2 != -1)
+        p_Main->setCrt8002RegisterNibble(CRT8002_STRIKE_THRU_LINE2, crt8002Configuration_.strikeThruLine2, DO_NOT_SHOW_ANY_TRACE);
+
     p_Main->message("");
 }
 
@@ -295,7 +336,7 @@ void Scn2672::initScn2672()
 int Scn2672::writeInitializationRegisterScn2672(Byte value, int showTrace)
 {
     writeInitializationRegisterScn2672(registerIndex_++, value, showTrace);
-    return p_Main->setScn2672Register(SCN2672_INITIALIZATION_REGISTER, value, showTrace);
+    return p_Main->setScn2672RegisterByte(SCN2672_INITIALIZATION_REGISTER, value, showTrace);
 }
 
 int Scn2672::writeInitializationRegisterScn2672(Byte registerIndex, Byte value, int showTrace)
@@ -306,120 +347,265 @@ int Scn2672::writeInitializationRegisterScn2672(Byte registerIndex, Byte value, 
     if (registerIndex  > 10 || initializationRegister[registerIndex] == value)
         return showTrace;
         
-    initializationRegister[registerIndex] = value;
-    int currentActiveCharactersPerRow = activeCharactersPerRow_;
+	return writeRegisterScn2672(registerIndex, value, showTrace);
+}
 
+int Scn2672::writeRegisterScn2672(Byte registerIndex, Word value, int showTrace)
+{
+	if (registerIndex <= 10)
+    {
+    	initializationRegister[registerIndex] = value;
+        checkIfInitializationRegistersAreSet(registerIndex);
+    }
+
+    int realInterlace;
+    int scanLines;
+    
     switch (registerIndex)
     {
-        case 0:
-            showTrace = setCharacterAndCursurMode(showTrace);
-            reCycle_ = true;
-            reDraw_ = true;
-            return p_Main->setScn2672Register(SCN2672_R0, value, showTrace);
+        case SCN2672_R0:
+            scanLines = ((value & 0x78) >> 3) + 1;
+            if (interlace_ == SCN2672_INTERLACED)
+                scanLines = scanLines*2 + 1;
+            setVideoConfiguration_ = true;
+            return p_Main->setScn2672RegisterByte(SCN2672_SCANLINES, scanLines, showTrace);
         break;
             
-        case 1:
-            showTrace = setCharacterAndCursurMode(showTrace);
+        case SCN2672_R1:
+    		showTrace = p_Main->setScn2672SelectorValue(SCN2672_SEL_INTERLACE, ((initializationRegister[1] & 0x80) >> 7) | (p_Main->getInterlace() << 1), showTrace);
+            setVideoConfiguration_ = true;
             equalizingConstant_ = (value & 0x7F) + 1;
             calculateHorizontalFrontPorch();
-            reDraw_ = true;
-            reCycle_ = true;
-            return p_Main->setScn2672Register(SCN2672_R1, value, showTrace);
+            return p_Main->setScn2672RegisterByte(SCN2672_EQUALIZING_CONSTANT, (Byte)equalizingConstant_, showTrace);
         break;
 
-        case 2:
+        case SCN2672_R2:
             horizontalBackPorch_ = ((value & 0x7) * 4) + 1;
             horizontalSyncWidth_ = (((value >> 3) & 0xF) + 1) * 2;
             calculateHorizontalFrontPorch();
-            reCycle_ = true;
-            return p_Main->setScn2672Register(SCN2672_R2, value, showTrace);
+            setCycle();
+            showTrace = p_Main->setScn2672RegisterByte(SCN2672_HORIZONTAL_SYNC_WIDTH, (Byte)horizontalSyncWidth_, showTrace);
+            return p_Main->setScn2672RegisterByte(SCN2672_HORIZONTAL_BACK_PORCH, (Byte)horizontalBackPorch_, showTrace);
         break;
 
-        case 3:
+        case SCN2672_R3:
         	verticalBackPorch_ = ((value & 0x1f) * 2) + 4;
 			verticalFrontPorch_ = ((value >> 5) + 1) * 4;
-            reCycle_ = true;
-            return p_Main->setScn2672Register(SCN2672_R3, value, showTrace);
+            setCycle();
+            showTrace = p_Main->setScn2672RegisterByte(SCN2672_VERTICAL_FRONT_PORCH, (Byte)verticalFrontPorch_, showTrace);
+            return p_Main->setScn2672RegisterByte(SCN2672_VERTICAL_BACK_PORCH, (Byte)verticalBackPorch_, showTrace);
         break;
 
-        case 4:
-            characterRowsPerScreen_ = (value & 0x7f) + 1;
-            videoHeight_ = characterRowsPerScreen_*scanLinesPerCharacterRow_*interlace_;
-            setScreenSize();
-            resetScreenCopyPointer();
-            reDraw_ = true;
-            reCycle_ = true;
-            return p_Main->setScn2672Register(SCN2672_R4, value, showTrace);
-        break;
-            
-        case 5:
-            activeCharactersPerRow_ = value + 1;
-            if (currentActiveCharactersPerRow <= 40 && activeCharactersPerRow_ >= 70)
-            {
-                borderX_[videoType_] = borderX_[videoType_] * xZoomFactor_;
-                xZoomFactor_ = xZoomFactor_/2;
-                borderX_[videoType_] = borderX_[videoType_] / xZoomFactor_;
-            }
-            if (currentActiveCharactersPerRow >= 70 && activeCharactersPerRow_ <= 40)
-            {
-                borderX_[videoType_] = borderX_[videoType_] * xZoomFactor_;
-                xZoomFactor_ = xZoomFactor_*2;
-                borderX_[videoType_] = borderX_[videoType_] / xZoomFactor_;
-            }
-            videoScreenPointer->setScale(xZoomFactor_);
-            calculateHorizontalFrontPorch();
-            videoWidth_ = activeCharactersPerRow_*scn2672Configuration_.charSize.x;
-            setScreenSize();
-            resetScreenCopyPointer();
-            reDraw_ = true;
-            reCycle_ = true;
-            return p_Main->setScn2672Register(SCN2672_R5, value, showTrace);
+        case SCN2672_R4:
+            setVideoConfiguration_ = true;
+            if ((value & 0x80) == 0x80)
+        		characterBlinkTimeSize_ = 32;
+        	else 
+        		characterBlinkTimeSize_ = 16;
+            showTrace = p_Main->setScn2672SelectorValue(SCN2672_SEL_CHAR_BLINK_RATE, (value & 0x80) == 0x80, showTrace);
+            return p_Main->setScn2672RegisterByte(SCN2672_SCREEN_ROWS, (value & 0x7f) + 1, showTrace);
         break;
 
-        case 6:
-            showTrace = setCharacterAndCursurMode(showTrace);
-            return p_Main->setScn2672Register(SCN2672_R6, value, showTrace);
+        case SCN2672_R5:
+            setVideoConfiguration_ = true;
+            return p_Main->setScn2672RegisterByte(SCN2672_CHAR_PER_ROW, value + 1, showTrace);
         break;
 
-        case 7:
+        case SCN2672_R6:
+            setVideoConfiguration_ = true;
+            showTrace = p_Main->setScn2672RegisterNibble(SCN2672_FIRST_CURSOR_LINE, initializationRegister[6] >> 4, showTrace);
+            return p_Main->setScn2672RegisterNibble(SCN2672_LAST_CURSOR_LINE, initializationRegister[6] & 0xf, showTrace);
+        break;
+
+        case SCN2672_R7:
             cursorBlink_ = ((value & 0x20) >> 5) & 1;
+            showTrace = p_Main->setScn2672SelectorValue(SCN2672_SEL_CURSOR_BLINK, cursorBlink_, showTrace);
             cursorBlinkOn_ = true;
-			underLineScanLine_ = value & 0xf;
-			doubleHeightCharacter_ = (value >> 4) & 0x1;
+            underLineScanLine_ = value & 0xf;
+            doubleHeightCharacter_ = (value >> 4) & 0x1;
             reDraw_ = true;
-            return p_Main->setScn2672Register(SCN2672_R7, value, showTrace);
+            return p_Main->setScn2672RegisterNibble(SCN2672_UNDERLINE_LINE, (Byte)underLineScanLine_, showTrace);
         break;
 
-        case 8:
+        case SCN2672_R8:
         	displayStart_ = (displayStart_ & 0xf00) + value;
             reDraw_ = true;
-            return p_Main->setScn2672Register(SCN2672_R8, value, showTrace);
+            return p_Main->setScn2672Register12Bit(SCN2672_DISPLAY_BUFFER_START, displayStart_, showTrace);
         break;
 
-        case 9:
+        case SCN2672_R9:
         	displayStart_ = (displayStart_ & 0xff) + ((value & 0xf) << 8);
-        	displayEnd_ = ((value >> 4) + 1) * 1024 - 1;
+            showTrace = p_Main->setScn2672Register12Bit(SCN2672_DISPLAY_BUFFER_START, displayStart_, showTrace);
+            displayEnd_ = ((value >> 4) + 1) * 1024 - 1;
             reDraw_ = true;
-            return p_Main->setScn2672Register(SCN2672_R9, value, showTrace);
+            return p_Main->setScn2672RegisterWord(SCN2672_DISPLAY_BUFFER_END, displayEnd_, showTrace);
         break;
 
-        case 10:
+        case SCN2672_R10:
         	if ((value & 0x80) == 0x80)
         		cursorBlinkTimeSize_ = 32;
         	else 
         		cursorBlinkTimeSize_ = 16;
+        	showTrace = p_Main->setScn2672SelectorValue(SCN2672_SEL_CURSOR_BLINK_RATE, (value & 0x80) == 0x80, showTrace);
         	splitScreenInterruptRow_ = value & 0x7f;
-            return p_Main->setScn2672Register(SCN2672_R10, value, showTrace);
+            return p_Main->setScn2672RegisterByte(SCN2672_SPLIT_SCREEN_INT_ROW, (Byte)splitScreenInterruptRow_, showTrace);
+        break;
+        
+        case SCN2672_INITIALIZATION_REGISTER:	// Initialization register
+        	writeInitializationRegisterScn2672((Byte)value, showTrace);
+        break;
+
+        case SCN2672_COMMAND:	// Command
+        	writeCommandScn2672((Byte)value, showTrace);
+        break;
+
+        case SCN2672_SCREEN_START:	// Screen start
+        	writeScreenStartScn2672(value, showTrace);
+        break;
+
+        case SCN2672_CURSOR:	// Cursor
+        	writeCursorScn2672(value, showTrace);
+        break;
+
+        case SCN2672_POINTER:	// Pointer
+        	writePointerScn2672(value, showTrace);
+        break;
+
+        case SCN2672_DATA:	// Data
+        	writeDataScn2672((Byte)value, showTrace);
+        break;
+
+        case SCN2672_SCANLINES:	// Scanlines
+        	writeScanlinesScn2672((Byte)value, showTrace);
+        break;
+        
+        case SCN2672_CHAR_WIDTH:	// Char width
+        	writeCharWidthScn2672((Byte)value, showTrace);
+        break;
+        
+        case SCN2672_SCREEN_ROWS:	// Screen rows
+        	writeScreenRowsScn2672((Byte)value, showTrace);
+        break;
+        
+        case SCN2672_CHAR_PER_ROW:	// Char per Row
+        	writeCharPerRowScn2672((Byte)value, showTrace);
+        break;
+
+        case SCN2672_FIRST_CURSOR_LINE:	// First cursor line
+            realInterlace = (((initializationRegister[1] & 0x80) >> 7) + 1) ^ 3;
+            if (realInterlace == SCN2672_NOT_INTERLACED && !scn2672Configuration_.videoMode)
+                value = value/2;
+        	initializationRegister[6] &= 0xf;
+            initializationRegister[6] |= ((value&0xf) << 4);
+            setVideoConfiguration_ = true;
+        break;
+
+        case SCN2672_LAST_CURSOR_LINE:	// Last cursor line
+            realInterlace = (((initializationRegister[1] & 0x80) >> 7) + 1) ^ 3;
+            if (realInterlace == SCN2672_NOT_INTERLACED && !scn2672Configuration_.videoMode)
+                value = (value - 1) / 2;
+        	initializationRegister[6] &= 0xf0;
+        	initializationRegister[6] |= (value&0xf);
+            setVideoConfiguration_ = true;
+        break;
+
+        case SCN2672_UNDERLINE_LINE:	// Underline position
+            underLineScanLine_ = value & 0xf;
+            initializationRegister[7] &= 0xf0;
+        	initializationRegister[7] |= (underLineScanLine_);
+            reDraw_ = true;
+        break;
+
+        case SCN2672_DISPLAY_BUFFER_START:
+        	initializationRegister[8] = value & 0xff;
+            initializationRegister[9] &= 0xf0;
+        	initializationRegister[9] |= ((value & 0xf00) >> 8);
+        	displayStart_ = value;
+            reDraw_ = true;
+        break;
+            
+        case SCN2672_DISPLAY_BUFFER_END:
+            initializationRegister[9] &= 0xf0;
+        	initializationRegister[9] |= ((((value + 1) / 1025) - 1) << 4);
+        	displayStart_ = value;
+            reDraw_ = true;
+        break;
+        
+        case SCN2672_SPLIT_SCREEN_INT_ROW:
+        	splitScreenInterruptRow_ = value & 0x7f;
+        	initializationRegister[10] &= 0x80;
+        	initializationRegister[10] |= splitScreenInterruptRow_;
         break;
     }
     return showTrace;
 }
 
-int Scn2672::setCharacterAndCursurMode(int showTrace)
+void Scn2672::checkIfInitializationRegistersAreSet(int currentRegister)
+{
+    if (initializationRegistersLoaded_)
+        return;
+    
+    initializationRegisterLoaded[currentRegister] = true;
+    initializationRegistersLoaded_ = true;
+    for (int registerNummber=0; registerNummber<11; registerNummber++)
+    {
+        if (!initializationRegisterLoaded[registerNummber])
+            initializationRegistersLoaded_ = false;
+    }
+}
+
+int Scn2672::writeRegisterCrt8002(Byte registerIndex, Word value, int showTrace)
+{
+    switch (registerIndex)
+    {
+        case CRT8002_ATTRIBUTE:
+        	writeAttribute(value, showTrace);
+        break;
+        case CRT8002_ATTRIBUTE_SCREEN1:
+        	writeAttributeScreen1(value, showTrace);
+        break;
+        case CRT8002_REVERSE:
+        	crt8002Configuration_.reverse.bitNumber = (value & 0x7);
+        break;
+        case CRT8002_BLINK:
+        	crt8002Configuration_.blink.bitNumber = (value & 0x7);
+        break;
+        case CRT8002_GRAPHIC_MS0:
+        	crt8002Configuration_.graphic_ms0.bitNumber = (value & 0x7);
+        break;
+        case CRT8002_GRAPHIC_MS1:
+        	crt8002Configuration_.graphic_ms1.bitNumber = (value & 0x7);
+        break;
+        case CRT8002_UNDERLINE:
+        	crt8002Configuration_.underline.bitNumber = (value & 0x7);
+        break;
+        case CRT8002_STRIKE_THRU:
+        	crt8002Configuration_.strikeThru.bitNumber = (value & 0x7);
+        break;
+        case CRT8002_BLANK:
+        	crt8002Configuration_.blank.bitNumber = (value & 0x7);
+        break;
+        case CRT8002_UNDERLINE_LINE1:
+        	crt8002Configuration_.underlineLine1 = (value & 0x7);
+        break;
+        case CRT8002_UNDERLINE_LINE2:
+        	crt8002Configuration_.underlineLine2 = (value & 0x7);
+        break;
+        case CRT8002_STRIKE_THRU_LINE1:
+        	crt8002Configuration_.strikeThruLine1 = (value & 0x7);
+        break;
+        case CRT8002_STRIKE_THRU_LINE2:
+        	crt8002Configuration_.strikeThruLine2 = (value & 0x7);
+        break;
+    }
+    reDraw_ = true;
+    return showTrace;
+}        
+
+void Scn2672::setCharacterAndCursurMode()
 {
 	scanLinesPerCharacterRow_ = ((initializationRegister[0] & 0x78) >> 3) + 1;
 	interlace_ = (((initializationRegister[1] & 0x80) >> 7) + 1) ^ 3;
-    showTrace = p_Main->setScn2672SelectorValue(SCN2672_SEL_INTERLACE, ((initializationRegister[1] & 0x80) >> 7) | (p_Main->getInterlace() << 1), showTrace);
     cursorStartLine_ = initializationRegister[6] >> 4;
     cursorEndLine_ = initializationRegister[6] & 0xf;
 
@@ -429,11 +615,51 @@ int Scn2672::setCharacterAndCursurMode(int showTrace)
     if (interlace_ == SCN2672_INTERLACED)
 		scanLinesPerCharacterRow_ = scanLinesPerCharacterRow_*2 + 1;
 
-    videoHeight_ = characterRowsPerScreen_*scanLinesPerCharacterRow_*interlace_;
-    setScreenSize();
-    resetScreenCopyPointer();
+    p_Main->setScn2672RegisterByte(SCN2672_SCANLINES, scanLinesPerCharacterRow_, DO_NOT_SHOW_ANY_TRACE);
+}
+
+void Scn2672::writeScanlinesScn2672(Byte value, int showTrace)
+{
+    Byte scanLines = value;
+    if (interlace_ == SCN2672_INTERLACED)
+        scanLines = (scanLines - 1) / 2;
     
-    return showTrace;
+    initializationRegister[0] &= 0x87;
+    scanLines = (scanLines - 1) & 0xf;
+    scanLines = scanLines << 3;
+    initializationRegister[0] |= scanLines;
+
+    setVideoConfiguration_ = true;
+    p_Main->setScn2672RegisterByte(SCN2672_SCANLINES, value, showTrace);
+}
+
+void Scn2672::setVideoHeight()
+{
+    characterRowsPerScreen_ = (initializationRegister[4] & 0x7f) + 1;
+    videoHeight_ = characterRowsPerScreen_*scanLinesPerCharacterRow_*interlace_;
+}
+
+void Scn2672::setVideoWidth()
+{
+    int currentActiveCharactersPerRow = activeCharactersPerRow_;
+    activeCharactersPerRow_ = initializationRegister[5] + 1;
+    
+    if (currentActiveCharactersPerRow <= 40 && activeCharactersPerRow_ >= 70)
+    {
+         borderX_[videoType_] = borderX_[videoType_] * xZoomFactor_;
+         xZoomFactor_ = xZoomFactor_/2;
+         borderX_[videoType_] = borderX_[videoType_] / xZoomFactor_;
+    }
+    if (currentActiveCharactersPerRow >= 70 && activeCharactersPerRow_ <= 40)
+    {
+         borderX_[videoType_] = borderX_[videoType_] * xZoomFactor_;
+         xZoomFactor_ = xZoomFactor_*2;
+         borderX_[videoType_] = borderX_[videoType_] / xZoomFactor_;
+    }
+    videoScreenPointer->setScale(xZoomFactor_);
+    calculateHorizontalFrontPorch();
+
+    videoWidth_ = activeCharactersPerRow_*scn2672Configuration_.charSize.x;
 }
 
 void Scn2672::setInterlace(bool status)
@@ -453,9 +679,11 @@ void Scn2672::setInterlace(bool status)
     videoHeight_ = characterRowsPerScreen_*scanLinesPerCharacterRow_*interlace_;
 
     reDraw_ = true;
-    reCycle_ = true;
+    setCycle();
     setScreenSize();
     resetScreenCopyPointer();
+
+    p_Main->setScn2672RegisterByte(SCN2672_SCANLINES, (Byte)scanLinesPerCharacterRow_, DO_NOT_SHOW_ANY_TRACE);
 }
 
 void Scn2672::setForcedInterlace()
@@ -489,7 +717,7 @@ int Scn2672::writeCommandScn2672(Byte value, int showTrace)
         p_Computer->requestInterrupt(INTERRUPT_TYPE_SCN2672, true, scn2672Configuration_.picInterrupt);
     }
 
-    return p_Main->setScn2672Register(SCN2672_COMMAND, value, showTrace);
+    return p_Main->setScn2672RegisterByte(SCN2672_COMMAND, value, showTrace);
 }
 
 int Scn2672::instantaneousCommand(Byte value, int showTrace)
@@ -618,21 +846,21 @@ int Scn2672::writeScreenStartScn2672(Word value, int showTrace)
     screenStart_ = value;
     curentRamAddress_ = screenStart_;
     reDraw_ = true;
-    return p_Main->setScn2672Register(SCN2672_SCREEN_START, screenStart_, showTrace);
+    return p_Main->setScn2672RegisterWord(SCN2672_SCREEN_START, screenStart_, showTrace);
 }
 
 int Scn2672::writeScreenStartHighScn2672(Byte value, int showTrace)
 {
     screenStart_ = (screenStart_ & 0xff) | (value << 8);
     curentRamAddress_ = screenStart_;
-    return p_Main->setScn2672Register(SCN2672_SCREEN_START, screenStart_, showTrace);
+    return p_Main->setScn2672RegisterWord(SCN2672_SCREEN_START, screenStart_, showTrace);
 }
 
 int Scn2672::writeScreenStartLowScn2672(Byte value, int showTrace)
 {
     screenStart_ = (screenStart_ & 0xff00) | value;
     curentRamAddress_ = screenStart_;
-    return p_Main->setScn2672Register(SCN2672_SCREEN_START, screenStart_, showTrace);
+    return p_Main->setScn2672RegisterWord(SCN2672_SCREEN_START, screenStart_, showTrace);
 }
 
 Byte Scn2672::readScreenStartHighScn2672(int showTrace)
@@ -650,19 +878,19 @@ Byte Scn2672::readScreenStartLowScn2672(int showTrace)
 int Scn2672::writeCursorScn2672(Word value, int showTrace)
 {
     cursorAddress_ = value;
-    return p_Main->setScn2672Register(SCN2672_CURSOR, cursorAddress_, showTrace);
+    return p_Main->setScn2672RegisterWord(SCN2672_CURSOR, cursorAddress_, showTrace);
 }
 
 int Scn2672::writeCursorHighScn2672(Byte value, int showTrace)
 {
     cursorAddress_ = (cursorAddress_ & 0xff) | (value << 8);
-    return p_Main->setScn2672Register(SCN2672_CURSOR, cursorAddress_, showTrace);
+    return p_Main->setScn2672RegisterWord(SCN2672_CURSOR, cursorAddress_, showTrace);
 }
 
 int Scn2672::writeCursorLowScn2672(Byte value, int showTrace)
 {
     cursorAddress_ = (cursorAddress_ & 0xff00) | value;
-    return p_Main->setScn2672Register(SCN2672_CURSOR, cursorAddress_, showTrace);
+    return p_Main->setScn2672RegisterWord(SCN2672_CURSOR, cursorAddress_, showTrace);
 }
 
 Byte Scn2672::readCursorHighScn2672(int showTrace)
@@ -680,19 +908,19 @@ Byte Scn2672::readCursorLowScn2672(int showTrace)
 int Scn2672::writePointerScn2672(Word value, int showTrace)
 {
     pointerAddress_ = value;
-    return p_Main->setScn2672Register(SCN2672_POINTER, pointerAddress_, showTrace);
+    return p_Main->setScn2672RegisterWord(SCN2672_POINTER, pointerAddress_, showTrace);
 }
 
 int Scn2672::writePointerHighScn2672(Byte value, int showTrace)
 {
     pointerAddress_ = (pointerAddress_ & 0xff) | (value << 8);
-    return p_Main->setScn2672Register(SCN2672_POINTER, pointerAddress_, showTrace);
+    return p_Main->setScn2672RegisterWord(SCN2672_POINTER, pointerAddress_, showTrace);
 }
 
 int Scn2672::writePointerLowScn2672(Byte value, int showTrace)
 {
     pointerAddress_ = (pointerAddress_ & 0xff00) | value;
-    return p_Main->setScn2672Register(SCN2672_POINTER, pointerAddress_, showTrace);
+    return p_Main->setScn2672RegisterWord(SCN2672_POINTER, pointerAddress_, showTrace);
 }
 
 Byte Scn2672::readDataScn2672(int showTrace)
@@ -704,30 +932,58 @@ Byte Scn2672::readDataScn2672(int showTrace)
 void Scn2672::writeDataScn2672(Byte value, int showTrace)
 {
     displayBuffer_ = value;
-    showTrace = p_Main->setScn2672Register(SCN2672_DATA, displayBuffer_, showTrace);
+    p_Main->setScn2672RegisterByte(SCN2672_DATA, displayBuffer_, showTrace);
+}
+
+void Scn2672::writeCharWidthScn2672(Byte value, int showTrace)
+{
+    scn2672Configuration_.charSize.x = value;
+    setVideoConfiguration_ = true;
+    p_Main->setScn2672RegisterByte(SCN2672_CHAR_WIDTH, value, showTrace);
+}
+
+void Scn2672::writeScreenRowsScn2672(Byte value, int showTrace)
+{
+	initializationRegister[4] &= 0x80;
+	initializationRegister[4] |= (value - 1);
+    setVideoConfiguration_ = true;
+    p_Main->setScn2672RegisterByte(SCN2672_SCREEN_ROWS, value, showTrace);
+}
+
+void Scn2672::writeCharPerRowScn2672(Byte value, int showTrace)
+{
+	initializationRegister[5] = (value - 1);
+    setVideoConfiguration_ = true;
+    p_Main->setScn2672RegisterByte(SCN2672_CHAR_PER_ROW, value, showTrace);
 }
 
 Byte Scn2672::readAttribute(int showTrace)
 {
-//    p_Main->readScn2672Register(SCN2672_DATA, displayBuffer_, showTrace);
+    p_Main->readCrt8002Register(CRT8002_ATTRIBUTE, displayBuffer_, showTrace);
     return attributeType_.to_ulong();
 }
 
 Byte Scn2672::readAttributeScreen1(int showTrace)
 {
-//    p_Main->readScn2672Register(SCN2672_DATA, displayBuffer_, showTrace);
+    p_Main->readCrt8002Register(CRT8002_ATTRIBUTE_SCREEN1, displayBuffer_, showTrace);
     return attributeTypeScreen1_;
 }
 
 void Scn2672::writeAttribute(Byte value, int showTrace)
 {
     attributeType_ = value;
-    //    showTrace = p_Main->setScn2672Register(SCN2672_DATA, displayBuffer_, showTrace);
+    showTrace = p_Main->setCrt8002Register(CRT8002_ATTRIBUTE, (Byte)attributeType_.to_ulong(), showTrace);
     
     if (attributeType_ == 0 || lastAttributeType_ == value)
         return;
 
     lastAttributeType_ = value;
+}
+
+void Scn2672::writeAttributeScreen1(Byte value, int showTrace)
+{
+    attributeTypeScreen1_ = value;
+    showTrace = p_Main->setCrt8002Register(CRT8002_ATTRIBUTE_SCREEN1, (Byte)attributeTypeScreen1_, showTrace);
 }
 
 Byte Scn2672::readStatusScn2672(int showTrace)
@@ -752,6 +1008,9 @@ Byte Scn2672::readInterruptStatusRegister()
 
 void Scn2672::cycleScn2672()
 {
+    if (!initializationRegistersLoaded_)
+        return;
+    
     currentLine_ = (int)currentY_/ (scanLinesPerCharacterRow_ * interlace_);
     
     if (lineCycleValueScn2672_ > 0)
@@ -773,6 +1032,7 @@ void Scn2672::cycleScn2672()
             {
                 statusRegister_[SCN2672_SPLIT_SCREEN] = 1;
                 attributeTypeScreen1_ = attributeType_.to_ulong();
+                p_Main->setCrt8002Register(CRT8002_ATTRIBUTE_SCREEN1, attributeTypeScreen1_, DO_NOT_SHOW_ANY_TRACE);
                 if (interruptSplitScreen_)
                 {
                     interruptRegister_[SCN2672_SPLIT_SCREEN] = 1;
@@ -847,20 +1107,20 @@ void Scn2672::drawLine()
     {
         row = (int)x/scn2672Configuration_.charSize.x;
 
-        if (scn2672display_[row][currentLine_] != scn2672ram_[curentRamAddress_] || reDrawOnNextCycle_ ||
-            ( ((scn2672ram_[curentRamAddress_] & 0x80) == 0x80) && blink) ||
-            scn2672displayAttribute_[row][currentLine_] != attributeType_.to_ulong())
-            drawCharacterScn2672(x, currentY_, scn2672ram_[curentRamAddress_]);
+        if (scn2672display_[row&0xff][currentLine_&0x7f] != scn2672ram_[curentRamAddress_ & 0x7fff] || reDrawOnNextCycle_ ||
+            ( ((scn2672ram_[curentRamAddress_ & 0x7fff] & 0x80) == 0x80) && blink) ||
+            scn2672displayAttribute_[row&0xff][currentLine_&0x7f] != attributeType_.to_ulong())
+            drawCharacterScn2672(x, currentY_, scn2672ram_[curentRamAddress_ & 0x7fff]);
         
         if (curentRamAddress_== cursorAddress_)
         {
             drawCursor(x);
-            scn2672display_[row][currentLine_] = -1;
+            scn2672display_[row&0xff][currentLine_&0x7f] = -1;
         }
         else
         {
-            scn2672display_[row][currentLine_] = scn2672ram_[curentRamAddress_];
-            scn2672displayAttribute_[row][currentLine_] = attributeType_.to_ulong();
+            scn2672display_[row&0xff][currentLine_&0x7f] = scn2672ram_[curentRamAddress_ & 0x7fff];
+            scn2672displayAttribute_[row&0xff][currentLine_&0x7f] = attributeType_.to_ulong();
         }
         
         curentRamAddress_++;
@@ -883,6 +1143,20 @@ void Scn2672::setStartScreen()
     if (reDraw_)
         reDrawOnNextCycle_ = true;
     reDraw_ = false;
+
+    if (setVideoConfiguration_)
+    {
+        setCharacterAndCursurMode();
+        setVideoWidth();
+        setVideoHeight();
+        setVideoConfiguration_ = false;
+        
+        setScreenSize();
+        setCycle();
+        resetScreenCopyPointer();
+        reDrawOnNextCycle_ = true;
+        reDraw_ = true;
+    }
 }
 
 void Scn2672::blinkScn2672()
@@ -920,7 +1194,7 @@ void Scn2672::blinkScn2672()
         characterBlinkTimeValue_--;
         if (characterBlinkTimeValue_ <= 0)
         {
-            characterBlinkTimeValue_ = cursorBlinkTimeSize_;
+            characterBlinkTimeValue_ = characterBlinkTimeSize_;
             characterBlinkOn_ = !characterBlinkOn_;
         }
     }
@@ -929,7 +1203,7 @@ void Scn2672::blinkScn2672()
 void Scn2672::setClock(double clock)
 {
     clock_ = clock;
-    reCycle_ = true;
+    setCycle();
 }
 
 void Scn2672::setCycle()
@@ -943,7 +1217,7 @@ void Scn2672::setCycle()
     characterLineCycleSizeScn2672_ = lineCycleSizeScn2672_ * scanLinesPerCharacterRow_;
     nonDisplayScn2672_ = lineCycleSizeScn2672_ - (int)((activeCharactersPerRow_ * clockPeriod) / ((1/clock_) * 8));
     cursorBlinkSizeScn2672_ = (int)(fieldTime / ((1/clock_) * 8));
-    characterBlinkSizeScn2672_ = cursorBlinkSizeScn2672_ * 2;
+    characterBlinkSizeScn2672_ = cursorBlinkSizeScn2672_;
 
     lineCycleValueScn2672_ = 0;
     characterLineCycleValueScn2672_ = characterLineCycleSizeScn2672_;
@@ -952,7 +1226,6 @@ void Scn2672::setCycle()
     verticalRetraceCycleValueScn2672_ = 0;
     cursorBlinkValueScn2672_ = cursorBlinkSizeScn2672_;
     characterBlinkValueScn2672_ = characterBlinkSizeScn2672_;
-    reCycle_ = false;
 }
 
 Byte Scn2672::readScn2672Ram(Word addr)
@@ -1001,9 +1274,6 @@ void Scn2672::copyScreen()
         newBackGround_ = true;
         reColour_ = false;
     }
-
-    if (reCycle_)
-        setCycle();
 
     if (reDraw_)
         drawOffsetBackground();
@@ -1238,6 +1508,8 @@ void Scn2672::reBlit(wxDC &dc)
     if (!memoryDCvalid_)
         return;
     
+    memoryDCBeingUsed_ = true;
+    
     dc.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
     
     if (extraBackGround_ && newBackGround_)
@@ -1255,12 +1527,16 @@ void Scn2672::reBlit(wxDC &dc)
 
         newBackGround_ = false;
     }
+    memoryDCBeingUsed_ = false;
 }
 
 void Scn2672::resetScreenCopyPointer()
 {
     if (videoHeight_ == 0 || videoWidth_ == 0)
         return;
+
+    while (memoryDCBeingUsed_)
+        wxThread::This()->Sleep(1);
 
     memoryDCvalid_ = false;
     dcMemory.SelectObject(wxNullBitmap);

@@ -39,6 +39,7 @@
 #include "cdp1877.h"
 #include "cdp1878.h"
 #include "cd4536b.h"
+#include "dip.h"
 #include "mm57109.h"
 #include "upd765.h"
 #include "ay-3-8912.h"
@@ -430,8 +431,9 @@ private:
     vector<Cd4536b *> cd4536bPointer;
     int numberOfCd4536b_;
 
+    vector<DipInstance *> dipPointer;
     int numberOfDipInstances_;
-
+    
     SN76430N *sn76430nPointer;
     BitKeypad *bitkeypadPointer[MAX_BITKEYPADS];
     CvKeypad *cvkeypadPointer;

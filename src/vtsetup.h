@@ -8,6 +8,8 @@ public:
     ~VtSetupDialog() {};
 
 private:
+    void loadSettingValues();
+    void defineSetupFeature();
     void onSaveButton(wxCommandEvent &event);
     void onVtWavFile(wxCommandEvent &event);
     void onVtWavFileButton(wxCommandEvent &event);
@@ -17,6 +19,8 @@ private:
     void listPorts();
     void onUart1854(wxCommandEvent&event);
     void onUart16450(wxCommandEvent&event);
+    void onXmlValues(wxCommandEvent&event);
+    void enableGuiAccordingToSelectedInterface();
 
     bitset<32> SetUpFeature_;
     ComputerConfiguration currentComputerConfiguration;

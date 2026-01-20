@@ -4,7 +4,7 @@
 <emmaconfig> 
     
     <system>
-        <name>COMIX-35</name>
+        <name>COMiX-35</name>
         <config>FDC, Standard Printer, 32K RAM &amp; 80 Column Card</config>
         <clock>2.813</clock>
         <boot>0</boot>

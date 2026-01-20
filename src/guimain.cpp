@@ -479,9 +479,9 @@ void GuiMain::setVtType(int Selection, bool GuiChange)
         case VT52:
             if (mode_.gui)
             {
-                XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->Enable(computerConfiguration.videoTerminalConfiguration.uart1854_defined || computerConfiguration.videoTerminalConfiguration.uart16450_defined);
+                XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->Enable(computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined || computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart16450_defined);
                 XRCCTRL(*this, "VTBaudTChoiceXml", wxChoice)->Enable(true);
-                XRCCTRL(*this, "VTBaudRTextXml", wxStaticText)->Enable(computerConfiguration.videoTerminalConfiguration.uart1854_defined || computerConfiguration.videoTerminalConfiguration.uart16450_defined);
+                XRCCTRL(*this, "VTBaudRTextXml", wxStaticText)->Enable(computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined || computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart16450_defined);
                 XRCCTRL(*this, "VTBaudTTextXml", wxStaticText)->Enable(true);
                 XRCCTRL(*this, "ZoomTextVtXml", wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetupXml", wxButton)->Enable(true);
@@ -500,9 +500,9 @@ void GuiMain::setVtType(int Selection, bool GuiChange)
         case VT100:
             if (mode_.gui)
             {
-                XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->Enable(computerConfiguration.videoTerminalConfiguration.uart1854_defined || computerConfiguration.videoTerminalConfiguration.uart16450_defined);
+                XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->Enable(computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined || computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart16450_defined);
                 XRCCTRL(*this, "VTBaudTChoiceXml", wxChoice)->Enable(true);
-                XRCCTRL(*this, "VTBaudRTextXml", wxStaticText)->Enable(computerConfiguration.videoTerminalConfiguration.uart1854_defined || computerConfiguration.videoTerminalConfiguration.uart16450_defined);
+                XRCCTRL(*this, "VTBaudRTextXml", wxStaticText)->Enable(computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined || computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart16450_defined);
                 XRCCTRL(*this, "VTBaudTTextXml", wxStaticText)->Enable(true);
                 XRCCTRL(*this, "ZoomTextVtXml", wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetupXml", wxButton)->Enable(true);
@@ -521,9 +521,9 @@ void GuiMain::setVtType(int Selection, bool GuiChange)
         case EXTERNAL_TERMINAL:
             if (mode_.gui)
             {
-                XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->Enable(computerConfiguration.videoTerminalConfiguration.uart1854_defined || computerConfiguration.videoTerminalConfiguration.uart16450_defined);
+                XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->Enable(computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined || computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart16450_defined);
                 XRCCTRL(*this, "VTBaudTChoiceXml", wxChoice)->Enable(true);
-                XRCCTRL(*this, "VTBaudRTextXml", wxStaticText)->Enable(computerConfiguration.videoTerminalConfiguration.uart1854_defined || computerConfiguration.videoTerminalConfiguration.uart16450_defined);
+                XRCCTRL(*this, "VTBaudRTextXml", wxStaticText)->Enable(computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined || computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart16450_defined);
                 XRCCTRL(*this, "VTBaudTTextXml", wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetupXml", wxButton)->Enable(true);
 
@@ -538,9 +538,9 @@ void GuiMain::setVtType(int Selection, bool GuiChange)
         case LOOP_BACK:
             if (mode_.gui)
             {
-                XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->Enable(computerConfiguration.videoTerminalConfiguration.uart1854_defined || computerConfiguration.videoTerminalConfiguration.uart16450_defined);
+                XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->Enable(computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined || computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart16450_defined);
                 XRCCTRL(*this, "VTBaudTChoiceXml", wxChoice)->Enable(true);
-                XRCCTRL(*this, "VTBaudRTextXml", wxStaticText)->Enable(computerConfiguration.videoTerminalConfiguration.uart1854_defined || computerConfiguration.videoTerminalConfiguration.uart16450_defined);
+                XRCCTRL(*this, "VTBaudRTextXml", wxStaticText)->Enable(computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined || computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart16450_defined);
                 XRCCTRL(*this, "VTBaudTTextXml", wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetupXml", wxButton)->Enable(true);
 
@@ -1513,7 +1513,7 @@ void GuiMain::onBaudR(wxCommandEvent&event)
 void GuiMain::onBaudT(wxCommandEvent&event)
 {
     computerConfiguration.videoTerminalConfiguration.baudT = event.GetSelection();
-    if (!computerConfiguration.videoTerminalConfiguration.uart1854_defined && !computerConfiguration.videoTerminalConfiguration.uart16450_defined)
+    if (!computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined && !computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart16450_defined)
     {
         computerConfiguration.videoTerminalConfiguration.baudR = event.GetSelection();
         XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->SetSelection(computerConfiguration.videoTerminalConfiguration.baudR);
@@ -3273,8 +3273,8 @@ ScreenInfo GuiMain::getScreenInfo()
 
 void GuiMain::setBaudChoice()
 {
-    XRCCTRL(*this, "VTBaudRTextXml", wxStaticText)->Enable(computerConfiguration.videoTerminalConfiguration.uart1854_defined || computerConfiguration.videoTerminalConfiguration.uart16450_defined);
-    XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->Enable(computerConfiguration.videoTerminalConfiguration.uart1854_defined|| computerConfiguration.videoTerminalConfiguration.uart16450_defined);
+    XRCCTRL(*this, "VTBaudRTextXml", wxStaticText)->Enable(computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined || computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart16450_defined);
+    XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->Enable(computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined|| computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart16450_defined);
 }
 
 void GuiMain::setBaud(int baudR, int baudT)
@@ -3292,10 +3292,9 @@ void GuiMain::saveSetup(int baudR, int baudT, bitset<32> setupFeature, int chara
 {
     computerConfiguration.videoTerminalConfiguration.baudR = baudR;
     computerConfiguration.videoTerminalConfiguration.baudT = baudT;
-    computerConfiguration.videoTerminalConfiguration.vt100SetUpFeature = setupFeature;
-    computerConfiguration.videoTerminalConfiguration.charactersPerRow = charactersPerRow;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].vt100SetUpFeature = setupFeature;
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].charactersPerRow = charactersPerRow;
     computerConfiguration.videoTerminalConfiguration.characterWidth = charWidth;
-    
 }
 
 int GuiMain::getCpuType()

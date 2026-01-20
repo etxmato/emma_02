@@ -4,7 +4,7 @@
 <emmaconfig>
     
     <system>
-        <name>COMIX-35</name>
+        <name>COMiX-35</name>
         <config>Diagnostic Board, PAL</config>
         <clock>2.813</clock>
         <boot>0</boot>

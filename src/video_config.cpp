@@ -66,6 +66,9 @@ void VideoConfig::updateVideoPanel()
     if (computerConfiguration.scn2672Configuration.defined)
         p_Main->updateScn2672Panel();
     
+    if (computerConfiguration.crt8002Configuration.defined)
+        p_Main->updateCrt8002Panel();
+    
     if (computerConfiguration.mc6845Configuration.defined)
         p_Main->updateMc6845Panel();
     

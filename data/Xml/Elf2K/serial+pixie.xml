@@ -158,7 +158,7 @@
         <font>vt100.bin</font>
         <out>7</out>
         <ef>3</ef>
-        <q></q>
+        <q pol="rev"></q>
         <baud type="receive">4800</baud>
         <baud type="transmit">4800</baud>
         <border>0x0</border>

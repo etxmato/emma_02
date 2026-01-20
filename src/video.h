@@ -211,7 +211,8 @@ protected:
     bool changeScreenSize_;
     double zoomChanged_;
     bool memoryDCvalid_;
-    
+    bool memoryDCBeingUsed_;
+
     double zoom_;
     bool zoomFraction_;
     double xZoomFactor_;

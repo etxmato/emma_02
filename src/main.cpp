@@ -2447,7 +2447,7 @@ void Main::adjustGuiSize()
 #define BORDER_COR_PSEUDOTRACE_Y 62
 #define BORDER_COR_PSEUDOBREAK_X 2
 #define BORDER_COR_PSEUDOBREAK_Y 62
-#define BORDER_COR_DEBUGGER_Y 35
+#define BORDER_COR_DEBUGGER_Y 20
 #endif
     
     if (xmlLoaded_)
@@ -4364,7 +4364,7 @@ void Main::enableGui(bool status)
      XRCCTRL(*this,"VTTypeXml",wxChoice)->Enable(status);
      if (XRCCTRL(*this,"VTTypeXml",wxChoice)->GetSelection() != VTNONE)
      {
-         if (computerConfiguration.videoTerminalConfiguration.uart1854_defined || computerConfiguration.videoTerminalConfiguration.uart16450_defined)
+         if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined || computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart16450_defined)
          {
              XRCCTRL(*this, "VTBaudRTextXml", wxStaticText)->Enable(status);
              XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->Enable(status);

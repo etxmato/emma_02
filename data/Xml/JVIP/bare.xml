@@ -265,7 +265,7 @@ Press one of following keys on Pixie Screen while starting (F12 or RUN&#xD;switc
     <vt type="vt100" connection="serial">
         <font>vt100.bin</font>
         <ef pol="rev">2</ef>
-        <q pol="rev"></q>
+        <q></q>
         <baud type="receive">9600</baud>
         <baud type="transmit">9600</baud>
         <border>0x0</border>

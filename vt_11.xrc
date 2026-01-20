@@ -24,7 +24,7 @@
 <border>0</border>
 <object class="wxFlexGridSizer">
 <cols>2</cols>
-<rows>9</rows>
+<rows>0</rows>
 <vgap>4</vgap>
 <hgap>4</hgap>
 <object class="sizeritem">
@@ -55,7 +55,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<object class="wxStaticText" name="wxID_STATIC">
+<object class="wxStaticText" name="VtSetupBit1Text">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -64,7 +64,12 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxChoice" name="VtSetupBit1">
 <font>
@@ -78,9 +83,28 @@
 </object>
 </object>
 <object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxChoice" name="VtSetupBitsPerCharacter">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<hidden>1</hidden>
+<content>
+<item>5 Bits</item>
+<item>6 Bits</item>
+<item>7 Bits</item>
+<item>8 Bits</item>
+</content>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<object class="wxStaticText" name="wxID_STATIC">
+<object class="wxStaticText" name="VtSetupBit2Text">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -105,7 +129,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<object class="wxStaticText" name="wxID_STATIC">
+<object class="wxStaticText" name="VtSetupBit3Text">
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -250,6 +274,30 @@
 <item>Off</item>
 <item>On</item>
 </content>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="VtStopBitsText">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Stop Bits </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>0</border>
+<object class="wxTextCtrl" name="VtStopBits" subclass="FloatEdit">
+<size>50,-1</size>
+<tooltip>Number of stop bits</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxTE_RIGHT</style>
 </object>
 </object>
 </object>
@@ -697,19 +745,6 @@
 <checked>0</checked>
 </object>
 </object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-<border>0</border>
-<object class="wxCheckBox" name="VtRtcClear">
-<tooltip>Clear NVR/RTC</tooltip>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>Clear</label>
-<checked>0</checked>
-</object>
-</object>
 </object>
 </object>
 <object class="sizeritem">
@@ -874,6 +909,24 @@
 <border>5</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+<border>0</border>
+<object class="wxCheckBox" name="VtSelectXml">
+<tooltip>Switch between XML and manual settings</tooltip>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>Use XML values</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>5</border>
+<size>5,5</size>
+</object>
 <object class="sizeritem">
 <flag>wxGROW</flag>
 <border>8</border>

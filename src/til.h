@@ -37,7 +37,7 @@ public:
 class Til313 : public Til
 {
 public:
-    Til313();
+    Til313(wxString image = "til313");
     ~Til313();
 
     void init(wxDC& dc, int x, int p);

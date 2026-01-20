@@ -243,7 +243,8 @@ void IoDevice::setInType(vector<int>* ioGroup, IoPort port, wxString message, in
 
     for (std::vector<int>::iterator portNumber = port.portNumber.begin (); portNumber != port.portNumber.end (); ++portNumber)
     {
-        setInType(port.qValue, ioGroup, *portNumber, port.ioDefinition, itemNumber);
+        if (!port.addressMode)
+            setInType(port.qValue, ioGroup, *portNumber, port.ioDefinition, itemNumber);
         if (inputPorts != "")
             inputPorts += ", ";
         if (port.addressMode)
@@ -351,7 +352,8 @@ void IoDevice::setOutType(vector<int>* ioGroup, IoPort port, wxString message, i
 
     for (std::vector<int>::iterator portNumber = port.portNumber.begin (); portNumber != port.portNumber.end (); ++portNumber)
     {
-        setOutType(port.qValue, ioGroup, *portNumber, port.ioDefinition, itemNumber);
+        if (!port.addressMode)
+            setOutType(port.qValue, ioGroup, *portNumber, port.ioDefinition, itemNumber);
         if (outputPorts != "")
             outputPorts += ", ";
         if (port.addressMode)
@@ -375,14 +377,14 @@ size_t IoDevice::getInputConfiguration(int q, int group, int number)
         if (inputConfigurationNumber >= inputConfiguration.size())
         {
             inputConfiguration.resize(inputConfigurationNumber+1);
-            for (int group=0; group<257; group++)
+            for (int localGroup=0; localGroup<257; localGroup++)
             {
                 for (int io=0; io<8; io++)
                 {
-                    for (int q=0; q<2; q++)
+                    for (int loaclQ=0; loaclQ<2; loaclQ++)
                     {
-                        inputConfiguration[inputConfigurationNumber].type[q][group][io] = 0;
-                        inputConfiguration[inputConfigurationNumber].itemNumber[q][group][io] = 0;
+                        inputConfiguration[inputConfigurationNumber].type[loaclQ][localGroup][io] = 0;
+                        inputConfiguration[inputConfigurationNumber].itemNumber[loaclQ][localGroup][io] = 0;
                     }
                 }
             }
@@ -403,14 +405,14 @@ size_t IoDevice::getOutputConfiguration(int q, int group, int number)
         if (outputConfigurationNumber >= outputConfiguration.size())
         {
             outputConfiguration.resize(outputConfigurationNumber+1);
-            for (int group=0; group<257; group++)
+            for (int localGroup=0; localGroup<257; localGroup++)
             {
                 for (int io=0; io<8; io++)
                 {
-                    for (int q=0; q<2; q++)
+                    for (int loaclQ=0; loaclQ<2; loaclQ++)
                     {
-                        outputConfiguration[outputConfigurationNumber].type[q][group][io] = 0;
-                        outputConfiguration[outputConfigurationNumber].itemNumber[q][group][io] = 0;
+                        outputConfiguration[outputConfigurationNumber].type[loaclQ][localGroup][io] = 0;
+                        outputConfiguration[outputConfigurationNumber].itemNumber[loaclQ][localGroup][io] = 0;
                     }
                 }
             }

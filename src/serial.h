@@ -16,15 +16,16 @@ public:
     void configureUart16450(VideoTerminalConfiguration videoTerminalConfiguration);
     void startSerial();
     void startLoopBack();
+    void setNumberOfBits();
     Byte ef();
     Byte efInterrupt();
     void out(Byte value);
     void cycleVt();
 
-    void uartTerminalOut();
-    void uartTerminalIn();
-    void serialTerminalOut();
-    void serialTerminalIn();
+    void externalUartTransmit();
+    void externalUartReceive();
+    void externalSerialTransmit();
+    void externalSerialReceive();
     Byte readReceiverHoldingRegister();
     void serialDataOutput(Byte transmitterHoldingRegister);
     void switchQ(int value);
@@ -55,18 +56,26 @@ private:
     int cycleValue_;
     int cycleSize_;
 
-    long vtCount_;
-    int numberOfBitsPerByte_;
     int baudRateT_;
     int selectedBaudT_;
     int baudRateR_;
     int selectedBaudR_;
-    int vtBits_;
-    Byte rs232_;
-    int vtOutBits_;
-    long vtOutCount_;
-    Byte vtOut_;
-    bool vtOutSet_;
+    
+    int totalNumberOfBitsPerCharacter_;
+    double stopBitFactor_;
+    
+    int externalReceiveTotalBitCounter_;
+    int externalReceiveDataBitCounter_;
+    long externalReceiveTimeCounter_;
+    Byte externalReceiveValue_;
+    
+    int externalTransmitTotalBitCounter_;
+    int externalTransmitDataBitCounter_;
+    long externalTransmitTimeCounter_;
+    Byte externalTransmitValue_;
+    bool externalTransmitValueSet_;
+    
+    Byte flipFlopQ_;
 
     int parity_;
 
@@ -85,8 +94,6 @@ private:
     bool serialOpen_;
     bool loopBack_;
     Byte loopInput_;
-
-    bitset<32> SetUpFeature_;
     
     int dataReadyFlag_;
 

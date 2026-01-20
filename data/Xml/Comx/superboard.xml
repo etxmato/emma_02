@@ -150,6 +150,8 @@
              <rom slot="1">
                  <filename verify="true">f&amp;m.printer.1.2.bin</filename>
              </rom>
+             <rom slot="2">
+             </rom>
              <bank slot="3" max="16">
                  <rom bank="0">
                      <dirname>Comx/Usb FW</dirname>

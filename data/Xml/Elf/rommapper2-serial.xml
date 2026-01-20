@@ -39,7 +39,7 @@
         <font>vt100.bin</font>
         <out>6</out>
         <ef>4</ef>
-        <q></q>
+        <q pol="rev"></q>
         <caps />
         <baud type="receive">300</baud>
         <baud type="transmit">300</baud>

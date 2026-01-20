@@ -31,7 +31,12 @@ public:
     void setCycle();
     int writeInitializationRegisterScn2672(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
     int writeInitializationRegisterScn2672(Byte registerIndex, Byte value, int showTrace = SHOW_ADDRESS_TRACE);
-    int setCharacterAndCursurMode(int showTrace);
+    int writeRegisterScn2672(Byte registerIndex, Word value, int showTrace = SHOW_ADDRESS_TRACE);
+    void checkIfInitializationRegistersAreSet(int currentRegister);
+    int writeRegisterCrt8002(Byte registerIndex, Word value, int showTrace = SHOW_ADDRESS_TRACE);
+    void setCharacterAndCursurMode();
+    void setVideoHeight();
+    void setVideoWidth();
     void setInterlace(bool status);
     void setForcedInterlace();
     void calculateHorizontalFrontPorch();
@@ -53,9 +58,14 @@ public:
     int writePointerLowScn2672(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
     Byte readDataScn2672(int showTrace = SHOW_ADDRESS_TRACE);
     void writeDataScn2672(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    void writeScanlinesScn2672(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    void writeCharWidthScn2672(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    void writeScreenRowsScn2672(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    void writeCharPerRowScn2672(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
     Byte readAttribute(int showTrace = SHOW_ADDRESS_TRACE);
     Byte readAttributeScreen1(int showTrace = SHOW_ADDRESS_TRACE);
     void writeAttribute(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    void writeAttributeScreen1(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
     Byte readStatusScn2672(int showTrace = SHOW_ADDRESS_TRACE);
     Byte readInterruptScn2672(int showTrace = SHOW_ADDRESS_TRACE);
     Byte readInterruptStatusRegister();
@@ -64,17 +74,13 @@ public:
     Byte readScn2672CharRom(Word addr);
     void writeScn2672CharRom(Word addr, Byte value);
     void copyScreen();
-//    void drawScreen();
     void drawOffsetBackground();
     void drawNextLine();
 	void drawLine();
 	bool isEndScreen();
 	void setStartScreen();
 	void drawCursor(wxCoord x);
-//    void drawScn2672(Word addr, Byte value);
     void drawCharacterScn2672(int x, int y, Byte value);
-//    void drawCursorScn2672(Word addr, bool status);
-//    void drawCursorScn2672(wxDC &dc, Word addr, bool status);
     bool readCharRomFile(wxString romDir, wxString romFile);
     void setFullScreen(bool fullScreenSet);
     void onF3();
@@ -166,6 +172,10 @@ private:
     bool interruptSplitScreen_;
     bool interruptLineZero_;
     bool interruptVerticalBlank_;
+
+    bool setVideoConfiguration_;
+    bool initializationRegisterLoaded[11];
+    bool initializationRegistersLoaded_;
 
     DECLARE_EVENT_TABLE()
 };

@@ -152,7 +152,7 @@ public:
     bool getGuiMode() {return mode_.gui;};
 
     wxString getCharRomDir() {return computerConfiguration.characterRomConfiguration.directory;};
-    wxString getVtCharRomDir() {return computerConfiguration.videoTerminalConfiguration.vtCharRomDirectory;};
+    wxString getVtCharRomDir() {return computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].vtCharRomDirectory;};
     void setWaveDir(wxString fileDir) {computerConfiguration.wavConfiguration[0].directory = fileDir;};
     wxString getTerminalPath(int filenumber) {return computerConfiguration.videoTerminalConfiguration.terminalPaths[filenumber];}
     wxArrayString getTerminalFiles() {return computerConfiguration.videoTerminalConfiguration.terminalFiles;}
@@ -182,7 +182,7 @@ public:
     int getPrintX() {return printX_;};
 
     wxString getCharRomFile() {return computerConfiguration.characterRomConfiguration.fileName;};
-    wxString getVtCharRomFile() {return computerConfiguration.videoTerminalConfiguration.vtCharRomFileName;};
+    wxString getVtCharRomFile() {return computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].vtCharRomFileName;};
     wxString getXmodemFile() {return computerConfiguration.videoTerminalConfiguration.xmodemFileName;};
     wxString getXmodemFileFullStr() {return computerConfiguration.videoTerminalConfiguration.xmodemFullFileName;};
     void setWaveFile(wxString fileName) {computerConfiguration.wavConfiguration[0].fileName = fileName;};

@@ -91,6 +91,7 @@ public:
     void updateLed(wxDC& dc, int i);
     void refreshLed(wxDC& dc, int i);
     void setOutLeds(int output, Byte value);
+    void setOutText(int output, Byte value);
     void updateOutLed(wxDC& dc, int output, int i);
     void refreshOutLed(wxDC& dc, int output, int i);
     void setNibbleLed(int i, int status);
@@ -290,6 +291,8 @@ protected:
     Led *stateLedPointer[MAX_CPU_STATE_LEDS];
     bool stateLedPointerDefined[MAX_CPU_STATE_LEDS];
 
+    bool bitTextStatus[8][8];
+
     int readyLedStatus;
     int stopLedStatus;
     int powerLedStatus;
@@ -348,7 +351,7 @@ protected:
     
     bool fastClock_;
     double sliderValue_;
-
+    
 private:
     bool functionKeyReleaseTwo_;\
     
@@ -375,6 +378,7 @@ public:
     
     void setLed(int i, int status) {panelPointer->setLed(i, status);};
     void setOutLeds(int output, Byte value) {panelPointer->setOutLeds(output, value);};
+    void setOutText(int output, Byte value) {panelPointer->setOutText(output, value);};
     void setNibbleLed(int i, int status) {panelPointer->setNibbleLed(i, status);};
     void setMathLed(int i, int status) {panelPointer->setMathLed(i, status);};
     void setPowerLed(int status) {panelPointer->setPowerLed(status);};

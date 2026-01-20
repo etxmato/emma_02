@@ -525,31 +525,59 @@ void GuiXml::writeCoinWindowConfig()
 
 void GuiXml::readDefaultVtConfig()
 {
-    long value = computerConfiguration.videoTerminalConfiguration.vt52DefaultSetUpFeature.to_ulong();
-    computerConfiguration.videoTerminalConfiguration.vt52SetUpFeature = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VT52Setup", value);
-    value = computerConfiguration.videoTerminalConfiguration.vt100DefaultSetUpFeature.to_ulong();
-    computerConfiguration.videoTerminalConfiguration.vt100SetUpFeature = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VT100Setup", value);
-    value = computerConfiguration.videoTerminalConfiguration.vtExternalDefaultSetUpFeature.to_ulong();
-    computerConfiguration.videoTerminalConfiguration.vtExternalSetUpFeature = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VTExternalSetup", value);
-    computerConfiguration.videoTerminalConfiguration.vtLoopBackSetUpFeature = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VTLoopBackSetup", value);
+    computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting = (int) configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VTselectedTerminalSetting", (long) XML_SETTING);
+    long value = computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vt52SetUpFeature.to_ulong();
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].vt52SetUpFeature = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VT52Setup", value);
+    value = computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vt100SetUpFeature.to_ulong();
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].vt100SetUpFeature = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VT100Setup", value);
+
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].charactersPerRow = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharactersPerRow", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].charactersPerRow);
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].bitsPerCharacter = (int) configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtBitsPerCharacter", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter);
+    configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtParity", &computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].parity, computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].parity);
+    configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtParitySense", &computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].paritySense, computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].paritySense);
+    if (!computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBitString.ToDouble(&computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBit))
+    {
+        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBit = 0;
+        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBitString = "0";
+    }
     computerConfiguration.videoTerminalConfiguration.bellFrequency = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Bell_Frequency", computerConfiguration.videoTerminalConfiguration.defaultBellFrequency);
-    computerConfiguration.videoTerminalConfiguration.charactersPerRow = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharactersPerRow", computerConfiguration.videoTerminalConfiguration.defaultCharactersPerRow);
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].charactersPerRow = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharactersPerRow", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].charactersPerRow);
     computerConfiguration.videoTerminalConfiguration.characterWidth = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharacterWidth", computerConfiguration.videoTerminalConfiguration.defaultCharacterWidth);
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].vtCharRomDirectory = convertLocale(configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/vtCharRomDirectory", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory));
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].vtCharRomFileName = convertLocale(configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/vtCharRomFileName", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomFileName));
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].wavDirectory = convertLocale(configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/wavDirectory", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavDirectory));
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].wavFileName = convertLocale(configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/wavFileName", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavFileName));
+    configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/uart16450_defined", &computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].uart16450_defined, computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].uart16450_defined);
+    configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/uart1854_defined", &computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].uart1854_defined, computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].uart1854_defined);
+    configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/uart1854_defined", &computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].uart1854_defined, computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].uart1854_defined);
+    configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/vtEfReverse", &computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].efReverse, computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].efReverse);
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].reverseQ = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtReverseQ", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].reverseQ);
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].serialPort = convertLocale(configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtSerialPort", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].serialPort));
 }
 
 void GuiXml::writeDefaultVtConfig()
 {
-    long value = computerConfiguration.videoTerminalConfiguration.vt52SetUpFeature.to_ulong();
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VTselectedTerminalSetting", computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting);
+    long value = computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].vt52SetUpFeature.to_ulong();
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VT52Setup", value);
-    value = computerConfiguration.videoTerminalConfiguration.vt100SetUpFeature.to_ulong();
+    value = computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].vt100SetUpFeature.to_ulong();
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VT100Setup", value);
-    value = computerConfiguration.videoTerminalConfiguration.vtExternalSetUpFeature.to_ulong();
-    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VTExternalSetup", value);
-    value = computerConfiguration.videoTerminalConfiguration.vtLoopBackSetUpFeature.to_ulong();
-    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VTLoopBackSetup", value);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtBitsPerCharacter", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].bitsPerCharacter);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtParity", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].parity);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtParitySense", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].paritySense);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/StopBits", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBitString);
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Bell_Frequency", computerConfiguration.videoTerminalConfiguration.bellFrequency);
-    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharactersPerRow", computerConfiguration.videoTerminalConfiguration.charactersPerRow);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharactersPerRow", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].charactersPerRow);
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharacterWidth", computerConfiguration.videoTerminalConfiguration.characterWidth);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/vtCharRomDirectory", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].vtCharRomDirectory);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/vtCharRomFileName", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].vtCharRomFileName);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/wavDirectory", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].wavDirectory);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/wavFileName", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].wavFileName);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/uart16450_defined", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].uart16450_defined);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/uart1854_defined", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].uart1854_defined);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/vtEfReverse", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].efReverse);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtReverseQ", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].reverseQ);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtSerialPort", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].serialPort);
 }
 
 bool GuiXml::showSplashScreen()
@@ -2027,7 +2055,7 @@ void GuiXml::onXmlBaudT(wxCommandEvent&event)
         XRCCTRL(*this, "XmlClearRam", wxCheckBox)->SetValue(true);
         computerConfiguration.clearRam = true;
         computerConfiguration.videoTerminalConfiguration.baudT = event.GetSelection();
-        if (!computerConfiguration.videoTerminalConfiguration.uart1854_defined && !computerConfiguration.videoTerminalConfiguration.uart16450_defined)
+        if (!computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined && !computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[computerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart16450_defined)
         {
             computerConfiguration.videoTerminalConfiguration.baudR = event.GetSelection();
             XRCCTRL(*this, "VTBaudRChoiceXml", wxChoice)->SetSelection(computerConfiguration.videoTerminalConfiguration.baudR);

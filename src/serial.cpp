@@ -72,9 +72,9 @@ Serial::Serial(int computerType, double clock, ComputerConfiguration computerCon
     uartNumber_ = uartNumber;
 
     terminalType_ = TERMINAL_SERIAL;
-    if (currentComputerConfiguration.videoTerminalConfiguration.uart1854_defined)
+    if (currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined)
         terminalType_ = TERMINAL_UART1854;
-    if (currentComputerConfiguration.videoTerminalConfiguration.uart16450_defined)
+    if (currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart16450_defined)
         terminalType_ = TERMINAL_UART16450;
     if (currentComputerConfiguration.videoTerminalConfiguration.scn2671_defined)
         terminalType_ = TERMINAL_SCN2671;
@@ -93,7 +93,6 @@ Serial::Serial(int computerType, double clock, ComputerConfiguration computerCon
     uart_fe_bit_ = 3;
     uart_tsre_bit_ = 6;
     uart_thre_bit_ = 7;
-    numberOfBitsPerByte_ = 9;
 }
 
 Serial::~Serial()
@@ -106,18 +105,13 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, VideoTerminalConfig
 {
     wxString printBuffer;
     
-    if (videoTerminalConfiguration.external)
-        SetUpFeature_ = currentComputerConfiguration.videoTerminalConfiguration.vtExternalSetUpFeature;
-    else
-        SetUpFeature_ = currentComputerConfiguration.videoTerminalConfiguration.vtLoopBackSetUpFeature;
-
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
     
     baudRateT_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_])+0.5);
     baudRateR_ = (int) ((((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudR_])+0.5);
 
-    reverseEf_ = videoTerminalConfiguration.ef.reverse^1;
+    reverseEf_ = currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].efReverse^1;
 
     switch (terminalType_)
     {
@@ -133,11 +127,11 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, VideoTerminalConfig
             p_Computer->setCycleType(CYCLE_TYPE_VIDEO_TERMINAL, EXTERNAL_VIDEO_TERMINAL_CYCLE);
             if (!videoTerminalConfiguration.external)
                 startLoopBack();
-            rs232_ = 0;
+            externalReceiveValue_ = 0;
         break;
 
         default:
-            reverseQ_ = videoTerminalConfiguration.reverseQ^1;
+            reverseQ_ = videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].reverseQ;
             if (reverseQ_) p_Computer->setFlipFlopQ(1);
 
             dataReadyFlag_ = videoTerminalConfiguration.ef.flagNumber;
@@ -147,9 +141,9 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, VideoTerminalConfig
             else
                 p_Main->configureMessage(&videoTerminalConfiguration.ioGroupVector, "terminal loop back");
 
-            printBuffer = "    Serial out: Q";
+            printBuffer = "	Serial out: Q";
             if (reverseQ_ == 1)
-                printBuffer = "    Serial out: reversed Q";
+                printBuffer =  "	Serial out: reversed Q";
 
             if (videoTerminalConfiguration.qOutput.portNumber[0] != -1)
             {
@@ -173,10 +167,10 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, VideoTerminalConfig
     p_Main->message(printBuffer);
     
     vtEnabled_ = 1;
-    vtCount_ = -1;
-    vtOutCount_ = -1;
-    vtOut_ = 0;
-    vtOutSet_ = false;
+    externalReceiveTimeCounter_ = -1;
+    externalTransmitTimeCounter_ = -1;
+    externalTransmitValue_ = 0;
+    externalTransmitValueSet_ = false;
     serialEf_ = 1;
     serialEfInterrupt_ = 1;
 }
@@ -235,7 +229,7 @@ void Serial::configureUart1854(VideoTerminalConfiguration videoTerminalConfigura
         startSerial();
     else
         startLoopBack();
-    rs232_ = 0;
+    externalReceiveValue_ = 0;
 }
 
 void Serial::configureUart16450(VideoTerminalConfiguration videoTerminalConfiguration)
@@ -255,7 +249,7 @@ void Serial::configureUart16450(VideoTerminalConfiguration videoTerminalConfigur
         startSerial();
     else
         startLoopBack();
-    rs232_ = 0;
+    externalReceiveValue_ = 0;
 
     registerSelect_ = 0;
     modemControlRegister_ = 0;
@@ -265,28 +259,21 @@ void Serial::configureUart16450(VideoTerminalConfiguration videoTerminalConfigur
 
 void Serial::startSerial()
 {
-    numberOfBitsPerByte_ = 9;
-    sp_return error = sp_get_port_by_name(currentComputerConfiguration.videoTerminalConfiguration.serialPort, &port);
+    setNumberOfBits();
+    sp_return error = sp_get_port_by_name(currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].serialPort, &port);
     if (error == SP_OK)
     {
         error = sp_open(port, (sp_mode)(SP_MODE_READ | SP_MODE_WRITE));
         if (error == SP_OK)
         {
             sp_set_baudrate(port, baudRateValueSerial_[selectedBaudT_]);
-            if (SetUpFeature_[VTBITS])
-                sp_set_bits (port, 8);
-            else
-            {
-                sp_set_bits (port, 7);
-                numberOfBitsPerByte_--;
-            }
-            sp_set_stopbits(port, 1);
+            sp_set_bits (port, currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].bitsPerCharacter);
+            sp_set_stopbits(port, (int) currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].stopBit);
             sp_set_xon_xoff(port, SP_XONXOFF_DISABLED);
             sp_set_flowcontrol(port, SP_FLOWCONTROL_NONE);
-            if (SetUpFeature_[VTPARITY])
+            if (currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].parity)
             {
-                numberOfBitsPerByte_++;
-                if (SetUpFeature_[VTPARITYSENSE])
+                if (currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].paritySense)
                     sp_set_parity(port, SP_PARITY_EVEN);
                 else
                     sp_set_parity(port, SP_PARITY_ODD);
@@ -305,12 +292,18 @@ void Serial::startSerial()
 
 void Serial::startLoopBack()
 {
-    numberOfBitsPerByte_ = 9;
-    if (!SetUpFeature_[VTBITS])
-        numberOfBitsPerByte_--;
-    if (SetUpFeature_[VTPARITY])
-        numberOfBitsPerByte_++;
+    setNumberOfBits();
     loopBack_ = true;
+}
+
+void Serial::setNumberOfBits()
+{
+    double intpart;
+    stopBitFactor_ = modf(currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].stopBit, &intpart);
+    totalNumberOfBitsPerCharacter_ = (int) (currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].bitsPerCharacter + intpart);
+    
+    if (currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].parity)
+        totalNumberOfBitsPerCharacter_++;
 }
 
 Byte Serial::ef()
@@ -364,8 +357,8 @@ void Serial::cycleVt()
                 
             if (numberOfBytes >= 1)
             {
-                vtOut_ = input;
-                vtOutSet_ = true;
+                externalTransmitValue_ = input;
+                externalTransmitValueSet_ = true;
             }
         }
         cycleValue_ = cycleSize_;
@@ -373,200 +366,176 @@ void Serial::cycleVt()
 
     if (terminalType_ != TERMINAL_SERIAL)
     {
-        if (vtOutCount_ > 0)
-            uartTerminalOut();
-        uartTerminalIn();
+        if (externalTransmitTimeCounter_ > 0)
+            externalUartTransmit();
+            
+        externalUartReceive();
     }
     else  // if !uart
     {
-        if (vtOutCount_ > 0)
+        if (externalTransmitTimeCounter_ > 0)
         {
-            serialTerminalOut();
+            externalSerialTransmit();
         }
         else
         {
-            if (vtOutSet_ && vtEnabled_)
+            if (externalTransmitValueSet_ && vtEnabled_)
             {
                 serialEf_ = 0;
-                parity_ = Parity(vtOut_);
-                vtOutCount_ = baudRateT_;
-                if (SetUpFeature_[VTBITS])
-                    vtOutBits_ = 10;
-                else
-                    vtOutBits_ = 9;
-                if (SetUpFeature_[VTPARITY])
-                    vtOutBits_++;
+                parity_ = Parity(externalTransmitValue_);
+                externalTransmitTimeCounter_ = baudRateT_;
+                externalTransmitTotalBitCounter_ = totalNumberOfBitsPerCharacter_;
+                externalTransmitDataBitCounter_ = currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].bitsPerCharacter;
                 p_Computer->setGreenLed(serialEf_ ^ 1);
             }
         }
         
-        serialTerminalIn();
+        if (externalReceiveTimeCounter_ >= 0)
+            externalSerialReceive();
     }
 }
 
-void Serial::uartTerminalOut()
+void Serial::externalUartTransmit() // input from external device
 {
-    vtOutCount_--;
+    externalTransmitTimeCounter_--;
     if (uartEf_)
     {
-        if (vtOutCount_ <= 0)
+        if (externalTransmitTimeCounter_ <= 0)
         {
-            if (vtOutBits_ == 10)
+            if (externalTransmitTotalBitCounter_ == 10)
                 serialEf_ = 0;
             else
             {
-                serialEf_ = (vtOut_ & 1) ? 1 : 0;
-                if (vtOutBits_ > 10)
-                    vtOut_ = 0;
+                serialEf_ = (externalTransmitValue_ & 1) ? 1 : 0;
+                if (externalTransmitTotalBitCounter_ > 10)
+                    externalTransmitValue_ = 0;
                 else
-                    vtOut_ = (vtOut_ >> 1) | 128;
+                    externalTransmitValue_ = (externalTransmitValue_ >> 1) | 128;
             }
-            vtOutCount_ = baudRateT_;
-            if (vtOutBits_ == 2)
+            externalTransmitTimeCounter_ = baudRateT_;
+            if (externalTransmitTotalBitCounter_ == 2)
                 serialEf_ = 1;
-            if (--vtOutBits_ == 0)
+            if (--externalTransmitTotalBitCounter_ == 0)
             {
-                vtOut_ = 0;
+                externalTransmitValue_ = 0;
                 dataAvailableUart(1);
-                vtOutCount_ = -1;
-                vtOutBits_=10;
+                externalTransmitTimeCounter_ = -1;
+                externalTransmitTotalBitCounter_=10;
             }
-            if (vtOutBits_ == 11)
+            if (externalTransmitTotalBitCounter_ == 11)
             {
                 serialEf_ = 1;
-                vtOutCount_ = -1;
-                vtOutBits_=10;
+                externalTransmitTimeCounter_ = -1;
+                externalTransmitTotalBitCounter_=10;
             }
         }
     }
     else
     {
-        if (vtOutCount_ == 0)
+        if (externalTransmitTimeCounter_ == 0)
         {
             dataAvailableUart(1);
-            vtOutCount_ = -1;
+            externalTransmitTimeCounter_ = -1;
         }
     }
 }
 
-void Serial::uartTerminalIn()
+void Serial::externalUartReceive() // output from external device
 {
-    vtCount_--;
-    if (vtCount_ <= 0)
+    externalReceiveTimeCounter_--;
+    if (externalReceiveTimeCounter_ <= 0)
     {
         if (sp_output_waiting(port) == 0 && uartStatus_[uart_thre_bit_] == 0 && serialOpen_)
         {
-#if defined(__ARM64__)
-            sp_blocking_write(port, &rs232_, 1, 60);
-#else
-            sp_nonblocking_write(port, &rs232_, 1);
-#endif
+            if (currentComputerConfiguration.videoTerminalConfiguration.externalBlockingWrite)
+                sp_blocking_write(port, &externalReceiveValue_, 1, 60);
+            else
+                sp_nonblocking_write(port, &externalReceiveValue_, 1);
             p_Computer->thrStatusSerial(0);
             uartStatus_[uart_thre_bit_] = 1;
             uartStatus_[uart_tsre_bit_] = 1;
         }
         if (loopBack_ && uartStatus_[uart_thre_bit_] == 0)
         {
-            loopInput_ = rs232_;
-            rs232_ = 0;
+            loopInput_ = externalReceiveValue_;
+            externalReceiveValue_ = 0;
 
             p_Computer->thrStatusSerial(0);
             uartStatus_[uart_thre_bit_] = 1;
             uartStatus_[uart_tsre_bit_] = 1;
         }
-        vtCount_ = baudRateR_ * numberOfBitsPerByte_;
+        externalReceiveTimeCounter_ = baudRateR_ * totalNumberOfBitsPerCharacter_;
     }
 }
 
-void Serial::serialTerminalOut()
+void Serial::externalSerialTransmit() // input from external device
 {
-    vtOutCount_--;
-    if (vtOutCount_ <= 0)
-    { // input from terminal
-        serialEf_ = (vtOut_ & 1) ? 1 : 0;
-        vtOut_ = (vtOut_ >> 1) | 128;
-        vtOutCount_ = baudRateT_;
-        if (SetUpFeature_[VTPARITY])
+    externalTransmitTimeCounter_--;
+    if (externalTransmitTimeCounter_ <= 0)
+    {
+        if (externalTransmitDataBitCounter_-- > 0)
         {
-            if (vtOutBits_ == 3)
-                serialEf_ = parity_;
-            if (vtOutBits_ == 2)
-                serialEf_ = 1;
+            serialEf_ = (externalTransmitValue_ & 1) ? 1 : 0;
+            externalTransmitValue_ = (externalTransmitValue_ >> 1) | 128;
         }
         else
         {
-            if (vtOutBits_ == 2)
+            if (currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].parity && externalTransmitDataBitCounter_ == -1)
+                serialEf_ = parity_;
+            else
                 serialEf_ = 1;
         }
-        if (--vtOutBits_ == 0)
+        externalTransmitTimeCounter_ = baudRateT_;
+        if (--externalTransmitTotalBitCounter_ == 0)
         {
-            vtOut_ = 0;
-            vtOutSet_ = false;
+            externalTransmitValue_ = 0;
+            externalTransmitValueSet_ = false;
             p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
-            vtOutCount_ = -1;
+            externalTransmitTimeCounter_ = -1;
         }
     }
 }
 
-void Serial::serialTerminalIn()
+void Serial::externalSerialReceive() // output to external device
 {
-    if (vtCount_ >= 0)
-    { // output to terminal
-
-        vtCount_--;
-        if (vtCount_ <= 0)
+        externalReceiveTimeCounter_--;
+        if (externalReceiveTimeCounter_ <= 0)
         {
-            if (SetUpFeature_[VTPARITY])
+            if (externalReceiveDataBitCounter_ > 0)
             {
-                if (vtBits_ > 2)
+                externalReceiveValue_ >>= 1;
+                externalReceiveValue_ |= (flipFlopQ_ ^ reverseQ_) ? 128 : 0;
+
+                if (--externalReceiveDataBitCounter_ == 0)
                 {
-                    rs232_ >>= 1;
-                    rs232_ |= (p_Computer->getFlipFlopQ() ^ reverseQ_) ? 0 : 128;
-                }
-                if (vtBits_ == 2)
-                {
-                    if (!SetUpFeature_[VTBITS])
-                        rs232_ >>= 1;
-                    if (Parity(rs232_) != p_Computer->getFlipFlopQ())
-                        rs232_ = 2;
+                    for (int i=0; i<(8-currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].bitsPerCharacter); i++)
+                        externalReceiveValue_ >>= 1;
                 }
             }
-            else
+
+            externalReceiveTimeCounter_ = baudRateR_;
+            if (externalReceiveTotalBitCounter_ == 2 && stopBitFactor_ != 0)
+                externalReceiveTimeCounter_ = baudRateR_ * (1+ stopBitFactor_);
+
+            if (--externalReceiveTotalBitCounter_ == 0)
             {
-                if (vtBits_ > 1)
-                {
-                    rs232_ >>= 1;
-                    rs232_ |= (p_Computer->getFlipFlopQ() ^ reverseQ_) ? 0 : 128;
-                }
-                if (vtBits_ == 1)
-                {
-                    if (!SetUpFeature_[VTBITS])
-                        rs232_ >>= 1;
-                }
-            }
-            vtCount_ = baudRateR_;
-            if (--vtBits_ == 0)
-            {
-                vtCount_ = -1;
-                rs232_ = rs232_ & 0x7f;
+                externalReceiveTimeCounter_ = -1;
                 if (serialOpen_)
                 {
-#if defined(__ARM64__)
-                    sp_blocking_write(port, &rs232_, 1, 60);
-#else
-                    sp_nonblocking_write(port, &rs232_, 1);
-#endif
-                    while (sp_output_waiting(port) > 0)
-                                   ;
+                    if (currentComputerConfiguration.videoTerminalConfiguration.externalBlockingWrite)
+                        sp_blocking_write(port, &externalReceiveValue_, 1, 60);
+                    else
+                        sp_nonblocking_write(port, &externalReceiveValue_, 1);
+                    
+                    while (sp_output_waiting(port) > 0);
                 }
                 if (loopBack_)
                 {
-                    loopInput_ = rs232_;
-                    rs232_ = 0;
+                    loopInput_ = externalReceiveValue_;
+                    externalReceiveValue_ = 0;
                 }
             }
         }
-    }
 }
 
 Byte Serial::readReceiverHoldingRegister()
@@ -587,13 +556,11 @@ void Serial::serialDataOutput(Byte transmitterHoldingRegister)
 {
     if (serialOpen_)
     {
-#if defined(__ARM64__)
-        sp_blocking_write(port, &transmitterHoldingRegister, 1, 60);
-#else
-        sp_nonblocking_write(port, &transmitterHoldingRegister, 1);
-#endif
-        while (sp_output_waiting(port) > 0)
-                       ;
+        if (currentComputerConfiguration.videoTerminalConfiguration.externalBlockingWrite)
+            sp_blocking_write(port, &transmitterHoldingRegister, 1, 60);
+        else
+            sp_nonblocking_write(port, &transmitterHoldingRegister, 1);
+        while (sp_output_waiting(port) > 0);
     }
     if (loopBack_)
         loopInput_ = transmitterHoldingRegister;
@@ -601,18 +568,16 @@ void Serial::serialDataOutput(Byte transmitterHoldingRegister)
 
 void Serial::switchQ(int value)
 {
-    if (vtCount_ < 0)
+    flipFlopQ_ = value;
+
+    if (externalReceiveTimeCounter_ < 0)
     {
-        if (value ^ reverseQ_)
+        if ((value ^ reverseQ_) == 0)
         {
-            vtCount_ = baudRateR_ + baudRateR_ / 2;
-            if (SetUpFeature_[VTBITS])
-                vtBits_ = 9;
-            else
-                vtBits_ = 8;
-            if (SetUpFeature_[VTPARITY])
-                vtBits_++;
-            rs232_ = 0;
+            externalReceiveTimeCounter_ = baudRateR_ + baudRateR_ / 2;
+            externalReceiveTotalBitCounter_ = totalNumberOfBitsPerCharacter_;
+            externalReceiveDataBitCounter_ = currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].bitsPerCharacter;
+            externalReceiveValue_ = 0;
         }
     }
 }
@@ -625,20 +590,13 @@ void Serial::setCycle()
 
 int Serial::Parity(int value)
 {
-    int i;
-    int par;
-    par = 0;
-    int numberOfBits;
-    if (SetUpFeature_[VTBITS])
-        numberOfBits = 8;
-    else
-        numberOfBits = 7;
-    for (i=0; i<numberOfBits; i++)
+    int par=0;
+    for (int i=0; i<currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].bitsPerCharacter; i++)
     {
         if (value & 1) par++;
         value >>= 1;
     }
-    if (SetUpFeature_[VTPARITYSENSE])
+    if (currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].paritySense)
         return(par & 1);
     else
         return((par & 1) ^ 1);
@@ -650,9 +608,9 @@ void Serial::dataAvailable()
         return;
     
     if (uartEf_)
-        vtOutCount_ = baudRateT_ * 9;
+        externalTransmitTimeCounter_ = baudRateT_ * 9;
     else
-        vtOutCount_ = baudRateT_;
+        externalTransmitTimeCounter_ = baudRateT_;
 }
 
 void Serial::dataAvailable(Byte value)
@@ -660,18 +618,18 @@ void Serial::dataAvailable(Byte value)
     if (terminalType_ == TERMINAL_SERIAL)
         return;
     
-    vtOut_ = value;
+    externalTransmitValue_ = value;
     if (uartEf_)
     {
-        if (vtOut_ == WXK_ESCAPE)
+        if (externalTransmitValue_ == WXK_ESCAPE)
         {
-            vtOut_ = 0;
-            vtOutBits_ = (58240/baudRateT_)+11;
+            externalTransmitValue_ = 0;
+            externalTransmitTotalBitCounter_ = (58240/baudRateT_)+11;
         }
-        vtOutCount_ = baudRateT_ * 9;
+        externalTransmitTimeCounter_ = baudRateT_ * 9;
     }
     else
-        vtOutCount_ = baudRateT_;
+        externalTransmitTimeCounter_ = baudRateT_;
 
     uartStatus_[uart_da_bit_] = 1;
 }
@@ -700,16 +658,15 @@ void Serial::uartOut(Byte value)
     {
         if (sp_output_waiting(port) == 0)
         {
-    #if defined(__ARM64__)
-            sp_blocking_write(port, &value, 1, 60);
-    #else
-            sp_nonblocking_write(port, &value, 1);
-    #endif
-            vtCount_ = baudRateR_ * numberOfBitsPerByte_;
+            if (currentComputerConfiguration.videoTerminalConfiguration.externalBlockingWrite)
+                sp_blocking_write(port, &value, 1, 60);
+            else
+                sp_nonblocking_write(port, &value, 1);
+            externalReceiveTimeCounter_ = baudRateR_ * totalNumberOfBitsPerCharacter_;
         }
         else
         {
-            rs232_ = value;
+            externalReceiveValue_ = value;
             
             p_Computer->thrStatusSerial(1);
             uartStatus_[uart_thre_bit_] = 0;
@@ -718,7 +675,7 @@ void Serial::uartOut(Byte value)
     }
     if (loopBack_)
     {
-        rs232_ = value;
+        externalReceiveValue_ = value;
 
         p_Computer->thrStatusSerial(1);
         uartStatus_[uart_thre_bit_] = 0;

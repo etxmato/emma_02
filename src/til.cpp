@@ -107,10 +107,10 @@ void Til311::update(wxDC& dc, int NewNumber)
     displayedNumber_ = NewNumber;
 }
 
-Til313::Til313()
+Til313::Til313(wxString imageName)
 :Til()
 {
-    tilBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til313.png", wxBITMAP_TYPE_PNG);
+    tilBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/"+ imageName + ".png", wxBITMAP_TYPE_PNG);
     
     dcMemory.SelectObject(*tilBitmapPointer);
 }

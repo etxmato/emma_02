@@ -135,7 +135,7 @@ void XmlBase::disableIoPortConfigRadio(wxString registerIdentifier)
     XRCCTRL(*this, registerIdentifier, wxRadioButton)->Enable(false);
 }
 
-void XmlBase::setIoPortConfig(IoPort ioport, wxString registerIdentifier, wxString checkBoxLabel, wxString textLabel, bool sixteenBit)
+void XmlBase::setIoPortConfig(IoPort ioport, wxString registerIdentifier, wxString checkBoxLabel, wxString directionLabel, bool sixteenBit, wxString qLabel)
 {
     XRCCTRL(*this, registerIdentifier+"Trace", wxCheckBox)->Enable(true);
     XRCCTRL(*this, registerIdentifier+"Direction", wxStaticText)->Enable(true);
@@ -144,8 +144,9 @@ void XmlBase::setIoPortConfig(IoPort ioport, wxString registerIdentifier, wxStri
     XRCCTRL(*this, registerIdentifier, wxTextCtrl)->Enable(true);
 
     XRCCTRL(*this, registerIdentifier+"Trace", wxCheckBox)->SetLabel(checkBoxLabel);
-    XRCCTRL(*this, registerIdentifier+"Direction", wxStaticText)->SetLabel(textLabel);
+    XRCCTRL(*this, registerIdentifier+"Direction", wxStaticText)->SetLabel(directionLabel);
 
+    wxString textLabel;
     if (ioport.addressMode)
     {
         if (sixteenBit)
@@ -157,14 +158,12 @@ void XmlBase::setIoPortConfig(IoPort ioport, wxString registerIdentifier, wxStri
         textLabel.Printf("%d", ioport.portNumber[0]);
     XRCCTRL(*this, registerIdentifier+"Port", wxStaticText)->SetLabel(textLabel);
 
-    if (ioport.qValue == -1)
-        textLabel = "-";
-    else
-        textLabel.Printf("%d", ioport.qValue);
-    XRCCTRL(*this, registerIdentifier+"Q", wxStaticText)->SetLabel(textLabel);
+    if (ioport.qValue != -1)
+        qLabel.Printf("%d", ioport.qValue);
+    XRCCTRL(*this, registerIdentifier+"Q", wxStaticText)->SetLabel(qLabel);
 }
 
-void XmlBase::setIoPortConfig(wxString registerIdentifier, wxString checkBoxLabel, wxString textLabel)
+void XmlBase::setIoPortConfig(wxString registerIdentifier, wxString checkBoxLabel, wxString directionLabel, wxString portLabel, wxString qLabel)
 {
     XRCCTRL(*this, registerIdentifier+"Trace", wxCheckBox)->Enable(true);
     XRCCTRL(*this, registerIdentifier+"Direction", wxStaticText)->Enable(true);
@@ -173,10 +172,10 @@ void XmlBase::setIoPortConfig(wxString registerIdentifier, wxString checkBoxLabe
     XRCCTRL(*this, registerIdentifier, wxTextCtrl)->Enable(true);
 
     XRCCTRL(*this, registerIdentifier+"Trace", wxCheckBox)->SetLabel(checkBoxLabel);
-    XRCCTRL(*this, registerIdentifier+"Direction", wxStaticText)->SetLabel(textLabel);
+    XRCCTRL(*this, registerIdentifier+"Direction", wxStaticText)->SetLabel(directionLabel);
 
-    XRCCTRL(*this, registerIdentifier+"Port", wxStaticText)->SetLabel("-");
-    XRCCTRL(*this, registerIdentifier+"Q", wxStaticText)->SetLabel("-");
+    XRCCTRL(*this, registerIdentifier+"Port", wxStaticText)->SetLabel(portLabel);
+    XRCCTRL(*this, registerIdentifier+"Q", wxStaticText)->SetLabel(qLabel);
 }
 
 void XmlBase::setIoPortConfigRadio(IoPort ioport, wxString registerIdentifier, wxString checkBoxLabel, wxString textLabel)
@@ -637,4 +636,44 @@ double XmlBase::getDouble(wxString doubleString, wxString tag, double max, wxStr
         return 1;
     }
     return floatValue;
+}
+
+int XmlBase::textToColorCode(wxString color, bool returnMinusOnNotFound)
+{
+	if (color == "black")
+        return GUI_COL_BLACK;
+	if (color == "blue")
+        return GUI_COL_BLUE;
+	if (color == "pink")
+        return GUI_COL_PINK;
+	if (color == "red")
+        return GUI_COL_RED;
+	if (color == "orange")
+        return GUI_COL_ORANGE;
+	if (color == "purple")
+        return GUI_COL_PURPLE;
+	if (color == "steel")
+        return GUI_COL_STEEL;
+	if (color == "grey")
+        return GUI_COL_GREY;
+	if (color == "green")
+        return GUI_COL_GREEN;
+	if (color == "white")
+        return GUI_COL_WHITE;
+    
+    if (returnMinusOnNotFound)
+        return -1;
+    
+    return GUI_COL_BLACK;
+}
+
+wxColour XmlBase::textToWxColour(wxString color)
+{
+    int red, green, blue;
+
+    red = (int)getNextHexDec(&color) & 0xff;
+    green = (int)getNextHexDec(&color) & 0xff;
+    blue = (int)getNextHexDec(&color) & 0xff;
+
+    return wxColour (red, green, blue);
 }
