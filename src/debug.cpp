@@ -62,305 +62,9 @@
 #define PROFILER_OFFSET 6
 #endif
 #if defined (__WXMAC__)
-#define EDIT_ROW 15
+#define EDIT_ROW 14
 #define PROFILER_OFFSET 5
 #endif
-
-enum
-{
-    CHIP8_VX,           //0
-    CHIP8_VX_MEM,       //1
-    ASS_HEX_VALUE,      //2
-    ASS_HEX_VALUE_MEM,  //3
-    ASS_STRING,         //4
-    ASS_REG,            //5
-    ASS_SLOT,           //6
-    FEL_C,              //7
-    CHIP8_VX_MEM_1,     //8
-    AM_REG_MEM,
-    DUMMY10,
-    DUMMY11,
-    DUMMY12,
-    DUMMY13,
-    DUMMY14,
-    DUMMY15,
-    DUMMY16,
-    DUMMY17,
-    DUMMY18,
-    DUMMY19,
-    DUMMY20,
-    DUMMY21,
-    DUMMY22,
-    ERROR_START,
-    ERROR_4BIT,
-    ERROR_8BIT,
-    ERROR_16BIT,
-    ERROR_12BIT,
-    ERROR_SP,
-    ERROR_NS_8,
-    ERROR_NS_8X,
-    ERROR_NS_ETI,
-    ERROR_NO_SLASH,
-    ERROR_2ND_REG,
-    ERROR_NO_REG0,
-    DUMMY_JUMP,
-    ERROR_ONLY_REG0,
-    ERROR_ONLY_REGB,
-    ERROR_ONLY_REGC,
-    ERROR_NO_VALUE_0,
-    ERROR_NO_VALUE_F,
-    ERROR_ONLY_VALUE_0,
-    ERROR_4REG,
-    ERROR_8REG,
-    ERROR_SYNTAX,
-    ERROR_REG,
-    ERROR_DEC,
-    ERROR_REG_EXP,
-    ERROR_PAR,
-    ERROR_IO,
-    ERROR_COMMA,
-    ERROR_MINUS,
-    ERROR_AMP,
-    ERROR_PLUS,
-    ERROR_EQUAL,
-    ERROR_SLASH,
-    ERROR_DASH,
-    ERROR_CPU_1802,
-    ERROR_CPU_1804,
-    ERROR_INST,
-    ERROR_COMMAND_SEP,
-    ERROR_SPRITE,
-    ERROR_VIDEO,
-    ERROR_LD,
-    ERROR_CLR,
-    ERROR_NO_ADDRESS,
-    ERROR_END_START,
-    ERROR_DEBUG_CLEAR,
-    ERROR_DEBUG_ADDRESS,
-    ERROR_COMPUTER_NOT_RUNNING,
-    ERROR_NO_RANGE,
-    ERROR_INVALID_START,
-    ERROR_INVALID_FILE_NAME,
-    ERROR_FILE_NOTFOUND,
-    ERROR_REGAND16,
-    ERROR_MACRO_NOT_FOUND,
-    ERROR_MEMORY_WARNING,
-    ERROR_SLOT,
-    ERROR_SLOT_RANGE,
-    ERROR_PAGE_RANGE,
-    ERROR_CONF_SAVED,
-    ERROR_CONF_LOADED,
-    ERROR_COPIED_NO_JUMPS,
-    ERROR_COPIED_JUMPS,
-    ERROR_CPU_1801,
-    ERROR_CPU_SYSTEM00,
-    ERROR_CPU_ONLY_SYSTEM00,
-    ERROR_STUDIO_CHIP_ADDRESS,
-    ERROR_FEL2_CHIP_ADDRESS,
-    ERROR_FPL_CHIP_ADDRESS,
-    ERROR_RAM_CHIP_ADDRESS,
-    ERROR_STUDIO_CHIP_ADDRESS_I,
-    ERROR_STUDIOIV_ADDRESS_I,
-    ERROR_CARDTRAN_ADDRESS,
-    ERROR_CARDTRAN_DR,
-    ERROR_COMX_NOT_RUNNING,
-    WARNING_MISSING_SLOT_ADDRESS,
-    ERROR_HEX,
-    ERROR_HEX_MEM,
-    ERROR_HEX_TO_HIGH,
-    ERROR_NO_COMPUTER_RUNNING,
-    ERROR_INCORR_ADDRESS,
-    ERROR_MISSING_PAR,
-    ERROR_INCORRECT_REG,
-    ERROR_SYNTAX_FILE,
-    ERROR_TEMP_PAR,
-    ERROR_TEMP_CPU_1801,
-    ERROR_COMX_SB_NOT_RUNNING,
-    ERROR_LAST,
-};
-
-wxString DirAssErrorCodes[] =
-{
-    "4 bit value expected",
-    "8 bit value expected",
-    "16 bit value expected",
-    "12 bit value expected",
-    "sprite number 0 to 7 expected",
-    "Not supported on Chip-8",
-    "Not supported on Chip-8X",
-    "Not supported on ETI Chip-8",
-    "Seperator not allowed",
-    "Second register value incorrect",
-    "Register 0 not allowed",
-    "Only register 0 allowed",
-    "Dummy for JUMP",
-    "Only register B allowed",
-    "Only register C allowed",
-    "Value 0 not allowed",
-    "Value F not allowed",
-    "Only fill with 0 allowed",
-    "4 bit value or register expected",
-    "8 bit value or register expected",
-    "Syntax error",
-    "Register value not recognized",
-    "Decimal value not recognized",
-    "Register value expected",
-    "Too many parameters",
-    "I/O value not recognized",
-    "Comma expected after parameter",
-    "Minus expected after parameter",
-    "Ampersand expected after parameter",
-    "Plus expected after parameter",
-    "Equal sign expected after parameter",
-    "Slash expected after parameter",
-    "Dash expected after parameter",
-    "Not supported on CDP1802",
-    "Not supported on CDP1804,",
-    "Instruction not recognized",
-    "Space expected after command",
-    "Incorrect sprite (SP) command",
-    "Incorrect video command",
-    "Incorrect load (LD) command",
-    "Incorrect colour (CLR) command",
-    "No address specified",
-    "Start > end specified",
-    "Debug memory cleared",
-    "Not within any address range",
-    "Computer not running",
-    "No range defined",
-    "Specify: end > code end >= start",
-    "No file name specified",
-    "File not found",
-    "Register and 16 bit value expected",
-    "Macro not found in memory",
-    "Memory warning!",
-    "Slot or page value not recognized",
-    "Slot conig: > C000 and < DFFF",
-    "Page conig: > 8000 and < BFFF",
-    "Configuartion saved",
-    "Configuration loaded",
-    "Copied, NO branches corrected",
-    "Copied, long branches corrected",
-    "Not supported on CDP1801 or SYSTEM 00",
-    "Not supported on SYSTEM 00",
-    "Only supported on SYSTEM 00",
-    "Specify address > 2FC and <= FFF",
-    "Specify address > 1FF and <= FFF",
-    "Specify address >= 600 and <= 6FF",
-    "Specify address >= 800 and <= 8FF",
-    "Specify address >= 100 and <= FFF",
-    "Specify address >= 2700 and <= 27FF",
-    "Specify address >= 200 and <= 2C6",
-    "Parameter DR missing",
-    "COMX-35 not running",
-    "Warning: no slot specified",
-    "Hexadecimal value expected",
-    "Hexadecimal address expected",
-    "Hexadecimal value to high",
-    "No computer running",
-    "Incorrect address value",
-    "Missing parameter",
-    "Incorrect register value",
-    "Error in syntax file",
-    "Too many parameters",
-    "Not supported on CDP1801 or SYSTEM 00",
-    "COMX SuperBoard not running",
-};
-
-int opCode[] =
-{
-    0x74, 0x7c, 0xf4, 0xfc, 0xf2, 0xfa, // A
-    0x34, 0x35, 0x36, 0x37, 0x68, 0x33, 0x33, 0x3b, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f, 0x3b, 0x39, 0x3a, 0x33, 0x31, 0x30, 0x68, 0x32, // B
-    0x68, 0x68, // C
-    0x68, 0x68, 0x68, 0x68, 0x68, 0x20, 0x71, 0x68, 0x68, 0x68, 0x68, 0x68, 0x68, // D
-    0x68, // E
-    0x68, 0x90, 0x80, // G
-    0x00, 0x10, 0x69, 0x60, // I
-    0xc3, 0xcb, 0xc9, 0xca, 0xc1, 0xc0, 0xc2, 0x40, 0x68, 0xf8, 0x00, 0xf0, 0x72, 0xcf, 0xcc, 0xc8, 0xc7, 0xc5, 0xc6, 0xcd, 0xce, // L
-    0x79, // M
-    0x38, 0xc8, 0xc4, // N
-    0xf1, 0xf9, 0x61, // O
-    0xb0, 0xa0, 0xc0, // P
-    0x7a, 0x70, 0x68, 0x68, 0x68, 0x7e, 0x76, 0x68, // R
-    0x78, 0x68, 0x68, 0x68, 0xf5, 0x75, 0x7d, 0xfd, 0xd0, 0x7b, 0xe0, 0xfe, 0x7e, 0xf6, 0x76, 0x38, 0xf7, 0x77, 0x7f, 0xff, 0x68, 0x68, 0x68, 0x68, 0x68, 0x50, 0x73, // S
-    0x68, 0x68, 0xf3, 0xfb // X
-};
-
-int opCode2[] =
-{
-    0x30, 0x30, 0x30, 0x30, 0x30, 0x30, // A
-    0x30, 0x30, 0x30, 0x30, 0x3e, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x3f, 0x30, // B
-    0x0d, 0x0c, // C
-    0x7c, 0x74, 0xf4, 0xfc, 0x20, 0x30, 0x30, 0x76, 0x7f, 0xf7, 0x77, 0xff, 0x01, // D
-    0x09,
-    0x08, 0x30, 0x30, // G
-    0x30, 0x30, 0x30, 0x30, // I
-    0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x06, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, // L
-    0x30, // M
-    0x30, 0x30, 0x30, // N
-    0x30, 0x30, 0x30, // O
-    0x30, 0x30, 0xc0, // P
-    0x30, 0x30, 0xc0, 0x60, 0xb0, 0x30, 0x30, 0xa0, // R
-    0x30, 0x80, 0x05, 0x03, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x04, 0x02, 0x90, 0x07, 0x00, 0x30, 0x30, // S
-    0x0b, 0x0a, 0x30, 0x30 // X
-};
-
-int macro[] =
-{
-    0, 0, 0, 0, 0, 0, // A
-    0, 0, 0, 0, 0, 0, MEM_TYPE_OPCODE_BGE, MEM_TYPE_OPCODE_BL, MEM_TYPE_OPCODE_BM, 0, 0, 0, 0, 0, 0, 0, MEM_TYPE_OPCODE_BPZ, 0, 0, 0, 0, // B
-    0, 0, // C
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // D
-    0,
-    0, 0, 0, // G
-    0, 0, 0, 0, // I
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, MEM_TYPE_OPCODE_LSKP, 0, 0, 0, 0, 0, // L
-    0, // M
-    0, 0, 0, // N
-    0, 0, 0, // O
-    0, 0, 0, // P
-    0, 0, 0, 0, 0, MEM_TYPE_OPCODE_RSHL, MEM_TYPE_OPCODE_RSHR, 0, // R
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, MEM_TYPE_OPCODE_SKP, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // S
-    0, 0, 0, 0 // X
-};
-
-int minCpuType[] =
-{
-    CPU1802, CPU1802, SYSTEM00, CPU1801, SYSTEM00, CPU1801, // A
-    SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, CPU1804, SYSTEM00, SYSTEM00, CPU1801, CPU1801, CPU1801, CPU1801, CPU1801, CPU1801, CPU1801, CPU1802, SYSTEM00, SYSTEM00, CPU1802, SYSTEM00, CPU1804, SYSTEM00, // B
-    CPU1804, CPU1804, // C
-    CPU1805, CPU1805, CPU1805, CPU1805, CPU1805, SYSTEM00, CPU1801, CPU1805, CPU1805, CPU1805, CPU1805, CPU1805, CPU1804, // D
-    CPU1804,
-    CPU1804, SYSTEM00, SYSTEM00, // G
-    SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, // I
-    CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, SYSTEM00, CPU1804, CPU1801, SYSTEM00, SYSTEM00, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, // L
-    CPU1802, // M
-    CPU1801, CPU1802, CPU1802, // N
-    SYSTEM00, CPU1801, SYSTEM00, // O
-    SYSTEM00, SYSTEM00, SYSTEM00, // P
-    CPU1802, SYSTEM00, CPU1804, CPU1804, CPU1804, CPU1802, CPU1802, CPU1804, // R
-    SYSTEM00, CPU1804, CPU1804, CPU1804, SYSTEM00, CPU1802, CPU1802, CPU1801, SYSTEM00, CPU1802, SYSTEM00, CPU1802, CPU1802, SYSTEM00, CPU1802, CPU1801, SYSTEM00, CPU1802, CPU1802, CPU1801, CPU1804, CPU1804, CPU1804, CPU1804, CPU1804, SYSTEM00, CPU1802, // S
-    CPU1804, CPU1804, SYSTEM00, CPU1801 // X
-};
-
-int numberOfBytes[] =
-{
-    1, 2, 1, 2, 1, 2,
-    2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2,
-    2, 2, // C
-    3, 2, 2, 3, 4, 1, 1, 2, 3, 2, 2, 3, 2, // D
-    2,
-    2, 1, 1,
-    1, 1, 2, 1, // I
-    3, 3, 3, 3, 3, 3, 3 , 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 , 1,
-    1,
-    1, 1, 1,
-    1, 2, 2, // O
-    1, 1, 1, // P
-    1, 1, 4, 2, 2, 1, 1, 2,// R
-    1, 4, 2, 2, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, // S
-    2, 2, 1, 2
-};
 
 int numberOfBytesSystem00[] =
 {
@@ -442,25 +146,6 @@ int numberOfBytes1806[] =
     0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 3, 0, 0, 3,  // Fx
 };
 
-bool useRegister[] =
-{
-    false, false, false, false, false, false,
-    false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-    false, false, // C
-    false, false, false, false, true, true, false, false, false, false, false, false, false, // D
-    false,
-    false, true, true,
-    false, true, false, false,
-    false, false, false, false, false, false, false, true, false, false, true, false, false, false, false, false, false, false, false, false, false,
-    false,
-    false, false, false,
-    false, false, false,
-    true, true, true,
-    false, false, true, true, false, false, true, // R
-    false, true, true, false, false, false, false, false, false, true, false, true, false, false, false, false, false, false, false, false, false, false, false, true, false, false, true, false,
-    false, false, false, false,
-};
-
 int jumpCorrection[] =
 {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  // 0
@@ -522,7 +207,7 @@ int locationCorrection[]=
 #endif
 };
 
-BEGIN_EVENT_TABLE(DebugWindow, GuiComx)
+BEGIN_EVENT_TABLE(DebugWindow, GuiDebugger)
 
     EVT_CHECKBOX(XRCID("DebugMode"), Main::onDebugMode)
 
@@ -541,39 +226,12 @@ BEGIN_EVENT_TABLE(DebugWindow, GuiComx)
     EVT_BUTTON(XRCID("DebugStepButton"), DebugWindow::onDegugStepButton)
     EVT_BUTTON(XRCID("DebugRunButton"), DebugWindow::onDebugRunButton)
     EVT_TEXT(XRCID("DebugRunAddress"), DebugWindow::onRunAddress)
-    EVT_TEXT_ENTER(XRCID("BreakPointAddress"), DebugWindow::onBreakPointSet)
     EVT_TEXT(XRCID("TregValue"), DebugWindow::onTregValue)
     EVT_TEXT(XRCID("NumberOfSteps"), DebugWindow::onNumberOfSteps)
-
-    EVT_BUTTON(XRCID("BreakPointSet"), DebugWindow::onBreakPointSet)
-    EVT_BUTTON(XRCID("TregSet"), DebugWindow::onTregSet)
-    EVT_TEXT_ENTER(XRCID("TregValue"), DebugWindow::onTregSet)
-    EVT_CHOICE(XRCID("TrapCommand"), DebugWindow::onTrapCommand)
-    EVT_BUTTON(XRCID("TrapSet"), DebugWindow::onTrapSet)
-    EVT_TEXT_ENTER(XRCID("TrapValue"), DebugWindow::onTrapSet)
-
-    EVT_LIST_DELETE_ITEM(XRCID("BreakPointWindow"), DebugWindow::deleteBreakPoint)
-    EVT_LIST_DELETE_ITEM(XRCID("TregWindow"), DebugWindow::deleteTreg)
-    EVT_LIST_DELETE_ITEM(XRCID("TrapWindow"), DebugWindow::deleteTrap)
-    EVT_LIST_END_LABEL_EDIT(XRCID("BreakPointWindow"), DebugWindow::editBreakPoint)
-    EVT_LIST_END_LABEL_EDIT(XRCID("TregWindow"), DebugWindow::editTreg)
-    EVT_LIST_END_LABEL_EDIT(XRCID("TrapWindow"), DebugWindow::editTrap)
-
-    EVT_LIST_ITEM_SELECTED(XRCID("BreakPointWindow"), DebugWindow::selectBreakPoint)
-    EVT_LIST_ITEM_DESELECTED(XRCID("BreakPointWindow"), DebugWindow::deselectBreakPoint)
-    EVT_LIST_KEY_DOWN(XRCID("BreakPointWindow"), DebugWindow::keyBreakPoint)
 
     EVT_LIST_ITEM_SELECTED(XRCID("Chip8BreakPointWindow"), DebugWindow::selectChip8BreakPoint)
     EVT_LIST_ITEM_DESELECTED(XRCID("Chip8BreakPointWindow"), DebugWindow::deselectChip8BreakPoint)
     EVT_LIST_KEY_DOWN(XRCID("Chip8BreakPointWindow"), DebugWindow::keyChip8BreakPoint)
-
-    EVT_LIST_ITEM_SELECTED(XRCID("TregWindow"), DebugWindow::selectTreg)
-    EVT_LIST_ITEM_DESELECTED(XRCID("TregWindow"), DebugWindow::deselectTreg)
-    EVT_LIST_KEY_DOWN(XRCID("TregWindow"), DebugWindow::keyTreg)
-
-    EVT_LIST_ITEM_SELECTED(XRCID("TrapWindow"), DebugWindow::selectTrap)
-    EVT_LIST_ITEM_DESELECTED(XRCID("TrapWindow"), DebugWindow::deselectTrap)
-    EVT_LIST_KEY_DOWN(XRCID("TrapWindow"), DebugWindow::keyTrap)
 
     EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("PercentageClock"), DebugWindow::onPercentageClock)
     EVT_COMMAND_SCROLL_CHANGED(XRCID("PercentageClock"), DebugWindow::onPercentageClock)
@@ -1016,22 +674,20 @@ vector<Word> dirAssDataEndVector(0);
 vector<Byte> dirAssSlotVector(0);
 
 DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
-: GuiComx(title, pos, size, mode, dataDir, iniDir)
+: GuiDebugger(title, pos, size, mode, dataDir, iniDir)
 {
     traceString_ = "";
     updatingTraceString_ = false;
-    numberOfBreakPoints_ = 0;
     numberOfChip8BreakPoints_ = 0;
-    numberOfTraps_ = 0;
-    numberOfTregs_ = 0;
     debugMode_ = false;
     chip8DebugMode_ = false;
     protectedMode_ = true;
     chip8ProtectedMode_ = true;
     traceDma_ = false;
-    traceChip8Int_ = false; 
+    traceDmaMt_ = false;
+    traceChip8Int_ = false;
     traceInt_ = false;
-    traceTrap_ = false;
+    breakTrap_ = true;
     trace_ = false;
     chip8Trace_ = false;
     additionalChip8Details_ = false;
@@ -1045,10 +701,10 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
     showInstructionTrap_ = false;
     dataViewDump = true;
     dataViewProfiler = true;
-    selectedBreakPoint_ = -1;
     selectedChip8BreakPoint_ = -1;
-    selectedTreg_ = -1;
-    selectedTrap_ = -1;
+    selectedInstructionTrap_ = -1;
+    selectedmemoryTrap_ = -1;
+    
     emsNumber_ = 0;
 
     pauseOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/pause_on.png", wxBITMAP_TYPE_PNG);
@@ -1130,11 +786,8 @@ void DebugWindow::readDebugConfig()
     if (!mode_.gui)
         return;
 #if defined (__WXMSW__)
-    breakPointWindowPointer->SetImageList(imageList_, wxIMAGE_LIST_SMALL);
     chip8BreakPointWindowPointer->SetImageList(imageList_, wxIMAGE_LIST_SMALL);
-    tregWindowPointer->SetImageList(imageList_, wxIMAGE_LIST_SMALL);
-    trapWindowPointer->SetImageList(imageList_, wxIMAGE_LIST_SMALL);
-#endif    
+#endif
     XRCCTRL(*this, "ProfilerBitmap", wxStaticBitmap)->SetSize(profilerWidth_, (numberOfDebugLines_-PROFILER_OFFSET)*lineSpace_+4);
     XRCCTRL(*this, "AssBitmap", wxStaticBitmap)->SetSize(assWidth_, numberOfDebugLines_*lineSpace_+4);
 
@@ -1180,7 +833,6 @@ void DebugWindow::enableDebugGuiMemory ()
 {
     if (!mode_.gui)
         return;
-    wxString value;
 
 #ifndef __WXMAC__
     XRCCTRL(*this, "DebugExpansionSlotText", wxStaticText)->Enable(computerConfiguration.slotConfiguration.maxSlotNumber_ > 0);
@@ -1481,239 +1133,44 @@ bool DebugWindow::chip8BreakPointCheck()
 
 void DebugWindow::showInstructionTrace()
 {
-    wxString instrucion;
+    wxString instruction;
     if (showInstructionTrap_)
     {
-        if (traceTrap_ && !trace_ && steps_ != 0)
+        if (!breakTrap_ && !trace_ && steps_ != 0)
         {
             showInstructionTrap_ = false;
-            instrucion = cdp1802disassemble(&showInstructionTrapAddress_, true, false, DIRECT_ASSEMBLER, 0, 0xFFFF);
-            instrucion.Replace(";", "\n      ");
-            debugTrace(instrucion);
+            instruction = cdp1802disassemble(&showInstructionTrapAddress_, true, false, DIRECT_ASSEMBLER, 0, 0xFFFF);
+            instruction.Replace(";", "\n      ");
+            debugTrace(instruction);
         }
+    }
+}
+
+void DebugWindow::showInstructionTrace(Word address, bool showDetails)
+{
+    wxString instruction;
+    
+    if (!trace_ && steps_ != 0)
+    {
+        instruction = cdp1802disassemble(&address, showDetails, false, DIRECT_ASSEMBLER, 0, 0xFFFF);
+        instruction.Replace(";", "\n      ");
+        debugTrace(instruction);
     }
 }
 
 void DebugWindow::cycleDebug()
 {
-    wxString printBuffer, printBuffer2;
-    bool trapFound = false;
-
-    Byte programCounter = p_Computer->getProgramCounter();
-    Word programCounterAddress = p_Computer->getScratchpadRegister(programCounter);
-    Byte mask;
-    Byte instruction;
-
     if (percentageClock_ != 1)
     {
         if (selectedTab_ == DEBUGGERTAB && debuggerChoice_ == TRACETAB)
             p_Main->updateWindow();
         if (selectedTab_ == MESSAGETAB && messageChoice_ == VIDEOTAB)
             p_Main->updateVideoPanel();
+        if (selectedTab_ == MESSAGETAB && messageChoice_ == OTHERTAB)
+            p_Main->updateOtherPanel();
     }
 
-    if (p_Computer->getSteps() != 0 && numberOfBreakPoints_ > 0)
-    {
-        for (int i=0; i<numberOfBreakPoints_; i++)
-        {
-            if (breakPoints_[i] == programCounterAddress && breakPointsSelected_[i])
-            {
-                p_Computer->setSteps(0);
-                printBuffer.Printf("Hit Breakpoint at %04X", programCounterAddress);
-                debugTrace(printBuffer);
-                p_Main->eventPauseState();
-                i = numberOfBreakPoints_;
-            }
-        }
-    }
-    if (p_Computer->getSteps() != 0 && numberOfTraps_ > 0)
-    {
-        for (int i=0; i<numberOfTraps_; i++)
-        {
-            mask = traps_[i][7];
-            instruction = p_Computer->readMemDebug(programCounterAddress);
-            if (instruction == 0x60)
-                mask = 0xff;
-            if (instruction == 0x68)
-            {
-                if ((traps_[i][0] == 1 && traps_[i][1] == instruction && trapsSelected_[i]) ||
-                    (traps_[i][0] == 2 && traps_[i][1] == instruction &&
-                                         (traps_[i][2]&mask) == (p_Computer->readMemDebug(programCounterAddress+1)&mask) && trapsSelected_[i]) ||
-                    (traps_[i][0] == 3 && traps_[i][1] == instruction &&
-                                         (traps_[i][2]&mask) == (p_Computer->readMemDebug(programCounterAddress+1)&mask) &&
-                                         traps_[i][3] == p_Computer->readMemDebug(programCounterAddress+2) && trapsSelected_[i]) ||
-                    (traps_[i][0] == 4 && traps_[i][1] == instruction &&
-                                         (traps_[i][2]&mask) == (p_Computer->readMemDebug(programCounterAddress+1)&mask) &&
-                                         traps_[i][3] == p_Computer->readMemDebug(programCounterAddress+2) &&
-                                         traps_[i][4] == p_Computer->readMemDebug(programCounterAddress+3) && trapsSelected_[i]))
-                {
-                    trapFound = true;
-                }
-            }
-            else
-            {
-                if ((traps_[i][0] == 1 && (traps_[i][1]&mask) == (instruction&mask) && trapsSelected_[i]) ||
-                    (traps_[i][0] == 2 && traps_[i][1] == instruction &&
-                                         traps_[i][2] == p_Computer->readMemDebug(programCounterAddress+1) && trapsSelected_[i]) ||
-                    (traps_[i][0] == 3 && traps_[i][1] == instruction &&
-                                         traps_[i][2] == p_Computer->readMemDebug(programCounterAddress+1) &&
-                                         traps_[i][3] == p_Computer->readMemDebug(programCounterAddress+2) && trapsSelected_[i]))
-                {
-                    trapFound = true;
-                }
-            }
-            if (trapFound)
-            {
-                if (traceTrap_)
-                {
-                    if (!trace_)
-                    {
-                        showInstructionTrap_ = true;
-                        showInstructionTrapAddress_ = programCounterAddress;
-                    }
-                }
-                else
-                {
-                    p_Computer->setSteps(0);
-                    printBuffer.Printf("Instruction Trap at %04X", programCounterAddress);
-                    debugTrace(printBuffer);
-                    p_Main->eventPauseState();
-                    i = numberOfTraps_;
-                }
-            }
-        }
-    }
-    if (p_Computer->getSteps() != 0 && numberOfTregs_ > 0)
-    {
-        int j = -1;
-        printBuffer2.Printf("Register Trap at %04X: ", programCounterAddress);
-        for (int i=0; i<numberOfTregs_; i++)
-        {
-            if (tregsSelected_[i])
-            {
-                if (tregs_[i][0] == TREG_D && tregs_[i][1] == p_Computer->getAccumulator())
-                {
-                    printBuffer.Printf("D=%02X", p_Computer->getAccumulator());
-                    j = i;
-                }
-                if (tregs_[i][0] == TREG_DF && tregs_[i][1] == p_Computer->getDataFlag())
-                {
-                    printBuffer.Printf("DF=%X", p_Computer->getDataFlag());
-                    j = i;
-                }
-                if (tregs_[i][0] == TREG_P && tregs_[i][1] == programCounter)
-                {
-                    printBuffer.Printf("P=%X", programCounter);
-                    j = i;
-                }
-                if (tregs_[i][0] == TREG_X && tregs_[i][1] == p_Computer->getDataPointer())
-                {
-                    printBuffer.Printf("X=%X", p_Computer->getDataPointer());
-                    j = i;
-                }
-                if (tregs_[i][0] == TREG_T && tregs_[i][1] == p_Computer->getRegisterT())
-                {
-                    printBuffer.Printf("T=%02X",p_Computer->getRegisterT());
-                    j = i;
-                }
-                if (tregs_[i][0] == TREG_B && tregs_[i][1] == p_Computer->getRegisterB())
-                {
-                    printBuffer.Printf("B=%02X",p_Computer->getRegisterB());
-                    j = i;
-                }
-                if (tregs_[i][0] == TREG_CH && tregs_[i][1] == p_Computer->getCounterJamValue())
-                {
-                    printBuffer.Printf("CH=%02X",p_Computer->getCounterJamValue());
-                    j = i;
-                }
-                if (tregs_[i][0] == TREG_CNTR && tregs_[i][1] == p_Computer->getCounterTimer())
-                {
-                    printBuffer.Printf("CNTR=%02X",p_Computer->getCounterTimer());
-                    j = i;
-                }
-                if (tregs_[i][0] == TREG_Q && tregs_[i][1] == p_Computer->getFlipFlopQ())
-                {
-                    printBuffer.Printf("Q=%X", p_Computer->getFlipFlopQ());
-                    j = i;
-                }
-                if (tregs_[i][0] >= TREG_R0 && tregs_[i][0] <= TREG_RF &&
-                    tregs_[i][1] == p_Computer->getScratchpadRegister(tregs_[i][0]-TREG_R0))
-                {
-                    printBuffer.Printf("R%X=%04X",tregs_[i][0]-TREG_R0,tregs_[i][1]);
-                    j = i;
-                }
-            }
-        }
-        if (j >= 0)
-        {
-            p_Computer->setSteps(0);
-            printBuffer2.operator += (printBuffer);
-            debugTrace(printBuffer2);
-            p_Main->eventPauseState();
-        }
-    }
-
-    if (p_Computer->getSteps() > 0)
-    {
-        if (!p_Computer->getSkipTraceMode())
-            p_Computer->setSteps(p_Computer->getSteps()-1);
-
-        if (p_Computer->getSteps() == 0)
-            p_Main->eventPauseState();
-    }
-
-    if (performStep_)
-    {
-        if (traceTrap_)
-        {
-            if (!trace_)
-            {
-                for (int i=0; i<numberOfTraps_; i++)
-                {
-                    mask = traps_[i][7];
-                    instruction = p_Computer->readMemDebug(programCounterAddress);
-                    if (instruction == 0x60)
-                        mask = 0xff;
-                    if (instruction == 0x68)
-                    {
-                        if ((traps_[i][0] == 1 && traps_[i][1] == instruction && trapsSelected_[i]) ||
-                            (traps_[i][0] == 2 && traps_[i][1] == instruction &&
-                                                 (traps_[i][2]&mask) == (p_Computer->readMemDebug(programCounterAddress+1)&mask) && trapsSelected_[i]) ||
-                            (traps_[i][0] == 3 && traps_[i][1] == instruction &&
-                                                 (traps_[i][2]&mask) == (p_Computer->readMemDebug(programCounterAddress+1)&mask) &&
-                                                 traps_[i][3] == p_Computer->readMemDebug(programCounterAddress+2) && trapsSelected_[i]) ||
-                            (traps_[i][0] == 4 && traps_[i][1] == instruction &&
-                                                 (traps_[i][2]&mask) == (p_Computer->readMemDebug(programCounterAddress+1)&mask) &&
-                                                 traps_[i][3] == p_Computer->readMemDebug(programCounterAddress+2) &&
-                                                 traps_[i][4] == p_Computer->readMemDebug(programCounterAddress+3) && trapsSelected_[i]))
-                        {
-                            trapFound = true;
-                        }
-                    }
-                    else
-                    {
-                        if ((traps_[i][0] == 1 && (traps_[i][1]&mask) == (instruction&mask) && trapsSelected_[i]) ||
-                            (traps_[i][0] == 2 && traps_[i][1] == instruction &&
-                                                 traps_[i][2] == p_Computer->readMemDebug(programCounterAddress+1) && trapsSelected_[i]) ||
-                            (traps_[i][0] == 3 && traps_[i][1] == instruction &&
-                                                 traps_[i][2] == p_Computer->readMemDebug(programCounterAddress+1) &&
-                                                 traps_[i][3] == p_Computer->readMemDebug(programCounterAddress+2) && trapsSelected_[i]))
-                        {
-                            trapFound = true;
-                        }
-                    }
-                    if (trapFound)
-                    {
-                        showInstructionTrap_ = true;
-                        showInstructionTrapAddress_ = programCounterAddress;
-                    }
-                }
-            }
-        }
-        p_Computer->setSteps(steps_);
-        performStep_ = false;
-        p_Main->eventPauseState();
-    }
+    cycleDebugger();
 }
 
 void DebugWindow::resetDisplay()
@@ -1993,286 +1450,6 @@ void DebugWindow::chip8DebugTrace(wxString buffer)
 #endif
 }
 
-void DebugWindow::deleteBreakPoint(wxListEvent&event)
-{
-    long selectedItem = event.GetIndex();
-
-    if (selectedItem > -1)
-    {
-        for (long i=selectedItem; i<numberOfBreakPoints_-1; i++)
-            breakPoints_[i] = breakPoints_[i+1];
-        numberOfBreakPoints_--;
-        SetDebugMode();
-    }
-}
-
-void DebugWindow::deleteTrap(wxListEvent&event)
-{
-    long selectedItem = event.GetIndex();
-
-    if (selectedItem > -1)
-    {
-        for (long j=selectedItem; j<numberOfTraps_-1; j++)
-        {
-            traps_[j][0] = traps_[j+1][0];
-            traps_[j][1] = traps_[j+1][1];
-            traps_[j][2] = traps_[j+1][2];
-            traps_[j][3] = traps_[j+1][3];
-            traps_[j][4] = traps_[j+1][4];
-            traps_[j][5] = traps_[j+1][5];
-            traps_[j][6] = traps_[j+1][6];
-            traps_[j][7] = traps_[j+1][7];
-        }
-        numberOfTraps_--;
-        SetDebugMode();
-    }
-}
-
-void DebugWindow::deleteTreg(wxListEvent&event)
-{
-    long selectedItem = event.GetIndex();
-
-    if (selectedItem > -1)
-    {
-        for (long j=selectedItem; j<numberOfTregs_-1; j++)
-        {
-            tregs_[j][0] = tregs_[j+1][0];
-            tregs_[j][1] = tregs_[j+1][1];
-        }
-        numberOfTregs_--;
-        SetDebugMode();
-    }
-}
-
-void DebugWindow::editBreakPoint(wxListEvent&event)
-{
-    wxString bpStr = event.GetText();
-    long selectedItem = event.GetIndex();
-
-    if (bpStr == "")
-    {
-        breakPointWindowPointer->DeleteItem(selectedItem);
-        event.Veto();
-        return;
-    }
-
-    wxString strValue = extractWord (&bpStr);
-    long value;
-
-    if (!strValue.ToLong(&value, 16))
-    {
-        (void)wxMessageBox( "Please specify value in hexadecimal\n",
-                                    "Emma 02", wxICON_ERROR | wxOK );
-        event.Veto();
-        return;
-    }
-
-    if (value > 0xffff)
-    {
-        (void)wxMessageBox( "Please specify value of 16 bit max\n",
-                                    "Emma 02", wxICON_ERROR | wxOK );
-        event.Veto();
-        return;
-    }
-
-    breakPoints_[selectedItem] = value;
-}
-
-void DebugWindow::editTreg(wxListEvent&event)
-{
-    wxString tregStr = event.GetText();
-    long selectedItem = event.GetIndex();
-
-    if (tregStr == "")
-    {
-        tregWindowPointer->DeleteItem(selectedItem);
-        event.Veto();
-        return;
-    }
-
-    wxString registerStr = extractWord (&tregStr);
-    int registerValue = getRegister (registerStr);
-
-    if (registerValue != TREG_FAULT)
-    {
-        wxString strValue = extractWord (&tregStr);
-        long value;
-
-        if (!strValue.ToLong(&value, 16))
-        {
-            (void)wxMessageBox( "Please specify value in hexadecimal\n",
-                                        "Emma 02", wxICON_ERROR | wxOK );
-            event.Veto();
-            return;
-        }
-
-        if ((registerValue >= TREG_R0) && (registerValue <= TREG_RF))
-        {
-            if (value > 0xffff)
-            {
-                (void)wxMessageBox( "Please specify value of 16 bit max\n",
-                                            "Emma 02", wxICON_ERROR | wxOK );
-                event.Veto();
-                return;
-            }
-        }
-        else
-        {
-            if (registerValue <= TREG_T)
-            {
-                if (value > 0xff)
-                {
-                    (void)wxMessageBox( "Please specify value of 8 bit max\n",
-                                                "Emma 02", wxICON_ERROR | wxOK );
-                    event.Veto();
-                    return;
-                }
-            }
-            else
-            {
-                if (value > 1)
-                {
-                    (void)wxMessageBox( "Please specify value of 0 or 1\n",
-                                                "Emma 02", wxICON_ERROR | wxOK );
-                    event.Veto();
-                    return;
-                }
-            }
-        }
-
-        tregs_[selectedItem][0] = registerValue;
-        tregs_[selectedItem][1] = value;
-    }
-    else
-    {
-        (void)wxMessageBox( "Please specify R0 to RF, D, P, X, T, DF or Q\n",
-                                    "Emma 02", wxICON_ERROR | wxOK );
-        event.Veto();
-        return;
-    }
-}
-
-void DebugWindow::editTrap(wxListEvent&event)
-{
-    wxString trapStr = event.GetText();
-    trapStr = trapStr.MakeUpper();
-    wxString error;
-    long selectedItem = event.GetIndex();
-
-    if (trapStr == "")
-    {
-        trapWindowPointer->DeleteItem(selectedItem);
-        event.Veto();
-        return;
-    }
-
-    Word count;
-    Byte b1, b2, b3, b4, b5, b6, b7;
-    int typeOpcode=0;
-
-    count = assemble(&trapStr, &b1, &b2, &b3, &b4, &b5, &b6, &b7, true);
-
-    if (count >10 && count <15)
-        count = ERROR_INST;
-
-    if (count == 21)
-        count = ERROR_INST;
-
-    if (count >= MEM_TYPE_OPCODE_RSHR)
-    {
-        switch (count)
-        {
-            case MEM_TYPE_OPCODE_RSHR:
-                typeOpcode = MEM_TYPE_OPCODE_RSHR;
-                count = 1;
-            break;
-            case MEM_TYPE_OPCODE_RSHL:
-                typeOpcode = MEM_TYPE_OPCODE_RSHL;
-                count = 1;
-            break;
-            case MEM_TYPE_OPCODE_BPZ:
-                typeOpcode = MEM_TYPE_OPCODE_BPZ;
-                count = 2;
-            break;
-            case MEM_TYPE_OPCODE_BGE:
-                typeOpcode = MEM_TYPE_OPCODE_BGE;
-                count = 2;
-            break;
-            case MEM_TYPE_OPCODE_BM:
-                typeOpcode = MEM_TYPE_OPCODE_BM;
-                count = 2;
-            break;
-            case MEM_TYPE_OPCODE_BL:
-                typeOpcode = MEM_TYPE_OPCODE_BL;
-                count = 2;
-            break;
-            case MEM_TYPE_OPCODE_LSKP:
-                typeOpcode = MEM_TYPE_OPCODE_LSKP;
-                count = 1;
-            break;
-            case MEM_TYPE_OPCODE_SKP:
-                typeOpcode = MEM_TYPE_OPCODE_SKP;
-                count = 1;
-            break;
-            case MEM_TYPE_OPCODE_RLDL:
-            case MEM_TYPE_OPCODE_LDV:
-            case MEM_TYPE_OPCODE_LDL:
-            case MEM_TYPE_OPCODE_LDL_SLOT:
-            case MEM_TYPE_OPCODE_LDRL:
-            case MEM_TYPE_OPCODE_LDRL_SLOT:
-            case MEM_TYPE_OPCODE_LBR_SLOT:
-            case MEM_TYPE_OPCODE_JUMP_SLOT:
-                count = ERROR_INST;
-            break;
-        }
-    }
-    if (count > 0 && count < 7)
-    {
-        traps_[selectedItem][0] = count;
-        traps_[selectedItem][1] = b1;
-        traps_[selectedItem][2] = b2;
-        traps_[selectedItem][3] = b3;
-        traps_[selectedItem][4] = b4;
-        traps_[selectedItem][5] = b5; 
-        traps_[selectedItem][6] = b6; 
-        traps_[selectedItem][7] = b7; 
-        traps_[selectedItem][8] = typeOpcode; 
-    }
-    else
-    {
-        (void)wxMessageBox( DirAssErrorCodes[count-ERROR_START-1]+"\n",
-                                    "Emma 02", wxICON_ERROR | wxOK );
-        event.Veto();
-        return;
-    }
-}
-
-void DebugWindow::switchBreakPoint(int item)
-{
-    breakPointsSelected_[item] = !breakPointsSelected_[item] ;
-    if (breakPointsSelected_[item])
-        breakPointWindowPointer->SetItemImage(item, checkedButton_, -1);
-    else
-        breakPointWindowPointer->SetItemImage(item, uncheckButton_, -1);
-}
-
-void DebugWindow::selectBreakPoint(wxListEvent&event)
-{
-    selectedBreakPoint_ = (int)event.GetIndex();
-}
-
-void DebugWindow::deselectBreakPoint(wxListEvent&WXUNUSED(event))
-{
-    selectedBreakPoint_ = -1;
-}
-
-void DebugWindow::keyBreakPoint(wxListEvent&event)
-{
-    const int keyCode = event.GetKeyCode();
-    if (keyCode == WXK_DELETE && selectedBreakPoint_ != -1)
-          XRCCTRL(*this,"BreakPointWindow", wxListCtrl)->DeleteItem(selectedBreakPoint_);
-}
-
 void DebugWindow::switchChip8BreakPoint(int item)
 {
     chip8BreakPointsSelected_[item] = !chip8BreakPointsSelected_[item] ;
@@ -2299,723 +1476,54 @@ void DebugWindow::keyChip8BreakPoint(wxListEvent&event)
           XRCCTRL(*this,"Chip8BreakPointWindow", wxListCtrl)->DeleteItem(selectedChip8BreakPoint_);
 }
 
-void DebugWindow::switchTreg(int item)
+int DebugWindow::ignore_negative(int n)
 {
-    tregsSelected_[item] = !tregsSelected_[item] ;
-    if (tregsSelected_[item])
-        tregWindowPointer->SetItemImage(item, checkedButton_, -1);
-    else
-        tregWindowPointer->SetItemImage(item, uncheckButton_, -1);
-}
-
-void DebugWindow::selectTreg(wxListEvent&event)
-{
-    selectedTreg_ = (int)event.GetIndex();
-}
-
-void DebugWindow::deselectTreg(wxListEvent&WXUNUSED(event))
-{
-    selectedTreg_ = -1;
-}
-
-void DebugWindow::keyTreg(wxListEvent&event)
-{
-    const int keyCode = event.GetKeyCode();
-    if (keyCode == WXK_DELETE && selectedTreg_ != -1)
-          XRCCTRL(*this,"TregWindow", wxListCtrl)->DeleteItem(selectedTreg_);
-}
-
-void DebugWindow::switchTrap(int item)
-{
-    trapsSelected_[item] = !trapsSelected_[item] ;
-    if (trapsSelected_[item])
-        trapWindowPointer->SetItemImage(item, checkedButton_, -1);
-    else
-        trapWindowPointer->SetItemImage(item, uncheckButton_, -1);
-}
-
-void DebugWindow::selectTrap(wxListEvent&event)
-{
-    selectedTrap_ = (int)event.GetIndex();
-}
-
-void DebugWindow::deselectTrap(wxListEvent&WXUNUSED(event))
-{
-    selectedTrap_ = -1;
-}
-
-void DebugWindow::keyTrap(wxListEvent&event)
-{
-    const int keyCode = event.GetKeyCode();
-    if (keyCode == WXK_DELETE && selectedTrap_ != -1)
-          XRCCTRL(*this,"TrapWindow", wxListCtrl)->DeleteItem(selectedTrap_);
-}
-
-void DebugWindow::addBreakPoint()
-{
-    wxString printBuffer;
-
-    printBuffer.Printf("%04X", breakPoints_[numberOfBreakPoints_]);
-    breakPointWindowPointer->InsertItem(numberOfBreakPoints_, printBuffer);
-    numberOfBreakPoints_++;
-}
-
-void DebugWindow::addTrap()
-{
-    wxString printBuffer, printBuffer2;
-
-    int i = numberOfTraps_;
-    printBuffer = "";
-    printBuffer2 = "";
-
-    int n = traps_[i][1] & 0xf, n1805;
-    int inst = traps_[i][1] >> 4, i1805;
-    switch(inst)
+    if (n >= 0)
     {
-        case 0x0:
-            switch(n)
-            {
-                case 0x0:
-                    printBuffer.operator += ("IDL");
-                break;
-
-                default:
-                    if (traps_[i][7] == 0xf0)
-                        printBuffer.Printf("LDN  Rx");
-                    else
-                        printBuffer.Printf("LDN  R%X",n);
-                break;
-            }
-        break;
-
-        case 0x1:
-            if (traps_[i][7] == 0xf0)
-                printBuffer.Printf("INC  Rx");
-            else
-                printBuffer.Printf("INC  R%X",n);
-        break;
-
-        case 0x2:
-            if (traps_[i][7] == 0xf0)
-                printBuffer.Printf("DEC  Rx");
-            else
-                printBuffer.Printf("DEC  R%X",n);
-        break;
-
-        case 0x3:
-            printBuffer2.Printf("%02X", traps_[i][2]);
-            switch(n)
-            {
-                case 0x0:
-                    printBuffer.Printf("BR   ");
-                break;
-                case 0x1:
-                    if (cpuType_ == SYSTEM00)
-                        printBuffer.Printf("BNZ  ");
-                    else
-                        printBuffer.Printf("BQ   ");
-                break;
-                case 0x2:
-                    printBuffer.Printf("BZ   ");
-                break;
-                case 0x3:
-                    if (traps_[i][8] == MEM_TYPE_OPCODE_BGE)
-                        printBuffer.Printf("BGE  ");
-                    else
-                    {
-                        if (traps_[i][8] == MEM_TYPE_OPCODE_BPZ)
-                            printBuffer.Printf("BPZ  ");
-                        else
-                            printBuffer.Printf("BDF  ");
-                    }
-                break;
-                case 0x4:
-                    printBuffer.Printf("B1   ");
-                break;
-                case 0x5:
-                    printBuffer.Printf("B2   ");
-                break;
-                case 0x6:
-                    printBuffer.Printf("B3   ");
-                break;
-                case 0x7:
-                    printBuffer.Printf("B4   ");
-                break;
-                case 0x8:
-                    if (traps_[i][8] == MEM_TYPE_OPCODE_SKP)
-                        printBuffer.operator += ("SKP");
-                    else
-                        printBuffer.operator += ("NBR"); 
-                break;
-                case 0x9:
-                    printBuffer.Printf("BNQ  ");
-                break;
-                case 0xa:
-                    printBuffer.Printf("BNZ  ");
-                break;
-                case 0xb:
-                    if (traps_[i][8] == MEM_TYPE_OPCODE_BL)
-                        printBuffer.Printf("BL   ");
-                    else
-                    {
-                        if (traps_[i][8] == MEM_TYPE_OPCODE_BM)
-                            printBuffer.Printf("BM   ");
-                        else
-                            printBuffer.Printf("BNF  ");
-                    }
-                break;
-                case 0xc:
-                    printBuffer.Printf("BN1  ");
-                break;
-                case 0xd:
-                    printBuffer.Printf("BN2  ");
-                break;
-                case 0xe:
-                    printBuffer.Printf("BN3  ");
-                break;
-                case 0xf:
-                    printBuffer.Printf("BN4  ");
-                break;
-            }
-            if (traps_[i][0] == 2)
-                printBuffer.operator += (printBuffer2);
-            else
-            {
-                if (printBuffer.Len() == 5)
-                    printBuffer.operator += ("x");
-            }
-        break;
-
-        case 0x4:
-            if (traps_[i][7] == 0xf0)
-                printBuffer.Printf("LDA  Rx");
-            else
-                printBuffer.Printf("LDA  R%X",n);
-        break;
-
-        case 0x5:
-            if (traps_[i][7] == 0xf0)
-                printBuffer.Printf("STR  Rx");
-            else
-                printBuffer.Printf("STR  R%X",n);
-        break;
-
-        case 0x6:
-            switch(n)
-            {
-                case 0x0:
-                    printBuffer.operator += ("IRX");
-                break;
-                case 0x1:
-                case 0x2:
-                case 0x3:
-                case 0x4:
-                case 0x5:
-                case 0x6:
-                case 0x7:
-                    if (traps_[i][7] == 0xf8)
-                        printBuffer.Printf("OUT  x");
-                    else
-                        printBuffer.Printf("OUT  %X",n);
-                break;
-                case 0x8:
-                    if (cpuType_ <= CPU1801)
-                        printBuffer.Printf("INP  %X",n-8);
-                    else
-                    {
-                    n1805 = traps_[i][2] & 0xf;
-                    i1805 = traps_[i][2] >> 4;
-                    switch(i1805)
-                    {
-                        case 0:
-                            switch(n1805)
-                            {
-                                case 0:
-                                    printBuffer.Printf("STPC");
-                                break;
-                                case 1: 
-                                    printBuffer.Printf("DTC");
-                                break;
-                                case 2: 
-                                    printBuffer.Printf("SPM2");
-                                break;
-                                case 3: 
-                                    printBuffer.Printf("SCM2");
-                                break;
-                                case 4: 
-                                    printBuffer.Printf("SPM1");
-                                break;
-                                case 5: 
-                                    printBuffer.Printf("SCM1");
-                                break;
-                                case 6: 
-                                    printBuffer.Printf("LDC");
-                                break;
-                                case 7:
-                                    printBuffer.Printf("STM");
-                                break;
-                                case 8: 
-                                    printBuffer.Printf("GEC");
-                                break;
-                                case 9: 
-                                    printBuffer.Printf("ETQ");
-                                break;
-                                case 0xa: 
-                                    printBuffer.Printf("XIE");
-                                break;
-                                case 0xb: 
-                                    printBuffer.Printf("XID");
-                                break;
-                                case 0xc: 
-                                    printBuffer.Printf("CIE");
-                                break;
-                                case 0xd: 
-                                    printBuffer.Printf("CID");
-                                break;
-                            }
-                        break;
-                        case 2:
-                            if (traps_[i][0] == 2)
-                            {
-                                if (traps_[i][7] == 0xf0)
-                                    printBuffer.Printf("DBNZ Rx,x");
-                                else
-                                    printBuffer.Printf("DBNZ R%X,x", n1805);
-                            }
-                            else
-                            {
-                                if (traps_[i][7] == 0xf0)
-                                    printBuffer.Printf("DBNZ Rx,%04X", traps_[i][3]<<8|traps_[i][4]);
-                                else
-                                    printBuffer.Printf("DBNZ R%X,%04X", n1805, traps_[i][3]<<8|traps_[i][4]);
-                            }
-                        break;
-                        case 3:
-                            printBuffer2.Printf("%02X", traps_[i][3]);
-                            switch(n1805)
-                            {
-                                case 0xe:
-                                    printBuffer.Printf("BCI  ");
-                                break;
-                                case 0xf:
-                                    printBuffer.Printf("BXI  ");
-                                break;
-                            }
-                            if (traps_[i][0] == 3)
-                                printBuffer.operator += (printBuffer2);
-                            else
-                            {
-                                printBuffer.operator += ("x");
-                            }
-                        break;
-                        case 6:
-                            if (traps_[i][7] == 0xf0)
-                                printBuffer.Printf("RLXA Rx");
-                            else
-                                printBuffer.Printf("RLXA R%X", n1805);
-                        break;
-                        case 7:
-                            printBuffer2.Printf("%02X", traps_[i][3]);
-                            switch(n1805)
-                            {
-                                case 0x4:
-                                    printBuffer.Printf("DADC");
-                                break;
-                                case 0x6:
-                                    printBuffer.Printf("DSAV");
-                                break;
-                                case 0x7:
-                                    printBuffer.Printf("DSMB");
-                                break;
-                                case 0xc:
-                                    printBuffer.Printf("DACI ");
-                                break;
-                                case 0xf:
-                                    printBuffer.Printf("DSBI ");
-                                break;
-                            }
-                            if (traps_[i][0] == 3)
-                                printBuffer.operator += (printBuffer2);
-                            else
-                            {
-                                if (printBuffer.Len() == 5)
-                                    printBuffer.operator += ("x");
-                            }
-                        break;
-                        case 8:
-                            if (traps_[i][0] == 2)
-                            {
-                                if (traps_[i][7] == 0xf0)
-                                    printBuffer.Printf("SCAL Rx,x");
-                                else
-                                    printBuffer.Printf("SCAL R%X,x", n1805);
-                            }
-                            else
-                            {
-                                if (traps_[i][7] == 0xf0)
-                                    printBuffer.Printf("SCAL Rx,%04X", traps_[i][3]<<8|traps_[i][4]);
-                                else
-                                    printBuffer.Printf("SCAL R%X,%04X", n1805, traps_[i][3]<<8|traps_[i][4]);
-                            }
-                        break;
-                        case 9:
-                            if (traps_[i][7] == 0xf0)
-                                printBuffer.Printf("SRET Rx");
-                            else
-                                printBuffer.Printf("SRET R%X", n1805);
-                        break;
-                        case 0xa: 
-                            if (traps_[i][7] == 0xf0)
-                                printBuffer.Printf("RSXD Rx");
-                            else
-                                printBuffer.Printf("RSXD R%X", n1805);
-                        break;
-                        case 0xb:
-                            if (traps_[i][7] == 0xf0)
-                                printBuffer.Printf("RNX  Rx");
-                            else
-                                printBuffer.Printf("RNX  R%X", n1805);
-                        break;
-                        case 0xc:
-                            if (traps_[i][0] == 2)
-                            {
-                                if (traps_[i][7] == 0xf0)
-                                    printBuffer.Printf("RLDI Rx,x");
-                                else
-                                    printBuffer.Printf("RLDI R%X,x", n1805);
-                            }
-                            else
-                            {
-                                if (traps_[i][7] == 0xf0)
-                                    printBuffer.Printf("RLDI Rx,%04X", traps_[i][3]<<8|traps_[i][4]);
-                                else
-                                    printBuffer.Printf("RLDI R%X,%04X", n1805, traps_[i][3]<<8|traps_[i][4]);
-                            }
-                        break;
-                        case 0xf:
-                            printBuffer2.Printf("%02X", traps_[i][3]);
-                            switch(n1805)
-                            {
-                                case 0x4:
-                                    printBuffer.Printf("DADD");
-                                break;
-                                case 0x7:
-                                    printBuffer.Printf("DSM");
-                                break;
-                                case 0xc:
-                                    printBuffer.Printf("DADI ");
-                                break;
-                                case 0xf:
-                                    printBuffer.Printf("DSMI ");
-                                break;
-                            }
-                            if (traps_[i][0] == 3)
-                                printBuffer.operator += (printBuffer2);
-                            else
-                            {
-                                if (printBuffer.Len() == 5)
-                                    printBuffer.operator += ("x");
-                            }
-                        break;
-
-                    }
-                    }
-                break;
-                case 0x9:
-                case 0xa:
-                case 0xb:
-                case 0xc:
-                case 0xd:
-                case 0xe:
-                case 0xf:
-                    if (traps_[i][7] == 0xf8)
-                        printBuffer.Printf("INP  x");
-                    else
-                        printBuffer.Printf("INP  %X",n-8);
-                break;
-            }
-        break;
-        case 0x7:
-            printBuffer2.Printf("%02X", traps_[i][2]);
-            switch(n)
-            {
-                case 0x0:
-                    printBuffer.operator += ("RET");
-                break;
-                case 0x1:
-                    printBuffer.operator += ("DIS");
-                break;
-                case 0x2:
-                    printBuffer.operator += ("LDXA");
-                break;
-                case 0x3:
-                    printBuffer.operator += ("STXD");
-                break;
-                case 0x4:
-                    printBuffer.operator += ("ADC");
-                break;
-                case 0x5:
-                    printBuffer.operator += ("SDB");
-                break;
-                case 0x6:
-                    if (traps_[i][8] == MEM_TYPE_OPCODE_RSHR)
-                        printBuffer.operator += ("RSHR");
-                    else
-                        printBuffer.operator += ("SHRC");
-                break;
-                case 0x7:
-                    printBuffer.operator += ("SMB");
-                break;
-                case 0x8:
-                    printBuffer.operator += ("SAV");
-                break;
-                case 0x9:
-                    printBuffer.operator += ("MARK");
-                break;
-                case 0xa:
-                    printBuffer.operator += ("REQ");
-                break;
-                case 0xb:
-                    printBuffer.operator += ("SEQ");
-                break;
-                case 0xe:
-                    if (traps_[i][8] == MEM_TYPE_OPCODE_RSHL)
-                        printBuffer.operator += ("RSHL");
-                    else
-                        printBuffer.operator += ("SHLC");
-                break;
-                case 0xc:
-                    printBuffer.Printf("ADCI ");
-                break;
-                case 0xd:
-                    printBuffer.Printf("SDBI ");
-                break;
-                case 0xf:
-                    printBuffer.Printf("SMBI ");
-                break;
-            }
-            if (traps_[i][0] == 2)
-                printBuffer.operator += (printBuffer2);
-            else
-            {
-                if (printBuffer.Len() == 5)
-                    printBuffer.operator += ("x");
-            }
-        break;
-        case 0x8:
-            if (traps_[i][7] == 0xf0)
-                printBuffer.Printf("GLO  Rx");
-            else
-                printBuffer.Printf("GLO  R%X",n);
-        break;
-        case 0x9:
-            if (traps_[i][7] == 0xf0)
-                printBuffer.Printf("GHI  Rx");
-            else
-                printBuffer.Printf("GHI  R%X",n);
-        break;
-        case 0xa:
-            if (traps_[i][7] == 0xf0)
-                printBuffer.Printf("PLO  Rx");
-            else
-                printBuffer.Printf("PLO  R%X",n);
-        break;
-        case 0xb:
-            if (traps_[i][7] == 0xf0)
-                printBuffer.Printf("PHI  Rx");
-            else
-                printBuffer.Printf("PHI  R%X",n);
-        break;
-        case 0xc:
-            if (cpuType_ == SYSTEM00)
-            {
-                if (traps_[i][7] == 0xf0)
-                    printBuffer.Printf("PNI  Rx");
-                else
-                    printBuffer.Printf("PNI  R%X",n);
-                break;
-            }
-            printBuffer2.Printf("%04X", traps_[i][2]<<8|traps_[i][3]);
-            switch(n)
-            {
-                case 0x0:
-                    printBuffer.Printf("LBR  "); 
-                break;
-                case 0x1:
-                    printBuffer.Printf("LBQ  "); 
-                break;
-                case 0x2:
-                    printBuffer.Printf("LBZ  "); 
-                break;
-                case 0x3:
-                    printBuffer.Printf("LBDF ");
-                break;
-                case 0x4:
-                    printBuffer.operator += ("NOP");
-                break;
-                case 0x5:
-                    printBuffer.operator += ("LSNQ");
-                break;
-                case 0x6:
-                    printBuffer.operator += ("LSNZ");
-                break;
-                case 0x7:
-                    printBuffer.operator += ("LSNF");
-                break;
-                case 0x8:
-                    if (traps_[i][8] == MEM_TYPE_OPCODE_LSKP)
-                        printBuffer.operator += ("LSKP");
-                    else
-                        printBuffer.operator += ("NLBR");
-                break;
-                case 0x9:
-                    printBuffer.Printf("LBNQ ");
-                break;
-                case 0xa:
-                    printBuffer.Printf("LBNZ "); 
-                break;
-                case 0xb:
-                    printBuffer.Printf("LBNF "); 
-                break;
-                case 0xc:
-                    printBuffer.operator += ("LSIE");
-                break;
-                case 0xd:
-                    printBuffer.operator += ("LSQ");
-                break;
-                case 0xe:
-                    printBuffer.operator += ("LSZ");
-                break;
-                case 0xf:
-                    printBuffer.operator += ("LSDF");
-                break;
-            }
-            if (traps_[i][0] == 3)
-                printBuffer.operator += (printBuffer2);
-            else
-            {
-                if (printBuffer.Len() == 5)
-                    printBuffer.operator += ("x");
-            }
-        break;
-        case 0xd:
-            if (traps_[i][7] == 0xf0)
-                printBuffer.Printf("SEP  Rx");
-            else
-                printBuffer.Printf("SEP  R%X",n);
-        break;
-        case 0xe:
-            if (traps_[i][7] == 0xf0)
-                printBuffer.Printf("SEX  Rx");
-            else
-                printBuffer.Printf("SEX  R%X",n);
-        break;
-        case 0xf:
-            printBuffer2.Printf("%02X", traps_[i][2]);
-            switch(n)
-            {
-                case 0x0:
-                    printBuffer.operator += ("LDX");
-                break;
-                case 0x1:
-                    printBuffer.operator += ("OR");
-                break;
-                case 0x2:
-                    printBuffer.operator += ("AND");
-                break;
-                case 0x3:
-                    printBuffer.operator += ("XOR");
-                break;
-                case 0x4:
-                    printBuffer.operator += ("ADD");
-                break;
-                case 0x5:
-                    printBuffer.operator += ("SD");
-                break;
-                case 0x6:
-                    printBuffer.operator += ("SHR");
-                break;
-                case 0x7:
-                    printBuffer.operator += ("SM");
-                break;
-                case 0x8:
-                    printBuffer.Printf("LDI  ");
-                break;
-                case 0x9:
-                    printBuffer.Printf("ORI  ");
-                break;
-                case 0xa:
-                    printBuffer.Printf("ANI  ");
-                break;
-                case 0xb:
-                    printBuffer.Printf("XRI  ");
-                break;
-                case 0xc:
-                    printBuffer.Printf("ADI  ");
-                break;
-                case 0xd:
-                    printBuffer.Printf("SDI  ");
-                break;
-                case 0xe:
-                    printBuffer.operator += ("SHL");
-                break;
-                case 0xf:
-                    printBuffer.Printf("SMI  ");
-                break;
-            }
-            if (traps_[i][0] == 2)
-                printBuffer.operator += (printBuffer2);
-            else
-            {
-                if (printBuffer.Len() == 5)
-                    printBuffer.operator += ("x");
-            }
-        break;
+        return n;
     }
-    trapWindowPointer->InsertItem(i, printBuffer);
-    numberOfTraps_++;
+    else
+    {
+        // Return a very large positive number that will never be the minimum
+        return std::numeric_limits<int>::max();
+    }
 }
 
-void DebugWindow::addTreg()
-{
-    wxString printBuffer;
-
-    switch(tregs_[numberOfTregs_][0])
-    {
-        case TREG_R0: case TREG_R1: case TREG_R2: case TREG_R3: case TREG_R4: case TREG_R5: case TREG_R6: case TREG_R7: case TREG_R8: case TREG_R9:
-        case TREG_RA: case TREG_RB: case TREG_RC: case TREG_RD: case TREG_RE: case TREG_RF:
-            printBuffer.Printf("R%X %04X", tregs_[numberOfTregs_][0] - TREG_R0, tregs_[numberOfTregs_][1]);
-        break;
-
-        case TREG_D: printBuffer.Printf("D  %02X", tregs_[numberOfTregs_][1]);
-        break;
-
-        case TREG_DF: printBuffer.Printf("DF %X", (tregs_[numberOfTregs_][1])?1:0);
-        break;
-
-        case TREG_Q: printBuffer.Printf("Q  %X", (tregs_[numberOfTregs_][1])?1:0);
-        break;
-
-        case TREG_P: printBuffer.Printf("P  %X", tregs_[numberOfTregs_][1]);
-        break;
-
-        case TREG_X: printBuffer.Printf("X  %X", tregs_[numberOfTregs_][1]);
-        break;
-
-        case TREG_T: printBuffer.Printf("T  %02X", tregs_[numberOfTregs_][1]);
-        break;
-
-        case TREG_B: printBuffer.Printf("B  %02X", tregs_[numberOfTregs_][1]);
-        break;
-            
-        case TREG_CH: printBuffer.Printf("CH %02X", tregs_[numberOfTregs_][1]);
-        break;
-
-        case TREG_CNTR: printBuffer.Printf("CN %02X", tregs_[numberOfTregs_][1]);
-        break;
+int DebugWindow::findMinimum(int a, int b, int c) {
+    // Check if a is the smallest
+    if (a <= b && a <= c) {
+        return a;
     }
-    tregWindowPointer->InsertItem(numberOfTregs_, printBuffer);
-    numberOfTregs_++;
+    // Check if b is the smallest
+    if (b <= a && b <= c) {
+        return b;
+    }
+    // If neither a nor b is the smallest, return c
+    return c;
+}
+
+wxString DebugWindow::extractWordMemTrap(wxString *buffer)
+{
+    wxString ret;
+
+    buffer->Trim(false);
+
+    int space = ignore_negative(buffer->Find(' '));
+    int dash = ignore_negative(buffer->Find('-'));
+    int colon = ignore_negative(buffer->Find(':'));
+    
+    int end = findMinimum(space, dash, colon);
+        
+    if (end == std::numeric_limits<int>::max())
+    {
+        ret = *buffer;
+        *buffer = "";
+        return ret;
+    }
+
+    ret = buffer->Mid(0, end);
+    *buffer = buffer->Mid(end, buffer->Len()-end);
+    return ret;
 }
 
 wxString DebugWindow::extractWord(wxString *buffer)
@@ -3047,7 +1555,7 @@ wxString DebugWindow::extractNextWord(wxString *buffer, wxString *seperator)
     buffer->Trim(true);
 
     end = 0;
-    while (buffer->Mid(end, 1) != " " && buffer->Mid(end, 1) != "/" && buffer->Mid(end, 1) != "," && buffer->Mid(end, 1) != "+" && buffer->Mid(end, 1) != "-" && buffer->Mid(end, 1) != "=" && end != buffer->Len())
+    while (buffer->Mid(end, 1) != " " && buffer->Mid(end, 1) != "/" && buffer->Mid(end, 1) != "," && buffer->Mid(end, 1) != "+" && buffer->Mid(end, 1) != "-" && buffer->Mid(end, 1) != "=" &&  end != buffer->Len()) // buffer->Mid(end, 1) != ":" &&
         end++;
 
     if (end == buffer->Len())
@@ -3374,7 +1882,7 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
                                     break;
                                     case 1: // 1804
                                         printBufferAssembler.Printf("DTC");
-                                        printBufferDetails.Printf("CNTR=%02X", p_Computer->get1805Counter());
+                                        printBufferDetails.Printf("CNTR=%02X", p_Computer->getCounterTimer());
                                     break;
                                     case 2: // 1804
                                         printBufferAssembler.Printf("SPM2");
@@ -3391,9 +1899,9 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
                                     case 6: // 1804
                                         printBufferAssembler.Printf("LDC");
                                         if (!p_Computer->is1805CtrRunning())
-                                            printBufferDetails.Printf("CH/CNTR=%02X", p_Computer->get1805Ch());
+                                            printBufferDetails.Printf("CH/CNTR=%02X", p_Computer->getCounterJamValue());
                                         else
-                                            printBufferDetails.Printf("CNTR=%02X", p_Computer->get1805Ch());
+                                            printBufferDetails.Printf("CNTR=%02X", p_Computer->getCounterJamValue());
                                     break;
                                     case 7: // 1804
                                         printBufferAssembler.Printf("STM");
@@ -4651,7 +3159,7 @@ int DebugWindow::assemblePseudo(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, 
 
     AssInput assInput = getAssInput(*buffer);
     if (assInput.errorCode != 0)  return assInput.errorCode;
-    if (assInput.commandSeperator != " ") return ERROR_COMMAND_SEP;
+    if (assInput.commandSeperator != " ") return ASS_ERROR_COMMAND_SEP;
 
     wxString pseudoLine;
 
@@ -4665,7 +3173,7 @@ int DebugWindow::assemblePseudo(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, 
             if (assInput.command == pseudoLine)
             {
                 int returnValue = checkParameterPseudo(assInput, &pseudoCode);
-                if (returnValue > ERROR_START)
+                if (returnValue > ASS_ERROR_START)
                     return returnValue;
 
                 switch (returnValue)
@@ -4699,7 +3207,7 @@ int DebugWindow::assemblePseudo(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, 
     }
     inFile.Close();
 
-    return ERROR_INST;
+    return ASS_ERROR_INST;
 }
 
 int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
@@ -4709,7 +3217,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
     wxString pseudoLine, parameter, lowStr, highStr, regNumberStr;
     long high, low, regNumber;
     Word hexValue = 0, registerX = 0, registerY = 0, registerZ = 0, registerR = 0, nValue = 0, lValue = 0, oValue = 0, pValue = 0, qValue = 0, kkValue = 0, vvValue = 0, wwValue = 0, ddValue = 0;
-    int errorValue = ERROR_MISSING_PAR;
+    int errorValue = ASS_ERROR_MISSING_PAR;
     int32_t tempValue;
 
     parameterNumber = 0;
@@ -4727,7 +3235,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                 if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
                 {
                     if (assInput.parameterValue[parameterNumber] < 0 || assInput.parameterValue[parameterNumber] > 0xf)
-                        errorValue = ERROR_4BIT;
+                        errorValue = ASS_ERROR_4BIT;
                     else
                     {
                         parameterFound = true;
@@ -4736,14 +3244,14 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_HEX;
+                    errorValue = ASS_ERROR_HEX;
             }
             if (parameter == "l")
             {
                 if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
                 {
                     if (assInput.parameterValue[parameterNumber] < 0 || assInput.parameterValue[parameterNumber] > 0xf)
-                        errorValue = ERROR_4BIT;
+                        errorValue = ASS_ERROR_4BIT;
                     else
                     {
                         parameterFound = true;
@@ -4752,14 +3260,14 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                errorValue = ERROR_HEX;
+                errorValue = ASS_ERROR_HEX;
             }
             if (parameter == "q")
             {
                 if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
                 {
                     if (assInput.parameterValue[parameterNumber] < 0 || assInput.parameterValue[parameterNumber] > 7)
-                        errorValue = ERROR_SP;
+                        errorValue = ASS_ERROR_SP;
                     else
                     {
                         parameterFound = true;
@@ -4768,14 +3276,14 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_HEX;
+                    errorValue = ASS_ERROR_HEX;
             }
             if (parameter == "p")
             {
                 if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
                 {
                     if (assInput.parameterValue[parameterNumber] < 0 || assInput.parameterValue[parameterNumber] > 7)
-                        errorValue = ERROR_SP;
+                        errorValue = ASS_ERROR_SP;
                     else
                     {
                         parameterFound = true;
@@ -4784,14 +3292,14 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_HEX;
+                    errorValue = ASS_ERROR_HEX;
             }
             if (parameter == "o")
             {
                 if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
                 {
                     if (assInput.parameterValue[parameterNumber] < 0 || assInput.parameterValue[parameterNumber] > 7)
-                    errorValue = ERROR_SP;
+                    errorValue = ASS_ERROR_SP;
                     else
                     {
                         parameterFound = true;
@@ -4800,14 +3308,14 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                errorValue = ERROR_HEX;
+                errorValue = ASS_ERROR_HEX;
             }
             if (parameter == "kk")
             {
                 if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
                 {
                     if (assInput.parameterValue[parameterNumber] < 0 || assInput.parameterValue[parameterNumber] > 0xff)
-                        errorValue = ERROR_8BIT;
+                        errorValue = ASS_ERROR_8BIT;
                     else
                     {
                         parameterFound = true;
@@ -4816,14 +3324,14 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_HEX;
+                    errorValue = ASS_ERROR_HEX;
             }
             if (parameter == "vv")
             {
                 if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
                 {
                     if (assInput.parameterValue[parameterNumber] < 0 || assInput.parameterValue[parameterNumber] > 0xff)
-                        errorValue = ERROR_8BIT;
+                        errorValue = ASS_ERROR_8BIT;
                     else
                     {
                         parameterFound = true;
@@ -4832,14 +3340,14 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_HEX;
+                    errorValue = ASS_ERROR_HEX;
             }
             if (parameter == "ww")
             {
                 if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
                 {
                     if (assInput.parameterValue[parameterNumber] < 0 || assInput.parameterValue[parameterNumber] > 0xff)
-                        errorValue = ERROR_8BIT;
+                        errorValue = ASS_ERROR_8BIT;
                     else
                     {
                         parameterFound = true;
@@ -4848,7 +3356,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_HEX;
+                    errorValue = ASS_ERROR_HEX;
             }
             if (parameter.Left(5) == "c-hex")
             {
@@ -4861,7 +3369,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     highStr.ToLong(&high, 16);
                     
                     if (assInput.parameterValue[parameterNumber] < low || assInput.parameterValue[parameterNumber] > high)
-                        errorValue = ERROR_CARDTRAN_ADDRESS;
+                        errorValue = ASS_ERROR_CARDTRAN_ADDRESS;
                     else
                     {
                         parameterFound = true;
@@ -4870,7 +3378,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_HEX;
+                    errorValue = ASS_ERROR_HEX;
             }
             if (parameter.Left(3) == "hex")
             {
@@ -4897,7 +3405,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                         else
                         {
                             if (assInput.parameterValue[parameterNumber] < low || assInput.parameterValue[parameterNumber] > high)
-                                errorValue = ERROR_INCORR_ADDRESS;
+                                errorValue = ASS_ERROR_INCORR_ADDRESS;
                             else
                             {
                                 parameterFound = true;
@@ -4909,7 +3417,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     else
                     {
                         if (assInput.parameterValue[parameterNumber] < low || assInput.parameterValue[parameterNumber] > high)
-                            errorValue = ERROR_INCORR_ADDRESS;
+                            errorValue = ASS_ERROR_INCORR_ADDRESS;
                         else
                         {
                             parameterFound = true;
@@ -4919,7 +3427,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_HEX;
+                    errorValue = ASS_ERROR_HEX;
             }
             if (parameter.Left(5) == "s-hex")
             {
@@ -4935,7 +3443,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                         high += 0x600;
 
                     if (assInput.parameterValue[parameterNumber] < low || assInput.parameterValue[parameterNumber] > high)
-                        errorValue = ERROR_INCORR_ADDRESS;
+                        errorValue = ASS_ERROR_INCORR_ADDRESS;
                     else
                     {
                         parameterFound = true;
@@ -4960,7 +3468,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_HEX;
+                    errorValue = ASS_ERROR_HEX;
             }
             if (parameter.Left(5) == "c-mem")
             {
@@ -4973,7 +3481,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     highStr.ToLong(&high, 16);
                     
                     if (assInput.parameterValue[parameterNumber] < low || assInput.parameterValue[parameterNumber] > high)
-                        errorValue = ERROR_CARDTRAN_ADDRESS;
+                        errorValue = ASS_ERROR_CARDTRAN_ADDRESS;
                     else
                     {
                         parameterFound = true;
@@ -4982,7 +3490,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_HEX_MEM;
+                    errorValue = ASS_ERROR_HEX_MEM;
             }
             if (parameter.Left(3) == "mem")
             {
@@ -4995,7 +3503,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     highStr.ToLong(&high, 16);
 
                     if (assInput.parameterValue[parameterNumber] < low || assInput.parameterValue[parameterNumber] > high)
-                        errorValue = ERROR_INCORR_ADDRESS;
+                        errorValue = ASS_ERROR_INCORR_ADDRESS;
                     else
                     {
                         hexValue = assInput.parameterValue[parameterNumber];
@@ -5004,14 +3512,14 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_HEX_MEM;
+                    errorValue = ASS_ERROR_HEX_MEM;
             }
             if (parameter.Left(3) == "mkk")
             {
                 if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE_MEM)
                 {
                     if (assInput.parameterValue[parameterNumber] > 0xff)
-                        errorValue = ERROR_INCORR_ADDRESS;
+                        errorValue = ASS_ERROR_INCORR_ADDRESS;
                     else
                     {
                         kkValue = assInput.parameterValue[parameterNumber];
@@ -5020,14 +3528,14 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_HEX_MEM;
+                    errorValue = ASS_ERROR_HEX_MEM;
             }
             if (parameter.Left(3) == "mvv")
             {
                 if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE_MEM)
                 {
                     if (assInput.parameterValue[parameterNumber] > 0xff)
-                        errorValue = ERROR_INCORR_ADDRESS;
+                        errorValue = ASS_ERROR_INCORR_ADDRESS;
                     else
                     {
                         vvValue = assInput.parameterValue[parameterNumber];
@@ -5036,14 +3544,14 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_HEX_MEM;
+                    errorValue = ASS_ERROR_HEX_MEM;
             }
             if (parameter.Left(3) == "mww")
             {
                 if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE_MEM)
                 {
                     if (assInput.parameterValue[parameterNumber] > 0xff)
-                        errorValue = ERROR_INCORR_ADDRESS;
+                        errorValue = ASS_ERROR_INCORR_ADDRESS;
                     else
                     {
                         wwValue = assInput.parameterValue[parameterNumber];
@@ -5052,7 +3560,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_HEX_MEM;
+                    errorValue = ASS_ERROR_HEX_MEM;
             }
             if (parameter == "Vx")
             {
@@ -5063,7 +3571,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     parameterNumber++;
                 }
                 else
-                    errorValue = ERROR_REG_EXP;
+                    errorValue = ASS_ERROR_REG_EXP;
             }
             if (parameter == "Vy")
             {
@@ -5074,7 +3582,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     parameterNumber++;
                 }
                 else
-                errorValue = ERROR_REG_EXP;
+                errorValue = ASS_ERROR_REG_EXP;
             }
             if (parameter == "Vz")
             {
@@ -5085,7 +3593,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     parameterNumber++;
                 }
                 else
-                    errorValue = ERROR_REG_EXP;
+                    errorValue = ASS_ERROR_REG_EXP;
             }
             if (parameter == "[Vx]")
             {
@@ -5096,7 +3604,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     parameterNumber++;
                 }
                 else
-                    errorValue = ERROR_REG_EXP;
+                    errorValue = ASS_ERROR_REG_EXP;
             }
             if (parameter == "[Vx.1]")
             {
@@ -5107,7 +3615,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     parameterNumber++;
                 }
                 else
-                    errorValue = ERROR_REG_EXP;
+                    errorValue = ASS_ERROR_REG_EXP;
             }
             if (parameter == "[Vy]")
             {
@@ -5118,7 +3626,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     parameterNumber++;
                 }
                 else
-                    errorValue = ERROR_REG_EXP;
+                    errorValue = ASS_ERROR_REG_EXP;
             }
             if (parameter == "[Vy.1]")
             {
@@ -5129,7 +3637,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     parameterNumber++;
                 }
                 else
-                    errorValue = ERROR_REG_EXP;
+                    errorValue = ASS_ERROR_REG_EXP;
             }
             if (parameter == "Vx1")
             {
@@ -5141,10 +3649,10 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                         parameterNumber++;
                     }
                     else
-                        errorValue = ERROR_INCORRECT_REG;
+                        errorValue = ASS_ERROR_INCORRECT_REG;
                 }
                 else
-                    errorValue = ERROR_REG_EXP;
+                    errorValue = ASS_ERROR_REG_EXP;
             }
             if (parameter == "Vy1")
             {
@@ -5156,10 +3664,10 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                         parameterNumber++;
                     }
                     else
-                        errorValue = ERROR_INCORRECT_REG;
+                        errorValue = ASS_ERROR_INCORRECT_REG;
                 }
                 else
-                    errorValue = ERROR_REG_EXP;
+                    errorValue = ASS_ERROR_REG_EXP;
             }
             if (parameter.Left(1) == "V" && parameter.Len() == 2)
             {
@@ -5169,7 +3677,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     if (assInput.parameterType[parameterNumber] == CHIP8_VX)
                     {
                         if (assInput.parameterValue[parameterNumber] != regNumber)
-                            errorValue = ERROR_INCORRECT_REG;
+                            errorValue = ASS_ERROR_INCORRECT_REG;
                         else
                         {
                             parameterFound = true;
@@ -5177,7 +3685,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                         }
                     }
                     else
-                        errorValue = ERROR_REG_EXP;
+                        errorValue = ASS_ERROR_REG_EXP;
                 }
             }
             if (parameter.Left(1) == "R" && parameter.Len() == 2)
@@ -5188,7 +3696,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     if (assInput.parameterType[parameterNumber] == ASS_REG)
                     {
                         if (assInput.parameterValue[parameterNumber] != regNumber || assInput.parameterValue[parameterNumber] > 0x7)
-                            errorValue = ERROR_INCORRECT_REG;
+                            errorValue = ASS_ERROR_INCORRECT_REG;
                         else
                         {
                             parameterFound = true;
@@ -5196,7 +3704,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                         }
                     }
                     else
-                        errorValue = ERROR_REG_EXP;
+                        errorValue = ASS_ERROR_REG_EXP;
                 }
             }
             if (parameter.Len() == 1)
@@ -5207,7 +3715,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
                     {
                         if (assInput.parameterValue[parameterNumber] != regNumber)
-                            errorValue = ERROR_SYNTAX;
+                            errorValue = ASS_ERROR_SYNTAX;
                         else
                         {
                             parameterFound = true;
@@ -5215,7 +3723,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                         }
                     }
                     else
-                        errorValue = ERROR_SYNTAX;
+                        errorValue = ASS_ERROR_SYNTAX;
                 }
             }
             if (parameter == "Rx")
@@ -5223,7 +3731,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                 if (assInput.parameterType[parameterNumber] == ASS_REG)
                 {
                     if (assInput.parameterValue[parameterNumber] > 0x7)
-                        errorValue = ERROR_INCORRECT_REG;
+                        errorValue = ASS_ERROR_INCORRECT_REG;
                     else
                     {
                         parameterFound = true;
@@ -5232,14 +3740,14 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_REG_EXP;
+                    errorValue = ASS_ERROR_REG_EXP;
             }
             if (parameter == "Ry")
             {
                 if (assInput.parameterType[parameterNumber] == ASS_REG)
                 {
                     if (assInput.parameterValue[parameterNumber] > 0x7)
-                        errorValue = ERROR_INCORRECT_REG;
+                        errorValue = ASS_ERROR_INCORRECT_REG;
                     else
                     {
                         parameterFound = true;
@@ -5248,14 +3756,14 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_REG_EXP;
+                    errorValue = ASS_ERROR_REG_EXP;
             }
             if (parameter == "Rz")
             {
                 if (assInput.parameterType[parameterNumber] == ASS_REG)
                 {
                     if (assInput.parameterValue[parameterNumber] > 0x7)
-                        errorValue = ERROR_INCORRECT_REG;
+                        errorValue = ASS_ERROR_INCORRECT_REG;
                     else
                     {
                         parameterFound = true;
@@ -5264,14 +3772,14 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_REG_EXP;
+                    errorValue = ASS_ERROR_REG_EXP;
             }
             if (parameter == "Rr")
             {
                 if (assInput.parameterType[parameterNumber] == ASS_REG)
                 {
                     if (assInput.parameterValue[parameterNumber] > 0x7)
-                        errorValue = ERROR_INCORRECT_REG;
+                        errorValue = ASS_ERROR_INCORRECT_REG;
                     else
                     {
                         parameterFound = true;
@@ -5280,14 +3788,14 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_REG_EXP;
+                    errorValue = ASS_ERROR_REG_EXP;
             }
             if (parameter == "[Ry]")
             {
                 if (assInput.parameterType[parameterNumber] == AM_REG_MEM)
                 {
                     if (assInput.parameterValue[parameterNumber] > 0x7)
-                        errorValue = ERROR_SYNTAX;
+                        errorValue = ASS_ERROR_SYNTAX;
                     else
                     {
                         parameterFound = true;
@@ -5296,14 +3804,14 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_REG_EXP;
+                    errorValue = ASS_ERROR_REG_EXP;
             }
             if (parameter == "[Rz]")
             {
                 if (assInput.parameterType[parameterNumber] == AM_REG_MEM)
                 {
                     if (assInput.parameterValue[parameterNumber] > 0x7)
-                        errorValue = ERROR_SYNTAX;
+                        errorValue = ASS_ERROR_SYNTAX;
                     else
                     {
                         parameterFound = true;
@@ -5312,14 +3820,14 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_REG_EXP;
+                    errorValue = ASS_ERROR_REG_EXP;
             }
            if (parameter == "RA")
             {
                 if (assInput.parameterType[parameterNumber] == ASS_REG)
                 {
                     if (assInput.parameterValue[parameterNumber] != 0xA)
-                        errorValue = ERROR_SYNTAX;
+                        errorValue = ASS_ERROR_SYNTAX;
                     else
                     {
                         parameterFound = true;
@@ -5327,14 +3835,14 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_SYNTAX;
+                    errorValue = ASS_ERROR_SYNTAX;
             }
             if (parameter == "RB")
             {
                 if (assInput.parameterType[parameterNumber] == ASS_REG)
                 {
                     if (assInput.parameterValue[parameterNumber] != 0xB)
-                        errorValue = ERROR_SYNTAX;
+                        errorValue = ASS_ERROR_SYNTAX;
                     else
                     {
                         parameterFound = true;
@@ -5342,7 +3850,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     }
                 }
                 else
-                    errorValue = ERROR_SYNTAX;
+                    errorValue = ASS_ERROR_SYNTAX;
             }
             if (parameter == assInput.parameterString[parameterNumber] && assInput.parameterType[parameterNumber] == ASS_STRING)
             {
@@ -5362,42 +3870,42 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                 if (assInput.seperator[parameterNumber-1] == ",")
                     parameterFound = true;
                 else
-                    errorValue = ERROR_COMMA;
+                    errorValue = ASS_ERROR_COMMA;
             }
             if (parameter == '+')
             {
                 if (assInput.seperator[parameterNumber-1] == "+")
                     parameterFound = true;
                 else
-                    errorValue = ERROR_PLUS;
+                    errorValue = ASS_ERROR_PLUS;
             }
             if (parameter == '-')
             {
                 if (assInput.seperator[parameterNumber-1] == "-")
                     parameterFound = true;
                 else
-                    errorValue = ERROR_MINUS;
+                    errorValue = ASS_ERROR_MINUS;
             }
             if (parameter == '&')
             {
                 if (assInput.seperator[parameterNumber-1] == "&")
                     parameterFound = true;
                 else
-                    errorValue = ERROR_AMP;
+                    errorValue = ASS_ERROR_AMP;
             }
             if (parameter == '=')
             {
                 if (assInput.seperator[parameterNumber-1] == "=")
                     parameterFound = true;
                 else
-                    errorValue = ERROR_EQUAL;
+                    errorValue = ASS_ERROR_EQUAL;
             }
             if (parameter == '/')
             {
                 if (assInput.seperator[parameterNumber-1] == "/")
                     parameterFound = true;
                 else
-                    errorValue = ERROR_SLASH;
+                    errorValue = ASS_ERROR_SLASH;
             }
             if (parameter.Left(3) == "det")
                 parameterFound = true;
@@ -5406,13 +3914,12 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                 if (parameterNumber == assInput.numberOfParameters)
                 {
                     long command;
-                    wxString tempStr;
                     wxString commandStr = parameter.Mid(5,1);
                     commandStr.ToLong(&command, 16);
                     
                     commandStr = parameter.Mid(6,7);
                     if (commandStr.Len() < 1)
-                        return ERROR_SYNTAX_FILE;
+                        return ASS_ERROR_SYNTAX_FILE;
                     
                     int pseudoLength = (int)(commandStr.Len() + 1)/2;
                     
@@ -5538,7 +4045,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     return pseudoLength;
                 }
                 else
-                    errorValue = ERROR_PAR;
+                    errorValue = ASS_ERROR_PAR;
             }
             if (!parameterFound)
             {
@@ -5560,7 +4067,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
             }
         }
     }
-    return ERROR_SYNTAX;
+    return ASS_ERROR_SYNTAX;
 }
 
 Byte DebugWindow::getCardtranAddress(long address)
@@ -5573,13 +4080,12 @@ Byte DebugWindow::getCardtranAddress(long address)
 
 int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4, Byte* b5, Byte* b6, Byte* b7, bool allowX)
 {
-    wxString command;
     long registerNumber;
     int ret;
 
     AssInput assInput = getAssInput(*buffer);
     if (assInput.errorCode != 0)  return assInput.errorCode;
-    if (assInput.commandSeperator != " ") return ERROR_COMMAND_SEP;
+    if (assInput.commandSeperator != " ") return ASS_ERROR_COMMAND_SEP;
 
     *b7 = 0xff;
 
@@ -5588,14 +4094,14 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
         if (assInput.parameterType[0] == ASS_SLOT)
         {
             ret = getSlot(assInput, b3);
-            if (ret > ERROR_START)  return ret;
+            if (ret > ASS_ERROR_START)  return ret;
 
             *b1 = (assInput.parameterValue[1]&0xff00)>>8; 
             *b2 = assInput.parameterValue[1]&0xff; 
             if (assInput.parameterType[1] == ASS_HEX_VALUE && assInput.numberOfParameters <= 2)
                 return MEM_TYPE_OPCODE_JUMP_SLOT;
 
-            return ERROR_SYNTAX; 
+            return ASS_ERROR_SYNTAX; 
         }
         else
         {
@@ -5604,27 +4110,27 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
             if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.numberOfParameters <= 1)
                 return 21;
 
-            return ERROR_SYNTAX; 
+            return ASS_ERROR_SYNTAX; 
         }
     }
     if (assInput.command == "ADC") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0x74; 
         return 1; 
     }
     if (assInput.command == "ADCI")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         *b1 = 0x7c;
         return getByte(assInput, b2, allowX);
     }
     if (assInput.command == "ADD") 
     {
         if (assInput.numberOfParameters > 0)
-            return ERROR_TEMP_PAR;
+            return ASS_ERROR_TEMP_PAR;
         *b1 = 0xf4; 
         return 1;
     }
@@ -5636,7 +4142,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     if (assInput.command == "AND") 
     { 
         if (assInput.numberOfParameters > 0)
-            return ERROR_TEMP_PAR;
+            return ASS_ERROR_TEMP_PAR;
         *b1 = 0xf2; 
         return 1; 
     }
@@ -5721,7 +4227,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "BNQ")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         *b1 = 0x39;
         return getByte(assInput, b2, allowX);
     }
@@ -5732,7 +4238,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "BQ")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         *b1 = 0x31;
         return getByte(assInput, b2, allowX);
     }
@@ -5749,7 +4255,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     if (assInput.command == "DEC")
     {
         if (assInput.numberOfParameters > 1)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
         *b1 = 0x20 | registerNumber;
@@ -5758,14 +4264,14 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     if (assInput.command == "DIS") 
     { 
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0x71; 
         return 1; 
     }
     if (assInput.command == "GHI")
     {
         if (assInput.numberOfParameters > 1)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
         *b1 = 0x90 | registerNumber;
@@ -5774,7 +4280,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     if (assInput.command == "GLO")
     {
         if (assInput.numberOfParameters > 1)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
         *b1 = 0x80 | registerNumber;
@@ -5791,7 +4297,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
                 return 1;
             }
             else
-                return ERROR_PAR;
+                return ASS_ERROR_PAR;
         }
         *b1 = 0x00;
         return 1; 
@@ -5799,7 +4305,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     if (assInput.command == "INC")
     {
         if (assInput.numberOfParameters > 1)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
         *b1 = 0x10 | registerNumber;
@@ -5814,7 +4320,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
         }
         
         if (assInput.numberOfParameters > 1)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         int lowestInpValue = 1;
         if (cpuType_ == CPU1801)
@@ -5823,7 +4329,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
         if (assInput.parameterType[0] == ASS_HEX_VALUE)
         {
             if (assInput.parameterValue[0] < lowestInpValue || assInput.parameterValue[0] > 7)
-                return ERROR_IO;
+                return ASS_ERROR_IO;
 
             *b1 = 0x60 | ((assInput.parameterValue[0] & 0x7)+8); 
             return 1;
@@ -5834,27 +4340,27 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
             *b7 = 0xf0;
             return 1;
         }
-        return ERROR_IO;
+        return ASS_ERROR_IO;
     }
     if (assInput.command == "IRX") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0x60; 
         return 1; 
     }
     if (assInput.command == "LBDF")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.parameterType[0] == ASS_SLOT)
         {
             *b1 = 0xc3;
             ret = getSlot(assInput, b2);
-            if (ret > ERROR_START)  return ret;
+            if (ret > ASS_ERROR_START)  return ret;
 
             ret = getWordPar2(assInput, b3, b4, allowX);
-            if (ret > ERROR_START)  return ret;
+            if (ret > ASS_ERROR_START)  return ret;
 
             return MEM_TYPE_OPCODE_LBR_SLOT;
         }
@@ -5866,15 +4372,15 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "LBNF")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.parameterType[0] == ASS_SLOT)
         {
             *b1 = 0xcb;
             ret = getSlot(assInput, b2);
-            if (ret > ERROR_START)  return ret;
+            if (ret > ASS_ERROR_START)  return ret;
 
             ret = getWordPar2(assInput, b3, b4, allowX);
-            if (ret > ERROR_START)  return ret;
+            if (ret > ASS_ERROR_START)  return ret;
 
             return MEM_TYPE_OPCODE_LBR_SLOT;
         }
@@ -5886,15 +4392,15 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "LBNQ")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.parameterType[0] == ASS_SLOT)
         {
             *b1 = 0xc9;
             ret = getSlot(assInput, b2);
-            if (ret > ERROR_START)  return ret;
+            if (ret > ASS_ERROR_START)  return ret;
 
             ret = getWordPar2(assInput, b3, b4, allowX);
-            if (ret > ERROR_START)  return ret;
+            if (ret > ASS_ERROR_START)  return ret;
 
             return MEM_TYPE_OPCODE_LBR_SLOT;
         }
@@ -5906,15 +4412,15 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "LBNZ")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.parameterType[0] == ASS_SLOT)
         {
             *b1 = 0xca;
             ret = getSlot(assInput, b2);
-            if (ret > ERROR_START)  return ret;
+            if (ret > ASS_ERROR_START)  return ret;
 
             ret = getWordPar2(assInput, b3, b4, allowX);
-            if (ret > ERROR_START)  return ret;
+            if (ret > ASS_ERROR_START)  return ret;
 
             return MEM_TYPE_OPCODE_LBR_SLOT;
         }
@@ -5926,15 +4432,15 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "LBQ")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.parameterType[0] == ASS_SLOT)
         {
             *b1 = 0xc1;
             ret = getSlot(assInput, b2);
-            if (ret > ERROR_START)  return ret;
+            if (ret > ASS_ERROR_START)  return ret;
 
             ret = getWordPar2(assInput, b3, b4, allowX);
-            if (ret > ERROR_START)  return ret;
+            if (ret > ASS_ERROR_START)  return ret;
 
             return MEM_TYPE_OPCODE_LBR_SLOT;
         }
@@ -5946,15 +4452,15 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "LBR")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.parameterType[0] == ASS_SLOT)
         {
             *b1 = 0xc0;
             ret = getSlot(assInput, b2);
-            if (ret > ERROR_START)  return ret;
+            if (ret > ASS_ERROR_START)  return ret;
 
             ret = getWordPar2(assInput, b3, b4, allowX);
-            if (ret > ERROR_START)  return ret;
+            if (ret > ASS_ERROR_START)  return ret;
 
             return MEM_TYPE_OPCODE_LBR_SLOT;
         }
@@ -5966,15 +4472,15 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "LBZ")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.parameterType[0] == ASS_SLOT)
         {
             *b1 = 0xc2;
             ret = getSlot(assInput, b2);
-            if (ret > ERROR_START)  return ret;
+            if (ret > ASS_ERROR_START)  return ret;
 
             ret = getWordPar2(assInput, b3, b4, allowX);
-            if (ret > ERROR_START)  return ret;
+            if (ret > ASS_ERROR_START)  return ret;
 
             return MEM_TYPE_OPCODE_LBR_SLOT;
         }
@@ -5987,7 +4493,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     if (assInput.command == "LDV")
     {
         if (assInput.numberOfParameters != 2)
-            return ERROR_REGAND16;
+            return ASS_ERROR_REGAND16;
 
         ret = getRegisterNumber(assInput, &registerNumber, b7, allowX);
         if (ret != 1)
@@ -6006,10 +4512,10 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
         if (assInput.parameterType[0] == ASS_SLOT)
         {
             if (assInput.numberOfParameters != 3)
-                return ERROR_REGAND16;
+                return ASS_ERROR_REGAND16;
 
             ret = getSlot(assInput, b4);
-            if (ret > ERROR_START)  return ret;
+            if (ret > ASS_ERROR_START)  return ret;
 
             assInput.parameterValue[0] = assInput.parameterValue[1];
             assInput.parameterType[0] = assInput.parameterType[1];
@@ -6035,7 +4541,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
         else
         {
             if (assInput.numberOfParameters != 2)
-                return ERROR_REGAND16;
+                return ASS_ERROR_REGAND16;
 
             ret = getRegisterNumber(assInput, &registerNumber, b7, allowX);
             if (ret != 1)
@@ -6057,10 +4563,10 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
         if (assInput.parameterType[0] == ASS_SLOT)
         {
             if (assInput.numberOfParameters != 3)
-                return ERROR_REGAND16;
+                return ASS_ERROR_REGAND16;
 
             ret = getSlot(assInput, b4);
-            if (ret > ERROR_START)  return ret;
+            if (ret > ASS_ERROR_START)  return ret;
 
             assInput.parameterValue[0] = assInput.parameterValue[1];
             assInput.parameterType[0] = assInput.parameterType[1];
@@ -6086,7 +4592,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
         else
         {
             if (assInput.numberOfParameters != 2)
-                return ERROR_REGAND16;
+                return ASS_ERROR_REGAND16;
 
             ret = getRegisterNumber(assInput, &registerNumber, b7, allowX);
             if (ret != 1)
@@ -6106,7 +4612,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     if (assInput.command == "LDA")
     {
         if (assInput.numberOfParameters > 1)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
         *b1 = 0x40 | registerNumber;
@@ -6120,7 +4626,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     if (assInput.command == "LDN")
     {
         if (assInput.numberOfParameters > 1)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
         *b1 = 0x00 | registerNumber;
@@ -6129,110 +4635,110 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     if (assInput.command == "LDX") 
     { 
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0xf0; 
         return 1; 
     }
     if (assInput.command == "LDXA") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0x72; 
         return 1; 
     }
     if (assInput.command == "LSDF") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0xcf; 
         return 1; 
     }
     if (assInput.command == "LSIE") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0xcc; 
         return 1; 
     }
     if (assInput.command == "LSKP") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0xc8; 
         return MEM_TYPE_OPCODE_LSKP; 
     }
     if (assInput.command == "NLBR") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0xc8; 
         return 1; 
     }
     if (assInput.command == "LSNF") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0xc7; 
         return 1; 
     }
     if (assInput.command == "LSNQ") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0xc5; 
         return 1; 
     }
     if (assInput.command == "LSNZ") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0xc6; 
         return 1; 
     }
     if (assInput.command == "LSQ") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0xcd; 
         return 1; 
     }
     if (assInput.command == "LSZ") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0xce; 
         return 1; 
     }
     if (assInput.command == "MARK") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0x79; 
         return 1; 
     }
     if (assInput.command == "NOP") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0xc4; 
         return 1; 
     }
     if (assInput.command == "OR") 
     { 
         if (assInput.numberOfParameters > 0)
-            return ERROR_TEMP_PAR;
+            return ASS_ERROR_TEMP_PAR;
         *b1 = 0xf1; 
         return 1; 
     }
@@ -6244,7 +4750,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     if (assInput.command == "OUT")
     {
         if (assInput.numberOfParameters > 1)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         int lowestOutValue = 1;
         if (cpuType_ <= CPU1801)
@@ -6253,7 +4759,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
         if (assInput.parameterType[0] == ASS_HEX_VALUE)
         {
             if (assInput.parameterValue[0] < lowestOutValue || assInput.parameterValue[0] > 7)
-                return ERROR_IO;
+                return ASS_ERROR_IO;
 
             *b1 = 0x60 | (assInput.parameterValue[0] & 0x7); 
             return 1;
@@ -6264,12 +4770,12 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
             *b7 = 0xf0;
             return 1;
         }
-        return ERROR_IO;
+        return ASS_ERROR_IO;
     }
     if (assInput.command == "PHI")
     {
         if (assInput.numberOfParameters > 1)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
         *b1 = 0xb0 | registerNumber;
@@ -6278,7 +4784,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     if (assInput.command == "PLO")
     {
         if (assInput.numberOfParameters > 1)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
         *b1 = 0xa0 | registerNumber;
@@ -6286,9 +4792,9 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "PNI")
     {
-        if (cpuType_ != SYSTEM00)  return ERROR_CPU_1801;
+        if (cpuType_ != SYSTEM00)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 1)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
         *b1 = 0xc0 | registerNumber;
@@ -6296,44 +4802,44 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "REQ") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0x7a; 
         return 1; 
     }
     if (assInput.command == "RET") 
     { 
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0x70; 
         return 1; 
     }
     if (assInput.command == "SAV") 
     { 
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0x78; 
         return 1; 
     }
     if (assInput.command == "SD") 
     { 
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0xf5; 
         return 1; 
     }
     if (assInput.command == "SDB") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0x75; 
         return 1; 
     }
     if (assInput.command == "SDBI")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         *b1 = 0x7d;
         return getByte(assInput, b2, allowX);
     }
@@ -6345,7 +4851,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     if (assInput.command == "SEP")
     {
         if (assInput.numberOfParameters > 1)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
         *b1 = 0xd0 | registerNumber;
@@ -6353,16 +4859,16 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "SEQ") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0x7b; 
         return 1; 
     }
     if (assInput.command == "SEX")
     {
         if (assInput.numberOfParameters > 1)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
         *b1 = 0xe0 | registerNumber;
@@ -6370,83 +4876,83 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "SHL") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_TEMP_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_TEMP_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_TEMP_PAR;
+            return ASS_ERROR_TEMP_PAR;
         *b1 = 0xfe; 
         return 1; 
     }
     if (assInput.command == "SHLC") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0x7e; 
         return 1; 
     }
     if (assInput.command == "RSHL") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0x7e; 
         return MEM_TYPE_OPCODE_RSHL; 
     }
     if (assInput.command == "SHR") 
     { 
         if (assInput.numberOfParameters > 0)
-            return ERROR_TEMP_PAR;
+            return ASS_ERROR_TEMP_PAR;
         *b1 = 0xf6; 
         return 1; 
     }
     if (assInput.command == "SHRC") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0x76; 
         return 1; 
     }
     if (assInput.command == "RSHR") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0x76; 
         return MEM_TYPE_OPCODE_RSHR; 
     }
     if (assInput.command == "NBR" || assInput.command == "NB") 
     { 
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0x38; 
         return 1; 
     }
     if (assInput.command == "SKP") 
     { 
         if (assInput.numberOfParameters > 0)
-            return ERROR_TEMP_PAR;
+            return ASS_ERROR_TEMP_PAR;
         *b1 = 0x38; 
         return MEM_TYPE_OPCODE_SKP; 
     }
     if (assInput.command == "SM") 
     { 
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0xf7; 
         return 1; 
     }
     if (assInput.command == "SMB") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0x77; 
         return 1; 
     }
     if (assInput.command == "SMBI")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         *b1 = 0x7f;
         return getByte(assInput, b2, allowX);
     }
@@ -6458,7 +4964,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     if (assInput.command == "STR")
     {
         if (assInput.numberOfParameters > 1)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
         *b1 = 0x50 | registerNumber;
@@ -6466,16 +4972,16 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "STXD") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0x73; 
         return 1; 
     }
     if (assInput.command == "XOR") 
     { 
         if (assInput.numberOfParameters > 0)
-            return ERROR_TEMP_PAR;
+            return ASS_ERROR_TEMP_PAR;
         *b1 = 0xf3; 
         return 1; 
     }
@@ -6488,125 +4994,125 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     {
         *b1 = 0x68;
         *b2 = 0;
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
         return 2;
     }
     if (assInput.command == "DTC")
     {
         *b1 = 0x68;
         *b2 = 0x1;
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
         return 2;
     }
     if (assInput.command == "SPM2")
     {
         *b1 = 0x68;
         *b2 = 0x2;
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
         return 2;
     }
     if (assInput.command == "SCM2")
     {
         *b1 = 0x68;
         *b2 = 0x3;
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
         return 2;
     }
     if (assInput.command == "SPM1")
     {
         *b1 = 0x68;
         *b2 = 0x4;
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
         return 2;
     }
     if (assInput.command == "SCM1")
     {
         *b1 = 0x68;
         *b2 = 0x5;
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
         return 2;
     }
     if (assInput.command == "LDC")
     {
         *b1 = 0x68;
         *b2 = 0x6;
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
         return 2;
     }
     if (assInput.command == "STM")
     {
         *b1 = 0x68;
         *b2 = 0x7;
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
         return 2;
     }
     if (assInput.command == "GEC")
     {
         *b1 = 0x68;
         *b2 = 0x8;
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
         return 2;
     }
     if (assInput.command == "ETQ")
     {
         *b1 = 0x68;
         *b2 = 0x9;
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
         return 2;
     }
     if (assInput.command == "XIE")
     {
         *b1 = 0x68;
         *b2 = 0xa;
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
         return 2;
     }
     if (assInput.command == "XID")
     {
         *b1 = 0x68;
         *b2 = 0xb;
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
         return 2;
     }
     if (assInput.command == "CIE")
     {
         *b1 = 0x68;
         *b2 = 0xc;
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
         return 2;
     }
     if (assInput.command == "CID")
     {
         *b1 = 0x68;
         *b2 = 0xd;
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
         return 2;
     }
     if (assInput.command == "DBNZ")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
-        if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
+        if (cpuType_ == CPU1804)  return ASS_ERROR_CPU_1804;
 
         if (assInput.numberOfParameters > 2)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret = getRegisterNumber(assInput, &registerNumber, b7, allowX);
-        if (ret > ERROR_START)  return ret;
+        if (ret > ASS_ERROR_START)  return ret;
 
         *b1 = 0x68;
         *b2 = 0x20 | registerNumber;
@@ -6614,11 +5120,11 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "BCI")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
 
         ret = getByte(assInput, b3, allowX);
-        if (ret > ERROR_START)  return ret;
+        if (ret > ASS_ERROR_START)  return ret;
 
         *b1 = 0x68;
         *b2 = 0x3e;
@@ -6626,11 +5132,11 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "BXI")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
 
         ret = getByte(assInput, b3, allowX);
-        if (ret > ERROR_START)  return ret;
+        if (ret > ASS_ERROR_START)  return ret;
 
         *b1 = 0x68;
         *b2 = 0x3f;
@@ -6638,14 +5144,14 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "RLXA")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
 
         if (assInput.numberOfParameters > 1)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
-        if (ret > ERROR_START)  return ret;
+        if (ret > ASS_ERROR_START)  return ret;
 
         *b1 = 0x68;
         *b2 = 0x60 | registerNumber;
@@ -6653,39 +5159,39 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "DADC")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
-        if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
+        if (cpuType_ == CPU1804)  return ASS_ERROR_CPU_1804;
         *b1 = 0x68;
         *b2 = 0x74;
         return 2;
     }
     if (assInput.command == "DSAV")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
-        if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
+        if (cpuType_ == CPU1804)  return ASS_ERROR_CPU_1804;
         *b1 = 0x68;
         *b2 = 0x76;
         return 2;
     }
     if (assInput.command == "DSMB")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
-        if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
+        if (cpuType_ == CPU1804)  return ASS_ERROR_CPU_1804;
         *b1 = 0x68;
         *b2 = 0x77;
         return 2;
     }
     if (assInput.command == "DACI")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
-        if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
+        if (cpuType_ == CPU1804)  return ASS_ERROR_CPU_1804;
 
         ret = getByte(assInput, b3, allowX);
-        if (ret > ERROR_START)  return ret;
+        if (ret > ASS_ERROR_START)  return ret;
 
         *b1 = 0x68;
         *b2 = 0x7c;
@@ -6693,12 +5199,12 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "DSBI")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
-        if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
+        if (cpuType_ == CPU1804)  return ASS_ERROR_CPU_1804;
 
         ret = getByte(assInput, b3, allowX);
-        if (ret > ERROR_START)  return ret;
+        if (ret > ASS_ERROR_START)  return ret;
 
         *b1 = 0x68;
         *b2 = 0x7f;
@@ -6706,14 +5212,14 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "SCAL")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
 
         if (assInput.numberOfParameters > 2)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
-        if (ret > ERROR_START)  return ret;
+        if (ret > ASS_ERROR_START)  return ret;
 
         *b1 = 0x68;
         *b2 = 0x80 | registerNumber;
@@ -6721,14 +5227,14 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "SRET")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
 
         if (assInput.numberOfParameters > 1)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
-        if (ret > ERROR_START)  return ret;
+        if (ret > ASS_ERROR_START)  return ret;
 
         *b1 = 0x68;
         *b2 = 0x90 | registerNumber;
@@ -6736,14 +5242,14 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "RSXD")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
 
         if (assInput.numberOfParameters > 1)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
-        if (ret > ERROR_START)  return ret;
+        if (ret > ASS_ERROR_START)  return ret;
 
         *b1 = 0x68;
         *b2 = 0xa0 | registerNumber;
@@ -6751,14 +5257,14 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "RNX")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
 
         if (assInput.numberOfParameters > 1)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
-        if (ret > ERROR_START)  return ret;
+        if (ret > ASS_ERROR_START)  return ret;
 
         *b1 = 0x68;
         *b2 = 0xb0 | registerNumber;
@@ -6766,14 +5272,14 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "RLDI")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
 
         if (assInput.numberOfParameters > 2)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
-        if (ret > ERROR_START)  return ret;
+        if (ret > ASS_ERROR_START)  return ret;
 
         *b1 = 0x68;
         *b2 = 0xc0 | registerNumber;
@@ -6781,31 +5287,31 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "RLDL") 
     { 
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
 
         if (assInput.numberOfParameters > 2)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         ret = getRegisterNumber(assInput, &registerNumber, b7, allowX);
-        if (ret > ERROR_START)  return ret;
+        if (ret > ASS_ERROR_START)  return ret;
 
         *b1 = 0x68;
         *b2 = 0xc0 | registerNumber; 
 
         ret =  getWordPar2(assInput, b3, b4, allowX);
-        if (ret > ERROR_START)  return ret;
+        if (ret > ASS_ERROR_START)  return ret;
 
         return MEM_TYPE_OPCODE_RLDL; 
     }
     if (assInput.command == "DADD")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
-        if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
+        if (cpuType_ == CPU1804)  return ASS_ERROR_CPU_1804;
 
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         *b1 = 0x68;
         *b2 = 0xf4;
@@ -6813,12 +5319,12 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "DSM")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
-        if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
+        if (cpuType_ == CPU1804)  return ASS_ERROR_CPU_1804;
 
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
 
         *b1 = 0x68;
         *b2 = 0xf7;
@@ -6826,12 +5332,12 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "DADI")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
-        if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
+        if (cpuType_ == CPU1804)  return ASS_ERROR_CPU_1804;
 
         ret = getByte(assInput, b3, allowX);
-        if (ret > ERROR_START)  return ret;
+        if (ret > ASS_ERROR_START)  return ret;
 
         *b1 = 0x68;
         *b2 = 0xfc;
@@ -6839,12 +5345,12 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     }
     if (assInput.command == "DSMI")
     {
-        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
-        if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
-        if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
+        if (cpuType_ <= CPU1801)  return ASS_ERROR_CPU_1801;
+        if (cpuType_ == CPU1802)  return ASS_ERROR_CPU_1802;
+        if (cpuType_ == CPU1804)  return ASS_ERROR_CPU_1804;
 
         ret = getByte(assInput, b3, allowX);
-        if (ret > ERROR_START)  return ret;
+        if (ret > ASS_ERROR_START)  return ret;
 
         *b1 = 0x68;
         *b2 = 0xff;
@@ -6853,7 +5359,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
     if (assInput.command == "RETURN")
     {
         if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+            return ASS_ERROR_PAR;
         *b1 = 0xd5;
         return 1;
     }
@@ -6862,18 +5368,18 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
         *b1 = 0xd4;
         return getWord(assInput, b2, b3, allowX);
     }
-    return ERROR_INST;
+    return ASS_ERROR_INST;
 }
 
 int DebugWindow::getByte(AssInput assInput, Byte* b2, bool allowX)
 {
     if (assInput.numberOfParameters > 1)
-        return ERROR_PAR;
+        return ASS_ERROR_PAR;
 
     if (assInput.parameterType[0] == ASS_HEX_VALUE)
     {
         if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xff)
-            return ERROR_8BIT;
+            return ASS_ERROR_8BIT;
 
         *b2 = assInput.parameterValue[0];
         return 2;
@@ -6882,34 +5388,34 @@ int DebugWindow::getByte(AssInput assInput, Byte* b2, bool allowX)
     {
         return 1;
     }
-    return ERROR_8BIT;
+    return ASS_ERROR_8BIT;
 }
 
 int DebugWindow::getSlot(AssInput assInput, Byte* b2)
 {
     if (assInput.numberOfParameters > 3)
-        return ERROR_PAR;
+        return ASS_ERROR_PAR;
 
     if (assInput.parameterType[0] == ASS_SLOT)
     {
         if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xff)
-            return ERROR_8BIT;
+            return ASS_ERROR_8BIT;
 
         *b2 = assInput.parameterValue[0];
         return 2;
     }
-    return ERROR_8BIT;
+    return ASS_ERROR_8BIT;
 }
 
 int DebugWindow::getWord(AssInput assInput, Byte* b2, Byte* b3, bool allowX)
 {
     if (assInput.numberOfParameters > 1)
-        return ERROR_PAR;
+        return ASS_ERROR_PAR;
 
     if (assInput.parameterType[0] == ASS_HEX_VALUE)
     {
         if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xffff)
-            return ERROR_16BIT;
+            return ASS_ERROR_16BIT;
 
         *b2 = assInput.parameterValue[0] >> 8;
         *b3 = assInput.parameterValue[0] & 0xff;
@@ -6919,18 +5425,18 @@ int DebugWindow::getWord(AssInput assInput, Byte* b2, Byte* b3, bool allowX)
     {
         return 1;
     }
-    return ERROR_8BIT;
+    return ASS_ERROR_8BIT;
 }
 
 int DebugWindow::getWordPar2(AssInput assInput, Byte* b3, Byte* b4, bool allowX)
 {
     if (assInput.numberOfParameters > 2)
-        return ERROR_PAR;
+        return ASS_ERROR_PAR;
 
     if (assInput.parameterType[1] == ASS_HEX_VALUE)
     {
         if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xffff)
-            return ERROR_16BIT;
+            return ASS_ERROR_16BIT;
 
         *b3 = assInput.parameterValue[1] >> 8;
         *b4 = assInput.parameterValue[1] & 0xff;
@@ -6940,7 +5446,7 @@ int DebugWindow::getWordPar2(AssInput assInput, Byte* b3, Byte* b4, bool allowX)
     {
         return 2;
     }
-    return ERROR_8BIT;
+    return ASS_ERROR_8BIT;
 }
 
 int DebugWindow::getRegisterNumber(AssInput assInput, long* registerNumber, Byte* b7, bool allowX)
@@ -6948,7 +5454,7 @@ int DebugWindow::getRegisterNumber(AssInput assInput, long* registerNumber, Byte
     if (assInput.parameterType[0] == ASS_HEX_VALUE)
     {
         if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xf)
-            return ERROR_REG;
+            return ASS_ERROR_REG;
         *registerNumber = assInput.parameterValue[0];
         return 1;
     }
@@ -6963,7 +5469,7 @@ int DebugWindow::getRegisterNumber(AssInput assInput, long* registerNumber, Byte
         *b7 = 0xf0;
         return 1;
     }
-    return ERROR_REG;
+    return ASS_ERROR_REG;
 }
 
 int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
@@ -6982,9 +5488,9 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
     {
         buffer = buffer.Right(buffer.Len()-1);
         if (!buffer.ToLong(value, 16))
-            return ERROR_REG;
+            return ASS_ERROR_REG;
         if (*value < 0 || *value > 15)
-            return ERROR_REG;
+            return ASS_ERROR_REG;
         *type = CHIP8_VX;
         return 0;
     }
@@ -6992,9 +5498,9 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
     {
         buffer = buffer.Right(buffer.Len()-1);
         if (!buffer.ToLong(value, 16))
-            return ERROR_REG;
+            return ASS_ERROR_REG;
         if (*value < 0 || *value > 15)
-            return ERROR_REG;
+            return ASS_ERROR_REG;
         *type = ASS_REG;
         return 0;
     }
@@ -7002,9 +5508,9 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
     {
         buffer = buffer.Right(buffer.Len()-1);
         if (!buffer.ToLong(value, 16))
-            return ERROR_SLOT;
+            return ASS_ERROR_SLOT;
         if (*value < 0 || *value > 255)
-            return ERROR_SLOT;
+            return ASS_ERROR_SLOT;
         *type = ASS_SLOT;
         return 0;
     }
@@ -7012,9 +5518,9 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
     {
         buffer = buffer.Mid(2, 1);
         if (!buffer.ToLong(value, 16))
-        return ERROR_REG;
+        return ASS_ERROR_REG;
         if (*value < 0 || *value > 15)
-        return ERROR_REG;
+        return ASS_ERROR_REG;
         *type = CHIP8_VX_MEM_1;
         return 0;
     }
@@ -7022,9 +5528,9 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
     {
         buffer = buffer.Mid(2, 1);
         if (!buffer.ToLong(value, 16))
-            return ERROR_REG;
+            return ASS_ERROR_REG;
         if (*value < 0 || *value > 15)
-            return ERROR_REG;
+            return ASS_ERROR_REG;
         *type = CHIP8_VX_MEM;
         return 0;
     }
@@ -7032,9 +5538,9 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
     {
         buffer = buffer.Mid(2, 1);
         if (!buffer.ToLong(value, 16))
-            return ERROR_REG;
+            return ASS_ERROR_REG;
         if (*value < 0 || *value > 15)
-            return ERROR_REG;
+            return ASS_ERROR_REG;
         *type = AM_REG_MEM;
         return 0;
     }
@@ -7065,37 +5571,6 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
     return 0;
 }
 
-int DebugWindow::getRegister(wxString buffer)
-{
-    if (buffer == "D")  return TREG_D;
-    if (buffer == "DF")  return TREG_DF;
-    if (buffer == "P")  return TREG_P;
-    if (buffer == "X")  return TREG_X;
-    if (buffer == "T")  return TREG_T;
-    if (buffer == "B")  return TREG_B;
-    if (buffer == "CH")  return TREG_CH;
-    if (buffer == "CN")  return TREG_CNTR;
-    if (buffer == "CNTR")  return TREG_CNTR;
-    if (buffer == "Q")  return TREG_Q;
-    if (buffer == "R0")  return TREG_R0;
-    if (buffer == "R1")  return TREG_R1;
-    if (buffer == "R2")  return TREG_R2;
-    if (buffer == "R3")  return TREG_R3;
-    if (buffer == "R4")  return TREG_R4;
-    if (buffer == "R5")  return TREG_R5;
-    if (buffer == "R6")  return TREG_R6;
-    if (buffer == "R7")  return TREG_R7;
-    if (buffer == "R8")  return TREG_R8;
-    if (buffer == "R9")  return TREG_R9;
-    if (buffer == "RA")  return TREG_RA;
-    if (buffer == "RB")  return TREG_RB;
-    if (buffer == "RC")  return TREG_RC;
-    if (buffer == "RD")  return TREG_RD;
-    if (buffer == "RE")  return TREG_RE;
-    if (buffer == "RF")  return TREG_RF;
-    return TREG_FAULT;
-}
-
 void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
 {
 //    int num = 0;
@@ -7103,7 +5578,7 @@ void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
     Byte value;
     Word startAddress = 0, endAddress;
     wxFile outputFile;
-    wxString fileName, memoryStr, number, strValue, line;
+    wxString fileName, memoryStr, strValue, line;
 
     endAddress = getAddressMask();
     
@@ -7387,17 +5862,12 @@ void DebugWindow::onDebugRunButton(wxCommandEvent&WXUNUSED(event))
     long runAddress = get16BitValue("DebugRunAddress");
     if (runAddress == -1)  return;
 
-    p_Computer->setScratchpadRegister(p_Computer->getProgramCounter(), runAddress);
+    p_Computer->setScratchpadRegister(p_Computer->getProgramCounter(), runAddress, NO_TREG_TRACE);
 }
 
 void DebugWindow::onRunAddress(wxCommandEvent&WXUNUSED(event))
 {
     get16BitValue("DebugRunAddress");
-}
-
-void DebugWindow::onBreakPointAddress(wxCommandEvent&WXUNUSED(event))
-{
-    get16BitValue("BreakPointAddress");
 }
 
 void DebugWindow::onTregValue(wxCommandEvent&WXUNUSED(event))
@@ -7414,7 +5884,7 @@ void DebugWindow::onNumberOfSteps(wxCommandEvent&WXUNUSED(event))
 
 void DebugWindow::SetDebugMode()
 {
-    if (trace_ || traceTrap_ || traceDma_ || traceInt_ || numberOfBreakPoints_ > 0 || numberOfTraps_ > 0 || numberOfTregs_ > 0)
+    if (trace_ || traceDma_ || traceInt_ || numberOfBreakPointsAndTraps_ > 0)
         updateDebugMenu(true);
     else
         updateDebugMenu(false);
@@ -7432,7 +5902,7 @@ void DebugWindow::onLog(wxCommandEvent& WXUNUSED(event))
 {
 //    wxSetWorkingDirectory (workingDir_);
 //    int num = 0;
-    wxString fileName, number;
+    wxString fileName;
 
     fileName = wxFileSelector( "Select the log file to save",
                                debugDir_, "trace.log",
@@ -7487,7 +5957,24 @@ void DebugWindow::onTrace(wxCommandEvent& WXUNUSED(event))
 
 void DebugWindow::onTraceDma(wxCommandEvent& WXUNUSED(event))
 {
-    traceDma_ = !traceDma_;
+    if (traceDma_)
+    {
+        XRCCTRL(*this, "DmaButton", wxToggleButton)->SetValue(true);
+        XRCCTRL(*this, "DmaButton", wxToggleButton)->SetLabel("D-MT");
+        traceDma_ = false;
+        traceDmaMt_ = true;
+    }
+    else
+    {
+        if (traceDmaMt_)
+        {
+            XRCCTRL(*this, "DmaButton", wxToggleButton)->SetLabel("DMA");
+            traceDma_ = false;
+            traceDmaMt_ = false;
+        }
+        else
+            traceDma_ = true;
+    }
     if (computerRunning_)
     {
         p_Computer->setDmaTraceStatus(traceDma_);
@@ -7520,19 +6007,23 @@ void DebugWindow::onChip8TraceInt(wxCommandEvent& WXUNUSED(event))
 
 void DebugWindow::onTraceTrap(wxCommandEvent& WXUNUSED(event))
 {
-    traceTrap_ = !traceTrap_;
-    if (traceTrap_)
+    breakTrap_ = !breakTrap_;
+/*    if (!breakTrap_)
     {
         XRCCTRL(*this, "TrapWindowText", wxStaticText)->SetLabel("Instr. Trace:");
-        XRCCTRL(*this, "TrapSet", wxButton)->SetLabel("Instr. Trace:");
+        XRCCTRL(*this, "TrapSet", wxButton)->SetLabel("Instr. Trace");
+        XRCCTRL(*this, "MemWindowText", wxStaticText)->SetLabel("Mem. Trace:");
+        XRCCTRL(*this, "MemSet", wxButton)->SetLabel("Mem. Trace");
     }
     else
     {
-        XRCCTRL(*this, "TrapWindowText", wxStaticText)->SetLabel("Instr. Traps:");
-        XRCCTRL(*this, "TrapSet", wxButton)->SetLabel("Instr. Trap:");
+        XRCCTRL(*this, "TrapWindowText", wxStaticText)->SetLabel("Instr Traps:");
+        XRCCTRL(*this, "TrapSet", wxButton)->SetLabel("Instr. Trap");
+        XRCCTRL(*this, "MemWindowText", wxStaticText)->SetLabel("Mem. Traps:");
+        XRCCTRL(*this, "MemSet", wxButton)->SetLabel("Mem. Trap");
     }
     enableDebugGui(true);
-    SetDebugMode();
+    SetDebugMode();*/
 }
 
 void DebugWindow::onInt(wxCommandEvent& WXUNUSED(event))
@@ -7545,360 +6036,12 @@ void DebugWindow::onReset(wxCommandEvent& WXUNUSED(event))
     p_Computer->onReset();
 }
 
-void DebugWindow::onBreakPointSet(wxCommandEvent&WXUNUSED(event))
-{
-    if (numberOfBreakPoints_ == 64)
-    {
-        (void)wxMessageBox( "Maximum number of Break Points set\n",
-                                    "Emma 02", wxICON_ERROR | wxOK );
-        return;
-    }
-
-    long breakPointAddress = get16BitValue("BreakPointAddress");
-    if (breakPointAddress == -1)
-    {
-        (void)wxMessageBox( "No Break Point value specified\n",
-                                    "Emma 02", wxICON_ERROR | wxOK );
-        return;
-    }
-
-    breakPoints_[numberOfBreakPoints_] = breakPointAddress;
-    breakPointsSelected_[numberOfBreakPoints_] = true;
-    addBreakPoint();
-    SetDebugMode();
-}
-
-void DebugWindow::onTregSet(wxCommandEvent&WXUNUSED(event))
-{
-    wxString printBuffer, strValue;
-
-    char reg = XRCCTRL(*this,"TregRegister",wxChoice)->GetCurrentSelection();
-
-    if ((reg >= TREG_D) && (reg <= TREG_RF))
-    {
-        long tregValue = get16BitValue("TregValue");
-        if (tregValue == -1)
-        {
-            (void)wxMessageBox( "No Register Value value specified\n",
-                                        "Emma 02", wxICON_ERROR | wxOK );
-            return;
-        }
-
-        if (numberOfTregs_ == 64)
-        {
-            (void)wxMessageBox( "Maximum number of Register Traps set\n",
-                                        "Emma 02", wxICON_ERROR | wxOK );
-            return;
-        }
-
-        if ((reg >= TREG_R0) && (reg <= TREG_RF))
-        {
-            if (tregValue > 0xffff)
-            {
-                (void)wxMessageBox( "Please specify value of 16 bit max\n",
-                                            "Emma 02", wxICON_ERROR | wxOK );
-                return;
-            }
-        }
-        else
-        {
-            if (reg <= TREG_T)
-            {
-                if (tregValue > 0xff)
-                {
-                    (void)wxMessageBox( "Please specify value of 8 bit max\n",
-                                                "Emma 02", wxICON_ERROR | wxOK );
-                    return;
-                }
-            }
-            else
-            {
-                if (tregValue > 1)
-                {
-                    (void)wxMessageBox( "Please specify value of 0 or 1\n",
-                                                "Emma 02", wxICON_ERROR | wxOK );
-                    return;
-                }
-            }
-        }
-
-        tregs_[numberOfTregs_][0] = reg;
-        tregs_[numberOfTregs_][1] = tregValue;
-        tregsSelected_[numberOfTregs_] = true;
-        addTreg();
-        SetDebugMode();
-    }
-    else
-    {
-        (void)wxMessageBox( "No register specified\n",
-                                    "Emma 02", wxICON_ERROR | wxOK );
-    }
-
-}
-
-void DebugWindow::onTrapCommand(wxCommandEvent&event)
-{
-    int command = event.GetSelection();
-    wxString value = XRCCTRL(*this, "TrapValue", wxTextCtrl)->GetValue();
-
-    if (opCode2[command] == 0x30)
-    {
-        XRCCTRL(*this, "TrapValue", wxTextCtrl)->Enable(numberOfBytes[command] > 1);
-        if (numberOfBytes[command] == 2)
-        {
-            XRCCTRL(*this, "TrapValue", wxTextCtrl)->SetMaxLength(2);
-            if (value != "")
-                XRCCTRL(*this, "TrapValue", wxTextCtrl)->SetValue(value.Right(2));
-        }
-        if (numberOfBytes[command] == 3)
-            XRCCTRL(*this, "TrapValue", wxTextCtrl)->SetMaxLength(4);
-    }
-    else
-    {
-        XRCCTRL(*this, "TrapValue", wxTextCtrl)->Enable(numberOfBytes[command] > 2);
-        if (numberOfBytes[command] == 3)
-        {
-            XRCCTRL(*this, "TrapValue", wxTextCtrl)->SetMaxLength(2);
-            if (value != "")
-                XRCCTRL(*this, "TrapValue", wxTextCtrl)->SetValue(value.Right(2));
-        }
-        if (numberOfBytes[command] == 4)
-            XRCCTRL(*this, "TrapValue", wxTextCtrl)->SetMaxLength(4);
-    }
-
-    XRCCTRL(*this, "TrapRegister", wxChoice)->Enable(useRegister[command]);
-}
-
-void DebugWindow::onTrapSet(wxCommandEvent&WXUNUSED(event))
-{
-    if (numberOfTraps_ == 64)
-    {
-        (void)wxMessageBox( "Maximum number of Command Traps set\n",
-                                    "Emma 02", wxICON_ERROR | wxOK );
-        return;
-    }
-
-    int command = XRCCTRL(*this,"TrapCommand",wxChoice)->GetCurrentSelection();
-    wxString strValue = XRCCTRL(*this,"TrapValue",wxTextCtrl)->GetValue(), errorCode;
-    long trapValue;
-
-    if ((command >= 0) && (command <= 118))
-    {
-        traps_[numberOfTraps_][7] = 0xff;
-        traps_[numberOfTraps_][0] = numberOfBytes[command];
-        traps_[numberOfTraps_][1] = opCode[command];
-        traps_[numberOfTraps_][8] = macro[command];
-
-        if (opCode[command] == 0x68)
-        {
-            if (cpuType_ >= minCpuType[command])
-            {
-                traps_[numberOfTraps_][2] = opCode2[command];
-                if (useRegister[command])
-                {
-                    int registerValue = XRCCTRL(*this,"TrapRegister",wxChoice)->GetCurrentSelection()-1;
-                    if ((registerValue >= 0) && (registerValue <= 0xf))
-                    {
-                        traps_[numberOfTraps_][2] |= registerValue;
-                    }
-                    else
-                    {
-                        traps_[numberOfTraps_][7] = 0xf0;
-                    }
-                }
-                if (traps_[numberOfTraps_][0] == 3)
-                {
-                    strValue = strValue.MakeUpper();
-                    if (strValue == "X")
-                    {
-                        traps_[numberOfTraps_][0] = 2;
-                    }
-                    else
-                    {
-                        if (!strValue.ToLong(&trapValue, 16))
-                        {
-                            (void)wxMessageBox( "Please specify value in hexadecimal\n",
-                                                        "Emma 02", wxICON_ERROR | wxOK );
-                            return;
-                        }
-                        if (trapValue > 0xff)
-                        {
-                            (void)wxMessageBox( "Please specify value of 8 bit max\n",
-                                                        "Emma 02", wxICON_ERROR | wxOK );
-                            return;
-                        }
-                        else
-                        {
-                            traps_[numberOfTraps_][3] = trapValue;
-                        }
-                    }
-                }
-                if (traps_[numberOfTraps_][0] == 4)
-                {
-                    strValue = strValue.MakeUpper();
-                    if (strValue == "X")
-                    {
-                        traps_[numberOfTraps_][0] = 2;
-                    }
-                    else
-                    {
-                        if (!strValue.ToLong(&trapValue, 16))
-                        {
-                            (void)wxMessageBox( "Please specify value in hexadecimal\n",
-                                                        "Emma 02", wxICON_ERROR | wxOK );
-                            return;
-                        }
-                        if (trapValue > 0xffff)
-                        {
-                            (void)wxMessageBox( "Please specify value of 16 bit max\n",
-                                                        "Emma 02", wxICON_ERROR | wxOK );
-                            return;
-                        }
-                        else
-                        {
-                            traps_[numberOfTraps_][3] = (trapValue >> 8) & 0xff;
-                            traps_[numberOfTraps_][4] = trapValue & 0xff;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (cpuType_ <= CPU1801)
-                    errorCode = "Not supported on CDP1801\n";
-                if (cpuType_ == CPU1802)
-                    errorCode = "Not supported on CDP1802\n";
-                if (cpuType_ == CPU1804)
-                    errorCode = "Not supported on CDP1804\n";
-                (void)wxMessageBox( errorCode,
-                                            "Emma 02", wxICON_ERROR | wxOK );
-                return;
-            }
-        }
-        else
-        {
-            if (cpuType_ < minCpuType[command])
-            {
-                errorCode = "Not supported on CDP1801\n";
-                (void)wxMessageBox( errorCode,
-                                   "Emma 02", wxICON_ERROR | wxOK );
-                return;
-            }
-            
-            if (useRegister[command])
-            {
-                int registerValue = XRCCTRL(*this,"TrapRegister",wxChoice)->GetCurrentSelection()-1;
-                if ((registerValue >= 0) && (registerValue <= 0xf))
-                {
-                    traps_[numberOfTraps_][1] |= registerValue;
-                }
-                else
-                {
-                    traps_[numberOfTraps_][7] = 0xf0;
-                }
-            }
-            if (opCode[command] == 0x61 || opCode[command] == 0x69)
-            {
-                strValue = strValue.MakeUpper();
-                traps_[numberOfTraps_][0] = 1;
-                if (strValue == "X")
-                {
-                    traps_[numberOfTraps_][7] = 0xf8;
-                }
-                else
-                {
-                    if (!strValue.ToLong(&trapValue))
-                    {
-                        (void)wxMessageBox( "Please specify value 0 to 7\n",
-                                                    "Emma 02", wxICON_ERROR | wxOK );
-                        return;
-                    }
-                    if ((trapValue >= 0) && (trapValue <= 7))
-                    {
-                        traps_[numberOfTraps_][1] = traps_[numberOfTraps_][1] + trapValue - 1;
-                    }
-                    else
-                    {
-                        (void)wxMessageBox( "Please specify value 0 to 7\n",
-                                                    "Emma 02", wxICON_ERROR | wxOK );
-                        return;
-                    }
-                }
-            }
-            if (traps_[numberOfTraps_][0] == 2)
-            {
-                strValue = strValue.MakeUpper();
-                if (strValue == "X")
-                {
-                    traps_[numberOfTraps_][0] = 1;
-                }
-                else
-                {
-                    if (!strValue.ToLong(&trapValue, 16))
-                    {
-                        (void)wxMessageBox( "Please specify value in hexadecimal\n",
-                                                    "Emma 02", wxICON_ERROR | wxOK );
-                        return;
-                    }
-                    if (trapValue > 0xff)
-                    {
-                        (void)wxMessageBox( "Please specify value of 8 bit max\n",
-                                                    "Emma 02", wxICON_ERROR | wxOK );
-                        return;
-                    }
-                    else
-                    {
-                        traps_[numberOfTraps_][2] = trapValue;
-                    }
-                }
-            }
-            if (traps_[numberOfTraps_][0] == 3)
-            {
-                strValue = strValue.MakeUpper();
-                if (strValue == "X")
-                {
-                    traps_[numberOfTraps_][0] = 1;
-                }
-                else
-                {
-                    if (!strValue.ToLong(&trapValue, 16))
-                    {
-                        (void)wxMessageBox( "Please specify value in hexadecimal\n",
-                                                    "Emma 02", wxICON_ERROR | wxOK );
-                        return;
-                    }
-                    if (trapValue > 0xffff)
-                    {
-                        (void)wxMessageBox( "Please specify value of 16 bit max\n",
-                                                    "Emma 02", wxICON_ERROR | wxOK );
-                        return;
-                    }
-                    else
-                    {
-                        traps_[numberOfTraps_][2] = (trapValue >> 8) & 0xff;
-                        traps_[numberOfTraps_][3] = trapValue & 0xff;
-                    }
-                }
-            }
-        }
-    }
-    else
-    {
-        (void)wxMessageBox( "No command specified\n",
-                                    "Emma 02", wxICON_ERROR | wxOK );
-        return;
-    }
-    trapsSelected_[numberOfTraps_] = true;
-    addTrap();
-    SetDebugMode();
-}
-
 void DebugWindow::D(wxCommandEvent&WXUNUSED(event))
 {
     long value = get8BitValue("D");
     if (value == -1)  return;
 
-    p_Computer->setAccumulator(value);
+    p_Computer->setAccumulator(value, NO_TREG_TRACE);
 }
 
 void DebugWindow::P(wxCommandEvent&WXUNUSED(event))
@@ -7906,8 +6049,7 @@ void DebugWindow::P(wxCommandEvent&WXUNUSED(event))
     long value = get8BitValue("P");
     if (value == -1)  return;
 
-
-    p_Computer->setProgramCounter(value);
+    p_Computer->setProgramCounter(value, NO_TREG_TRACE);
 }
 
 void DebugWindow::X(wxCommandEvent&WXUNUSED(event))
@@ -7915,7 +6057,7 @@ void DebugWindow::X(wxCommandEvent&WXUNUSED(event))
     long value = get8BitValue("X");
     if (value == -1)  return;
 
-    p_Computer->setDataPointer(value);
+    p_Computer->setDataPointer(value, NO_TREG_TRACE);
 }
 
 void DebugWindow::T(wxCommandEvent&WXUNUSED(event))
@@ -7923,7 +6065,7 @@ void DebugWindow::T(wxCommandEvent&WXUNUSED(event))
     long value = get8BitValue("T");
     if (value == -1)  return;
 
-    p_Computer->setRegisterT(value);
+    p_Computer->setRegisterT(value, NO_TREG_TRACE);
 }
 
 void DebugWindow::B(wxCommandEvent&WXUNUSED(event))
@@ -7931,7 +6073,7 @@ void DebugWindow::B(wxCommandEvent&WXUNUSED(event))
     long value = get8BitValue("B");
     if (value == -1)  return;
     
-    p_Computer->setRegisterB(value);
+    p_Computer->setRegisterB(value, NO_TREG_TRACE);
 }
 
 void DebugWindow::CH(wxCommandEvent&WXUNUSED(event))
@@ -7939,7 +6081,7 @@ void DebugWindow::CH(wxCommandEvent&WXUNUSED(event))
     long value = get8BitValue("CH");
     if (value == -1)  return;
     
-    p_Computer->setCounterJamValue(value);
+    p_Computer->setCounterJamValue(value, NO_TREG_TRACE);
 }
 
 void DebugWindow::CNTR(wxCommandEvent&WXUNUSED(event))
@@ -7947,7 +6089,7 @@ void DebugWindow::CNTR(wxCommandEvent&WXUNUSED(event))
     long value = get8BitValue("CNTR");
     if (value == -1)  return;
     
-    p_Computer->setCounterTimer(value);
+    p_Computer->setCounterTimer(value, NO_TREG_TRACE);
 }
 
 void DebugWindow::DF(wxCommandEvent&WXUNUSED(event))
@@ -7955,7 +6097,7 @@ void DebugWindow::DF(wxCommandEvent&WXUNUSED(event))
     long value = getBitValue("DF");
     if (value == -1)  return;
 
-    p_Computer->setDataFlag(value);
+    p_Computer->setDataFlag(value, NO_TREG_TRACE);
 }
 
 void DebugWindow::Q(wxCommandEvent&WXUNUSED(event))
@@ -7963,7 +6105,7 @@ void DebugWindow::Q(wxCommandEvent&WXUNUSED(event))
     long value = getBitValue("Q");
     if (value == -1)  return;
 
-    p_Computer->setFlipFlopQ(value);
+    p_Computer->setFlipFlopQ(value, NO_TREG_TRACE);
 }
 
 void DebugWindow::IE(wxCommandEvent&WXUNUSED(event))
@@ -8029,7 +6171,7 @@ void DebugWindow::chip8I(wxCommandEvent&WXUNUSED(event))
         p_Computer->writeMemDebug(0x27f7, value&0xff, false);
     }
     else
-        p_Computer->setScratchpadRegister(CHIP8_I, value);
+        p_Computer->setScratchpadRegister(CHIP8_I, value, NO_TREG_TRACE);
 }
 
 void DebugWindow::Vx(wxCommandEvent&event)
@@ -8049,7 +6191,7 @@ void DebugWindow::R0(wxCommandEvent&WXUNUSED(event))
     long value = get16BitValue("R0");
     if (value == -1)  return;
 
-    p_Computer->setScratchpadRegister(0, value);
+    p_Computer->setScratchpadRegister(0, value, NO_TREG_TRACE);
 }
 
 void DebugWindow::R1(wxCommandEvent&WXUNUSED(event))
@@ -8057,7 +6199,7 @@ void DebugWindow::R1(wxCommandEvent&WXUNUSED(event))
     long value = get16BitValue("R1");
     if (value == -1)  return;
 
-    p_Computer->setScratchpadRegister(1, value);
+    p_Computer->setScratchpadRegister(1, value, NO_TREG_TRACE);
 }
 
 void DebugWindow::R2(wxCommandEvent&WXUNUSED(event))
@@ -8065,7 +6207,7 @@ void DebugWindow::R2(wxCommandEvent&WXUNUSED(event))
     long value = get16BitValue("R2");
     if (value == -1)  return;
 
-    p_Computer->setScratchpadRegister(2, value);
+    p_Computer->setScratchpadRegister(2, value, NO_TREG_TRACE);
 }
 
 void DebugWindow::R3(wxCommandEvent&WXUNUSED(event))
@@ -8073,7 +6215,7 @@ void DebugWindow::R3(wxCommandEvent&WXUNUSED(event))
     long value = get16BitValue("R3");
     if (value == -1)  return;
 
-    p_Computer->setScratchpadRegister(3, value);
+    p_Computer->setScratchpadRegister(3, value, NO_TREG_TRACE);
 }
 
 void DebugWindow::R4(wxCommandEvent&WXUNUSED(event))
@@ -8081,7 +6223,7 @@ void DebugWindow::R4(wxCommandEvent&WXUNUSED(event))
     long value = get16BitValue("R4");
     if (value == -1)  return;
 
-    p_Computer->setScratchpadRegister(4, value);
+    p_Computer->setScratchpadRegister(4, value, NO_TREG_TRACE);
 }
 
 void DebugWindow::R5(wxCommandEvent&WXUNUSED(event))
@@ -8089,7 +6231,7 @@ void DebugWindow::R5(wxCommandEvent&WXUNUSED(event))
     long value = get16BitValue("R5");
     if (value == -1)  return;
 
-    p_Computer->setScratchpadRegister(5, value);
+    p_Computer->setScratchpadRegister(5, value, NO_TREG_TRACE);
 }
 
 void DebugWindow::R6(wxCommandEvent&WXUNUSED(event))
@@ -8097,7 +6239,7 @@ void DebugWindow::R6(wxCommandEvent&WXUNUSED(event))
     long value = get16BitValue("R6");
     if (value == -1)  return;
 
-    p_Computer->setScratchpadRegister(6, value);
+    p_Computer->setScratchpadRegister(6, value, NO_TREG_TRACE);
 }
 
 void DebugWindow::R7(wxCommandEvent&WXUNUSED(event))
@@ -8105,7 +6247,7 @@ void DebugWindow::R7(wxCommandEvent&WXUNUSED(event))
     long value = get16BitValue("R7");
     if (value == -1)  return;
 
-    p_Computer->setScratchpadRegister(7, value);
+    p_Computer->setScratchpadRegister(7, value, NO_TREG_TRACE);
 }
 
 void DebugWindow::R8(wxCommandEvent&WXUNUSED(event))
@@ -8113,7 +6255,7 @@ void DebugWindow::R8(wxCommandEvent&WXUNUSED(event))
     long value = get16BitValue("R8");
     if (value == -1)  return;
 
-    p_Computer->setScratchpadRegister(8, value);
+    p_Computer->setScratchpadRegister(8, value, NO_TREG_TRACE);
 }
 
 void DebugWindow::R9(wxCommandEvent&WXUNUSED(event))
@@ -8121,7 +6263,7 @@ void DebugWindow::R9(wxCommandEvent&WXUNUSED(event))
     long value = get16BitValue("R9");
     if (value == -1)  return;
 
-    p_Computer->setScratchpadRegister(9, value);
+    p_Computer->setScratchpadRegister(9, value, NO_TREG_TRACE);
 }
 
 void DebugWindow::RA(wxCommandEvent&WXUNUSED(event))
@@ -8129,7 +6271,7 @@ void DebugWindow::RA(wxCommandEvent&WXUNUSED(event))
     long value = get16BitValue("R10");
     if (value == -1)  return;
 
-    p_Computer->setScratchpadRegister(10, value);
+    p_Computer->setScratchpadRegister(10, value, NO_TREG_TRACE);
 }
 
 void DebugWindow::RB(wxCommandEvent&WXUNUSED(event))
@@ -8137,7 +6279,7 @@ void DebugWindow::RB(wxCommandEvent&WXUNUSED(event))
     long value = get16BitValue("R11");
     if (value == -1)  return;
 
-    p_Computer->setScratchpadRegister(11, value);
+    p_Computer->setScratchpadRegister(11, value, NO_TREG_TRACE);
 }
 
 void DebugWindow::RC(wxCommandEvent&WXUNUSED(event))
@@ -8145,7 +6287,7 @@ void DebugWindow::RC(wxCommandEvent&WXUNUSED(event))
     long value = get16BitValue("R12");
     if (value == -1)  return;
 
-    p_Computer->setScratchpadRegister(12, value);
+    p_Computer->setScratchpadRegister(12, value, NO_TREG_TRACE);
 }
 
 void DebugWindow::RD(wxCommandEvent&WXUNUSED(event))
@@ -8153,7 +6295,7 @@ void DebugWindow::RD(wxCommandEvent&WXUNUSED(event))
     long value = get16BitValue("R13");
     if (value == -1)  return;
 
-    p_Computer->setScratchpadRegister(13, value);
+    p_Computer->setScratchpadRegister(13, value, NO_TREG_TRACE);
 }
 
 void DebugWindow::RE(wxCommandEvent&WXUNUSED(event))
@@ -8161,7 +6303,7 @@ void DebugWindow::RE(wxCommandEvent&WXUNUSED(event))
     long value = get16BitValue("R14");
     if (value == -1)  return;
 
-    p_Computer->setScratchpadRegister(14, value);
+    p_Computer->setScratchpadRegister(14, value, NO_TREG_TRACE);
 }
 
 void DebugWindow::RF(wxCommandEvent&WXUNUSED(event))
@@ -8169,7 +6311,7 @@ void DebugWindow::RF(wxCommandEvent&WXUNUSED(event))
     long value = get16BitValue("R15");
     if (value == -1)  return;
 
-    p_Computer->setScratchpadRegister(15, value);
+    p_Computer->setScratchpadRegister(15, value, NO_TREG_TRACE);
 }
 
 void DebugWindow::O1(wxCommandEvent&WXUNUSED(event))
@@ -9203,11 +7345,11 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_NO_COMPUTER_RUNNING-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_NO_COMPUTER_RUNNING-ASS_ERROR_START-1]);
         return;
     }
     
-    wxString debugIn, address, error;
+    wxString debugIn;
     Byte b1, b2, b3=0, b4=0, b5=0, b6=0, b7;
     int count;
     Word addressValue = dirAssAddress_;
@@ -9295,7 +7437,7 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
                     
                     if (maskByte == 0)
                     {
-                        assErrorDisplay(DirAssErrorCodes[ERROR_HEX_TO_HIGH-ERROR_START-1]);
+                        assErrorDisplay(disAssErrorCodes[ASS_ERROR_HEX_TO_HIGH-ASS_ERROR_START-1]);
                         return;
                     }
                 }
@@ -9327,7 +7469,7 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
             }
             else
             {
-                assErrorDisplay(DirAssErrorCodes[ERROR_HEX-ERROR_START-1]);
+                assErrorDisplay(disAssErrorCodes[ASS_ERROR_HEX-ASS_ERROR_START-1]);
                 return;
             }
         }
@@ -9447,7 +7589,7 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
        }
     }
 
-    if (pseudoLoaded_ && (count == ERROR_INST || count == ERROR_TEMP_PAR || count == ERROR_TEMP_CPU_1801))
+    if (pseudoLoaded_ && (count == ASS_ERROR_INST || count == ASS_ERROR_TEMP_PAR || count == ASS_ERROR_TEMP_CPU_1801))
     {
         typeOpcode = MEM_TYPE_PSEUDO_1;
         typeOperand1 = MEM_TYPE_PSEUDO_2;
@@ -9547,7 +7689,7 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
     }
     else
     {
-        assErrorDisplay(DirAssErrorCodes[count-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[count-ASS_ERROR_START-1]);
     }
 }
 
@@ -9691,7 +7833,7 @@ int DebugWindow::setMemLabel(Word labelAddress, bool removeMemLabel)
 void DebugWindow::checkSlotAddressWarning(Word branchAddress)
 {
     if (slotAddress(branchAddress))
-        assErrorDisplay(DirAssErrorCodes[WARNING_MISSING_SLOT_ADDRESS-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[WARNING_MISSING_SLOT_ADDRESS-ASS_ERROR_START-1]);
 }
 
 bool DebugWindow::slotAddress(Word branchAddress)
@@ -10158,7 +8300,7 @@ void DebugWindow::onAssMark(wxCommandEvent&WXUNUSED(event))
     long start = get16BitValue("AssStartType");
     if (start == -1)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_NO_ADDRESS-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_NO_ADDRESS-ASS_ERROR_START-1]);
         return;
     }
 
@@ -10177,12 +8319,12 @@ void DebugWindow::onAssMark(wxCommandEvent&WXUNUSED(event))
         long end = get16BitValue("AssEndType");
         if (end == -1)
         {
-            assErrorDisplay(DirAssErrorCodes[ERROR_NO_ADDRESS-ERROR_START-1]);
+            assErrorDisplay(disAssErrorCodes[ASS_ERROR_NO_ADDRESS-ASS_ERROR_START-1]);
             return;
         }
         if (end < start)
         {
-            assErrorDisplay(DirAssErrorCodes[ERROR_END_START-ERROR_START-1]);
+            assErrorDisplay(disAssErrorCodes[ASS_ERROR_END_START-ASS_ERROR_START-1]);
             return;
         }
         for (long address=start; address<=end; address++)
@@ -10203,12 +8345,12 @@ void DebugWindow::onAssRangeSpinUp(wxSpinEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_COMPUTER_NOT_RUNNING-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_COMPUTER_NOT_RUNNING-ASS_ERROR_START-1]);
         return;
     }
     if (lastRange_ <= 0)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_NO_RANGE-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_NO_RANGE-ASS_ERROR_START-1]);
     }
     else
     {
@@ -10223,12 +8365,12 @@ void DebugWindow::onAssRangeSpinDown(wxSpinEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_COMPUTER_NOT_RUNNING-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_COMPUTER_NOT_RUNNING-ASS_ERROR_START-1]);
         return;
     }
     if (lastRange_ <= 0)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_NO_RANGE-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_NO_RANGE-ASS_ERROR_START-1]);
     }
     else
     {
@@ -10335,7 +8477,7 @@ int DebugWindow::markType(long *addrLong, int type)
                 address++;
             }
             else
-            {    assErrorDisplay(DirAssErrorCodes[ERROR_TEMP_CPU_1801-ERROR_START-1]);
+            {    assErrorDisplay(disAssErrorCodes[ASS_ERROR_TEMP_CPU_1801-ASS_ERROR_START-1]);
                 return 1;
             }
             for (int i=1; i<bytes; i++)
@@ -10371,7 +8513,7 @@ int DebugWindow::markType(long *addrLong, int type)
         case 5:
             if (p_Computer->readMemDebug(address) != 0xF8 || (p_Computer->readMemDebug(address+2)&0xF0) != 0xB0 || p_Computer->readMemDebug(address+3) != 0xF8 || (p_Computer->readMemDebug(address+5)&0xF0) != 0xA0)
             {
-                assErrorDisplay(DirAssErrorCodes[ERROR_MACRO_NOT_FOUND-ERROR_START-1]);
+                assErrorDisplay(disAssErrorCodes[ASS_ERROR_MACRO_NOT_FOUND-ASS_ERROR_START-1]);
                 return 1;
             }
             p_Computer->writeMemDataType(address++, MEM_TYPE_OPCODE_LDL);
@@ -10384,7 +8526,7 @@ int DebugWindow::markType(long *addrLong, int type)
         case 6:
             if (p_Computer->readMemDebug(address) != 0xF8 || (p_Computer->readMemDebug(address+5)&0xF0) != 0xB0 || p_Computer->readMemDebug(address+3) != 0xF8 || (p_Computer->readMemDebug(address+2)&0xF0) != 0xA0)
             {
-                assErrorDisplay(DirAssErrorCodes[ERROR_MACRO_NOT_FOUND-ERROR_START-1]);
+                assErrorDisplay(disAssErrorCodes[ASS_ERROR_MACRO_NOT_FOUND-ASS_ERROR_START-1]);
                 return 1;
             }
             p_Computer->writeMemDataType(address++, MEM_TYPE_OPCODE_LDRL);
@@ -10396,7 +8538,7 @@ int DebugWindow::markType(long *addrLong, int type)
         break;
         case 7:
             if (p_Computer->readMemDebug(address) != 0xF8 || (p_Computer->readMemDebug(address+2)&0xF0) != 0xB0 || p_Computer->readMemDebug(address+3) != 0xF8 || (p_Computer->readMemDebug(address+5)&0xF0) != 0xA0)
-            {    assErrorDisplay(DirAssErrorCodes[ERROR_MACRO_NOT_FOUND-ERROR_START-1]);
+            {    assErrorDisplay(disAssErrorCodes[ASS_ERROR_MACRO_NOT_FOUND-ASS_ERROR_START-1]);
                 return 1;
             }
             p_Computer->writeMemDataType(address++, MEM_TYPE_OPCODE_LDV);
@@ -10471,13 +8613,13 @@ int DebugWindow::markType(long *addrLong, int type)
                     }
                     else
                     {
-                        assErrorDisplay(DirAssErrorCodes[ERROR_MACRO_NOT_FOUND-ERROR_START-1]);
+                        assErrorDisplay(disAssErrorCodes[ASS_ERROR_MACRO_NOT_FOUND-ASS_ERROR_START-1]);
                         return 1;
                     }
                 break;
 
                 default:
-                    assErrorDisplay(DirAssErrorCodes[ERROR_MACRO_NOT_FOUND-ERROR_START-1]);
+                    assErrorDisplay(disAssErrorCodes[ASS_ERROR_MACRO_NOT_FOUND-ASS_ERROR_START-1]);
                     return 1;
                 break;
             }
@@ -10557,7 +8699,7 @@ void DebugWindow::onAssFrom()
 {
     if (!computerRunning_)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_COMPUTER_NOT_RUNNING-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_COMPUTER_NOT_RUNNING-ASS_ERROR_START-1]);
         return;
     }
     if (!findWorkingRang())
@@ -10580,7 +8722,7 @@ void DebugWindow::onAssFromL()
 {
     if (!computerRunning_)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_COMPUTER_NOT_RUNNING-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_COMPUTER_NOT_RUNNING-ASS_ERROR_START-1]);
         return;
     }
     if (!findWorkingRang())
@@ -10603,7 +8745,7 @@ void DebugWindow::onAssFromV()
 {
     if (!computerRunning_)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_COMPUTER_NOT_RUNNING-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_COMPUTER_NOT_RUNNING-ASS_ERROR_START-1]);
         return;
     }
     if (!findWorkingRang())
@@ -11159,7 +9301,7 @@ bool DebugWindow::findWorkingRang()
     }
     if (workingRange_ == -1)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_DEBUG_ADDRESS-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_DEBUG_ADDRESS-ASS_ERROR_START-1]);
         return false;
     }
     return true;
@@ -11170,12 +9312,12 @@ void DebugWindow::onInsert(wxCommandEvent&WXUNUSED(event))
     uint64_t executed;
     if (!computerRunning_)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_COMPUTER_NOT_RUNNING-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_COMPUTER_NOT_RUNNING-ASS_ERROR_START-1]);
         return;
     }
     if (lastRange_ <= 0)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_NO_RANGE-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_NO_RANGE-ASS_ERROR_START-1]);
         return;
     }
 
@@ -11209,7 +9351,7 @@ void DebugWindow::insertByte(Word insertAddress, Byte instruction, int branchAdd
 {
     uint64_t executed;
 //    if (insertAddress > dirAssDataEndVector[workingRange_] || insertAddress < dirAssProgramStartVector[workingRange_])
-//        assErrorDisplay(DirAssErrorCodes[ERROR_DEBUG_ADDRESS-ERROR_START-1]);
+//        assErrorDisplay(disAssErrorCodes[ASS_ERROR_DEBUG_ADDRESS-ASS_ERROR_START-1]);
     Byte chip8_instruction;
     Word endAddr;
 
@@ -11235,7 +9377,7 @@ void DebugWindow::insertByte(Word insertAddress, Byte instruction, int branchAdd
     }
 
     if (lastUsedAddr >= endAddr - 17)
-        assErrorDisplay(DirAssErrorCodes[ERROR_MEMORY_WARNING-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_MEMORY_WARNING-ASS_ERROR_START-1]);
 
     p_Computer->writeMemDebug(insertAddress, instruction, true);
     if (instruction != 0)
@@ -11814,12 +9956,12 @@ void DebugWindow::onDelete(wxCommandEvent&WXUNUSED(event))
     
     if (!computerRunning_)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_COMPUTER_NOT_RUNNING-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_COMPUTER_NOT_RUNNING-ASS_ERROR_START-1]);
         return;
     }
     if (lastRange_ <= 0)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_NO_RANGE-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_NO_RANGE-ASS_ERROR_START-1]);
         return;
     }
 
@@ -11915,7 +10057,7 @@ void DebugWindow::onDelete(wxCommandEvent&WXUNUSED(event))
 void DebugWindow::deleteByte(Word insertAddress, bool secondCardtranDelete)
 {
 //    if (insertAddress > dirAssDataEndVector[workingRange_] || insertAddress < dirAssProgramStartVector[workingRange_])
-//        assErrorDisplay(DirAssErrorCodes[ERROR_DEBUG_ADDRESS-ERROR_START-1]);
+//        assErrorDisplay(disAssErrorCodes[ASS_ERROR_DEBUG_ADDRESS-ASS_ERROR_START-1]);
     Byte chip8_instruction;
     Word endAddr;
     uint64_t executed;
@@ -12504,12 +10646,12 @@ void DebugWindow::onAssSave(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_COMPUTER_NOT_RUNNING-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_COMPUTER_NOT_RUNNING-ASS_ERROR_START-1]);
         return;
     }
     if (lastRange_ <= 0 || workingRange_ == -1)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_NO_RANGE-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_NO_RANGE-ASS_ERROR_START-1]);
         return;
     }
 
@@ -12520,7 +10662,7 @@ void DebugWindow::onAssLoadAll(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_COMPUTER_NOT_RUNNING-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_COMPUTER_NOT_RUNNING-ASS_ERROR_START-1]);
         return;
     }
 
@@ -12554,11 +10696,11 @@ void DebugWindow::loadAll(wxString configFileName)
         configFileIn.Open(configFileName);
     else
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_FILE_NOTFOUND-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_FILE_NOTFOUND-ASS_ERROR_START-1]);
         return;
     }
 
-    wxString numberStr, str, addressStr;
+    wxString numberStr, addressStr;
     long addressLong;
     int number = 0;
     
@@ -12619,7 +10761,7 @@ void DebugWindow::loadAll(wxString configFileName)
     {
         if (!onAssLoad(i))
         {
-            assErrorDisplay(DirAssErrorCodes[ERROR_FILE_NOTFOUND-ERROR_START-1]);
+            assErrorDisplay(disAssErrorCodes[ASS_ERROR_FILE_NOTFOUND-ASS_ERROR_START-1]);
             return;
         }
     }
@@ -12639,14 +10781,14 @@ void DebugWindow::loadAll(wxString configFileName)
         shownRange_ = 0;
         showConfiguration();
     }
-    assErrorDisplay(DirAssErrorCodes[ERROR_CONF_LOADED-ERROR_START-1]);
+    assErrorDisplay(disAssErrorCodes[ASS_ERROR_CONF_LOADED-ASS_ERROR_START-1]);
 }
 
 void DebugWindow::onAssSaveSb(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerConfiguration.superBoardConfiguration.defined)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_COMX_SB_NOT_RUNNING-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_COMX_SB_NOT_RUNNING-ASS_ERROR_START-1]);
         return;
     }
 
@@ -12782,12 +10924,12 @@ void DebugWindow::onAssSaveAll(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_COMPUTER_NOT_RUNNING-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_COMPUTER_NOT_RUNNING-ASS_ERROR_START-1]);
         return;
     }
     if (lastRange_ <= 0)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_NO_RANGE-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_NO_RANGE-ASS_ERROR_START-1]);
         return;
     }
 
@@ -12830,7 +10972,7 @@ void DebugWindow::onAssNew(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_COMPUTER_NOT_RUNNING-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_COMPUTER_NOT_RUNNING-ASS_ERROR_START-1]);
         return;
     }
 
@@ -13049,7 +11191,7 @@ void DebugWindow::onAssStore(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_COMPUTER_NOT_RUNNING-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_COMPUTER_NOT_RUNNING-ASS_ERROR_START-1]);
         return;
     }
     onAssStore();
@@ -13059,7 +11201,7 @@ void DebugWindow::onAssStore()
 {
     if (shownRange_ == -1)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_NO_RANGE-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_NO_RANGE-ASS_ERROR_START-1]);
         return;
     }
 
@@ -13079,7 +11221,7 @@ void DebugWindow::onAssStore()
 
     if (name == "")
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_INVALID_FILE_NAME-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_INVALID_FILE_NAME-ASS_ERROR_START-1]);
         return;
     }
 
@@ -13088,7 +11230,7 @@ void DebugWindow::onAssStore()
 
     if (start >= codeEnd || codeEnd > end || start == -1 || codeEnd == -1)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_INVALID_START-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_INVALID_START-ASS_ERROR_START-1]);
         return;
     }
 
@@ -13098,7 +11240,7 @@ void DebugWindow::onAssStore()
         {
             if (codeEnd > computerConfiguration.slotConfiguration.end || end > computerConfiguration.slotConfiguration.end)
             {
-                assErrorDisplay(DirAssErrorCodes[ERROR_SLOT_RANGE-ERROR_START-1]);
+                assErrorDisplay(disAssErrorCodes[ASS_ERROR_SLOT_RANGE-ASS_ERROR_START-1]);
                 return;
             }
         }
@@ -13106,7 +11248,7 @@ void DebugWindow::onAssStore()
         {
             if (start < computerConfiguration.slotConfiguration.start || end > computerConfiguration.slotConfiguration.end)
             {
-                assErrorDisplay(DirAssErrorCodes[ERROR_SLOT_RANGE-ERROR_START-1]);
+                assErrorDisplay(disAssErrorCodes[ASS_ERROR_SLOT_RANGE-ASS_ERROR_START-1]);
                 return;
             }
         }
@@ -13114,7 +11256,7 @@ void DebugWindow::onAssStore()
         {
             if (start < computerConfiguration.slotConfiguration.start || codeEnd < computerConfiguration.slotConfiguration.start)
             {
-                assErrorDisplay(DirAssErrorCodes[ERROR_SLOT_RANGE-ERROR_START-1]);
+                assErrorDisplay(disAssErrorCodes[ASS_ERROR_SLOT_RANGE-ASS_ERROR_START-1]);
                 return;
             }
         }
@@ -13131,7 +11273,7 @@ void DebugWindow::onAssStore()
                     {
                         if (codeEnd >= range->end || end >= range->end)
                         {
-                            assErrorDisplay(DirAssErrorCodes[ERROR_SLOT_RANGE-ERROR_START-1]);
+                            assErrorDisplay(disAssErrorCodes[ASS_ERROR_SLOT_RANGE-ASS_ERROR_START-1]);
                             return;
                         }
                     }
@@ -13139,7 +11281,7 @@ void DebugWindow::onAssStore()
                     {
                         if (start < range->start || end >= range->end)
                         {
-                            assErrorDisplay(DirAssErrorCodes[ERROR_SLOT_RANGE-ERROR_START-1]);
+                            assErrorDisplay(disAssErrorCodes[ASS_ERROR_SLOT_RANGE-ASS_ERROR_START-1]);
                             return;
                         }
                     }
@@ -13147,7 +11289,7 @@ void DebugWindow::onAssStore()
                     {
                         if (start < range->start || codeEnd < range->start)
                         {
-                            assErrorDisplay(DirAssErrorCodes[ERROR_SLOT_RANGE-ERROR_START-1]);
+                            assErrorDisplay(disAssErrorCodes[ASS_ERROR_SLOT_RANGE-ASS_ERROR_START-1]);
                             return;
                         }
                     }
@@ -13188,13 +11330,13 @@ void DebugWindow::onAssDir(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_COMPUTER_NOT_RUNNING-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_COMPUTER_NOT_RUNNING-ASS_ERROR_START-1]);
         return;
     }
 
     if (shownRange_ == -1)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_NO_RANGE-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_NO_RANGE-ASS_ERROR_START-1]);
         return;
     }
 
@@ -13289,7 +11431,7 @@ bool DebugWindow::saveAll(wxString configFileName)
 
     setOut1(out1);
 
-    assErrorDisplay(DirAssErrorCodes[ERROR_CONF_SAVED-ERROR_START-1]);
+    assErrorDisplay(disAssErrorCodes[ASS_ERROR_CONF_SAVED-ASS_ERROR_START-1]);
     return true;
 }
 
@@ -13297,14 +11439,13 @@ void DebugWindow::onAssSave(int range)
 {
     Byte value;
     wxFile outputFile;
-    wxString fileName, memoryStr, strValue, line;
+    wxString fileName;
 
     fileName = dirAssDirNameVector[range] + pathSeparator_ + dirAssFileNameVector[range];
 
     wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
     wxString name = FullPath.GetName();
     wxString path = FullPath.GetPath();
-    wxString ext = FullPath.GetExt();
 
     setOut1(dirAssSlotVector[range]);
 
@@ -13434,7 +11575,7 @@ void DebugWindow::onAssCopy(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_COMPUTER_NOT_RUNNING-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_COMPUTER_NOT_RUNNING-ASS_ERROR_START-1]);
         return;
     }
 
@@ -13443,7 +11584,7 @@ void DebugWindow::onAssCopy(wxCommandEvent&WXUNUSED(event))
     long destination = get16BitValue("AssCopyTo");
     if (start == -1 || end == -1 || destination == -1)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_NO_RANGE-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_NO_RANGE-ASS_ERROR_START-1]);
         return;
     }
 
@@ -13609,7 +11750,7 @@ void DebugWindow::onAssCopy(wxCommandEvent&WXUNUSED(event))
 
             correctAddress++;
         }
-        assErrorDisplay(DirAssErrorCodes[ERROR_COPIED_JUMPS-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_COPIED_JUMPS-ASS_ERROR_START-1]);
     }
     else
     {
@@ -13629,7 +11770,7 @@ void DebugWindow::onAssCopy(wxCommandEvent&WXUNUSED(event))
                 p_Computer->writeMemDebug(destination--, p_Computer->readMemDebug(address--), true);
             }
         }
-        assErrorDisplay(DirAssErrorCodes[ERROR_COPIED_NO_JUMPS-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_COPIED_NO_JUMPS-ASS_ERROR_START-1]);
     }
 }
 
@@ -13637,17 +11778,17 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_COMPUTER_NOT_RUNNING-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_COMPUTER_NOT_RUNNING-ASS_ERROR_START-1]);
         return;
     }
 
-    wxString fileName, number, printBufferOpcode;
+    wxString fileName;
 
     long start = get16BitValue("AssCopyStart");
     long end = get16BitValue("AssCopyEnd");
     if (start == -1 || end == -1)
     {
-        assErrorDisplay(DirAssErrorCodes[ERROR_NO_RANGE-ERROR_START-1]);
+        assErrorDisplay(disAssErrorCodes[ASS_ERROR_NO_RANGE-ASS_ERROR_START-1]);
         return;
     }
     
@@ -13666,8 +11807,6 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
         return;
 
     wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-    wxString name = FullPath.GetName();
-    wxString path = FullPath.GetPath();
     wxString ext = FullPath.GetExt();
 
     if (ext == "txt")
@@ -13697,7 +11836,7 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
     
         Word address = (Word)start;
     
-        wxString line, tempLine, characters, newChar, text, label, addressAndOpcode;
+        wxString line, tempLine, characters, text, label, addressAndOpcode;
         Byte value, command;
         Word textStart, branchAddress;
         
@@ -14288,7 +12427,6 @@ void DebugWindow::assLog(Byte value)
     if (!(computerRunning_ && computerConfiguration.debuggerConfiguration.videoLog_active))
         return;
 
-    wxString character;
     Byte converted = value&0x7f;
 
     if (value == 0 && lastLogValue_ != -1)
@@ -14775,7 +12913,15 @@ void DebugWindow::DebugDisplayMap()
                 break;
 
                 case COLOURRAM:
-                    value.Printf ("C.");
+                    value.Printf ("C2");
+                break;
+
+                case COLOURRAM1864:
+                    value.Printf ("C4");
+                break;
+
+                case COLOURRAMST4:
+                    value.Printf ("CS");
                 break;
 
                 case ROM:
@@ -15879,8 +14025,12 @@ void DebugWindow::onEditMemory(wxCommandEvent&event)
                 setMemoryType((int)id, VP570RAM);
             else if (strValue == "N.")
                 setMemoryType((int)id, NVRAM);
-            else if (strValue == "C.")
+            else if (strValue == "C2")
                 setMemoryType((int)id, COLOURRAM);
+            else if (strValue == "C4")
+                setMemoryType((int)id, COLOURRAM1864);
+            else if (strValue == "CS")
+                setMemoryType((int)id, COLOURRAMST4);
             else if (strValue == " ")
                 setMemoryType((int)id, UNDEFINED);
             else if (strValue == "")
@@ -15918,6 +14068,9 @@ void DebugWindow::onEditMemory(wxCommandEvent&event)
                                         "M. = Mapped RAM\n"
                                         "E. = VP570 Expansion RAM\n"
                                         "N. = NVRAM\n"
+                                        "C2 = CDP1862 Colour RAM access\n"
+                                        "C4 = CDP1864 Colour RAM access\n"
+                                        "CS = RCA Studio IV Colour RAM access\n"
                                         "CP = CDP1805 CPU RAM\n"
                                         "PR = 1870 Page RAM\n"
                                         "CR = 1870 Character RAM or\n"
@@ -15926,7 +14079,6 @@ void DebugWindow::onEditMemory(wxCommandEvent&event)
                                         "M5 = MC6845 Video RAM\n"
                                         "MR = MC6845 Register or Mapped ROM\n"
                                         "TC = Test Cartridge ROM\n"
-                                        "C. = Victory or Vip Colour RAM access\n"
                                         "P.  = Partly RAM\n"
                                         "\nNote: some options are only allowed\n"
                                         "in specific cases.\n",
@@ -17302,8 +15454,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
     Byte kkValue = 0, ddValue = 0, lValue = 0, nValue = 0, oValue = 0, pValue = 0, qValue = 0, vvValue = 0, wwValue = 0, registerR = 0, registerX = 0, registerY = 0, registerZ = 0;
     char currentChar;
     bool commandFound, parameterFound;
-    wxString tempStr1, tempStr2;
-    wxString parameterStr, parameter, firstParameter, secondParameter, regNumberStr, detailsStr;
+    wxString parameterStr, parameter, firstParameter, secondParameter;
     
     buffer = " Illegal instruction";
 
@@ -18004,7 +16155,7 @@ void DebugWindow::onChip8Log(wxCommandEvent& WXUNUSED(event))
 {
 //    wxSetWorkingDirectory (workingDir_);
 //    int num = 0;
-    wxString fileName, number;
+    wxString fileName;
 
     fileName = wxFileSelector( "Select the log file to save",
                                debugDir_, "chip8_trace.log",
@@ -18023,9 +16174,6 @@ void DebugWindow::onChip8Log(wxCommandEvent& WXUNUSED(event))
         return;
 
     wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-    wxString name = FullPath.GetName();
-    wxString path = FullPath.GetPath();
-    wxString ext = FullPath.GetExt();
 
 /*    while(wxFile::Exists(fileName))
     {

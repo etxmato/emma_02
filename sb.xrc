@@ -480,6 +480,7 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                     <border>5</border>
                                                     <object class="wxChoice" name="SettingsCdRoot">
+                                                        <size>60,-1</size>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
@@ -536,6 +537,7 @@
                                                                             <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                             <border>5</border>
                                                                             <object class="wxChoice" name="SettingsCaseFile">
+                                                                                <size>100,-1</size>
                                                                                 <font>
                                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                     <size>-1</size>
@@ -577,6 +579,7 @@
                                                                             <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                             <border>5</border>
                                                                             <object class="wxChoice" name="SettingsCaseDir">
+                                                                                <size>100,-1</size>
                                                                                 <font>
                                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                     <size>-1</size>
@@ -606,7 +609,7 @@
                                                             <border>5</border>
                                                             <object class="wxStaticBoxSizer" name="wxID_ANY">
                                                                 <orient>wxVERTICAL</orient>
-                                                                <label>Back-up</label>
+                                                                <label>Backup</label>
                                                                 <font>
                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                     <size>-1</size>
@@ -634,6 +637,7 @@
                                                                             <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                             <border>5</border>
                                                                             <object class="wxChoice" name="SettingsBackup">
+                                                                                <size>60,-1</size>
                                                                                 <font>
                                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                     <size>-1</size>
@@ -670,6 +674,7 @@
                                                                             <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                             <border>5</border>
                                                                             <object class="wxChoice" name="SettingsBackupSys">
+                                                                                <size>60,-1</size>
                                                                                 <font>
                                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                     <size>-1</size>

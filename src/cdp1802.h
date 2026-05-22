@@ -110,28 +110,28 @@ public:
     bool readFile(wxString fileName, int memoryType, Word address, long end, bool showFilename, bool showAddressPopup, Word specifiedStartAddress);
 
     Word getScratchpadRegister(int number) {return scratchpadRegister_[number];};
-    void setScratchpadRegister(int number, Word scratchpadRegister) {scratchpadRegister_[number] = scratchpadRegister;};
-    Word getAndIncRegister0() {return scratchpadRegister_[0]++;};
+    void setScratchpadRegister(int number, Word scratchpadRegister, bool noTrace = false);
+    Word getAndIncRegister0();
     Byte getAccumulator() {return accumulator_;};
-    void setAccumulator(Byte accumulator) {accumulator_ = accumulator;};
+    void setAccumulator(Byte value, bool noTrace = false);
     Byte getDataFlag() {return dataFlag_;};
-    void setDataFlag(Byte dataFlag) {dataFlag_ = dataFlag;};
+    void setDataFlag(Byte value, bool noTrace = false);
     Byte getRegisterT() {return registerT_;};
-    void setRegisterT(Byte registerT) {registerT_ = registerT;};
+    void setRegisterT(Byte value, bool noTrace = false);
     Byte getRegisterB() {return registerB_;};
-    void setRegisterB(Byte registerB) {registerB_ = registerB;};
+    void setRegisterB(Byte value, bool noTrace = false);
     Byte getCounterJamValue() {return ch_;};
-    void setCounterJamValue(Byte ch) {ch_ = ch;};
+    void setCounterJamValue(Byte value, bool noTrace = false);
     Byte getCounterTimer() {return counter_;};
-    void setCounterTimer(Byte counter) {counter_ = counter;};
+    void setCounterTimer(Byte value, bool noTrace = false);
     Byte getFlipFlopQ() { return flipFlopQ_; };
-    void setFlipFlopQ(Byte flipFlopQ) { flipFlopQ_ = flipFlopQ; };
+    void setFlipFlopQ(Byte value, bool noTrace = false);
     Byte isReadyToReceiveData(int ef) { return readyToReceiveData[ef]; };
     void setNotReadyToReceiveData(int ef) { readyToReceiveData[ef] = false; };
     Byte getProgramCounter() {return programCounter_;};
-    void setProgramCounter(Byte programCounter) {programCounter_ = programCounter;};
+    void setProgramCounter(Byte value, bool noTrace = false);
     Byte getDataPointer() {return dataPointer_;};
-    void setDataPointer(Byte dataPointer) {dataPointer_ = dataPointer;};
+    void setDataPointer(Byte value, bool noTrace = false);
     Byte getInterruptEnable() {return interruptEnable_;};
     void setInterruptEnable(Byte interruptEnable) {interruptEnable_ = interruptEnable;};
     Byte getCounterInterruptEnable() {return cie_;};
@@ -154,8 +154,6 @@ public:
     void debugTrace (wxString text);
     Byte getCpuMode() {return cpuMode_;};
     void useColour(int colourMask) {colourMask_ = colourMask;};
-    Byte get1805Counter() {return counter_;};
-    Byte get1805Ch() {return ch_;};
     Byte is1805CtrRunning() {return ctrRunning_;};
     bool getSkipTraceMode() {return skipTrace_ || skipTraceHb_;};
     
@@ -206,6 +204,7 @@ protected:
 
     Byte bus_;
     Byte instructionCode_;
+    Word instructionAddress_;
     wxString traceBuffer_;
     wxString lastTraceBuffer_;
     bool stopHiddenTrace_;

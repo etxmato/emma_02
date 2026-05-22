@@ -1,43 +1,82 @@
+<html>
+<title>Default Keyboard</title>
+<body>
 
-<HTML>
-<Title>Default Keyboard</Title>
-<BODY>
+
 <h1>Default Keyboard</h1>
+
 <p>
-Default keyboard mapping is defined for a US keyboard layout. However a few different other layouts are provided and can be selected via menu below:
+Default keyboard mapping is defined for a US keyboard layout. Several additional layouts are provided and can be selected via the menu below:
 </p>
+
 <p>
-<IMG SRC="images/menu_keyboard.png" border="0" width="538" height ="324">
+<img src="images/menu_keyboard.png" border="0" width="474" height="368">
 </p>
+
 <p>
-Currently layouts for Dutch, German, French, Swedish / Finnish and US are provided as well as an option to specify a user specific definition. If you desire a specific mapping for your keyboard please drop me an email with your requirements and I'll try to add it in the next release.
+Currently, layouts for Dutch, German, French, Swedish / Finnish, and US are available, as well as an option to specify a user-defined layout.
 </p>
+
 <p>
-To create a definition for your own layout first locate one of the keyboard definition files located in the data directory (see section <a href="MainFile.htm">Directory and File Structure</a>), for example us.ini (for the US keyboard layout). Copy this file and rename the new file into user_defined.ini. Change any key value in the file to your desired default setting. 
+If you require a specific mapping for your keyboard, please send an email with your requirements; it may be included in a future release.
 </p>
+
 <p>
-The following key sets can be changed / defined for computers with a HEX keypad:
-<UL>
-<LI>Keypad B, Arcade set (UP, LEFT, RIGHT, DOWN and FIRE) identified by 'B_A_' followed by the direction
-<LI>Keypad A, on Character for keys 0 to 9 identified by 'A_C_' followed by the key number (0 to 9)
-<LI>Keypad A, on Location identified by 'A_L_' followed by the key number, where 1 is top left corner and 16 bottom right of the keypad.
-<LI>Keypad B, on Location identified by 'B_L_' followed by the key number, where 1 is top left corner and 16 bottom right of the keypad.
-</UL>
+To create your own layout definition, locate one of the keyboard definition files in the data directory (see the <a href="MainFile.htm">Directory and File Structure</a> section), for example <tt>us.ini</tt>. Copy this file and rename it to <tt>user_defined.ini</tt>. Modify the key values in the file as required.
 </p>
+
 <p>
-The following key sets can be changed / defined for Studio II clones:
-<UL>
-<LI>Keypad B, Arcade set (UP, LEFT, RIGHT, DOWN and FIRE) identified by 'B_A_' followed by the direction and _ST
-<LI>Keypad A, on Location identified by 'A_L_' followed by the key number and _ST, where 1 is top left corner and 9 bottom right of the keypad; number 10 is key 0.
-<LI>Keypad B, on Location identified by 'B_L_' followed by the key number and _ST, where 1 is top left corner and 9 bottom right of the keypad; number 10 is key 0.
-<LI>Keypad B, on Location if 'Use Numeric Keypad' is NOT selected identified by 'B_L_NNP_' followed by the key number and _ST, where 1 is top left corner and 9 bottom right of the keypad; number 10 is key 0.
-</UL>
+The following key sets can be changed or defined for computers with a HEX keypad:
 </p>
+
+<ul>
+<li>
+Keypad B, Arcade set (<tt>UP</tt>, <tt>LEFT</tt>, <tt>RIGHT</tt>, <tt>DOWN</tt>, <tt>FIRE</tt>), identified by <tt>B_A_</tt> followed by the direction
+</li>
+
+<li>
+Keypad A, on character mapping for keys <tt>0-9</tt>, identified by <tt>A_C_</tt> followed by the key number
+</li>
+
+<li>
+Keypad A, on location mapping, identified by <tt>A_L_</tt> followed by the key number, where 1 is the top-left corner and 16 the bottom-right corner of the keypad
+</li>
+
+<li>
+Keypad B, on location mapping, identified by <tt>B_L_</tt> followed by the key number, where 1 is the top-left corner and 16 the bottom-right corner of the keypad
+</li>
+</ul>
+
 <p>
-For the TMC-600 a subset of keys can be changes as listed under [TMC600], regular keys are identified by 'Key' and shift keys by 'KeyShift' both followed by a 2 digit number as defined in the table below.
+The following key sets can be changed or defined for Studio II clones:
 </p>
+
+
+<ul>
+<li>
+Keypad B, Arcade set (<tt>UP</tt>, <tt>LEFT</tt>, <tt>RIGHT</tt>, <tt>DOWN</tt>, <tt>FIRE</tt>), identified by <tt>B_A_</tt> followed by the direction and <tt>_ST</tt>
+</li>
+
+<li>
+Keypad A, on location mapping, identified by <tt>A_L_</tt> followed by the key number and <tt>_ST</tt>, where 1 is the top-left corner and 9 the bottom-right corner of the keypad; number 10 represents key <tt>0</tt>
+</li>
+
+<li>
+Keypad B, on location mapping, identified by <tt>B_L_</tt> followed by the key number and <tt>_ST</tt>, where 1 is the top-left corner and 9 the bottom-right corner of the keypad; number 10 represents key <tt>0</tt>
+</li>
+
+<li>
+Keypad B, on location mapping when <strong>Use Numeric Keypad</strong> is not selected, identified by <tt>B_L_NNP_</tt> followed by the key number and <tt>_ST</tt>, where 1 is the top-left corner and 9 the bottom-right corner of the keypad; number 10 represents key <tt>0</tt>
+</li>
+</ul>
+
 <p>
-<IMG SRC="images/tmc_600_keys.png" BORDER="0">
+For the TMC-600, a subset of keys can be changed as listed under <tt>[TMC600]</tt>. Regular keys are identified by <tt>Key</tt> and shift keys by <tt>KeyShift</tt>, both followed by a 2-digit number as defined in the table below.
 </p>
-</BODY>
-</HTML>
+
+<p>
+<img src="images/tmc_600_keys.png" border="0" width="652" height="416">
+</p>
+
+</body>
+</html>

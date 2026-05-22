@@ -1,69 +1,254 @@
 
-<HTML>
-<Title>Memory Access</Title>
-<BODY>
+<html>
+<title>Memory Access</title>
+<body>
+
+
 <h1>Memory Access</h1>
+
 <p>
-<IMG SRC="images/computer_memory_access.png" border="0" width="443" height ="370">
+The Memory Access function allows running, loading, and saving files directly to and from the emulated computer memory.
 </p>
+
 <p>
-The Memory Access function allows running, loading and saving files directly into and from the emulated computer memory. The file format can be: program and/or data files (.comx, .pecom, .tmc600, .rca and .super), intel hex (.hex) or binary (.bin, .rom, .ram, .cos, .c8, .c8x). During installation some software is installed in the emulator directories (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>). 
+The Memory Access controls are shown below:
 </p>
+
+<p>
+<img src="images/computer_memory_access.png" border="0" width="724" height="609">
+</p>
+<ul>
+<li>(1) <strong>RUN</strong> button</li>
+<li>(2) <strong>LOAD</strong> button</li>
+<li>(3) <strong>SAVE</strong> button</li>
+<li>(4) <strong>Data SAVE</strong> button</li>
+<li>(5) <strong>Specify Location</strong> checkbox</li>
+<li>(6) <strong>Start</strong> address field</li>
+<li>(7) <strong>End</strong> address field</li>
+<li>(8) <strong>Exec</strong> address field</li>
+</ul>
+
+<p>
+Supported file formats:
+</p>
+<ul>
+<li>Program and/or data files (<tt>.comx</tt>, <tt>.pecom</tt>, <tt>.tmc600</tt>, <tt>.fpb</tt>, <tt>.rca</tt>, <tt>.super</tt>, <tt>.tiny</tt>)</li>
+<li>Intel Hex (<tt>.hex</tt>)</li>
+<li>Binary (<tt>.bin</tt>, <tt>.rom</tt>, <tt>.ram</tt>, <tt>.cos</tt>, <tt>.c8</tt>, <tt>.c8x</tt>)</li>
+</ul>
+
+<p>
+During installation, software is placed in the emulator directories (located in the application data directory, see the <a href="MainFile.htm">Directory and File Structure</a> section).
+</p>
+
+
 <h2>Program and Data Files</h2>
+
 <p>
-Program and data files (format designed for this emulator only, like .comx, .pecom, .tmc600, .fpb, .rca and .super) can be loaded in the following emulators: 
-<UL>
-<LI>COMX or COMiX (.comx)
-<LI>Pecom 32 or 64 (.pecom) 
-<LI>Telmac TMC 600 (.tmc600) 
-<LI>Cosmac VIP or VIP II when running Fixed Point Basic (.fpb)
-<LI>Any computer running Quest Super Basic (.super)
-<LI>Any computer running RCA Basic (.rca)
-<LI>Any computer running Tiny Basic (.tiny)
-</UL>
+Program and data files (formats designed for this emulator, such as <tt>.comx</tt>, <tt>.pecom</tt>, <tt>.tmc600</tt>, <tt>.fpb</tt>, <tt>.rca</tt>, <tt>.super</tt>, and <tt>.tiny</tt>) can be loaded in the following emulators:
 </p>
+<ul>
+<li>COMX or COMiX (<tt>.comx</tt>)</li>
+<li>PECOM 32 or 64 (<tt>.pecom</tt>)</li>
+<li>Telmac TMC 600 (<tt>.tmc600</tt>)</li>
+<li>Cosmac VIP or VIP II when running Fixed Point Basic (<tt>.fpb</tt>)</li>
+<li>Any computer running Quest Super Basic (<tt>.super</tt>)</li>
+<li>Any computer running RCA Basic (<tt>.rca</tt>)</li>
+<li>Any computer running Tiny Basic (<tt>.tiny</tt>)</li>
+</ul>
+
+
+<h3>RUN Program</h3>
+
 <p>
-To load AND run a program file, start one of the mentioned emulators and use the 'RUN' button (highlighted in green). After this select one of the program files. The emulator will then automatically load and run the software. Note this is also possible from a start-up screen, the emulator will then first force BASIC to start after which the software will be loaded and started.
+To load and run a program file:
 </p>
+<ul>
+<li>Start an emulator</li>
+<li>Use the <strong>RUN</strong> button (1)</li>
+<li>Select a program file</li>
+</ul>
+
 <p>
-To only load a program file, start one of the mentioned emulators and use the 'LOAD' button (highlighted in blue). After this select one of the program files. Note this is also possible from a start-up screen, the emulator will then first force BASIC to start after which the software will be loaded.
+The emulator will automatically load and run the software.
 </p>
+
 <p>
-To save a basic and/or a basic/machine code program from one of the mentioned emulators to a program file: use the 'SAVE' button (highlighted in purple) and select a filename. 
+<strong>Note:</strong> This is also possible from a start-up screen. The emulator will first start BASIC and then load and run the software.
 </p>
+
+
+<h3>LOAD Program</h3>
+
 <p>
-To save data like with the 'DSAVE' command, use the 'data SAVE' button (highlighted in brown) when the data is ready. The data can be loaded back into the basic SW when the program is running. So any DLOAD command could be edited to allow manual use of the 'DLOAD' function. For data loading the regular 'LOAD' button (highlighted in blue) can be used as the emulator will detect the format of the data file.
+To load a program file without running (similar to <tt>PLOAD</tt>):
 </p>
+<ul>
+<li>Start an emulator</li>
+<li>Use the <strong>LOAD</strong> button (2)</li>
+<li>Select a program file</li>
+</ul>
+
 <p>
-To save a specific machine code program somewhere from the emulator RAM: first select the 'Specify Location' check box (highlighted in orange), after this specify start, end and execution address (highlighted in yellow). When using the 'SAVE' button now only the specified location will be saved. When loading the resulting program file the emulator will load it into the specified location and show the location in the Emma 02 window address fields (highlighted in yellow). When using the 'RUN' option on a machine code program file the emulator will start this by using a CALL statement with the execution address.
+<strong>Note:</strong> From a start-up screen, BASIC will be started automatically before loading.
 </p>
+
+
+<h3>SAVE Program</h3>
+
 <p>
-After loading and running F&M Basic on the COMX emulator the Memory Access RUN, LOAD and SAVE button will change to F&M RUN, F&M LOAD and F&M SAVE (see below), after this basic programs written in F&M Basic can be loaded in the same way as described above.
+To save a BASIC or BASIC/machine code program (similar to <tt>PSAVE</tt>):
 </p>
+<ul>
+<li>Use the <strong>SAVE</strong> button (3)</li>
+<li>Select a filename</li>
+</ul>
+
+
+<h3>Data SAVE / LOAD</h3>
+
 <p>
-<IMG SRC="images/computer_memory_access_fm.png" border="0" width="443" height ="370">
+To save data (similar to <tt>DSAVE</tt>):
 </p>
+<ul>
+<li>Use the <strong>Data SAVE</strong> button (4)</li>
+<li>Ensure the data is set via a BASIC program before saving</li>
+</ul>
+
 <p>
-After any RUN, LOAD or SAVE command the software name will be shown in the emulator window. Note on the COMX emulator the same is done after a BASIC DOS LOAD, DOS SAVE, DOS RUN or DOS URUN command. The same name will be shown as default when using memory access features to simplify saving software to program format. When loading machine code via DOS the start and end address will be filled in as save locations, the execution address will always default to the start address. 
+For loading data files (similar to <tt>DLOAD</tt>):
 </p>
+<ul>
+<li>Use the <strong>LOAD</strong> button (2)</li>
+<li>The emulator will detect the file format automatically</li>
+</ul>
+
+<p>
+Data can be reloaded while a BASIC program is running. To do so, a <tt>DLOAD</tt> command would need to be replaced by a message to the user to use the <strong>LOAD</strong> button.
+</p>
+
+
+<h3>Machine Code (Specify Location)</h3>
+
+<p>
+To save a specific machine code program from RAM:
+</p>
+<ul>
+<li>Select the <strong>Specify Location</strong> checkbox (5)</li>
+<li>Enter <strong>Start</strong> (6), <strong>End</strong> (7), and <strong>Exec</strong> (8) (execution) addresses</li>
+<li>Use the <strong>SAVE</strong> button (3)</li>
+</ul>
+
+<p>
+Only the specified memory range will be saved.
+</p>
+
+<p>
+When loading this file:
+</p>
+<ul>
+<li>The program is restored to the specified location</li>
+<li>The addresses are shown in the Emma 02 address fields (6, 7 and 8)</li>
+</ul>
+
+<p>
+Using <strong>RUN</strong> on a machine code file will execute it via a CALL using the execution address.
+</p>
+
+
+<h3>Software name and location</h3>
+
+<p>
+After any <strong>RUN</strong>, <strong>LOAD</strong>, or <strong>SAVE</strong> command, the software name is shown in the emulator window.
+</p>
+
+<p>
+<strong>Note:</strong> On the COMX emulator, this also applies to BASIC DOS commands <strong>LOAD</strong>, <strong>SAVE</strong>, <strong>RUN</strong>, and <strong>URUN</strong>.
+</p>
+
+<p>
+The displayed name is reused as the default when saving via Memory Access.
+</p>
+
+<p>
+When loading machine code via DOS:
+</p>
+<ul>
+<li>Start and end addresses are filled automatically</li>
+<li>The execution address defaults to the start address</li>
+</ul>
+
+
 <h2>Intel Hex and Binary Files</h2>
+
 <p>
-To load hex and binary files either use the extended Memory Access GUI or for computers not supporting program and data files use the basic Memory Access GUI as shown below:
+To load a file:
 </p>
+<ul>
+<li>Start an emulator</li>
+<li>Use the <strong>LOAD</strong> button (2)</li>
+<li>Select a file</li>
+</ul>
+
 <p>
-To load an intel hex or binary file into the emulator, start the emulator and use the 'LOAD' button (highlighted in blue). After this select one of the files. Note that intel hex files will be loaded at the correct (saved) memory location. Binary files will be loaded at memory location 0 unless a 'Start' address (highlighted in yellow) is specified, in that case a popup window will request the user to either load at address 0 or the specified start address:
+<strong>Note:</strong> Intel Hex files load at their stored memory location.
 </p>
+
 <p>
-<IMG SRC="images/computer_memory_access_bin.png" border="0" width="443" height ="472">
+<strong>Note:</strong> Binary files load at address 0 unless a <strong>Start</strong> address (6) is specified.
 </p>
+
 <p>
-To save from the emulator memory to a file: first specify start and end address (highlighted in yellow) after this use the 'SAVE' button (highlighted in purple) and select a filename. Be sure to use intel hex (.hex) format if you do not use start address 0. 
+If a start address is specified, a popup allows selection between address 0 and the specified address.
 </p>
+
 <p>
-The execution address field is NOT used for Intel Hex and Binary files. Make sure to check 'Specify Location' to specify Start and/or End values when using the extended Memory Access GUI.
+<img src="images/computer_memory_access_bin.png" border="0" width="372" height="382">
 </p>
+
 <p>
-After any LOAD or SAVE command the loaded software name will be shown in the emulated computer window. 
+To save memory to a file:
 </p>
-</BODY>
-</HTML>
+<ul>
+<li>Specify <strong>Start</strong> (6) and <strong>End</strong> (7) addresses</li>
+<li>Use the <strong>SAVE</strong> button (3)</li>
+<li>Select a filename</li>
+</ul>
+
+<p>
+Use Intel Hex (<tt>.hex</tt>) format when not saving from address 0.
+</p>
+
+<p>
+The <strong>Exec</strong> (8) (execution) address field is not used for Intel Hex and binary files.
+</p>
+
+<p>
+Ensure <strong>Specify Location</strong> (5) is enabled when defining <strong>Start</strong> (6) and <strong>End</strong> (7) values.
+</p>
+
+<p>
+After any <strong>LOAD</strong> or <strong>SAVE</strong> command, the software name is shown in the emulated computer window.
+</p>
+
+
+<h3>F&amp;M Basic on the COMX emulator</h3>
+
+<p>
+After loading and running F&amp;M Basic on the COMX emulator, the buttons change as shown below:
+</p>
+
+<p>
+<img src="images/computer_memory_access_fm.png" border="0" width="724" height="609">
+</p>
+<ul>
+<li>(1) <strong>F&amp;M RUN</strong> button</li>
+<li>(2) <strong>F&amp;M LOAD</strong> button</li>
+<li>(3) <strong>F&amp;M SAVE</strong> button</li>
+</ul>
+
+<p>
+Programs written in F&amp;M Basic can then be handled in the same way as described above.
+</p>
+</body>
+</html>

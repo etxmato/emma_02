@@ -2,112 +2,143 @@
 <title>Command Line</title>
 <body>
 <h2>Command Line</h2>
+
 <p>
-Any of the Emma 02 computers can be started via the command line. If the option -c=&lt;str&gt; is used no GUI will be started but instead the computer specified in the &lt;str&gt; field will be started directly. The following computer  strings can be specified:
+Any of the Emma 02 computers can be started via the command line. If the option <tt>-c=&lt;str&gt;</tt> is used no GUI will be started but instead the computer specified in the <tt>&lt;str&gt;</tt> field will be started directly. The following computer strings can be specified:
 </p>
+
+<ul>
+<li>cdp18s020 or evaluationkit</li>
+<li>cidelsa</li>
+<li>coinarcade or coin</li>
+<li>comx or comx35</li>
+<li>comix or comix35</li>
+<li>conic or victory</li>
+<li>cosmacelf or cosmac</li>
+<li>cosmacgamesystem, gamesystem or cosmacgame</li>
+<li>cosmicos</li>
+<li>cybervision, cyber or cv</li>
+<li>elf (Generic Elf System)</li>
+<li>elf2k or elf2000</li>
+<li>eti, eti-660 or eti660</li>
+<li>fred or fred1</li>
+<li>fred15 or fred1.5</li>
+<li>hec or hec1802</li>
+<li>hug or hug1802</li>
+<li>jvip</li>
+<li>macbug</li>
+<li>mcds</li>
+<li>membership or member</li>
+<li>microboard</li>
+<li>microtutor, microtutori or microtutor1</li>
+<li>microtutorii or microtutor2</li>
+<li>ms2000</li>
+<li>nano, oscom or oscomnano</li>
+<li>netronicselfii, netronics, elfii or elf2</li>
+<li>pecom32</li>
+<li>pecom or pecom64</li>
+<li>picoelfv2 or pico</li>
+<li>questsuperelf or quest</li>
+<li>sbc1802</li>
+<li>studio2020</li>
+<li>studio, studioii or studio2</li>
+<li>studioiii or studio3</li>
+<li>studioiv or studio4</li>
+<li>tmc600 or telmac600</li>
+<li>tmc1800 or telmac1800</li>
+<li>tmc2000 or telmac2000</li>
+<li>uc1800 or infinite</li>
+<li>velf</li>
+<li>vip</li>
+<li>vip2k</li>
+<li>vipii or vip2</li>
+<li>visicom</li>
+<li>vis1802</li>
+<li>vt1802</li>
+</ul>
+
 <p>
-<UL>
-<LI>cdp18s020 or evaluationkit
-<LI>cidelsa
-<LI>coinarcade or coin
-<LI>comx or comx35
-<LI>comix or comix35
-<LI>conic or victory
-<LI>cosmacelf or cosmac
-<LI>cosmacgamesystem, gamesystem or cosmacgame
-<LI>cosmicos
-<LI>cybervision, cyber or cv
-<LI>elf (Generic Elf System)
-<LI>elf2k or elf2000
-<LI>eti, eti-660 or eti660
-<LI>fred or fred1
-<LI>fred15 or fred1.5
-<LI>hec or hec1802
-<LI>hug or hug1802
-<LI>jvip
-<LI>macbug
-<LI>mcds
-<LI>membership or member
-<LI>microboard
-<LI>microtutor, microtutori or microtutor1
-<LI>microtutorii or microtutor2
-<LI>ms2000
-<LI>nano, oscom or oscomnano
-<LI>netronicselfii, netronics, elfii or elf2
-<LI>pecom32
-<LI>pecom or pecom64
-<LI>picoelfv2 or pico
-<LI>questsuperelf or quest
-<LI>sbc1802
-<LI>studio2020
-<LI>studio, studioii or studio2
-<LI>studioiii or studio3
-<LI>studioiv or studio4
-<LI>tmc600 or telmac600
-<LI>tmc1800 or telmac1800
-<LI>tmc2000 or telmac2000
-<LI>uc1800 or infinite
-<LI>velf 
-<LI>vip 
-<LI>vip2k
-<LI>vipii or vip2
-<LI>visicom
-<LI>vis1802
-<LI>vt1802
-</UL>
+Options valid for all command line cases:
 </p>
+
+<pre>
+-h,  --help            Show command line help message
+-p,  --portable        Run in portable mode (see below)
+-u,  --skip update     Skip update check
+-w,  --window          Non-fixed window positions (see the <a href="MainWindow.htm">Window Settings</a> section)
+-ns, --nosplash        Do not show splash screen (help) on start
+-c,  --computer=&lt;str&gt;  Start emulation without GUI for specified computer
+</pre>
+
 <p>
-Options valid for all command line cases:<BR>
--h, --help, show command line help message<BR>
--p, --portable, run in portable mode (see below)<BR>
--u, --skip update, skip update check<BR>
--w, --window, non fixed window positions (See also <a href="MainWindow.htm">Window Settings</a><BR>
--ns, --nosplash, don't show splash screen (help) on start<BR>
--c, --computer=&lt;str&gt;, start emulator without gui and for specified computer
+Options only valid when <tt>-c</tt> is specified:
 </p>
+
+<pre>
+-v,  --verbose         Verbose output
+-f,  --fullscreen      Full screen mode
+-x,  --XML=&lt;str&gt;       Load specified XML file on start
+-s,  --software=&lt;str&gt;  Load specified software on start
+-r,  --run=&lt;str&gt;       Run specified software on start
+-ch, --chip8=&lt;str&gt;     Load specified Chip-8 software on start
+-st, --st2=&lt;str&gt;       Load specified Chip-8 software on start
+-s0, --software0=&lt;str&gt; Load binary software in GUI slot 0 on start
+-s1, --software1=&lt;str&gt; Load binary software in GUI slot 1 on start
+</pre>
+
 <p>
-Options only valid when &quot;-c&quot; is specified:<BR>
--v, --verbose, verbose output<BR>
--f, --fullscreen, full screen mode<BR>
--x, --xml=&lt;str&gt;, load specified xml file on start<BR>
--s, --software=&lt;str&gt;, load specified software on start<BR>
--r, --run=&lt;str&gt;, run specified software on start<BR>
--ch, --chip8=&lt;str&gt;, load specified chip8 software on start<BR>
--st, --st2=&lt;str&gt;, load specified chip8 software on start<BR>
--s0, --software0=&lt;str&gt;, load binary software in GUI slot 0 on start<BR>
--s1, --software1=&lt;str&gt;, load binary software in GUI slot 1 on start
+<strong>Note:</strong> The equal sign is optional in the above commands. All commands where software files are specified can either include the full path (c:\games\invaders.st2) or just the file name. If only a file name is used Emma 02 will try to load the game file from the directory specified in the used XML file.
 </p>
+
 <p>
-Note the equal sign is optional in the above commands. All commands where software files are specified can either include  the full path (c:\games\invaders.st2) or just the file name. If only a file name is used Emma 02 will try to load the game file from the directory specified in the used xml file.
+Specify <tt>-s=""</tt> (for a Studio II, Studio III, Conic, MPT-02 or Visicom COM-100) to start without an st2 file loaded, i.e., to run the emulator with the built-in games. This will result in the same behavior as not using a <tt>-s</tt> or <tt>-st</tt> option.
 </p>
+
 <p>
-It is possible to specify -s=&quot;&quot; (for a Studio II, Studio III / Victory MPT-02 or Visicom COM-100) to start without st2 file loaded, i.e. to run emulator with the build-in games. This will result in the same behavior as not using a -s or -st option.
+In portable mode (<tt>-p</tt>) the emulator can run from any location and will expect all data and setting files in the subdirectory "data" in the application directory (wherever the Emma 02.exe file is located). The first time option <tt>-p</tt> is used all directory entries in the .ini file will be set to the application directory on startup. Also if the "data" directory does not exist it will be created.
 </p>
-<p>
-In portable mode (-p) the emulator can run from any location and will expect all data and setting files in the sub directory &quot;data&quot; in the application directory (wherever the Emma 02.exe file is located). The first time option -p is used all directory entries in the .ini file will be set to the application folder on start-up. Also if the &quot;data&quot; folder does not exist it will be created.
-</p>
+
 <p>
 Examples:
 </p>
+
+<p><strong>Command:</strong></p>
+<pre>
+"Emma 02" -p -c=tmc2000 -s chip8.ram -ch "Landing.ch8"
+</pre>
+<p><strong>Result:</strong> Starts a TMC2000 with Chip-8 and Chip-8 game Landing.</p>
+
+<p><strong>Command:</strong></p>
+<pre>
+"Emma 02" -p -c=comx -r "C:\Emma 02\data\Comx\Games\HappieHap 2.comx"
+</pre>
+<p><strong>Result:</strong> Starts Happiehap 2 (pac man clone) on the COMX, assuming the specified Emma 02 path is correct.</p>
+
+<p><strong>Command:</strong></p>
+<pre>
+"Emma 02" -p -c=victory -s invaders.st2
+</pre>
+<p><strong>Result:</strong> Starts Victory Invaders, assuming the Victory directory is set to default.</p>
+
 <p>
-&quot;Emma 02&quot; -p -c=tmc2000 -s chip8.ram -ch &quot;Landing.ch8&quot; <BR>
--> Starts a TMC2000 with chip8 and chip8 game Landing
+On game computers such as Studio II and Cidelsa, <tt>-s</tt> is the same as <tt>-r</tt>. For others such as the COMX, <tt>-s</tt> only loads the software but does not run it like <tt>-r</tt>.
 </p>
+
 <p>
-&quot;Emma 02&quot; -p -c=comx -r &quot;C:\\Emma 02\\data\\Comx\\Games\\HappieHap 2.comx&quot; <BR>
--> starts Happiehap 2 (pac man clone) on the COMX, assuming the Emma 02 path specified is correct.
+When using the command line on macOS the executable is stored in:
 </p>
+
+<pre>
+/Applications/Emma\ 02.app/Contents/MacOS/
+</pre>
+
 <p>
-&quot;Emma 02&quot; -p -c=victory -s invaders.st2<BR>
--> Starts victory invaders, assuming the Victory directory is set to default.
+To start a COMX with Happiehap 2:
 </p>
-<p>
-On game computers like Studio II and Cidelsa -s is the same as -r, for others like the COMX -s just loads the SW but will 
-not run it like -r.
-</p>
-<p>
-When using the command line on Mac OS X note that the executable is stored in the folder: /Applications/Emma 02.app/Contents/MacOS/. So to start a COMX with Happiehap 2 use:<br>
-/Applications/Emma\\ 02.app/Contents/MacOS/Emma\\ 02 -c=comx -r "/Users/your user/Documents/emma_02/Comx/Games/Happiehap 2.comx"
-</p>
+
+<pre>
+/Applications/Emma\ 02.app/Contents/MacOS/Emma\ 02 -c=comx -r "/Users/your user/Documents/emma_02/Comx/Games/Happiehap 2.comx"
+</pre>
+
 </body>
 </html>

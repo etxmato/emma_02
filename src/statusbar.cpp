@@ -25,7 +25,6 @@
 EmmaStatusBar::EmmaStatusBar(wxWindow *parent)
 : wxStatusBar(parent, wxID_ANY, 0)
 {
-    
 }
 
 EmmaStatusBar::~EmmaStatusBar()

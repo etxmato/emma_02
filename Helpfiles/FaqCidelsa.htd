@@ -1,11 +1,14 @@
 <html>
-<title>FAQ</title>
+<title>FAQ - Cidelsa Arcade Game Console</title>
 <body>
 <h1>FAQ - Cidelsa Arcade Game Console</h1>
 <p>
-This section includes some Frequently Asked Questions (FAQ) for the Emma 02 Cidelsa Arcade Game Console emulator:
+This section contains frequently asked questions about the Emma 02 Cidelsa Arcade Game Console emulator.
 </p>
-<p>
-<a href="FaqCidelsa1.htm">Why do I just get a black screen when I start the Cidelsa Arcade Game Console emulator?</a>
-</p>
+
+<ul>
+<li><a href="FaqCidelsa1.htm">Why do I get a black screen when I start the Cidelsa Arcade Game Console?</a></li>
+</ul>
+
 </body>
+</html>

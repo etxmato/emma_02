@@ -1,303 +1,530 @@
-
 <html>
-<title>FAQ Cartridges</title>
+<title>How do I play the Studio II cartridge games?</title>
 <body>
-<h2>How do I play the Studio II Cartridge games?</h2>
+
+<h1>How do I play the Studio II cartridge games?</h1>
+
 <p>
-This section includes short instructions for all included Studio II cartridge files, in some cases more complete instructions can be found in the game folder. 
+The sections below provide brief instructions for all included Studio II cartridge games.
+In some cases more detailed instructions can be found in the corresponding game directory.
 </p>
+
 <p>
-Definitions below assume you are using a numeric keypad and have selected menu item 'Settings / Use Numeric Keypad'. If this option is not selected correct key is indicated in (). Note that for player B keys W, A, S, Z for directions and TAB for fire will work both with and without the 'Use Numeric Keypad' setting selected.
+The descriptions below assume you are using a numeric keypad and have selected
+<tt>Settings / Use Numeric Keypad</tt>. If this option is not selected, the alternative key
+is shown in parentheses.
+For Player B, the keys <tt>W</tt>, <tt>A</tt>, <tt>S</tt>, <tt>Z</tt> control direction and <tt>TAB</tt> is used to fire. These keys work both with and without the <tt>Use Numeric Keypad</tt> setting enabled.
 </p>
+
 <p>
-For MPT-02 cartridges which will run on the Studio II as well see section <a href="VictoryCartridges.htm">MPT-02 Cartridges</a>
+For MPT-02 cartridges that also run on the Studio II, see the <a href="VictoryCartridges.htm">MPT-02 Cartridges</a> section.
 </p>
-<h3>Baseball</h3>
+
+
+<h2>Baseball</h2>
+
 <p>
-To start press 0, player using keyboard 'A' bats first and player using keyboard 'B' pitches. Pitching player attempts to catch ball after it is hit by moving fielders. Keyboard function A/B changes every 1/2 inning.
+Press <tt>0</tt> to start. Player A bats first and Player B pitches. The pitching player attempts to catch the ball by moving the fielders. Player A and Player B alternate every half inning.
 </p>
-<h4>Batting:</h4>
+
+<p><strong>Controls</strong></p>
+
+<p><strong>Batting</strong></p>
+
+<pre>
+Player A
+--------
+SPACE              swing bat
+
+Player B
+--------
+Numpad 5 (TAB)     swing bat
+</pre>
+
+<p><strong>Pitching</strong></p>
+
+<pre>
+Player A
+--------
+Up Arrow           inside curve
+SPACE              straight pitch
+Down Arrow         outside curve
+
+Player B
+--------
+Numpad 8 (W)       inside curve
+Numpad 5 (TAB)     straight pitch
+Numpad 2 (Z)       outside curve
+</pre>
+
+<p><strong>Moving Fielders</strong></p>
+
+<pre>
+Player A
+--------
+Up Arrow           move up
+Down Arrow         move down
+
+Player B
+--------
+Numpad 8 (W)       move up
+Numpad 2 (Z)       move down
+</pre>
+
 <p>
-Player A:<br>
-Space: swings bat
+Hold the key down for about a quarter second to throw a change-up (slow ball).
 </p>
+
+
+<h2>Biorhythm</h2>
+
 <p>
-Player B:<br>
-Numpad 5 (TAB): swings bat
+Press <tt>0</tt> to start.
 </p>
-<h4>Pitching:</h4>
+
 <p>
-Player A:<br>
-Arrow up: inside curve<br>
-Space: straight pitch<br>
-Arrow down: outside curve
+Enter your birth date using Numpad <tt>0</tt>-<tt>9</tt>
+(<tt>P</tt>, <tt>Q</tt>, <tt>W</tt>, <tt>E</tt>, <tt>R</tt>, <tt>T</tt>, <tt>Y</tt>, <tt>U</tt>, <tt>I</tt>, <tt>O</tt>)
+in the format <tt>MM DD YYYY</tt>.
 </p>
+
 <p>
-Player B:<br>
-Numpad 8 (W): inside curve<br>
-Numpad 5 (TAB): straight pitch<br>
-Numpad 2 (Z): outside curve
+Then enter the start date in the same format.
 </p>
+
+<p>The biorhythm chart shows:</p>
+
+<pre>
+P    physical cycle
+E    emotional cycle
+I    intellectual cycle
+</pre>
+
+
+<h2>Blackjack</h2>
+
 <p>
-Hold key down for 1/4 second for change up (slow ball).
+Press <tt>1</tt> for a one-player game or <tt>2</tt> for a two-player game.
 </p>
-<h4>Moving fielders:</h4>
+
 <p>
-Player A: <br>
-Arrow up: up <br>
-Arrow down: down
+For all numerical input, Player A uses keyboard <tt>0</tt>-<tt>9</tt> and Player B uses
+Numpad <tt>0</tt>-<tt>9</tt> (<tt>P</tt>, <tt>Q</tt>, <tt>W</tt>, <tt>E</tt>, <tt>R</tt>, <tt>T</tt>, <tt>Y</tt>, <tt>U</tt>, <tt>I</tt>, <tt>O</tt>).
+For a one-player game the controls for Player B are used.
 </p>
+
+<p><strong>Controls</strong></p>
+
+<pre>
+Player A
+--------
+1                 hit
+2                 double
+SPACE             stand
+
+Player B
+--------
+Numpad 1 (Q)      hit
+Numpad 2 (W)      double
+Numpad 0 (TAB)    stand
+</pre>
+
 <p>
-Player B: <br>
-Numpad 8 (W): up <br>
-Numpad 2 (Z): down
+When "Cut" appears on the screen press:
 </p>
-<h3>Biorhythm</h3>
+
+<pre>
+1 player game     Numpad 0 (TAB)
+2 player game     SPACE or Numpad 0 (TAB)
+</pre>
+
 <p>
-Press 0 to start. Then enter your birth date using numpad 0 to 9 (P, Q, W, E, R, T, Y, U, I, O) in format MM DD YYYY followed by start date in the same format. After this the biorhythm charts will be shown where P = physical, E = emotional and I = intellectual cycles.
+Each player bets from $1 to $9. Stakes exceeding $200 - $999 break the bank limit.
 </p>
-<h3>Blackjack</h3>
+
+
+<h2>Fun with Numbers</h2>
+
 <p>
-To start press 1 for a 1 player game and 2 for a 2 player game.
+Press one of the following keys:
 </p>
+
+<pre>
+1     Guess the Number (1 player)
+2     Guess the Number (2 players)
+3     Reverse
+</pre>
+
 <p>
-For all numerical input player A uses keyboard 0 to 9 and player B uses numpad 0 to 9 (P, Q, W, E, R, T, Y, U, I, O). For a 1 player game, the controls for 'player B' are used.
+For all numerical input, Player A uses keyboard <tt>0</tt>-<tt>9</tt> and Player B uses
+Numpad <tt>0</tt>-<tt>9</tt> (<tt>P</tt>, <tt>Q</tt>, <tt>W</tt>, <tt>E</tt>, <tt>R</tt>, <tt>T</tt>, <tt>Y</tt>, <tt>U</tt>, <tt>I</tt>, <tt>O</tt>).
+For a one-player game the controls for Player B are used.
 </p>
+
+
+<h3>Guess the Number</h3>
+
 <p>
-Cut:<br>
-When "Cut" appears on the screen, press numpad 0 (TAB) in a 1 player game and space or numpad 0 (TAB) in a 2 player game. 
+Try to guess the three-digit number. After each guess a clue is displayed:
 </p>
+
+<pre>
+000   none of the digits are correct
+001   one digit correct but wrong position
+002   one digit correct and correct position or 
+      two digits correct but both wrong position
+003*  combinations of the above clues (except 000)
+004   combinations of the above clues (except 000)
+005   combinations of the above clues (except 000)
+006   correct number
+</pre>
+
 <p>
-Bet:<br>
-Each player bets from $1 to $9. 
+(*) For example, 003 could represent three digits correct but none in the proper position, or two digits correct with one in the proper position and one in the wrong position.
 </p>
+
 <p>
-Player A:<br>
-1: hit<br>
-2: double<br>
-Space: stand
+In a two-player game both players enter their secret number before the game starts.
 </p>
+
+
+<h3>Reverse</h3>
+
 <p>
-Player B:<br>
-Numpad 1 (Q): hit<br>
-Numpad 2 (W): double<br>
-Numpad 0 (TAB): stand 
+Rearrange the numbers so they appear in sequence from <tt>1</tt>-<tt>9</tt>.
+Press Numpad keys <tt>2</tt>-<tt>9</tt> (<tt>W</tt>, <tt>E</tt>, <tt>R</tt>, <tt>T</tt>, <tt>Y</tt>, <tt>U</tt>, <tt>I</tt>, <tt>O</tt>).
+The number pressed determines how many digits are reversed.
 </p>
+
+
+<h2>Game Pack</h2>
+
 <p>
-Stakes: $200 * $999 breaks the bank.
+This cartridge originates from the Sarnoff Collection at TCNJ (S.572.33, S.572.46).
 </p>
-<h3>Fun with numbers</h3>
+
+
+<h3>Doodle</h3>
+
 <p>
-To start press:<br>
-1: Guess the number - 1 player<br>
-2: Guess the number - 2 players<br>
-3: Reverse
+Press <tt>1</tt> to start. A white dot will appear in the lower left corner.
+Move the dot using the Arrow Keys or Numpad <tt>1</tt>-<tt>9</tt>. Pressing two move keys
+simultaneously moves diagonally.
 </p>
+
 <p>
-For all numerical input player A uses keyboard 0 to 9 and player B uses numpad 0 to 9 (P, Q, W, E, R, T, Y, U, I, O). For a 1 player game, the controls for 'player B' are used.
+Press Numpad <tt>5</tt> (<tt>TAB</tt>) to begin drawing. Press <tt>SPACE</tt> or Numpad <tt>0</tt> to erase.
 </p>
-<h4>Guess the number</h4>
+
+
+<h3>Curling</h3>
+
 <p>
-The aim is to try and guess the 3 digit number. After every guess a clue is given as follows:<br>
-000 - None of the digits are correct<br>
-001 - One digit is correct but is not in the proper position<br>
-002 - One digit is correct and is in the proper position, or two digits are correct but both are in the wrong position<br>
-003* - Any feasible combinations of the above clues (except 000)<br>
-004 - Any feasible combinations of the above clues (except 000)<br>
-005 - Any feasible combinations of the above clues (except 000)<br>
-006 - You guessed it!
+Press <tt>2</tt> to start. Press <tt>0</tt> on keypad A or B, depending on whose turn it is.
+Hold the key long enough to reach one of the target symbols.
 </p>
+
+
+<h3>Pong Variant</h3>
+
 <p>
-* For example, 003 could represent 3 digits correct but none in the proper position or 2 digits correct, one of which is in the proper position and one of which is in the wrong position.
+Press <tt>5</tt> to start. Press <tt>0</tt> on keypad A or B to move the paddle up.
+When the key is released, the paddle returns to the bottom of the screen.
 </p>
+
+
+<h3>Addition</h3>
+
 <p>
-In a two player game both players first give their secret number before the game starts.
+Press <tt>6</tt> to start. Add the digits shown and press the correct number.
+Faster answers score more points.
 </p>
-<h4>Reverse</h4>
+
+
+<h3>Freeway</h3>
+
 <p>
-Rearrange the numbers to be in sequence from 1 to 9. To rearrange press numpad 2 to 9  (W, E, R, T, Y, U, I, O). Where the number indicates the 'number' of numbers that are reversed, i.e. 2 = first 2 reversed, 3 first 3 etc.
+Press <tt>7</tt> to start. Press <tt>5</tt> to start the car.
 </p>
-<h3>Game Pack</h3>
+
+<p><strong>Controls</strong></p>
+
+<pre>
+5     increase speed
+4     steer left
+6     steer right
+</pre>
+
+
+<h2>Gunfighter / Moonship Battle</h2>
+
+<h3>Gunfighter</h3>
+
 <p>
-This game is from the Sarnoff Collection at TCNJ, S.572.33, S.572.46. 
+Press one of the following keys:
 </p>
-<h4>Doodle</h4>
+
+<pre>
+1     single-player game
+2     two-player game
+</pre>
+
 <p>
-Press 1 to start, a white dot will appear in the lower left corner. Move the dot by pressing any of the arrow keys (or numpad 1 to 9). Note that pressing two arrow key simultaneously will move diagonally.
+For a one-player game the controls for Player B are used.
 </p>
+
+<p><strong>Controls</strong></p>
+
+<pre>
+Player A
+--------
+Up Arrow           move up
+Down Arrow         move down
+SPACE              fire (tap: fast bullet, hold: two slow bullets)
+
+Player B
+--------
+Numpad 8 (W)       move up
+Numpad 2 (Z)       move down
+TAB                fire (tap: fast bullet, hold: two slow bullets)
+</pre>
+
+
+<h3>Moonship Battle</h3>
+
 <p>
-Press numpad 5 (TAB) to start drawing, press space (or numpad 0) to erase.
+Press <tt>3</tt> to start. Each moonship can move in eight directions.
+Pressing two move keys simultaneously moves diagonally (for both players).
 </p>
-<h4>Curling</h4>
+
+<p><strong>Controls</strong></p>
+
+<pre>
+Player A
+--------
+Arrow Keys        move ship
+SPACE             fire rocket
+
+Player B
+--------
+Numpad 8 4 6 2    move ship
+Numpad 5 (TAB)    fire rocket
+</pre>
+
 <p>
-Press 2 to start. Press 0 on keypad A or B depending which players turn it is. Keep 0 pressed long enough to reach one of the symbols.
+Rockets travel in the last direction the ship moved. The player who loses all energy is defeated.
 </p>
-<h4>Pong variant</h4>
+
+<h2>Math Fun (TV School House II)</h2>
+
 <p>
-Press 5 to start. Press 0 on keypad A or B to push 'pad' up, when you release 0 the pad will return to bottom of screen.
+Press one of the following keys:
 </p>
-<h4>Addition</h4>
+
+<pre>
+1     Slow (approx. 20 sec) answer speed
+2     Fast (approx. 10 sec) answer speed
+</pre>
+
 <p>
-Press 6 to start. Add up the digits and press the correct number. Quicker = more points.
+Next, select one of the following:
 </p>
-<h4>Freeway</h4>
+
+<pre>
+1     Addition
+2     Subtraction
+3     Multiplication
+4     Division
+5     Combination
+</pre>
+
 <p>
-Press 7 to start. Press 5 to start the car. Control the car using the arrow keys: 5: increase speed, 4: left, 6: right.
+For all numerical input, Player A uses keyboard <tt>0</tt>-<tt>9</tt> and Player B uses
+Numpad <tt>0</tt>-<tt>9</tt> (<tt>P</tt>, <tt>Q</tt>, <tt>W</tt>, <tt>E</tt>, <tt>R</tt>, <tt>T</tt>, <tt>Y</tt>, <tt>U</tt>, <tt>I</tt>, <tt>O</tt>).
+For a one-player game the controls for Player B are used.
 </p>
-<h3>Gunfighter / Moonship Battle</h3>
-<h4>Gunfighter</h4>
-<p>
-To start press:<br>
-1: Single player game<br>
-2: 2 player game
-</p>
-<p>
-For a 1 player game, the controls for 'player B' are used.
-</p>
-<p>
-<b>Keys for Player A:</b><br>
-Arrow up: up<br>
-Arrow down: down<br>
-Space (quick release): fire one fast bullet<br>
-Space (hold): fire two slow bullets
-</p>
-<p>
-<b>Keys for Player B:</b><br>
-Numpad 8 (W): up<br>
-Numpad 2 (Z): down<br>
-TAB (quick release): fire one fast bullet<br>
-TAB (hold): fire two slow bullets
-</p>
-<h4>Moonship Battle</h4>
-<p>
-To start press 3. Each moon ship can move in 8 directions. For player A the arrow keys are used, when pressing two arrow keys simultaneously the ship will move diagonally. For player B keys numpad 8, 4, 6 and 2 (W, A, S and Z), when pressing numpad 7, 9, 1 and 3 (AW, WS, SZ, ZA, i.e. 2 keys simultaneously) the ship will move diagonally. Player A fires a rocket with space and B with numpad 5 (TAB). Rockets are fired in the last moving direction. Player that loses all its energy is defeated.
-</p>
-<h3>Math Fun (TV School House II)</h3>
-<p>
-To start press:<br>
-1: Slow (approx. 20 sec) answer speed<br>
-2: Fast (approx. 10 sec) answer speed
-</p>
-<p>
-Select problem type:<br>
-1: Addition<br>
-2: Subtraction<br>
-3: Multiplication<br>
-4: Division<br>
-5: Combination
-</p>
-<p>
-For problem type 'combination' the game will start, for other problem type, select difficulty: 1 (easiest), 2, 3 or 4 (most difficult).
-</p>
-<p>
-For all numerical input player A uses keyboard 0 to 9 and player B uses numpad 0 to 9 (P, Q, W, E, R, T, Y, U, I, O). For a 1 player game, the controls for 'player B' are used.
-</p>
+
 <p>
 When the problem appears on the screen each player attempts to enter the correct answer.
 </p>
-<h3>School (TV School House I)</h3>
+
 <p>
-To play this game you will need a copy of the 'quiz' booklet. To start press:<br>
-1: Fast (approx. 10 sec) answer speed<br>
-2: Slow (approx. 20 sec) answer speed
+For problem type <strong>combination</strong> the game will start directly. For other problem types, select difficulty: 1 (easiest), 2, 3 or 4 (most difficult).
 </p>
+
+
+<h2>School (TV School House I)</h2>
+
 <p>
-Decide which quiz you want to play (1-9), now the Studio II will show a letter (A-H) next to an empty box. The letter tells you which question to answer. Look at the quiz booklet and try to give the right answer.
+Press one of the following keys:
 </p>
+
+<pre>
+1     Slow (approx. 20 sec) answer speed
+2     Fast (approx. 10 sec) answer speed
+</pre>
+
 <p>
-For all numerical input player A uses keyboard 0 to 9 and player B uses numpad 0 to 9 (P, Q, W, E, R, T, Y, U, I, O). For a 1 player game, the controls for 'player B' are used.
+To play this game, you will need a copy of the <strong>quiz</strong> booklet.
 </p>
-<h3>Space War</h3>
-<h4>Horizontal Intercept</h4>
+
 <p>
-Press 1 to start<br>
-Space: fires rockets<br>
-Arrow left: steer rocket left<br>
-Arrow right: steer rocket right
+Decide which quiz you want to play (1-9). The Studio II will show a letter (A-H) next to an empty box. The letter tells you which question to answer. Look at the quiz booklet and try to give the right answer.
 </p>
-<h4>Vertical Intercept</h4>
+
 <p>
-Press 3 to start<br>
-Space: launch left missile<br>
-Numpad 5 (TAB): launch right missile
+For all numerical input, Player A uses keyboard <tt>0</tt>-<tt>9</tt> and Player B uses
+Numpad <tt>0</tt>-<tt>9</tt> (<tt>P</tt>, <tt>Q</tt>, <tt>W</tt>, <tt>E</tt>, <tt>R</tt>, <tt>T</tt>, <tt>Y</tt>, <tt>U</tt>, <tt>I</tt>, <tt>O</tt>).
+For a one-player game the controls for Player B are used.
 </p>
+
+
+<h2>Space War</h2>
+
+<h3>Horizontal Intercept</h3>
+
 <p>
-Holding space or TAB down will hold the missile on a straight course. Releasing the key will make the missile angle downward.
+Press <tt>1</tt> to start.
 </p>
-<h3>Speedway / Tag</h3>
+
+<pre>
+SPACE          fire rockets
+Left Arrow     steer rocket left
+Right Arrow    steer rocket right
+</pre>
+
+
+<h3>Vertical Intercept</h3>
+
 <p>
-<b>Keys for Player A:</b><br>
-Arrow up: up<br>
-Arrow down: down<br>
-Arrow left: left<br>
-Arrow right: right
+Press <tt>3</tt> to start.
 </p>
+
+<pre>
+SPACE             launch left missile
+Numpad 5 (TAB)    launch right missile
+</pre>
+
 <p>
-<b>Keys for Player B:</b><br>
-Numpad 8 (W): up<br>
-Numpad 2 (Z): down<br>
-Numpad 4 (A): left<br>
-Numpad 6 (S): right
+Holding the key keeps the missile on a straight course.
+Releasing the key causes the missile to descend.
 </p>
-<h4>Speedway (9 lap race)</h4>
+
+
+<h2>Speedway / Tag</h2>
+
+<p><strong>Controls</strong></p>
+
+<pre>
+Player A
+--------
+Up Arrow         move up
+Down Arrow       move down
+Left Arrow       move left
+Right Arrow      move right
+
+Player B
+--------
+Numpad 8 (W)     move up
+Numpad 2 (Z)     move down
+Numpad 4 (A)     move left
+Numpad 6 (S)     move right
+</pre>
+
+
+<h3>Speedway</h3>
+
 <p>
-To start press 1. Players can control cars with direction keys as described above. 
+Press <tt>1</tt> to start the nine-lap race.
 </p>
-<h4>Tag</h4> 
+
+
+<h3>Tag</h3>
+
 <p>
-To start press 2. Players can move spot with direction keys as described above. Spot with black marker chases solid white spot. Each "tag" scores 10 points. The game will last for two minutes.
+Press <tt>2</tt> to start. The black marker chases the white marker.
+Each tag scores 10 points. The game lasts two minutes.
 </p>
-<h3>Tennis / Squash</h3>
+
+
+<h2>Tennis / Squash</h2>
+
 <p>
-Squash (1 player): Press 1<br>
-Tennis (2 players): Press 2
+Press one of the following keys:
 </p>
-<h4>Squash</h4>
-<p>
-Racquet size player 1:<br>
-Numpad 4 (R): small<br>
-Numpad 5 (T): medium<br>
-Numpad 6 (Y): large<br>
-</p>
-<p>
-Ball Speed and start game:<br> 
-7; slow<br>
-8: normal<br>
-9: fast<br>
-</p>
-<p>
-Move paddles<br>
-Numpad 8 (W): up<br>
-Numpad 2 (Z): down
-</p>
-<h4>Tennis</h4>
-<p>
-Racquet size player 1:<br>
-4: small<br>
-5: medium<br>
-6: large<br>
-</p>
-<p>
-Racquet size player 2:<br>
-Numpad 4 (R): small<br>
-Numpad 5 (T): medium<br>
-Numpad 6 (Y): large<br>
-</p>
-<p>
-Ball Speed and start game:<br> 
-7; slow<br>
-8: normal<br>
-9: fast<br>
-</p>
-<p>
-Move paddles player 1:<br>
-Arrow up: up<br>
-Arrow down: down
-</p>
-<p>
-Move paddles player 2:<br>
-Numpad 8 (W): up<br>
-Numpad 2 (Z): down
-</p>
+
+<pre>
+1     Squash (1 player)
+2     Tennis (2 players)
+</pre>
+
+
+<h3>Squash</h3>
+
+<p>Racquet size</p>
+
+<pre>
+Numpad 4 (R)    small
+Numpad 5 (T)    medium
+Numpad 6 (Y)    large
+</pre>
+
+<p>Ball speed and start</p>
+
+<pre>
+7   slow
+8   normal
+9   fast
+</pre>
+
+<p>Move paddle</p>
+
+<pre>
+Numpad 8 (W)    up
+Numpad 2 (Z)    down
+</pre>
+
+
+<h3>Tennis</h3>
+
+<p>Racquet size</p>
+
+<pre>
+Player 1
+--------
+4                 small
+5                 medium
+6                 large
+
+Player 2
+--------
+Numpad 4 (R)      small
+Numpad 5 (T)      medium
+Numpad 6 (Y)      large
+</pre>
+
+<p>Ball speed and start</p>
+
+<pre>
+7   slow
+8   normal
+9   fast
+</pre>
+
+<p>Move paddles</p>
+
+<pre>
+Player 1
+--------
+Up Arrow          up
+Down Arrow        down
+
+Player 2
+--------
+Numpad 8 (W)      up
+Numpad 2 (Z)      down
+</pre>
+
+
 </body>
 </html>

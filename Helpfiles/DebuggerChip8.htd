@@ -1,91 +1,192 @@
 <html>
-<title>Debug Pseudo</title>
+<title>Pseudo Debugger</title>
 <body>
-<h1>Debug Pseudo</h1>
+<h1>Pseudo Debugger</h1>
+
 <p>
-To use the <a href="SyntaxPseudoCode.htm">pseudo</a> trace functions of the debugger first select the 'Tools' tab (highlighted in yellow) and then the 'Debug Pseudo' tab (highlighted in orange).
+The Pseudo Debugger allows tracing and controlling of pseudo-code.
 </p>
+
 <p>
-<IMG SRC="images/debug_pseudo.png" BORDER="0">
+The main elements of the Pseudo debugger are shown in the screenshot below.
 </p>
+
 <p>
-To activate/deactivate the pseudo debug mode select/deselect the 'Debug Mode' checkbox (highlighted in blue). Debug mode is also activated and deactivated automatically when using any of the he pseudo trace commands (highlighted in red). 
+<img src="images/debug_pseudo.png" border="0" width="724" height="609">
 </p>
-<p>
-Active pseudo debug mode will be indicated in the emulated computer window title. Note that in pseudo debug mode the emulator will run slower and take more processor power.  
-</p>
-<p>
-<IMG SRC="images/debug_pseudo_debugmode.png" BORDER="0">
-</p>
-<h2>Tracing</h2>
-<p>
-There are 2 trace buttons to show or trace instructions executed by the emulated computer: 
-</p>
-<p>
+
 <ul>
-<li>Trace: (highlighted in yellow): to show all pseudo instructions. 
-<li>INT (highlighted in orange): to show 1802 interrupt instructions.
+<li>(1) <strong>Debugger</strong> tab</li>
+<li>(2) <strong>Pseudo</strong> sub-tab</li>
+<li>(3) <strong>Pseudo Type</strong> field</li>
 </ul>
-</p>
+
 <p>
-<IMG SRC="images/debug_pseudo_trace.png" BORDER="0">
+To open this tab, select the <strong>Debugger</strong> tab (1) and then the <strong>Pseudo</strong> sub-tab (2).
 </p>
+
 <p>
-Tracing output will be shown in the trace output window (highlighted in grey). To save the output to a log file press the 'Log' button (highlighted in brown). The trace window cleared by pressing 'Clear' (highlighted in purple).
+The type of pseudo-code is shown in the <strong>Pseudo Type</strong> field (3).
 </p>
+
+<h2>Debug Mode</h2>
+
 <p>
-The type of pseudo code is shown in the Type field (highlighted in green).
+Debug mode enables instruction tracing and debugging controls.
 </p>
-<h2>Pause, Step and Speed</h2>
+
 <p>
-The pseudo code running on the emulated computer can be 'paused' by pressing the pause button (highlighted in orange) and will pause automatically when hitting a break point, see also section 'Break Points' below. 
+<img src="images/debug_pseudo_debugmode.png" border="0" width="724" height="609">
 </p>
+
+<ul>
+<li>(1) <strong>Debug Mode</strong> checkbox</li>
+<li>(2) <strong>Trace</strong> and <strong>INT</strong> buttons</li>
+</ul>
+
 <p>
-<IMG SRC="images/debug_pseudo_PSS.png" BORDER="0">
+Enable debug mode using the <strong>Debug Mode</strong> checkbox (1). Debug mode is also activated automatically when trace commands (<strong>Trace</strong> or <strong>INT</strong>) are used (2).
 </p>
+
 <p>
-When Pseudo code is paused the pause button will light up orange and the title of the computer will include '** PAUSED **'. To continue just hit the pause button again. Note that when the pause button is pressed during execution of a pseudo code instruction, pseudo code is paused only when the current instruction is finished. During execution of the current instruction the pause button will be disabled. This is especially visible when pausing during a command like LD Vx, K in Chip-8, in this case the pause command will only take effect after a key press. 
+When debug mode is active, this is indicated in the title of the emulated computer window.
 </p>
+
 <p>
-In pause mode the 'Step' button (highlighted in orange) can be used to get the emulated computer to execute the indicated number of pseudo code instructions and after this go back to pause mode.
+<strong>Note:</strong> Debug mode slows the emulator and increases host CPU usage.
 </p>
+
+
+<h2>Tracing</h2>
+
 <p>
-If needed the trace and emulated computer can be slowed down by sliding the 'Speed' slider (highlighted in blue) to the left. Normal speed will be restored when Debug mode is switched off even if the slider is not fully to the right.
+The Trace section controls instruction tracing and stepping through program execution.
 </p>
-<h2>Variables & Register I</h2>
+
 <p>
-All variable (highlighted in orange), I register (highlighted in blue) and PC register values can be seen at any time:
+The tracing controls are shown in the screenshot below.
 </p>
+
 <p>
-<IMG SRC="images/debug_pseudo_registers.png" BORDER="0">
+<img src="images/debug_pseudo_trace.png" border="0" width="724" height="609">
 </p>
+
+<ul>
+<li>(1) <strong>Trace</strong> button - when enabled all pseudo instructions are shown.</li>
+<li>(2) <strong>INT</strong> button - when enabled 1802 interrupt instructions are shown.</li>
+</ul>
+
+
+<h2>Trace Window</h2>
+
 <p>
-Default none of these values can be changed (protected mode), this is to protect execution of the emulated computer as changing these values would likely cause a crash. To change these values unselect the 'Protected Mode' checkbox (highlighted in yellow). The PC register is never allowed to be changed.
+Trace output appears in the trace window (1) shown below.
 </p>
+
 <p>
-To change the value of registers I and/or variables, type in a different value and press enter. No value is changed until enter is pressed! Also be aware that changing values during run time of a computer might be difficult as the emulator constantly changes values. To make it easier to change something pause the emulator (via the pause button or breakpoint), change the value and continue tracing using pause (see sections, 'Pause, Step and Speed' and/or 'Break Points'.
+<img src="images/debug_pseudo_trace_window.png" border="0" width="724" height="609">
 </p>
-<h2>Break Points</h2>
+
+<ul>
+<li>(1) Trace window</li>
+<li>(2) <strong>Log</strong> button</li>
+<li>(3) <strong>Clear</strong> button</li>
+</ul>
+
 <p>
-Break points (highlighted in yellow) are handled with the button and fields marked in the screen shot below.
+Click <strong>Log</strong> (2) to save the trace output to a file.
+Click <strong>Clear</strong> (3) to clear the trace window.
 </p>
+
+
+<h2>Execution Control</h2>
+
 <p>
-<IMG SRC="images/debug_pseudo_break.png" BORDER="0">
+Execution control buttons are shown in the screenshot below.
 </p>
+
 <p>
-To set a break point on a pseudo code 'execution address' type the required address in the field next to the 'Set' button (highlighted in yellow) and press return (or the button). The address will be shown in the break point list (highlighted in orange). When the emulated computer reaches the specified address it will stop execution and go into 'pause' mode. A total of 64 break points can be set.
+<img src="images/debug_pseudo_PSS.png" border="0" width="724" height="609">
 </p>
+
+<ul>
+<li>(1) <strong>Pause</strong> button - pauses program execution, second press resumes.</li>
+<li>(2) <strong>Step</strong> button - executes the specified number of pseudo instructions.</li>
+<li>(3) <strong>Speed</strong> slider - controls execution speed while debugging.</li>
+</ul>
+
+<p>
+If the pause button is pressed during execution of a pseudo-code instruction, pseudo-code is paused only when the current instruction is finished. During execution of the current instruction the pause button will be disabled. This is especially visible when pausing during a command like LD Vx, K in Chip-8. In this case the pause command will only take effect after a key press.
+</p>
+
+
+<h2>Pseudo Registers</h2>
+
+<p>
+Pseudo register control buttons are shown in the screenshot below.
+</p>
+
+<p>
+<img src="images/debug_pseudo_registers.png" border="0" width="724" height="609">
+</p>
+
+<ul>
+<li>(1) Variables display</li>
+<li>(2) <strong>I</strong> text field</li>
+<li>(3) <strong>PC</strong> text field</li>
+<li>(4) <strong>Protected</strong> checkbox</li>
+</ul>
+
+<p>
+The current values of all variables (1), the I register (2) and the PC register (3) are displayed.
+</p>
+
+<p>
+By default, values cannot be edited (<strong>Protected</strong> Mode) to prevent crashes. To edit values (except the PC register), uncheck <strong>Protected</strong> (4).
+</p>
+
+<p>
+To change a value, type the new value and press Enter. Changes are not applied until Enter is pressed. For best results, pause the emulator before editing values.
+</p>
+
+
+<h2>Breakpoints</h2>
+
+<p>
+Breakpoints allow execution to pause automatically when a specified address is reached.
+</p>
+
+<p>
+<img src="images/debug_pseudo_break.png" border="0" width="724" height="609">
+</p>
+
+<ul>
+<li>(1) <strong>Breakpoint</strong> text field and <strong>Set</strong> button</li>
+<li>(2) <strong>Breakpoint</strong> field</li>
+</ul>
+
+<p>
+Enter an execution address in the Breakpoint text field (1) and press Enter or press the <strong>Set</strong> button. When execution reaches this address, the emulator pauses. All breakpoints are displayed (2) so they can be deleted, deactivated or edited.
+</p>
+
+
 <h3>Delete</h3>
+
 <p>
-To delete a breakpoint select it in the list and press the 'Delete' key.
+Select a breakpoint in the list and press the <strong>Delete</strong> key to remove it.
 </p>
+
 <h3>Deactivate</h3>
+
 <p>
-This feature is only available on Windows: to deactivate a breakpoint uncheck the applicable checkbox. To activate it again re-check the box.
+(Windows only) Uncheck a breakpoint checkbox to deactivate it. Check it again to reactivate.
 </p>
+
 <h3>Edit</h3>
+
 <p>
-To edit a breakpoint select it in the list and edit the text.
+Select a breakpoint in the list and edit the text directly to modify it.
 </p>
+
 </body>
 </html>

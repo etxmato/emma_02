@@ -1,20 +1,38 @@
 <html>
 <title>Code Coverage</title>
 <body>
+
+
 <h1>Code Coverage</h1>
+
 <p>
-Code that is not executed will be shown as 'data', like in the <a href="DirectMain.htm">Direct Assembler</a> this is shown in a <FONT COLOR="BLUE">blue</FONT> colour and in bytes including ASCI characters (highlighted in yellow):
+Code that is not executed is shown as data, as in the <a href="DirectMain.htm">Direct Assembler</a> - in a <font color="#3947CE">blue</font> colour, displayed as bytes including ASCII characters (1):
 </p>
+
 <p>
-<IMG SRC="images/profiler_code_coverage.png" BORDER="0">
+<img src="images/profiler_code_coverage.png" border="0" width="724" height="609">
 </p>
+<ul>
+<li>(1) Unexecuted code shown as data bytes</li>
+</ul>
+
 <p>
-The parts shown as data might of course be actual data used by the software or code that hasn't been executed as yet. The branch on 0185 checking on EF3 is currently always branching to 0191. In this case the running computer (COMX-35) uses EF3 as indication for a key press. So a test of this piece of software would indicate that to test all code a key needs to be pressed. This would result in the following:
+The parts shown as data may of course be actual data used by the software, or code that has not yet been executed. The branch at 0185 checking EF3 is currently always branching to 0191. In this case the running computer (COMX-35) uses EF3 as an indication of a key press, so testing this piece of software indicates that a key needs to be pressed to execute all code. Pressing a key results in the following:
 </p>
+
 <p>
-<IMG SRC="images/profiler_code_coverage_key_pressed.png" BORDER="0">
+<img src="images/profiler_code_coverage_key_pressed.png" border="0" width="724" height="609">
 </p>
+<ul>
+<li>(1) Previously unexecuted code now executed</li>
+</ul>
+
 <p>
-The result is showing that all code on this page has now been executed. Note that blue bytes in the bottom are clearly data as are following blue bytes. The SEP R4 on 01A2 likely reads value 14 from 01A3 and the OUT 4 will use the 20 as output value. 
+The result shows that all code on this page has now been executed.
+</p>
+
+<p>
+<strong>Note:</strong> The blue bytes at the bottom are clearly data, as are the following blue bytes. The <tt>SEP R4</tt> at 01A2 likely reads the value <tt>14</tt> from 01A3, and the <tt>OUT 3</tt> uses <tt>20</tt> as the output value.
+</p>
 </body>
 </html>

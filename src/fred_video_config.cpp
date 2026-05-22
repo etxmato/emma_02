@@ -91,6 +91,9 @@ void FredVideoConfig::fredVideoConfigInit()
     computerConfiguration.fredVideoConfiguration.defaultX = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     computerConfiguration.fredVideoConfiguration.defaultY = mainWindowY_;
 
+    if (!mode_.gui)
+        return;
+
     XRCCTRL(*this, THIS_PANEL_NAME, wxPanel)->Hide();
 
     disableIoPortConfigRadio(registerIdFredVideoRadio[FRED_VIDEO_ENABLE]);
@@ -152,7 +155,7 @@ void FredVideoConfig::parseXml_FredVideo(wxXmlNode &node)
     int tagTypeInt;
     long width, height;
     int red, green, blue, xpos, ypos;
-    wxString color, scale, position, iogroup;
+    wxString color, position, iogroup;
     size_t ioGroupNumber = 0;
     computerConfiguration.zoom_[computerConfiguration.fredVideoConfiguration.videoNumber] = "2.00";
     computerConfiguration.videoName_[computerConfiguration.fredVideoConfiguration.videoNumber] = "FRED";
@@ -230,7 +233,8 @@ void FredVideoConfig::parseXml_FredVideo(wxXmlNode &node)
                     computerConfiguration.fredVideoConfiguration.ioGroupVector.resize(ioGroupNumber+1);
                     computerConfiguration.fredVideoConfiguration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
                 }
-				XRCCTRL(*this,"FredVideoIoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.fredVideoConfiguration.ioGroupVector));
+                if (mode_.gui)
+                    XRCCTRL(*this,"FredVideoIoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.fredVideoConfiguration.ioGroupVector));
             break;
 
             case TAG_HEIGHT:
@@ -257,8 +261,6 @@ void FredVideoConfig::parseXml_FredVideo(wxXmlNode &node)
 
 void FredVideoConfig::updateFredVideoPanel()
 {
-    wxString buffer;
-
     if (computerConfiguration.fredVideoConfiguration.defined)
     {
         for (size_t registerNumber = 0; registerNumber<FRED_VIDEO_NUMBER_OF_RADIOBUTTONS; registerNumber++)
@@ -288,7 +290,7 @@ int FredVideoConfig::setFredVideoRegister(int registerNumber, bool value, int sh
 
     if (XRCCTRL(*this,registerIdFredVideoRadio[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionFredVideo[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionFredVideo[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -304,7 +306,7 @@ int FredVideoConfig::setFredVideoRegisterNible(int registerNumber, Byte value, i
 
     if (XRCCTRL(*this,registerIdFredVideo[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionFredVideo[registerNumber], fredConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionFredVideo[registerNumber], fredConfigRegisterValueString[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -316,7 +318,7 @@ void FredVideoConfig::FredVideoEnable(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -327,7 +329,7 @@ void FredVideoConfig::FredVideoDisable(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -338,7 +340,7 @@ void FredVideoConfig::FredVideoType(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 

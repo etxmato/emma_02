@@ -31,16 +31,19 @@
 #include "wx/tglbtn.h"
 #include "wx/xrc/xmlres.h"
 
-BEGIN_EVENT_TABLE(VideoConfig, XmlBase)
+BEGIN_EVENT_TABLE(VideoConfig, Ct2425Config)
     EVT_TOGGLEBUTTON(XRCID("VideoTraceButton"), VideoConfig::onVideoTrace)
+    EVT_TOGGLEBUTTON(XRCID("VideoTimeButton"), VideoConfig::onVideoTime)
     EVT_BUTTON(XRCID("VideoClearButton"), VideoConfig::onVideoClear)
 END_EVENT_TABLE()
 
 VideoConfig::VideoConfig(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
-: XmlBase(title, pos, size, mode, dataDir, iniDir)
+: Ct2425Config(title, pos, size, mode, dataDir, iniDir)
 {
+    restartVideoTime_ = true;
     videoTraceString_ = "";
     videoTrace_ = false;
+    videoTime_ = true;
 }
 
 VideoConfig::~VideoConfig()
@@ -107,20 +110,29 @@ void VideoConfig::updateVideoPanel()
 
 void VideoConfig::videoConfigInit()
 {
+    if (!mode_.gui)
+        return;
+
     videoConfigGuiPosition_ = XRCCTRL(*this, "PanelNoVideo", wxPanel)->GetPosition();
     videoConfigWidth_ = 0;
  
     XRCCTRL(*this, "PanelNoVideo", wxPanel)->Show();
     XRCCTRL(*this, "VideoTraceWindow", wxTextCtrl)->Hide();
     XRCCTRL(*this, "VideoTraceButton", wxToggleButton)->Hide();
+    XRCCTRL(*this, "VideoTimeButton", wxToggleButton)->Hide();
     XRCCTRL(*this, "VideoClearButton", wxButton)->Hide();
 }
 
 void VideoConfig::videoConfigUsed(wxString panelName)
 {
+    if (!mode_.gui)
+        return;
+
     XRCCTRL(*this, "PanelNoVideo", wxPanel)->Hide();
     XRCCTRL(*this, "VideoTraceWindow", wxTextCtrl)->Show();
     XRCCTRL(*this, "VideoTraceButton", wxToggleButton)->Show();
+    XRCCTRL(*this, "VideoTimeButton", wxToggleButton)->Show();
+    XRCCTRL(*this, "VideoTimeButton", wxToggleButton)->SetValue(videoTime_);
     XRCCTRL(*this, "VideoClearButton", wxButton)->Show();
 	
     XRCCTRL(*this, panelName, wxPanel)->Show();
@@ -132,19 +144,30 @@ void VideoConfig::videoConfigUsed(wxString panelName)
         videoConfigWidth_ = configSize.x;
 }
 
-void VideoConfig::showTraceText(wxString function, wxString address, wxString value, int showTrace)
+void VideoConfig::showVideoTraceText(wxString function, wxString address, wxString value, int showTrace)
 {
+    if (!mode_.gui)
+        return;
+
     if (showTrace == DO_NOT_SHOW_ANY_TRACE)
         return;
     
     wxString addressString = "      ";
     if (showTrace == SHOW_ADDRESS_TRACE)
-        addressString.Printf("%04X: ", p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()));
+    {
+        if (videoTime_)
+            videoTimeTrace();
+        else
+            addressString.Printf("%04X: ", p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()));
+    }
     videoTrace(addressString + function + " " + address + "=" + value);
 }
 
-void VideoConfig::showTraceText(wxString function, wxString value, int showTrace)
+void VideoConfig::showVideoTraceText(wxString function, wxString value, int showTrace)
 {
+    if (!mode_.gui)
+        return;
+
     if (showTrace == DO_NOT_SHOW_ANY_TRACE)
         return;
    
@@ -154,12 +177,20 @@ void VideoConfig::showTraceText(wxString function, wxString value, int showTrace
 
     wxString addressString = "      ";
     if (showTrace == SHOW_ADDRESS_TRACE)
-        addressString.Printf("%04X: ", p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()));
+    {
+        if (videoTime_)
+            videoTimeTrace();
+        else
+            addressString.Printf("%04X: ", p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()));
+    }
     videoTrace(addressString + function + "=" + value);
 }
 
-void VideoConfig::showTraceTextRead(wxString function, wxString value, int showTrace)
+void VideoConfig::showVideoTraceTextRead(wxString function, wxString value, int showTrace)
 {
+    if (!mode_.gui)
+        return;
+
     if (showTrace == DO_NOT_SHOW_ANY_TRACE)
         return;
    
@@ -169,12 +200,20 @@ void VideoConfig::showTraceTextRead(wxString function, wxString value, int showT
 
     wxString addressString = "      ";
     if (showTrace == SHOW_ADDRESS_TRACE)
-        addressString.Printf("%04X: ", p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()));
+    {
+        if (videoTime_)
+            videoTimeTrace();
+        else
+            addressString.Printf("%04X: ", p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()));
+    }
     videoTrace(addressString + "D=" + function + "=" + value);
 }
 
-void VideoConfig::showTraceText(wxString function, int showTrace)
+void VideoConfig::showVideoTraceText(wxString function, int showTrace)
 {
+    if (!mode_.gui)
+        return;
+
     if (showTrace == DO_NOT_SHOW_ANY_TRACE)
         return;
     
@@ -188,11 +227,42 @@ void VideoConfig::showTraceText(wxString function, int showTrace)
 
     wxString addressString = "      ";
     if (showTrace == SHOW_ADDRESS_TRACE)
-        addressString.Printf("%04X: ", p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()));
+    {
+        if (videoTime_)
+            videoTimeTrace();
+        else
+            addressString.Printf("%04X: ", p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()));
+    }
     videoTrace(addressString + function);
 }
 
-void VideoConfig::showNotRunning()
+void VideoConfig::videoTimeTrace()
+{
+    wxLongLong timeInterval = p_Main->traceTime(restartVideoTime_);
+    restartVideoTime_ = false;
+
+    wxString print_buffer;
+    int h,m,s, millis;
+
+    millis = timeInterval.GetLo();
+    s = (int)(millis/1000);
+    h = s / 3600;
+    s -= (h * 3600);
+    m = s / 60;
+    s -= (m * 60);
+    millis -= (h * 3600000);
+    millis -= (m * 60000);
+    millis -= (s * 1000);
+
+    print_buffer.Printf("Time = %02d:%02d:%03d", m, s, millis);
+    
+    wxString addressString;
+    addressString.Printf("%04X: ", p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()));
+    videoTrace(addressString + print_buffer);
+}
+
+
+void VideoConfig::showVideoNotRunning()
 {
     videoTraceWindowPointer->SetInsertionPointEnd();
     videoTraceWindowPointer->WriteText("No computer running\n");
@@ -212,7 +282,24 @@ void VideoConfig::onVideoTrace(wxCommandEvent& WXUNUSED(event))
     videoTrace_ = !videoTrace_;
 }
 
+void VideoConfig::onVideoTime(wxCommandEvent& WXUNUSED(event))
+{
+    videoTime_ = !videoTime_;
+}
+
 void VideoConfig::onVideoClear(wxCommandEvent& WXUNUSED(event))
 {
     videoTraceWindowPointer->Clear();
 }
+
+long VideoConfig::getVideoRegisterValue(wxString registerReference)
+{
+    if (!computerRunning_)
+    {
+        p_Main->showVideoNotRunning();
+        return -1;
+    }
+
+    return get16BitValue(registerReference);
+}
+

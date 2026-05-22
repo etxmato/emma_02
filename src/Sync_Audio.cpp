@@ -197,7 +197,8 @@ void Sync_Audio::play_write( const play_sample_t* in, int remain )
         play_sample_t* out = play_buf( play_write_buf ) + play_write_pos;
         if ( gain != (1L << gain_bits) )
         {
-            register long gain = this->gain;
+//            register long gain = this->gain;
+            long gain = this->gain;
             for ( int n = count; n--; )
                 *out++ = (play_sample_t) ((*in++ * gain) >> gain_bits);
         }

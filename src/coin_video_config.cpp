@@ -73,6 +73,9 @@ void CoinVideoConfig::coinVideoConfigInit()
     computerConfiguration.coinConfiguration.defaultX = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     computerConfiguration.coinConfiguration.defaultY = mainWindowY_;
 
+    if (!mode_.gui)
+        return;
+
     XRCCTRL(*this, THIS_PANEL_NAME, wxPanel)->Hide();
 
     disableIoPortConfigRadio(registerIdCoinVideo[COIN_VIDEO_ENABLE]);
@@ -132,7 +135,7 @@ void CoinVideoConfig::parseXml_CoinVideo(wxXmlNode &node)
     int tagTypeInt;
     long width, height;
     int red, green, blue, xpos, ypos;
-    wxString color, scale, position, iogroup;
+    wxString color, position, iogroup;
     size_t ioGroupNumber = 0;
 	computerConfiguration.zoom_[computerConfiguration.coinConfiguration.videoNumber] = "2.00";
     computerConfiguration.videoName_[computerConfiguration.coinConfiguration.videoNumber] = "Coin Video";
@@ -208,7 +211,8 @@ void CoinVideoConfig::parseXml_CoinVideo(wxXmlNode &node)
                     computerConfiguration.coinConfiguration.ioGroupVector.resize(ioGroupNumber+1);
                     computerConfiguration.coinConfiguration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
                 }
-				XRCCTRL(*this,"CoinVideoIoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.coinConfiguration.ioGroupVector));
+                if (mode_.gui)
+                    XRCCTRL(*this,"CoinVideoIoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.coinConfiguration.ioGroupVector));
             break;
 
             case TAG_GRAPHICS:
@@ -235,8 +239,6 @@ void CoinVideoConfig::parseXml_CoinVideo(wxXmlNode &node)
 
 void CoinVideoConfig::updateCoinVideoPanel()
 {
-    wxString buffer;
-
     if (computerConfiguration.coinConfiguration.defined)
     {
         for (size_t registerNumber = 0; registerNumber<COIN_VIDEO_NUMBER_OF_REGISTERS; registerNumber++)
@@ -258,7 +260,7 @@ int CoinVideoConfig::setCoinVideoRegister(int registerNumber, bool value, int sh
 
     if (XRCCTRL(*this,registerIdCoinVideo[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionCoinVideo[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionCoinVideo[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -270,7 +272,7 @@ void CoinVideoConfig::CoinVideoEnable(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
     coinPointer->inPixie();

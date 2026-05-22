@@ -103,7 +103,6 @@ public:
     void onStretchDot(wxCommandEvent& event);
     void onScreenDump(wxCommandEvent& event);
     void onVolume(wxScrollEvent&event);
-    void onAutoLoad(wxCommandEvent& event);
     void onRealCas(wxCommandEvent& event);
     void onTurbo(wxCommandEvent&event);
     void onTurboClock(wxCommandEvent& event);

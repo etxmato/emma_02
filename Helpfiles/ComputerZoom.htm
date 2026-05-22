@@ -1,34 +1,91 @@
 
-<HTML>
-<Title>Zoom Level and Full Screen Mode</Title>
-<BODY>
+<html>
+<title>Zoom Level and Full Screen Mode</title>
+<body>
+
 <h1>Zoom Level and Full Screen Mode</h1>
+
 <p>
-All emulators supporting one or more video outputs, include the option to change the zoom level and/or switch to full screen mode, using the following controls:
+All emulators that support one or more video outputs include options to change the zoom level and switch to full screen mode using the controls shown below:
 </p>
+
 <p>
-<IMG SRC="images/computer_zoom.png" border="0" width="443" height ="370">
+<img src="images/computer_zoom.png" border="0" width="724" height="609">
 </p>
+
+<ul>
+<li>(1) <strong>Zoom Level</strong> text field</li>
+<li>(2) <strong>Zoom Level</strong> spin buttons</li>
+<li>(3) <strong>Full Screen</strong> button</li>
+<li>(4) <strong>Terminal Zoom Level</strong> spin buttons</li>
+<li>(5) <strong>Switch</strong> button</li>
+<li>(6) <strong>Video Type</strong> text field</li>
+</ul>
+
 <p>
-Default setting is 1 or 2 (depending on the emulated video type) where every actual dot of the emulated video screen is the same size (1) or twice the size (2) on the PC screen. The zoom level value can be specified from 0.5 and upwards (depending on PC screen size and resolution).
+The default zoom level is 1 or 2 (depending on the emulated video type), where each dot of the emulated screen is displayed at the same size (zoom level 1) or at twice the size (zoom level 2) on the host system screen.
 </p>
+
 <p>
-To change the zoom level fill in the desired value (highlighted in green), use the spin buttons or just resize the emulated window by dragging the bottom right corner. 
+The zoom level can be set to 0.5 or higher, depending on the host system screen size and resolution.
 </p>
+
+
+<h2>Zoom Level</h2>
+
 <p>
-If a computer configuration contains multiple video outputs the switch button (highlighted in blue) will be enabled. The selected video type is shown in the text field (highlighted in orange). The zoom and full screen features will be active for the selected/shown video type.
+To change the video output zoom level, use one of the following options:
 </p>
+
+<ul>
+<li>Enter the desired value in the <strong>Zoom Level</strong> text field (1)</li>
+<li>Use the <strong>Zoom Level</strong> spin buttons (2)</li>
+<li>Drag the bottom-right corner to resize the emulated window</li>
+</ul>
+
 <p>
-The zoom level for the video terminal is specified with dedicated buttons within the 'Terminal' field (highlighted in purple), see also section <a href="TerminalSetup.htm">Terminal Setup</a>.
+The zoom level for the video terminal is controlled with dedicated <strong>Terminal Zoom Level</strong> spin buttons (4) in the Terminal field. See the <a href="TerminalSetup.htm">Terminal Setup</a> section.
 </p>
+
+<h2>Full Screen Mode</h2>
+
 <p>
-Zooming is possible either with or without using a 'floating point' value. Default setting is using floating point values, this can be changed for all emulated computers via menu item below. A larger part of the screen or window will be used when using floating point values. Note, more PC processor load will be used, so if the screen emulation is too slow unselect the 'floating point' zooming.
+To change to Full Screen Mode, use one of the following options:
 </p>
+
+<ul>
+<li>Press <tt>F3</tt> in the emulated computer window</li>
+<li>Use the <strong>Full Screen</strong> button (3)</li>
+<li>Use the <strong>Settings/Window</strong> menu option</li>
+</ul>
+
 <p>
-<IMG SRC="images/computer_zoom_float.png" border="0" width="443" height ="158">
+When both a Video Terminal and video emulation are active (e.g., on a VElf or Cosmicos), the video terminal switches to full-screen mode first. Press <tt>F3</tt> again to switch the video output to full-screen mode.
 </p>
+
+<h2>Multiple Video Outputs</h2>
+
 <p>
-Switching between window mode and full screen mode can be done by pressing F3 from the emulated computer window, the 'Full Screen' button (highlighted in yellow) or via the Setting/Window menu option. When a Video Terminal and video emulation are used simultaneously (e.g. on a VElf or Cosmicos) the video terminal will switch to full screen first, pressing F3 again will switch the specified video emulation to full screen.
+If a computer configuration contains multiple video outputs, the <strong>Switch</strong> button (5) is enabled. The selected video type is shown in the <strong>Video Type</strong> text field (6). Zoom and Full Screen features apply to the currently selected video type.
 </p>
-</BODY>
-</HTML>
+
+<h2>Floating-Point Zooming</h2>
+
+<p>
+Floating-point zooming is enabled or disabled via <strong>Settings/Window/Enable Floating Point Zooming</strong>, shown below:
+</p>
+
+<p>
+<img src="images/computer_zoom_float.png" border="0" width="592" height="272">
+</p>
+
+<p>
+Zooming can be performed with or without floating-point precision. By default, floating-point zooming is enabled, allowing more flexible use of the available window or screen space.
+</p>
+
+<p>
+<strong>Note:</strong> Floating-point zooming increases host processor load. If screen emulation becomes too slow, disable this option.
+</p>
+
+</body>
+</html>

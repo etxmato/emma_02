@@ -1,29 +1,60 @@
 
-
 <html>
-<title>External Terminal Software</title> 
+<title>External Terminal Software</title>
 <body>
+
+
 <h1>External Terminal Software</h1>
+
 <p>
-To use Emma 02 with an external terminal additional software is needed. So far I have only been able to get this to work on Windows and Linux. Note that on Linux using 'socat' will NOT work, instead use tty0tty as described below!
+To use Emma 02 with an external terminal, additional software is required.
 </p>
+
 <p>
-Of course serial terminal software is needed. For windows I have used and tested <a href="https://www.emtec.com/download.html#zocfiles">ZOC7</a>. For Ubuntu I have tested with <a href="https://help.ubuntu.com/community/Minicom">Minicom</a>. Any other serial terminal emulation should also work.
+<strong>Note:</strong> On Linux, <tt>socat</tt> will not work; use <tt>tty0tty</tt> instead (see below).
 </p>
+
 <p>
-Both Emma 02 and serial terminal software will communicate with a serial port on the host PC. So one option to use this would be to connect the two serial ports with a cable. However I recommend to use a serial port emulator. The serial port emulator will create two virtual ports on the host PC and connect them. One of the ports should be specified in the Terminal Setup window (highlighted in yellow) and the second in the serial terminal.
+<strong>Note:</strong> This has not been verified on macOS.
 </p>
+
 <p>
-<IMG SRC="images/terminal_ext_port.png" BORDER="0">
+Serial terminal software is required.
+For Windows, <a href="https://www.emtec.com/download.html#zocfiles">ZOC7</a> has been tested.
+For Ubuntu, <a href="https://help.ubuntu.com/community/Minicom">Minicom</a> has been tested.
+Other serial terminal emulators should also work.
 </p>
+
 <p>
-On windows I have tested <a href="http://com0com.sourceforge.net/">Null-modem emulator (com0com)</a> (free), <a href="https://www.eltima.com/vspd-comparison-chart.html">Virtual Serial Port Driver</a> from Eltima Software and <a href="https://eterlogic.com/Products.VSPE.html">Virtual Serial Port Emulator (VSPE)</a> from Eterlogic.
+Both Emma 02 and the serial terminal software communicate via a serial port on the host PC.
+One option is to connect two physical serial ports with a cable; however, using a serial port emulator is recommended.
+This creates two virtual ports on the host PC and connects them.
 </p>
+
 <p>
-On Linux I have tested the free <a href="https://sourceforge.net/projects/tty0tty/">Null-modem emulator (tty0tty)</a>.
+One of the ports must be specified in the <strong>Serial Port</strong> text field (1) via the <strong>Terminal Setup</strong> window shown below, and the second port in the external serial terminal software.
 </p>
+
 <p>
-Terminal emulation is NOT possible when using intel 8275 emulation on the Elf 2000.
+<img src="images/terminal_ext_port.png" border="0" width="513" height="685">
+</p>
+<ul>
+<li>(1) <strong>Serial Port</strong> text field</li>
+</ul>
+
+<p>
+On Windows, the following have been tested:
+<a href="http://com0com.sourceforge.net/">Null-modem emulator (com0com)</a> (free),
+<a href="https://www.eltima.com/vspd-comparison-chart.html">Virtual Serial Port Driver</a> from Eltima Software,
+and <a href="https://eterlogic.com/Products.VSPE.html">Virtual Serial Port Emulator (VSPE)</a> from Eterlogic.
+</p>
+
+<p>
+On Linux, the free <a href="https://sourceforge.net/projects/tty0tty/">Null-modem emulator (tty0tty)</a> has been tested.
+</p>
+
+<p>
+<strong>Important:</strong> Terminal emulation is not possible when using Intel 8275 emulation on the Elf 2000.
 </p>
 </body>
 </html>

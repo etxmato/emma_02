@@ -1,9 +1,12 @@
-<HTML>
-<Title>FAQ Comx 2</Title>
-<BODY>
-<h1>When I select the 32K RAM card the COMX still states 30K at PR MEM</h1>
+<html>
+<title>Why does the COMX show only 30K at PR MEM when the 32K RAM card is selected?</title>
+<body>
+
+<h1>Why does the COMX show only 30K at PR MEM when the 32K RAM card is selected?</h1>
+
 <p>
-This is correct behaviour, the original 32K RAM card was never supported from BASIC. The extra memory can be used via machine code and/or expansion card commands; see also the <a href="https://www.emma02.hobby-site.com/comx_32kram.html">32K RAM</a> and <a href="https://www.emma02.hobby-site.com/comx_expansion.html">Expansion Box</a> pages for some additional details.
+This is correct behaviour. The original 32K RAM card was never supported by BASIC. The extra memory can be used via machine code or expansion card commands. See the <a href="https://www.emma02.hobby-site.com/comx_32kram.html">32K RAM</a> and <a href="https://www.emma02.hobby-site.com/comx_expansion.html">Expansion Box</a> sections.
 </p>
-</BODY>
-</HTML>
+
+</body>
+</html>

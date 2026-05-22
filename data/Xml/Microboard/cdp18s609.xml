@@ -5,7 +5,7 @@
     
     <system>
         <name>RCA COSMAC Microboard Computer</name>
-        <config>CDP18S609 1805 &amp; CDP1852 - CDP18S641 UART - CDP18S640 A/A1 Display</config>
+        <config>CDP18S609 1805 &amp; CDP1852 - CDP18S641 UART - CDP18S640 Display</config>
         <cpu>1805</cpu>
         <clock>2.09715</clock>
         <boot>0</boot>

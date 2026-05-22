@@ -2,21 +2,62 @@
 <html>
 <title>Debugger</title>
 <body>
+
 <h1>Debugger</h1>
+
 <p>
-The debugger gives you an inside view of what is going on in the emulated machine. To use the debugger select the 'Debugger' tab (highlighted in yellow) followed by one of the following (highlighted in orange):
+The Debugger tab provides debugging functionality for both RCA 1802 machine code and pseudo-code interpreters.
 </p>
+
 <p>
-<OL>
-<LI>'<a href="DebuggerTrace.htm">Debug 1802</a>' to perform tracing, set breakpoints or other use debug commands on the 1802 CPU
-<LI>'<a href="DebuggerChip8.htm">Debug Pseudo</a>' to perform tracing, set breakpoints or other use debug commands on pseudo code like Chip-8, ST2, ST4, FEL-1, CARDTRAN etc.
-</OL>
+The main elements of the Debugger tab are shown in the screenshot below.
 </p>
+
 <p>
-<IMG SRC="images/debugger.png" border="0" width="443" height ="376">
+<img src="images/debugger.png" border="0" width="724" height="609">
 </p>
+
 <p>
-Note: none of the settings in the 'Debug 1802' and 'Debug Pseudo' tabs are saved in the Emma 02 configuration, so every time Emma 02 is started these settings are set to default. However some settings like SCRT definition can be set in the XML configration files.
+To open this tab, select the <strong>Debugger</strong> tab (1). 
 </p>
+
+<p>
+The Debugger tab contains two sub-tabs:
+</p>
+
+<ul>
+<li>(2) <strong>1802</strong> sub-tab - debugging of RCA 1802 machine code. See the <a href="DebuggerTrace.htm">1802 Debugger</a> section.</li>
+<li>(3) <strong>Pseudo</strong> sub-tab - debugging of pseudo-code interpreters such as Chip-8, ST2, ST4, FEL-1, CARDTRAN, etc. See the <a href="DebuggerChip8.htm">Pseudo Debugger</a> section.</li>
+</ul>
+
+<h2>Important Notes</h2>
+
+<ul>
+<li>Settings in the <strong>1802</strong> and <strong>Pseudo</strong> tabs are <strong>not</strong> saved in the Emma 02 configuration file. Each time Emma 02 starts, debugger settings return to their default values.</li>
+
+<li>Some options, such as SCRT definitions, can be configured in the emulator XML configuration files.</li>
+
+</ul>
+
+<h2>When to Use the Debugger</h2>
+
+<p>
+Use the debugger when:
+</p>
+
+<ul>
+<li>Your program crashes or behaves unexpectedly.</li>
+<li>You want to understand how a program works.</li>
+<li>You need to check register or memory values.</li>
+<li>You are learning 1802 assembly or pseudo-code systems.</li>
+</ul>
+
+<p>
+The debugger is one of the most powerful tools in Emma 02.
+Start with simple programs, step through instructions slowly, and watch how the machine state changes.
+</p>
+
 </body>
 </html>
+
+

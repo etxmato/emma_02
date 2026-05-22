@@ -1,33 +1,35 @@
-
-
 <html>
 <title>General</title>
 <body>
+
 <h1>General</h1>
 <p>
-This section includes general information about the RCA 1802 and Emma 02.
+This section provides general information about the 
+<a href="Main1802.htm">RCA 1802</a> microprocessor and the Emma 02 emulator.
 </p>
-<h2>Table of contents</h2>
-<p>
+
+<h2>Table of Contents</h2>
+
 <ul>
-<li><a href="Main1802.htm">The RCA 1802</a>
-<li><a href="FaqMain.htm">FAQ</a>
-<li><a href="MenuMain.htm">Global Settings & Menu</a>
-<li><a href="MainFile.htm">Directory and File Structure</a>
-<li><a href="MainConfigurations.htm">XML Configurations</a>
-<li><a href="MainMachineCodeSyntax.htm">Machine Code Syntax</a>
-<li><a href="MainPseudoCodeSyntax.htm">Pseudo Code Syntax</a>
-<li><a href="MainXMLCodeSyntax.htm">XML Code Syntax</a>
-<li><a href="MainFunctionKeys.htm">Function and Hot Keys</a>
-<li><a href="MainWindow.htm">Window Settings</a>
-<li><a href="MainCommandLine.htm">Command Line</a>
-<li><a href="MainKeyMappingDefault.htm">Default Keyboard</a>
-<li><a href="MainComxSb.htm">COMX SuperBoard</a>
-<li><a href="MainSuperBasic.htm">Quest Super BASIC</a>
+<li><a href="FaqMain.htm">FAQ</a></li>
+<li><a href="MenuMain.htm">Global Settings &amp; Menu</a></li>
+<li><a href="MainFile.htm">Directory and File Structure</a></li>
+<li><a href="MainConfigurations.htm">XML Configurations</a></li>
+<li><a href="MainMachineCodeSyntax.htm">Machine Code Syntax</a></li>
+<li><a href="MainPseudoCodeSyntax.htm">Pseudo Code Syntax</a></li>
+<li><a href="MainXMLCodeSyntax.htm">XML Code Syntax</a></li>
+<li><a href="MainFunctionKeys.htm">Function and Hot Keys</a></li>
+<li><a href="MainWindow.htm">Window Settings</a></li>
+<li><a href="MainCommandLine.htm">Command Line</a></li>
+<li><a href="MainKeyMappingDefault.htm">Default Keyboard</a></li>
+<li><a href="MainComxSb.htm">COMX SuperBoard</a></li>
+<li><a href="MainSuperBasic.htm">Quest Super BASIC</a></li>
 </ul>
-</p>
+
 <p>
-At exit all settings in the Computer tab are saved, unless save settings is unchecked in the settings menu.
+When exiting the emulator, all settings in the <strong>Computer</strong> tab are saved automatically,
+unless <em>Save Settings</em> is disabled in the settings menu.
 </p>
+
 </body>
 </html>

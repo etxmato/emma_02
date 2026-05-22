@@ -1,25 +1,44 @@
-<HTML>
-<Title>FAQ 1</Title>
-<BODY>
-<h1>How do I load my SW into an emulated computer?</h1>
+<html>
+<title>How do I load a program using the LOAD button?</title>
+<body>
+<h1>How do I load a program using the LOAD button?</h1>
+
 <p>
-There are multiple ways to load SW into an emulated computer, choose one of the following options depending on your needs and/or preference:
+The example shows the Memory configuration and Memory Access sections in the Computer tab:
 </p>
+
 <p>
-<OL>
-<li>For loading SW before the computer starts use the ROM, RAM or NVRAM buttons. For more details see <a href="ComputerMemoryFiles.htm">ROM, RAM, NVR</a>.
-<li>For loading SW directly into the emulated computer after startup, use the LOAD buttons in the 'Memory Access' area:
-</OL>
+<img src="images/memory_access_1.png" border="0" width="724" height="609">
 </p>
+
+<ul>
+<li>(1) RAM file loaded at address @0000</li>
+<li>(2) ROM file loaded at address @8000</li>
+<li>(3) <strong>LOAD</strong> button in the Memory Access section</li>
+</ul>
+
 <p>
-<IMG SRC="images/memory_access_1.png" BORDER="0"> 
+There are multiple ways to load software into an emulated computer. Choose one of the following options depending on your needs or preference.
 </p>
+
+<ol>
+<li>
+For loading software before the computer starts, use the ROM (2), RAM (1) or NVR buttons. See the <a href="ComputerMemoryFiles.htm">ROM, RAM, NVR</a> section.</li>
+<li>For loading software directly into the emulated computer after startup, use the LOAD button (3) in the Memory Access area:</li>
+</ol>
+
 <p>
-For more details see the <a href="ComputerMemAccess.htm">Memory Access</a> section or:
+All <strong>load</strong> buttons (1, 2, 3 and NVR) load a binary file into the emulated computer's memory. If specified, the file will be loaded starting at the <strong>Start</strong> address.
 </p>
-<OL>
-<li>For loading SW using the emulated computers cassette interface see the <a href="ComputerCassette.htm">Cassette Support</a> section.
-<li>For loading SW using the emulated computers disk interface see the <a href="ComputerDisk.htm">Disk Support</a> section.
-</OL>
-</BODY>
-</HTML>
+
+<p>
+For more details, see the <a href="ComputerMemAccess.htm">Memory Access</a> section or:
+</p>
+
+<ol>
+<li>For loading software using the emulated computer's cassette interface see the <a href="ComputerCassette.htm">Cassette Support</a> section.</li>
+<li>For loading software using the emulated computer's disk interface see the <a href="ComputerDisk.htm">Disk Support</a> section.</li>
+</ol>
+
+</body>
+</html>

@@ -123,6 +123,8 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
         "cdp1877",
         "cdp1878",
         "cd4536b",
+        "payphone",
+        "payphone_fw",
         "mm57109",
         "scn2671",
         "ad_convertor",
@@ -173,6 +175,8 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
         TAG_CDP1877,
         TAG_CDP1878,
         TAG_CD4536B,
+        TAG_CT2425,
+        TAG_CT2425_FW,
         TAG_MM57109,
         TAG_SCN2671,
         TAG_AD_CONVERTOR,
@@ -362,6 +366,8 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.cdp1877Configuration.clear();
     computerConfiguration.cdp1878Configuration.clear();
     computerConfiguration.cd4536bConfiguration.clear();
+    computerConfiguration.ct2425Configuration.clear();
+    computerConfiguration.ct2425CoinConfiguration.clear();
     computerConfiguration.scn2671Configuration.clear();
     computerConfiguration.dipConfiguration.clear();
     computerConfiguration.sepConfiguration.clear();
@@ -575,6 +581,9 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     fredVideoConfigInit();
     vip2KVideoConfigInit();
     st4VideoConfigInit();
+
+    otherConfigInit();
+    ct2425ConfigInit();
 
     for (int fdcType = 0; fdcType<FDCTYPE_MAX; fdcType++)
     {
@@ -809,6 +818,14 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
 
             case TAG_CD4536B:
                 parseXml_Cd4536b (*child);
+            break;
+                
+            case TAG_CT2425_FW:
+                parseXml_Ct2425Coins (*child);
+            break;
+                
+            case TAG_CT2425:
+                parseXml_Ct2425 (*child);
             break;
 
             case TAG_MM57109:
@@ -1051,6 +1068,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
             break;
 
             case TAG_HEXMODEM:
+                computerConfiguration.videoTerminalConfiguration.hexModem_cdp18s020 = (child->GetAttribute("type") == "cdp18S020");
                 computerConfiguration.videoTerminalConfiguration.hexModem_defined = true;
                 parseXml_Xmodem (*child);
             break;
@@ -1182,8 +1200,14 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
         numberOfFrontPanels_++;
     }
     
+    if (!mode_.gui)
+        return;
+
     position = XRCCTRL(*this, "VideoTraceWindow", wxTextCtrl)->GetPosition();
     XRCCTRL(*this, "VideoTraceWindow", wxTextCtrl)->SetPosition(wxPoint(videoConfigWidth_, position.y));
+
+    position = XRCCTRL(*this, "OtherTraceWindow", wxTextCtrl)->GetPosition();
+    XRCCTRL(*this, "OtherTraceWindow", wxTextCtrl)->SetPosition(wxPoint(otherConfigWidth_, position.y));
 }
 
 void XmlParser::parseXml_System(wxXmlNode &node)
@@ -1233,6 +1257,8 @@ void XmlParser::parseXml_System(wxXmlNode &node)
     computerInfo.configuration = "";
     computerConfiguration.monitorConfiguration.ef = init_EfFlag();
     computerConfiguration.monitorConfiguration.ioGroupVector.clear();
+    computerConfiguration.vis1870Configuration.statusBarType = STATUSBAR_NONE;
+    computerConfiguration.vis1870Configuration.statusBarLedOut = -1;
 
     wxString guiName;
 
@@ -2450,7 +2476,6 @@ void XmlParser::parseXml_Tu58Disk(wxXmlNode &node)
     };
     
     int tagTypeInt, diskNumber = 0;
-    wxString driveNumberStr;
     
     for (int drive=0; drive<2; drive++)
         computerConfiguration.tu58Configuration.numberOfBlocks[drive] = 0;
@@ -3119,7 +3144,7 @@ void XmlParser::parseXml_MatrixKeyboard(wxXmlNode &node)
     };
 
     int tagTypeInt, keyValue, textEfKeyInt;
-    wxString keyText, efText, iogroup;
+    wxString keyText, iogroup;
     size_t ioGroupNumber = 0;
 
     computerConfiguration.matrixKeyboardConfiguration.ioGroupVector.clear();
@@ -3546,7 +3571,7 @@ void XmlParser::parseXml_CvKeypad(wxXmlNode &node)
     };
 
     int tagTypeInt, keyValue, textEfKeyInt;
-    wxString keyText, efText, bitNumber, iogroup;
+    wxString keyText, iogroup;
     size_t ioGroupNumber = 0;
 
     computerConfiguration.cvKeypadConfiguration.ioGroupVector.clear();
@@ -4568,6 +4593,8 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         "efswitch",
         "velf",
         "hex",
+        "coin",
+        "payphone",
         "ef",
         "thumb_minus",
         "thumb_plus",
@@ -4641,6 +4668,8 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         BUTTON_FUNC_EF_SWITCH,      // 26
         BUTTON_FUNC_VELF,
         BUTTON_FUNC_HEX,
+        BUTTON_FUNC_COIN,
+        BUTTON_FUNC_CT2425,
         BUTTON_FUNC_EF,
         BUTTON_FUNC_THUMB_MINUS,
         BUTTON_FUNC_THUMB_PLUS,
@@ -4807,6 +4836,10 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                         {
                             if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type != PUSH_BUTTON_ROUND_GREEN_LARGE && computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type != PUSH_BUTTON_ROUND_RED_LARGE)
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PUSH_BUTTON_ROUND_BLACK;
+                        }
+                        if (child->GetAttribute("form") == "flex")
+                        {
+                            computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PUSH_BUTTON_FLEX;
                         }
                     }
                 }
@@ -5101,6 +5134,20 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                             break;
 
                             case BUTTON_FUNC_HEX:
+                                computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].actOnRelease = true;
+                                computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].actOnPress = true;
+                                computerConfiguration.mainFrontPanelConfiguration.dataPushButtons = true;
+                            break;
+
+                            case BUTTON_FUNC_COIN:
+                                computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value += 0xA0;
+                                computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].actOnRelease = true;
+                                computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].actOnPress = true;
+                                computerConfiguration.mainFrontPanelConfiguration.dataPushButtons = true;
+                            break;
+
+                            case BUTTON_FUNC_CT2425:
+                                computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value += 0xb0;
                                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].actOnRelease = true;
                                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].actOnPress = true;
                                 computerConfiguration.mainFrontPanelConfiguration.dataPushButtons = true;
@@ -6086,7 +6133,7 @@ void XmlParser::parseXml_Cdp1855(wxXmlNode &node)
     };
     
     int tagTypeInt;
-    wxString position, iogroup;
+    wxString iogroup;
     size_t ioGroupNumber = 0;
 
     computerConfiguration.cdp1855Configuration.ioGroupVector.clear();
@@ -6177,7 +6224,7 @@ void XmlParser::parseXml_Cdp1877(wxXmlNode &node)
     };
     
     int tagTypeInt;
-    wxString position, iogroup;
+    wxString iogroup;
     size_t ioGroupNumber = 0;
 
     cdp1877.ioGroupVector.clear();
@@ -6281,7 +6328,7 @@ void XmlParser::parseXml_Cdp1878(wxXmlNode &node)
     };
     
     int tagTypeInt;
-    wxString position, iogroup;
+    wxString iogroup;
     size_t ioGroupNumber = 0;
 
     cdp1878.ioGroupVector.clear();
@@ -6412,7 +6459,6 @@ void XmlParser::parseXml_Cd4536b(wxXmlNode &node)
     };
     
     int tagTypeInt;
-    wxString position;
     wxString iogroup;
     size_t ioGroupNumber = 0;
 
@@ -6816,7 +6862,6 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
     computerConfiguration.videoTerminalConfiguration.externalBlockingWrite = false;
 #endif
     computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBit = 1;
-    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBitString = "1";
 
     bitset<32> SetUpFeature;
     if (computerConfiguration.videoTerminalConfiguration.type == VT52)
@@ -7171,8 +7216,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
             break;
 
             case TAG_STOPBIT:
-                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBitString = convertLocale(child->GetNodeContent());
-                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBit = getDouble(computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBitString, childName, -1, "", false);
+                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBit = getDouble(convertLocale(child->GetNodeContent()), childName, -1, "", false);
                 computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_STOPBITS] = true;
             break;
 
@@ -7763,7 +7807,6 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
     computerConfiguration.videoTerminalConfiguration.externalBlockingWrite = false;
 #endif
     computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBit = 0;
-    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBitString = "0";
 
     computerConfiguration.videoTerminalConfiguration.picInterrupt = 0;
 
@@ -8116,8 +8159,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
             break;
 
             case TAG_STOPBIT:
-                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBitString = convertLocale(child->GetNodeContent());
-                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBit = getDouble(computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBitString, childName, -1, "", false);
+                computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBit = getDouble(convertLocale(child->GetNodeContent()), childName, -1, "", false);
                 computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_STOPBITS] = true;
             break;
 
@@ -10599,6 +10641,8 @@ void XmlParser::parseXml_RomRam(wxXmlNode &node, int type, size_t configNumber)
     computerConfiguration.memoryConfiguration[configNumber].loadOffSet.addressStart = 0;
     computerConfiguration.memoryConfiguration[configNumber].loadOffSet.offSet = 0;
     computerConfiguration.memoryConfiguration[configNumber].mcr = false;
+    computerConfiguration.memoryConfiguration[configNumber].verifyFileExist = false;
+    computerConfiguration.memoryConfiguration[configNumber].checkFwList = false;
 
     if ((type & 0xff) == NVRAM)
         computerConfiguration.memoryConfiguration[configNumber].dumpFilename = "ramdump.bin";
@@ -10638,8 +10682,9 @@ void XmlParser::parseXml_RomRam(wxXmlNode &node, int type, size_t configNumber)
                     computerConfiguration.memoryConfiguration[configNumber].filename2 = child->GetNodeContent();
                 else
                     computerConfiguration.memoryConfiguration[configNumber].filename = child->GetNodeContent();
-                
+
                 computerConfiguration.memoryConfiguration[configNumber].verifyFileExist = (child->GetAttribute("verify") == "true");
+                computerConfiguration.memoryConfiguration[configNumber].checkFwList = (child->GetAttribute("payphone_fw") == "true");
             break;
 
             case TAG_DUMP:

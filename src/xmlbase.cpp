@@ -119,6 +119,9 @@ void XmlBase::parseXml_pixieGraphics(wxXmlNode &node)
 
 void XmlBase::disableIoPortConfig(wxString registerIdentifier)
 {
+    if (!mode_.gui)
+        return;
+    
     XRCCTRL(*this, registerIdentifier+"Trace", wxCheckBox)->Enable(false);
     XRCCTRL(*this, registerIdentifier+"Direction", wxStaticText)->Enable(false);
     XRCCTRL(*this, registerIdentifier+"Port", wxStaticText)->Enable(false);
@@ -128,6 +131,9 @@ void XmlBase::disableIoPortConfig(wxString registerIdentifier)
 
 void XmlBase::disableIoPortConfigRadio(wxString registerIdentifier)
 {
+    if (!mode_.gui)
+        return;
+    
     XRCCTRL(*this, registerIdentifier+"Trace", wxCheckBox)->Enable(false);
     XRCCTRL(*this, registerIdentifier+"Direction", wxStaticText)->Enable(false);
     XRCCTRL(*this, registerIdentifier+"Port", wxStaticText)->Enable(false);
@@ -137,6 +143,9 @@ void XmlBase::disableIoPortConfigRadio(wxString registerIdentifier)
 
 void XmlBase::setIoPortConfig(IoPort ioport, wxString registerIdentifier, wxString checkBoxLabel, wxString directionLabel, bool sixteenBit, wxString qLabel)
 {
+    if (!mode_.gui)
+        return;
+
     XRCCTRL(*this, registerIdentifier+"Trace", wxCheckBox)->Enable(true);
     XRCCTRL(*this, registerIdentifier+"Direction", wxStaticText)->Enable(true);
     XRCCTRL(*this, registerIdentifier+"Port", wxStaticText)->Enable(true);
@@ -165,6 +174,9 @@ void XmlBase::setIoPortConfig(IoPort ioport, wxString registerIdentifier, wxStri
 
 void XmlBase::setIoPortConfig(wxString registerIdentifier, wxString checkBoxLabel, wxString directionLabel, wxString portLabel, wxString qLabel)
 {
+    if (!mode_.gui)
+        return;
+
     XRCCTRL(*this, registerIdentifier+"Trace", wxCheckBox)->Enable(true);
     XRCCTRL(*this, registerIdentifier+"Direction", wxStaticText)->Enable(true);
     XRCCTRL(*this, registerIdentifier+"Port", wxStaticText)->Enable(false);
@@ -180,6 +192,9 @@ void XmlBase::setIoPortConfig(wxString registerIdentifier, wxString checkBoxLabe
 
 void XmlBase::setIoPortConfigRadio(IoPort ioport, wxString registerIdentifier, wxString checkBoxLabel, wxString textLabel)
 {
+    if (!mode_.gui)
+        return;
+
     XRCCTRL(*this, registerIdentifier+"Trace", wxCheckBox)->Enable(true);
     XRCCTRL(*this, registerIdentifier+"Direction", wxStaticText)->Enable(true);
     XRCCTRL(*this, registerIdentifier+"Port", wxStaticText)->Enable(true);
@@ -201,6 +216,9 @@ void XmlBase::setIoPortConfigRadio(IoPort ioport, wxString registerIdentifier, w
 
 void XmlBase::setEfFlagConfig(EfFlag efflag, wxString text, wxString flagId)
 {
+    if (!mode_.gui)
+        return;
+
     wxString label;
     label.Printf("EF%d: " + text, efflag.flagNumber);
     
@@ -676,4 +694,15 @@ wxColour XmlBase::textToWxColour(wxString color)
     blue = (int)getNextHexDec(&color) & 0xff;
 
     return wxColour (red, green, blue);
+}
+
+long XmlBase::getButtonNumber(wxString idReference)
+{
+    wxString buttonNumber = idReference.Right(2);
+    
+    long number;
+    if (!buttonNumber.ToLong(&number, 10))
+        return -1;
+    
+    return number;
 }

@@ -1,12 +1,20 @@
 <html>
-<title>DClear</title>
+<title>Clear</title>
 <body>
+
+
 <h1>Clear</h1>
+
 <p>
-Pressing the 'Clear' button (highlighted in yellow) will clear the 'message' area (highlighted in orange):
+Pressing the <strong>Clear</strong> button (1) will clear the <strong>Message</strong> area (2):
 </p>
+
 <p>
-<IMG SRC="images/assembler_clear.png" BORDER="0">
+<img src="images/assembler_clear.png" border="0" width="724" height="609">
 </p>
+<ul>
+<li>(1) <strong>Clear</strong> button</li>
+<li>(2) <strong>Message</strong> area</li>
+</ul>
 </body>
 </html>

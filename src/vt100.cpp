@@ -327,7 +327,7 @@ void Vt100::configure(VideoTerminalConfiguration videoTerminalConfiguration, Add
         else
         {
             reverseQ_ = videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].reverseQ;
-            if (reverseQ_) p_Computer->setFlipFlopQ(1);
+            if (reverseQ_) p_Computer->setFlipFlopQ(1, NO_TREG_TRACE);
 
             dataReadyFlag_ = videoTerminalConfiguration.ef.flagNumber;
 

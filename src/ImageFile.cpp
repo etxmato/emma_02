@@ -132,7 +132,6 @@ bool CImageFile::Error (const char *pszMsg, int nError) const
   //
   //    if ... return Error("fail", errno);
   //--
-  char sz[80];
   if (nError > 0) {
 //    LOGS(ERROR_LVL, "error (" << nError << ") " << pszMsg << " " << m_sFileName);
 //***    strerror_s(sz, sizeof(sz), nError);
@@ -257,7 +256,7 @@ uint32_t CImageFile::GetFileLength() const
   return _filelength(_fileno(m_pFile));
 #elif defined(__linux__) || defined(__APPLE__) || defined(__unix__)
   struct stat st;
-  if (fstat(fileno(m_pFile), &st) == 0) return st.st_size;
+  if (fstat(fileno(m_pFile), &st) == 0) return (uint32_t)st.st_size;
   Error("fstat", errno);  return 0;
 #endif
 }
@@ -268,7 +267,7 @@ uint32_t CImageFile::GetFilePosition() const
   // Get the current file position (in bytes!) ...
   //--
   assert(IsOpen());
-  return ftell(m_pFile);
+  return (uint32_t)ftell(m_pFile);
 }
 
 bool CImageFile::SetFileLength (uint32_t nNewLength)
@@ -296,7 +295,7 @@ bool CImageFile::Truncate ()
   assert(IsOpen());
   if (IsReadOnly()) return false;
   fseek(m_pFile, 0L, SEEK_CUR);
-  return SetFileLength(ftell(m_pFile));
+  return SetFileLength((uint32_t)ftell(m_pFile));
 }
 
 

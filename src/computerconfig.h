@@ -585,7 +585,6 @@ public:
     int charactersPerRow;
     
     double stopBit;
-    wxString stopBitString;
     
     wxString vtCharRomDirectory;
     wxString vtCharRomFileName;
@@ -610,7 +609,8 @@ public:
     bool scn2671_defined;
     bool xModem_defined;
     bool hexModem_defined;
-    
+    bool hexModem_cdp18s020;
+
     IoPort output;
     IoPort qOutput;
     IoPort uartOut;
@@ -1175,6 +1175,7 @@ public:
     wxString filename2;
     wxString dumpFilename;
     bool verifyFileExist;
+    bool checkFwList;
     Word start;
     Word end;
     Word memMask;
@@ -1595,6 +1596,48 @@ public:
 
 // Other configuration class definitions:
 
+class Ct2425Configuration : public IoGroupConfiguration
+{
+public:
+    IoPort validators;
+    IoPort gates;
+    IoPort control;
+    IoPort sensors;
+    IoPort coins;
+    EfFlag efSpm;
+
+    int ignore_led;
+    int before_1;
+    int block_1;
+    int between_1_2;
+    int block_2;
+    int between_2_x;
+    int after_gate_5_6;
+    int block_5;
+    int spm_interval;
+    int spm_pulse;
+
+    int sensor_after_gate_1;
+    int sensor_after_gate_2;
+    int sensor_upper_escrow;
+    int sensor_lower_escrow;
+    int sensor_return;
+    
+    int gate_first;
+    int gate_second;
+    int gate_upper_escrow_cash;
+    int gate_lower_escrow_cash;
+    int gate_upper_escrow_return;
+    int gate_lower_escrow_return;
+};
+
+class Ct2425CoinConfiguration
+{
+public:
+    wxString filename;
+    wxString coinString[6];
+};
+
 class DefaultEfConfiguration
 {
 public:
@@ -1893,6 +1936,8 @@ public:
     XmlFileConfiguration xmlFileConfiguration;
 
     // Other configurations:
+    vector<Ct2425Configuration> ct2425Configuration;
+    vector<Ct2425CoinConfiguration> ct2425CoinConfiguration;
     DefaultEfConfiguration defaultEfConfiguration;
     MonitorConfiguration monitorConfiguration;
     AdConvertorConfiguration adConvertorConfiguration;

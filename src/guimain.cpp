@@ -812,21 +812,6 @@ void GuiMain::onVolume(wxScrollEvent&event)
         p_Computer->setVolume(computerConfiguration.soundConfiguration.volume);
 }
 
-void GuiMain::onAutoLoad(wxCommandEvent&event)
-{
-    computerConfiguration.autoCassetteLoad_ = event.IsChecked();
-    if (computerRunning_)
-    {
-        XRCCTRL(*this, "CasLoadXml", wxButton)->Enable(!computerConfiguration.autoCassetteLoad_);
-        XRCCTRL(*this, "CasSaveXml", wxButton)->Enable(!computerConfiguration.autoCassetteLoad_ && !computerConfiguration.videoTerminalConfiguration.hexModem_defined);
-        if (computerConfiguration.swTapeConfiguration.twoDecks || computerConfiguration.hwTapeConfiguration.twoDecks)
-        {
-            XRCCTRL(*this, "CasLoad1Xml", wxButton)->Enable(!computerConfiguration.autoCassetteLoad_);
-            XRCCTRL(*this, "CasSave1Xml", wxButton)->Enable(!computerConfiguration.autoCassetteLoad_);
-        }
-    }
-}
-
 void GuiMain::onTurbo(wxCommandEvent&event)
 {
     if (computerRunning_ && turboOn_)
@@ -982,6 +967,12 @@ void GuiMain::onCassetteSave(wxCommandEvent& WXUNUSED(event))
         p_Main->startTerminalSave(TERM_XMODEM_SAVE);
         return;
     }
+  
+    if (computerConfiguration.videoTerminalConfiguration.hexModem_defined)
+    {
+        p_Main->startTerminalSave(TERM_HEX);
+        return;
+    }
     
     if (isTapeHwCybervision())
     {
@@ -1061,7 +1052,6 @@ void GuiMain::onPsave(wxString fileName)
     size_t length;
     int address, start; // startAddress;
     char buffer[65536];
-    wxString stringAdress;
     Byte highRamAddress;
 
     if (!fileName.empty())
@@ -1150,7 +1140,7 @@ void GuiMain::onDataSaveButton(wxCommandEvent& WXUNUSED(event) )
     size_t dataLength, arrayLength;
     int address, start, arrayStart, stringStart, dataEnd, eop;
     char buffer[65536];
-    wxString fileName, stringAdress;
+    wxString fileName;
 
     fileName = wxFileSelector( "Select the "+computerInfo.name+" Data file to save",
                                computerConfiguration.memAccessConfiguration.directory, computerConfiguration.memAccessConfiguration.fileName,
@@ -1407,7 +1397,7 @@ void GuiMain::onLoad(bool load)
 void GuiMain::onSaveButton(wxCommandEvent& WXUNUSED(event))
 {
     wxFile outputFile;
-    wxString fileName, stringAdress;
+    wxString fileName;
     wxString extension;
 
     if (computerInfo.ploadExtension != "")
@@ -2252,7 +2242,6 @@ int GuiMain::pload()
     int address, start, startAddress, dataEnd, stringStart, fAndMBasicOffset;
 //    Byte slot;
     char buffer[65536];
-    wxString printBuffer;
     Byte highRamAddress;
 
     computerConfiguration.memAccessConfiguration.saveExec = 0;
@@ -2848,7 +2837,7 @@ void GuiMain::startTerminalLoad(int protocol)
             terminalLoad_ = true;
             
             p_Main->eventSetTapeState(TAPE_PLAY, "");
-            p_Computer->terminalLoad(filePath, fileName, protocol);
+            p_Computer->terminalLoad(filePath, protocol);
         }
     }
 }
@@ -3558,7 +3547,7 @@ void GuiMain::batchConvertStop()
 
 void GuiMain::onBatchFileDialog(wxCommandEvent&WXUNUSED(event))
 {
-    wxString fileName, extension, errorList = "";
+    wxString extension, errorList = "";
     int numberOfFiles = 0, numberOfErrorFiles = 0;
     wxFFile inputFile;
     char buffer[1];

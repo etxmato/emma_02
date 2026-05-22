@@ -120,8 +120,6 @@ SBDialog::SBDialog(wxWindow* parent)
 
 void SBDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 {
-    wxString number;
-
     p_Main->setSbPlayer(XRCCTRL(*this, "OnlinePlayer", wxTextCtrl)->GetValue());
     p_Main->setSbLocation(XRCCTRL(*this, "OnlineLocation", wxTextCtrl)->GetValue());
     p_Main->setSbEmail(XRCCTRL(*this, "OnlineEmailAddress", wxTextCtrl)->GetValue());

@@ -22,7 +22,7 @@ public:
     int setScn2672SelectorValue(int selectorNumber, int selectorValue, int showTrace = SHOW_ADDRESS_TRACE);
 
 protected:
-    int setScn2672Register(int registerNumber, Word value, int showTrace);
+    int setScn2672Register(int registerNumber, int showTrace);
     void parseXml_Scn2672Video(wxXmlNode &node);
 
 private:

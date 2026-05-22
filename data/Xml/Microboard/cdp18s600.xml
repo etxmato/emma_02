@@ -5,7 +5,7 @@
     
     <system>
         <name>RCA COSMAC Microboard Computer</name>
-        <config>CDP18S600 1805, UART &amp; PIO - CDP18S640 A/A1 Display</config>
+        <config>CDP18S600 1805, UART &amp; PIO - CDP18S640 Display</config>
         <cpu>1805</cpu>
         <clock>4.9152</clock>
         <boot>0</boot>
@@ -237,7 +237,7 @@
         </item>
     </frontpanel>
 
-    <cdp1851 init="on">
+    <cdp1851 init="on"> 
         <iogroup>8</iogroup>
         <pos>310, 0</pos>   
         <out type="a">3</out>

@@ -118,6 +118,9 @@ void Mc6847Config::mc6847ConfigInit()
     computerConfiguration.mc6847Configuration.defaultX = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     computerConfiguration.mc6847Configuration.defaultY = mainWindowY_;
 
+    if (!mode_.gui)
+        return;
+
     XRCCTRL(*this, THIS_PANEL_NAME, wxPanel)->Hide();
 
     disableIoPortConfig(registerIdMc6847[MC6847_VIDEO_INV]);
@@ -230,7 +233,8 @@ void Mc6847Config::parseXml_MC6847Video(wxXmlNode &node)
                     computerConfiguration.mc6847Configuration.startRam = (int)start;
                     computerConfiguration.mc6847Configuration.endRam = (int)end;
                     label.Printf("%04X-%04X: Video RAM", (Word)start, (Word)end);
-                    XRCCTRL(*this, "Mc6847VideoRam", wxStaticText)->SetLabel(label);
+                    if (mode_.gui)
+                        XRCCTRL(*this, "Mc6847VideoRam", wxStaticText)->SetLabel(label);
                 }
             break;
                 
@@ -251,7 +255,8 @@ void Mc6847Config::parseXml_MC6847Video(wxXmlNode &node)
                         label.Printf("%04X: Video Mode", (Word)start);
                     else
                         label.Printf("%04X-%04X: Video Mode", (Word)start, (Word)end);
-                    XRCCTRL(*this, "Mc6847VideoModeRange", wxStaticText)->SetLabel(label);
+                    if (mode_.gui)
+                        XRCCTRL(*this, "Mc6847VideoModeRange", wxStaticText)->SetLabel(label);
                 }
             break;
  
@@ -380,7 +385,8 @@ void Mc6847Config::parseXml_MC6847Video(wxXmlNode &node)
                     computerConfiguration.mc6847Configuration.ioGroupVector.resize(ioGroupNumber+1);
                     computerConfiguration.mc6847Configuration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
                 }
-                XRCCTRL(*this,"Mc6847IoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.mc6847Configuration.ioGroupVector));
+                if (mode_.gui)
+                    XRCCTRL(*this,"Mc6847IoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.mc6847Configuration.ioGroupVector));
             break;
 
             case TAG_COMMENT:
@@ -405,9 +411,9 @@ void Mc6847Config::parseXml_MC6847Video(wxXmlNode &node)
 
 void Mc6847Config::setBitValue(int bitNumber, wxString registerId, wxString function)
 {
-    if (bitNumber == -1)
+    if (bitNumber == -1 || !mode_.gui)
         return;
-    
+
     wxString functionLabel[] =
     {
         "(bit 0)",
@@ -465,8 +471,6 @@ void Mc6847Config::setGmValue(int bitNumber0, int bitNumber1, int bitNumber2, wx
 
 void Mc6847Config::updateMc6847Panel()
 {
-    wxString buffer;
-
     if (computerConfiguration.mc6847Configuration.defined)
     {
         for (size_t registerNumber = 0; registerNumber<MC6847_NUMBER_OF_REGISTERS; registerNumber++)
@@ -489,7 +493,7 @@ int Mc6847Config::setMc6847Register(int registerNumber, Byte value, int showTrac
 
     if (XRCCTRL(*this,registerIdMc6847[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionMc6847[registerNumber], mc6847ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionMc6847[registerNumber], mc6847ConfigRegisterValueString[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -505,7 +509,7 @@ int Mc6847Config::setMc6847RegisterNibble(int registerNumber, Byte value, int sh
 
     if (XRCCTRL(*this, registerIdMc6847[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionMc6847[registerNumber], mc6847ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionMc6847[registerNumber], mc6847ConfigRegisterValueString[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -515,6 +519,9 @@ int Mc6847Config::setMc6847RegisterNibble(int registerNumber, Byte value, int sh
 
 bool Mc6847Config::isMc6847TraceChecked(int registerNumber)
 {
+    if (!mode_.gui)
+        return false;
+    
     return XRCCTRL(*this, registerIdMc6847[registerNumber]+"Trace", wxCheckBox)->IsChecked();
 }
 
@@ -522,7 +529,7 @@ void Mc6847Config::Mc6847VideoMode(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -547,7 +554,7 @@ void Mc6847Config::Mc6847Inv(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -563,7 +570,7 @@ void Mc6847Config::Mc6847Ext(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -579,7 +586,7 @@ void Mc6847Config::Mc6847Css(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -595,7 +602,7 @@ void Mc6847Config::Mc6847As(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -611,7 +618,7 @@ void Mc6847Config::Mc6847Ag(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -627,7 +634,7 @@ void Mc6847Config::Mc6847Gm(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 

@@ -522,6 +522,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ct2425.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ct2425_config.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\cvkeypad.cpp"
 				>
 			</File>
@@ -555,6 +563,10 @@
 			</File>
 			<File
 				RelativePath=".\src\guicomx.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\guidebugger.cpp"
 				>
 			</File>
 			<File
@@ -671,6 +683,10 @@
 			</File>
 			<File
 				RelativePath=".\src\network.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\other_config.cpp"
 				>
 			</File>
 			<File
@@ -938,6 +954,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ct2425.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ct2425_config.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\cvkeypad.h"
 				>
 			</File>
@@ -975,6 +999,10 @@
 			</File>
 			<File
 				RelativePath=".\src\guicomx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\guidebugger.h"
 				>
 			</File>
 			<File
@@ -1091,6 +1119,10 @@
 			</File>
 			<File
 				RelativePath=".\src\network.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\other_config.h"
 				>
 			</File>
 			<File

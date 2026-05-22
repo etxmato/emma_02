@@ -104,7 +104,6 @@ void PopupDialog::init()
 
 void PopupDialog::setLocation(bool state, wxString saveStart, wxString saveEnd, wxString saveExec)
 {
-    wxString printBuffer;
     if (state)
     {
         XRCCTRL(*this,"SaveStart", wxTextCtrl)->SetValue(saveStart);

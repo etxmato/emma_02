@@ -416,7 +416,7 @@
         <color type="high">0, 0xff, 0</color>
     </vt>
 
-    <hexmodem>
+    <hexmodem type="cdp18S020">
     </hexmodem>
 
     <debugger>

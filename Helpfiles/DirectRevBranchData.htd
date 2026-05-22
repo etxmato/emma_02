@@ -1,21 +1,32 @@
 <html>
-<title>Reversed Branch data</title>
+<title>Reversed Branch Data</title>
 <body>
-<h1>Reversed Branch data</h1>
+
+
+<h1>Reversed Branch Data</h1>
+
 <p>
-Maybe not as commonly used as <a href="DirectBranchData.htm">Branch Data</a>, there could be use cases to define reversed branched in 1802 code. So first byte is the lower 8 bit and the second the higher 8 bit of a 16 bit address. For these cases the 'reversed branch data' bytes can be defined in the Direct assembler by marking the data bytes as 'Rev Br' via the procedure described in section <a href="DirectMarking.htm">Changing Address Usage</a>. By doing this the reversed branch data will be corrected when using <a href="DirectInsert.htm">insert, delete</a> or <a href="DirectCopy.htm">copy</a> commands. All 'Reversed branch data' will be shown in <FONT COLOR=#b251a7>pink</FONT> text.
+Although less commonly used than <a href="DirectBranchData.htm">Branch Data</a>, reversed branch data can be useful in 1802 code where the first byte is the lower 8 bits and the second byte is the higher 8 bits of a 16-bit address.
 </p>
+
 <p>
-For example doing an insert on address hex 4510 in the following example:
+For these cases, reversed branch data bytes can be defined in the <strong>Direct Assembler</strong> by marking the data bytes as <strong>Rev Br</strong> via the procedure described in the <a href="DirectMarking.htm">Memory Type Selection</a> section. By doing this, the reversed branch data will be corrected when using <a href="DirectInsert.htm">insert, delete</a> or <a href="DirectCopy.htm">copy</a> commands. All reversed branch data will be shown in <font color="#BB443F">red</font> text.
 </p>
+
 <p>
-<IMG SRC="images/assembler_rev_branch_data.png" BORDER="0">
+For example, inserting at address 0210 (hexadecimal) in the code below:
 </p>
+
+<p>
+<img src="images/assembler_rev_branch_data.png" border="0" width="724" height="609">
+</p>
+
 <p>
 will result in:
 </p>
+
 <p>
-<IMG SRC="images/assembler_rev_branch_data_result.png" BORDER="0">
+<img src="images/assembler_rev_branch_data_result.png" border="0" width="724" height="609">
 </p>
 </body>
 </html>

@@ -1,60 +1,95 @@
 <html>
 <title>Search</title>
 <body>
+
+
 <h1>Search</h1>
+
 <p>
-Four search options are available: B+L, Branch, Load L & Load V:
+Four search options are available: <strong>B+L</strong>, <strong>Branch</strong>, <strong>Load L</strong> and <strong>Load V</strong>:
 </p>
+
 <p>
-<IMG SRC="images/assembler_search.png" BORDER="0">
+<img src="images/assembler_search.png" border="0" width="724" height="609">
 </p>
+<ul>
+<li>(1) <strong>B+L</strong> button</li>
+<li>(2) <strong>Branch</strong> button</li>
+<li>(3) <strong>Load L</strong> button</li>
+<li>(4) <strong>Load V</strong> button</li>
+<li>(5) <strong>Message</strong> field</li>
+<li>(6) Current working address</li>
+</ul>
+
 <p>
-All search features will search code and data areas as defined in the <a href="DirectConfiguration.htm">Program Configuration</a>. Result will be listed in the message area.
+All search features will search code and data areas as defined in the <a href="DirectConfiguration.htm">Program Configuration</a>. Results will be listed in the message field (5).
 </p>
+
+
 <h2>B+L</h2>
+
 <p>
-Clicking the 'B+L' button (highlighted in yellow) will execute a 'Branch' and 'Load L' search (see following two sections). 
+The <strong>B+L</strong> button (1) executes both a <strong>Branch</strong> and <strong>Load L</strong> search; see the following two sections for details.
 </p>
+
+
 <h2>Branch</h2>
+
 <p>
-Clicking the 'Branch' button (highlighted in orange) will search for branches to the current working address. 
+The <strong>Branch</strong> button (2) searches for branches to the current working address (6).
 </p>
+
 <p>
-In the example above a branch search on address hex 4400 will give message:
+In the example below, a branch search on address 0100 (hexadecimal) will give the following message:
 </p>
+
 <p>
-<IMG SRC="images/assembler_search_branch.png" BORDER="0">
+<img src="images/assembler_search_branch.png" border="0" width="724" height="609">
 </p>
+
+
 <h2>Load L</h2>
+
 <p>
-Clicking the 'Load L' button will search for instructions (LDL, LDRL and RLDL) loading the location of the current working address. 
+The <strong>Load L</strong> button (3) searches for instructions (<tt>LDL</tt>, <tt>LDRL</tt> and <tt>RLDL</tt>) loading the location of the current working address (6).
 </p>
+
 <p>
-In the example above a Load L search on address hex 4400 will give message:
+In the example below, a Load L search on address 0100 (hexadecimal) will give the following message:
 </p>
+
 <p>
-<IMG SRC="images/assembler_search_l.png" BORDER="0">
+<img src="images/assembler_search_l.png" border="0" width="724" height="609">
 </p>
+
+
 <h2>Load V</h2>
+
 <p>
-Clicking the 'Load V' button will search for instructions loading the location or value of the current working address. Note that with Load V all possible load instructions will be listed as follows:
-<UL>
-<LI>LD H-L: instruction sequence LDI xx, PHI RN, LDI xx, PLO RN
-<LI>LD L-H: instruction sequence LDI xx, PLO RN, LDI xx, PHI RN
-<LI>RLDI: RLDI RN,xxxx
-<LI>LD H: instruction sequence LDI xx, PHI RN (only loading high byte current address)
-<LI>LD L: instruction sequence LDI xx, PLO RN (only loading low byte current address)
-<LI>LDV: LDV macro
-<LI>LDL: LDL macro
-<LI>LDRL: LDRL macro
-<LI>RLDL: RLDL macro
-</UL>
+The <strong>Load V</strong> button (4) searches for instructions loading the location or value of the current working address (6).
 </p>
+
 <p>
-In the example above a Load V search on address hex 4400 will give message:
+<strong>Note:</strong> With <strong>Load V</strong>, all possible load instructions will be listed as follows:
 </p>
+<ul>
+<li><tt>LD H-L</tt>: instruction sequence <tt>LDI xx</tt>, <tt>PHI RN</tt>, <tt>LDI xx</tt>, <tt>PLO RN</tt></li>
+<li><tt>LD L-H</tt>: instruction sequence <tt>LDI xx</tt>, <tt>PLO RN</tt>, <tt>LDI xx</tt>, <tt>PHI RN</tt></li>
+<li><tt>RLDI</tt>: <tt>RLDI RN,xxxx</tt></li>
+<li><tt>LD H</tt>: instruction sequence <tt>LDI xx</tt>, <tt>PHI RN</tt> (only loading high byte of current address)</li>
+<li><tt>LD L</tt>: instruction sequence <tt>LDI xx</tt>, <tt>PLO RN</tt> (only loading low byte of current address)</li>
+<li><tt>LDV</tt>: LDV macro</li>
+<li><tt>LDL</tt>: LDL macro</li>
+<li><tt>LDRL</tt>: LDRL macro</li>
+<li><tt>RLDL</tt>: RLDL macro</li>
+</ul>
+
 <p>
-<IMG SRC="images/assembler_search_v.png" BORDER="0">
+In the example below, a Load V search on address 0100 (hexadecimal) will give the following message:
+</p>
+
+<p>
+<img src="images/assembler_search_v.png" border="0" width="724" height="609">
 </p>
 </body>
 </html>

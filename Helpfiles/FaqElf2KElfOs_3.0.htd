@@ -1,40 +1,141 @@
-
 <html>
-<title>FAQ Elf2K Elf/Os 3.0</title>
+<title>How do I install Elf/Os 3.0 on a COSMAC Elf 2000?</title>
 <body>
+
 <h1>How do I install Elf/Os 3.0 on a COSMAC Elf 2000?</h1>
+
 <p>
-Elf Os is a disk based operating system for Elf class computers designed by Mike Riley, for additional information see also: <a href="http://www.elf-emulation.com">Elf/1802 Emulation</a>.
+Elf/Os is a disk-based operating system for Elf-class computers designed by Mike Riley. See the <a href="http://www.elf-emulation.com">Elf/1802 Emulation</a> website.
 </p>
+
 <p>
-For Elf/Os installation:
+To install Elf/Os follow these steps:
+</p>
+
+<h2>1. Start the COSMAC Elf 2000</h2>
+
+<p>
+Start an Elf 2000 using ROM <tt>Elf2Kv110.bin</tt> (or later) and a VT simulator (serial or UART).
+</p>
+
+<p>
+The Elf/Os loader must first be transferred into RAM using the HEX loader.
+</p>
+
+<p><strong>Command:</strong></p>
+
+<pre>
+Select HEX mode (instead of XMODEM)
+Select file <tt>elfos_ram.hex</tt> via the HEX button
+Unselect Auto
+Press Play
+</pre>
+
+<p><strong>Result:</strong> The HEX file is transferred to memory and the Elf/Os loader becomes available.</p>
+
+<p><strong>Command:</strong></p>
+
+<pre>
+Press Return
+Type run 3000
+</pre>
+
+<p><strong>Result:</strong> The baud rate is configured and the Elf/Os installation menu appears.</p>
+
+<h2>2. Install Elf/Os</h2>
+
+<p>
+Execute installation steps 1 to 5 from the Elf/Os installation menu.
+</p>
+
+<p><strong>Result:</strong> Elf/Os is installed on the disk.</p>
+
+<h2>3. Install the supplement file</h2>
+
+<p><strong>Command:</strong></p>
+
+<pre>
+Reset the Elf 2000
+Select file <tt>supplement.hex</tt> via the HEX button
+Press Play
+</pre>
+
+<p><strong>Result:</strong> The supplement file is transferred.</p>
+
+<p><strong>Command:</strong></p>
+
+<pre>
+Press Return
+Type run 3000
+</pre>
+
+<p><strong>Result:</strong> The installation program starts again.</p>
+
+<p>
+Execute step 4 to install <tt>xrb.bin</tt>.
+</p>
+
+<h2>4. Boot Elf/Os</h2>
+
+<p><strong>Command:</strong></p>
+
+<pre>
+boot
+</pre>
+
+<p>
+or
+</p>
+
+<pre>
+b
+</pre>
+
+<p>
+Both commands start the Elf/Os boot procedure. The <tt>b</tt> command is simply a short form of <tt>boot</tt>.
+</p>
+
+<p><strong>Result:</strong> Elf/Os loads from disk and the operating system starts.</p>
+
+<h2>Using Elf/Os with Intel 8275 Video</h2>
+
+<p>
+The Intel 8275 is a programmable CRT controller used in the Elf 2000 video system to generate a character-based display.
+</p>
+
+<p>
+When using Elf/Os in combination with Intel 8275 video some utilities will not work correctly because the 8275 video hardware uses part of the same memory space that is used by certain Elf/Os programs.
+</p>
+
+<p><strong>Important:</strong> It is recommended to perform the Elf/Os installation using a serial or UART configuration.</p>
+
+<h3>LOAD command</h3>
+
+<p>
+The standard Elf/Os <tt>LOAD</tt> command cannot be used when Intel 8275 video is enabled because the command uses memory that overlaps with the 8275 video RAM.
+</p>
+
+<p><strong>Solution:</strong></p>
+
 <ul>
-<li>Start an Elf 2000 using ROM Elf2Kv110.bin (or later) and a VT simulator (serial or UART)
-<li>Select 'HEX' mode (instead of XMODEM) via the toggle button
-<li>Select file elfos_ram.hex via the HEX button
-<li>Unselect 'Auto'
-<li>Press play
-<li>When file transfer is done press return
-<li>Now type run 3000 (and return to set baud rate)
-<li>Execute step 1 to 5
-<li>Reset the Elf 2000
-<li>Select file supplement.hex via the HEX button
-<li>Press play
-<li>When file transfer is done press return 
-<li>Now type run 3000 (and return to set baud rate)
-<li>Execute step 4 to install xrb.bin
-<li>Boot in ElfOs by typing boot or b
+<li>A modified version of the <tt>LOAD</tt> command is provided.</li>
+<li>This version is located at address <tt>7400-74AE</tt>.</li>
+<li>The program is included in file <tt>LOAD-8275.hex</tt>.</li>
 </ul>
+
+<h3>MINIMON @ command</h3>
+
 <p>
-When using Elf/Os in combination with Intel-8275 video, please note the following:
-<UL>
-<LI>I suggest to perform the installation on a serial or UART installation
-<LI>The LOAD command will not work due to the fact that it uses the same memory location as the video memory. To solve this a LOAD command is included which is located at address hex 7400-74AE. This version is provided in file LOAD-8275.hex.
-<LI>The @ command in the MINIMON will not work correctly due to the fact that it uses R0 as program counter which is not allowed when using Intel-8275 video. To solve this a MINIMON program is provided which uses R3 as program counter. This version is provided in file MINIMON-8275.hex.
-</UL>
+The <tt>@</tt> command in <tt>MINIMON</tt> will not work correctly when Intel 8275 video is enabled. The original version uses register <tt>R0</tt> as the program counter, which conflicts with the requirements of the Intel 8275 video configuration.
 </p>
-<p>
-The elf2k_installation.ide file includes a pre installed Elf/Os 3.2. The installation file will be renamed to elf2k.ide if the used file doesn't exist.
-</p>
+
+<p><strong>Solution:</strong></p>
+
+<ul>
+<li>A modified version of <tt>MINIMON</tt> is provided.</li>
+<li>This version uses register <tt>R3</tt> as program counter.</li>
+<li>The program is included in file <tt>MINIMON-8275.hex</tt>.</li>
+</ul>
+
 </body>
 </html>

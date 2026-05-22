@@ -103,8 +103,6 @@ void Vis1870Config::visConfigInit()
     computerConfiguration.vis1870Configuration.outputInterruptEnable = init_IoPort();
     computerConfiguration.vis1870Configuration.outputInterruptReset = init_IoPort();
 
-    computerConfiguration.vis1870Configuration.statusBarType = STATUSBAR_NONE;
-    computerConfiguration.vis1870Configuration.statusBarLedOut = -1;
     computerConfiguration.vis1870Configuration.defined = false;
     computerConfiguration.vis1870Configuration.useVideoModeEf = false;
     computerConfiguration.vis1870Configuration.useBlockWrite = true;
@@ -134,6 +132,9 @@ void Vis1870Config::visConfigInit()
 
     computerConfiguration.vis1870Configuration.defaultX = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     computerConfiguration.vis1870Configuration.defaultY = mainWindowY_;
+
+    if (!mode_.gui)
+        return;
 
     XRCCTRL(*this, THIS_PANEL_NAME, wxPanel)->Hide();
 
@@ -282,7 +283,8 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
                 }
                 computerConfiguration.vis1870Configuration.pageMemSize = (int)parseXml_Number(*child) & 0xfff;
                 label.Printf(labelDetails, (computerConfiguration.vis1870Configuration.pageMemSize+1) / 0x400);
-                XRCCTRL(*this, "VisPageMemText", wxStaticText)->SetLabel(label);
+                if (mode_.gui)
+                    XRCCTRL(*this, "VisPageMemText", wxStaticText)->SetLabel(label);
                 
             break;
                                 
@@ -300,7 +302,8 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
                 }
                 computerConfiguration.vis1870Configuration.charMemSize =  (int)parseXml_Number(*child) & 0xfff;
                 label.Printf(labelDetails, (computerConfiguration.vis1870Configuration.charMemSize+1) / 0x400);
-                XRCCTRL(*this, "VisCharMemText", wxStaticText)->SetLabel(label);
+                if (mode_.gui)
+                    XRCCTRL(*this, "VisCharMemText", wxStaticText)->SetLabel(label);
             break;
 
             case TAG_GRAPHIC:
@@ -312,7 +315,8 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
                 }
                 computerConfiguration.vis1870Configuration.graphicMemSize =  (int)parseXml_Number(*child) & 0x1fff;
                 label.Printf(labelDetails, (computerConfiguration.vis1870Configuration.graphicMemSize+1) / 0x400);
-                XRCCTRL(*this, "VisGraphicMemText", wxStaticText)->SetLabel(label);
+                if (mode_.gui)
+                    XRCCTRL(*this, "VisGraphicMemText", wxStaticText)->SetLabel(label);
             break;
 
             case TAG_CHARROM:
@@ -414,8 +418,9 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
                     defaultPort = init_IoPort();
                     defaultPort.portNumber[0] = 2;
                     setIoPortConfig(defaultPort, registerId[2], registerFunction[2], "O");
-                    for (int port=2; port<9; port++)
-                        XRCCTRL(*this, registerId[port]+"Port", wxStaticText)->SetLabel("-");
+                    if (mode_.gui)
+                        for (int port=2; port<9; port++)
+                            XRCCTRL(*this, registerId[port]+"Port", wxStaticText)->SetLabel("-");
 
                     computerConfiguration.vis1870Configuration.outputSelect = parseXml_IoPort(*child, VIS1870_TELMAC_REGISTER_OUT);
                     setIoPortConfig(computerConfiguration.vis1870Configuration.outputSelect, registerId[VIS_REGISTER], registerFunction[VIS_REGISTER], "O");
@@ -523,7 +528,8 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
                         computerConfiguration.vis1870Configuration.ioGroupVector.resize(ioGroupNumber+1);
                         computerConfiguration.vis1870Configuration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
                     }
-                    XRCCTRL(*this,"VisIoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.vis1870Configuration.ioGroupVector));
+                    if (mode_.gui)
+                        XRCCTRL(*this,"VisIoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.vis1870Configuration.ioGroupVector));
                 }
             break;
 
@@ -546,6 +552,9 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
         else
             computerConfiguration.vis1870Configuration.charLines = 8;
     }
+    if (!mode_.gui)
+        return;
+    
     if (computerConfiguration.vis1870Configuration.maxCharLines > computerConfiguration.vis1870Configuration.charLines)
         label.Printf("Character size: 6x%d or 6x%d", computerConfiguration.vis1870Configuration.charLines, computerConfiguration.vis1870Configuration.maxCharLines);
     else
@@ -563,8 +572,6 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
 
 void Vis1870Config::updateVis1870Panel()
 {
-    wxString buffer;
-
     if (computerConfiguration.vis1870Configuration.defined)
     {
         for (size_t registerNumber = 0; registerNumber<VIS_NUMBER_OF_REGISTERS; registerNumber++)
@@ -587,7 +594,7 @@ int Vis1870Config::setVisRegister(int registerNumber, Word value, int showTrace)
 
     if (XRCCTRL(*this,registerId[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunction[registerNumber], vis1870ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunction[registerNumber], vis1870ConfigRegisterValueString[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -604,7 +611,7 @@ int Vis1870Config::setVisRegister(int registerNumber, Byte value, int showTrace)
 
     if (XRCCTRL(*this,registerId[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunction[registerNumber], vis1870ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunction[registerNumber], vis1870ConfigRegisterValueString[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -616,7 +623,7 @@ void Vis1870Config::VisIntReset(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -641,7 +648,7 @@ void Vis1870Config::VisIntEnable(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -661,7 +668,7 @@ void Vis1870Config::VisR2(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -676,7 +683,7 @@ void Vis1870Config::VisR3(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -691,7 +698,7 @@ void Vis1870Config::VisR4(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -707,7 +714,7 @@ void Vis1870Config::VisR5_1(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -724,7 +731,7 @@ void Vis1870Config::VisR5_0(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -742,7 +749,7 @@ void Vis1870Config::VisR6(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -758,7 +765,7 @@ void Vis1870Config::VisR7(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 

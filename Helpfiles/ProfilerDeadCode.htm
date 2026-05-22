@@ -2,18 +2,28 @@
 <html>
 <title>Dead Code Spots</title>
 <body>
+
+
 <h1>Dead Code Spots</h1>
+
 <p>
-Code that is not executed will be shown as 'data', like in the <a href="DirectMain.htm">Direct Assembler</a> this is shown in a <FONT COLOR="BLUE">blue</FONT> colour and in bytes including ASCI characters (highlighted in yellow and orange):
+Code that is not executed is shown as data, as in the <a href="DirectMain.htm">Direct Assembler</a> - in a <font color="#3947CE">blue</font> colour, displayed as bytes including ASCII characters (1) (2):
 </p>
+
 <p>
-<IMG SRC="images/profiler_dead_code.png" BORDER="0">
+<img src="images/profiler_dead_code.png" border="0" width="724" height="609">
 </p>
+<ul>
+<li>(1) Unexecuted code shown as data bytes</li>
+<li>(2) Likely dead code area</li>
+</ul>
+
 <p>
-The parts shown as data might of course be actual data used by the software or code that hasn't been executed as yet. Possibly the code is dead code as is likely the case in above highlighted in yellow. On closer inspection on address 0185 'D' will never be 0 so code at 0187 will not be executed unless another branch exists somewhere to 0187.
+The parts shown as data may of course be actual data used by the software, or code that has not yet been executed. Possibly the code is dead code, as is likely the case at (2). On closer inspection, at address 0185 <tt>D</tt> will never be 0, so the code at 0187 will not be executed unless another branch to 0187 exists somewhere.
 </p>
+
 <p>
-The blue bytes (highlighted in orange) are however clearly data as are the following blue bytes. The SEP R4 on 01A2 likely reads value 14 from 01A3 and the OUT 4 will use the 20 as output value. 
+The blue bytes at (1) are, however, clearly data, as are the following blue bytes. The <tt>SEP R4</tt> at 01A2 likely reads the value <tt>14</tt> from 01A3, and the <tt>OUT 3</tt> uses <tt>20</tt> as the output value.
 </p>
 </body>
 </html>

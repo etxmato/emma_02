@@ -325,7 +325,7 @@ public:
 
 class Mode
 {
-    public: 
+    public:
     bool window_position_fixed;
     bool gui;
     bool verbose;
@@ -337,7 +337,7 @@ class Mode
     bool update_check;
 };
 
-class FloatEdit : public wxTextCtrl 
+class FloatEdit : public wxTextCtrl
 { 
 public: 
     FloatEdit();
@@ -440,11 +440,12 @@ public:
 #include "xmlemu.h"
 #include "guicomx.h"
 #include "debug.h"
+#include "guidebugger.h"
 #include "video.h"
 #include "serial.h"
 
 #define EMMA_VERSION 2.00
-#define EMMA_SUB_VERSION 5
+#define EMMA_SUB_VERSION 15
 
 #define XML 0
 
@@ -501,6 +502,7 @@ public:
 
 #define MAINTAB 0
 #define VIDEOTAB 1
+#define OTHERTAB 2
 
 #define DISKNONE 0
 #define DISKFDC 1
@@ -1059,6 +1061,7 @@ public:
     void startTime();
     void showTime();
     void lapTime();
+    wxLongLong traceTime(bool reset);
     bool splashHidden() {return mode_.hide_splash_screen;};
     
     void sysColourChangeEvent(wxSysColourChangedEvent& event);
@@ -1273,6 +1276,7 @@ private:
     time_t startTime_;
     wxLongLong lapTime_;
     wxLongLong lapTimeStart_;
+    wxLongLong traceTimeStart_;
     uint64_t lastNumberOfCpuCycles_;
     uint64_t lastInstructionCounter_;
     bool cpuCyclesOverflow_;
@@ -1320,6 +1324,9 @@ EXT PixieStudioIV *st4VideoPointer;
 EXT Video *p_Vt100[2];
 EXT Serial *p_Serial;
 EXT Computer *p_Computer;
+
+EXT vector<Ct2425 *> ct2425Pointer;
+EXT int numberOfCt2425_;
 
 EXT Printer *p_PrinterParallel;
 EXT Printer *p_PrinterSerial;

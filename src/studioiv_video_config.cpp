@@ -149,6 +149,9 @@ void St4VideoConfig::st4VideoConfigInit()
     computerConfiguration.studio4VideoConfiguration.defaultX = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     computerConfiguration.studio4VideoConfiguration.defaultY = mainWindowY_;
 
+    if (!mode_.gui)
+        return;
+
     XRCCTRL(*this, THIS_PANEL_NAME, wxPanel)->Hide();
 
     disableIoPortConfigRadio(registerIdSt4VideoRadio[ST4_VIDEO_ENABLE]);
@@ -213,7 +216,7 @@ void St4VideoConfig::parseXml_St4Video(wxXmlNode &node)
     long width, height;
     long start, end;
     int red, green, blue, xpos, ypos;
-    wxString color, scale, position, iogroup, label;
+    wxString color, position, iogroup, label;
     size_t ioGroupNumber = 0;
 
     computerConfiguration.zoom_[computerConfiguration.studio4VideoConfiguration.videoNumber] = "2.00";
@@ -269,7 +272,8 @@ void St4VideoConfig::parseXml_St4Video(wxXmlNode &node)
                     computerConfiguration.studio4VideoConfiguration.startRam = (int)start;
                     computerConfiguration.studio4VideoConfiguration.endRam = (int)end;
                     label.Printf("Color RAM: %04X-%04X", (Word)start, (Word)end);
-                    XRCCTRL(*this, "St4VideoColorRamRange", wxStaticText)->SetLabel(label);
+                    if (mode_.gui)
+                        XRCCTRL(*this, "St4VideoColorRamRange", wxStaticText)->SetLabel(label);
                 }
             break;
 
@@ -356,7 +360,8 @@ void St4VideoConfig::parseXml_St4Video(wxXmlNode &node)
                     computerConfiguration.studio4VideoConfiguration.ioGroupVector.resize(ioGroupNumber+1);
                     computerConfiguration.studio4VideoConfiguration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
                 }
-                XRCCTRL(*this,"St4VideoIoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.studio4VideoConfiguration.ioGroupVector));
+                if (mode_.gui)
+                    XRCCTRL(*this,"St4VideoIoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.studio4VideoConfiguration.ioGroupVector));
             break;
 
             case TAG_GRAPHICS:
@@ -383,8 +388,6 @@ void St4VideoConfig::parseXml_St4Video(wxXmlNode &node)
 
 void St4VideoConfig::updateSt4VideoPanel()
 {
-    wxString buffer;
-
     if (computerConfiguration.studio4VideoConfiguration.defined)
     {
         for (size_t registerNumber = 0; registerNumber<ST4_VIDEO_NUMBER_OF_RADIOBUTTONS; registerNumber++)
@@ -423,9 +426,9 @@ int St4VideoConfig::setSt4VideoRegister(int registerNumber, bool value, int show
     if (XRCCTRL(*this,registerIdSt4VideoRadio[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
         if (value)
-            showTraceText(registerFunctionSt4VideoRadioOn[registerNumber], showTrace);
+            showVideoTraceText(registerFunctionSt4VideoRadioOn[registerNumber], showTrace);
         else
-            showTraceText(registerFunctionSt4VideoRadioOff[registerNumber], showTrace);
+            showVideoTraceText(registerFunctionSt4VideoRadioOff[registerNumber], showTrace);
         
         if (showTrace == SHOW_ADDRESS_TRACE)
             return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -442,7 +445,7 @@ int St4VideoConfig::setSt4VideoRegister(int registerNumber, Byte value, int show
 
     if (XRCCTRL(*this,registerIdSt4Video[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionSt4Video[registerNumber], st4ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionSt4Video[registerNumber], st4ConfigRegisterValueString[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -459,7 +462,7 @@ int St4VideoConfig::setSt4VideoRegisterNibleBackground(int registerNumber, Byte 
 
     if (XRCCTRL(*this,registerIdSt4Video[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(bacgroundColorSt4Video[value&0x7], showTrace);
+        showVideoTraceText(bacgroundColorSt4Video[value&0x7], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -479,7 +482,7 @@ int St4VideoConfig::setSt4SelectorValue(int selectorNumber, bool selectorValue, 
 
     if (XRCCTRL(*this,selectorIdSt4[selectorNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(selectorFunctionSt4[selectorNumber][st4ConfigSelector[selectorNumber]], showTrace);
+        showVideoTraceText(selectorFunctionSt4[selectorNumber][st4ConfigSelector[selectorNumber]], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -491,7 +494,7 @@ void St4VideoConfig::St4VideoEnable(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -503,7 +506,7 @@ void St4VideoConfig::St4VideoDisable(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -515,7 +518,7 @@ void St4VideoConfig::St4VideoBackground(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -530,7 +533,7 @@ void St4VideoConfig::St4VideoMode(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 

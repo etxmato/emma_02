@@ -1,76 +1,104 @@
 
 <html>
-<title>Memory</title>
+<title>Memory Dump</title>
 <body>
 <h1>Memory Dump</h1>
+
 <p>
-The Memory Dump tool shows 256 bytes of memory on the GUI both in hexadecimal format and as ASCII characters. Multiple memory options are available including CPU memory, video memory, memory type and profiler information.</p>
-<p>
-To reach the Memory Dump tab, select the 'Memory Dump' (highlighted in orange) tab.
+The Memory Dump tool shows 256 bytes of memory in the GUI in both hexadecimal format and as ASCII characters. Multiple memory options are available, including CPU memory, video memory, memory type information, and profiler data.
 </p>
+
 <p>
-<IMG SRC="images/dump.png" border="0" width="443" height ="376">
+The main elements of the Memory Dump tab are shown in the screenshot below.
 </p>
+
 <p>
-The default view will show the first 256 bytes of main CPU memory (highlighted in yellow below showing content in bytes and highlighted in orange showing ASCII) from the emulated computer. To show another part of memory type in any address value in the top left address field or use the spin buttons to step through memory (highlighted in red).  
+<img src="images/dump.png" border="0" width="724" height="609">
 </p>
+
+<ul>
+<li>(1) <strong>Memory Dump</strong> tab</li>
+<li>(2) Byte values display</li>
+<li>(3) ASCII characters display</li>
+<li>(4) <strong>Page navigation</strong> spin buttons</li>
+<li>(5) <strong>Address</strong> text field</li>
+<li>(6) <strong>Memory type</strong> selector</li>
+</ul>
+
 <p>
-<IMG SRC="images/dump_navigation.png" border="0" width="443" height ="376">
+To open this tab, select the <strong>Memory Dump</strong> tab (1).
 </p>
+
 <p>
-Note that the text in red '<FONT COLOR="#C62828">No emulation running</FONT>' indicates that no emulator was started and as such the data shown is not active and changing address value will not have any effect.
+The default view shows the first 256 bytes of main CPU memory from the emulated computer, displaying byte values (2) and the corresponding ASCII characters (3) for each memory location. To change to the previous or next page, use the <strong>Page navigation</strong> spin buttons (4). Alternatively, specify an <strong>Address</strong> in the text field (5).
 </p>
+
 <p>
-To change any address value (highlighted in yellow) select the value and just change it. Note both ROM and RAM values can be changed! 
+To change any memory value (2), select the value and modify it directly. Both ROM and RAM values can be changed.
 </p>
+
 <p>
-When running an emulation using the RCA CDP1870 the actual 'shaped' video characters will be shown, other video emulation will show ASCII (highlighted in orange)
+If the text <font color="#C62828">No emulation running</font> is shown, it indicates that no emulator is active. In this state, the data shown is not active and changing the address value will have no effect.
 </p>
+
 <p>
-Next to the main CPU memory other memory dump options are available by changing the 'Memory' choice button (highlighted in blue). Memory dump options:
+When running an emulation using the RCA CDP1870, the actual shaped video characters are shown. Other video emulations display ASCII characters (3).
 </p>
+
 <p>
-<UL>
-<LI>CPU: default showing CPU accessable memory locations
-<LI>Type: memory types defined for the main CPU memory, see also '<a href="DumpMemoryType.htm">Memory Type</a>' section.
-<LI>Profiler: see <a href="ProfilerMain.htm">Profiler</a>
-<LI>1870 Page: RCA CDP1870 Page memory
-<LI>1870 Character: RCA CDP1870 Character memory. For the Telmac TMC-600 Character ROM is shown and for both TMC-600 and Cidelsa only 6 bits are used.
-<LI>1870 Colour: RCA CDP1870 Colour RAM. Used by the Telmac TMC-600 and Cidelsa. The TMC-600 uses one nibble (4 bits) to define colour and blink mode of the character on the same location in page memory. The Cidelsa uses 3 bits to define the colour of the character and line in the same location in character memory.
-<LI>1870 Graphic: RCA CDP1870 Graphic RAM. Only used by the VIS1802.
-<LI>6845 Character: MC6845 Character ROM
-<LI>6847 Character: MC6847 Character RAM. Both internal and external ROMs are shown; internal from hexadecimal address 0 to 1FF and external from 200 to 7FF. 
-<LI>6847 Video RAM: The first half will show bits 0 to 7 and the second half bit 8 to 11.
-<LI>TMS Video RAM: Only 16384 addresses will be viewable.
-<LI>VT Video RAM: VT50/VT100 video RAM
-<LI>1862 Colour RAM
-<LI>1864 Colour RAM
-<LI>Studio IV Colour: Studio IV specific colour RAM
-<LI>8275 Character: Intel 8275 character RAM
-<LI>8275 Video RAM: Intel 8275 video RAM
-<LI>VIP2K Video Sequencer: VIP2K Membership video sequencer ROM
-<LI>RTC RAM: Elf 2000 & Pico/Elf V2 RTC RAM
-</UL>
+Additional memory views are available by changing the <strong>Memory</strong> selection button (6). Available Memory Dump options include:
 </p>
+
+<ul>
+<li>CPU: Default view showing CPU-accessible memory locations.</li>
+<li>Type: Memory types defined for main CPU memory. See the <a href="DumpMemoryType.htm">Memory Type</a> section.</li>
+<li>Profiler: See the <a href="ProfilerMain.htm">Profiler</a> section.</li>
+<li>1870 Page: RCA CDP1870 page memory.</li>
+<li>1870 Character: RCA CDP1870 character memory. For the Telmac TMC-600, the character ROM is shown, and for both TMC-600 and Cidelsa only 6 bits are used.</li>
+<li>1870 Colour: RCA CDP1870 colour RAM, used by the Telmac TMC-600 and Cidelsa. The TMC-600 uses one nibble (4 bits) to define colour and blink mode of the character in the same location in page memory. The Cidelsa uses 3 bits to define the colour of the character and line in the same location in character memory.</li>
+<li>1870 Graphic: RCA CDP1870 graphic RAM, used only by the VIS1802.</li>
+<li>6845 Character: MC6845 character ROM.</li>
+<li>6847 Character: MC6847 character RAM. Both internal and external ROMs are shown; internal from hexadecimal address 0 to 1FF and external from 200 to 7FF.</li>
+<li>6847 Video RAM: The first half shows bits 0 to 7 and the second half bits 8 to 11.</li>
+<li>TMS Video RAM: Only 16384 addresses are viewable.</li>
+<li>VT Video RAM: VT50/VT100 video RAM.</li>
+<li>1862 Colour RAM.</li>
+<li>1864 Colour RAM.</li>
+<li>Studio IV Colour: Studio IV-specific colour RAM.</li>
+<li>8275 Character: Intel 8275 character RAM.</li>
+<li>8275 Video RAM: Intel 8275 video RAM.</li>
+<li>VIP2K Video Sequencer: VIP2K Membership video sequencer ROM.</li>
+<li>RTC RAM: Elf 2000 and Pico/Elf V2 RTC RAM.</li>
+</ul>
+
 <p>
-In all modes except 'Type' and 'Profiler', memory values are shown and can be changed per memory page of 256 bytes, in 'Type' mode memory types (ROM, RAM, Video RAM etc) is shown and can be changed. 
+In all modes except <strong>Type</strong> and <strong>Profiler</strong>, memory values are shown and can be modified per memory page of 256 bytes. In <strong>Type</strong> mode, memory types (ROM, RAM, Video RAM, etc.) are shown and can be changed.
 </p>
+
 <p>
-The following additional features are available on windows and OS X, currently not implemented in the Linux version: After editing one byte the next address will be selected automatically. After the last byte of the page is changed the next page will be shown. 
+The following additional features are available on Windows and OS X (currently not implemented in the Linux version): after editing one byte, the next address is selected automatically. After the last byte of a page is changed, the next page is shown.
 </p>
+
 <p>
-Note 1: when using the any of the video modes above only the used address will be shown, the number of addresses depends on the emulated computer and video settings.
-<br>
-Note 2: None of the settings in the Memory Dump tab are saved in the Emma 02 configuration, so at every start of the Emma 02 emulator these settings are set to default.
-<h2>Additional Information</h2>
-<p>
-Additional Information can be found in the following sub-sections:
+<strong>Note:</strong> When using any of the video modes above, only the addresses in use are shown. The number of addresses depends on the emulated computer and video settings.
 </p>
+
 <p>
-<a href="DumpComx.htm">COMX Memory Map</a><br>
-<a href="DumpElf.htm">Elf Memory Map</a><br>
-<a href="DumpSave.htm">Save</a><br>
-<a href="DumpCopy.htm">Copy</a><br>
+<strong>Note:</strong> None of the settings in the Memory Dump tab are saved in the Emma 02 configuration. Each time the emulator starts, these settings are reset to their default values.
 </p>
+
+<h2>Related Topics</h2>
+
+<p>
+Further details are available in the following sub-sections:
+</p>
+
+<ul>
+<li><a href="DumpMemoryType.htm">Memory Type</a></li>
+<li><a href="DumpComx.htm">Extended Memory Map</a></li>
+<li><a href="DumpSave.htm">Save</a></li>
+<li><a href="DumpCopy.htm">Copy</a></li>
+</ul>
+
 </body>
 </html>

@@ -60,7 +60,7 @@
 #include "definition.h"
 
 #if defined(__WXMSW__) && (_DEBUG) //** only run vld in debug version
-//#include <vld.h>
+#include <vld.h>
 #endif
 
 #define VU_RED 60
@@ -238,15 +238,10 @@ void CheckBoxListCtrl::onMouseRelease(wxMouseEvent& event)
     int item = (int)HitTest(event.GetPosition(), flags);
     if (flags == wxLIST_HITTEST_ONITEMICON)
     {
-        if (idReference == "BreakPointWindow")
-            p_Main->switchBreakPoint(item);
+        if (idReference == "BreakPointAndTrapWindow")
+            p_Main->switchBreakPointAndTrap(item);
         if (idReference == "Chip8BreakPointWindow")
             p_Main->switchChip8BreakPoint(item);
-        if (idReference == "TrapWindow")
-            p_Main->switchTrap(item);
-        if (idReference == "TregWindow")
-            p_Main->switchTreg(item);
-
     }
     else
         event.Skip();
@@ -1561,6 +1556,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         rowChanged_[y] = false;
 
     xmlLoaded_ = true;
+    traceTimeStart_ = 0;
 
     eventNumber_ = 0;
 
@@ -1627,12 +1623,11 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 
         traceWindowPointer = XRCCTRL(*this,"TraceWindow", wxTextCtrl);
         videoTraceWindowPointer = XRCCTRL(*this,"VideoTraceWindow", wxTextCtrl);
+        otherTraceWindowPointer = XRCCTRL(*this,"OtherTraceWindow", wxTextCtrl);
         assInputWindowPointer = XRCCTRL(*this,"AssInputWindow", wxTextCtrl);
         assErrorWindowPointer = XRCCTRL(*this,"AssErrorMultiLine", wxTextCtrl);
-        breakPointWindowPointer = XRCCTRL(*this,"BreakPointWindow", wxListCtrl);
+        breakPointAndTrapWindowPointer = XRCCTRL(*this,"BreakPointAndTrapWindow", wxListCtrl);
         chip8BreakPointWindowPointer = XRCCTRL(*this,"Chip8BreakPointWindow", wxListCtrl);
-        tregWindowPointer = XRCCTRL(*this,"TregWindow", wxListCtrl);
-        trapWindowPointer = XRCCTRL(*this,"TrapWindow", wxListCtrl);
     }
 
     initConfig();
@@ -2164,6 +2159,7 @@ void Main::readConfig()
     XmlRomRamOptionGui_ = (RomRamOptionString == "GUI");
 
     readDebugConfig();
+    readGuiDebuggerConfig();
     readSbConfig();
     readXmlConfig();
 
@@ -2422,7 +2418,7 @@ void Main::adjustGuiSize()
 #define BORDER_COR_1802TRACE_Y 48
 #define BORDER_COR_VIDEO_TRACE_X 17
 #define BORDER_COR_VIDEO_TRACE_Y 48
-#define BORDER_COR_BREAK_X 6
+#define BORDER_COR_BREAK_X 2
 #define BORDER_COR_BREAK_Y 49
 #define BORDER_COR_PSEUDOTRACE_X 18
 #define BORDER_COR_PSEUDOTRACE_Y 49
@@ -2441,7 +2437,7 @@ void Main::adjustGuiSize()
 #define BORDER_COR_1802TRACE_Y 62
 #define BORDER_COR_VIDEO_TRACE_X 20
 #define BORDER_COR_VIDEO_TRACE_Y 62
-#define BORDER_COR_BREAK_X 6
+#define BORDER_COR_BREAK_X 0
 #define BORDER_COR_BREAK_Y 62
 #define BORDER_COR_PSEUDOTRACE_X 21
 #define BORDER_COR_PSEUDOTRACE_Y 62
@@ -2464,12 +2460,12 @@ void Main::adjustGuiSize()
             fontFactorY = 6;
             debugTraceWindowX = 0;
         }
-       XRCCTRL(*this, "DebuggerChoiceBook", wxNotebook)->SetClientSize(mainWindowSize.x-BORDER_COR_X, mainWindowSize.y-BORDER_COR_Y);
-       XRCCTRL(*this, "IoChoiceBook", wxNotebook)->SetClientSize(mainWindowSize.x-BORDER_COR_X, mainWindowSize.y-BORDER_COR_Y);
+        XRCCTRL(*this, "DebuggerChoiceBook", wxNotebook)->SetClientSize(mainWindowSize.x-BORDER_COR_X, mainWindowSize.y-BORDER_COR_Y);
+        XRCCTRL(*this, "IoChoiceBook", wxNotebook)->SetClientSize(mainWindowSize.x-BORDER_COR_X, mainWindowSize.y-BORDER_COR_Y);
         XRCCTRL(*this, "PanelDirectAssembler", wxPanel)->SetClientSize(mainWindowSize.x-BORDER_COR_X, mainWindowSize.y-BORDER_COR_Y);
         XRCCTRL(*this, "PanelProfiler", wxPanel)->SetClientSize(mainWindowSize.x-BORDER_COR_X, mainWindowSize.y-BORDER_COR_Y);
 
-        wxPoint position, positionBreakPointWindow, positionBreakPointWindowText;
+        wxPoint position, positionBreakPointWindow;
         
         position = XRCCTRL(*this, "Message_Window", wxTextCtrl)->GetPosition();
         XRCCTRL(*this, "Message_Window", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-BORDER_COR_MESSAGE_X-fontFactorX, mainWindowSize.y-position.y-BORDER_COR_MESSAGE_Y-fontFactorY);
@@ -2477,27 +2473,29 @@ void Main::adjustGuiSize()
         position = XRCCTRL(*this, "VideoTraceWindow", wxTextCtrl)->GetPosition();
         XRCCTRL(*this, "VideoTraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-BORDER_COR_VIDEO_TRACE_X-fontFactorX, mainWindowSize.y-position.y-BORDER_COR_VIDEO_TRACE_Y-fontFactorY);
 
+        position = XRCCTRL(*this, "OtherTraceWindow", wxTextCtrl)->GetPosition();
+        XRCCTRL(*this, "OtherTraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-BORDER_COR_VIDEO_TRACE_X-fontFactorX, mainWindowSize.y-position.y-BORDER_COR_VIDEO_TRACE_Y-fontFactorY);
+
         position = XRCCTRL(*this, "TraceWindow", wxTextCtrl)->GetPosition();
         XRCCTRL(*this, "TraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-BORDER_COR_1802TRACE_X-fontFactorX-debugTraceWindowX, mainWindowSize.y-position.y-BORDER_COR_1802TRACE_Y-fontFactorY);
-        positionBreakPointWindow = XRCCTRL(*this, "BreakPointWindow", wxListCtrl)->GetPosition();
-        positionBreakPointWindowText = XRCCTRL(*this, "BreakPointWindowText", wxStaticText)->GetPosition();
-        XRCCTRL(*this, "BreakPointWindow", wxListCtrl)->SetSize((position.x-BORDER_COR_BREAK_X)/3, mainWindowSize.y-positionBreakPointWindow.y-BORDER_COR_BREAK_Y-fontFactorY);
-        positionBreakPointWindow.x += (position.x/3);
-        positionBreakPointWindowText.x = positionBreakPointWindow.x;
-        XRCCTRL(*this, "TregWindowText", wxStaticText)->SetPosition(positionBreakPointWindowText);
-        XRCCTRL(*this, "TregWindow", wxListCtrl)->SetPosition(positionBreakPointWindow);
-        XRCCTRL(*this, "TregWindow", wxListCtrl)->SetSize((position.x-BORDER_COR_BREAK_X)/3, mainWindowSize.y-positionBreakPointWindow.y-BORDER_COR_BREAK_Y-fontFactorY);
-        positionBreakPointWindow.x += (position.x/3);
-        positionBreakPointWindowText.x = positionBreakPointWindow.x;
-        XRCCTRL(*this, "TrapWindowText", wxStaticText)->SetPosition(positionBreakPointWindowText);
-        XRCCTRL(*this, "TrapWindow", wxListCtrl)->SetPosition(positionBreakPointWindow);
-        XRCCTRL(*this, "TrapWindow", wxListCtrl)->SetSize((position.x-BORDER_COR_BREAK_X)/3, mainWindowSize.y-positionBreakPointWindow.y-BORDER_COR_BREAK_Y-fontFactorY);
-        
+       
+        positionBreakPointWindow = breakPointAndTrapWindowPointer->GetPosition();
+        breakPointAndTrapWindowPointer->SetSize((position.x-BORDER_COR_BREAK_X), mainWindowSize.y-positionBreakPointWindow.y-BORDER_COR_BREAK_Y-fontFactorY);
+       
         position = XRCCTRL(*this, "Chip8TraceWindow", wxTextCtrl)->GetPosition();
         positionBreakPointWindow = XRCCTRL(*this, "Chip8BreakPointWindow", wxListCtrl)->GetPosition();
             XRCCTRL(*this, "Chip8TraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-BORDER_COR_PSEUDOTRACE_X-fontFactorX, mainWindowSize.y-position.y-BORDER_COR_PSEUDOTRACE_Y-fontFactorY);
             XRCCTRL(*this, "Chip8BreakPointWindow", wxListCtrl)->SetSize(position.x-BORDER_COR_PSEUDOBREAK_X, mainWindowSize.y-positionBreakPointWindow.y-BORDER_COR_PSEUDOBREAK_Y-fontFactorY);
-        
+
+        XRCCTRL(*this,"TregRegister",wxChoice)->SetSelection(0);
+        XRCCTRL(*this,"TrapCommand",wxChoice)->SetSelection(0);
+        XRCCTRL(*this,"TrapRegister",wxChoice)->SetSelection(0);
+        XRCCTRL(*this,"TrapRegister",wxChoice)->SetSelection(0);
+        XRCCTRL(*this,"TrapRegister",wxChoice)->Enable(false);
+        XRCCTRL(*this,"TrapValue",wxTextCtrl)->Enable(false);
+        XRCCTRL(*this,"TmemType",wxChoice)->SetSelection(0);
+        XRCCTRL(*this,"DmaButton",wxToggleButton)->SetLabel("DMA");
+
         changeNumberOfDebugLines(mainWindowSize.y - BORDER_COR_DEBUGGER_Y);
     }
 }
@@ -3078,7 +3076,6 @@ void Main::removeOldXml(wxString dirName, wxString pathSep)
    }
 
    number=0;
-   wxString dummyFile;
    while (dirDeleteList[number] != "")
    {
       dir.Open(dirName + dirDeleteList[number]);
@@ -4251,6 +4248,11 @@ void Main::onComputer(wxNotebookEvent&event)
                    messageChoice_ = VIDEOTAB;
                    p_Main->updateVideoPanel();
                break;
+
+               case OTHERTAB:
+                   messageChoice_ = OTHERTAB;
+                   p_Main->updateOtherPanel();
+               break;
             }
             selectedTab_ = MESSAGETAB;
         break;
@@ -4298,6 +4300,11 @@ void Main::onMessageChoiceBook(wxNotebookEvent&event)
         case VIDEOTAB:
             messageChoice_ = VIDEOTAB;
             p_Main->updateVideoPanel();
+        break;
+          
+        case OTHERTAB:
+            messageChoice_ = OTHERTAB;
+            p_Main->updateOtherPanel();
         break;
     }
 }
@@ -4623,6 +4630,17 @@ void Main::traceTimeout(wxTimerEvent&WXUNUSED(event))
            videoTraceWindowPointer->WriteText(buffer);
        }
    }
+   if (selectedTab_ == MESSAGETAB && messageChoice_ == OTHERTAB)
+   {
+       wxString buffer;
+       if (otherTraceString_ != "")
+       {
+           buffer = otherTraceString_;
+           otherTraceString_ = "";
+           otherTraceWindowPointer->SetInsertionPointEnd();
+           otherTraceWindowPointer->WriteText(buffer);
+       }
+   }
 }
 
 void Main::directAssTimeout(wxTimerEvent&WXUNUSED(event))
@@ -4673,7 +4691,7 @@ void Main::directAssTimeout(wxTimerEvent&WXUNUSED(event))
            if (updateMemory_ && memoryDisplay_ != CPU_TYPE && memoryDisplay_ != CPU_PROFILER)
            {
                updateMemory_ = false;
-               wxString idReference, valueStr;
+               wxString idReference;
                for (int y=0; y<16; y++)
                {
                    if (rowChanged_[y])
@@ -4738,6 +4756,10 @@ void Main::directAssTimeout(wxTimerEvent&WXUNUSED(event))
        {
            case VIDEOTAB:
               updateVideoPanel();
+           break;
+
+           case OTHERTAB:
+              updateOtherPanel();
            break;
        }
    }
@@ -4940,6 +4962,20 @@ void Main::lapTime()
     }
 }
 
+wxLongLong Main::traceTime(bool reset)
+{
+    wxLongLong endTime;
+    if (reset)
+    {
+        traceTimeStart_ = wxGetLocalTimeMillis();
+        endTime = traceTimeStart_;
+    }
+    else
+        endTime = wxGetLocalTimeMillis();
+   
+    return endTime - traceTimeStart_;
+}
+
 void Main::vuSet(wxString item, int gaugeValue)
 {
 #ifndef __linux__
@@ -5095,8 +5131,6 @@ wxErrorMsgEvent::wxErrorMsgEvent( wxEventType commandType, int id )
 
 void Main::setLocationEvent(guiEvent&WXUNUSED(event))
 {
-    wxString printBuffer;
-
     if (popupDialog_ != NULL)
         popupDialog_->setLocation(computerConfiguration.memAccessConfiguration.useLocation, computerConfiguration.memAccessConfiguration.saveStartString, computerConfiguration.memAccessConfiguration.saveEndString, computerConfiguration.memAccessConfiguration.saveExecString);
    
@@ -5142,8 +5176,6 @@ void Main::eventSetLocation(bool state, Word saveStart, Word saveEnd, Word saveE
 
 void Main::setLocationStateEvent(guiEvent&WXUNUSED(event))
 {
-    wxString printBuffer;
-
     if (popupDialog_ != NULL)
         popupDialog_->setLocation(computerConfiguration.memAccessConfiguration.useLocation);
    

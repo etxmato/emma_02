@@ -316,8 +316,36 @@
 #define I8275_INTERRUPT 5
 #define I8275_NUMBER_OF_SELECTORS 6
 
+#define CT2425_GATES_AND_LEDS 0
+#define CT2425_GATES 1
+#define CT2425_LEDS 2
+#define CT2425_VALIDATOR 3
+#define CT2425_CONTROL 4
+#define CT2425_SENSORS 5
+#define CT2425_COINS 6
+#define CT2425_UPPER_ESCROW 7
+#define CT2425_LOWER_ESCROW 8
+#define CT2425_NUMBER_OF_REGISTERS 9
+
+#define CT2425_GATE1 0
+#define CT2425_GATE2 1
+#define CT2425_GATE3 2
+#define CT2425_GATE4 3
+#define CT2425_GATE5 4
+#define CT2425_GATE6 5
+#define CT2425_SENSOR1 6
+#define CT2425_SENSOR2 7
+#define CT2425_SENSOR3 8
+#define CT2425_SENSOR4 9
+#define CT2425_SENSOR5 10
+#define CT2425_SPM 11
+#define CT2425_LAST_COIN 12
+#define CT2425_NUMBER_OF_SELECTORS 13
+
 #define XML_SETTING 0
 #define MANUAL_SETTING 1
+
+#define NO_TREG_TRACE true
 
 enum
 {
@@ -442,6 +470,8 @@ enum
     BUTTON_FUNC_EF_SWITCH,
     BUTTON_FUNC_VELF,
     BUTTON_FUNC_HEX,
+    BUTTON_FUNC_COIN,
+    BUTTON_FUNC_CT2425,
     BUTTON_FUNC_EF,
     BUTTON_FUNC_THUMB_MINUS,
     BUTTON_FUNC_THUMB_PLUS,
@@ -508,6 +538,7 @@ enum
     PUSH_BUTTON_ROUND_RED,
     PUSH_BUTTON_ROUND_RED_LARGE,
     PUSH_BUTTON_ROUND_GREEN_LARGE,
+    PUSH_BUTTON_FLEX,
     ELF2K_LOAD_BUTTON,
     ELF2K_MP_BUTTON,
     ELF2K_RUN_BUTTON,
@@ -1095,6 +1126,14 @@ enum
     CD4536B_WRITE_OUT,
     CD4536B_CYCLE,
         
+    CT2425_IO_VALIDATOR,
+    CT2425_IO_GATES,
+    CT2425_IO_CONTROL,
+    CT2425_IO_SENSORS,
+    CT2425_IO_COINS,
+    CT2425_IO_CYCLE,
+    CT2425_IO_SPM_EF,
+    
     FLIPFLOP_OUT,
     FLIPFLOP_EF,
 
@@ -1151,6 +1190,7 @@ enum
     CYCLE_TYPE_INTERRUPT_CLOCK,
     CYCLE_TYPE_SOUND,
     CYCLE_TYPE_CD3536B,
+    CYCLE_TYPE_CT2425,
     CYCLE_TYPE_RTC,
     CYCLE_TYPE_MDU,
     CYCLE_TYPE_TIMER,
@@ -1237,6 +1277,13 @@ enum
 
 enum
 {
+    MEM_TRAP_READ,
+    MEM_TRAP_WRITE,
+    MEM_TRAP_BOTH
+};
+
+enum
+{
     XML_VT_BIT0,
     XML_VT_BIT1,
     XML_VT_BIT2,
@@ -1317,6 +1364,8 @@ static wxString commandComputerList_[]=
     "Cybervision",
     "cyber",
     "Cybervision",
+    "efa",
+    "EFA-datorn",
     "elf2000",
     "Elf2K",
     "eti660",
@@ -1470,6 +1519,9 @@ static wxString defaultComputerList_[]=
     "NetronicsElfII",
     "Netronics Elf II",
     "tinybasic-serial.xml",
+    "Payphone",
+    "CT Payphone",
+    "CT34.xml",
     "Pecom32",
     "PECOM 32",
     "bare.xml",
@@ -1521,6 +1573,9 @@ static wxString defaultComputerList_[]=
     "VIS1802",
     "VIS1802",
     "vis1802.xml",
+    "VP4801",
+    "VP4801",
+    "vp4801-APT.xml",
     "VT1802",
     "VT1802",
     "vt1802-14Mhz-8pixels.xml",
@@ -1536,6 +1591,207 @@ static wxString defaultComputerList_[]=
     "",
     "",
     "",
+};
+
+enum // assembler error codes
+{
+    CHIP8_VX,           //0
+    CHIP8_VX_MEM,       //1
+    ASS_HEX_VALUE,      //2
+    ASS_HEX_VALUE_MEM,  //3
+    ASS_STRING,         //4
+    ASS_REG,            //5
+    ASS_SLOT,           //6
+    FEL_C,              //7
+    CHIP8_VX_MEM_1,     //8
+    AM_REG_MEM,
+    ASS_ERROR_DUMMY10,
+    ASS_ERROR_DUMMY11,
+    ASS_ERROR_DUMMY12,
+    ASS_ERROR_DUMMY13,
+    ASS_ERROR_DUMMY14,
+    ASS_ERROR_DUMMY15,
+    ASS_ERROR_DUMMY16,
+    ASS_ERROR_DUMMY17,
+    ASS_ERROR_DUMMY18,
+    ASS_ERROR_DUMMY19,
+    ASS_ERROR_DUMMY20,
+    ASS_ERROR_DUMMY21,
+    ASS_ERROR_DUMMY22,
+    ASS_ERROR_START,
+    ASS_ERROR_4BIT,
+    ASS_ERROR_8BIT,
+    ASS_ERROR_16BIT,
+    ASS_ERROR_12BIT,
+    ASS_ERROR_SP,
+    ASS_ERROR_NS_8,
+    ASS_ERROR_NS_8X,
+    ASS_ERROR_NS_ETI,
+    ASS_ERROR_NO_SLASH,
+    ASS_ERROR_2ND_REG,
+    ASS_ERROR_NO_REG0,
+    ASS_ERROR_DUMMY_JUMP,
+    ASS_ERROR_ONLY_REG0,
+    ASS_ERROR_ONLY_REGB,
+    ASS_ERROR_ONLY_REGC,
+    ASS_ERROR_NO_VALUE_0,
+    ASS_ERROR_NO_VALUE_F,
+    ASS_ERROR_ONLY_VALUE_0,
+    ASS_ERROR_4REG,
+    ASS_ERROR_8REG,
+    ASS_ERROR_SYNTAX,
+    ASS_ERROR_REG,
+    ASS_ERROR_DEC,
+    ASS_ERROR_REG_EXP,
+    ASS_ERROR_PAR,
+    ASS_ERROR_IO,
+    ASS_ERROR_COMMA,
+    ASS_ERROR_MINUS,
+    ASS_ERROR_AMP,
+    ASS_ERROR_PLUS,
+    ASS_ERROR_EQUAL,
+    ASS_ERROR_SLASH,
+    ASS_ERROR_DASH,
+    ASS_ERROR_CPU_1802,
+    ASS_ERROR_CPU_1804,
+    ASS_ERROR_INST,
+    ASS_ERROR_COMMAND_SEP,
+    ASS_ERROR_SPRITE,
+    ASS_ERROR_VIDEO,
+    ASS_ERROR_LD,
+    ASS_ERROR_CLR,
+    ASS_ERROR_NO_ADDRESS,
+    ASS_ERROR_END_START,
+    ASS_ERROR_DEBUG_CLEAR,
+    ASS_ERROR_DEBUG_ADDRESS,
+    ASS_ERROR_COMPUTER_NOT_RUNNING,
+    ASS_ERROR_NO_RANGE,
+    ASS_ERROR_INVALID_START,
+    ASS_ERROR_INVALID_FILE_NAME,
+    ASS_ERROR_FILE_NOTFOUND,
+    ASS_ERROR_REGAND16,
+    ASS_ERROR_MACRO_NOT_FOUND,
+    ASS_ERROR_MEMORY_WARNING,
+    ASS_ERROR_SLOT,
+    ASS_ERROR_SLOT_RANGE,
+    ASS_ERROR_PAGE_RANGE,
+    ASS_ERROR_CONF_SAVED,
+    ASS_ERROR_CONF_LOADED,
+    ASS_ERROR_COPIED_NO_JUMPS,
+    ASS_ERROR_COPIED_JUMPS,
+    ASS_ERROR_CPU_1801,
+    ASS_ERROR_CPU_SYSTEM00,
+    ASS_ERROR_CPU_ONLY_SYSTEM00,
+    ASS_ERROR_STUDIO_CHIP_ADDRESS,
+    ASS_ERROR_FEL2_CHIP_ADDRESS,
+    ASS_ERROR_FPL_CHIP_ADDRESS,
+    ASS_ERROR_RAM_CHIP_ADDRESS,
+    ASS_ERROR_STUDIO_CHIP_ADDRESS_I,
+    ASS_ERROR_STUDIOIV_ADDRESS_I,
+    ASS_ERROR_CARDTRAN_ADDRESS,
+    ASS_ERROR_CARDTRAN_DR,
+    ASS_ERROR_COMX_NOT_RUNNING,
+    WARNING_MISSING_SLOT_ADDRESS,
+    ASS_ERROR_HEX,
+    ASS_ERROR_HEX_MEM,
+    ASS_ERROR_HEX_TO_HIGH,
+    ASS_ERROR_NO_COMPUTER_RUNNING,
+    ASS_ERROR_INCORR_ADDRESS,
+    ASS_ERROR_MISSING_PAR,
+    ASS_ERROR_INCORRECT_REG,
+    ASS_ERROR_SYNTAX_FILE,
+    ASS_ERROR_TEMP_PAR,
+    ASS_ERROR_TEMP_CPU_1801,
+    ASS_ERROR_COMX_SB_NOT_RUNNING,
+    ASS_ERROR_LAST,
+};
+
+static wxString disAssErrorCodes[] =
+{
+    "4 bit value expected",
+    "8 bit value expected",
+    "16 bit value expected",
+    "12 bit value expected",
+    "sprite number 0 to 7 expected",
+    "Not supported on Chip-8",
+    "Not supported on Chip-8X",
+    "Not supported on ETI Chip-8",
+    "Seperator not allowed",
+    "Second register value incorrect",
+    "Register 0 not allowed",
+    "Only register 0 allowed",
+    "Dummy for JUMP",
+    "Only register B allowed",
+    "Only register C allowed",
+    "Value 0 not allowed",
+    "Value F not allowed",
+    "Only fill with 0 allowed",
+    "4 bit value or register expected",
+    "8 bit value or register expected",
+    "Syntax error",
+    "Register value not recognized",
+    "Decimal value not recognized",
+    "Register value expected",
+    "Too many parameters",
+    "I/O value not recognized",
+    "Comma expected after parameter",
+    "Minus expected after parameter",
+    "Ampersand expected after parameter",
+    "Plus expected after parameter",
+    "Equal sign expected after parameter",
+    "Slash expected after parameter",
+    "Dash expected after parameter",
+    "Not supported on CDP1802",
+    "Not supported on CDP1804,",
+    "Instruction not recognized",
+    "Space expected after command",
+    "Incorrect sprite (SP) command",
+    "Incorrect video command",
+    "Incorrect load (LD) command",
+    "Incorrect colour (CLR) command",
+    "No address specified",
+    "Start > end specified",
+    "Debug memory cleared",
+    "Not within any address range",
+    "Computer not running",
+    "No range defined",
+    "Specify: end > code end >= start",
+    "No file name specified",
+    "File not found",
+    "Register and 16 bit value expected",
+    "Macro not found in memory",
+    "Memory warning!",
+    "Slot or page value not recognized",
+    "Slot conig: > C000 and < DFFF",
+    "Page conig: > 8000 and < BFFF",
+    "Configuartion saved",
+    "Configuration loaded",
+    "Copied, NO branches corrected",
+    "Copied, long branches corrected",
+    "Not supported on CDP1801 or SYSTEM 00",
+    "Not supported on SYSTEM 00",
+    "Only supported on SYSTEM 00",
+    "Specify address > 2FC and <= FFF",
+    "Specify address > 1FF and <= FFF",
+    "Specify address >= 600 and <= 6FF",
+    "Specify address >= 800 and <= 8FF",
+    "Specify address >= 100 and <= FFF",
+    "Specify address >= 2700 and <= 27FF",
+    "Specify address >= 200 and <= 2C6",
+    "Parameter DR missing",
+    "COMX-35 not running",
+    "Warning: no slot specified",
+    "Hexadecimal value expected",
+    "Hexadecimal address expected",
+    "Hexadecimal value to high",
+    "No computer running",
+    "Incorrect address value",
+    "Missing parameter",
+    "Incorrect register value",
+    "Error in syntax file",
+    "Too many parameters",
+    "Not supported on CDP1801 or SYSTEM 00",
+    "COMX SuperBoard not running",
 };
 
 class SwitchButton

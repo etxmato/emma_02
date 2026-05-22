@@ -1,30 +1,44 @@
 <html>
-<title>Branch data</title>
+<title>Branch Data</title>
 <body>
-<h1>Branch data</h1>
+
+
+<h1>Branch Data</h1>
+
 <p>
-Some code will need branch tables or use 2 bytes to identify an address location. As an example COMX BASIC uses R4/R5 for subroutine handling. Where SEP R4 is a subroutine call to the address specified in the 2 following bytes. SEP R5 is used as subroutine return. For these cases the 'branch data' bytes can be defined in the Direct assembler by typing ':address' or marking the data bytes as 'Branch' via the procedure described in section <a href="DirectMarking.htm">Changing Address Usage</a>. By doing this the branch data will be corrected when using <a href="DirectInsert.htm">insert, delete</a> or <a href="DirectCopy.htm">copy</a> commands. All 'Branch data' will be shown in <FONT COLOR="RED">red</FONT> text.
+Some code will need branch tables or use 2 bytes to identify an address location. As an example, COMX BASIC uses R4/R5 for subroutine handling, where <tt>SEP R4</tt> is a subroutine call to the address specified in the 2 following bytes and <tt>SEP R5</tt> is used as a subroutine return.
 </p>
+
 <p>
-For example an insert on address hex 4500 in the following example:
+For these cases, branch data bytes can be defined in the <strong>Direct Assembler</strong> by typing <tt>:address</tt> in the command line or by marking the data bytes as <strong>Branch</strong> via the procedure described in the <a href="DirectMarking.htm">Memory Type Selection</a> section. By doing this, the branch data will be corrected when using <a href="DirectInsert.htm">insert, delete</a> or <a href="DirectCopy.htm">copy</a> commands. All branch data will be shown in <font color="#A85BA5">purple</font> text.
 </p>
+
 <p>
-<IMG SRC="images/assembler_branch_data.png" BORDER="0">
+For example, inserting at address 0000 (hexadecimal) in the code below:
 </p>
+
+<p>
+<img src="images/assembler_branch_data.png" border="0" width="724" height="609">
+</p>
+
 <p>
 will result in:
 </p>
+
 <p>
-<IMG SRC="images/assembler_branch_data_result.png" BORDER="0">
+<img src="images/assembler_branch_data_result.png" border="0" width="724" height="609">
 </p>
+
 <p>
-<b>Note:</b> the code on address hex 4505 was typed in on the command line field as :4501
+<strong>Note:</strong> The code at address 0005 (hexadecimal) was entered in the command line as <tt>:0001</tt>.
 </p>
+
 <p>
-If an insert is done on address 4501 in the original example the branch to 4501 will NOT change. This to allow adding space at the start of a routine, as seen here:
+If an insert is made at address 0001 (hexadecimal) in the original example, the branch to 0001 (hexadecimal) will not change. This allows adding space at the start of a routine, as shown in the example below:
 </p>
+
 <p>
-<IMG SRC="images/assembler_branch_data_result2.png" BORDER="0">
+<img src="images/assembler_branch_data_result2.png" border="0" width="724" height="609">
 </p>
 </body>
 </html>

@@ -157,7 +157,21 @@ void VtSetupDialog::loadSettingValues()
 {
     defineSetupFeature();
 
-    XRCCTRL(*this, "VtStopBits", wxTextCtrl)->ChangeValue(currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].stopBitString);
+    switch ((int)(double) (currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].stopBit*10))
+    {
+        case 10:
+            XRCCTRL(*this, "VtStopBits", wxChoice)->SetSelection(1);
+        break;
+        case 15:
+            XRCCTRL(*this, "VtStopBits", wxChoice)->SetSelection(2);
+        break;
+        case 20:
+            XRCCTRL(*this, "VtStopBits", wxChoice)->SetSelection(3);
+        break;
+        default:
+            XRCCTRL(*this, "VtStopBits", wxChoice)->SetSelection(0);
+        break;
+    }
 
     wxString bellFrequency;
     bellFrequency.Printf("%d", currentComputerConfiguration.videoTerminalConfiguration.bellFrequency);
@@ -288,9 +302,22 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
             currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].paritySense = (XRCCTRL(*this, "VtSetupBit3", wxChoice)->GetSelection() == 1);
         }
 
-        currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBitString = p_Main->convertLocale(XRCCTRL(*this, "VtStopBits", wxTextCtrl)->GetValue());
-        if (!currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBitString.ToDouble(&currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBit))
-            currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBit = 0;
+        
+        switch (XRCCTRL(*this, "VtStopBits", wxChoice)->GetSelection())
+        {
+            case 1:
+                currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBit = 1;
+            break;
+            case 2:
+                currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBit = 1.5;
+            break;
+            case 3:
+                currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBit = 2;
+            break;
+            default:
+                currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBit = 0;
+            break;
+        }
         
         currentComputerConfiguration.videoTerminalConfiguration.serialLog = XRCCTRL(*this, "SerialLog", wxCheckBox)->GetValue();
         currentComputerConfiguration.videoTerminalConfiguration.escError = XRCCTRL(*this, "ESCError", wxCheckBox)->GetValue();
@@ -513,7 +540,7 @@ void VtSetupDialog::enableGuiAccordingToSelectedInterface()
     
     XRCCTRL(*this, "VtSetupBitsPerCharacter", wxChoice)->Enable(enableGui | !currentComputerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_BITS_PER_CHARACTER]);
     XRCCTRL(*this, "VtCharacters", wxChoice)->Enable(enableGui | !currentComputerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_CHARACTERS]);
-    XRCCTRL(*this, "VtStopBits", wxTextCtrl)->Enable(enableGui | !currentComputerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_STOPBITS]);
+    XRCCTRL(*this, "VtStopBits", wxChoice)->Enable(enableGui | !currentComputerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_STOPBITS]);
     XRCCTRL(*this, "VtSetupCharRomButton", wxButton)->Enable(enableGui | !currentComputerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_CHAR_ROM]);
     XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->Enable(enableGui | !currentComputerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_CHAR_ROM]);
     XRCCTRL(*this, "VtSetupWavButton", wxButton)->Enable(enableGui | !currentComputerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_WAV_FILE]);

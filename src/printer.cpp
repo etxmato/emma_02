@@ -1408,8 +1408,6 @@ void Printer::configureParallelPrinter(ParallelPrinterConfiguration parallelPrin
 
 void Printer::configureSerialPrinter(SerialPrinterConfiguration serialPrinterConfiguration)
 {
-    wxString printBuffer;
-
     p_Main->configureMessage(&serialPrinterConfiguration.ioGroupVector, "Serial Printer");
     p_Computer->setOutType(&serialPrinterConfiguration.ioGroupVector, serialPrinterConfiguration.output, "write data");
     p_Computer->setInType(&serialPrinterConfiguration.ioGroupVector, serialPrinterConfiguration.input, "status");
@@ -1427,8 +1425,6 @@ void Printer::configureSerialPrinter(SerialPrinterConfiguration serialPrinterCon
 }
 void Printer::configureQSerialPrinter(QSerialPrinterConfiguration qSerialPrinterConfiguration)
 {
-    wxString printBuffer;
-
     p_Main->configureMessage(&qSerialPrinterConfiguration.ioGroupVector, "Serial Printer (using Q)");
     p_Computer->setEfType(&qSerialPrinterConfiguration.ioGroupVector, qSerialPrinterConfiguration.ef, "status");
 
@@ -1446,8 +1442,6 @@ void Printer::configureCentronicsPrinter(CentronicsPrinterConfiguration centroni
 
 void Printer::configureThermalPrinter(ThermalPrinterConfiguration thermalPrinterConfiguration)
 {
-    wxString printBuffer;
-    
     p_Main->configureMessage(&thermalPrinterConfiguration.ioGroupVector, "Thermal Printer");
     p_Computer->setOutType(&thermalPrinterConfiguration.ioGroupVector, thermalPrinterConfiguration.output, "write data");
     p_Computer->setInType(&thermalPrinterConfiguration.ioGroupVector, thermalPrinterConfiguration.input, "status");

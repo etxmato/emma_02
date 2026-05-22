@@ -2,67 +2,211 @@
 <html>
 <title>Terminal Setup</title>
 <body>
+
+
 <h1>Terminal Setup</h1>
+
+
 <h2>Main Settings</h2>
+
 <p>
-The main terminal settings can be changed in the 'Terminal' area on the GUI. Buttons available are:
+The main video terminal (VT) settings can be changed in the <strong>Terminal</strong> area shown below:
 </p>
+
 <p>
+<img src="images/computer_terminal.png" border="0" width="724" height="609">
+</p>
+
 <ul>
-<li>Video type selector (highlighted in yellow): to select one of the video terminal options: none (no video terminal), VT52, VT100 or External (external terminal software) 
-<li>Setup (highlighted in orange): to open the detailed video terminal setup window, for details see 'Detailed Setup Window' section below
-<li>Baud (highlighted in blue): to select the baud rate. For serial terminals both transmitter and receiver baud rates will be the same, so only the 'T' button will be enabled. For UART terminals both 'T' (transmitter) and 'R' (receiver) buttons will be enabled to allow different baud rates depending on direction.
-<li>Zoom (highlighted in red): to select zoom factor for the terminal window (see also section <a href="ComputerZoom.htm">Zoom Level and Full Screen Mode</a>).
-<li>Stretch (highlighted in purple): to select stretched dot mode. The original VT terminals repeated every 'dot' on the screen if defined as 'on' in the font. This resulted in 'stretched' characters. The detail of the character is actually higher if this function is not used. To enable select the check box.
+<li>(1) <strong>VT type</strong> selector</li>
+<li>(2) <strong>Setup</strong> button</li>
+<li>(3) <strong>Baud</strong> selectors</li>
+<li>(4) <strong>Zoom</strong> text field</li>
+<li>(5) <strong>Stretch</strong> checkbox</li>
 </ul>
-</p>
+
 <p>
-<IMG SRC="images/computer_terminal.png" border="0" width="443" height ="370">
+The <strong>VT type</strong> selector (1) sets the terminal type: <strong>none</strong> (no video terminal), <strong>VT52</strong>, <strong>VT100</strong>, <strong>External</strong> (external terminal software), or <strong>Loop</strong> (loopback).
+The <strong>Setup</strong> button (2) opens the detailed setup window described below.
+For serial terminals, both <strong>Baud</strong> rates (3) are always the same; therefore only the <tt>T</tt> (transmitter) button is enabled.
+For UART terminals, both <tt>T</tt> and <tt>R</tt> (receiver) buttons are enabled independently, allowing different baud rates per direction.
+The <strong>Zoom</strong> text field (4) controls the terminal zoom level; see the <a href="ComputerZoom.htm">Zoom Level and Full Screen Mode</a> section.
+The <strong>Stretch</strong> checkbox (5) enables stretched dot mode, where each 'on' dot in the font is repeated horizontally as on the original VT terminals.
 </p>
-<h2>Detailed Setup window</h2>
+
+
+<h2>Detailed Setup Window</h2>
+
 <p>
-The following sub sections describe the terminal options available when selecting 'Setup' (highlighted in orange above).
+The following subsections describe the terminal options available when selecting <strong>Setup</strong> (2) above.
 </p>
+
 <p>
-The setup window below shows all possible settings for a VT100 terminal. The settings highlighted in in brown are showing VT100 specific settings which will look slightly different for the VT52 and External options. For both VT52 and VT100 terminals details about these settings can be found in the manuals on <a href="http://vt100.net">VT100.net</a>. Note the setting Characters is only available on the VT100 and will select a 64, 80 or 130 column mode.
+The VT setup window controls are shown below:
 </p>
+
 <p>
-<IMG SRC="images/computer_terminal_setup.png" border="0" width="443" height ="528">
+<img src="images/computer_terminal_setup.png" border="0" width="513" height="685">
 </p>
-<h3>Fonts</h3>
+
+<ul>
+<li>(1) VT specific settings</li>
+<li>(2) <strong>VT Font</strong> button and file selector</li>
+<li>(3) <strong>Bell</strong> frequency and wav file selector</li>
+<li>(4) VT general settings: <strong>UART 16450</strong> / <strong>UART CDP1854</strong>, <strong>Display ESC errors</strong>, <strong>Log</strong>, <strong>Reverse EF</strong>, and <strong>Reverse Q</strong> checkboxes</li>
+<li>(5) <strong>XMODEM / YMODEM Packet Size</strong> selector</li>
+<li>(6) <strong>Use XML values</strong> checkbox and <strong>Save</strong> button</li>
+</ul>
+
+
+<h3>VT specific settings (1)</h3>
+
 <p>
-Use the VT Font button (highlighted in orange) to browse for or specify a new font file. Some different font ROMs are included, but these are not 100% original. For the VT52 there are 2 fonts vt52.a.bin and vt52.b.bin, not sure which is more correct. Please feel free to drop me an email with comments on functionality or font ROMs!
+The setup window above shows all possible specific settings for a VT100 terminal.
+These settings are VT specific, and will look slightly different for the <strong>VT52</strong>, <strong>External</strong>, and <strong>Loop</strong> options.
 </p>
-<h3>Bell</h3>
+
 <p>
-A frequency for the bell sound can be selected (default 800 Hz) or alternatively a wav file (highlighted in green). If a wav file is specified the sound contained in that file will be played when a bell is activated on the simulated VT.
+For both VT52 and VT100 terminals, most details about these settings can be found in the manuals on <a href="http://vt100.net">VT100.net</a>.
 </p>
-<h3>Display ESC Errors</h3>
+
 <p>
-When selecting 'Display ESC errors' (highlighted in purple) ESC errors will be shown on the video terminal simulator.
+<strong>Note:</strong> The <strong>Characters</strong> setting is only available on the VT100 and allows selection of 64, 80 or 130 column mode.
 </p>
-<h3>Log</h3>
+
+
+<h3>VT Font (2)</h3>
+
 <p>
-To log all VT terminal output to a file (terminal.log) select the Log check box (highlighted in blue). If the terminal.log file already exists a new file is created with a sequence number every time the emulated computer window is initiated. E.g. the file 'terminal.log' is used the first time, and the next time the file 'terminal.1.log' will be created.
+Use the <strong>VT Font</strong> button or file selector to select a new font file. Some font ROMs are included, but these are not 100% original.
 </p>
-<h3>YMODEM Packet Size</h3>
+
 <p>
-When an XMODEM is configured it is possible to select what YMODEM receive packet size is used (highlighted in grey). Default this is set to 'Auto' but is changeable to 1024 or 128. When auto is used Emma 02 will send in packets of 1024 bytes if data is available to fill that, if less data is available 128 will be used. See details about X/YMODEM in section <a href="ComputerModem.htm">HEX and XMODEM Support</a>.
+For the VT52, there are two fonts: <tt>vt52.a.bin</tt> and <tt>vt52.b.bin</tt>; it is unclear which is more accurate; feedback on functionality or font ROMs is welcome.
 </p>
-<h3>Serial mode</h3>
+
+
+<h3>Bell (3)</h3>
+
 <p>
-This mode is using serial I/O via the Q line and one of the EF lines. To use this mode make sure that the checkbox UART 16450 or UART CDP1854 (highlighted in yellow) are NOT selected. In this mode the transmit and receive (choice button T/R) baud rates are always the same.
+A frequency for the bell sound can be selected (default 800 Hz), or alternatively a wav file can be specified.
 </p>
-<h3>Reversed EF / Q</h3>
+
 <p>
-To use the VT with reversed EF input and/or reversed Q output select the applicable checkbox (highlighted in red). 
+If a wav file is specified, the sound contained in that file will be played when a bell is activated on the simulated VT.
 </p>
-<h3>UART & RTC</h3>
+
+
+<h3>VT general settings (4)</h3>
+
+
+<h4>UART CDP1854</h4>
+
 <p>
-The Elf 2000 and Pico/Elf V2 support the UART 16450, the Microboard System and MS2000 support the UART CDP1854 and the Cosmac Elf, Netronics Elf and Quest Super Elf support both the UART 16450 and UART CDP1854.
+The Cosmac Elf, Microboard System, MS2000, Netronics Elf, and Quest Super Elf support the UART CDP1854.
 </p>
+
 <p>
-The UART mode can be use by selecting the UART 16450 or UART CDP1854 checkbox (highlighted in yellow). Only basic usage of the UART 16450 and the simple mode '1' emulation for the UART CDP1854 is implemented. In UART mode the transmit and (T) and receive (R) baud rates can be different.
+<strong>Note:</strong> Only simple mode '1' emulation for the UART CDP1854 is implemented.
 </p>
+
+<p>
+<strong>Note:</strong> In UART CDP1854 mode, transmit (<tt>T</tt>) and receive (<tt>R</tt>) baud rates can be different.
+</p>
+
+
+<h4>UART 16450 &amp; RTC</h4>
+
+<p>
+The Cosmac Elf, Elf 2000, Pico/Elf V2, Netronics Elf and Quest Super Elf support the UART 16450.
+</p>
+
+<p>
+<strong>Note:</strong> Only basic usage of the UART 16450 is implemented.
+</p>
+
+<p>
+<strong>Note:</strong> In UART 16450 mode, transmit (<tt>T</tt>) and receive (<tt>R</tt>) baud rates can be different.
+</p>
+
+
+<h4>Serial Mode</h4>
+
+<p>
+This mode uses serial I/O via the Q line and one of the EF lines.
+</p>
+
+<p>
+To use this mode, make sure the <strong>UART 16450</strong> and <strong>UART CDP1854</strong> checkboxes are not selected.
+</p>
+
+<p>
+In this mode the transmit and receive (<tt>T</tt>/<tt>R</tt>) baud rates are always the same.
+</p>
+
+
+<h4>Display ESC Errors</h4>
+
+<p>
+When <strong>Display ESC errors</strong> is selected, ESC errors are shown on the video terminal simulator.
+</p>
+
+
+<h4>Log</h4>
+
+<p>
+To log all VT terminal output to a file (<tt>terminal.log</tt>), select the <strong>Log</strong> checkbox.
+</p>
+
+<p>
+If the file already exists, a new file with a sequence number is created each time the emulated computer window is started.
+</p>
+
+<p>
+For example, <tt>terminal.log</tt> is used the first time, followed by <tt>terminal.1.log</tt>, etc.
+</p>
+
+
+<h4>Reverse EF</h4>
+
+<p>
+To use the VT with reverse EF input, select the checkbox.
+</p>
+
+
+<h4>Reverse Q</h4>
+
+<p>
+To use the VT with reverse Q output, select the checkbox.
+</p>
+
+
+<h3>XMODEM / YMODEM Packet Size (5)</h3>
+
+<p>
+When XMODEM is configured, the YMODEM receive packet size can be selected.
+By default, this is set to <strong>Auto</strong>, but it can be changed to 1024 or 128.
+</p>
+
+<p>
+When <strong>Auto</strong> is used, Emma 02 sends packets of 1024 bytes when sufficient data is available.
+If less data is available, 128-byte packets are used.
+</p>
+
+<p>
+For more details, see the <a href="ComputerModem.htm">HEX and XMODEM Support</a> section.
+</p>
+
+
+<h3>Use XML values and Save</h3>
+
+<p>
+If the checkbox <strong>Use XML values</strong> is selected, Emma 02 will fetch VT settings that are available from the XML file. All GUI items found in the XML file will be disabled. To change any value independently of what is specified in the XML file, deselect the checkbox.
+</p>
+
+<p>
+Use <strong>Save</strong> to save the settings.
+</p>
+
 </body>
 </html>

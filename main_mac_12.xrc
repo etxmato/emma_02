@@ -560,15 +560,15 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP|wxBOTTOM</flag>
-<border>4</border>
+<flag>wxGROW|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<border>2</border>
 <object class="wxStaticLine" name="wxID_STATIC">
 <style>wxLI_HORIZONTAL</style>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP|wxBOTTOM</flag>
-<border>4</border>
+<flag>wxGROW|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+<border>2</border>
 <object class="wxStaticLine" name="wxID_STATIC">
 <style>wxLI_HORIZONTAL</style>
 </object>
@@ -1547,6 +1547,7 @@
 <flag>wxALIGN_BOTTOM|wxRIGHT</flag>
 <border>5</border>
 <object class="wxChoice" name="VTTypeXml">
+<size>80,-1</size>
 <tooltip>Select video terminal type</tooltip>
 <font>
 <size>12</size>
@@ -1565,6 +1566,7 @@
 <flag>wxGROW</flag>
 <border>1</border>
 <object class="wxButton" name="VtSetupXml">
+<size>70,-1</size>
 <tooltip>Open video terminal setup window</tooltip>
 <font>
 <size>12</size>
@@ -1626,6 +1628,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxChoice" name="VTBaudTChoiceXml">
+<size>80,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -1665,6 +1668,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
 <border>0</border>
 <object class="wxChoice" name="VTBaudRChoiceXml">
+<size>80,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -1860,6 +1864,11 @@
 <label>Mark</label>
 </object>
 </object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>2,5</size>
+</object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
 <border>0</border>
@@ -1875,6 +1884,11 @@
 <selection>0</selection>
 </object>
 </object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>2,5</size>
+</object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
@@ -1888,7 +1902,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <label>- </label>
@@ -1905,6 +1919,11 @@
 </font>
 <maxlength>4</maxlength>
 </object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>2,5</size>
 </object>
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
@@ -2028,6 +2047,11 @@
 <label>Copy</label>
 </object>
 </object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>2,5</size>
+</object>
 <object class="sizeritem">
 <flag>wxGROW</flag>
 <border>1</border>
@@ -2039,6 +2063,11 @@
 </font>
 <label>Dis</label>
 </object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>2,5</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
@@ -2053,7 +2082,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <label>- </label>
@@ -2206,6 +2235,11 @@
 <label>Insert</label>
 </object>
 </object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>2,5</size>
+</object>
 <object class="sizeritem">
 <flag>wxGROW</flag>
 <border>1</border>
@@ -2217,6 +2251,11 @@
 <enabled>0</enabled>
 <label>Delete</label>
 </object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>2,5</size>
 </object>
 <object class="sizeritem">
 <flag>wxGROW</flag>
@@ -2324,6 +2363,11 @@
 <label>Dir</label>
 </object>
 </object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>2,5</size>
+</object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
@@ -2334,6 +2378,11 @@
 <size>12</size>
 </font>
 </object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>2,5</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
@@ -2385,6 +2434,11 @@
 <label>New</label>
 </object>
 </object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>2,5</size>
+</object>
 <object class="sizeritem">
 <flag>wxGROW</flag>
 <border>0</border>
@@ -2396,6 +2450,11 @@
 <enabled>0</enabled>
 <label>Store</label>
 </object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>2,5</size>
 </object>
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
@@ -2442,6 +2501,11 @@
 <label>Load</label>
 </object>
 </object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>2,5</size>
+</object>
 <object class="sizeritem">
 <flag>wxGROW</flag>
 <border>0</border>
@@ -2453,6 +2517,11 @@
 <enabled>0</enabled>
 <label>Save</label>
 </object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>2,5</size>
 </object>
 <object class="sizeritem">
 <flag>wxGROW</flag>
@@ -2900,7 +2969,6 @@
 <font>
 <size>12</size>
 </font>
-<style>wxBU_EXACTFIT</style>
 <label>Clear</label>
 </object>
 </object>
@@ -7158,6 +7226,11 @@
 <label>Save</label>
 </object>
 </object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>2,5</size>
+</object>
 <object class="sizeritem">
 <flag>wxGROW</flag>
 <border>2</border>
@@ -7170,6 +7243,11 @@
 <enabled>0</enabled>
 <label>Copy</label>
 </object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>2,5</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
@@ -7184,7 +7262,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxStaticText" name="wxID_STATIC">
 <label>- </label>
@@ -7419,7 +7497,7 @@
 </font>
 <style>wxNO_BORDER|wxTAB_TRAVERSAL</style>
 <object class="wxNotebook" name="DebuggerChoiceBook">
-<size>2000,2000</size>
+<size>2000,3000</size>
 <font>
 <size>12</size>
 </font>
@@ -7444,32 +7522,13 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL</flag>
+<flag>wxALIGN_LEFT|wxALL</flag>
 <border>0</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxVERTICAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_RIGHT</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxVERTICAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT</flag>
-<border>0</border>
-<object class="wxStaticBoxSizer" name="wxID_ANY">
-<orient>wxVERTICAL</orient>
-<label></label>
-<font>
-<size>12</size>
-</font>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxBOTTOM</flag>
-<border>2</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>4</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
@@ -7500,7 +7559,7 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>2,5</size>
+<size>4,5</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
@@ -7530,7 +7589,7 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>2,5</size>
+<size>4,5</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
@@ -7560,7 +7619,7 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>2,5</size>
+<size>4,5</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
@@ -7590,7 +7649,7 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>2,5</size>
+<size>4,5</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
@@ -7617,13 +7676,11 @@
 <maxlength>2</maxlength>
 </object>
 </object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>4,5</size>
 </object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>4</border>
@@ -7652,7 +7709,7 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>2,5</size>
+<size>4,5</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
@@ -7682,7 +7739,7 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>2,5</size>
+<size>4,5</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
@@ -7712,7 +7769,7 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>2,5</size>
+<size>4,5</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
@@ -7745,6 +7802,21 @@
 </object>
 </object>
 </object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_TOP</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
 <object class="sizeritem">
 <flag>wxALIGN_RIGHT</flag>
 <border>0</border>
@@ -8516,16 +8588,10 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_BOTTOM|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>3</border>
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxRIGHT</flag>
-<border>0</border>
-<object class="wxStaticBoxSizer" name="wxID_ANY">
-<orient>wxVERTICAL</orient>
-<label>Registers</label>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_HORIZONTAL</flag>
 <border>0</border>
@@ -8579,70 +8645,6 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="R8" subclass="HexEdit">
-<size>46,18</size>
-<font>
-<size>12</size>
-</font>
-<style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<enabled>0</enabled>
-<maxlength>4</maxlength>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL</flag>
-<border>0</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>2</border>
-<object class="wxStaticText" name="R1Text">
-<size>24,18</size>
-<font>
-<size>12</size>
-</font>
-<style>wxALIGN_RIGHT</style>
-<enabled>0</enabled>
-<label>R1 </label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxTextCtrl" name="R1" subclass="HexEdit">
-<size>46,18</size>
-<font>
-<size>12</size>
-</font>
-<style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<enabled>0</enabled>
-<maxlength>4</maxlength>
-</object>
-</object>
-<object class="spacer">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
-<size>1,19</size>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>2</border>
-<object class="wxStaticText" name="R9Text">
-<size>28,18</size>
-<font>
-<size>12</size>
-</font>
-<style>wxALIGN_RIGHT</style>
-<enabled>0</enabled>
-<label>R9 </label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxTextCtrl" name="R9" subclass="HexEdit">
 <size>46,18</size>
 <font>
 <size>12</size>
@@ -9038,6 +9040,68 @@
 </object>
 </object>
 </object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="R1Text">
+<size>24,18</size>
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<enabled>0</enabled>
+<label>R1 </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxTextCtrl" name="R1" subclass="HexEdit">
+<size>46,18</size>
+<font>
+<size>12</size>
+</font>
+<style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+<enabled>0</enabled>
+<maxlength>4</maxlength>
+</object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>0</border>
+<size>1,19</size>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
+<object class="wxStaticText" name="R9Text">
+<size>28,18</size>
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<enabled>0</enabled>
+<label>R9 </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxTextCtrl" name="R9" subclass="HexEdit">
+<size>46,18</size>
+<font>
+<size>12</size>
+</font>
+<style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+<enabled>0</enabled>
+<maxlength>4</maxlength>
+</object>
+</object>
 </object>
 </object>
 </object>
@@ -9075,7 +9139,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxLEFT|wxTOP</flag>
+<flag>wxALIGN_TOP|wxLEFT|wxRIGHT|wxTOP</flag>
 <border>2</border>
 <object class="wxCheckBox" name="DebugMode">
 <tooltip>Enable debug mode (F1)</tooltip>
@@ -9085,6 +9149,11 @@
 <label>Debug</label>
 <checked>0</checked>
 </object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>2,5</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_TOP|wxLEFT|wxTOP</flag>
@@ -9124,11 +9193,11 @@
 <border>0</border>
 <object class="wxButton" name="BreakPointSet">
 <size>105,23</size>
-<tooltip>Set break point on specified address</tooltip>
+<tooltip>Set breakpoint on specified address</tooltip>
 <font>
 <size>12</size>
 </font>
-<label>Break Point</label>
+<label>Breakpoint</label>
 </object>
 </object>
 </object>
@@ -9162,6 +9231,11 @@
 <enabled>0</enabled>
 <label>Gen. INT</label>
 </object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>7,5</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
@@ -9246,6 +9320,11 @@
 <enabled>0</enabled>
 <label>Reset</label>
 </object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>7,5</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
@@ -9389,6 +9468,7 @@
 <font>
 <size>12</size>
 </font>
+<enabled>0</enabled>
 <content>
 <item>Rx</item>
 <item>R0</item>
@@ -9420,6 +9500,7 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER</style>
+<enabled>0</enabled>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -9458,105 +9539,108 @@
 </object>
 </object>
 </object>
-</object>
-</object>
-</object>
-</object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxTOP</flag>
-<border>3</border>
+<flag>wxALIGN_RIGHT|wxALL</flag>
+<border>0</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxVERTICAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
-<border>5</border>
-<object class="wxStaticText" name="BreakPointWindowText">
+<flag>wxALIGN_CENTER_VERTICAL|wxTOP</flag>
+<border>1</border>
+<object class="wxChoice" name="TmemType">
+<size>76,23</size>
+<tooltip>Access type</tooltip>
 <font>
 <size>12</size>
 </font>
-<style>wxALIGN_LEFT</style>
-<label>Break Points: </label>
+<content>
+<item>Read</item>
+<item>Write</item>
+<item>Both</item>
+</content>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT</flag>
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>1</border>
+<object class="wxTextCtrl" name="TmemAddressStart" subclass="HexEdit">
+<size>52,23</size>
+<tooltip>Address start</tooltip>
+<font>
+<size>12</size>
+</font>
+<style>wxTE_PROCESS_ENTER</style>
+<maxlength>4</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>3</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<label>- </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>1</border>
+<object class="wxTextCtrl" name="TmemAddressEnd" subclass="HexEdit">
+<size>52,23</size>
+<tooltip>AddressEnd</tooltip>
+<font>
+<size>12</size>
+</font>
+<style>wxTE_PROCESS_ENTER</style>
+<maxlength>4</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>3</border>
+<object class="wxStaticText" name="wxID_STATIC">
+<label>: </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>1</border>
+<object class="wxTextCtrl" name="TmemValue" subclass="HexEdit">
+<size>25,23</size>
+<tooltip>Value</tooltip>
+<font>
+<size>12</size>
+</font>
+<style>wxTE_PROCESS_ENTER</style>
+<maxlength>2</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>1</border>
+<object class="wxButton" name="MemSet">
+<size>105,23</size>
+<tooltip>Set memory trap on specified memory access type</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Mem. Trap</label>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
 <border>0</border>
-<object class="wxListCtrl" name="BreakPointWindow" subclass="CheckBoxListCtrl">
-<size>94,99</size>
+<object class="wxListCtrl" name="BreakPointAndTrapWindow" subclass="CheckBoxListCtrl">
+<size>304,99</size>
 <font>
 <size>12</size>
 <face>Courier New</face>
 </font>
 <style>wxLC_SMALL_ICON|wxLC_EDIT_LABELS|wxLC_SINGLE_SEL|wxSUNKEN_BORDER</style>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxVERTICAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
-<border>5</border>
-<object class="wxStaticText" name="TregWindowText">
-<font>
-<size>12</size>
-</font>
-<style>wxALIGN_LEFT</style>
-<label>Register Traps: </label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT</flag>
-<border>0</border>
-<object class="wxListCtrl" name="TregWindow" subclass="CheckBoxListCtrl">
-<size>100,99</size>
-<font>
-<size>12</size>
-<face>Courier New</face>
-</font>
-<style>wxLC_SMALL_ICON|wxLC_EDIT_LABELS|wxLC_SINGLE_SEL|wxSUNKEN_BORDER</style>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_TOP|wxTOP</flag>
-<border>2</border>
-<object class="wxBoxSizer">
-<orient>wxVERTICAL</orient>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxLEFT</flag>
-<border>5</border>
-<object class="wxStaticText" name="TrapWindowText">
-<font>
-<size>12</size>
-</font>
-<style>wxALIGN_LEFT</style>
-<label>Instr. Traps: </label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT</flag>
-<border>0</border>
-<object class="wxListCtrl" name="TrapWindow" subclass="CheckBoxListCtrl">
-<size>112,99</size>
-<font>
-<size>12</size>
-<face>Courier New</face>
-</font>
-<style>wxLC_SMALL_ICON|wxLC_EDIT_LABELS|wxLC_SINGLE_SEL|wxSUNKEN_BORDER</style>
-</object>
-</object>
-</object>
-</object>
 </object>
 </object>
 </object>
@@ -9581,7 +9665,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxRIGHT</flag>
+<flag>wxALIGN_LEFT|wxRIGHT|wxBOTTOM</flag>
 <border>1</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
@@ -9595,19 +9679,6 @@
 <size>12</size>
 </font>
 <label>Trace:</label>
-<checked>0</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
-<object class="wxToggleButton" name="TraceTrapButton">
-<size>52,23</size>
-<tooltip>Toggle instruction trap trace</tooltip>
-<font>
-<size>12</size>
-</font>
-<label>Instr.</label>
 <checked>0</checked>
 </object>
 </object>
@@ -9637,6 +9708,11 @@
 <checked>0</checked>
 </object>
 </object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>5,5</size>
+</object>
 <object class="sizeritem">
 <flag>wxGROW</flag>
 <border>0</border>
@@ -9662,10 +9738,28 @@
 <maxlength>4</maxlength>
 </object>
 </object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>5,5</size>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>0</border>
+<object class="wxToggleButton" name="TraceTrapButton">
+<size>52,23</size>
+<tooltip>Toggle between trap and trace</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Break</label>
+<checked>0</checked>
+</object>
+</object>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxRIGHT</flag>
+<flag>wxALIGN_LEFT|wxRIGHT|wxBOTTOM</flag>
 <border>1</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
@@ -9775,7 +9869,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="DebugCallReg" subclass="HexEdit">
-<size>16,23</size>
+<size>20,23</size>
 <tooltip>Call register</tooltip>
 <font>
 <size>12</size>
@@ -9783,6 +9877,11 @@
 <enabled>0</enabled>
 <maxlength>1</maxlength>
 </object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>2,5</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
@@ -9812,7 +9911,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="DebugRetReg" subclass="HexEdit">
-<size>16,23</size>
+<size>20,23</size>
 <tooltip>Return register</tooltip>
 <font>
 <size>12</size>
@@ -9820,6 +9919,11 @@
 <enabled>0</enabled>
 <maxlength>1</maxlength>
 </object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>2,5</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
@@ -9959,8 +10063,8 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="Chip8PCText">
 <size>20,-1</size>
 <font>
@@ -9997,8 +10101,8 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="Chip8IText">
 <size>20,-1</size>
 <font>
@@ -10060,8 +10164,8 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>5</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="V0Text">
 <size>24,18</size>
 <font>
@@ -10091,8 +10195,8 @@
 <size>5,19</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="V8Text">
 <size>24,18</size>
 <font>
@@ -10124,8 +10228,8 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="V1Text">
 <size>24,18</size>
 <font>
@@ -10155,8 +10259,8 @@
 <size>5,19</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="V9Text">
 <size>24,18</size>
 <font>
@@ -10188,8 +10292,8 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="V2Text">
 <size>24,18</size>
 <font>
@@ -10219,8 +10323,8 @@
 <size>5,19</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="VAText">
 <size>24,18</size>
 <font>
@@ -10252,8 +10356,8 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="V3Text">
 <size>24,18</size>
 <font>
@@ -10283,8 +10387,8 @@
 <size>5,19</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="VBText">
 <size>24,18</size>
 <font>
@@ -10316,8 +10420,8 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="V4Text">
 <size>24,18</size>
 <font>
@@ -10347,8 +10451,8 @@
 <size>5,19</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="VCText">
 <size>24,18</size>
 <font>
@@ -10380,8 +10484,8 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="V5Text">
 <size>24,18</size>
 <font>
@@ -10411,8 +10515,8 @@
 <size>5,19</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="VDText">
 <size>24,18</size>
 <font>
@@ -10444,8 +10548,8 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="V6Text">
 <size>24,18</size>
 <font>
@@ -10475,8 +10579,8 @@
 <size>5,19</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="VEText">
 <size>24,18</size>
 <font>
@@ -10508,8 +10612,8 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="V7Text">
 <size>24,18</size>
 <font>
@@ -10539,8 +10643,8 @@
 <size>5,19</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>2</border>
 <object class="wxStaticText" name="VFText">
 <size>24,18</size>
 <font>
@@ -10617,7 +10721,7 @@
 <size>12</size>
 </font>
 <style>wxALIGN_LEFT</style>
-<label>Break Points: </label>
+<label>Breakpoints: </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -10820,7 +10924,7 @@
 </font>
 <style>wxNO_BORDER|wxTAB_TRAVERSAL</style>
 <object class="wxNotebook" name="IoChoiceBook">
-<size>2000,2000</size>
+<size>2000,3000</size>
 <font>
 <size>12</size>
 </font>
@@ -16585,7 +16689,7 @@
 <style>wxSUNKEN_BORDER|wxTAB_TRAVERSAL</style>
 <object class="wxStaticBoxSizer" name="Scn2672box">
 <orient>wxHORIZONTAL</orient>
-<label>Scn2672 Programmable Video Timing Controller</label>
+<label>SCN2672 Programmable Video Timing Controller</label>
 <object class="sizeritem">
 <flag>wxALIGN_TOP|wxALL</flag>
 <border>0</border>
@@ -18948,7 +19052,7 @@
 <style>wxSUNKEN_BORDER|wxTAB_TRAVERSAL</style>
 <object class="wxStaticBoxSizer" name="Vis1870box">
 <orient>wxHORIZONTAL</orient>
-<label>CDP 1869/1870, Video Interface System</label>
+<label>CDP1869/1870, Video Interface System</label>
 <object class="sizeritem">
 <flag>wxALIGN_TOP|wxRIGHT</flag>
 <border>2</border>
@@ -19803,12 +19907,25 @@
 <border>4</border>
 <object class="wxToggleButton" name="VideoTraceButton">
 <size>56,23</size>
-<tooltip>Toggle I/O trace</tooltip>
+<tooltip>Toggle I/O log</tooltip>
 <font>
 <size>12</size>
 </font>
-<label>Trace</label>
+<label>Log</label>
 <checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
+<object class="wxToggleButton" name="VideoTimeButton">
+<size>56,23</size>
+<tooltip>Toggle log event time</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Time</label>
+<checked>1</checked>
 </object>
 </object>
 <object class="sizeritem">
@@ -19816,7 +19933,7 @@
 <border>4</border>
 <object class="wxButton" name="VideoClearButton">
 <size>56,23</size>
-<tooltip>Clear I/O trace window</tooltip>
+<tooltip>Clear I/O log window</tooltip>
 <font>
 <size>12</size>
 </font>
@@ -19829,6 +19946,1036 @@
 <flag>wxALIGN_LEFT|wxALL</flag>
 <border>0</border>
 <object class="wxTextCtrl" name="VideoTraceWindow">
+<size>200,310</size>
+<font>
+<size>12</size>
+<face>Courier New</face>
+</font>
+<style>wxTE_MULTILINE</style>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="notebookpage">
+<label>Other</label>
+<object class="wxPanel" name="PanelOther">
+<font>
+<size>12</size>
+</font>
+<style>wxNO_BORDER|wxTAB_TRAVERSAL</style>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<object class="wxPanel" name="PanelNoOther">
+<font>
+<size>12</size>
+</font>
+<style>wxTAB_TRAVERSAL</style>
+<object class="wxStaticText" name="NoOtherText">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_RIGHT</style>
+<fg>#FB0207</fg>
+<label>Nothing configured </label>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>5</border>
+<object class="wxPanel" name="PanelOtherCt2425">
+<font>
+<size>12</size>
+</font>
+<style>wxNO_BORDER|wxTAB_TRAVERSAL</style>
+<object class="wxStaticBoxSizer" name="wxID_ANY">
+<orient>wxHORIZONTAL</orient>
+<label>CT Payphone</label>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxFlexGridSizer">
+<cols>5</cols>
+<rows>0</rows>
+<vgap>1</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="ID_STATICTEXT2">
+<font>
+<size>12</size>
+</font>
+<fg>#000000</fg>
+<label>Function </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="ID_STATICTEXT3">
+<font>
+<size>12</size>
+</font>
+<label>D </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="ID_STATICTEXT3">
+<font>
+<size>12</size>
+</font>
+<label>P </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="ID_STATICTEXT3">
+<font>
+<size>12</size>
+</font>
+<label> </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="ID_STATICTEXT1">
+<size>34,-1</size>
+<font>
+<size>12</size>
+</font>
+<label>Value </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxCheckBox" name="Ct2425GateAndLeds_11Trace">
+<label>Gates and leds</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425GateAndLeds_11Direction">
+<font>
+<size>12</size>
+</font>
+<label>O </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425GateAndLeds_11Port">
+<font>
+<size>12</size>
+</font>
+<label>1 </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425GateAndLeds_11Q">
+<font>
+<size>12</size>
+</font>
+<label> </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxTextCtrl" name="Ct2425GateAndLeds_11" subclass="HexEdit">
+<size>26,18</size>
+<font>
+<size>12</size>
+</font>
+<style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+<enabled>0</enabled>
+<maxlength>2</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxCheckBox" name="Ct2425Gates_12Trace">
+<label>Gates</label>
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425Gates_12Direction">
+<font>
+<size>12</size>
+</font>
+<label>O </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425Gates_12Port">
+<font>
+<size>12</size>
+</font>
+<label>1 </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425Gates_12Q">
+<font>
+<size>12</size>
+</font>
+<label> </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxTextCtrl" name="Ct2425Gates_12" subclass="HexEdit">
+<size>26,18</size>
+<font>
+<size>12</size>
+</font>
+<style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+<enabled>0</enabled>
+<maxlength>2</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxCheckBox" name="Ct2425Leds_13Trace">
+<label>Leds</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425Leds_13Direction">
+<font>
+<size>12</size>
+</font>
+<label>O </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425Leds_13Port">
+<font>
+<size>12</size>
+</font>
+<label>1 </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425Leds_13Q">
+<font>
+<size>12</size>
+</font>
+<label> </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxTextCtrl" name="Ct2425Leds_13" subclass="HexEdit">
+<size>26,18</size>
+<font>
+<size>12</size>
+</font>
+<style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+<enabled>0</enabled>
+<maxlength>2</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxCheckBox" name="Ct2425Validator_14Trace">
+<label>Validator</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425Validator_14Direction">
+<font>
+<size>12</size>
+</font>
+<label>O </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425Validator_14Port">
+<font>
+<size>12</size>
+</font>
+<label>1 </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425Validator_14Q">
+<font>
+<size>12</size>
+</font>
+<label> </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxTextCtrl" name="Ct2425Validator_14" subclass="HexEdit">
+<size>26,18</size>
+<font>
+<size>12</size>
+</font>
+<style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+<enabled>0</enabled>
+<maxlength>2</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxCheckBox" name="Ct2425Control_15Trace">
+<label>Control</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425Control_15Direction">
+<font>
+<size>12</size>
+</font>
+<label>O </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425Control_15Port">
+<font>
+<size>12</size>
+</font>
+<label>1 </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425Control_15Q">
+<font>
+<size>12</size>
+</font>
+<label> </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxTextCtrl" name="Ct2425Control_15" subclass="HexEdit">
+<size>26,18</size>
+<font>
+<size>12</size>
+</font>
+<style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+<enabled>0</enabled>
+<maxlength>2</maxlength>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT</flag>
+<border>2</border>
+<object class="wxFlexGridSizer">
+<cols>2</cols>
+<rows>0</rows>
+<vgap>1</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM|wxRIGHT</flag>
+<border>6</border>
+<object class="wxCheckBox" name="Ct2425Gate1_00Trace">
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+<border>1</border>
+<object class="wxStaticText" name="Ct2425Gate1_00Text">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_LEFT</style>
+<label>Gate 1 inactive </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM|wxRIGHT</flag>
+<border>6</border>
+<object class="wxCheckBox" name="Ct2425Gate2_01Trace">
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+<border>1</border>
+<object class="wxStaticText" name="Ct2425Gate2_01Text">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_LEFT</style>
+<label>Gate 2 inactive </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM|wxRIGHT</flag>
+<border>6</border>
+<object class="wxCheckBox" name="Ct2425Gate3_02Trace">
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+<border>1</border>
+<object class="wxStaticText" name="Ct2425Gate3_02Text">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_LEFT</style>
+<label>Gate 2 inactive </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM|wxRIGHT</flag>
+<border>6</border>
+<object class="wxCheckBox" name="Ct2425Gate4_03Trace">
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+<border>1</border>
+<object class="wxStaticText" name="Ct2425Gate4_03Text">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_LEFT</style>
+<label>Gate 4 inactive </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM|wxRIGHT</flag>
+<border>6</border>
+<object class="wxCheckBox" name="Ct2425Gate5_04Trace">
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+<border>1</border>
+<object class="wxStaticText" name="Ct2425Gate5_04Text">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_LEFT</style>
+<label>Gate 5 inactive </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM|wxRIGHT</flag>
+<border>6</border>
+<object class="wxCheckBox" name="Ct2425Gate6_05Trace">
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+<border>1</border>
+<object class="wxStaticText" name="Ct2425Gate6_05Text">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_LEFT</style>
+<label>Gate 6 inactive </label>
+</object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>13</border>
+<size>5,5</size>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>140,1</size>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxRIGHT</flag>
+<border>2</border>
+<object class="wxFlexGridSizer">
+<cols>5</cols>
+<rows>0</rows>
+<vgap>1</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="ID_STATICTEXT2">
+<font>
+<size>12</size>
+</font>
+<fg>#000000</fg>
+<label>Function </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="ID_STATICTEXT3">
+<font>
+<size>12</size>
+</font>
+<label>D </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="ID_STATICTEXT3">
+<font>
+<size>12</size>
+</font>
+<label>P </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="ID_STATICTEXT3">
+<font>
+<size>12</size>
+</font>
+<label> </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="ID_STATICTEXT1">
+<size>34,-1</size>
+<font>
+<size>12</size>
+</font>
+<label>Value </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxCheckBox" name="Ct2425Sensors_16Trace">
+<label>Sensors</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425Sensors_16Direction">
+<font>
+<size>12</size>
+</font>
+<label>I </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425Sensors_16Port">
+<font>
+<size>12</size>
+</font>
+<label>1 </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425Sensors_16Q">
+<font>
+<size>12</size>
+</font>
+<label> </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxTextCtrl" name="Ct2425Sensors_16" subclass="HexEdit">
+<size>26,18</size>
+<font>
+<size>12</size>
+</font>
+<style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+<enabled>0</enabled>
+<maxlength>2</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxCheckBox" name="Ct2425Coins_17Trace">
+<label>Coins</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425Coins_17Direction">
+<font>
+<size>12</size>
+</font>
+<label>I </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425Coins_17Port">
+<font>
+<size>12</size>
+</font>
+<label>1 </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425Coins_17Q">
+<font>
+<size>12</size>
+</font>
+<label> </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxTextCtrl" name="Ct2425Coins_17" subclass="HexEdit">
+<size>26,18</size>
+<font>
+<size>12</size>
+</font>
+<style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+<enabled>0</enabled>
+<maxlength>2</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxCheckBox" name="Ct2425UpperEscrow_18Trace">
+<label>Upper Escrow</label>
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425UpperEscrow_18Direction">
+<font>
+<size>12</size>
+</font>
+<label> </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425UpperEscrow_18Port">
+<font>
+<size>12</size>
+</font>
+<label> </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425UpperEscrow_18Q">
+<font>
+<size>12</size>
+</font>
+<label> </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxTextCtrl" name="Ct2425UpperEscrow_18" subclass="HexEdit">
+<size>26,18</size>
+<font>
+<size>12</size>
+</font>
+<style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+<enabled>0</enabled>
+<maxlength>2</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxCheckBox" name="Ct2425LowerEscrow_19Trace">
+<label>Lower Escrow</label>
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425LowerEscrow_19Direction">
+<font>
+<size>12</size>
+</font>
+<label> </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425LowerEscrow_19Port">
+<font>
+<size>12</size>
+</font>
+<label> </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Ct2425LowerEscrow_19Q">
+<font>
+<size>12</size>
+</font>
+<label> </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxTextCtrl" name="Ct2425LowerEscrow_19" subclass="HexEdit">
+<size>26,18</size>
+<font>
+<size>12</size>
+</font>
+<style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+<enabled>0</enabled>
+<maxlength>2</maxlength>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT</flag>
+<border>2</border>
+<object class="wxFlexGridSizer">
+<cols>2</cols>
+<rows>0</rows>
+<vgap>1</vgap>
+<hgap>0</hgap>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM|wxRIGHT</flag>
+<border>6</border>
+<object class="wxCheckBox" name="Ct2425Sensor1_06Trace">
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+<border>1</border>
+<object class="wxStaticText" name="Ct2425Sensor1_06Text">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_LEFT</style>
+<label>Sensor 1 blocked </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM|wxRIGHT</flag>
+<border>6</border>
+<object class="wxCheckBox" name="Ct2425Sensor2_07Trace">
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+<border>1</border>
+<object class="wxStaticText" name="Ct2425Sensor2_07Text">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_LEFT</style>
+<label>Sensor 2 blocked </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM|wxRIGHT</flag>
+<border>6</border>
+<object class="wxCheckBox" name="Ct2425Sensor3_08Trace">
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+<border>1</border>
+<object class="wxStaticText" name="Ct2425Sensor3_08Text">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_LEFT</style>
+<label>Sensor 3 blocked </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM|wxRIGHT</flag>
+<border>6</border>
+<object class="wxCheckBox" name="Ct2425Sensor4_09Trace">
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+<border>1</border>
+<object class="wxStaticText" name="Ct2425Sensor4_09Text">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_LEFT</style>
+<label>Sensor 4 blocked </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM|wxRIGHT</flag>
+<border>6</border>
+<object class="wxCheckBox" name="Ct2425Sensor5_10Trace">
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+<border>1</border>
+<object class="wxStaticText" name="Ct2425Sensor5_10Text">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_LEFT</style>
+<label>Sensor 5 blocked </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM|wxRIGHT</flag>
+<border>6</border>
+<object class="wxCheckBox" name="Ct2425SpmEf_11Trace">
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+<border>1</border>
+<object class="wxStaticText" name="Ct2425SpmEf_11Text">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_LEFT</style>
+<label>EFx: SPM </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM|wxRIGHT</flag>
+<border>6</border>
+<object class="wxCheckBox" name="Ct2425LastCoin_12Trace">
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+<border>1</border>
+<object class="wxStaticText" name="Ct2425LastCoin_12Text">
+<font>
+<size>12</size>
+</font>
+<style>wxALIGN_LEFT</style>
+<label>Coin: X </label>
+</object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>13</border>
+<size>5,5</size>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>140,1</size>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT</flag>
+<border>2</border>
+<object class="wxFlexGridSizer">
+<cols>2</cols>
+<rows>0</rows>
+<vgap>1</vgap>
+<hgap>0</hgap>
+<object class="spacer">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>15</border>
+<size>5,5</size>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+<border>1</border>
+<object class="wxStaticText" name="Ct2425IoGroupText">
+<font>
+<size>12</size>
+</font>
+<label>I/O group x </label>
+</object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>15</border>
+<size>5,5</size>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_TOP|wxALL</flag>
+<border>0</border>
+<object class="wxBoxSizer">
+<orient>wxVERTICAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL</flag>
+<border>5</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
+<object class="wxToggleButton" name="OtherTraceButton">
+<size>56,23</size>
+<tooltip>Toggle I/O log</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Log</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<border>4</border>
+<object class="wxToggleButton" name="OtherTimeButton">
+<size>56,23</size>
+<tooltip>Toggle log event time</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Time</label>
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxGROW</flag>
+<border>4</border>
+<object class="wxButton" name="OtherClearButton">
+<size>56,23</size>
+<tooltip>Clear I/O log window</tooltip>
+<font>
+<size>12</size>
+</font>
+<label>Clear</label>
+</object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALL</flag>
+<border>0</border>
+<object class="wxTextCtrl" name="OtherTraceWindow">
 <size>200,310</size>
 <font>
 <size>12</size>

@@ -358,7 +358,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
         
         XRCCTRL(*this, "HexSave", wxButton)->SetFocus();
  
-        wxString gameName;
+//        wxString gameName;
         if (autoGame_)
         {
             switch (computerType)
@@ -842,7 +842,7 @@ void KeyMapDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 
 void KeyMapDialog::onInButton(wxCommandEvent& WXUNUSED(event) )
 {
-    wxString buttonName, buttonNumber;
+//    wxString buttonName, buttonNumber;
 
     if (hexKey_ != -1)
     {
@@ -2278,7 +2278,7 @@ void KeyMapDialog::onArcadeBDirKey(wxCommandEvent &event)
 
 void KeyMapDialog::onArcadeCoinKey(wxCommandEvent& WXUNUSED(event))
 {
-    wxString buttonName, buttonNumber;
+//    wxString buttonName, buttonNumber;
     
     if (arcadeADirKey_ != -1)
     {

@@ -198,6 +198,9 @@ void Scn2672Config::scn2672ConfigInit()
     computerConfiguration.scn2672Configuration.picInterrupt = 0;
     computerConfiguration.scn2672Configuration.xScale = 1.7;
 
+    if (!mode_.gui)
+        return;
+
     XRCCTRL(*this, THIS_PANEL_NAME, wxPanel)->Hide();
 
     XRCCTRL(*this, "Scn2672IoGroupText", wxStaticText)->SetLabel("");
@@ -284,7 +287,7 @@ void Scn2672Config::parseXml_Scn2672Video(wxXmlNode &node)
 
     int tagTypeInt;
     int red, green, blue, xpos, ypos;
-    wxString color, position, iogroup, label, labelDetails;
+    wxString color, position, iogroup;
     size_t ioGroupNumber = 0;
 
     wxXmlNode *child = node.GetChildren();
@@ -349,7 +352,8 @@ void Scn2672Config::parseXml_Scn2672Video(wxXmlNode &node)
 
             case TAG_INTERLACE:
                 computerConfiguration.interlace_ = true;
-                XRCCTRL(*this, "Scn2672InterlaceText", wxStaticText)->SetLabel("Interlace: forced");
+                if (mode_.gui)
+                    XRCCTRL(*this, "Scn2672InterlaceText", wxStaticText)->SetLabel("Interlace: forced");
             break;
                 
             case TAG_IOGROUP:
@@ -359,7 +363,8 @@ void Scn2672Config::parseXml_Scn2672Video(wxXmlNode &node)
                     computerConfiguration.scn2672Configuration.ioGroupVector.resize(ioGroupNumber+1);
                     computerConfiguration.scn2672Configuration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
                 }
-                XRCCTRL(*this,"Scn2672IoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.scn2672Configuration.ioGroupVector));
+                if (mode_.gui)
+                    XRCCTRL(*this,"Scn2672IoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.scn2672Configuration.ioGroupVector));
             break;
 
             case TAG_ZOOM:
@@ -467,8 +472,6 @@ void Scn2672Config::parseXml_Scn2672Video(wxXmlNode &node)
 
 void Scn2672Config::updateScn2672Panel()
 {
-    wxString buffer;
-
     if (computerConfiguration.scn2672Configuration.defined)
     {
         for (size_t registerNumber = SCN2672_INITIALIZATION_REGISTER; registerNumber<SCN2672_NUMBER_OF_REGISTERS; registerNumber++)
@@ -505,7 +508,7 @@ int Scn2672Config::readScn2672Register(int registerNumber, Byte WXUNUSED(value),
 
     if (XRCCTRL(*this,registerIdScn2672[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceTextRead(registerFunctionScn2672[registerNumber], scn2672ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceTextRead(registerFunctionScn2672[registerNumber], scn2672ConfigRegisterValueString[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -521,7 +524,7 @@ int Scn2672Config::readScn2672RegisterSetData(int registerNumber, Byte value, in
 
     if (XRCCTRL(*this,registerIdScn2672[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceTextRead(registerFunctionScn2672[registerNumber], scn2672ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceTextRead(registerFunctionScn2672[registerNumber], scn2672ConfigRegisterValueString[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -529,14 +532,14 @@ int Scn2672Config::readScn2672RegisterSetData(int registerNumber, Byte value, in
     return showTrace;
 }
 
-int Scn2672Config::setScn2672Register(int registerNumber, Word value, int showTrace)
+int Scn2672Config::setScn2672Register(int registerNumber, int showTrace)
 {
     lastScn2672ConfigRegisterValueString[registerNumber] = "";
     if (!videoTrace_ || !mode_.gui)  return showTrace;
 
     if (XRCCTRL(*this,registerIdScn2672[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionScn2672[registerNumber], scn2672ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionScn2672[registerNumber], scn2672ConfigRegisterValueString[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -547,188 +550,41 @@ int Scn2672Config::setScn2672Register(int registerNumber, Word value, int showTr
 int Scn2672Config::setScn2672RegisterWord(int registerNumber, Word value, int showTrace)
 {
     scn2672ConfigRegisterValueString[registerNumber].Printf("%04X", value);
-    return setScn2672Register(registerNumber, value, showTrace);
+    return setScn2672Register(registerNumber, showTrace);
 }
 
 int Scn2672Config::setScn2672Register12Bit(int registerNumber, Word value, int showTrace)
 {
     scn2672ConfigRegisterValueString[registerNumber].Printf("%03X", value);
-    return setScn2672Register(registerNumber, value, showTrace);
+    return setScn2672Register(registerNumber, showTrace);
 }
 
 int Scn2672Config::setScn2672RegisterByte(int registerNumber, Byte value, int showTrace)
 {
     scn2672ConfigRegisterValueString[registerNumber].Printf("%02X", value);
-    return setScn2672Register(registerNumber, value, showTrace);
+    return setScn2672Register(registerNumber, showTrace);
 }
 
 int Scn2672Config::setScn2672RegisterNibble(int registerNumber, Byte value, int showTrace)
 {
     scn2672ConfigRegisterValueString[registerNumber].Printf("%01X", value);
-    return setScn2672Register(registerNumber, value, showTrace);
+    return setScn2672Register(registerNumber, showTrace);
 }
 
 bool Scn2672Config::isScn2672TraceChecked(int registerNumber)
 {
+    if (!mode_.gui)
+        return false;
+    
     return XRCCTRL(*this, registerIdScn2672[registerNumber]+"Trace", wxCheckBox)->IsChecked();
 }
-/*
-void Scn2672Config::Scn2672InitReg(wxCommandEvent& WXUNUSED(event))
-{
-    if (!computerRunning_)
-    {
-        showNotRunning();
-        return;
-    }
-
-    long value = get8BitValue("Scn2672InitReg") & 0xf;
-    if (value == -1)  return;
-
-    scn2672Pointer->writeInitializationRegisterScn2672(value, DO_NOT_SHOW_ADDRESS_TRACE);
-}
-
-void Scn2672Config::Scn2672Command(wxCommandEvent& WXUNUSED(event))
-{
-    if (!computerRunning_)
-    {
-        showNotRunning();
-        return;
-    }
-
-    long value = get8BitValue("Scn2672Command");
-    if (value == -1)  return;
-
-    scn2672Pointer->writeCommandScn2672(value, DO_NOT_SHOW_ADDRESS_TRACE);
-}
-
-void Scn2672Config::Scn2672ScreenStart(wxCommandEvent& WXUNUSED(event))
-{
-    if (!computerRunning_)
-    {
-        showNotRunning();
-        return;
-    }
-
-    long value = get16BitValue("Scn2672ScreenStart");
-    if (value == -1)  return;
-
-    scn2672Pointer->writeScreenStartScn2672(value, DO_NOT_SHOW_ADDRESS_TRACE);
-}
-
-void Scn2672Config::Scn2672Cursor(wxCommandEvent& WXUNUSED(event))
-{
-    if (!computerRunning_)
-    {
-        showNotRunning();
-        return;
-    }
-
-    long value = get16BitValue("Scn2672Cursor");
-    if (value == -1)  return;
-
-    scn2672Pointer->writeCursorScn2672(value, DO_NOT_SHOW_ADDRESS_TRACE);
-}
-
-void Scn2672Config::Scn2672Pointer(wxCommandEvent& WXUNUSED(event))
-{
-    if (!computerRunning_)
-    {
-        showNotRunning();
-        return;
-    }
-
-    long value = get16BitValue("Scn2672Pointer");
-    if (value == -1)  return;
-
-    scn2672Pointer->writePointerScn2672(value, DO_NOT_SHOW_ADDRESS_TRACE);
-}
-
-void Scn2672Config::Scn2672Data(wxCommandEvent& WXUNUSED(event))
-{
-    if (!computerRunning_)
-    {
-        showNotRunning();
-        return;
-    }
-
-    long value = get8BitValue("Scn2672Data");
-    if (value == -1)  return;
-
-    scn2672Pointer->writeDataScn2672(value, DO_NOT_SHOW_ADDRESS_TRACE);
-}
-
-void Scn2672Config::Scn2672Scanlines(wxCommandEvent& WXUNUSED(event))
-{
-    if (!computerRunning_)
-    {
-        showNotRunning();
-        return;
-    }
-
-    long value = get8BitValue("Scn2672Scanlines");
-    if (value == -1)  return;
-
-    scn2672Pointer->writeScanlinesScn2672(value, DO_NOT_SHOW_ADDRESS_TRACE);
-}
-
-void Scn2672Config::Scn2672CharWidth(wxCommandEvent& WXUNUSED(event))
-{
-    if (!computerRunning_)
-    {
-        showNotRunning();
-        return;
-    }
-
-    long value = get8BitValue("Scn2672CharWidth");
-    if (value == -1)  return;
-
-    scn2672Pointer->writeCharWidthScn2672(value, DO_NOT_SHOW_ADDRESS_TRACE);
-}
-
-void Scn2672Config::Scn2672ScreenRows(wxCommandEvent& WXUNUSED(event))
-{
-    if (!computerRunning_)
-    {
-        showNotRunning();
-        return;
-    }
-
-    long value = get8BitValue("Scn2672ScreenRows");
-    if (value == -1)  return;
-
-    scn2672Pointer->writeScreenRowsScn2672(value, DO_NOT_SHOW_ADDRESS_TRACE);
-}
-
-void Scn2672Config::Scn2672CharPerRow(wxCommandEvent& WXUNUSED(event))
-{
-    if (!computerRunning_)
-    {
-        showNotRunning();
-        return;
-    }
-
-    long value = get8BitValue("Scn2672CharPerRow");
-    if (value == -1)  return;
-
-    scn2672Pointer->writeCharPerRowScn2672(value, DO_NOT_SHOW_ADDRESS_TRACE);
-}*/
 
 void Scn2672Config::Scn2672Register(wxCommandEvent&event)
 {
-    if (!computerRunning_)
-    {
-        showNotRunning();
-        return;
-    }
+    long number = getButtonNumber(wxWindow::FindWindowById(event.GetId())->GetName());
+    if (number == -1)  return;
 
-    wxString idReference = wxWindow::FindWindowById(event.GetId())->GetName();
-    wxString buttonNumber = idReference.Right(2);
-    
-    long number;
-    if (!buttonNumber.ToLong(&number, 10))
-        return;
-
-    long value = get16BitValue(registerIdScn2672[number]);
+    long value = getVideoRegisterValue(registerIdScn2672[number]);
     if (value == -1)  return;
 
     scn2672Pointer->writeRegisterScn2672(number, value, DO_NOT_SHOW_ADDRESS_TRACE);
@@ -743,7 +599,7 @@ int Scn2672Config::setScn2672SelectorValue(int selectorNumber, int selectorValue
 
     if (XRCCTRL(*this,selectorIdScn2672[selectorNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(selectorFunctionScn2672[selectorNumber][scn2672ConfigSelector[selectorNumber]], showTrace);
+        showVideoTraceText(selectorFunctionScn2672[selectorNumber][scn2672ConfigSelector[selectorNumber]], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;

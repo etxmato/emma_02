@@ -1,33 +1,52 @@
 
 <html>
-<Title>Key File</Title>
+<title>Key File</title>
 <body>
+
 <h1>Key File</h1>
 <p>
-With the Key File function it is possible to specify a set of keys (or text) to be typed into the emulated computer automatically as defined in the file. Note that the Key File needs to be specified before start of the emulated computer or before performing a 'Reset'. On startup or reset the specified key file will be read by Emma 02 and every character in the file will be send to the emulated computer as a key press. A key file should be a regular text file.
+The Key File function lets you specify a set of keys (or text) to be typed into the emulated computer automatically as defined in the file. The Key File must be specified before starting the emulated computer or before performing a <strong>Reset</strong>.
 </p>
+
 <p>
-<IMG SRC="images/key_file.png" border="0" width="443" height ="376">
+<strong>Note:</strong> On start-up or reset the specified key file will be read by Emma 02 and every character in the file will be sent to the emulated computer as a key press. A key file must be a regular text file.
 </p>
+
 <p>
-To browse for a key file use the the 'Key File' button (highlighted in blue) or type in a file name in the text field (highlighted in orange). To eject the key file use the eject button (highlighted in yellow) or remove the filename in the text field.
+<img src="images/key_file.png" border="0" width="724" height="609">
 </p>
+
+<ul>
+<li>(1) <strong>Key File</strong> button</li>
+<li>(2) <strong>File name</strong> text field</li>
+<li>(3) <strong>Eject</strong> button</li>
+</ul>
+
+<p>
+To browse for a key file use the <strong>Key File</strong> button (1) or type a file name in the text field (2). To eject the key file use the eject button (3) or remove the filename from the text field.
+</p>
+
 <h2>COMX</h2>
 <p>
-Specify one extra 'empty line' at the start of the COMX key file to allow the COMX to start basic (see also keyfile example in Comx directory).
+<strong>Note:</strong> Specify one extra empty line at the start of the COMX key file to allow the COMX to start BASIC (see the key file example in the <tt>Comx</tt> directory).
 </p>
+
 <p>
-As only capital characters are used in COMX Basic, the Key File function for the COMX will translate all capital characters in the file as a 'non shift' key press. I.e. capital 'A' in the file will also result in an 'A' on the COMX. To get the shift A character typed on the COMX you need to specify 'a' in the file.
+As only capital characters are used in COMX BASIC, the Key File function for the COMX will translate all capital characters in the file as a non-shift key press. I.e., capital <tt>A</tt> in the file will also result in an <tt>A</tt> on the COMX. To get the shift <tt>A</tt> character typed on the COMX you need to specify <tt>a</tt> in the file.
 </p>
+
 <p>
-Included are some 'BASIC' key file examples, one very simple (Comx Key File Example), 'Recall Basic' which when used as key file will recover the basic program after a reset (you need to include 0 REM as first line) and 'Trainspotting' which is the listing of that game which can be used to 're-type' the complete game.
+Included are some BASIC key file examples: one very simple (<strong>COMX Key File Example</strong>), <strong>Recall BASIC</strong>, which when used as key file will recover the BASIC program after a reset (you need to include <tt>0 REM</tt> as first line), and <strong>Trainspotting</strong>, which is the listing of that game and can be used to re-type the complete game.
 </p>
+
 <h2>TMC-600</h2>
 <p>
-Specify one extra 'C' at the start of the TMC-600 key file to allow the TMC-600 to start basic.
+<strong>Note:</strong> Specify one extra <tt>C</tt> at the start of the TMC-600 key file to allow the TMC-600 to start BASIC.
 </p>
+
 <p>
-If the key file uses both capital and lower case characters press the Caps Lock at start-up to allow input of lower case characters.
+<strong>Important:</strong> If the key file uses both capital and lower case characters press <tt>Caps Lock</tt> at start-up to allow input of lower case characters.
 </p>
+
 </body>
 </html>

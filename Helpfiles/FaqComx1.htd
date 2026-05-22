@@ -1,23 +1,33 @@
-<HTML>
-<Title>Faq COMX 1</Title>
-<BODY>
-<h1>How do I run a game or program on the COMX emulator?</h1>
+<html>
+<title>How do I run a program on the COMX-35?</title>
+<body>
+<h1>How do I run a program on the COMX-35?</h1>
+
 <p>
-The easiest way to run your favourite game or program on the COMX emulator is to load and run a '.comx' file by using the memory RUN feature (see steps below). All available SW is stored in the Comx directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>) at installation.
+The easiest way to run your favourite game or program on the COMX emulator is to load and run a <tt>.comx</tt> file using the memory RUN feature (see steps below). At installation, all available software is stored in the Comx directory (located in the application data directory). See the <a href="MainFile.htm">Directory and File Structure</a> section.
 </p>
+
 <p>
-<IMG SRC="images/faq_comx_run.png" border="0" width="443" height ="376">
+The example below shows the controls needed to run a program on the COMX-35.
 </p>
+
 <p>
-<OL>
-<li>Start the Emma 02 emulator and make sure the COMX-35 (highlighted in yellow) is selected
-<li>Press 'Start' (highlighted in orange)
-<li>Press the 'RUN' button (highlighted in blue)
-<li>Select the '.comx' file for the game or program that you want to run and 'double click' it or press 'Open'
-</OL>
+<img src="images/faq_comx_run.png" border="0" width="724" height="609">
 </p>
+
+<ul>
+<li>(1) <strong>Computer</strong> selector</li>
+<li>(2) <strong>Start</strong> button</li>
+<li>(3) <strong>RUN</strong> button</li>
+</ul>
+
 <p>
-Software can also be loaded from disk images or wav files, see help sections on <a href="ComputerDisk.htm">Disk Support</a> and <a href="ComputerCassette.htm">Cassette Support</a>.
+Select <strong>COMX-35</strong> in the computer selector (1) if not already selected. Press <strong>Start</strong> (2) to start the emulator. Then press <strong>RUN</strong> (3) and in the Load window that opens, select and open the desired <tt>.comx</tt> file.
 </p>
-</BODY>
-</HTML>
+
+<p>
+Software can also be loaded from disk images or WAV files. See the <a href="ComputerDisk.htm">Disk Support</a> and <a href="ComputerCassette.htm">Cassette Support</a> sections.
+</p>
+
+</body>
+</html>

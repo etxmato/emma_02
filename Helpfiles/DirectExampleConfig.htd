@@ -1,86 +1,136 @@
 <html>
 <title>Program Configuration - Example</title>
 <body>
+
+
 <h1>Program Configuration - Example</h1>
+
 <p>
-This section gives a simple example on how to use the 'program configuration' in the Direct Assembler. It will also show the basics for the insert and delete functions. For all details please see section <a href="DirectMain.htm">Direct Assembler</a>.
+This section gives a simple example of how to use the program configuration in the <strong>Direct Assembler</strong>. It will also show the basics for the insert and delete functions. See the <a href="DirectMain.htm">Direct Assembler</a> section.
 </p>
+
+
+<h2>Getting started</h2>
+
 <p>
 To get started:
 </p>
+<ul>
+<li>Start an emulator of your choice.</li>
+<li>Decide what your code start and end address will be. As an example, start at 0 and end at 0FFF (hexadecimal).</li>
+<li>Fill in the start and end text fields, as well as a file name, e.g., <tt>test.bin</tt>. You should have something like the screenshot shown below.</li>
+</ul>
+
 <p>
-<UL>
-<LI>Start a computer of your choice
-<LI>Decide what your code start and end address will be, let's take an example start at 0000 and end at 1000 (Numbers are all in hexadecimal). Note that the end address can be changed at anytime.
-<LI>Fill in the start and end fields, as well as a file name, e.g. test.bin. So you have something like:
+<img src="images/assembler_conf_ex.png" border="0" width="724" height="609">
+</p>
+
 <p>
-<IMG SRC="images/assembler_conf_ex.png" BORDER="0">
+Now press the red <strong><font color="#A8342D">Store</font></strong> button.
 </p>
-<LI>Now press the red '<FONT COLOR="RED">Store</FONT>' button (note on Windows and Linux this button will have red text)
-</UL>
-</p>
+
 <p>
 Your configuration is ready!
 </p>
+
 <p>
-Write some code, for example a short counter going down from 10 to 0:
+<strong>Note:</strong> On Windows and Linux the <strong><font color="#A8342D">Store</font></strong> button will have red text.
 </p>
+
+
+<h2>Insert and Delete</h2>
+
 <p>
-<IMG SRC="images/assembler_conf_ex_code1.png" BORDER="0">
+Write some code, for example a short counter going down from 10 (hexadecimal) to 0:
 </p>
+
 <p>
-After writing this counter you realise you need to make the counter large, i.e. > FF, say 110.
+<img src="images/assembler_conf_ex_code1.png" border="0" width="724" height="609">
 </p>
+
 <p>
-<IMG SRC="images/assembler_conf_ex_insert.png" BORDER="0">
+After writing this counter, you realise you need to make the counter larger, i.e., greater than FF (hexadecimal), say 110 (hexadecimal).
 </p>
+
 <p>
-To do this go to address 0 and press 'insert' (highlighted in yellow) 3 times. When doing that also look at what happens to the BNZ <FONT COLOR="#fc5900">03</FONT> code. It will change on every 'insert'!
+<img src="images/assembler_conf_ex_code2.png" border="0" width="724" height="609">
 </p>
+<ul>
+<li>(1) <strong>Insert</strong> button</li>
+</ul>
+
 <p>
-<IMG SRC="images/assembler_conf_ex_code2.png" BORDER="0">
+To do this, go to address 0 and press the <strong>Insert</strong> button (1) three times. When doing that, also look at what happens to the BNZ <font color="#fc5900">03</font> code. It will change on every insert!
 </p>
+
 <p>
-After the 3 inserts you have room to add: LDI 02 / PHI RA on address 0000 and 0002. Also add a check on RA.1 in the end and you get:
+After the three inserts, you have room to add: LDI 02 / PHI RA on address 0000 (hexadecimal) and 0002 (hexadecimal). Also add a check on RA.1 at the end to get:
 </p>
+
 <p>
-<IMG SRC="images/assembler_conf_ex_code3.png" BORDER="0">
+<img src="images/assembler_conf_ex_code3.png" border="0" width="724" height="609">
 </p>
+
 <p>
-Delete works the same where it deletes the current instruction and changes all branches.
+<strong>Delete</strong> works the same way: it deletes the current instruction and updates all branches accordingly.
 </p>
+
 <p>
-The reason to define program boundaries is so that the assembler 'knows' which parts of memory to check for branches. In the above address 0000 to 1000 will be checked.
+The reason to define program boundaries is so that the assembler knows which parts of memory to check for branches. In the above example, addresses 0000 (hexadecimal) to 1000 (hexadecimal) will be checked.
 </p>
+
+
+<h2>Branch conversion</h2>
+
 <p>
-Another nice feature of the insert/delete functions is that all short branches are converted to long branches if needed and if possible. Also long branches that can be converted to short branches will be changed.
+Another useful feature of the insert and delete functions is that all short branches are converted to long branches if needed and if possible. Also, the assembler will convert long branches to short branches where possible.
 </p>
+
 <p>
-To have a look how this works write something like:
+To see how this works, write something like:
 </p>
+
 <p>
-<IMG SRC="images/assembler_conf_ex_code4.png" BORDER="0">
+<img src="images/assembler_conf_ex_code4.png" border="0" width="724" height="609">
 </p>
+
 <p>
-Do an insert on address 00FDh, the BR <FONT COLOR="#fc5900">FF</FONT> will change to a LBR <FONT COLOR="#fc5900">0101</FONT>. 
+Insert at address 00FD (hexadecimal); the BR <font color="#fc5900">FF</font> will change to an LBR <font color="#fc5900">0101</font>.
 </p>
+
 <p>
-The direct assembler has inserted a NOP on 00FD but also added an extra byte to fit the LBR instead of the BR. 
+The <strong>Direct Assembler</strong> inserts a NOP at 00FD (hexadecimal) and also expands the BR to an LBR, adding an extra byte.
 </p>
+
 <p>
-<IMG SRC="images/assembler_conf_ex_code5.png" BORDER="0">
+<img src="images/assembler_conf_ex_code5.png" border="0" width="724" height="609">
 </p>
+
 <p>
-The same will happen with a 'delete' if no LBR is needed anymore it will be replaced by a BR. Note in the example above deleting the NOP on 00FE will not change to a BR. The LBR will still be to 0100 which means a BR doesn't fit so an extra delete for example on 00F5 would do the trick and change the LBR to a BR.
+The same will happen with <strong>Delete</strong>: if an LBR is no longer needed, it will be replaced by a BR.
 </p>
+
 <p>
-<IMG SRC="images/assembler_conf_ex_code6.png" BORDER="0">
+<strong>Note:</strong> In the example above, deleting the NOP on 00FE (hexadecimal) will not cause the LBR to change to a BR. The LBR will still be to 0100 (hexadecimal), which means a BR does not fit. An extra delete, for example on 00F5 (hexadecimal), would change the LBR to a BR.
 </p>
+
 <p>
-To save all 'debug' data, make sure to use the 'Save' button on the direct assembler tab. This will save the test.bin, test.debug and the configuration files. The '.debug' file includes info where branches and code are located. The configuration '.config' file includes info about the specified configuration. The whole configuration can be loaded back with a 'Load'. See section <a href="DirectConfiguration.htm">Program Configuration</a> for more details.
+<img src="images/assembler_conf_ex_code6.png" border="0" width="724" height="609">
 </p>
+
+
+<h2>Saving</h2>
+
 <p>
-If you start a COMX with the SB active, it is possible to load all SB FW configuration and debug data by pressing the 'SB' button. The SB configuration has a complex structure, consisting of 15 parts to handle the different ROM locations as well as different banks.
+Use the <strong>Save</strong> button on the <strong>Direct Assembler</strong> tab to save all debug data. This will save <tt>test.bin</tt>, <tt>test.debug</tt>, and the configuration files. The <tt>.debug</tt> file includes information about where branches and code are located. The <tt>.config</tt> file includes information about the specified configuration.
+</p>
+
+<p>
+The whole configuration can be loaded back with <strong>Load</strong>. See the <a href="DirectConfiguration.htm">Program Configuration</a> section.
+</p>
+
+<p>
+To load all SB FW configuration and debug data, press the <strong>SB</strong> button when starting a COMX with the SB active. The SB configuration has a complex structure, consisting of fifteen parts to handle the different ROM locations as well as different banks.
 </p>
 </body>
 </html>

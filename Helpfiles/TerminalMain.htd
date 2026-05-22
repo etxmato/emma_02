@@ -1,25 +1,35 @@
 <html>
 <title>Video Terminal Simulation</title>
 <body>
+
+
 <h1>Video Terminal Simulation</h1>
+
 <p>
-3 video terminal options are available:
+Four video terminal options are available:
 </p>
-<p>
 <ul>
-<li><a href="https://vt100.net/dec/ek-vt5x-op-001.pdf">VT52</a>: for a DEC VT52 video terminal simulation
-<li><a href="https://vt100.net/docs/vt100-ug/">VT100</a>: for a DEC VT100 video terminal simulation
-<li>External: for using an external windows or linux software terminal
+<li><a href="https://vt100.net/dec/ek-vt5x-op-001.pdf">VT52</a>: DEC VT52 video terminal simulation</li>
+<li><a href="https://vt100.net/docs/vt100-ug/">VT100</a>: DEC VT100 video terminal simulation</li>
+<li>External: use an external Windows or Linux software terminal</li>
+<li>Loop: loopback option for use with emulation of video terminals such as VIS1801, VP3000, VP4801 or VT1802</li>
 </ul>
-</p>
+
 <p>
-Note the DEC terminals are simulators, i.e. all functionality is simulated and NOT running the original terminal software. Both terminals support all ESC sequences and full functionality (except for self test features and keyboard LEDs), however as I don't have software supporting everything and also don't have an actual terminal not all functionality has been tested. 
+<strong>Note:</strong> The DEC terminals are simulators - the original terminal software is not used. Both terminals support ESC sequences and full functionality, except for self-test features and keyboard LEDs.
 </p>
-<h2>Table of contents</h2>
+
 <p>
-<a href="TerminalSetup.htm">Terminal Setup</a><br>
-<a href="TerminalVT100.htm">VT100 Setup & Key Mapping</a><br>
-<a href="TerminalExternal.htm">External Terminal Software</a><br>
+<strong>Note:</strong> Not all functionality has been tested, as no software exercises all features and no original hardware is available for verification.
 </p>
+
+
+<h2>Table of Contents</h2>
+
+<ul>
+<li><a href="TerminalSetup.htm">Terminal Setup</a></li>
+<li><a href="TerminalVT100.htm">VT100 Setup &amp; Key Mapping</a></li>
+<li><a href="TerminalExternal.htm">External Terminal Software</a></li>
+</ul>
 </body>
 </html>

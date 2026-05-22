@@ -1,30 +1,95 @@
 
 <html>
-<title>COMX Memory Map</title>
+<title>Extended Memory Map</title>
 <body>
-<h1>COMX Memory Map</h1>
-<h1>Slot</h1>
+
+
+<h1>Extended Memory Map</h1>
+
+
+<h2>COMX Slot</h2>
+
 <p>
-To change the COMX expansion slot from the memory dump tab use the 'Slot' field (values 1 to 4, see lowest highlighted in yellow). Expansion ROMs are connected from address C000 to DFFF and when shown the address will have the same colour as the 'Slot' text.
+The <strong>Memory Dump</strong> tab with the <strong>COMX Slot</strong> interface is shown below:
 </p>
+
 <p>
-<IMG SRC="images/dump_slot.png" BORDER="0">
+<img src="images/dump_slot.png" border="0" width="724" height="609">
 </p>
-<h1>RAM Bank</h1>
-<p> 
-When a slot with the 32K RAM card is selected it is possible to select any of the 8K RAM banks in the 'RAM Bank' field (values 0 to 3, see lowest highlighted in orange). The RAM banks are connected from address C000 to DFFF and when shown the memory values will have the same colour as the 'Bank' text
-</p>
+<ul>
+<li>(1) <strong>Slot</strong> text field</li>
+<li>(2) <strong>Address range</strong></li>
+</ul>
+
 <p>
-<IMG SRC="images/dump_bank.png" BORDER="0">
+To change the COMX expansion slot, use the <strong>Slot</strong> text field (1) - values 0 to 3. Expansion ROMs are connected from address C000 to DFFF and, when shown, the address range (2) will have the same colour as the <strong>Slot</strong> text field (1).
 </p>
-<h1>Eprom Bank</h1>
-<p> 
-When a slot with the F&M EPROM Switchboard or COMX SuperBoard is selected it is possible to select any of the 8K EPROM banks in the 'Eprom Bank' field (values 0 to 4 for the EPROM board and 0 to F for the SuperBoard, see the lowest highlighted in blue). 
-</p>
+
+
+<h2>COMX Bank</h2>
+
 <p>
-<IMG SRC="images/dump_eprom.png" BORDER="0">
+The <strong>Memory Dump</strong> tab with the <strong>COMX Bank</strong> interface is shown below:
 </p>
+
 <p>
+<img src="images/dump_bank.png" border="0" width="724" height="609">
+</p>
+<ul>
+<li>(1) <strong>Bank</strong> text field</li>
+<li>(2) <strong>Data values</strong></li>
+</ul>
+
+<p>
+When a slot with a memory expansion card is selected, select a bank using the <strong>Bank</strong> text field (1). The bank values depend on the card type: 0 to 3 for the 32K RAM card, 0 to 4 for the F&amp;M EPROM Switchboard, and 0 to F (hexadecimal) for the COMX SuperBoard. The banks are connected from address C000 to DFFF and, when shown, the data values (2) will have the same colour as the <strong>Bank</strong> text field (1).
+</p>
+
+
+<h2>EMS Map</h2>
+
+<p>
+The <strong>Memory Dump</strong> tab with the <strong>EMS Map</strong> interface is shown below:
+</p>
+
+<p>
+<img src="images/dump_ems.png" border="0" width="724" height="609">
+</p>
+<ul>
+<li>(1) <strong>EMS number</strong> text field</li>
+<li>(2) <strong>EMS Map</strong> text field</li>
+<li>(3) <strong>Address range</strong></li>
+</ul>
+
+<p>
+If multiple EMS mappers are defined, the <strong>EMS number</strong> text field (1) can be used to switch between them. Most systems will only use one EMS mapper; in that case the <strong>EMS number</strong> is 0.
+</p>
+
+<p>
+To change the EMS page, use the <strong>EMS Map</strong> text field (2) - selectable values depend on the defined EMS configuration, maximum FF (hexadecimal). The EMS address range and location also depend on the EMS configuration and, when shown, the address range (3) will have the same colour as the <strong>EMS Map</strong> text fields (1) and (2).
+</p>
+
+
+<h2>Memory Pager</h2>
+
+<p>
+The <strong>Memory Dump</strong> tab with the <strong>Memory Pager</strong> interface is shown below:
+</p>
+
+<p>
+<img src="images/dump_pager.png" border="0" width="724" height="609">
+</p>
+<ul>
+<li>(1) <strong>Pager switchable page</strong> text field</li>
+<li>(2) <strong>Pager selection</strong> text field</li>
+<li>(3) <strong>Address range</strong></li>
+</ul>
+
+<p>
+To change a Memory Pager, use the <strong>Pager</strong> fields (1) and (2). The first field (1) selects the switchable page (the values and size depend on the pager configuration) and the second field (2) selects the pager (values 0 to FF (hexadecimal)). The Memory Pager range and location depend on the configuration.
+</p>
+
+<p>
+The address range (3) of the selected switchable pager page will have the same colour as the <strong>Pager</strong> text fields (1) and (2).
 </p>
 </body>
 </html>

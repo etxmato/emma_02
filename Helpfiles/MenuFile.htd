@@ -1,75 +1,133 @@
+
 <html>
 <title>File</title>
 <body>
+
 <h1>File</h1>
+
 <p>
-<IMG SRC="images/menu_file.png" border="0" width="277" height ="104">
+<img src="images/menu_file.png" border="0" width="247" height="128">
 </p>
+
+
 <h2>Configuration</h2>
+
 <p>
-<IMG SRC="images/menu_configuration.png" border="0" width="437" height ="104">
+<img src="images/menu_configuration.png" border="0" width="409" height="128">
 </p>
+
+
 <h3>Save All on Exit</h3>
+
 <p>
-If selected all global and computer emulator specific settings will be saved on exit of Emma 02.
+If selected, all global and computer emulator specific settings will be saved when exiting Emma 02.
 </p>
+
+
 <h3>Set Default (All)</h3>
 <p>
-Reset all computer emulator specific settings, 'Wav file and Real Cassette Settings' and 'Function and Hot Keys' back to Emma 02 defaults. Note remaining global settings like, SB Player name, location, email address and aliases will not be reset. 
+Resets all computer emulator specific settings, <strong>Wav File and Real Cassette Settings</strong>, and <strong>Function and Hot Keys</strong> to the Emma 02 defaults.
 </p>
+
+<p>
+<strong>Note:</strong> Remaining global settings, such as SB Player name, location, email address, and aliases, will not be reset.
+</p>
+
 <h3>XML ROM/RAM</h3>
+
 <p>
-Default this option is set to 'Latest from GUI', meaning the ROM and RAM configuration is loaded from the XML file including changes that are done in the GUI. The second option 'Always from XML' is to force the ROM and RAM configuration to be loaded from the XML file and ignoring any GUI changes. This is mainly used when developing XML files to test changed ROM or RAM configuration.
+By default, this option is set to <strong>Latest from GUI</strong>, meaning the ROM and RAM configuration is loaded from the XML file, including changes made in the GUI. The second option, <strong>Always from XML</strong>, forces the ROM and RAM configuration to be loaded from the XML file, ignoring any GUI changes. This is mainly used when developing XML files to test modified ROM or RAM configurations.
 </p>
+
+
 <h2>Re-install</h2>
+
 <p>
-<IMG SRC="images/menu_reinstall.png" border="0" width="420" height ="104">
+<img src="images/menu_reinstall.png" border="0" width="395" height="128">
 </p>
+
+
 <h3>1802 SW Files</h3>
 <p>
-This will re-install the default 1802 SW files as stored in the Emma 02 data directory. This might be needed to install updated 1802 SW files from the latest Emma 02 release or if current installed files are corrupt.
+This will re-install the default 1802 SW files as stored in the Emma 02 data directory. This may be needed to install updated 1802 SW files from a newer Emma 02 release or if the currently installed files are corrupt.
 </p>
+
 <p>
-When installing a new version of Emma 02 the data directory will NOT be re-installed automatically to avoid overwriting changes made by users. 
+When installing a new version of Emma 02, the data directory will NOT be re-installed automatically to avoid overwriting user changes.
 </p>
+
+
 <h3>XML Files</h3>
 <p>
-This will re-install the default XML files as stored in the Emma 02 XML data directory. This might be needed to install updated XML files from the latest Emma 02 release or if current installed files are corrupt.
+This will re-install the default XML files as stored in the Emma 02 XML data directory. This may be needed to install updated XML files from a newer Emma 02 release or if the current installed files are corrupt.
 </p>
+
 <p>
-When installing a new version of Emma 02 the XML data directory will NOT be re-installed automatically to avoid overwriting changes made by users. 
+When installing a new version of Emma 02, the XML data directory will NOT be re-installed automatically to avoid overwriting user changes.
 </p>
+
+
 <h2>Change Data Directory</h2>
+
 <p>
-<IMG SRC="images/menu_change_data_dir.png" border="0" width="276" height ="104">
+The Change Data Directory option is shown below:
 </p>
+
 <p>
-This will allow you to change the location of the data directory. 
+<img src="images/menu_change_data_dir.png" border="0" width="247" height="128">
 </p>
+
 <p>
-The location for the data directory is default set to:
-<UL>
-<LI>Windows Vista and later: C:\\Users\\<I>username</I>\\AppData\\Roaming\\Emma 02
-<LI>XP: C:\\Documents and Settings\\<I>username</I>\\Application Data\\Emma 02
-<LI>Mac OSX: ~/Emma 02
-<LI>Linux: ~/emma_02_data
-</UL>
+This option allows you to change the location of the data directory.
+</p>
+
 <p>
-Note that when an older versions of Emma 02 was used previously the default data directory might be set to:
+The default data directory location is:
 </p>
-<UL>
-<LI>Mac OSX: ~/Documents/emma_02
-<LI>Linux: ~/Documents/emma_02
-</UL>
-</p>
+<ul>
+<li>Windows Vista and later: C:\Users\<em>username</em>\AppData\Roaming\Emma 02</li>
+<li>Windows XP: C:\Documents and Settings\<em>username</em>\Application Data\Emma 02</li>
+<li>macOS: ~/Emma 02</li>
+<li>Linux: ~/emma_02_data</li>
+</ul>
+
 <p>
-A small window will open where with the 'browse' button (highlighted in yellow) a new location can be selected. After this 2 options are available: either to only save the new location ('Save' button, highlightedin orange) or save and move the existing data directory and files to the new location ('Move & Save' button, highlighted in blue). If the save only option is used the data folder should be moved manually. When moving the folder to another disk the process could take a few minutes (depending on the disk speed). In all cases all settings will be set to default as in the 'Set Default (All)' menu action.
+If an older version of Emma 02 was used previously, the data directory may be located in:
 </p>
+<ul>
+<li>macOS: ~/Documents/emma_02</li>
+<li>Linux: ~/Documents/emma_02</li>
+</ul>
+
 <p>
-<IMG SRC="images/menu_change_data_dir_window.png" border="0" width="381" height ="184">
+A window will open with the following buttons:
 </p>
+
 <p>
-See also section <a href="MainFile.htm">Directory and File Structure</a>.
+<img src="images/menu_change_data_dir_window.png" border="0" width="425" height="230">
 </p>
+
+<ul>
+<li>(1) <strong>Browse</strong> button</li>
+<li>(2) <strong>Save</strong> button</li>
+<li>(3) <strong>Move & Save</strong> button</li>
+</ul>
+
+<p>
+Use <strong>Browse</strong> (1) to select a new location. Use <strong>Save</strong> (2) to save the new location only; the data directory must then be moved manually. Use <strong>Move & Save</strong> (3) to save and move the existing data directory and files to the new location.
+</p>
+
+<p>
+When moving the data directory to another disk, the process may take a few minutes depending on disk speed.
+</p>
+
+<p>
+In all cases, settings will be reset to their default values, similar to the <strong>Set Default (All)</strong> menu action.
+</p>
+
+<p>
+See the <a href="MainFile.htm">Directory and File Structure</a> section.
+</p>
+
 </body>
 </html>

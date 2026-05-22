@@ -1,42 +1,71 @@
 <html>
-<title>Changing Address Usage</title>
+<title>Memory Type Selection</title>
 <body>
-<h1>Changing Address Usage</h1>
+
+
+<h1>Memory Type Selection</h1>
+
+
+<h2>Automatic</h2>
+
 <p>
-Emma 02 will automatically select the correct memory usage type as long as the code is 'executed'. So to look at disassembled code just make sure the code is actually executed once in the current session.
+Emma 02 will automatically set the correct memory type as long as the code has been executed since the emulator was started. Therefore, to view disassembled code, make sure the code has been executed first.
 </p>
+
+
+<h2>Manual</h2>
+
 <p>
-The type can also be changed manually, as follows:
-<OL>
-<LI>Select the desired type via the choice button at the top right of the Direct Assembler tab (showing 1802 as default, highlighted in yellow below). The newly selected type should be shown directly in the left half of the Direct Assembler tab.
-<LI>Select either 'One' or 'Range' (highlighted in orange) depending if one location or a range of locations need to be changed.
-<LI>Fill in the location to be changed (highlighted in red), default this is the current 'working' location. And a range should be specified if 'Range' was selected.
-<LI>Press 'Mark' (highlighted in blue)
-</OL>
+To change the type manually, use the marking interface shown below:
 </p>
+
 <p>
-<IMG SRC="images/assembler_mark.png" BORDER="0">
+<img src="images/assembler_mark.png" border="0" width="724" height="609">
 </p>
+<ul>
+<li>(1) <strong>One</strong> / <strong>Range</strong> selector</li>
+<li>(2) <strong>Start</strong> location text field</li>
+<li>(3) <strong>End</strong> location text field</li>
+<li>(4) <strong>Type</strong> choice button</li>
+<li>(5) <strong>Mark</strong> button</li>
+</ul>
+
 <p>
-Above example would mark address 0016 as 1802 code when 'Mark' is pressed, not resulting in any change.
+Follow these steps:
 </p>
+<ol>
+<li>Select either <strong>One</strong> or <strong>Range</strong> (1) depending on whether one location or a range of locations need to be changed.</li>
+<li>Fill in the <strong>Start</strong> location (2) to be changed; by default, this is the current working location.</li>
+<li>Fill in the <strong>End</strong> location (3) if <strong>Range</strong> was selected.</li>
+<li>Select the desired type via the <strong>Type</strong> choice button (4).</li>
+<li>Press <strong>Mark</strong> (5).</li>
+</ol>
+
 <p>
-To save type information please see section <a href="DirectConfiguration.htm">Program Configuration</a>.
+In the example above, pressing <strong>Mark</strong> will mark address 0014 as <strong>1802</strong> code, which is already its current type and results in no change.
 </p>
+
+<p>
+To save type information, see the <a href="DirectConfiguration.htm">Program Configuration</a> section.
+</p>
+
+
+<h2>Types</h2>
+
 <p>
 The following type choices are available:
-<UL>
-<LI>1802: Use for RCA 1802, 1804 or 1805 code
-<LI>Data: Use for data values
-<LI>Text: ASCII text
-<LI>Branch: Use for memory locations containing another memory location (order used: high byte and then low byte), see also section <a href="DirectBranchData.htm">Branch Data</a>
-<LI>Rev Br: Use for memory locations containing another memory location (order used: low byte and then high byte), see also section <a href="DirectBranchData.htm">Reversed Branch Data</a>
-<LI>LDL: LDL Macro, see also section <a href="DirectLdl.htm">LDL, LDRL, LDV and RLDL Instructions</a>
-<LI>LDRL: LDRL Macro, see also section <a href="DirectLdl.htm">LDL, LDRL, LDV and RLDL Instructions</a>
-<LI>LDV: LDV Macro, see also section <a href="DirectLdl.htm">LDL, LDRL, LDV and RLDL Instructions</a>
-<LI>Switch: Switch to other mnemonic, see also section <a href="DirectMnemonic.htm">Switch Mnemonic</a>
-<LI>Pseudo: any pseudo code as described in section <a href="SyntaxPseudoCode.htm">Pseudo Code</a>
-</UL>
 </p>
+<ul>
+<li><strong>1802</strong>: SYSTEM00, RCA 1801, 1802, 1804, or 1805 code</li>
+<li><strong>Data</strong>: data values</li>
+<li><strong>Text</strong>: ASCII text</li>
+<li><strong>Branch</strong>: 16 bit branch address (order: high byte - low byte), see <a href="DirectBranchData.htm">Branch Data</a></li>
+<li><strong>Rev Br</strong>: 16 bit branch address (order: low byte - high byte), see <a href="DirectBranchData.htm">Reversed Branch Data</a></li>
+<li><strong>LDL</strong>: LDL macro, see <a href="DirectLdl.htm">LDL, LDRL, LDV and RLDL Instructions</a></li>
+<li><strong>LDRL</strong>: LDRL macro, see <a href="DirectLdl.htm">LDL, LDRL, LDV and RLDL Instructions</a></li>
+<li><strong>LDV</strong>: LDV macro, see <a href="DirectLdl.htm">LDL, LDRL, LDV and RLDL Instructions</a></li>
+<li><strong>Switch</strong>: Switch to another mnemonic, see <a href="DirectMnemonic.htm">Switch Mnemonic</a></li>
+<li><strong>Pseudo</strong>: Pseudo-code, see <a href="SyntaxPseudoCode.htm">Pseudo Code</a></li>
+</ul>
 </body>
 </html>

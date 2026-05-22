@@ -1,95 +1,129 @@
 
 <html>
-<title>Memory</title>
+<title>Memory Type</title>
 <body>
+
+
 <h1>Memory Type</h1>
+
 <p>
-The memory type of the main 64K CPU memory will be shown as soon as memory 'Type' (yellow ellipse) is selected. One field defines one page, i.e. 256 bytes of memory, so the top left field (highlighted in blue) defines address 0000 to 00FF.  To change the memory type of a page select the value and change it. Note that changing any of these values will likely crash the emulated computer; so use with care.
+The memory type of the main 64K CPU memory is shown when the <strong>Memory</strong> selector (1) is set to <tt>Type</tt>. Each field defines one page, i.e., 256 bytes of memory, so the top-left field (2) defines addresses 0000 to 00FF. To change the memory type of a page, select the field and change its value.
 </p>
+
 <p>
-<IMG SRC="images/dump_memory_type.png" BORDER="0">
+<strong>Note:</strong> Changing any of these values might crash the emulated computer, so use with care.
 </p>
+
 <p>
-If memory type is shown in colour text the type or address range is linked to a hardware mapper, like COMX slots or banks and Elf EMS or ROM pagers. Note that the colour used is the same as the mapper selection features (highlighted in orange and purple)
+The <strong>Memory Dump</strong> tab with the <strong>Memory</strong> selector set to <tt>Type</tt> is shown below:
 </p>
+
+<p>
+<img src="images/dump_memory_type.png" border="0" width="724" height="609">
+</p>
+<ul>
+<li>(1) <strong>Memory</strong> selector, set to <tt>Type</tt></li>
+<li>(2) Top-left page field (addresses 0000-00FF)</li>
+<li>(3) Address range linked to a hardware mapper</li>
+<li>(4) Memory type linked to a hardware mapper</li>
+<li>(5) <strong>Slot</strong> field</li>
+<li>(6) <strong>Bank</strong> field</li>
+</ul>
+
+<p>
+If a memory type is shown in coloured text, the type or address range is linked to a hardware mapper, such as COMX slots (3) or banks (4) and Elf EMS or ROM pagers. The colour used matches the mapper selection fields (5) and (6).
+</p>
+
 <p>
 Definition of available memory types per computer type:
 </p>
-<TABLE BORDER="1" CELLSPACING="0" CELLPADDING="10" WIDTH="100%">
-<TR>
-<TD ALIGN="LEFT" VALIGN="TOP"><B>Memory type</B></TD>
-<TD ALIGN="LEFT" VALIGN="TOP"><B>Definition</B></TD>
-<TD ALIGN="LEFT" VALIGN="TOP"><B>Available (if configured)</B></TD>
-</TR>
-<TR>
-<TD ALIGN="LEFT" VALIGN="TOP">&lt;space&gt;</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">Undefined</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">All computers</TD>
-</TR>
-<TR>
-<TD ALIGN="LEFT" VALIGN="TOP">.</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">RAM</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">All computers</TD>
-</TR>
-<TR>
-<TD ALIGN="LEFT" VALIGN="TOP">C.</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">Colour RAM</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">VIP2K Membership Card<br>Cosmac VIP<br>Cosmac VIP II<br>RCA Studio IV<br>Visicom COM-100</TD>
-</TR>
-<TR>
-<TD ALIGN="LEFT" VALIGN="TOP">CE</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">COMX Expansion ROM copy</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">COMX-35<br>COMIX-35</TD>
-</TR>
-<TR>
-<TD ALIGN="LEFT" VALIGN="TOP">CF</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">Floppy disk ROM copy</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">COMX-35<br>COMIX-35</TD>
-</TR>
-<TR>
-<TD ALIGN="LEFT" VALIGN="TOP">CR</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">1870 Character RAM</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">COMX-35<br>COMIX-35<br>Microboard System<br>Cidelsa<br>TMC-600<br>Pecom 32 &amp; 64</TD>
-</TR>
-<TR>
-<TD ALIGN="LEFT" VALIGN="TOP">M.</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">Mapped RAM</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Pico Elf V2<br>VIP2K Membership Card<br>Cosmac VIP<br>Microboard System<br>RCA Video Coin Arcade<br>RCA Studio II<br>RCA Studio III / Victory MPT-02<br>RCA Studio IV<br>Visicom COM-100</TD>
-</TR>
-<TR>
-<TD ALIGN="LEFT" VALIGN="TOP">M5</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">MC6845 Video RAM</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">COMX-35<br>COMIX-35<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Pico Elf V2<br>Microboard System</TD>
-</TR>
-<TR>
-<TD ALIGN="LEFT" VALIGN="TOP">M7</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">MC6847 Video RAM</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Pico Elf V2</TD>
-</TR>
-<TR>
-<TD ALIGN="LEFT" VALIGN="TOP">MR</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">MC6845 Register</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">COMX-35<br>COMIX-35<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Pico Elf V2<br>Microboard System</TD>
-</TR>
-<TR>
-<TD ALIGN="LEFT" VALIGN="TOP">PR</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">1870 Page RAM</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">COMX-35<br>COMIX-35<br>Microboard System<br>Cidelsa<br>TMC-600<br>Pecom 32 &amp; 64</TD>
-<TR>
-<TD ALIGN="LEFT" VALIGN="TOP">R</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">ROM</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">All computers</TD>
-</TR>
-<TR>
-<TD ALIGN="LEFT" VALIGN="TOP">RS</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">REGISER STORAGE</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">CDP18S020 Evaluation Kit</TD>
-</TR>
-<TR>
-<TD ALIGN="LEFT" VALIGN="TOP">VP</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">VP570 Expansion RAM</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">Cosmac VIP</TD>
-</TR>
-</TABLE>
+
+<table border="1" cellspacing="0" cellpadding="10" width="100%">
+<tr>
+<td align="left" valign="top"><strong>Memory type</strong></td>
+<td align="left" valign="top"><strong>Definition</strong></td>
+<td align="left" valign="top"><strong>Available (if configured)</strong></td>
+</tr>
+<tr>
+<td align="left" valign="top">&lt;space&gt;</td>
+<td align="left" valign="top">Undefined</td>
+<td align="left" valign="top">All computers</td>
+</tr>
+<tr>
+<td align="left" valign="top">.</td>
+<td align="left" valign="top">RAM</td>
+<td align="left" valign="top">All computers</td>
+</tr>
+<tr>
+<td align="left" valign="top">C2</td>
+<td align="left" valign="top">Colour RAM CDP1862</td>
+<td align="left" valign="top">Conic M-1200<br>COSMAC VIP<br>COSMAC VIP II<br>RCA Studio III (NTSC)<br>VIP2K Membership Card</td>
+</tr>
+<tr>
+<td align="left" valign="top">C4</td>
+<td align="left" valign="top">Colour RAM CDP1864</td>
+<td align="left" valign="top">Academy Apollo 80<br>Hanimex MPT-02<br>Mustang 9016<br>RCA Studio III (PAL)<br>Sheen M-1200<br>Soundic Victory MPT-02<br>Telmac 2000<br>Trevi M-1200<br>Visicom COM-100</td>
+</tr>
+<tr>
+<td align="left" valign="top">CE</td>
+<td align="left" valign="top">COMX Expansion ROM copy</td>
+<td align="left" valign="top">COMX-35<br>COMIX-35</td>
+</tr>
+<tr>
+<td align="left" valign="top">CF</td>
+<td align="left" valign="top">Floppy disk ROM copy</td>
+<td align="left" valign="top">COMX-35<br>COMIX-35</td>
+</tr>
+<tr>
+<td align="left" valign="top">CR</td>
+<td align="left" valign="top">1870 Character RAM / ROM</td>
+<td align="left" valign="top">COMX-35<br>COMIX-35<br>Cidelsa Arcade Game Console<br>PECOM 32<br>PECOM 64<br>RCA COSMAC Computer Development System<br>RCA COSMAC Microboard Computer<br>Telmac TMC-600<br>VIS1802</td>
+</tr>
+<tr>
+<td align="left" valign="top">CS</td>
+<td align="left" valign="top">Colour RAM RCA Studio IV</td>
+<td align="left" valign="top">RCA Studio IV</td>
+</tr>
+<tr>
+<td align="left" valign="top">M.</td>
+<td align="left" valign="top">Mapped RAM</td>
+<td align="left" valign="top">Academy Apollo 80<br>Conic M-1200<br>COSMAC Elf<br>COSMAC VIP<br>Hanimex MPT-02<br>Mustang 9016<br>Netronics Elf II<br>Quest Super Elf<br>RCA COSMAC Computer Development System<br>RCA COSMAC Computer Game System<br>RCA COSMAC Microboard Computer<br>RCA Studio II<br>RCA Studio III<br>RCA Video Coin Arcade Game Console<br>Sheen M-1200<br>Soundic Victory MPT-02<br>Trevi M-1200<br>VIP2K Membership Card<br>Visicom COM-100</td>
+</tr>
+<tr>
+<td align="left" valign="top">M5</td>
+<td align="left" valign="top">MC6845 Video RAM</td>
+<td align="left" valign="top">COMX-35<br>COMIX-35<br>COSMAC Elf<br>Netronics Elf II<br>Pico/Elf V2<br>Quest Super Elf<br>RCA COSMAC Microboard Computer</td>
+</tr>
+<tr>
+<td align="left" valign="top">M7</td>
+<td align="left" valign="top">MC6847 Video RAM</td>
+<td align="left" valign="top">COSMAC Elf<br>Macbug<br>Netronics Elf II<br>Pico/Elf V2<br>Quest Super Elf</td>
+</tr>
+<tr>
+<td align="left" valign="top">MR</td>
+<td align="left" valign="top">MC6845 Register</td>
+<td align="left" valign="top">COMX-35<br>COMIX-35<br>COSMAC Elf<br>Netronics Elf II<br>Pico/Elf V2<br>Quest Super Elf<br>RCA COSMAC Microboard Computer</td>
+</tr>
+<tr>
+<td align="left" valign="top">PR</td>
+<td align="left" valign="top">1870 Page RAM / ROM</td>
+<td align="left" valign="top">COMX-35<br>COMIX-35<br>Cidelsa Arcade Game Console<br>PECOM 32<br>PECOM 64<br>RCA COSMAC Computer Development System<br>RCA COSMAC Microboard Computer<br>Telmac TMC-600<br>VIS1802</td>
+</tr>
+<tr>
+<td align="left" valign="top">R</td>
+<td align="left" valign="top">ROM</td>
+<td align="left" valign="top">All computers</td>
+</tr>
+<tr>
+<td align="left" valign="top">RS</td>
+<td align="left" valign="top">Register Storage</td>
+<td align="left" valign="top">CDP18S020 Evaluation Kit</td>
+</tr>
+<tr>
+<td align="left" valign="top">VP</td>
+<td align="left" valign="top">VP570 Expansion RAM</td>
+<td align="left" valign="top">COSMAC VIP</td>
+</tr>
+</table>
 </body>
 </html>

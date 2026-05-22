@@ -225,6 +225,9 @@ void IoDevice::setInType(vector<int>* ioGroup, IoPort port, int inType, wxString
 
 void IoDevice::setInType(vector<int>* ioGroup, IoPort port, wxString message, int itemNumber)
 {
+    if (port.portNumber.size() == 0)
+        return;
+    
     if (port.portNumber[0] == -1)
         return;
     
@@ -334,6 +337,9 @@ void IoDevice::setOutType(vector<int>* ioGroup, IoPort port, int outType, wxStri
 
 void IoDevice::setOutType(vector<int>* ioGroup, IoPort port, wxString message, int itemNumber)
 {
+    if (port.portNumber.size() == 0)
+        return;
+    
     if (port.portNumber[0] == -1)
         return;
     

@@ -1,9 +1,9 @@
 #ifndef VIDEO_CONFIG_H
 #define VIDEO_CONFIG_H
 
-#include "xmlbase.h"
+#include "ct2425_config.h"
 
-class VideoConfig: public XmlBase
+class VideoConfig: public Ct2425Config
 {
 public:
 
@@ -12,12 +12,14 @@ public:
 
     void videoConfigUsed(wxString panelName);
     void updateVideoPanel();
-    void showTraceText(wxString function, wxString address, wxString value, int showTrace);
-    void showTraceText(wxString function, wxString value, int showTrace);
-    void showTraceTextRead(wxString function, wxString value, int showTrace);
-    void showTraceText(wxString function, int showTrace);
-    void showNotRunning();
+    void showVideoTraceText(wxString function, wxString address, wxString value, int showTrace);
+    void showVideoTraceText(wxString function, wxString value, int showTrace);
+    void showVideoTraceTextRead(wxString function, wxString value, int showTrace);
+    void showVideoTraceText(wxString function, int showTrace);
+    void videoTimeTrace();
+    void showVideoNotRunning();
     void videoTrace(wxString buffer);
+    long getVideoRegisterValue(wxString registerReference);
 
 protected:
     void videoConfigInit();
@@ -29,9 +31,12 @@ protected:
     int videoConfigWidth_;
 
     bool videoTrace_;
+    bool videoTime_;
+    bool restartVideoTime_;
 
 private:
     void onVideoTrace(wxCommandEvent&event);
+    void onVideoTime(wxCommandEvent&event);
     void onVideoClear(wxCommandEvent&event);
 
     DECLARE_EVENT_TABLE()

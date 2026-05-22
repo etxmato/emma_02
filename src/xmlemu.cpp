@@ -152,6 +152,15 @@ BEGIN_EVENT_TABLE(Computer, wxFrame)
     EVT_BUTTON(0x92, Computer::onDataSwitch)
     EVT_BUTTON(0x93, Computer::onDataSwitch)
 
+    EVT_BUTTON(0xA0, Computer::insertCoin)
+    EVT_BUTTON(0xAA, Computer::insertCoin)
+    EVT_BUTTON(0xAB, Computer::insertCoin)
+    EVT_BUTTON(0xAC, Computer::insertCoin)
+    EVT_BUTTON(0xAD, Computer::insertCoin)
+    EVT_BUTTON(0xAE, Computer::insertCoin)
+    EVT_BUTTON(0xAF, Computer::insertCoin)
+    EVT_BUTTON(0xB0, Computer::answerCall)
+
     EVT_BUTTON(0x100, Computer::onCardButton)
     EVT_BUTTON(0x101, Computer::onCardButton)
     EVT_BUTTON(0x102, Computer::onCardButton)
@@ -618,6 +627,8 @@ Computer::~Computer()
         delete cdp1877InstancePointer[num];
     for (int num=0; num<numberOfCd4536b_; num++)
         delete cd4536bPointer[num];
+    for (int num=0; num<numberOfCt2425_; num++)
+        delete ct2425Pointer[num];
     for (int num=0; num<numberOfDipInstances_ ; num++)
         delete dipPointer[num];
     if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
@@ -1016,8 +1027,6 @@ void Computer::onInButtonRelease()
 
 void Computer::configureComputer()
 {
-    wxString ioGroup;
-    
     setEfType(1, UNDEFINED_EF1);
     setEfType(2, UNDEFINED_EF2);
     setEfType(3, UNDEFINED_EF3);
@@ -1246,6 +1255,7 @@ void Computer::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
 
 void Computer::initComputer()
 {
+    configureMemory();
 //    Show(p_Main->showFrontPanel());
     for (int i=0; i<8; i++)
         inpSwitchState_[i]=0;
@@ -1750,6 +1760,10 @@ Byte Computer::ef(int flag)
             return cd4536bPointer[efItemNumber_[qState_][ioGroup_+1][flag]]->ef();
         break;
 
+        case CT2425_IO_SPM_EF:
+            return ct2425Pointer[efItemNumber_[qState_][ioGroup_+1][flag]]->efSpm();
+        break;
+
         case ASCII_KEYBOARD_EF:
             return efKeyboard();
         break;
@@ -1990,6 +2004,14 @@ Byte Computer::inConfiguration(InputConfiguration inConfiguration, Byte port, Wo
 
         case MM_INPUT:
             return mm57109InstancePointer->input();
+        break;
+
+        case CT2425_IO_SENSORS:
+            ret = ct2425Pointer[inConfiguration.itemNumber[qState_][ioGroup_+1][port]]->readSensors();
+        break;
+
+        case CT2425_IO_COINS:
+            ret = ct2425Pointer[inConfiguration.itemNumber[qState_][ioGroup_+1][port]]->readCoins();
         break;
 
         case IDE_READ_STATUS_IN:
@@ -2920,6 +2942,18 @@ void Computer::outConfiguration(OutputConfiguration outConfiguration, Byte port,
             cd4536bPointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->writeControl(value);
         break;
 
+        case CT2425_IO_VALIDATOR:
+            ct2425Pointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->setValidator(value);
+        break;
+
+        case CT2425_IO_GATES:
+            ct2425Pointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->setGatesAndLeds(value);
+        break;
+
+        case CT2425_IO_CONTROL:
+            ct2425Pointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->setControl(value);
+        break;
+
             // Folowing I/O is not adapted to ioGroups
         case MEMORY_SLOT_OUT:
             slotOut(value);
@@ -3063,7 +3097,7 @@ void Computer::outConfiguration(OutputConfiguration outConfiguration, Byte port,
     }
 }
 
-void Computer::setCdp1863ColorToneLatch(Byte value, int showTrace)
+void Computer::setCdp1863ColorToneLatch(Byte value)
 {
     if (value == 0)  value = 128;
 
@@ -3508,6 +3542,10 @@ void Computer::cycle(int type)
             cycleCd();
         break;
                         
+        case CT2425_IO_CYCLE:
+            cycleCt2425();
+        break;
+                        
         case TIMER_CYCLE:
             for (int counter=0; counter<numberOfCdp1878Instances_; counter++)
             {
@@ -3522,6 +3560,35 @@ void Computer::cycleCd()
 {
     for (int num=0; num<numberOfCd4536b_ ; num++)
         cd4536bPointer[num]->cycle();
+}
+
+void Computer::cycleCt2425()
+{
+    for (int num=0; num<numberOfCt2425_ ; num++)
+        ct2425Pointer[num]->cycle();
+}
+
+void Computer::answerCall(wxCommandEvent&event)
+{
+    answerCall();
+}
+
+void Computer::answerCall()
+{
+    for (int num=0; num<numberOfCt2425_ ; num++)
+        ct2425Pointer[num]->answerCall();
+}
+
+void Computer::insertCoin(wxCommandEvent&event)
+{
+    int id = event.GetId();
+    insertCoin(id-0xA0);
+}
+
+void Computer::insertCoin(Byte value)
+{
+    for (int num=0; num<numberOfCt2425_ ; num++)
+        ct2425Pointer[num]->insertCoin(value);
 }
 
 void Computer::cycleVP550()
@@ -3695,6 +3762,12 @@ void Computer::cycleLed()
             flashCycleValue_ = vipIIRunCycleSize_/5;
         }
     }
+}
+
+void Computer::forceLedUpdate()
+{
+    for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+        panelPointer[frontPanel]->ledTimeout();
 }
 
 void Computer::setGoTimer()
@@ -4016,7 +4089,9 @@ void Computer::onRunButtonPress(bool run0)
     }
 
     if (currentComputerConfiguration.autoBootConfiguration.defined)
-        scratchpadRegister_[0] = currentComputerConfiguration.autoBootConfiguration.address;
+    {
+        setScratchpadRegister(0, currentComputerConfiguration.autoBootConfiguration.address);
+    }
     if (cardSwitchOn_ || readSwitchOn_)
     {
         showData(dmaOut());
@@ -4065,12 +4140,11 @@ void Computer::onRunButtonPress(bool run0)
         switch (currentComputerConfiguration.runPressType)
         {
             case RUN_TYPE_BOOT:
-                scratchpadRegister_[0] = currentComputerConfiguration.autoBootConfiguration.address;
                 if (run0)
-                    scratchpadRegister_[0] = 0;
+                    setScratchpadRegister(0, 0);
                 else
-                    scratchpadRegister_[0] = currentComputerConfiguration.autoBootConfiguration.address;
-                
+                    setScratchpadRegister(0, currentComputerConfiguration.autoBootConfiguration.address);
+
                 dmaOnBoot();
                 setClear(1);
                 setWait(1);
@@ -4114,9 +4188,9 @@ void Computer::onRunButtonPress(bool run0)
                 if (!singleStateStep_)
                     resetCpu();
                 if (run0)
-                    scratchpadRegister_[0] = 0;
+                    setScratchpadRegister(0, 0);
                 else
-                    scratchpadRegister_[0] = currentComputerConfiguration.autoBootConfiguration.address;
+                    setScratchpadRegister(0, currentComputerConfiguration.autoBootConfiguration.address);
                 dmaOnBoot();
                 setClear(1);
                 setWait(1);
@@ -4970,7 +5044,6 @@ void Computer::startComputer()
     {
         p_Main->assDefault(assemblerInfo->directoryName, assemblerInfo->fileName, assemblerInfo->code_start, assemblerInfo->code_end, assemblerInfo->end);
     }
-    configureMemory();
 
     resetPressed_ = false;
     clearResetPressed_ = false;
@@ -5042,7 +5115,7 @@ void Computer::startComputer()
     {
         if (currentComputerConfiguration.giantBoardConfiguration.defined)
         {
-            scratchpadRegister_[0] = currentComputerConfiguration.giantBoardConfiguration.base;
+            setScratchpadRegister(0, currentComputerConfiguration.giantBoardConfiguration.base);
             autoBoot();
         }
     }
@@ -5188,6 +5261,9 @@ void Computer::loadRomRam(size_t configNumber)
 {
     if (currentComputerConfiguration.memoryConfiguration[configNumber].filename != "")
     {
+        if (currentComputerConfiguration.memoryConfiguration[configNumber].checkFwList)
+            p_Main->setCoinLogText(currentComputerConfiguration.memoryConfiguration[configNumber].filename);
+        
         if (currentComputerConfiguration.memoryConfiguration[configNumber].verifyFileExist)
             p_Main->checkAndReInstallFile(currentComputerConfiguration.memoryConfiguration[configNumber].dirname + currentComputerConfiguration.memoryConfiguration[configNumber].filename, currentComputerConfiguration.memoryConfiguration[configNumber].filename);
 
@@ -5199,6 +5275,9 @@ void Computer::loadRomRam(size_t configNumber)
     }
     if (currentComputerConfiguration.memoryConfiguration[configNumber].filename2 != "")
     {
+        if (currentComputerConfiguration.memoryConfiguration[configNumber].checkFwList)
+            p_Main->setCoinLogText(currentComputerConfiguration.memoryConfiguration[configNumber].filename2);
+
         if (currentComputerConfiguration.memoryConfiguration[configNumber].verifyFileExist)
             p_Main->checkAndReInstallFile(currentComputerConfiguration.memoryConfiguration[configNumber].dirname + currentComputerConfiguration.memoryConfiguration[configNumber].filename2, currentComputerConfiguration.memoryConfiguration[configNumber].filename2);
 
@@ -5544,7 +5623,7 @@ Byte Computer::readMemDataType(Word address, uint64_t* executed)
     return MEM_TYPE_UNDEFINED;
 }
 
-Byte Computer::readMem(Word address)
+Byte Computer::readMem(Word address, bool dmaReadWrite)
 {
     address_ = address;
 
@@ -5556,7 +5635,12 @@ Byte Computer::readMem(Word address)
     for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
         panelPointer[frontPanel]->showAddress(address_);
 
-    return readMemDebug(address, READ_FUNCTION_NOT_DEBUG);
+    Byte value = readMemDebug(address, READ_FUNCTION_NOT_DEBUG);
+    
+    if (debugMode_)
+        p_Main->checkMemoryTrap(scratchpadRegister_[programCounter_]-1, address, value, MEM_TRAP_READ, dmaReadWrite);
+
+    return value;
 }
 
 Byte Computer::readMemDebug(Word address, int function)
@@ -6192,13 +6276,16 @@ Byte Computer::readMemDebug(Word address, int function)
     }
 }
 
-void Computer::writeMem(Word address, Byte value, bool writeRom)
+void Computer::writeMem(Word address, Byte value, bool writeRom, bool dmaReadWrite)
 {
     address_ = address;
 
     for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
         panelPointer[frontPanel]->showAddress(address_);
     writeMemDebug(address, value, writeRom);
+
+    if (debugMode_)
+        p_Main->checkMemoryTrap(scratchpadRegister_[programCounter_]-1, address, value, MEM_TRAP_WRITE, dmaReadWrite);
 }
 
 void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
@@ -7338,14 +7425,14 @@ void Computer::resetPressed()
     showCycleData(0);
     if (currentComputerConfiguration.autoBootConfiguration.defined)
     {
-        scratchpadRegister_[0] = currentComputerConfiguration.autoBootConfiguration.address;
+        setScratchpadRegister(0, currentComputerConfiguration.autoBootConfiguration.address);
         autoBoot();
     }
     else
     {
         if (currentComputerConfiguration.giantBoardConfiguration.defined)
         {
-            scratchpadRegister_[0] = currentComputerConfiguration.giantBoardConfiguration.base;
+            setScratchpadRegister(0, currentComputerConfiguration.giantBoardConfiguration.base);
             autoBoot();
         }
         else
@@ -7666,9 +7753,7 @@ void Computer::configureMemory()
 
 void Computer::configureExtensions()
 {
-    wxString fileName, fileName2, message;
-    wxString ioGroup;
-    wxString printBuffer;
+    wxString message;
 
     inKey1_ = p_Main->getDefaultInKey1("Xml");
     inKey2_ = p_Main->getDefaultInKey2("Xml");
@@ -7868,7 +7953,7 @@ void Computer::configureExtensions()
         p_Main->configureMessage(&cdp1852->ioGroupVector, "CDP1852");
         setOutType(&cdp1852->ioGroupVector, cdp1852->writePort, "write to port", numberOfCdp1852Frames_);
         setInType(&cdp1852->ioGroupVector, cdp1852->readPort, "read port", numberOfCdp1852Frames_);
-        setEfType(&cdp1852->ioGroupVector, cdp1852->efStb, numberOfCdp1852Frames_, "STB");
+        setEfType(&cdp1852->ioGroupVector, cdp1852->efStb, "STB", numberOfCdp1852Frames_);
 
         p_Main->message("");
 
@@ -7951,6 +8036,18 @@ void Computer::configureExtensions()
         cd4536bPointer[numberOfCd4536b_]->Configure(*cd4536bIo, numberOfCd4536b_);
 
         numberOfCd4536b_++;
+    }
+
+    ct2425Pointer.clear();
+    numberOfCt2425_ = 0;
+    for (std::vector<Ct2425Configuration>::iterator ct2425Io = currentComputerConfiguration.ct2425Configuration.begin (); ct2425Io != currentComputerConfiguration.ct2425Configuration.end (); ++ct2425Io)
+    {
+        ct2425Pointer.resize(numberOfCt2425_+1);
+        ct2425Pointer[numberOfCt2425_] = new Ct2425();
+        
+        ct2425Pointer[numberOfCt2425_]->Configure(*ct2425Io, numberOfCt2425_, computerClockSpeed_);
+
+        numberOfCt2425_++;
     }
 
     if (currentComputerConfiguration.videoTerminalConfiguration.external)
@@ -8324,9 +8421,6 @@ void Computer::configureDiskExtensions()
 
 void Computer::configurePrinterExtensions()
 {
-    wxString ioGroup;
-    wxString printBuffer;
-
     if (currentComputerConfiguration.basicPrinterConfiguration.defined)
     {
         p_Printer = new Printer();
@@ -8372,7 +8466,6 @@ void Computer::configurePrinterExtensions()
 
 void Computer::configureSoundExtensions()
 {
-    wxString ioGroup;
     wxString printBuffer;
 
     if (currentComputerConfiguration.soundConfiguration.type == SOUND_SUPER_VP550 || currentComputerConfiguration.soundConfiguration.type == SOUND_SUPER_VP551)
@@ -8395,9 +8488,6 @@ void Computer::configureSoundExtensions()
 
 void Computer::configureTapeExtensions()
 {
-    wxString ioGroup;
-    wxString printBuffer;
-
     if (currentComputerConfiguration.swTapeConfiguration.defined)
     {
         p_Main->configureMessage(&currentComputerConfiguration.swTapeConfiguration.ioGroupVector, "Cassette");
@@ -8443,8 +8533,6 @@ void Computer::configureTapeExtensions()
 
 void Computer::configureCdp1863()
 {
-    wxString printBuffer = "";
-
     p_Main->configureMessage(&currentComputerConfiguration.cdp1863Configuration.ioGroupVector, "CDP 1863");
     
     p_Computer->setOutType(&currentComputerConfiguration.cdp1863Configuration.ioGroupVector, currentComputerConfiguration.cdp1863Configuration.toneLatch, "tone latch");
@@ -9535,7 +9623,12 @@ bool Computer::isFAndMBasicRunning()
 void Computer::terminalSave(wxString fileName, int protocol)
 {
     if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
-        vtPointer->terminalSaveVt(fileName, protocol);
+    {
+        if (!currentComputerConfiguration.videoTerminalConfiguration.hexModem_cdp18s020)
+            vtPointer->terminalSaveVt(fileName, protocol);
+        else
+            vtPointer->terminalSaveCdp18s020Vt(fileName, protocol);
+    }
 }
 
 void Computer::terminalYsSave(wxString fileName, int protocol)
@@ -9544,10 +9637,15 @@ void Computer::terminalYsSave(wxString fileName, int protocol)
         vtPointer->terminalYsSaveVt(fileName, protocol);
 }
 
-void Computer::terminalLoad(wxString filePath, wxString fileName, int protocol)
+void Computer::terminalLoad(wxString fileName, int protocol)
 {
     if (currentComputerConfiguration.videoTerminalConfiguration.type != VTNONE)
-        vtPointer->terminalLoadVt(filePath, protocol);
+    {
+        if (!currentComputerConfiguration.videoTerminalConfiguration.hexModem_cdp18s020)
+            vtPointer->terminalLoadVt(fileName, protocol);
+        else
+            vtPointer->terminalLoadCdp18s020Vt(fileName, protocol);
+    }
 }
 
 void Computer::terminalStop()
@@ -9788,7 +9886,7 @@ void Computer::batchConvert()
 bool Computer::getBatchFile(wxString memAccessExtension)
 {
     wxString extension = "xxxxx";
-    wxString filename, path;
+    wxString filename;
     bool result = true;
     
     while (extension != memAccessExtension && batchFileNumber_ >= 0)

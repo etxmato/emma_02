@@ -139,6 +139,9 @@ void Tms9918Config::tms9918ConfigInit()
     computerConfiguration.tmsConfiguration.defaultX = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     computerConfiguration.tmsConfiguration.defaultY = mainWindowY_;
 
+    if (!mode_.gui)
+        return;
+
     XRCCTRL(*this, THIS_PANEL_NAME, wxPanel)->Hide();
 
     XRCCTRL(*this, "Tms9918IoGroupText", wxStaticText)->SetLabel("");
@@ -305,7 +308,8 @@ void Tms9918Config::parseXml_TMS9918Video(wxXmlNode &node)
                     computerConfiguration.tmsConfiguration.ioGroupVector.resize(ioGroupNumber+1);
                     computerConfiguration.tmsConfiguration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
                 }
-                XRCCTRL(*this,"Tms9918IoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.tmsConfiguration.ioGroupVector));
+                if (mode_.gui)
+                    XRCCTRL(*this,"Tms9918IoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.tmsConfiguration.ioGroupVector));
             break;
 
             case TAG_COMMENT:
@@ -324,8 +328,6 @@ void Tms9918Config::parseXml_TMS9918Video(wxXmlNode &node)
 
 void Tms9918Config::updateTms9918Panel()
 {
-    wxString buffer;
-
     if (computerConfiguration.tmsConfiguration.defined)
     {
         for (size_t registerNumber = 0; registerNumber<TMS9918_NUMBER_OF_REGISTERS; registerNumber++)
@@ -355,7 +357,7 @@ int Tms9918Config::setTms9918Register(int registerNumber, Word value, int showTr
 
     if (XRCCTRL(*this,registerIdTms9918[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionTms9918[registerNumber], tms9918ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionTms9918[registerNumber], tms9918ConfigRegisterValueString[registerNumber], showTrace);
       
         if (showTrace == SHOW_ADDRESS_TRACE)
             return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -371,7 +373,7 @@ int Tms9918Config::setTms9918Register(int registerNumber, Byte value, int showTr
 
     if (XRCCTRL(*this,registerIdTms9918[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionTms9918[registerNumber], tms9918ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionTms9918[registerNumber], tms9918ConfigRegisterValueString[registerNumber], showTrace);
         
         if (showTrace == SHOW_ADDRESS_TRACE)
             return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -387,7 +389,7 @@ int Tms9918Config::setTms9918RegisterNibble(int registerNumber, Byte value, int 
 
     if (XRCCTRL(*this,registerIdTms9918[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionTms9918[registerNumber], tms9918ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionTms9918[registerNumber], tms9918ConfigRegisterValueString[registerNumber], showTrace);
         
         if (showTrace == SHOW_ADDRESS_TRACE)
             return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -403,7 +405,7 @@ int Tms9918Config::setTms9918RegisterValue(int registerNumber, Byte value, int s
 
     if (XRCCTRL(*this,registerIdTms9918[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText("Register value", tms9918ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText("Register value", tms9918ConfigRegisterValueString[registerNumber], showTrace);
 
         if (showTrace == SHOW_ADDRESS_TRACE)
             return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -426,7 +428,7 @@ int Tms9918Config::setTms9918SelectorValue(int selectorNumber, int selectorValue
 
     if (XRCCTRL(*this,selectorIdTms9918[selectorNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(selectorFunctionTms9918[selectorNumber][tms9918ConfigSelector[selectorNumber]], showTrace);
+        showVideoTraceText(selectorFunctionTms9918[selectorNumber][tms9918ConfigSelector[selectorNumber]], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -446,7 +448,7 @@ int Tms9918Config::setTms9918SelectorValue(int selectorNumber, bool selectorValu
 
     if (XRCCTRL(*this,selectorIdTms9918[selectorNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(selectorFunctionTms9918[selectorNumber][tms9918ConfigSelector[selectorNumber]], showTrace);
+        showVideoTraceText(selectorFunctionTms9918[selectorNumber][tms9918ConfigSelector[selectorNumber]], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -458,7 +460,7 @@ void Tms9918Config::Tms9918Register(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -472,7 +474,7 @@ void Tms9918Config::Tms9918Data(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -486,7 +488,7 @@ void Tms9918Config::Tms9918RegisterNibble(wxCommandEvent&event)
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -507,7 +509,7 @@ void Tms9918Config::Tms9918RegisterByte(wxCommandEvent&event)
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -528,7 +530,7 @@ void Tms9918Config::Tms9918RegisterWord(wxCommandEvent&event)
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -549,7 +551,7 @@ void Tms9918Config::Tms9918Status(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -564,7 +566,7 @@ void Tms9918Config::Tms9918FifthSprite(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -578,7 +580,7 @@ void Tms9918Config::Tms9918DisplayMode(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -592,7 +594,7 @@ void Tms9918Config::Tms9918CurrentReadAddress(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -606,7 +608,7 @@ void Tms9918Config::Tms9918CurrentWriteAddress(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 

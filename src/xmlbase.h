@@ -36,6 +36,7 @@ protected:
     double getDouble(wxString doubleSting, wxString tag, double max, wxString maxStr, bool allowZero);
     int textToColorCode(wxString color, bool returnMinusOnNotFound = false);
     wxColour textToWxColour(wxString color);
+    long getButtonNumber(wxString idReference);
 
 private:
     size_t guiItemConfigNumber_;

@@ -1,83 +1,154 @@
 <html>
-<title>Program configuration</title>
+<title>Program Configuration</title>
 <body>
-<h1>Program configuration</h1>
+
+
+<h1>Program Configuration</h1>
+
 <p>
 For every computer a default program configuration is defined. For most computers this is the first available 1, 2 or 4K of RAM. For the Studio clones it is the cart area and for the Cidelsa the game ROM.
 </p>
+
 <p>
-To be able to save the 'debug' or 'type' information, i.e. the information defining what locations are 1802 code, data and possibly pseudo code, a program configuration needs to be defined. The same goes for using the 'Insert', 'Delete' and 'Search' features, see sections <a href="DirectInsert.htm">Insert & Delete Code</a> and <a href="DirectSearch.htm">Search</a>.
+A program configuration must be defined to save debug or type information, i.e., the information defining what locations are 1802 code, data and possibly pseudo-code. The same goes for using the <strong>Insert</strong>, <strong>Delete</strong> and <strong>Search</strong> features; see the <a href="DirectInsert.htm">Insert &amp; Delete Code</a> and <a href="DirectSearch.htm">Search</a> sections.
 </p>
+
+
+<h2>Basic configuration</h2>
+
 <p>
-The program configurations define:
-<UL>
-<LI>Program name (highlighted in yellow)
-<LI>Program directory (highlighted in orange)
-<LI>Code start (highlighted in red)
-<LI>Code end (highlighted in blue)
-<LI>(Program) end (highlighted in purple), default equal to Code end
-<LI>S/P (highlighted in green), used on COMX for Slot code and on ELF for the EMS Page
-</UL>
+The program configuration interface is shown below:
 </p>
+
 <p>
-<IMG SRC="images/assembler_conf.png" BORDER="0">
+<img src="images/assembler_conf.png" border="0" width="724" height="609">
 </p>
-<p>
-The above will define a code area of hex 4400-53FF and a data area between hex 5400-5FFF. After this configuration is defined a 'Save' (highlighted in brown) will store a binary file 'mycode.bin' from memory locations hex 4400-5FFF as well as save 'type' information in a file mycode.debug. When 'Save' is pressed a configuration file name is also requested which will save all configuration data like program name, directory, code start etc. To load an existing configuration file use the 'Load' button (highlighted in grey).
-</p>
-<p>
-It is recommended to keep all data either at the start of the code area; or after in the data area between 'Code end' and '(Program) end'. Data can also be used mixed in with code as long as the 'LVL' macro is used to load the data address (see also section 'LDL, LDRL, LDV and RLDL instructions'). If no data area is needed 'Code end' and '(Program) end' can be equal.
-</p>
-<p>
-The COMX Slot code should be defined as the COMX out 1 definition:
-</p>
-<p>
 <ul>
-<li>b0: 0=Select ROM bank, 1=Select RAM bank
-<li>b1: Select slot 1
-<li>b2: Select slot 2
-<li>b3: Select slot 3
-<li>b4: Select slot 4
-<li>b5-b7: bank number 0 to 8
+<li>(1) <strong>Dir</strong> button</li>
+<li>(2) <strong>Program name</strong> text field</li>
+<li>(3) <strong>Code start</strong> text field</li>
+<li>(4) <strong>Code end</strong> text field</li>
+<li>(5) <strong>(Program) end</strong> text field, default equal to Code end</li>
+<li>(6) <strong>S/P</strong> text field, used on COMX for <strong>S</strong>lot code and on ELF for the EMS <strong>P</strong>age</li>
+<li>(7) <strong>Load</strong> button</li>
+<li>(8) <strong>Save</strong> button</li>
 </ul>
+
+<p>
+The example shown above defines a code area of hex 4400-53FF and a data area between hex 5400-5FFF. After this configuration is defined, pressing the <strong>Save</strong> button (8) will store a binary file <tt>mycode.bin</tt> from memory locations hex 4400-5FFF as well as save type information in a file <tt>mycode.debug</tt>.
 </p>
+
+<p>
+When <strong>Save</strong> is pressed, a configuration file name is also requested; this file will save all configuration data such as program name, directory, code start, etc.
+</p>
+
+<p>
+To load an existing configuration file, use the <strong>Load</strong> button (7).
+</p>
+
+<p>
+Keep all data either at the start of the code area, or after it in the data area between <strong>Code end</strong> and <strong>(Program) end</strong>. Data can also be used mixed in with code as long as the <tt>LVL</tt> macro is used to load the data address (see the <a href="DirectAssembler.htm">LDL, LDRL, LDV and RLDL instructions</a> section).
+</p>
+
+<p>
+If no data area is needed, <strong>Code end</strong> and <strong>(Program) end</strong> can be set to the same value.
+</p>
+
+
+<h2>COMX and Elf settings</h2>
+
+<p>
+The COMX Slot code must be defined as the COMX out 1 definition:
+</p>
+<ul>
+<li>b0: 0=Select ROM bank, 1=Select RAM bank</li>
+<li>b1: Select slot 1</li>
+<li>b2: Select slot 2</li>
+<li>b3: Select slot 3</li>
+<li>b4: Select slot 4</li>
+<li>b5-b7: bank number 0 to 8</li>
+</ul>
+
 <p>
 Bits 0 and 5 to 7 are only used in combination with the SB FW.
 </p>
+
 <p>
 The Elf EMS Page is the page number 0 to 1F.
 </p>
+
 <p>
-Note that any configuration range in a COMX Slot should always be between hex C000 and hex DFFF and the Elf Page between hex 8000 and hex BFFF.
+<strong>Note:</strong> Any configuration range in a COMX Slot must always be between hex C000 and hex DFFF and the Elf Page between hex 8000 and hex BFFF.
 </p>
-<h2>Multiple Program in one configuration</h2>
+
+
+<h2>Multiple Programs in one configuration</h2>
+
 <p>
-<IMG SRC="images/assembler_conf2.png" BORDER="0">
+The multiple program configuration interface is shown below:
 </p>
+
 <p>
-To add a program to a configuration press 'New' (highlighted in yellow). After filling in program name, code start, code end and program end press 'Store' (which turned red after pressing new). Pressing the up or down buttons (highlighted in blue) will step thru the defined configurations if more than 1 is defined. The current program configuration number is highlighted in green.
+<img src="images/assembler_conf2.png" border="0" width="724" height="609">
 </p>
+<ul>
+<li>(1) <strong>Program configuration</strong> number</li>
+<li>(2) <strong>New</strong> button</li>
+<li>(3) <strong>Store</strong> button</li>
+<li>(4) <strong>Configuration</strong> spin button</li>
+<li>(5) <strong>Save on exit</strong> checkbox</li>
+<li>(6) <strong>SB</strong> button</li>
+</ul>
+
 <p>
-To automatically save the defined programs as well as the .config file, check 'Save on exit' (highlighted in purple). If no configuration file has been specified a default file debug.config will be saved.
+To add a program to a configuration, press the <strong>New</strong> button (2).<br>
+<strong>Result:</strong> the <strong>Store</strong> button (3) turns red.
 </p>
+
 <p>
-All areas defined as code will show the address locations in black, other areas will show the address in grey. 
+Fill in the <strong>Program name</strong>, <strong>Code start</strong>, <strong>Code end</strong>, and <strong>(Program) end</strong> fields, then press <strong>Store</strong> (3).
 </p>
+
 <p>
-Multiple program areas can be defined in one configuration. E.g. loading the SB configuration (press SB button (highlighted in orange) on a COMX with SB active) will load 15 program areas! 
+Press the <strong>Configuration</strong> spin button (4) to step through the defined configurations (only possible if more than one is defined). The current program configuration number is shown in field (1).
 </p>
-<h2>Program configuration version</h2>
+
 <p>
-After every program configuration 'Save' all binary and debug files are backed up by putting a version number extension after the file name. Starting with 1 and counting up.
+To automatically save the defined programs as well as the <tt>.config</tt> file, enable the <strong>Save on exit</strong> checkbox (5). If no configuration file has been specified, a default file <tt>debug.config</tt> will be saved.
 </p>
+
 <p>
-<IMG SRC="images/assembler_version.png" BORDER="0">
+All areas defined as code will show the address locations in black; other areas will show the address in grey.
 </p>
+
 <p>
-The Direct Assemble can load any of these configuration versions back by filling in a 'number' in the 'Configuration version' field (highlighted in yellow above). So to load back the oldest back-up configuration fill in '1', to load back the latest fill in the latest number you can find in the folder where all configurations are saved. Above example would load back version 4.
+Multiple program areas can be defined in one configuration. For example, loading the SB configuration (press the <strong>SB</strong> button (6) on a COMX with SB active) will load 15 program areas.
 </p>
+
+
+<h2>Configuration version</h2>
+
 <p>
-Note all files will be loaded that have the same configuration extension. After adding an additional program into a configuration that program will start with 1 while older programs might already have a higher version number. As such it is recommended to delete or move older versions when adding a new program to a configuration.
+After every program configuration <strong>Save</strong>, all binary and debug files are backed up by appending a version number extension to the file name. Version numbers start at 1 and count up.
+</p>
+
+<p>
+The configuration version interface is shown below:
+</p>
+
+<p>
+<img src="images/assembler_version.png" border="0" width="724" height="609">
+</p>
+<ul>
+<li>(1) <strong>Configuration version</strong> text field</li>
+</ul>
+
+<p>
+The <strong>Direct Assembler</strong> can load any of these configuration versions back by filling in a number in the <strong>Configuration version</strong> text field (1). To load back the oldest backup configuration, fill in <tt>1</tt>; to load back the latest, fill in the latest number found in the directory where all configurations are saved. The example above would load back version 4.
+</p>
+
+<p>
+<strong>Note:</strong> All files that have the same configuration extension will be loaded. After adding an additional program into a configuration, that program will start with version 1 while older programs may already have a higher version number. Therefore, delete or move older versions when adding a new program to a configuration.
 </p>
 </body>
 </html>

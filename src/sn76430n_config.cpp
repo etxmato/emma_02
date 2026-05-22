@@ -47,6 +47,9 @@ Sn76430NConfig::~Sn76430NConfig()
 
 void Sn76430NConfig::sn76430NConfigInit()
 {
+    if (!mode_.gui)
+        return;
+
     XRCCTRL(*this, THIS_PANEL_NAME, wxPanel)->Hide();
 
     computerConfiguration.sn76430NConfiguration.defined = false;
@@ -120,7 +123,8 @@ void Sn76430NConfig::parseXml_SN76430NVideo(wxXmlNode &node)
                     warningText_ += "No SN76430N RAM range defined";
                     warningText_ += childName;
                     warningText_ += "\n";
-                    XRCCTRL(*this, "SN76430NVideoRam", wxStaticText)->SetLabel("No SN76430N RAM range defined");
+                    if (mode_.gui)
+                        XRCCTRL(*this, "SN76430NVideoRam", wxStaticText)->SetLabel("No SN76430N RAM range defined");
                 }
                 else
                 {
@@ -190,13 +194,12 @@ void Sn76430NConfig::parseXml_SN76430NVideo(wxXmlNode &node)
         child = child->GetNext();
     }
     label.Printf("Video RAM: %04X-%04X", computerConfiguration.sn76430NConfiguration.startRam, computerConfiguration.sn76430NConfiguration.endRam);
-    XRCCTRL(*this, "SN76430NVideoRam", wxStaticText)->SetLabel(label);
+    if (mode_.gui)
+        XRCCTRL(*this, "SN76430NVideoRam", wxStaticText)->SetLabel(label);
 }
 
 void Sn76430NConfig::updateSn76430NPanel()
 {
-    wxString buffer;
-
     if (computerConfiguration.sn76430NConfiguration.defined)
     {
     }

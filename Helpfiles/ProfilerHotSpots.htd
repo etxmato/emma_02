@@ -1,27 +1,59 @@
 <html>
 <title>Hot Code Spots</title>
 <body>
+
+
 <h1>Hot Code Spots</h1>
+
 <p>
-On the left of the scrollbar a number is shown per executed instruction (highlighted in yellow). This number indicates the number of times that specific instruction is executed. Any value larger than 1 will be shown in a colour ranging from green to red (highlighted in orange), with green indicating a lower number of executions and red a higher number. The colour indication is calculated using a logarithmic scale. Note that the any <font color="#9932cc">purple colour</font> indicates a branch location, either as part of a branch instruction or that a branch ended up at that address. The <FONT COLOR="SALMON">salmon</FONT> colour (address 0180, 01A4 & 01A8 in screenshots) indicates that a SEP Rx instruction ended up at that address.
+On the left of the scrollbar a number is shown per executed instruction (2). This number indicates the number of times that specific instruction is executed. Any value larger than 1 is shown in a colour ranging from green to red (1), with green indicating a lower number of executions and red a higher number. The colour is calculated using a logarithmic scale.
 </p>
+
 <p>
-<IMG SRC="images/profiler_hot_code.png" BORDER="0">
+<strong>Note:</strong> Any <font color="#EA6F32">orange</font> text indicates a branch location, either as part of a branch instruction or as the target of a branch.
 </p>
+
 <p>
-On the profiler tab only a small number of locations are shown at anyone time, to be able to scan through memory quicker for hot code spots the profiler on the Memory Dump tab can be used:
+<strong>Note:</strong> Any <font color="#b251a7">pink</font> text indicates that a <tt>SEP Rx</tt> instruction ended up at that address.
 </p>
+
 <p>
-<IMG SRC="images/profiler_memory_dump.png" border="0" width="443" height ="376">
+The <strong>Profiler</strong> interface is shown below:
 </p>
+
 <p>
-To select the memory dump profiler, first select the Memory Dump tab and then as 'Memory' select 'Profiler' (highlighted in yellow). Then 256 addresses will be shown (highlighted in red) each containing one counter value between 1 and 255 in the same colour as used on the profiler tab with 'redder' colour instructions being executed more frequently. The shown counter uses the same logarithmic scale as the colour definition. Formula used is 5*ln(number of executions).
+<img src="images/profiler_hot_code.png" border="0" width="724" height="609">
 </p>
+<ul>
+<li>(1) Colour range side</li>
+<li>(2) Execution counter side</li>
+</ul>
+
 <p>
-To change to the previous or next page use the buttons highlighted in orange, alternatively specify a specific address in the field highlighted in blue.
+On the <strong>Profiler</strong> tab only a small number of locations is shown at any one time. To scan through memory more quickly for hot code spots, the profiler on the <strong>Memory Dump</strong> tab can be used:
 </p>
+
 <p>
-For additional details about the Memory Dump tab see also the <a href="DumpMain.htm">Memory Dump</a> section.
+<img src="images/profiler_memory_dump.png" border="0" width="724" height="609">
+</p>
+<ul>
+<li>(1) <strong>Memory Dump</strong> tab</li>
+<li>(2) <strong>Memory</strong> selector, set to <strong>Profiler</strong></li>
+<li>(3) Counter values display</li>
+<li>(4) <strong>Page navigation</strong> spin buttons</li>
+<li>(5) <strong>Address</strong> field</li>
+</ul>
+
+<p>
+To select the Memory Dump profiler, select the <strong>Memory Dump</strong> tab (1) and set the <strong>Memory</strong> selector (2) to <strong>Profiler</strong>. A total of 256 addresses are shown (3), each containing one counter value between 1 and 255. The colour scheme is the same as on the <strong>Profiler</strong> tab. Instructions executed more frequently are shown in a deeper red colour. The colour is calculated using a logarithmic scale.
+</p>
+
+<p>
+To change to the previous or next page, use the <strong>Page navigation</strong> spin buttons (4). Alternatively, specify a specific address in the <strong>Address</strong> field (5).
+</p>
+
+<p>
+For details about the <strong>Memory Dump</strong> tab, see the <a href="DumpMain.htm">Memory Dump</a> section.
 </p>
 </body>
 </html>

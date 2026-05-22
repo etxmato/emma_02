@@ -1,9 +1,12 @@
-<HTML>
-<Title>FAQ Cidelsa 1</Title>
-<BODY>
-<h1>Why do I just get a black screen when I start the Cidelsa Arcade Game Console emulator?</h1>
+<html>
+<title>Why do I get a black screen when I start the Cidelsa Arcade Game Console?</title>
+<body>
+
+<h1>Why do I get a black screen when I start the Cidelsa Arcade Game Console?</h1>
+
 <p>
-The Cidelsa emulator needs a game rom to run. I have only seen 3 official game ROMs 'Altair', 'destroyer' (2 sets) and 'Draco'; if you have any others I would be interested to test them! 
+The Cidelsa emulator requires a game ROM to run. Only three official game ROMs are currently known: <strong>Altair</strong>, <strong>Destroyer</strong> (two sets) and <strong>Draco</strong>. If you know of any others, I would be interested in testing them.
 </p>
-</BODY>
-</HTML>
+
+</body>
+</html>

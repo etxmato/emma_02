@@ -1,31 +1,45 @@
 
-<HTML>
-<Title>ROM, RAM, NVR, RTC</Title>
-<BODY>
+<html>
+<title>ROM, RAM, NVR, RTC</title>
+<body>
 <h1>ROM, RAM, NVR, RTC</h1>
 <p>
-Most computer configurations will define one or two ROM @xxxx, RAM @xxxx or NVR @xxxx buttons as shown (highlighted in yellow) in screenshot below.
+Most computer configurations will define one or two <strong>ROM @xxxx</strong>, <strong>RAM @xxxx</strong> or <strong>NVR @xxxx</strong> buttons as shown in screenshot below.
 </p>
+
 <p>
-<IMG SRC="images/computer_rom_ram_nvr.png" border="0" width="443" height ="376">
+<img src="images/computer_rom_ram_nvr.png" border="0" width="724" height="609">
 </p>
+
+<ul>
+<li>(1) <strong>ROM @xxxx</strong>, <strong>RAM @xxxx</strong> or <strong>NVR @xxxx</strong> buttons</li>
+</ul>
+
 <p>
-Via these buttons the emulated computer can be started with specific software loaded in ROM, RAM or NVR (Non-volatile RAM). Every button specifies the hexadecimal start address @xxxx as defied in the XML file. The default file location is also specified in the XML file. To change the location use the button to browse for the file, do the same to change the filename or type in a new file name in the text field.
+Via these buttons the emulated computer can be started with specific software loaded in ROM, RAM or NVR (non-volatile RAM). Each button specifies the hexadecimal start address @xxxx as defined in the XML file. The default file location is also specified in the XML file.
 </p>
+
 <p>
-Note that ROM files in binary format (extension bin, ch8, c8x, ch10, sc8, st2), will be loaded at the specified start address. Intel hex (extension hex) and RCS Elf emulator hex format (extension txt) include storage locations and as such will be loaded to the specified address location.
+To change the file location, use the <strong>Browse</strong> button. Use the same method to change the filename or type a new file name in the text field.
 </p>
+
 <p>
-During run time additional files can be loaded, see also sections <a href="ComputerMemAccess.htm">Memory Access</a>, <a href="ComputerDisk.htm">Disk Support</a>, <a href="ComputerCassette.htm">Cassette Support</a> and/or <a href="ComputerModem.htm">HEX or XMODEM Support</a>
+<strong>Note:</strong> ROM files in binary format (extensions <tt>.bin</tt>, <tt>.ch8</tt>, <tt>.c8x</tt>, <tt>.ch10</tt>, <tt>.sc8</tt>, <tt>.st2</tt>) will be loaded at the specified start address. Intel HEX files (extension <tt>.hex</tt>) and RCS Elf emulator HEX format files (extension <tt>.txt</tt>) include storage locations and will be loaded to the specified address locations.
 </p>
+
+<p>
+During runtime additional files can be loaded. See the <a href="ComputerMemAccess.htm">Memory Access</a>, <a href="ComputerDisk.htm">Disk Support</a>, <a href="ComputerCassette.htm">Cassette Support</a>, and/or <a href="ComputerModem.htm">HEX or XMODEM Support</a> sections.
+</p>
+
 <h2>NVR</h2>
 <p>
-To clear NVR memory at start-up, select the 'Clear non-volatile' RAM check box. After start-up the emulator will automatically unselect the checkbox.
+To clear NVR memory at start-up, select the <strong>Clear non-volatile RAM</strong> checkbox. After start-up the emulator will automatically unselect the checkbox.
 </p>
+
 <h2>RTC</h2>
 <p>
-To clear RTC memory at start-up, select the 'Clear non-volatile' RTC. After start-up the emulator will automatically unselect the checkbox.
+To clear RTC memory at start-up, select the <strong>Clear non-volatile RTC</strong> checkbox. After start-up the emulator will automatically unselect the checkbox.
 </p>
-<p>
-</BODY>
-</HTML>
+
+</body>
+</html>

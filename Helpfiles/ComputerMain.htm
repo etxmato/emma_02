@@ -1,53 +1,142 @@
 
+
 <html>
 <title>Computer</title>
 <body>
 <h1>Computer</h1>
+
 <p>
-To start a computer emulation press 'Start' (highlighted in yellow in screenshot below). After startup the 'Start' button will change to 'Reset' and the 'Stop' button will be enabled. To stop a running computer either press 'Stop' or close the main emulation window.
+The Computer tab is used to configure the emulated system and associated files.
 </p>
+
 <p>
-<IMG SRC="images/computer_xml.png" border="0" width="443" height ="376">
+Some controls may be disabled depending on the selected computer type or configuration.
 </p>
+
 <p>
-To select an XML file select the desired computer (highlighted in orange) and then the xml file itself (highlighted in blue).
+The main controls of the Computer tab are shown in the screenshot below. The numbered markers in the screenshot correspond to the descriptions in this section.
 </p>
+
 <p>
-When selecting the xml file a short description of the selected configuration for that file is shown in the Configuration field (highlighted in green). The rest of the GUI will be enabled or disabled based on the XML file content. As stated above start any selected emulation by selecting 'Start' (highlighted in yellow).
+<img src="images/computer_xml.png" border="0" width="724" height="609">
 </p>
+
+<ul>
+<li>(1) <strong>Start</strong> / <strong>Reset</strong> button</li>
+<li>(2) <strong>Computer</strong> selector</li>
+<li>(3) <strong>XML</strong> button</li>
+<li>(4) <strong>XML file</strong> selector</li>
+<li>(5) <strong>Configuration</strong> text field</li>
+</ul>
+
 <p>
-The computer list (highlighted in orange) is generated based on the folder structure in the Xml folder within the data folder (see also <a href="MainFile.htm">Directory and File Structure</a>). A different Xml folder can be selected via the XML button (highlighted in brown). 
+To start a computer emulation, press <strong>Start</strong> (1). After startup, the <strong>Start</strong> button changes to <strong>Reset</strong>, and the <strong>Stop</strong> button becomes available. To stop a running computer, press <strong>Stop</strong> or close the main emulation window.
 </p>
+
 <p>
-The current defined computer list is show when using the computer selector (highlighted in orange):
+To select an XML configuration file, first choose the desired computer (2), and then select the XML file (4).
 </p>
+
 <p>
-<IMG SRC="images/computer_list.png" border="0" width="443" height ="1342">
+When an XML file is selected, a short description of the configuration is shown in the <strong>Configuration</strong> field (5). Based on the contents of the XML file, parts of the user interface are enabled or disabled automatically. Start the selected emulation by pressing <strong>Start</strong> (1).
 </p>
+
 <p>
-If a new folder is created within the Xml folder it will show up as a computer on next startup or when reselecting the XML folder via the XML button (highlighted in brown). If defined the extended computer name will replace the computer folder name if defined in the xml file via the &lt;system&gt;&lt;name&gt; tag. As such it is recommended to use one and the same name tag in all xml files within one computer folder.
+The computer list (2) is generated from the directory structure in the XML directory within the data directory (see the <a href="MainFile.htm">Directory and File Structure</a> section). A different XML directory can be selected using the <strong>XML</strong> button (3).
 </p>
+
 <p>
-Each computer includes one or more xml files depending on number of available configurations.
+The currently defined computer list is shown when using the computer selector (2):
 </p>
+
+<ul>
+<li>CDP18S020 Evaluation Kit</li>
+<li>COMX-35</li>
+<li>COMiX-35</li>
+<li>COSMAC Elf</li>
+<li>COSMAC Elf 2000</li>
+<li>COSMAC Microtutor I</li>
+<li>COSMAC Microtutor II</li>
+<li>COSMAC VIP</li>
+<li>COSMAC VIP II</li>
+<li>CT Payphone</li>
+<li>Cidelsa Arcade Game Console</li>
+<li>Conic (Apollo, Mustang, MPT-02 and M1200)</li>
+<li>Cosmicos - COSmac Micro Computer System</li>
+<li>Cybervision 2001</li>
+<li>EFA-datorn</li>
+<li>ETI-660</li>
+<li>Elf</li>
+<li>FRED 1</li>
+<li>FRED 1.5</li>
+<li>HEC1802</li>
+<li>HUG1802</li>
+<li>Infinite UC1800</li>
+<li>JVIP</li>
+<li>Macbug</li>
+<li>Membership Card</li>
+<li>Netronics Elf II</li>
+<li>Oscom Nano</li>
+<li>PECOM 32</li>
+<li>PECOM 64</li>
+<li>Pico/Elf V2</li>
+<li>Quest Super Elf</li>
+<li>RCA COSMAC Computer Game System</li>
+<li>RCA COSMAC Development System</li>
+<li>RCA COSMAC Microboard Computer</li>
+<li>RCA MicroDisk Development System MS2000</li>
+<li>RCA Microboard Computer Development System</li>
+<li>RCA Studio II</li>
+<li>RCA Studio III</li>
+<li>RCA Studio IV</li>
+<li>RCA Video Coin Arcade Game Console</li>
+<li>SBC1802</li>
+<li>Studio 2020</li>
+<li>Telmac 1800</li>
+<li>Telmac 2000</li>
+<li>Telmac TMC-600</li>
+<li>VELF</li>
+<li>VIP2K Membership Card</li>
+<li>VIS1802</li>
+<li>VP3000 Interactive Data Terminal</li>
+<li>VP4801</li>
+<li>VT1802</li>
+<li>Visicom COM-100</li>
+</ul>
+
 <p>
-For details about the XML syntax see the <a href="XMLCodeSyntax.htm">XML Code Syntax</a> section.<br>
+If a new directory is created within the XML directory, it will appear as a computer at the next startup or after reselecting the XML directory using the <strong>XML</strong> button (3).
 </p>
-<h2>Table of contents</h2>
+
 <p>
-<a href="ComputerMemoryFiles.htm">ROM, RAM, NVR, RTC</a><br>
-<a href="ComputerKeyFile.htm">Key File</a><br>
-<a href="ComputerPrinter.htm">Printer/Plotter Support</a><br>
-<a href="ComputerScreendump.htm">Video Dump</a><br>
-<a href="ComputerDisk.htm">Disk Support</a><br>
-<a href="ComputerCassette.htm">Cassette Support</a><br>
-<a href="ComputerRealCassette.htm">Real Cassette Support</a><br>
-<a href="ComputerModem.htm">HEX and XMODEM Support</a><br>
-<a href="ComputeZoom.htm">Zoom Level and Full Screen Mode</a><br>
-<a href="ComputerSound.htm">Sound</a><br>
-<a href="ComputerMemAccess.htm">Memory Access</a><br>
-<a href="TerminalMain.htm">Video Terminal Simulation</a><br>
-<a href="ComputerClock.htm">Clock Speed</a><br>
+If defined, the extended computer name specified in the XML file replaces the computer directory name using the &lt;system&gt;&lt;name&gt; tag. It is therefore recommended to use the same name tag in all XML files within a single computer directory.
 </p>
+
+<p>
+Each computer may include one or more XML files, depending on the number of available configurations.
+</p>
+
+<p>
+See the <a href="XMLCodeSyntax.htm">XML Code Syntax</a> section.
+</p>
+
+<h2>Table of Contents</h2>
+
+<ul>
+<li><a href="ComputerMemoryFiles.htm">ROM, RAM, NVR, RTC</a></li>
+<li><a href="ComputerKeyFile.htm">Key File</a></li>
+<li><a href="ComputerPrinter.htm">Printer/Plotter Support</a></li>
+<li><a href="ComputerScreendump.htm">Video Dump</a></li>
+<li><a href="ComputerDisk.htm">Disk Support</a></li>
+<li><a href="ComputerCassette.htm">Cassette Support</a></li>
+<li><a href="ComputerRealCassette.htm">Real Cassette Support</a></li>
+<li><a href="ComputerModem.htm">HEX and XMODEM Support</a></li>
+<li><a href="ComputerZoom.htm">Zoom Level and Full Screen Mode</a></li>
+<li><a href="ComputerSound.htm">Sound</a></li>
+<li><a href="ComputerMemAccess.htm">Memory Access</a></li>
+<li><a href="TerminalMain.htm">Video Terminal Simulation</a></li>
+<li><a href="ComputerClock.htm">Clock Speed</a></li>
+</ul>
+
 </body>
 </html>

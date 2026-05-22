@@ -1,0 +1,53 @@
+<html>
+<title>Configuration</title>
+<body>
+
+<h1>Configuration</h1>
+
+<p>
+The Configuration tab provides configuration information for the emulated computer.
+</p>
+
+<p>
+The main elements of the Configuration tab are shown in the screenshot below.
+</p>
+
+<p>
+<img src="images/configuration.png" border="0" width="724" height="609">
+</p>
+
+<p>
+To open this tab, select the <strong>Configuration</strong> tab (1).
+</p>
+
+<p>
+The Configuration tab contains three sub-tabs:
+</p>
+
+<ul>
+<li>(2) <strong>Startup</strong> sub-tab - startup configuration summary.</li>
+<li>(3) <strong>Video</strong> sub-tab - debugging of video configurations. See the <a href="ConfigurationVideo.htm">Video Configurations</a> section.</li>
+<li>(4) <strong>Other</strong> sub-tab - debugging of other configurations. See the <a href="ConfigurationOther.htm">Other Configurations</a> section.</li>
+</ul>
+
+<h2>Important Notes</h2>
+
+<ul>
+<li>Settings in the <strong>Video</strong> and <strong>Other</strong> tabs are <strong>not</strong> saved in the Emma 02 configuration file. Each time Emma 02 starts, configuration settings return to their default values.</li>
+</ul>
+
+<h2>When to Use the Configuration tab</h2>
+
+<p>
+Use the Configuration tab when:
+</p>
+
+<ul>
+<li>You want to understand how configured I/O is defined.</li>
+<li>You need to check Video and Other I/O register values.</li>
+</ul>
+
+</body>
+</html>
+
+

@@ -83,6 +83,9 @@ void PixieConfig::pixieConfigInit()
     computerConfiguration.cdp1861Configuration.defaultX = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     computerConfiguration.cdp1861Configuration.defaultY = mainWindowY_;
 
+    if (!mode_.gui)
+        return;
+
     XRCCTRL(*this, THIS_PANEL_NAME, wxPanel)->Hide();
 
     disableIoPortConfigRadio(registerIdPixie[PIXIE_ENABLE]);
@@ -153,7 +156,7 @@ void PixieConfig::parseXml_PixieVideo(wxXmlNode &node)
     int tagTypeInt;
     long width, height;
     int red, green, blue, xpos, ypos;
-    wxString color, scale, position, iogroup, label;
+    wxString color, position, iogroup;
     size_t ioGroupNumber = 0;
 
     wxXmlNode *child = node.GetChildren();
@@ -237,7 +240,8 @@ void PixieConfig::parseXml_PixieVideo(wxXmlNode &node)
                 if (child->GetAttribute("type") == "on")
                 {
                     computerConfiguration.cdp1861Configuration.efScreenOn = true;
-                    XRCCTRL(*this, "PixieEfDisplayScreenOn", wxStaticText)->SetLabel("Screen off: no frame indicator");
+                    if (mode_.gui)
+                        XRCCTRL(*this, "PixieEfDisplayScreenOn", wxStaticText)->SetLabel("Screen off: no frame indicator");
                 }
                 computerConfiguration.cdp1861Configuration.ef = parseXml_EfFlag(*child, CDP1861_IN_FRAME_EF);
                 setEfFlagConfig(computerConfiguration.cdp1861Configuration.ef, "in frame indicator", "PixieEfDisplayText");
@@ -250,7 +254,8 @@ void PixieConfig::parseXml_PixieVideo(wxXmlNode &node)
                     computerConfiguration.cdp1861Configuration.ioGroupVector.resize(ioGroupNumber+1);
                     computerConfiguration.cdp1861Configuration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
                 }
-                XRCCTRL(*this,"PixieIoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.cdp1861Configuration.ioGroupVector));
+                if (mode_.gui)
+                    XRCCTRL(*this,"PixieIoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.cdp1861Configuration.ioGroupVector));
             break;
 
             case TAG_ZOOM:
@@ -311,7 +316,8 @@ void PixieConfig::parseXml_PixieVideo(wxXmlNode &node)
                 if (child->GetNodeContent() == "vis")
                 {
                     computerConfiguration.cdp1861Configuration.colorType = PIXIE_COLOR_VISICOM;
-                    XRCCTRL(*this, "PixieVisicomColor", wxStaticText)->SetLabel("Visicom COM-100 color");
+                    if (mode_.gui)
+                        XRCCTRL(*this, "PixieVisicomColor", wxStaticText)->SetLabel("Visicom COM-100 color");
                 }
             break;
 
@@ -321,7 +327,8 @@ void PixieConfig::parseXml_PixieVideo(wxXmlNode &node)
 
             case TAG_HIGH_RES:
                 computerConfiguration.cdp1861Configuration.highRes = true;
-                XRCCTRL(*this, "PixieHighRes", wxStaticText)->SetLabel("High resolution mode");
+                if (mode_.gui)
+                    XRCCTRL(*this, "PixieHighRes", wxStaticText)->SetLabel("High resolution mode");
             break;
 
             case TAG_HEIGHT:
@@ -344,8 +351,6 @@ void PixieConfig::parseXml_PixieVideo(wxXmlNode &node)
 
 void PixieConfig::updatePixiePanel()
 {
-    wxString buffer;
-
     if (computerConfiguration.cdp1861Configuration.defined)
     {
         for (size_t registerNumber = 0; registerNumber<PIXIE_NUMBER_OF_REGISTERS; registerNumber++)
@@ -367,7 +372,7 @@ int PixieConfig::setPixieRegister(int registerNumber, bool value, int showTrace)
 
     if (XRCCTRL(*this,registerIdPixie[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionPixie[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionPixie[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -379,7 +384,7 @@ void PixieConfig::PixieEnable(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -390,7 +395,7 @@ void PixieConfig::PixieDisable(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 

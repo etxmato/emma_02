@@ -614,10 +614,10 @@ void SwitchButton::enable(wxDC& dc, bool enabled)
 RotButton::RotButton(wxDC& dc, int state, wxCoord x, wxCoord y)
 {
     wxBitmap *bitmap;
-    wxString linuxExtension = "";
+/*    wxString linuxExtension = "";
 #if defined (__linux__)
     linuxExtension = "_linux";
-#endif
+#endif*/
     
     buttonSize_.x = 60;
     buttonSize_.y = 60;
@@ -860,6 +860,10 @@ Panel::~Panel()
 //#endif
             break;
 
+            case PUSH_BUTTON_FLEX:
+                 delete button->windowsButton;
+            break;
+                
             case PUSH_BUTTON_RED:
             case PUSH_BUTTON_ORANGE:
             case PUSH_BUTTON_YELLOW:
@@ -908,7 +912,10 @@ Panel::~Panel()
                     break;
                     case LED_FUNC_BIT_OUT:
                         if (ledOutPointerDefined[button->output.portNumber[0]][button->value])
+                        {
                             delete ledOutPointer[button->output.portNumber[0]][button->value];
+                            ledOutPointerDefined[button->output.portNumber[0]][button->value] = false;
+                        }
                     break;
                     case LED_FUNC_ADDRESS:
                         delete ledPointer[button->value+8];
@@ -1142,10 +1149,17 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
             case PUSH_BUTTON_RECTANGLE:
             case PUSH_BUTTON_RECTANGLE_SMALL:
 //#if defined (__WXMAC__)
-                button->hexButton = new HexButton(dc, button->type, button->position.x, button->position.y, button->label);
+                if (button->function == BUTTON_FUNC_COIN)
+                    button->hexButton = new HexButton(dc, button->type, button->position.x, button->position.y, p_Main->getCoinLogText( button->value));
+                else
+                    button->hexButton = new HexButton(dc, button->type, button->position.x, button->position.y, button->label);
 //#else
 //                button->windowsButton = new wxButton(this, button->value, button->label, button->position, button->size, 0, wxDefaultValidator, "");
 //#endif
+            break;
+
+            case PUSH_BUTTON_FLEX:
+                button->windowsButton = new wxButton(this, button->value, button->label, button->position, button->size, wxBU_LEFT, wxDefaultValidator, "");
             break;
 
             case PUSH_BUTTON_RED:
@@ -1828,6 +1842,15 @@ void Panel::executeMousePressFunction(std::vector<GuiItemConfiguration>::iterato
         case BUTTON_FUNC_IN_INTERRUPT:
             p_Computer->onInButtonPress(IN_BUTTON_PUSH);
             p_Computer->requestInterrupt(INTERRUPT_TYPE_INPUT, true, picInterruptNumber_);
+        break;
+
+        case BUTTON_FUNC_COIN:
+            p_Computer->insertCoin(button->value);
+            
+        break;
+
+        case BUTTON_FUNC_CT2425:
+            p_Computer->answerCall();
         break;
 
         case BUTTON_FUNC_HEX:

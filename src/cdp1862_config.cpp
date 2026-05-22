@@ -74,6 +74,9 @@ void Cdp1862Config::cdp1862ConfigInit()
     computerConfiguration.cdp1862Configuration.colorType = PIXIE_COLOR_DEFAULT;
     computerConfiguration.cdp1862Configuration.defined = false;
 
+    if (!mode_.gui)
+        return;
+
     XRCCTRL(*this, THIS_PANEL_NAME, wxPanel)->Hide();
 	
     disableIoPortConfig(registerIdCdp1862[CDP1862_BACKGROUND]);
@@ -118,7 +121,7 @@ void Cdp1862Config::parseXml_Cdp1862Video(wxXmlNode &node)
     int tagTypeInt;
     int red, green, blue;
     bool whiteDefined = false, blackDefined = false;
-    wxString color, scale, position, iogroup, label;
+    wxString color, iogroup, label;
     size_t ioGroupNumber = 0;
 
     wxXmlNode *child = node.GetChildren();
@@ -146,7 +149,8 @@ void Cdp1862Config::parseXml_Cdp1862Video(wxXmlNode &node)
                     computerConfiguration.cdp1862Configuration.startRam = (int)start;
                     computerConfiguration.cdp1862Configuration.endRam = (int)end;
 					label.Printf("Color RAM: %04X-%04X", (Word)start, (Word)end);
-            		XRCCTRL(*this, "Cdp1862ColorRamRange", wxStaticText)->SetLabel(label);
+                    if (mode_.gui)
+                        XRCCTRL(*this, "Cdp1862ColorRamRange", wxStaticText)->SetLabel(label);
                 }
             break;
 
@@ -154,19 +158,22 @@ void Cdp1862Config::parseXml_Cdp1862Video(wxXmlNode &node)
 				if (child->GetNodeContent() == "eti" || child->GetNodeContent() == "hug" || child->GetNodeContent() == "hec")
 				{
                     computerConfiguration.cdp1862Configuration.colorType = PIXIE_COLOR_ETI_1862;
-                    XRCCTRL(*this, "Cdp1862Color", wxStaticText)->SetLabel("HUG1802 color mode");
+                    if (mode_.gui)
+                        XRCCTRL(*this, "Cdp1862Color", wxStaticText)->SetLabel("HUG1802 color mode");
                 }
                 if (child->GetNodeContent() == "vic" || child->GetNodeContent() == "vip")
                 {
                     if (child->GetNodeContent() == "vip")
 					{
                         computerConfiguration.cdp1862Configuration.colorType = PIXIE_COLOR_VIP_1862;
-                        XRCCTRL(*this, "Cdp1862Color", wxStaticText)->SetLabel("VIP color mode");
+                        if (mode_.gui)
+                            XRCCTRL(*this, "Cdp1862Color", wxStaticText)->SetLabel("VIP color mode");
                     }
                     else
 					{
                         computerConfiguration.cdp1862Configuration.colorType = PIXIE_COLOR_VICTORY_1862;
-                        XRCCTRL(*this, "Cdp1862Color", wxStaticText)->SetLabel("Victory color mode");
+                        if (mode_.gui)
+                            XRCCTRL(*this, "Cdp1862Color", wxStaticText)->SetLabel("Victory color mode");
                     }
                     if (whiteDefined && blackDefined)
                     {
@@ -186,12 +193,14 @@ void Cdp1862Config::parseXml_Cdp1862Video(wxXmlNode &node)
                 if (child->GetNodeContent() == "tmc")
 				{
                     computerConfiguration.cdp1862Configuration.colorType = PIXIE_COLOR_TMC2000_1862;
-                    XRCCTRL(*this, "Cdp1862Color", wxStaticText)->SetLabel("Telmac color mode");
+                    if (mode_.gui)
+                        XRCCTRL(*this, "Cdp1862Color", wxStaticText)->SetLabel("Telmac color mode");
                 }
                 if (child->GetNodeContent() == "cos")
 				{
                     computerConfiguration.cdp1862Configuration.colorType = PIXIE_COLOR_DEFAULT;
-					XRCCTRL(*this, "Cdp1862Color", wxStaticText)->SetLabel("Cosmicos color mode");
+                    if (mode_.gui)
+                        XRCCTRL(*this, "Cdp1862Color", wxStaticText)->SetLabel("Cosmicos color mode");
 				}
             break;
                 
@@ -269,7 +278,8 @@ void Cdp1862Config::parseXml_Cdp1862Video(wxXmlNode &node)
                     computerConfiguration.cdp1862Configuration.ioGroupVector.resize(ioGroupNumber+1);
                     computerConfiguration.cdp1862Configuration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
                 }
-                XRCCTRL(*this,"Cdp1862IoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.cdp1862Configuration.ioGroupVector));
+                if (mode_.gui)
+                    XRCCTRL(*this,"Cdp1862IoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.cdp1862Configuration.ioGroupVector));
             break;
 
             case TAG_COMMENT:
@@ -288,8 +298,6 @@ void Cdp1862Config::parseXml_Cdp1862Video(wxXmlNode &node)
 
 void Cdp1862Config::updateCdp1862Panel()
 {
-    wxString buffer;
-
     if (computerConfiguration.cdp1862Configuration.defined)
     {
         for (size_t registerNumber = 0; registerNumber<CDP1862_NUMBER_OF_REGISTERS; registerNumber++)
@@ -311,7 +319,7 @@ int Cdp1862Config::setCdp1862Register(int registerNumber, Byte value, int showTr
 
     if (XRCCTRL(*this,registerIdCdp1862[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionCdp1862[registerNumber], cdp1862ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionCdp1862[registerNumber], cdp1862ConfigRegisterValueString[registerNumber], showTrace);
         
         if (showTrace == SHOW_ADDRESS_TRACE)
             return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -327,7 +335,7 @@ int Cdp1862Config::setCdp1862RegisterNible(int registerNumber, Byte value, int s
 
     if (XRCCTRL(*this,registerIdCdp1862[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionCdp1862[registerNumber], cdp1862ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionCdp1862[registerNumber], cdp1862ConfigRegisterValueString[registerNumber], showTrace);
         
         if (showTrace == SHOW_ADDRESS_TRACE)
             return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -345,7 +353,7 @@ int Cdp1862Config::setCdp1862RegisterNible(int registerNumber, Word address, Byt
 
     if (XRCCTRL(*this,registerIdCdp1862[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionCdp1862[registerNumber], addressString, cdp1862ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionCdp1862[registerNumber], addressString, cdp1862ConfigRegisterValueString[registerNumber], showTrace);
         
         if (showTrace == SHOW_ADDRESS_TRACE)
             return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -357,7 +365,7 @@ void Cdp1862Config::Cdp1862Background(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 

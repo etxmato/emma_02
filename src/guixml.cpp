@@ -271,7 +271,7 @@ void GuiXml::writeXmlDirConfig()
 
 void GuiXml::writeXmlConfig()
 {
-    wxString buffer, numberStr, type;
+    wxString numberStr, type;
 
     configPointer->Write("Computer/XmlDirComboSelection", xmlDirComboSelection);
     configPointer->Write("Computer/XmlDirComboString", xmlDirComboString);
@@ -535,11 +535,9 @@ void GuiXml::readDefaultVtConfig()
     computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].bitsPerCharacter = (int) configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtBitsPerCharacter", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].bitsPerCharacter);
     configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtParity", &computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].parity, computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].parity);
     configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtParitySense", &computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].paritySense, computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].paritySense);
-    if (!computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBitString.ToDouble(&computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBit))
-    {
-        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBit = 0;
-        computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBitString = "0";
-    }
+    configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtStopBit", &computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBit, computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].stopBit * 10);
+    computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBit = (double) (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBit / 10);
+
     computerConfiguration.videoTerminalConfiguration.bellFrequency = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Bell_Frequency", computerConfiguration.videoTerminalConfiguration.defaultBellFrequency);
     computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].charactersPerRow = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharactersPerRow", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].charactersPerRow);
     computerConfiguration.videoTerminalConfiguration.characterWidth = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharacterWidth", computerConfiguration.videoTerminalConfiguration.defaultCharacterWidth);
@@ -565,7 +563,7 @@ void GuiXml::writeDefaultVtConfig()
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtBitsPerCharacter", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].bitsPerCharacter);
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtParity", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].parity);
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtParitySense", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].paritySense);
-    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/StopBits", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBitString);
+    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtStopBit", (int) (double)(computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].stopBit * 10));
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Bell_Frequency", computerConfiguration.videoTerminalConfiguration.bellFrequency);
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharactersPerRow", computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[MANUAL_SETTING].charactersPerRow);
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/VtCharacterWidth", computerConfiguration.videoTerminalConfiguration.characterWidth);
@@ -717,6 +715,7 @@ void GuiXml::onXmodem(wxCommandEvent& WXUNUSED(event))
 void GuiXml::onXmodemText(wxCommandEvent&event)
 {
     computerConfiguration.videoTerminalConfiguration.xmodemFileName = event.GetString();
+    computerConfiguration.videoTerminalConfiguration.xmodemFileName.Trim();
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Xmodem_File", computerConfiguration.videoTerminalConfiguration.xmodemFileName);
 }
 
@@ -1148,10 +1147,11 @@ void GuiXml::onLedTimerXml(wxCommandEvent&event)
 void GuiXml::onAutoLoadXml(wxCommandEvent&event)
 {
     computerConfiguration.autoCassetteLoad_ = event.IsChecked();
-    if (computerRunning_ && (selectedTab_ == XMLTAB))
+    if (computerRunning_)
     {
-        XRCCTRL(*this, "CasLoadXml", wxButton)->Enable(!computerConfiguration.autoCassetteLoad_);
-        XRCCTRL(*this, "CasSaveXml", wxButton)->Enable(!computerConfiguration.autoCassetteLoad_ && !computerConfiguration.videoTerminalConfiguration.hexModem_defined);
+        XRCCTRL(*this, "CasLoadXml", wxButton)->Enable(!computerConfiguration.autoCassetteLoad_ || computerConfiguration.videoTerminalConfiguration.xModem_defined || computerConfiguration.videoTerminalConfiguration.hexModem_defined);
+        XRCCTRL(*this, "CasStopXml", wxButton)->Enable(!computerConfiguration.autoCassetteLoad_ || computerConfiguration.videoTerminalConfiguration.xModem_defined || computerConfiguration.videoTerminalConfiguration.hexModem_defined);
+        XRCCTRL(*this, "CasSaveXml", wxButton)->Enable(!computerConfiguration.autoCassetteLoad_ || computerConfiguration.videoTerminalConfiguration.xModem_defined || computerConfiguration.videoTerminalConfiguration.hexModem_defined);
         if (computerConfiguration.swTapeConfiguration.twoDecks || computerConfiguration.hwTapeConfiguration.twoDecks)
         {
             XRCCTRL(*this, "CasLoad1Xml", wxButton)->Enable(!computerConfiguration.autoCassetteLoad_);
@@ -1281,8 +1281,6 @@ void GuiXml::romRomComboXml(int romRamButton, wxString romRamButtonString)
 
 void GuiXml::onMainXmlXml(wxCommandEvent& WXUNUSED(event) )
 {
-    wxString fileName;
-
     wxString dirName = wxDirSelector( "Select main XML folder", computerConfiguration.xmlFileConfiguration.mainDirectory);
     if (!dirName)
         return;
@@ -1359,6 +1357,8 @@ void GuiXml::setXmlDirFileGui()
 
 void GuiXml::setXmlDropDown()
 {
+    if (!wxDirExists(computerConfiguration.xmlFileConfiguration.directory))
+        return;
     dropdownUpdateOngoing_ = true;
 
     if (mode_.gui)
@@ -1372,7 +1372,7 @@ void GuiXml::setXmlDropDown()
     
     wxDir *dir;
     dir = new wxDir (computerConfiguration.xmlFileConfiguration.directory);
-    
+        
     bool dirFound = dir->GetFirst(&fileName,  wxEmptyString, wxDIR_FILES);
     while (dirFound)
     {
@@ -1478,7 +1478,7 @@ void GuiXml::setXmlDirDropDown()
     if (mode_.gui)
         XRCCTRL(*this, "MainDirXml", wxChoice)->Clear();
 
-    wxString dirName, dummyFile;
+    wxString dirName;
     dirNameList_.Clear();
     dirNameListDefaultFile_.Clear();
     dirNameListGui_.Clear();
@@ -1777,6 +1777,7 @@ void GuiXml::setXmlGui()
         else
             XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
     }
+
     if (computerConfiguration.hwTapeConfiguration.defined)
     {
         XRCCTRL(*this, "CasLoadXml", wxButton)->Enable(false);

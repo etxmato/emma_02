@@ -3901,7 +3901,7 @@ void Usbcard::sendEmail()
 
 void Usbcard::getPage()
 {
-    wxString headerStr, error, response;
+    wxString headerStr, error;
     baseName_ = "";
     
     wxCurlHTTP http(fileNameOnly_);
@@ -4840,7 +4840,6 @@ void Usbcard::getText()
         linkLine_[i] = 0;
         shapeLine_[i] = 0;
     }
-    wxString closeTag = "/";
     Byte nextChar;
     
     if (urlFragment_ != "")
@@ -5489,7 +5488,6 @@ void Usbcard::writeTable()
     
     writeLine();
     
-    wxString tempStr;
     bool continueLoop = true;
     
     if (urlTable.caption.cellText != "")

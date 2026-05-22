@@ -1,75 +1,112 @@
 <html>
 <title>Profiler</title>
 <body>
+
 <h1>Profiler</h1>
+
 <p>
-Main purpose of this tab is to find hot code spots, dead code and analyse code & test coverage as well as analyse timing for the running computer and CPU. 
+The main purpose of this tab is to identify code hotspots, dead code, coverage statistics, and perform timing analysis of the running computer and CPU.
 </p>
-<p>the 'Tools' tab and then the 'Profiler' tab. Note that the profiler only runs and shows active data when an emulator is running.
-</p>
+
 <p>
-Before starting an emulator the profiler can be switched off with the 'Counters On/Off' selector. During run time the 'Counters Clear' button will reset all counters to 0.
+The main elements of the Profiler tab are shown in the screenshot below.
 </p>
-<h2>Timing</h2>
+
 <p>
-<IMG SRC="images/profiler_timing.png" border="0" width="443" height ="376">
+<img src="images/profiler.png" border="0" width="724" height="609">
 </p>
-<p>
-The top part (highlighted in yellow) shows the following timing details:
-</p>
-<p>
+ 
 <ul>
-<li>Running computer & CPU type
-<li>Number of executed CPU cycles and instructions
-<li>Time the computer has been running
-<li>Effective CPU clock
-<li>Number of instructions executed per second
-<li>Vertical video frequency
+<li>(1) <strong>Profiler</strong> tab</li>
+<li>(2) <strong>Counters On/Off</strong> selector</li>
+<li>(3) <strong>Counters Clear</strong> button</li>
+<li>(4) Timing details display</li>
+<li>(5) Profiler display</li>
 </ul>
-</p>
-<h2>Profiler</h2>
+
 <p>
-<IMG SRC="images/profiler.png" border="0" width="443" height ="376">
+To open this tab, select the <strong>Profiler</strong> tab (1).
 </p>
+
 <p>
-The bottom left part (highlighted in orange) shows the profiler which can be used for the following:
+<strong>Note:</strong> The profiler only runs and displays active data when emulation is running.
 </p>
+
 <p>
+Before starting an emulator, the profiler can be disabled using the <strong>Counters On/Off</strong> selector (2). During runtime, the <strong>Counters Clear</strong> button (3) resets all counters to 0.
+</p>
+
+<p>
+The top part (4) shows the following timing details:
+</p>
+
 <ul>
-<li>To find "<a href="ProfilerHotSpots.htm">Hot Code Spots</a>" in any running software
-<li>To find "<a href="ProfilerDeadCode.htm">Dead Code Spots</a>" in any running software
-<li>As a "<a href="ProfilerCodeCoverage.htm">Code Coverage Tool</a>" to confirm that all code is executed during testing
-<li>Measuring a <a href="ProfilerTimer.htm">time interval</a> between two triggers (with Q flag or OUT x)
+<li>Running computer and CPU type</li>
+<li>Number of executed CPU cycles and instructions</li>
+<li>Total runtime of the computer</li>
+<li>Effective CPU clock speed</li>
+<li>Number of instructions executed per second</li>
+<li>Vertical video frequency</li>
 </ul>
-</p>
-<h2>Memory Dump</h2>
+
 <p>
-On the profiler tab only a small number of locations are shown at anyone time, to be able to scan through memory quicker the profiler on the Memory Dump tab can be used:
+The bottom left part (5) shows the profiler, which can be used for the following purposes:
 </p>
+
+<ul>
+<li>Finding "<a href="ProfilerHotSpots.htm">Hot Code Spots</a>" in running software</li>
+<li>Finding "<a href="ProfilerDeadCode.htm">Dead Code Spots</a>" in running software</li>
+<li>Using the profiler as a "<a href="ProfilerCodeCoverage.htm">Code Coverage Tool</a>" to confirm that all code is executed during testing</li>
+<li>Measuring a <a href="ProfilerTimer.htm">time interval</a> between two triggers (using the Q flag, OUT x or INT)</li>
+</ul>
+
+<h2>Memory Dump - Profiler</h2>
+
 <p>
-<IMG SRC="images/profiler_memory_dump.png"  border="0" width="443" height ="376">
+On the <strong>Profiler</strong> tab only a small number of locations is shown at any one time. To scan through memory more quickly, the profiler on the <strong>Memory Dump</strong> tab can be used:
 </p>
+
 <p>
-To select the memory dump profiler, first select the Memory Dump tab and then as 'Memory' select 'Profiler' (highlighted in yellow). Then 256 addresses will be shown (highlighted in red) each containing one counter value between 1 and 255 in the same colour as used on the profiler tab with 'redder' colour instructions being executed more frequently. The shown counter uses the same logarithmic scale as the colour definition. Formula used is 5*ln(number of executions).
+<img src="images/profiler_memory_dump.png" border="0" width="724" height="609">
 </p>
+
+<ul>
+<li>(1) <strong>Memory Dump</strong> tab</li>
+<li>(2) <strong>Memory type</strong> selector, set to <strong>Profiler</strong></li>
+<li>(3) Counter values display</li>
+<li>(4) <strong>Page navigation</strong> spin buttons</li>
+<li>(5) <strong>Address</strong> text field</li>
+</ul>
+
 <p>
-To change to the previous or next page use the buttons highlighted in the orange, alternatively specify a specific address in the field highlighted in blue.
+To select the Memory Dump profiler, first select the <strong>Memory Dump</strong> tab (1) and then choose <strong>Profiler</strong> (2) as the <strong>Memory</strong> option.
+A total of 256 addresses are shown (3), each containing one counter value between 1 and 255. The colour scheme is the same as on the <strong>Profiler</strong> tab. Instructions executed more frequently are shown in a deeper red colour.
+The displayed counter uses the same logarithmic scale as the colour definition. The colour is calculated using a logarithmic scale.
 </p>
+
 <p>
-For additional details about the Memory Dump tab see also the <a href="DumpMain.htm">Memory Dump</a> section.
+To change to the previous or next page, use the spin buttons (4). Alternatively, specify an address (5).
 </p>
-<h2>Additional Information</h2>
+
 <p>
-Additional Information can be found in the following sub-sections:
+For additional details about the Memory Dump tab, see the <a href="DumpMain.htm">Memory Dump</a> section.
 </p>
+
+<h2>Related Topics</h2>
+
 <p>
-<a href="ProfilerNavigation.htm">Navigation</a><br>
-<a href="ProfilerView.htm">Data View</a><br>
-<a href="ProfilerLinear.htm">Linear & Logarithmic Counters</a><br>
-<a href="ProfilerHotSpots.htm">Hot Code Spots</a><br>
-<a href="ProfilerDeadCode.htm">Dead Code Spots</a><br>
-<a href="ProfilerCodeCoverage.htm">Code Coverage</a><br>
-<a href="ProfilerTimer.htm">Interval Timer</a><br>
+Further details are available in the following sub-sections:
 </p>
+
+<ul>
+<li><a href="ProfilerNavigation.htm">Navigation</a></li>
+<li><a href="ProfilerView.htm">Data View</a></li>
+<li><a href="ProfilerLinear.htm">Linear &amp; Logarithmic Counters</a></li>
+<li><a href="ProfilerHotSpots.htm">Hot Code Spots</a></li>
+<li><a href="ProfilerDeadCode.htm">Dead Code Spots</a></li>
+<li><a href="ProfilerCodeCoverage.htm">Code Coverage</a></li>
+<li><a href="ProfilerTimer.htm">Interval Timer</a></li>
+</ul>
+
 </body>
 </html>

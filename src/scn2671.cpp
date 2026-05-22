@@ -261,6 +261,7 @@ void Scn2671Instance::resetCommand(Byte value)
         case 7: // Communication reset
             communicationModeRegister_ = 0;
             communicationsStatusRegister_ = 0;
+            communicationsStatusRegister_[TRANSMITTER_READY] = REGISTER_EMPTY;
             interruptMaskRegister_ &= 0x1e;
             if ((value & 0x1) == 0x1) // master reset
             {

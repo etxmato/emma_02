@@ -425,6 +425,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>5</border>
 <object class="wxChoice" name="SettingsCdRoot">
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -475,6 +476,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>5</border>
 <object class="wxChoice" name="SettingsCaseFile">
+<size>100,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -512,6 +514,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>5</border>
 <object class="wxChoice" name="SettingsCaseDir">
+<size>100,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -539,7 +542,7 @@
 <border>5</border>
 <object class="wxStaticBoxSizer" name="wxID_ANY">
 <orient>wxVERTICAL</orient>
-<label>Back-up</label>
+<label>Backup</label>
 <font>
 <size>12</size>
 </font>
@@ -563,6 +566,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>5</border>
 <object class="wxChoice" name="SettingsBackup">
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -595,6 +599,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>5</border>
 <object class="wxChoice" name="SettingsBackupSys">
+<size>70,-1</size>
 <font>
 <size>12</size>
 </font>

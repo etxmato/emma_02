@@ -1,231 +1,291 @@
-
 <html>
-<title>Cartridges</title>
+<title>How do I play the MPT-02 cartridge games?</title>
 <body>
-<h2>How do I play the MPT-02 Cartridge games?</h2>
+
+<h1>How do I play the MPT-02 cartridge games?</h1>
+
 <p>
-This section includes short instructions for all included MPT-02 cartridge files, in some cases more complete instructions can be found in the game folder. 
+This section includes short instructions for all included MPT-02 cartridge files. 
 </p>
+
 <p>
-Definitions below assume you are using a numeric keypad and have selected menu item 'Settings / Use Numeric Keypad'. If this option is not selected correct key is indicated in (). Note that for player B keys W, A, S, Z for directions and TAB for fire will work both with and without the 'Use Numeric Keypad' setting selected.
+The descriptions below assume you are using a numeric keypad and have selected
+<tt>Settings / Use Numeric Keypad</tt>. If this option is not selected, the alternative key
+is shown in parentheses.
+For Player B, the keys <tt>W</tt>, <tt>A</tt>, <tt>S</tt>, <tt>Z</tt> control direction and <tt>TAB</tt> is used to fire. These keys work both with and without the <tt>Use Numeric Keypad</tt> setting enabled.
 </p>
+
 <p>
-For Studio II cartridges which will run on the Victory as well see section <a href="StudioCartridges.htm">Studio II Cartridges</a>.
+For Studio II cartridges that will also run on the RCA Studio III, Conic, or MPT-02, see the <a href="StudioCartridges.htm">How do I play the Studio II cartridge games?</a> section.
 </p>
-<h3>Bingo</h3>
+
+
+<h2>Bingo</h2>
+
 <p>
-To start press:<br>
-1: Manual mode, then press 1 again to get a new number<br>
-2: Automatic mode, new numbers will be displayed every 12 seconds until 0 is pressed to stop or 1 to enter manual mode.<br>
-3: Verify mode<br>
-4: Play bingo tune
+Press one of the following keys:
 </p>
+
+<pre>
+0     Stop automatic mode
+1     Manual mode, then press 1 again to get a new number
+2     Automatic mode, new numbers will be displayed every 12 seconds
+3     Verify mode
+4     Play bingo tune
+</pre>
+
 <p>
-In verify mode, type all winning bingo card numbers using keyboard B. If a number was called 'OK' will show, if it was not called 'NO' will show.
+In verify mode, type all winning bingo card numbers using Player B keyboard. If a number was called, 'OK' will show, if it was not called, 'NO' will show.
 </p>
-<h3>Concentration match</h3>
+
+
+<h2>Concentration match</h2>
+
 <p>
-Press 0 to 9 for player A or numpad 0 to 9 (P, Q, W, E, R, T, Y, U , I, O) for player B to start. Whichever keyboard is pressed first that player starts the game. Key 0 will not show any of the symbols, key 9 will show them longest. When the game is started press two keys to select cards to be shown, a score of one point is given if two identical symbols are found.
+Press <tt>0</tt> to <tt>9</tt> for Player A or Numpad <tt>0</tt> to <tt>9</tt> (<tt>P</tt>, <tt>Q</tt>, <tt>W</tt>, <tt>E</tt>, <tt>R</tt>, <tt>T</tt>, <tt>Y</tt>, <tt>U</tt>, <tt>I</tt>, <tt>O</tt>) for Player B to start. Whichever keyboard is pressed first, that player starts the game. Key <tt>0</tt> will not show any of the symbols, key <tt>9</tt> will show them longest. When the game is started press two keys to select cards to be shown, a score of one point is given if two identical symbols are found.
 </p>
+
 <p>
 Keys are mapped to the cards as follows:
 </p>
-<table BORDER COLS=3 WIDTH="90%" >
-<TR>
-<TD WIDTH="15%">
-1
-</TD>
-<TD WIDTH="15%">
-2
-</TD>
-<TD WIDTH="15%">
-2
-</TD>
-<TD WIDTH="15%">
-Numpad 1 (Q)
-</TD>
-<TD WIDTH="15%">
-Numpad 2 (W)
-</TD>
-<TD WIDTH="15%">
-Numpad 3 (E)
-</TD>
-</TR>
-<TR>
-<TD WIDTH="15%">
-4
-</TD>
-<TD WIDTH="15%">
-5
-</TD>
-<TD WIDTH="15%">
-6
-</TD>
-<TD WIDTH="15%">
-Numpad 4 (R)
-</TD>
-<TD WIDTH="15%">
-Numpad 5 (T)
-</TD>
-<TD WIDTH="15%">
-Numpad 6 (Y)
-</TD>
-</TR>
-<TR>
-<TD WIDTH="15%">
-7
-</TD>
-<TD WIDTH="15%">
-8
-</TD>
-<TD WIDTH="15%">
-9
-</TD>
-<TD WIDTH="15%">
-Numpad 7 (U)
-</TD>
-<TD WIDTH="15%">
-Numpad 8 (I)
-</TD>
-<TD WIDTH="15%">
-Numpad 9 (O)
-</TD>
-</TR>
-</TABLE>
-<h3>Grand Pack</h3>
-<h4>Doodle</h4>
+
+<table border="1" width="90%">
+<tr>
+<td width="15%">1</td>
+<td width="15%">2</td>
+<td width="15%">3</td>
+<td width="15%">Numpad 1 (Q)</td>
+<td width="15%">Numpad 2 (W)</td>
+<td width="15%">Numpad 3 (E)</td>
+</tr>
+<tr>
+<td width="15%">4</td>
+<td width="15%">5</td>
+<td width="15%">6</td>
+<td width="15%">Numpad 4 (R)</td>
+<td width="15%">Numpad 5 (T)</td>
+<td width="15%">Numpad 6 (Y)</td>
+</tr>
+<tr>
+<td width="15%">7</td>
+<td width="15%">8</td>
+<td width="15%">9</td>
+<td width="15%">Numpad 7 (U)</td>
+<td width="15%">Numpad 8 (I)</td>
+<td width="15%">Numpad 9 (O)</td>
+</tr>
+</table>
+
+
+<h2>Grand Pack</h2>
+
+
+<h3>Doodle</h3>
+
 <p>
-Press 1 to start, a white dot will appear in the lower left corner. Move the dot by pressing any of the arrow keys (or numpad 1 to 9). Note that pressing two arrow key simultaneously will move diagonally.
+Press <tt>1</tt> to start. A white dot will appear in the lower left corner.
+Move the dot using the Arrow Keys or Numpad <tt>1</tt>-<tt>9</tt>. Pressing two move keys
+simultaneously moves diagonally.
 </p>
+
 <p>
-Press numpad 5 (TAB) to start drawing, press space or numpad 0 to erase.
+Press Numpad <tt>5</tt> (<tt>TAB</tt>) to begin drawing. Press <tt>SPACE</tt> or Numpad <tt>0</tt> to erase.
 </p>
+
 <p>
-Press the following to change colour:<br>
-3: Red<br>
-4: Blue<br>
-5: Violet<br>
-6: Green<br>
-7: Yellow<br>
-8: Light blue<br>
-9: White<br>
-0: Black<br>
+Press the following to change colour:
 </p>
-<h4>Patterns</h4>
+
+<pre>
+3     Red
+4     Blue
+5     Violet
+6     Green
+7     Yellow
+8     Light blue
+9     White
+0     Black
+</pre>
+
+
+<h3>Patterns</h3>
+
 <p>
-Press 2 to start. No dot will appear until an entry is made. Form a simple basic design with the arrow keys (or numpad 1 to 9). Note that pressing two arrow key simultaneously will move diagonally. To erase part of your design just trace back over it. When your design is ready press space or numpad 0 and watch the Victory form the pattern by repeating your design over and over. 
+Press <tt>2</tt> to start.
 </p>
+
+<p><strong>Controls</strong></p>
+
+<pre>
+Arrow Keys / Numpad 1-9   draw base pattern
+SPACE / Numpad 0          generate pattern
+Numpad 5 (TAB)            freeze pattern
+</pre>
+
 <p>
-To 'freeze' pattern press numpad 5 (TAB) and restart with space or numpad 0.
+No dot will appear until a key is pressed. Form a simple design using the Arrow Keys 
+(or Numpad <tt>1</tt>-<tt>9</tt>). To erase part of your design, simply trace back over it.
 </p>
+
 <p>
-After 130 key entries the Victory will start forming a pattern even if no space is pressed.
+When your design is ready, press <tt>SPACE</tt> or Numpad <tt>0</tt>. The system will repeat your design across the screen to form the pattern.
 </p>
+
 <p>
-Press the following to change colour:<br>
-3: Red<br>
-4: Blue<br>
-5: Violet<br>
-6: Green<br>
-7: Yellow<br>
-8: Light blue<br>
-9: White<br>
-0: Black<br>
+To 'freeze' the pattern, press Numpad <tt>5</tt> (<tt>TAB</tt>). Restart with <tt>SPACE</tt> or Numpad <tt>0</tt>.
 </p>
-<h4>Bowling</h4>
+
 <p>
-Press 3 to start. Players take it in turns. 
+After 130 key entries, the system will start forming a pattern even if no <tt>SPACE</tt> is pressed.
 </p>
+
 <p>
-Player A: <br>
-Arrow up: hook up<br>
-Space: straight<br>
-Arrow down: hook down
+Press the following to change colour:
 </p>
+
+<pre>
+3     Red
+4     Blue
+5     Violet
+6     Green
+7     Yellow
+8     Light blue
+9     White
+0     Black
+</pre>
+
+
+<h3>Bowling</h3>
+
 <p>
-Player B: <br>
-numpad 8 (W): hook up<br>
-numpad 5 (TAB): straight<br>
-numpad 2 (Z): hook down
+Press <tt>3</tt> to start. Players take turns rolling the ball.
 </p>
+
+<p><strong>Controls</strong></p>
+
+<pre>
+Player A
+--------
+Up Arrow      hook up
+SPACE         straight
+Down Arrow    hook down
+
+Player B
+--------
+Numpad 8 (W)      hook up
+Numpad 5 (TAB)    straight
+Numpad 2 (Z)      hook down
+</pre>
+
 <p>
-Plays up to 10 frames. 
+The game consists of 10 frames.
 </p>
-<h4>Blackjack</h4>
+
+
+<h3>Blackjack</h3>
+
 <p>
-To start press 4 for a 1 player game and 5 for a 2 player game.
+Press <tt>4</tt> for a one-player game or <tt>5</tt> for a two-player game.
 </p>
+
 <p>
-For all numerical input player A uses keyboard 0 to 9 and player B uses numpad 0 to 9 (P, Q, W, E, R, T, Y, U, I, O). For a 1 player game, the controls for 'player B' are used.
+For all numerical input, Player A uses keyboard <tt>0</tt>-<tt>9</tt> and Player B uses
+Numpad <tt>0</tt>-<tt>9</tt> (<tt>P</tt>, <tt>Q</tt>, <tt>W</tt>, <tt>E</tt>, <tt>R</tt>, <tt>T</tt>, <tt>Y</tt>, <tt>U</tt>, <tt>I</tt>, <tt>O</tt>).
+For a one-player game the controls for Player B are used.
 </p>
+
+<p><strong>Controls</strong></p>
+
+<pre>
+Player A
+--------
+1                 hit
+2                 double
+SPACE             stand
+
+Player B
+--------
+Numpad 1 (Q)      hit
+Numpad 2 (W)      double
+Numpad 0 (TAB)    stand
+</pre>
+
 <p>
-Cut:<br>
-When "Cut" appears on the screen, press numpad 0 (TAB) for a 1 player game and space or numpad 0 (TAB) for a 2 player game. 
+When "Cut" appears on the screen press:
 </p>
+
+<pre>
+1 player game     Numpad 0 (TAB)
+2 player game     SPACE or Numpad 0 (TAB)
+</pre>
+
 <p>
-Bet:<br>
-Each player bets from $01 to $99. 
+Each player bets from $1 to $9. Stakes exceeding $200 - $999 break the bank limit.
 </p>
+
+
+<h2>Pinball</h2>
+
 <p>
-Player A:<br>
-1: hit<br>
-2: double<br>
-Space: stand
+To start press <tt>1</tt> for a one player game or <tt>2</tt> for a two player game.
 </p>
+
+<p><strong>Controls</strong></p>
+
+<pre>
+Player A
+--------
+1                 put a ball in play
+Left Arrow        left flipper
+Right Arrow       right flipper
+SPACE             reverse ball direction
+
+Player B
+--------
+Numpad 1 (Q)      put a ball in play
+Numpad 4 (A)      left flipper
+Numpad 6 (S)      right flipper
+Numpad 0 (TAB)    reverse ball direction
+</pre>
+
 <p>
-Player B:<br>
-Numpad 1 (Q): hit<br>
-Numpad 2 (W): double<br>
-Numpad 0 (TAB): stand 
+In a one player game Player B controls are used. Using <tt>TAB</tt> or <tt>SPACE</tt> too often will cause a 'TILT'.
 </p>
+
+<h2>Star Wars</h2>
+
 <p>
-Stakes: $200 * $999 breaks the bank.
+Press one of the following keys:
 </p>
-<h3>Pinball</h3>
+
+<pre>
+1     One player game
+2     Two player game
+3     Advanced one player game
+</pre>
+
 <p>
-To start press 1 for a one player game and 2 for a two player game.
+The question "SPEED 1 2 3?" will appear on the screen, press <tt>1</tt> for slow, <tt>2</tt> for medium or <tt>3</tt> for high speed action. In the one player games you will use the keys for Player A. In the two player game you may use either keyboard for speed selection. The keyboard you select determines who starts chasing. 
 </p>
-<p>
-<b>Keys for Player A:</b><br>
-1: put a ball in play<br>
-Arrow left: left flipper<br>
-Arrow right: right flipper<br>
-Space: reverse ball direction
-</p>
-<p>
-<b>Keys for Player B:</b><br>
-Numpad 1 (Q): put a ball in play<br>
-Numpad 4 (A): left flipper<br>
-Numpad 6 (S): right flipper<br>
-Numpad 0 (TAB): reverse ball direction
-</p>
-<p>
-In a one player game player B controls are used. Using TAB or Space too often will cause a 'TILT'.
-</p>
-<h3>Star Wars</h3>
-<p>
-To start press:<br>
-1: One player game<br>
-2: Two player game<br>
-3: Advanced one player game
-</p>
-<p>
-The question "SPEED 1 2 3?" will appear on the screen, press 1 for slow, 2 for medium or 3 for high speed action. In the one player games you will use the keys for player 'A'. In the two player game you may use either keyboard for speed selection. The keyboard you select determines who starts chasing. 
-</p>
-<p>
-<b>Keys for Player A (being chased):</b><br>
-Arrow up: up<br>
-Arrow down: down<br>
-Arrow left: left<br>
-Arrow right: right
-</p>
-<p>
-<b>Keys for Player B (being chased):</b><br>
-Numpad 8 (W): up<br>
-Numpad 2 (Z): down<br>
-Numpad 4 (A): left<br>
-Numpad 6 (S): right
-</p>
+
+<p><strong>Controls</strong></p>
+
+<pre>
+Player A (being chased)
+-----------------------
+Up Arrow          up
+Down Arrow        down
+Left Arrow        left
+Right Arrow       right
+
+Player B (being chased)
+-----------------------
+Numpad 8 (W)      up
+Numpad 2 (Z)      down
+Numpad 4 (A)      left
+Numpad 6 (S)      right
+</pre>
+
 <p>
 If your ship is the pursuer (your ship is the viewfinder) the above keys will switch direction (up/down, left/right).
 </p>

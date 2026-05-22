@@ -125,6 +125,9 @@ void Crt8002Config::crt8002ConfigInit()
     computerConfiguration.crt8002Configuration.strikeThruLine1 = -1;
     computerConfiguration.crt8002Configuration.strikeThruLine2 = -1;
     
+    if (!mode_.gui)
+        return;
+
     XRCCTRL(*this, THIS_PANEL_NAME, wxPanel)->Hide();
 
     XRCCTRL(*this, "Crt8002IoGroupText", wxStaticText)->SetLabel("");
@@ -214,7 +217,8 @@ void Crt8002Config::parseXml_Crt8002Video(wxXmlNode &node)
                     computerConfiguration.crt8002Configuration.reverse.reversePolarity = 1;
                     polRevText = "R";
                 }
-                XRCCTRL(*this, registerIdCrt8002[CRT8002_REVERSE]+"Direction", wxStaticText)->SetLabel(polRevText);
+                if (mode_.gui)
+                    XRCCTRL(*this, registerIdCrt8002[CRT8002_REVERSE]+"Direction", wxStaticText)->SetLabel(polRevText);
             break;
 
             case TAG_BLINK:
@@ -224,7 +228,8 @@ void Crt8002Config::parseXml_Crt8002Video(wxXmlNode &node)
                     computerConfiguration.crt8002Configuration.blink.reversePolarity = 1;
                     polRevText = "R";
                 }
-                XRCCTRL(*this, registerIdCrt8002[CRT8002_BLINK]+"Direction", wxStaticText)->SetLabel(polRevText);
+                if (mode_.gui)
+                    XRCCTRL(*this, registerIdCrt8002[CRT8002_BLINK]+"Direction", wxStaticText)->SetLabel(polRevText);
             break;
 
             case TAG_GRAPHIC_MS0:
@@ -234,7 +239,8 @@ void Crt8002Config::parseXml_Crt8002Video(wxXmlNode &node)
                     computerConfiguration.crt8002Configuration.graphic_ms0.reversePolarity = 1;
                     polRevText = "R";
                 }
-                XRCCTRL(*this, registerIdCrt8002[CRT8002_GRAPHIC_MS0]+"Direction", wxStaticText)->SetLabel(polRevText);
+                if (mode_.gui)
+                    XRCCTRL(*this, registerIdCrt8002[CRT8002_GRAPHIC_MS0]+"Direction", wxStaticText)->SetLabel(polRevText);
             break;
 
             case TAG_GRAPHIC_MS1:
@@ -250,7 +256,8 @@ void Crt8002Config::parseXml_Crt8002Video(wxXmlNode &node)
                     computerConfiguration.crt8002Configuration.underline.reversePolarity = 1;
                     polRevText = "R";
                 }
-                XRCCTRL(*this, registerIdCrt8002[CRT8002_UNDERLINE_LINE1]+"Direction", wxStaticText)->SetLabel(polRevText);
+                if (mode_.gui)
+                    XRCCTRL(*this, registerIdCrt8002[CRT8002_UNDERLINE_LINE1]+"Direction", wxStaticText)->SetLabel(polRevText);
                 if (child->HasAttribute("line1"))
                 {
                     computerConfiguration.crt8002Configuration.underlineLine1 = (int)parseXml_Number(*child, "line1");
@@ -268,7 +275,8 @@ void Crt8002Config::parseXml_Crt8002Video(wxXmlNode &node)
                     computerConfiguration.crt8002Configuration.strikeThru.reversePolarity = 1;
                     polRevText = "R";
                 }
-                XRCCTRL(*this, registerIdCrt8002[CRT8002_STRIKE_THRU_LINE1]+"Direction", wxStaticText)->SetLabel(polRevText);
+                if (mode_.gui)
+                    XRCCTRL(*this, registerIdCrt8002[CRT8002_STRIKE_THRU_LINE1]+"Direction", wxStaticText)->SetLabel(polRevText);
                 if (child->HasAttribute("line1"))
                 {
                     computerConfiguration.crt8002Configuration.strikeThruLine1 = (int)parseXml_Number(*child, "line1");
@@ -286,7 +294,8 @@ void Crt8002Config::parseXml_Crt8002Video(wxXmlNode &node)
                     computerConfiguration.crt8002Configuration.blank.reversePolarity = 1;
                     polRevText = "R";
                 }
-                XRCCTRL(*this, registerIdCrt8002[CRT8002_BLANK]+"Direction", wxStaticText)->SetLabel(polRevText);
+                if (mode_.gui)
+                    XRCCTRL(*this, registerIdCrt8002[CRT8002_BLANK]+"Direction", wxStaticText)->SetLabel(polRevText);
             break;
 
             case TAG_FONT:
@@ -306,7 +315,8 @@ void Crt8002Config::parseXml_Crt8002Video(wxXmlNode &node)
                     computerConfiguration.crt8002Configuration.ioGroupVector.resize(ioGroupNumber+1);
                     computerConfiguration.crt8002Configuration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
                 }
-                XRCCTRL(*this,"Crt8002IoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.crt8002Configuration.ioGroupVector));
+                if (mode_.gui)
+                    XRCCTRL(*this,"Crt8002IoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.crt8002Configuration.ioGroupVector));
             break;
 
             case TAG_COMMENT:
@@ -326,8 +336,6 @@ void Crt8002Config::parseXml_Crt8002Video(wxXmlNode &node)
 
 void Crt8002Config::updateCrt8002Panel()
 {
-    wxString buffer;
-
     if (computerConfiguration.crt8002Configuration.defined)
     {
         for (size_t registerNumber = 0; registerNumber<CRT8002_NUMBER_OF_REGISTERS; registerNumber++)
@@ -339,14 +347,6 @@ void Crt8002Config::updateCrt8002Panel()
             }
         }
     }
-/*    for (size_t selectorNumber = 0; selectorNumber<CRT8002_NUMBER_OF_SELECTORS; selectorNumber++)
-    {
-        if (updateCrt8002ConfigSelector[selectorNumber])
-        {
-            XRCCTRL(*this, selectorIdCrt8002[selectorNumber] + "Text", wxStaticText)->SetLabel(selectorFunctionCrt8002[selectorNumber][crt8002ConfigSelector[selectorNumber]]);
-            updateCrt8002ConfigSelector[selectorNumber] = false;
-        }
-    }*/
 }
 
 int Crt8002Config::setCrt8002Register(int registerNumber, Word value, int showTrace)
@@ -357,7 +357,7 @@ int Crt8002Config::setCrt8002Register(int registerNumber, Word value, int showTr
 
     if (XRCCTRL(*this,registerIdCrt8002[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionCrt8002[registerNumber], crt8002ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionCrt8002[registerNumber], crt8002ConfigRegisterValueString[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -371,7 +371,7 @@ int Crt8002Config::readCrt8002Register(int registerNumber, Byte WXUNUSED(value),
 
     if (XRCCTRL(*this,registerIdCrt8002[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceTextRead(registerFunctionCrt8002[registerNumber], crt8002ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceTextRead(registerFunctionCrt8002[registerNumber], crt8002ConfigRegisterValueString[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -387,7 +387,7 @@ int Crt8002Config::readCrt8002RegisterSetData(int registerNumber, Byte value, in
 
     if (XRCCTRL(*this,registerIdCrt8002[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceTextRead(registerFunctionCrt8002[registerNumber], crt8002ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceTextRead(registerFunctionCrt8002[registerNumber], crt8002ConfigRegisterValueString[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -403,7 +403,7 @@ int Crt8002Config::setCrt8002Register(int registerNumber, Byte value, int showTr
 
     if (XRCCTRL(*this,registerIdCrt8002[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionCrt8002[registerNumber], crt8002ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionCrt8002[registerNumber], crt8002ConfigRegisterValueString[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -419,7 +419,7 @@ int Crt8002Config::setCrt8002RegisterNibble(int registerNumber, Byte value, int 
 
     if (XRCCTRL(*this,registerIdCrt8002[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionCrt8002[registerNumber], crt8002ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionCrt8002[registerNumber], crt8002ConfigRegisterValueString[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -429,44 +429,19 @@ int Crt8002Config::setCrt8002RegisterNibble(int registerNumber, Byte value, int 
 
 bool Crt8002Config::isCrt8002TraceChecked(int registerNumber)
 {
+    if (!mode_.gui)
+        return false;
+    
     return XRCCTRL(*this, registerIdCrt8002[registerNumber]+"Trace", wxCheckBox)->IsChecked();
 }
 
 void Crt8002Config::Crt8002Register(wxCommandEvent&event)
 {
-    if (!computerRunning_)
-    {
-        showNotRunning();
-        return;
-    }
+    long number = getButtonNumber(wxWindow::FindWindowById(event.GetId())->GetName());
+    if (number == -1)  return;
 
-    wxString idReference = wxWindow::FindWindowById(event.GetId())->GetName();
-    wxString buttonNumber = idReference.Right(2);
-    
-    long number;
-    if (!buttonNumber.ToLong(&number, 10))
-        return;
-
-    long value = get16BitValue(registerIdCrt8002[number]);
+    long value = getVideoRegisterValue(registerIdCrt8002[number]);
     if (value == -1)  return;
 
     scn2672Pointer->writeRegisterCrt8002(number, value, DO_NOT_SHOW_ADDRESS_TRACE);
 }
-/*
-int Crt8002Config::setCrt8002SelectorValue(int selectorNumber, int selectorValue, int showTrace)
-{
-    crt8002ConfigSelector[selectorNumber] = selectorValue;
-    updateCrt8002ConfigSelector[selectorNumber] = true;
-
-    if (!videoTrace_ || !mode_.gui)  return showTrace;
-
-    if (XRCCTRL(*this,selectorIdCrt8002[selectorNumber]+"Trace", wxCheckBox)->IsChecked())
-    {
-        showTraceText(selectorFunctionCrt8002[selectorNumber][crt8002ConfigSelector[selectorNumber]], showTrace);
-        
-          if (showTrace == SHOW_ADDRESS_TRACE)
-              return DO_NOT_SHOW_ADDRESS_TRACE;
-    }
-    return showTrace;
-}
-*/

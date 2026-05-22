@@ -16,7 +16,7 @@
     </system>
     
     <splash>
-        <text>To start the MCDS UT62 Monitor:&#xD;- Press ‘return’ to set default baud rate&#xD;&#xD;UT62 Command summary:&#xD;A: Assembler&#xD;B: BASIC&#xD;C: Read &amp; display from tape&#xD;D: Memory Display&#xD;E: Tape Editor&#xD;F: Memory Fill&#xD;I: Memory Insert&#xD;J: Rewind&#xD;M: Memory Move&#xD;P: Program Run&#xD;R: Read from tape&#xD;S: Memory Substitute&#xD;W: Write to tape</text>
+        <text>To start the MCDS UT62 Monitor:&#xD;- Press ‘return’ to set default baud rate&#xD;&#xD;UT62 Command summary:&#xD;B: BASIC&#xD;C: Read &amp; display from tape&#xD;D: Memory Display&#xD;E: Tape Editor&#xD;F: Memory Fill&#xD;I: Memory Insert&#xD;J: Rewind&#xD;M: Memory Move&#xD;P: Program Run&#xD;R: Read from tape&#xD;S: Memory Substitute&#xD;W: Write to tape</text>
     </splash>
     
     <bootstrap>
@@ -49,12 +49,6 @@
             <end>0x87FF</end>
             <pulldown mask="ut*.bin" exclude="part">Microboard</pulldown>
             <filename verify="true">ut62_rev2.bin</filename>
-        </rom>
-        
-        <rom>
-            <start>0x9000</start>
-            <end>0xA7FF</end>
-            <filename verify="true">edit_asm.bin</filename>
         </rom>
         
         <rom>

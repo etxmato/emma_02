@@ -3,70 +3,78 @@
 <title>FAQ</title>
 <body>
 <h1>FAQ</h1>
+
 <p>
-This section includes some Frequently Asked Questions (FAQ) for the Emma 02 emulator:
+This section contains frequently asked questions about the Emma 02 emulator.
+Select a topic below to open the corresponding FAQ page.
 </p>
-<p>
-<a href="Faq1.htm">How do I load my SW into an emulated computer?</a><br>
-<a href="Faq2.htm">I have a tape with old SW how do I load that into Emma 02?</a>
-</p>
-<p>
-COMX-35
-</p>
-<p>
-<a href="FaqComx1.htm">How do I run a game or program on the COMX emulator?</a><br>
-<a href="FaqComx2.htm">When I select the 32K RAM card the COMX still states 30K at PR MEM</a><br>
-<a href="FaqComx3.htm">The COMX restarts when I give a DOS command</a><br>
-<a href="FaqComx4.htm">How do I start COMX BASIC, I just see a large COMX logo</a><br>
-<a href="FaqComx5.htm">Why do I see F&M BASIC and not COMX BASIC?</a>
-</p>
-<p>
-Cidelsa Arcade Game Console
-</p>
-<p>
-<a href="FaqCidelsa1.htm">Why do I just get a black screen when I start the Cidelsa Arcade Game Console emulator?</a>
-</p>
-<p>
-Debugger
-</p>
-<p>
-<a href="FaqDebug1.htm">How do I trace just a section of my code?</a>
-</p>
-<p>
-Elf/Os
-</p>
-<p>
-<a href="FaqElfInstElfOsIo.htm">How do I install Elf/Os 2.5 via Biosio?</a><br>
-<a href="FaqElfInstElfOs.htm">How do I install Elf/Os 2.8 on an Elf?</a><br>
-<a href="FaqElfInstBiosio.htm">How do I change to Biosio after Elf/Os 2.8 installation?</a><br>
-<a href="FaqElf2KElfOs_3.0.htm">How do I install Elf/Os 3.0 on a COSMAC Elf 2000?</a>
-</p>
-<p>
-RCA Studio II
-</p>
-<p>
-<a href="FaqStudioBuiltInGames.htm">How do I play the Studio II built in games?</a><br>
-<a href="FaqStudioCartridges.htm">How do I play the Studio II Cartridge games?</a><br>
-<a href="FaqStudioHomebrew.htm">How do I play the Studio II Homebrew games?</a><br>
-<a href="FaqStudioMultiCart.htm">How do I use the 40th Anniversary Multi-cart on a Studio II?</a>
-</p>
-<p>
-RCA Studio III, Conic and MPT-02
-</p>
-<p>
-<a href="FaqVictoryCartridges.htm">How do I play the MPT-02 Cartridge games?</a><br>
-<a href="FaqStudioMultiCart.htm">How do I use the 40th Anniversary Multi-cart on a Studio III, Conic or MPT-02?</a>
-</p>
-<p>
-Telmac TMC-600
-</p>
-<p>
-<a href="FaqTMC-600AD.htm">How can I emulate the A/D Input?</a>
-</p>
-<p>
-Visicom COM-100
-</p>
-<p>
-<a href="FaqVisicomBuiltInGames.htm">How do I play the Visicom COM-100 built in games?</a><br>
-<a href="FaqVisicomCartridges.htm">How do I play the Visicom COM-100 Cartridge games?</a>
-</body></html>
+
+<h2>General</h2>
+
+<ul>
+<li><a href="Faq1.htm">How do I load a program using the LOAD button?</a></li>
+<li><a href="Faq2.htm">How do I load software from an old tape into Emma 02?</a></li>
+</ul>
+
+<h2>COMX-35</h2>
+
+<ul>
+<li><a href="FaqComx1.htm">How do I run a program on the COMX-35?</a></li>
+<li><a href="FaqComx2.htm">Why does the COMX show only 30K at PR MEM when the 32K RAM card is selected?</a></li>
+<li><a href="FaqComx3.htm">Why does the COMX restart when I enter a DOS command?</a></li>
+<li><a href="FaqComx4.htm">How do I start COMX BASIC when I only see a large COMX logo?</a></li>
+<li><a href="FaqComx5.htm">Why do I see F&M BASIC instead of COMX BASIC?</a></li>
+</ul>
+
+<h2>Cidelsa Arcade Game Console</h2>
+
+<ul>
+<li><a href="FaqCidelsa1.htm">Why do I get a black screen when I start the Cidelsa Arcade Game Console?</a></li>
+</ul>
+
+<h2>Debugger</h2>
+
+<ul>
+<li><a href="FaqDebug1.htm">How do I trace a section of code?</a></li>
+</ul>
+
+<h2>Elf/Os</h2>
+
+<ul>
+<li><a href="FaqElfInstElfOsIo.htm">How do I install Elf/Os 2.5 via Biosio?</a></li>
+<li><a href="FaqElfInstElfOs.htm">How do I install Elf/Os 2.8 on an Elf?</a></li>
+<li><a href="FaqElfInstBiosio.htm">How do I change to Biosio after Elf/Os 2.8 installation?</a></li>
+<li><a href="FaqElf2KElfOs_3.0.htm">How do I install Elf/Os 3.0 on a COSMAC Elf 2000?</a></li>
+</ul>
+
+<h2>RCA Studio II</h2>
+
+<ul>
+<li><a href="FaqStudioBuiltInGames.htm">How do I play the Studio II built-in games?</a></li>
+<li><a href="FaqStudioCartridges.htm">How do I play the Studio II cartridge games?</a></li>
+<li><a href="FaqStudioHomebrew.htm">How do I play the Studio II homebrew games?</a></li>
+<li><a href="FaqStudioMultiCart.htm">How do I use the 40th Anniversary Multi-cart on a Studio II?</a></li>
+</ul>
+
+<h2>RCA Studio III, Conic and MPT-02</h2>
+
+<ul>
+<li><a href="FaqVictoryCartridges.htm">How do I play the MPT-02 cartridge games?</a></li>
+<li><a href="FaqStudioMultiCart.htm">How do I use the 40th Anniversary Multi-cart on a Studio III, Conic or MPT-02?</a></li>
+</ul>
+
+<h2>Telmac TMC-600</h2>
+
+<ul>
+<li><a href="FaqTMC-600AD.htm">How can I emulate the A/D Input?</a></li>
+</ul>
+
+<h2>Visicom COM-100</h2>
+
+<ul>
+<li><a href="FaqVisicomBuiltInGames.htm">How do I play the Visicom COM-100 built-in games?</a></li>
+<li><a href="FaqVisicomCartridges.htm">How do I play the Visicom COM-100 cartridge games?</a></li>
+</ul>
+
+</body>
+</html>

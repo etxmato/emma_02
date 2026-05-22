@@ -1,114 +1,350 @@
-<HTML>
-<Title>HEX and XMODEM Support</Title>
-<BODY>
+<html>
+<title>HEX and XMODEM Support</title>
+<body>
+
+
 <h1>HEX and XMODEM Support</h1>
+
 <p>
-HEX or XMODEM file transfer will be activated if the selected XML file includes a HEX or XMODEM defintion.
+HEX or XMODEM file transfer will be activated if the selected XML file includes a HEX or XMODEM definition.
 </p>
+
+
 <h2>HEX Support</h2>
+
 <p>
-<IMG SRC="images/computer_hexmodem.png" border="0" width="443" height ="370">
+The main controls for HEX Support are shown in the screenshot below. The numbered markers in the screenshot correspond to the descriptions in this section.
 </p>
+
 <p>
-A HEX file can be loaded in configurations like an Elf 2000 (when using a terminal), CDP18S020 Evaluation Kit Emulator, Membership Card and VIP2K Membership Card.
+<img src="images/computer_hexmodem.png" border="0" width="724" height="609">
 </p>
+<ul>
+<li>(1) <strong>HEX</strong> button</li>
+<li>(2) <strong>HEX</strong> text field (selected file)</li>
+<li>(3) <strong>Eject</strong> button</li>
+<li>(4) <strong>Auto</strong> checkbox</li>
+<li>(5) <strong>Turbo</strong> checkbox</li>
+<li>(6) <strong>Play</strong> button</li>
+<li>(7) <strong>Stop</strong> button</li>
+<li>(8) <strong>Record</strong> button</li>
+<li>(9) <strong>CPU speed</strong> field (MHz)</li>
+</ul>
+
 <p>
-Before any file transfer select the file in the file selector window by pressing the HEX button (highlighted in blue). The selected file will be shown in the HEX text field (highlighted in orange), to clear this field press the eject button (highlighted in yellow).
+A HEX file can be loaded in configurations such as Elf 2000 (when using a terminal), CDP18S020 Evaluation Kit Emulator, Membership Card and VIP2K Membership Card.
 </p>
+
 <p>
-Default and simplest method to transfer files over the HEX MODEM is 'Auto file transfer', activated by 'Auto' (highlighted in brown). Fastest option is also activating 'Turbo' (highlighted in green). Depending on which type you choose please follow the applicable instructions below.  
+Press the <strong>HEX</strong> button (1) and select a file.<br>
+<strong>Result:</strong> The selected file is shown in the HEX text field (2).
 </p>
+
+<p>
+Press the <strong>Eject</strong> button (3).<br>
+<strong>Result:</strong> The selected file is cleared.
+</p>
+
+<p>
+<strong>Note:</strong> The default and simplest method is <strong>Auto file transfer</strong> (4). For faster transfer, select the <strong>Turbo</strong> checkbox (5).
+</p>
+
+
+<h3>Workflow</h3>
+
+<pre>
+Select File     : Press the HEX button
+Start Transfer  : Auto file transfer or press the Play or Record button
+Stop Transfer   : Press the Stop button
+Turbo Mode      : Enable for faster transfer
+</pre>
+
+
 <h3>Elf 2000 (Manual only)</h3>
+
 <p>
-To transfer HEX files to the Elf 2000 emulator make sure to unselect the 'Auto' (highlighted in brown) option.
+Clear the <strong>Auto</strong> checkbox (4).
 </p>
+
 <p>
-The Elf 2000 monitor should be running and showing the >>> prompt. After a file is selected press play (highlighted in green). The HEX data should show on the Elf 2000 terminal screen. When ready the last line will show: >>>:00000001FF press return and EOF shows on the terminal indicating end of file. The stop botton (highlighted in grey) will stop the transfer.
+Start an Elf 2000 emulator<br>
+<strong>Result:</strong> The Elf 2000 monitor starts and shows the <tt>>>></tt> prompt.
 </p>
-<h3>CDP18S020 Evaluation Kit Emulator (Manual only)</h3>
+
+
+<h4>Loading</h4>
+
 <p>
-To transfer HEX files to the CDP18S020 emulator make sure to unselect the 'Auto' (highlighted in brown) option.
+Press the <strong>Play</strong> button (6).<br>
+<strong>Result:</strong> HEX data is shown on the terminal window.
 </p>
+
 <p>
-The UT4 monitor should be running and showing the * prompt. After a file is selected type !M and then press play (highlighted in green). For saving RAM to a file type ?M&lt;start&gt; &lt;length&gt; where &lt;start&gt; is the starting address and &lt;length&gt; the number of bytes to be saved. Then press record (highlighted in red) and press 'return' in UT4. The stop botton (highlighted in grey) will stop the transfer.
+When the last line shows <tt>>>>:00000001FF</tt>, press <tt>RETURN</tt>; <tt>EOF</tt> is shown, indicating end of file.
 </p>
+
+<p>
+Press the <strong>Stop</strong> button (7) to stop the transfer.
+</p>
+
+
+<h3>CDP18S020 Evaluation Kit (Manual only)</h3>
+
+<p>
+Clear the <strong>Auto</strong> checkbox (4).
+</p>
+
+<p>
+Start a CDP18S020 Evaluation Kit emulator<br>
+Press <tt>RETURN</tt><br>
+<strong>Result:</strong> The UT4 monitor starts and shows the <tt>*</tt> prompt.
+</p>
+
+
+<h4>Loading</h4>
+
+<p>
+<strong>Command:</strong> Type <tt>!M</tt>.
+</p>
+
+<p>
+Press the <strong>Play</strong> button (6).<br>
+<strong>Result:</strong> Unreadable data is shown on the terminal window.
+</p>
+
+<p>
+Press the <strong>Stop</strong> button (7), when terminal output stops, to stop the transfer.
+</p>
+
+
+<h4>Saving</h4>
+
+<p>
+<strong>Command:</strong> Type <tt>?M&lt;start&gt; &lt;length&gt;</tt>.
+</p>
+
+<p>
+Press the <strong>Record</strong> button (8) and then press <tt>RETURN</tt>.<br>
+<strong>Result:</strong> Output data is shown on the terminal window.
+</p>
+
+<p>
+Press the <strong>Stop</strong> button (7), when terminal output stops, to stop the transfer.
+</p>
+
+
 <h3>Membership Card and VIP2K Membership Card</h3>
+
 <p>
-This option can be used in combination with the monitor software. 
+The following describes HEX file transfer for the Membership Card and VIP2K Membership Card using the monitor software.
 </p>
+
+<p>
+Start a Membership Card emulator<br>
+<strong>Result:</strong> The Membership Card monitor starts and shows the <tt>></tt> prompt.
+</p>
+
+
 <h4>Auto LOAD/SAVE</h4>
+
 <p>
-The Membership Card montior should be running and showing the > prompt. 
+<strong>Command:</strong> Press <tt>L</tt> to load a program or <tt>I</tt> to load a Chip-8 program.
 </p>
+
 <p>
-To load: after a file is selected, start the load command by pressing 'L' or 'I'.
+<strong>Command:</strong> Press <tt>S</tt> to save.
 </p>
+
 <p>
-To save: after a file is selected, start the save command by pressing 'S' or 'C'. For the Membership Card: when the save is finished the front panel LEDs should flash on/off, at that time press a key in the video terminal window.
+<strong>Note:</strong> For the Membership Card: when save is finished the front panel LEDs flash; press a key in the terminal window.
 </p>
+
 <p>
-For both save and load make sure a file is selected (highlighted in orange) before using the save and load instructions otherwise the emulated computer will hang on the load (until you manually start a file) or with a save the terminal output will not be written to any file.
+<strong>Note:</strong> Make sure a file is selected (2). Otherwise, the emulator may hang or no file will be written.
 </p>
+
+
 <h4>Manual LOAD/SAVE</h4>
+
 <p>
-To use this make sure 'Auto' is NOT checked (highlighted in yellow). This setting is more like the terminal LOAD/SAVE handling with the real monitor.  
+Clear the <strong>Auto</strong> checkbox (4).
 </p>
+
+
+<h5>Loading</h5>
+
 <p>
-To save: after a file is selected, start the load command by pressing 'L' or 'I'. When the terminal states 'Ready to LOAD Program' press the 'play' button (highlighted in cyan).
+<strong>Command:</strong> Press <tt>L</tt> to load a program or <tt>I</tt> to load a Chip-8 program.<br>
+<strong>Result:</strong> Terminal shows <tt>Ready to LOAD Program</tt>.
 </p>
+
 <p>
-To save: after a file is selected, start the save command by pressing 'S' or 'C'. When the terminal states 'Ready to SAVE Program' then press the 'record' button (highlighted in red). For the Membership Card: when the save is finished the front panel LEDs should flash on / off, at that time press a key in the video terminal window.
+Press the <strong>Play</strong> button (6).<br>
+<strong>Result:</strong> The selected file is loaded.
 </p>
+
+
+<h5>Saving</h5>
+
+<p>
+<strong>Command:</strong> Press <tt>S</tt> to save.<br>
+<strong>Result:</strong> Terminal shows <tt>Ready to SAVE Program</tt>.
+</p>
+
+<p>
+Press the <strong>Record</strong> button (8).<br>
+<strong>Result:</strong> The selected file is saved.
+</p>
+
+<p>
+<strong>Note:</strong> For the Membership Card: when save is finished the front panel LEDs flash; press a key in the terminal window.
+</p>
+
+
 <h3>Turbo file transfer</h3>
+
 <p>
-When the 'Turbo' option (highlighted in green) is selected the emulator will increase the CPU speed speed during file transfer to allow faster file transfer in the emulator. 
+Select the <strong>Turbo</strong> checkbox (5).<br>
+<strong>Result:</strong> Emulator CPU speed is increased during file transfer.
 </p>
+
 <p>
-The speed of the Turbo mode can be changed (highlighted in purple); default is 15 MHz (highlighted in purple), which works well on my Mac Studio (running 3.2 GHz, 20 CPU/48 GCPU, Apple M1 Ultra) as well as previous Mac pro (running a 3.5 GHz, 6-Core, Intel Xeon E5). On the Mac Studio Emma 02 still works well when using 50 MHz. For an older or slower computer, especially when having one core, consider using a lower value. Too high values will not run on slower PCs as all CPU power will be used by the emulator.
+<strong>Note:</strong> Default speed is 15 MHz (9); higher values may be used on faster systems.
 </p>
+
+<p>
+<strong>Important:</strong> Too high values may cause performance issues on slower systems.
+</p>
+
+
 <h2>XMODEM Support</h2>
+
 <p>
-<IMG SRC="images/computer_xmodem.png" border="0" width="443" height ="370">
+The main controls for XMODEM Support are shown in the screenshot below. The numbered markers in the screenshot correspond to the descriptions in this section.
 </p>
+
 <p>
-Before any file transfer select the file in the file selector window by pressing the XMODEM button (highlighted in blue). The selected file will be shown in the XMODEM text field (highlighted in orange), to clear this field press the eject button (highlighted in yellow).
+<img src="images/computer_xmodem.png" border="0" width="724" height="609">
 </p>
+<ul>
+<li>(1) <strong>XMODEM</strong> button</li>
+<li>(2) <strong>XMODEM</strong> text field (selected file)</li>
+<li>(3) <strong>Eject</strong> button</li>
+<li>(4) <strong>Auto</strong> checkbox</li>
+<li>(5) <strong>Turbo</strong> checkbox</li>
+<li>(6) <strong>Play</strong> button</li>
+<li>(7) <strong>Stop</strong> button</li>
+<li>(8) <strong>Record</strong> button</li>
+<li>(9) <strong>VT Setup</strong> button</li>
+</ul>
+
 <p>
-Default and simplest method to transfer files over the XMODEM is 'Auto file transfer', activated by 'Auto' (highlighted in brown). Fastest option is also activating 'Turbo' (highlighted in green). Depending on which type you choose please follow the applicable instructions below.  
+Press the <strong>XMODEM</strong> button (1) and select a file.<br>
+<strong>Result:</strong> The selected file is shown in the XMODEM text field (2).
 </p>
+
+<p>
+Press the <strong>Eject</strong> button (3).<br>
+<strong>Result:</strong> The selected file is cleared.
+</p>
+
+<p>
+<strong>Note:</strong> The default and simplest method is <strong>Auto file transfer</strong> (4). For faster transfer, select the <strong>Turbo</strong> checkbox (5).
+</p>
+
+
+<h3>Workflow</h3>
+
+<pre>
+Select File     : Press the XMODEM button
+Start Transfer  : Use xr/xs/yr/ys commands
+Manual Mode     : Use Play / Record buttons
+Stop Transfer   : Press the Stop button
+</pre>
+
+
 <h3>Auto file transfer</h3>
+
 <p>
-Default settings, to use this make sure 'Auto' (highlighted in brown) is checked. The automatic mode will work with the Elf/OS commands xr, xrb, xs, xsb, yr and ys. After a file is selected give the xr, xrb, xs, xsb, yr or ys command in Elf/OS. 
+Select the <strong>Auto</strong> checkbox (4).
 </p>
+
 <p>
-For xr, xrb, xs, xsb file transfers only one file will be used, if multiple files were selected only the first will be used.
+<strong>Command:</strong> Type <tt>xr</tt>, <tt>xrb</tt>, <tt>xs</tt>, <tt>xsb</tt>, <tt>yr</tt> or <tt>ys</tt> in Elf/Os.
 </p>
+
 <p>
-For the yr command it is possible to use multiple files (which can be selected in the file selector window). Emma 02 will also send the filenames to Elf/OS. 
+<strong>Note:</strong> For <tt>xr</tt>, <tt>xrb</tt>, <tt>xs</tt>, <tt>xsb</tt>, only one file is used.
 </p>
+
 <p>
-For the ys command the filename specified is NOT used, instead the file names specified in Elf/Os will be used and resulting files will be stored in the folder selected via XMODEM. 
+<strong>Note:</strong> The <tt>yr</tt> command supports multiple files.
 </p>
+
 <p>
-If no file is specified before starting the file transfer Elf/Os will wait for the transfer to start. If this happens unselect the auto checkbox (highlighted in brown) and try a manual transfer.
+<strong>Note:</strong> The <tt>ys</tt> command uses filenames defined in Elf/Os.
 </p>
+
+<p>
+<strong>Note:</strong> If no file is selected, Elf/Os will wait. Clear the <strong>Auto</strong> checkbox (4) and use manual transfer.
+</p>
+
+
 <h3>Manual file transfer</h3>
+
 <p>
-To use this make sure 'Auto' (highlighted in brown) is NOT checked. After a file is selected start the file transfer command in Elf/OS. Then press play (highlighted in cyan) for transferring to Elf/OS and press record (highlighted in red) for transferring from Elf/OS. The stop botton (highlighted in grey) will stop the transfer.
+Clear the <strong>Auto</strong> checkbox (4).
 </p>
+
+<p>
+<strong>Command:</strong> Start the file transfer command in Elf/Os.
+</p>
+
+<p>
+Press the <strong>Play</strong> button (6) to send to Elf/Os.<br>
+<strong>Result:</strong> The selected file is loaded.
+</p>
+
+<p>
+Press the <strong>Record</strong> button (8) to receive from Elf/Os.<br>
+<strong>Result:</strong> The selected file is saved.
+</p>
+
+<p>
+Press the <strong>Stop</strong> button (7) to stop the transfer.
+</p>
+
+
 <h3>Turbo file transfer</h3>
+
 <p>
-When the 'Turbo' option (highlighted in green) is selected the emulator will increase the CPU speed speed during file transfer to allow faster file transfer in the emulator. 
+Select the <strong>Turbo</strong> checkbox (5).<br>
+<strong>Result:</strong> Emulator CPU speed is increased during file transfer.
 </p>
+
 <p>
-The speed of the Turbo mode can be changed (highlighted in purple); default is 15 MHz (highlighted in purple), which works well on my Mac Studio (running 3.2 GHz, 20 CPU/48 GCPU, Apple M1 Ultra) as well as previous Mac pro (running a 3.5 GHz, 6-Core, Intel Xeon E5). On the Mac Studio Emma 02 still works well when using 50 MHz. For an older or slower computer, especially when having one core, consider using a lower value. Too high values will not run on slower PCs as all CPU power will be used by the emulator.
+<strong>Note:</strong> Default speed is 15 MHz; higher values may be used on faster systems.
 </p>
+
+<p>
+<strong>Important:</strong> Too high values may cause performance issues on slower systems.
+</p>
+
+
 <h3>YMODEM Receive (yr) Packet Size</h3>
+
 <p>
-Via the VT Setup button (highlighted in asparagus green) it is possible to change the Packet Size used for the YMODEM receive function (used in the yr command). Default this is set to auto but is changeable to 1024 or 128. When auto is used Emma 02 will send in packets of 1024 bytes if data is available to fill that, if less data is available 128 will be used.
+Press the <strong>VT Setup</strong> button (9).<br>
+<strong>Result:</strong> The VT Setup window opens where Packet size can be set to Auto, 1024 or 128.
 </p>
+
 <p>
-For details see section: <a href="TerminalSetup.htm">Terminal Setup</a>.
+<strong>Note:</strong> Auto uses 1024 bytes when possible, and 128 bytes otherwise.
 </p>
-</BODY>
-</HTML>
+
+<p>
+For details see the <a href="TerminalSetup.htm">Terminal Setup</a> section.
+</p>
+
+</body>
+</html>

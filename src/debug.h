@@ -4,7 +4,7 @@
 #include "wx/listctrl.h"
 #include "wx/imaglist.h"
 
-#include "guicomx.h"
+#include "guidebugger.h"
 
 class InsertPointer
 {
@@ -145,6 +145,14 @@ enum
     LAST_COMMAND
 };
 
+enum
+{
+    BPAT_TYPE_BREAK_POINT,
+    BPAT_TYPE_REGISTER_TRAP,
+    BPAT_TYPE_INSTRUCTION_TRAP,
+    BPAT_TYPE_MEMORY_TRAP,
+};
+
 class AssInput
 {
 public:
@@ -167,7 +175,7 @@ public:
     Word outOfRangeAddress;
 };
 
-class DebugWindow : public GuiComx
+class DebugWindow : public GuiDebugger
 {
 public:
     DebugWindow(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
@@ -187,8 +195,9 @@ public:
     bool checkQuadrupleCommand(Byte command);
     bool chip8BreakPointCheck();
     void showInstructionTrace();
+    void showInstructionTrace(Word address, bool showDetails = true);
     void cycleDebug();
-    void updateChip8Window(); 
+    void updateChip8Window();
     void updateWindow(); 
     void resetDisplay();
     void assemblerDisplay(wxString buffer);
@@ -213,43 +222,13 @@ public:
     void onDegugStepButton(wxCommandEvent&event);
     void onDebugRunButton(wxCommandEvent&event);
     void onRunAddress(wxCommandEvent&event);
-    void onBreakPointAddress(wxCommandEvent&event);
     void onTregValue(wxCommandEvent&event);
     void onNumberOfSteps(wxCommandEvent&event);
-
-    void onBreakPointSet(wxCommandEvent&event);
-    void onTregSet(wxCommandEvent&event);
-    void onTrapSet(wxCommandEvent&event);
-
-    void deleteBreakPoint(wxListEvent&event);
-    void deleteTreg(wxListEvent&event);
-    void deleteTrap(wxListEvent&event);
-
-    void editBreakPoint(wxListEvent&event);
-    void editTreg(wxListEvent&event);
-    void editTrap(wxListEvent&event);
-
-    void switchBreakPoint(int item);
-    void selectBreakPoint(wxListEvent&event);
-    void deselectBreakPoint(wxListEvent&event);
-    void keyBreakPoint(wxListEvent&event);
-
-    void switchTreg(int item);
-    void selectTreg(wxListEvent&event);
-    void deselectTreg(wxListEvent&event);
-    void keyTreg(wxListEvent&event);
-
-    void switchTrap(int item);
-    void selectTrap(wxListEvent&event);
-    void deselectTrap(wxListEvent&event);
-    void keyTrap(wxListEvent&event);
 
     void switchChip8BreakPoint(int item);
     void selectChip8BreakPoint(wxListEvent&event);
     void deselectChip8BreakPoint(wxListEvent&event);
     void keyChip8BreakPoint(wxListEvent&event);
-
-    void onTrapCommand(wxCommandEvent&event);
 
     void O1(wxCommandEvent&event);
     void O2(wxCommandEvent&event);
@@ -488,16 +467,20 @@ public:
     void setNumberOfBytes(Byte instruction, int value);
     int getNumberOfBytes(Byte instruction);
 
+    int assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4, Byte* b5, Byte* b6, Byte* b7, bool allowX);
+    int ignore_negative(int n);
+    int findMinimum(int a, int b, int c);
+    wxString extractWordMemTrap(wxString *buffer);
+    wxString extractWord(wxString *buffer);
+    wxString extractNextWord(wxString *buffer, wxString *seperator);
+
 protected:
     void trace();
 
     wxTextCtrl *traceWindowPointer;
     wxTextCtrl *assInputWindowPointer;
     wxTextCtrl *assErrorWindowPointer;
-    wxListCtrl *breakPointWindowPointer;
     wxListCtrl *chip8BreakPointWindowPointer;
-    wxListCtrl *tregWindowPointer;
-    wxListCtrl *trapWindowPointer;
     wxTextCtrl *registerTextPointer[16];
     wxTextCtrl *chip8varTextPointer[16];
     wxTextCtrl *chip8TraceWindowPointer;
@@ -518,9 +501,6 @@ protected:
 
     bool traceChip8Int_;
     bool traceInt_;
-    bool traceDma_;
-    bool traceTrap_;
-    bool trace_;
     bool chip8Trace_;
     bool xmlLoaded_;
     Word memoryStart_;
@@ -554,12 +534,7 @@ private:
     wxBitmap *lineBmp[16];
     wxBitmap *assBmp;
     wxBitmap *profilerBmp;
-    wxString extractWord(wxString *buffer);
-    wxString extractNextWord(wxString *buffer, wxString *seperator);
-    void addBreakPoint(); 
-    void addChip8BreakPoint(); 
-    void addTrap(); 
-    void addTreg(); 
+    void addChip8BreakPoint();
     wxString cdp1802disassemble(Word* address, bool includeDetails, bool showOpcode, bool textAssembler, Word start, Word end);
     bool sepTraceValid(Word address, Byte n, SepConfiguration traceInfo);
     bool sepRegisterAndAddressValid(Word address, Byte n, SepConfiguration traceInfo);
@@ -576,30 +551,16 @@ private:
     AssInput getAssInput(wxString buffer);
     int checkParameterPseudo(AssInput assInput, int32_t* pseudoCode);
     Byte getCardtranAddress(long address);
-    int assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4, Byte* b5, Byte* b6, Byte* b7, bool allowX);
     int getByte(AssInput assInput, Byte* b2, bool allowX);
     int getSlot(AssInput assInput, Byte* b2);
     int getWord(AssInput assInput, Byte* b2, Byte* b3, bool allowX);
     int getWordPar2(AssInput assInput, Byte* b2, Byte* b3, bool allowX);
     int getRegisterNumber(AssInput assInput, long* registerNumber, Byte* b4, bool allowX);
     int translateChipParameter(wxString buffer, long* registerNumber, int* type);
-    int getRegister(wxString buffer); 
 
     Word chip8BreakPoints_[64];
     bool chip8BreakPointsSelected_[64];
     int numberOfChip8BreakPoints_;
-
-    Word breakPoints_[64];
-    bool breakPointsSelected_[64];
-    int numberOfBreakPoints_;
-
-    Byte traps_[64][9];
-    bool trapsSelected_[64];
-    int numberOfTraps_;
-
-    Word tregs_[64][2];
-    bool tregsSelected_[64];
-    int numberOfTregs_;
 
     Word lastR_[16];
     Word lastI_;
@@ -624,8 +585,6 @@ private:
 
     long debugAddress_;
     bool protectedMode_;
-    bool performStep_;
-    long steps_;
     wxString debugDir_;
 
     wxBitmap pauseOnBitmap;
@@ -636,15 +595,12 @@ private:
 
     wxString pseudoType_;
 
-    bool showInstructionTrap_;
     bool dataViewDump;
     bool dataViewProfiler;
-    Word showInstructionTrapAddress_;
     
-    int selectedBreakPoint_;
-    int selectedTrap_;
-    int selectedTreg_;
+    int selectedInstructionTrap_;
     int selectedChip8BreakPoint_;
+    int selectedmemoryTrap_;
 
     wxBitmap uncheckBitmap_;
     wxBitmap checkedBitmap_;

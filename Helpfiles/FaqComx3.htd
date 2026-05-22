@@ -1,9 +1,12 @@
-<HTML>
-<Title>FAQ Comx 3</Title>
-<BODY>
-<h1>The COMX restarts when I give a DOS command</h1>
+<html>
+<title>Why does the COMX restart when I enter a DOS command?</title>
+<body>
+
+<h1>Why does the COMX restart when I enter a DOS command?</h1>
+
 <p>
-This is most likely due to skipping the 'DOS NEW' command. After every 'Reset' you have to give a 'DOS NEW' to reset the COMX DOS.
+This is most likely due to skipping the <tt>DOS NEW</tt> command. After every <strong>Reset</strong> you have to enter <tt>DOS NEW</tt> to reinitialize the <tt>COMX DOS</tt>.
 </p>
-</BODY>
-</HTML>
+
+</body>
+</html>

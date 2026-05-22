@@ -2,73 +2,140 @@
 <html>
 <title>Assembler</title>
 <body>
+
+
 <h1>Assembler</h1>
+
 <p>
-To use the assembler type in any SYSTEM00, 1801, 1802, 1804 or 1805 code (depending on what CPU is running) in the command line (highlighted in yellow). For command syntax see section <a href="SyntaxMachineCode.htm">Machine Code</a>, this should be similar or even the same as defined in the 180x data sheets. 
+On the command line (1), type in 180x code (SYSTEM00, 1801, 1802, 1804, or 1805, depending on what CPU is running). For command syntax, see the <a href="SyntaxMachineCode.htm">Machine Code</a> section. The syntax is similar to, or the same as, that defined in the 180x data sheets.
 </p>
+
 <p>
-<IMG SRC="images/assembler_command_line.png" BORDER="0">
+<img src="images/assembler_command_line.png" border="0" width="724" height="609">
 </p>
+<ul>
+<li>(1) <strong>Command line</strong> input field</li>
+<li>(2) <strong>Working address</strong> indicators</li>
+</ul>
+
 <p>
-To use the pseudo code assembler a machine should be started that runs one of the pseudo codes listed in section <a href="SyntaxPseudoCode.htm">Pseudo Code</a>. 
+The current working address is shown in bold, between <strong>&gt;</strong> and <strong>&lt;</strong> (2). To change the working address see the <a href="DirectNavigation.htm">Navigation</a> section.
 </p>
+
 <p>
-The Current working address is indicated in <B>bold</B> and between <B>&gt; &lt;</B> (highlighted in orange). To change the working address see section <a href="DirectNavigation.htm">Navigation</a>. Note that all data values should be given as hexadecimal values unless preceded by a & in which case the value are interpreted as decimal, i.e LDI &100 is the same as LDI 64.
+<strong>Note:</strong> All data values must be given as hexadecimal values unless preceded by <tt>&amp;</tt>, in which case the values are interpreted as decimal, i.e., <tt>LDI &amp;100</tt> is the same as <tt>LDI 64</tt>.
 </p>
+
 <p>
-Next to 180x and pseudo code the options described in the following sub sections are available from the command line.
+To use the pseudo-code assembler, an emulator must be started that runs one of the pseudo codes listed in the <a href="SyntaxPseudoCode.htm">Pseudo Code</a> section.
 </p>
+
+<p>
+In addition to 180x and pseudo-code, the options described in the following subsections are available from the command line.
+</p>
+
+
 <h2>Data input</h2>
+
 <p>
-<B>Format:</B> #ww xx yy zz
+<strong>Format:</strong> <tt>#ww xx yy zz</tt>
 </p>
+
 <p>
-Where ww, xx, yy, zz are hexadecimal vales and will be stored on the current and following working address. At least one (ww) value should be specified. I.e. #10, will store value 10, #20 30, will store 20 and on the following address 30. Spaces between bytes are optional.
+Where ww, xx, yy, zz are hexadecimal values that will be stored at the current and following working addresses. At least one value (ww) must be specified. Spaces after <tt>#</tt> and between bytes are optional.
 </p>
+
 <p>
-<B>Example:</B> type in #10 20 30 (highlighted in yellow) on address 4424, this will results in code 10 20 30 on 4424-4426 (highlighted in orange):
+<strong>Example:</strong> type in <tt># 10 20 30</tt> (1) at address 4424; this will result in code 10 20 30 at 4424-4426 (2):
 </p>
+
 <p>
-<IMG SRC="images/assembler_hash.png" BORDER="0">
+<img src="images/assembler_hash.png" border="0" width="724" height="609">
 </p>
-<h2>ASCII text</h2>
+<ul>
+<li>(1) <strong>Command line</strong> input</li>
+<li>(2) Resulting code at working address</li>
+</ul>
+
 <p>
-<B>Format:</B> 'text
+<strong>Other examples:</strong>
 </p>
+<pre>
+# 10       stores value 10 at the current address
+# 20 30    stores 20 at the current address and 30 at the following address
+</pre>
+
+
+<h2>ASCII Text</h2>
+
 <p>
-Where all text after ' will be stored in ASCII code at the current working address. Note: when using this on the Studio IV characters are stored with Studio IV character numbering.
+<strong>Format:</strong> <tt>'text</tt>
 </p>
+
 <p>
-<B>Example:</B> type in 'SOME TEXT (highlighted in yellow) on address 4427, this will results in ASCII text for SOME TEXT on 4427-442F (highlighted in orange):
+Where all text after <tt>'</tt> will be stored in ASCII code at the current working address.
 </p>
+
 <p>
-<IMG SRC="images/assembler_text.png" BORDER="0">
+<strong>Example:</strong> type in <tt>'SOME TEXT</tt> (1) at address 4427; this will result in ASCII code for SOME TEXT at 4427-442F (2):
 </p>
-<h2>ASCII text - high colour</h2>
+
 <p>
-<B>Format:</B> "text
+<img src="images/assembler_text.png" border="0" width="724" height="609">
 </p>
+<ul>
+<li>(1) <strong>Command line</strong> input</li>
+<li>(2) Resulting ASCII code at working address</li>
+</ul>
+
 <p>
-Only valuable for the COMX to store ASCII text in 'high colour', all text after " will be stored in ASCII code (range 80 to FF) at the current working address.
+<strong>Note:</strong> When using this on the Studio IV, characters are stored with Studio IV character numbering.
 </p>
+
+
+<h2>ASCII Text - High Colour</h2>
+
 <p>
-<B>Example:</B> type in 'SOME TEXT (highlighted in yellow) on address 4430, this will results in ASCII text in 'high colour' for SOME TEXT on 4430-4438 (highlighted in orange):
+<strong>Format:</strong> <tt>"text</tt>
 </p>
+
 <p>
-<IMG SRC="images/assembler_high_text.png" BORDER="0">
+Only applicable to the COMX to store ASCII text in <strong>high colour</strong>; all text after <tt>"</tt> will be stored in ASCII code (range 80 to FF) at the current working address.
 </p>
-<h2>Branch address</h2>
+
 <p>
-<B>Format:</B> :hex address
+<strong>Example:</strong> type in <tt>"SOME TEXT</tt> (1) at address 4430; this will result in ASCII code in <strong>high colour</strong> for SOME TEXT at 4430-4438 (2):
 </p>
+
 <p>
-Store 16 bit 'Branch data', see also section <a href="DirectBranchData.htm">Branch Data</a>.
+<img src="images/assembler_high_text.png" border="0" width="724" height="609">
 </p>
+<ul>
+<li>(1) <strong>Command line</strong> input</li>
+<li>(2) Resulting high colour ASCII code at working address</li>
+</ul>
+
+
+<h2>Branch Address</h2>
+
 <p>
-<B>Example:</B> type in :1234 (highlighted in yellow) on address 4439, this will results in 12 on address 4439 and 34 on address 443A, i.e. address 1234 (highlighted in orange):
+<strong>Format:</strong> <tt>:hex address</tt>
 </p>
+
 <p>
-<IMG SRC="images/assembler_address.png" BORDER="0">
+Store 16-bit <strong>Branch data</strong>; see the <a href="DirectBranchData.htm">Branch Data</a> section.
 </p>
+
+<p>
+<strong>Example:</strong> type in <tt>:1234</tt> (1) at address 4439; this will result in 12 at address 4439 and 34 at address 443A, i.e., address 1234 (2):
+</p>
+
+<p>
+<img src="images/assembler_address.png" border="0" width="724" height="609">
+</p>
+<ul>
+<li>(1) <strong>Command line</strong> input</li>
+<li>(2) Resulting branch address at working address</li>
+</ul>
 </body>
 </html>

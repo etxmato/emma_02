@@ -5,7 +5,7 @@
     
     <system>
         <name>RCA COSMAC Microboard Computer</name>
-        <config>CDP18S603A 1802, Q/F &amp; PIO - CDP18S640 A/A1 Display</config>
+        <config>CDP18S603A 1802, Q/F &amp; PIO - CDP18S640A Display</config>
         <cpu>1802</cpu>
         <clock>2.0</clock>
         <boot>0</boot>
@@ -33,14 +33,14 @@
     </gui>
 
     <memory>
-        <!-- CDP18S640, 2K ROM @8000, 1K RAM @8C00 -->
+        <!-- CDP18S640, 1K ROM @8000, 1K RAM @8C00 -->
         <rom type="gui">
             <start>0x8000</start>
-            <end>0x87FF</end>
+            <end>0x83FF</end>
             <pulldown mask="ut*.bin" exclude="part">Microboard</pulldown>
-            <filename verify="true">ut4.bin</filename>
+            <filename verify="true">ut60.bin</filename>
         </rom>
-        
+
         <ram>
             <start>0x8C00</start>
             <end>0x8FFF</end>

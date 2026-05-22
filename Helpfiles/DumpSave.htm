@@ -2,18 +2,33 @@
 <html>
 <title>Save</title>
 <body>
+
+
 <h1>Save</h1>
+
 <p>
-To save part of CPU or video memory, use the 'Save' button (highlighted in yellow). The current selected <a href="DumpMemoryType.htm">memory type</a> will be saved. For all types the complete memory space will be saved, i.e. 64K in CPU mode and for video and other modes size is depending on configured memory size.
+To save all or part of memory from the <strong>Memory Dump</strong> tab, use the <strong>Save</strong> button (1) shown below. The current selected <a href="DumpMemoryType.htm">memory type</a> is saved.
 </p>
+
 <p>
-<IMG SRC="images/dump_save.png" BORDER="0">
+<img src="images/dump_save.png" border="0" width="724" height="609">
 </p>
+<ul>
+<li>(1) <strong>Save</strong> button</li>
+<li>(2) <strong>Start address</strong> text field</li>
+<li>(3) <strong>End address</strong> text field</li>
+</ul>
+
 <p>
-For CPU memory it is also possible to specify a specific part of the 64K CPU space, this is done by filing in start and end address in the fields highlighted in orange above.
+For all types, the complete memory space is saved, i.e., 64K in CPU mode (assuming no start or end address is specified); for video and other modes the size depends on the configured memory size.
 </p>
+
 <p>
-To save in binary format use file extension bin, rom, ram, cos, c8, ch8, c8x, ch10 or sc8. To save in Intel hex format use file extension hex. Any other extension will save in text format (i.e. RCS Elf Emulator hex format). 
+For CPU memory, to save part of the CPU memory specify the <strong>Start address</strong> (2) and <strong>End address</strong> (3).
+</p>
+
+<p>
+To save in binary format use file extension <tt>bin</tt>, <tt>rom</tt>, <tt>ram</tt>, <tt>cos</tt>, <tt>c8</tt>, <tt>ch8</tt>, <tt>c8x</tt>, <tt>ch10</tt> or <tt>sc8</tt>. To save in Intel hex format use file extension <tt>hex</tt>. Any other extension saves in text format (i.e., RCA Elf Emulator hex format).
 </p>
 </body>
 </html>

@@ -3,17 +3,78 @@
 <title>The RCA 1802</title>
 <body>
 <h1>The RCA 1802</h1>
+
 <p>
-The <a href="https://www.emma02.hobby-site.com/1802.html">RCA CDP1802</a> (aka RCA COSMAC, COSMAC 1802) is an 8-bit CMOS microprocessor introduced by RCA in early 1976. COSMAC is an acronym for COmplementary Silicon Metal-oxide Conductor which was RCA's term for its first CMOS (COS/MOS) semiconductor technology. The 1802 has an architecture quite different from most other 8-bit microprocessors.
+The <a href="https://www.emma02.hobby-site.com/1802.html">RCA CDP1802</a> is an 8-bit CMOS microprocessor introduced by RCA in early 1976. COSMAC is an acronym for Complementary Silicon Metal-Oxide Conductor and was RCA's name for its CMOS semiconductor technology. The 1802 has an architecture quite different from most other 8-bit microprocessors. The RCA 1802 is the one-chip implementation of the earlier two-chip
+<a href="https://www.emma02.hobby-site.com/1801.html">RCA CDP1801</a>.
+</p>
+
+<p>
+RCA also produced the <a href="https://www.emma02.hobby-site.com/1804.html">RCA CDP1804</a> microcontroller based on the RCA 1802 architecture. The 1804 had 64 bytes of RAM, 2 KB ROM, an on-chip oscillator, and an 8-bit timer. The instruction set of the 1804 was enhanced with 32 additional instructions, including subroutine call and return instructions. The <a href="https://www.emma02.hobby-site.com/1805.html">RCA CDP1805</a> and RCA CDP1806 were similar to the 1804, but they didn't have on-chip ROM.
+</p>
+
+<p>
+The first known prototype of the RCA CDP180x family is a chip set called the <a href="https://www.emma02.hobby-site.com/system00.html">RCA SYSTEM00</a> used in the <a href="https://www.emma02.hobby-site.com/fred1.html">FRED 1</a>. The SYSTEM00 chip set uses a subset of the 1801 instruction set with some incompatible differences and is likely the basis for the later CDP1801.
+</p>
+
+<h2>Notable Characteristics of the RCA 1802</h2>
+
+<p>
+The RCA 1802 has several architectural features that distinguish it from many other
+8-bit microprocessors of the same era.
+</p>
+
+<h3>No Minimum Clock Speed</h3>
+<p>
+The RCA 1802 uses a fully static CMOS design and therefore has no minimum clock
+frequency. The clock can be slowed down significantly or even stopped completely
+without losing the processor state. Execution can resume when the clock is restarted.
 </p>
 <p>
-The RCA 1802, which is actually the one-chip implementation of the earlier two-chip <a href="https://www.emma02.hobby-site.com/1801.html">RCA CDP1801</a>, has a static CMOS design with no minimum clock frequency, so that it can run at very low speeds and low power. It has an 8-bit parallel bus with a bidirectional data bus and a multiplexed address bus (i.e., the high order byte of the 16-bit address and the low order byte of the address take turns in using the 8-bit physical address bus lines, by accessing the bus lines in different clock cycles). It has a single bit, programmable output port, and four input pins which are directly tested by branch instructions. Its I/O mode is flexible and programmable, and it has a single-phase clock with an on-chip oscillator. Its register set consists of sixteen 16-bit registers. The program counter (PC) can reside in any of these, providing a simple way to implement multiple PCs, pointers, or registers.
+Because of this property, early COSMAC systems could run at extremely low speeds,
+and some systems even allowed manual stepping of the CPU clock for debugging or
+demonstration purposes.
+</p>
+
+<h3>Register-Based Program Counter</h3>
+<p>
+The register set of the 1802 consists of sixteen 16-bit registers (R0-R15). Unlike most
+other microprocessors, any of these registers can act as the program counter.
+The instruction <strong>SEP Rx</strong> selects which register is used as the program counter.
 </p>
 <p>
-RCA also produced the <a href="https://www.emma02.hobby-site.com/1804.html">RCA CDP1804</a> microcontroller based on the RCA 1802 architecture. The 1804 had 64 bytes of memory, 2 KB ROM, on-chip oscillator and 8-bit timer. Instruction set of the 1804 was enhanced with 32 additional instructions, including subroutine call and return from the subroutine instructions. The <a href="https://www.emma02.hobby-site.com/1805.html">RCA CDP1805</a> and CDP1806 were similar to the 1804, but they didn't have on-chip ROM.
+This allows simple implementation of multiple program counters, pointers, and
+lightweight task switching.
 </p>
+
+<h3>Simple Interrupt Structure</h3>
 <p>
-The first known protoype of the RCA CDP180x is a chip set called the <a href="https://www.emma02.hobby-site.com/system00.html">RCA SYSTEM00</a> used in the <a href="https://www.emma02.hobby-site.com/fred1.html">FRED 1</a>. The SYSTEM00 chip set uses a subset of the 1801 instruction set with some incompatible differences and is likely what the 1801 was based on. 
+The interrupt system of the 1802 is intentionally simple. When an interrupt occurs,
+the processor stores the current program counter register number and begins execution
+using register R1 as the program counter. Software is responsible for saving and
+restoring the processor context if required.
+</p>
+
+<h3>Q Output and EF Inputs</h3>
+<p>
+The 1802 provides a single programmable output line called <strong>Q</strong> and four external
+flag input lines called <strong>EF1-EF4</strong>. These signals are frequently used for simple I/O
+operations, bit-level communication, or status monitoring in COSMAC-based systems.
+</p>
+
+<h3>Multiplexed Address Bus</h3>
+<p>
+Although the processor supports a 16-bit address space, it uses an 8-bit physical
+address bus. The high-order byte and the low-order byte of the address are placed on
+the bus in separate clock cycles. This multiplexed addressing simplifies the hardware
+design but requires additional cycles for memory access.
+</p>
+
+<h3>Use in High-Reliability Systems</h3>
+<p>
+Due to its static CMOS design, low power consumption, and tolerance to radiation,
+the RCA 1802 was widely used in spacecraft and other high-reliability applications.
 </p>
 </body>
 </html>
+

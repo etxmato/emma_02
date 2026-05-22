@@ -61,13 +61,11 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
 <object class="wxChoice" name="VtSetupBit1">
 <font>
 <size>12</size>
@@ -76,12 +74,14 @@
 <item>7 Bits</item>
 <item>8 Bits</item>
 </content>
+<selection>1</selection>
 </object>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxChoice" name="VtSetupBitsPerCharacter">
+<size>80,-1</size>
 <font>
 <size>12</size>
 </font>
@@ -268,16 +268,27 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-<border>0</border>
-<object class="wxTextCtrl" name="VtStopBits" subclass="FloatEdit">
-<size>50,-1</size>
-<tooltip>Number of stop bits</tooltip>
+<object class="wxChoice" name="VtStopBits">
 <font>
 <size>12</size>
 </font>
-<style>wxTE_RIGHT</style>
+<content>
+<item>0 Bits</item>
+<item>1 Bit</item>
+<item>1.5 Bits</item>
+<item>2 Bits</item>
+</content>
 </object>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>80,0</size>
+</object>
+<object class="spacer">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<size>80,0</size>
 </object>
 </object>
 </object>
@@ -293,7 +304,7 @@
 <border>0</border>
 <object class="wxFlexGridSizer">
 <cols>2</cols>
-<rows>9</rows>
+<rows>0</rows>
 <vgap>4</vgap>
 <hgap>4</hgap>
 <object class="sizeritem">
@@ -824,6 +835,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxChoice" name="VtXmodemPacketSizeChoice">
+<size>80,-1</size>
 <font>
 <size>12</size>
 </font>

@@ -124,6 +124,9 @@ void Mc6845Config::mc6845ConfigInit()
     computerConfiguration.mc6845Configuration.screenSize.y = 16;
     computerConfiguration.mc6845Configuration.ioGroupVector.clear();
 
+    if (!mode_.gui)
+        return;
+
     XRCCTRL(*this, THIS_PANEL_NAME, wxPanel)->Hide();
 
     XRCCTRL(*this, "Mc6845VideoRam", wxStaticText)->SetLabel("");
@@ -191,7 +194,7 @@ void Mc6845Config::parseXml_MC6845Video(wxXmlNode &node)
     int tagTypeInt;
     Word mask;
     int red, green, blue, xpos, ypos;
-    wxString color, position, iogroup, label, labelDetails;
+    wxString color, position, iogroup, label;
     size_t ioGroupNumber = 0;
 
     wxXmlNode *child = node.GetChildren();
@@ -211,7 +214,8 @@ void Mc6845Config::parseXml_MC6845Video(wxXmlNode &node)
                     warningText_ += "No MC6845 RAM range defined";
                     warningText_ += childName;
                     warningText_ += "\n";
-                    XRCCTRL(*this, "Mc6845VideoRam", wxStaticText)->SetLabel("No MC6845 RAM range defined");
+                    if (mode_.gui)
+                        XRCCTRL(*this, "Mc6845VideoRam", wxStaticText)->SetLabel("No MC6845 RAM range defined");
                 }
                 else
                 {
@@ -226,7 +230,8 @@ void Mc6845Config::parseXml_MC6845Video(wxXmlNode &node)
                         mask = mask << 1;
                     }
                     label.Printf("Video RAM: %04X-%04X", (Word)start, (Word)end);
-                    XRCCTRL(*this, "Mc6845VideoRam", wxStaticText)->SetLabel(label);
+                    if (mode_.gui)
+                        XRCCTRL(*this, "Mc6845VideoRam", wxStaticText)->SetLabel(label);
                 }
              break;
                 
@@ -264,7 +269,8 @@ void Mc6845Config::parseXml_MC6845Video(wxXmlNode &node)
                 
             case TAG_INTERLACE:
                 computerConfiguration.interlace_ = true;
-                XRCCTRL(*this, "Mc6845Interlace", wxStaticText)->SetLabel("Force interlace");
+                if (mode_.gui)
+                    XRCCTRL(*this, "Mc6845Interlace", wxStaticText)->SetLabel("Force interlace");
             break;
                 
             case TAG_IOGROUP:
@@ -274,7 +280,8 @@ void Mc6845Config::parseXml_MC6845Video(wxXmlNode &node)
                     computerConfiguration.mc6845Configuration.ioGroupVector.resize(ioGroupNumber+1);
                     computerConfiguration.mc6845Configuration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
                 }
-                XRCCTRL(*this,"Mc6845IoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.mc6845Configuration.ioGroupVector));
+                if (mode_.gui)
+                    XRCCTRL(*this,"Mc6845IoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.mc6845Configuration.ioGroupVector));
             break;
 
             case TAG_ZOOM:
@@ -294,7 +301,8 @@ void Mc6845Config::parseXml_MC6845Video(wxXmlNode &node)
                     computerConfiguration.mc6845Configuration.charSize.y = (int)height;
                 }
                 label.Printf("Character size: %dx%d", (int)width, (int)height);
-                XRCCTRL(*this, "Mc6845CharSizeText", wxStaticText)->SetLabel(label);
+                if (mode_.gui)
+                    XRCCTRL(*this, "Mc6845CharSizeText", wxStaticText)->SetLabel(label);
             break;
 
             case TAG_SCREEN:
@@ -366,8 +374,6 @@ void Mc6845Config::parseXml_MC6845Video(wxXmlNode &node)
 
 void Mc6845Config::updateMc6845Panel()
 {
-    wxString buffer;
-
     if (computerConfiguration.mc6845Configuration.defined)
     {
         for (size_t registerNumber = 0; registerNumber<MC6845_NUMBER_OF_REGISTERS; registerNumber++)
@@ -397,7 +403,7 @@ int Mc6845Config::setMc6845Register(int registerNumber, Word value, int showTrac
 
     if (XRCCTRL(*this,registerIdMc6845[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionMc6845[registerNumber], mc6845ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionMc6845[registerNumber], mc6845ConfigRegisterValueString[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -413,7 +419,7 @@ int Mc6845Config::setMc6845Register(int registerNumber, Byte value, int showTrac
 
     if (XRCCTRL(*this,registerIdMc6845[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionMc6845[registerNumber], mc6845ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionMc6845[registerNumber], mc6845ConfigRegisterValueString[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -429,7 +435,7 @@ int Mc6845Config::setMc6845RegisterNibble(int registerNumber, Byte value, int sh
 
     if (XRCCTRL(*this,registerIdMc6845[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionMc6845[registerNumber], mc6845ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionMc6845[registerNumber], mc6845ConfigRegisterValueString[registerNumber], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -439,6 +445,9 @@ int Mc6845Config::setMc6845RegisterNibble(int registerNumber, Byte value, int sh
 
 bool Mc6845Config::isMc6845TraceChecked(int registerNumber)
 {
+    if (!mode_.gui)
+        return false;
+    
     return XRCCTRL(*this, registerIdMc6845[registerNumber]+"Trace", wxCheckBox)->IsChecked();
 }
 
@@ -446,7 +455,7 @@ void Mc6845Config::Mc6845Address(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -460,7 +469,7 @@ void Mc6845Config::Mc6845Data(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -474,7 +483,7 @@ void Mc6845Config::Mc6845RegisterByte(wxCommandEvent&event)
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -495,7 +504,7 @@ void Mc6845Config::Mc6845RegisterWord(wxCommandEvent&event)
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 

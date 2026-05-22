@@ -1,49 +1,83 @@
 <html>
 <title>Branching to COMX slots and Elf EMS pages</title>
 <body>
+
+
 <h1>Branching to COMX slots and Elf EMS pages</h1>
+
+
+<h2>Cross-slot branch correction</h2>
+
 <p>
-Any long branch instruction or branch data <U>from</U> a slot or EMS page to a NON slot/page memory location will be corrected if affected by an insert or delete. However branches from NON slot/page memory <U>to</U> a slot or EMS page area will only be corrected if:
-<UL>
-<LI>The same slot or page code is used for both configuration ranges
-<LI>A 'LBR Sxx,yyyy' macro is used for branch instructions
-<LI>A ': Sxx,yyyy' macro is used for branch data
-<LI>A 'LDL Sxx,Rx,yyyy' macro is used for loading a data location
-<LI>A 'LDRL Sxx,Rx,yyyy' macro is used for reversed loading a data location
-</UL> 
+Any long branch instruction or branch data <strong>from</strong> a slot or EMS page to a non-slot/page memory location will be corrected if affected by an insert or delete. However, branches <strong>from</strong> non-slot/page memory <strong>to</strong> a slot or EMS page area will only be corrected if:
 </p>
+<ul>
+<li>The same slot or page code is used for both configuration ranges</li>
+<li>A <tt>LBR Sxx,yyyy</tt> macro is used for branch instructions</li>
+<li>A <tt>: Sxx,yyyy</tt> macro is used for branch data</li>
+<li>A <tt>LDL Sxx,Rx,yyyy</tt> macro is used for loading a data location</li>
+<li>A <tt>LDRL Sxx,Rx,yyyy</tt> macro is used for loading a data location in reversed byte order</li>
+</ul>
+
+
+<h2>LBR macro</h2>
+
 <p>
-The 'LBR Sxx,yyyy' macro can be used for any long branch instruction (LBDF, LBNF, LBNQ, LBNZ, LBQ, LBR or LBZ). 'Sxx' specifies the slot code or EMS page where the branch should jump to and 'yyyy' defines the branch address.
+The <tt>LBR Sxx,yyyy</tt> macro can be used for any long branch instruction (<tt>LBDF</tt>, <tt>LBNF</tt>, <tt>LBNQ</tt>, <tt>LBNZ</tt>, <tt>LBQ</tt>, <tt>LBR</tt> or <tt>LBZ</tt>). <tt>Sxx</tt> specifies the slot code or EMS page where the branch should jump to and <tt>yyyy</tt> defines the branch address.
 </p>
+
+
+<h2>Example</h2>
+
 <p>
-For example, using a COMX with SB and following <a href="DirectConfiguration.htm">Program Configurations</a>:
+For example, using a COMX with SB and the following <a href="DirectConfiguration.htm">Program Configurations</a> and code:
 </p>
+
 <p>
-<IMG SRC="images/assembler_slots_ram_conf.png" BORDER="0">
+Configuration RAM:
 </p>
+
 <p>
-<IMG SRC="images/assembler_slots_bank0.png" BORDER="0">
+<img src="images/assembler_slots_ram_conf.png" border="0" width="724" height="609">
 </p>
+
 <p>
-<IMG SRC="images/assembler_slots_bank1.png" BORDER="0">
+Configuration bank 8, slot code 11:
 </p>
+
 <p>
-with the following code in RAM:
+<img src="images/assembler_slots_bank0.png" border="0" width="724" height="609">
 </p>
+
 <p>
-<IMG SRC="images/assembler_slots_ram.png" BORDER="0">
+Configuration bank 9, slot code 31:
 </p>
+
 <p>
-An 'insert' on address C010 in RAM bank 0 (slot code 11) will result in:
+<img src="images/assembler_slots_bank1.png" border="0" width="724" height="609">
 </p>
+
 <p>
-<IMG SRC="images/assembler_slots_ram.png" BORDER="0">
+Code in RAM:
 </p>
+
 <p>
-So the S11 branch is corrected as a byte is inserted in bank 0 but the S31 branch will remain unchanged as no byte is inserted in bank 1.
+Inserting at address C010 (hexadecimal) in RAM bank 0, slot code 11 (hexadecimal) will result in:
 </p>
+
 <p>
-The ': Sxx,yyyy', 'LDL Sxx,Rx,yyyy' and 'LDRL Sxx,Rx,yyyy' macros work the same as the 'LBR Sxx,yyyy' macro. Except they are used for branch addresses and loading memory locations. 
+<img src="images/assembler_slots_ram.png" border="0" width="724" height="609">
+</p>
+
+<p>
+Therefore, the <tt>S11</tt> branch is corrected as a byte is inserted in bank 8, but the <tt>S31</tt> branch remains unchanged as no byte is inserted in bank 9.
+</p>
+
+
+<h2>Other macros</h2>
+
+<p>
+The <tt>: Sxx,yyyy</tt>, <tt>LDL Sxx,Rx,yyyy</tt> and <tt>LDRL Sxx,Rx,yyyy</tt> macros work the same as the <tt>LBR Sxx,yyyy</tt> macro, except they are used for branch addresses and loading memory locations.
 </p>
 </body>
 </html>

@@ -1,15 +1,32 @@
 <html>
 <title>Navigation</title>
 <body>
+
+
 <h1>Navigation</h1>
+
 <p>
-This section describes the different navigation options on the direct assembler tab.
+This section describes the different navigation options on the <strong>Direct Assembler</strong> tab.
 </p>
+
 <p>
-<IMG SRC="images/assembler_navigation.png" BORDER="0">
+The navigation controls are shown below:
 </p>
+
 <p>
-The scrollbar (highlighted in yellow) can be used to move through the code where the top of the scrollbar will start at address 0 and bottom at FFFF. Arrow keys up/down' will move the code one line up/down and 'shift' arrow up/down will move one page up/down. Alternatively an address can be specified in the 'Move to:' field (highlighted in red) which will move the assembler directly to the specified address.
+<img src="images/assembler_navigation.png" border="0" width="724" height="609">
 </p>
+
+<ul>
+<li>(1) <strong>Navigation</strong> scrollbar</li>
+<li>(2) <strong>Move to:</strong> field</li>
+</ul>
+
+<p>
+The scrollbar (1) can be used to move through the code. The top of the scrollbar corresponds to address 0 and the bottom to FFFF.
+The <tt>UP</tt> and <tt>DOWN</tt> arrow keys move the code one line at a time; <tt>SHIFT UP</tt> or <tt>SHIFT DOWN</tt> move the code one page at a time.
+Alternatively, an address can be specified in the <strong>Move to:</strong> field (2), which will move the view directly to the specified address.
+</p>
+
 </body>
 </html>

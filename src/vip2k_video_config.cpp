@@ -81,6 +81,9 @@ void Vip2KVideoConfig::vip2KVideoConfigInit()
     computerConfiguration.vip2KVideoConfiguration.defaultX = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     computerConfiguration.vip2KVideoConfiguration.defaultY = mainWindowY_;
 
+    if (!mode_.gui)
+        return;
+
     XRCCTRL(*this, THIS_PANEL_NAME, wxPanel)->Hide();
 
     disableIoPortConfigRadio(registerIdVip2KVideo[VIP2K_VIDEO_ENABLE]);
@@ -148,7 +151,7 @@ void Vip2KVideoConfig::parseXml_Vip2KVideo(wxXmlNode &node)
     int tagTypeInt;
     long width, height;
     int red, green, blue, xpos, ypos;
-    wxString color, scale, position, iogroup;
+    wxString color, position, iogroup;
     size_t ioGroupNumber = 0;
     computerConfiguration.zoom_[computerConfiguration.vip2KVideoConfiguration.videoNumber] = "2.00";
     computerConfiguration.videoName_[computerConfiguration.vip2KVideoConfiguration.videoNumber] = "VIP2K";
@@ -305,7 +308,8 @@ void Vip2KVideoConfig::parseXml_Vip2KVideo(wxXmlNode &node)
                     computerConfiguration.vip2KVideoConfiguration.ioGroupVector.resize(ioGroupNumber+1);
                     computerConfiguration.vip2KVideoConfiguration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
                 }
-                XRCCTRL(*this,"Vip2KVideoIoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.vip2KVideoConfiguration.ioGroupVector));
+                if (mode_.gui)
+                    XRCCTRL(*this,"Vip2KVideoIoGroupText", wxStaticText)->SetLabel(p_Main->getGroupMessageXml(&computerConfiguration.vip2KVideoConfiguration.ioGroupVector));
             break;
 
             case TAG_COMMENT:
@@ -324,8 +328,6 @@ void Vip2KVideoConfig::parseXml_Vip2KVideo(wxXmlNode &node)
 
 void Vip2KVideoConfig::updateVip2KVideoPanel()
 {
-    wxString buffer;
-
     if (computerConfiguration.vip2KVideoConfiguration.defined)
     {
         for (size_t registerNumber = 0; registerNumber<PIXIE_NUMBER_OF_REGISTERS; registerNumber++)
@@ -347,7 +349,7 @@ int Vip2KVideoConfig::setVip2KVideoRegister(int registerNumber, bool value, int 
 
     if (XRCCTRL(*this,registerIdVip2KVideo[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionVip2KVideo[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionVip2KVideo[registerNumber], showTrace);
         
         if (showTrace == SHOW_ADDRESS_TRACE)
             return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -359,7 +361,7 @@ void Vip2KVideoConfig::Vip2KVideoEnable(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -370,7 +372,7 @@ void Vip2KVideoConfig::Vip2KVideoDisable(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 

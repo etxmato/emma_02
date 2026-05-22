@@ -145,7 +145,7 @@ void KeyMapTmcDialog::compareButtons(int toBeCheckedKey, int toBeCheckedValue, i
 
 void KeyMapTmcDialog::updateButtons()
 {
-    wxString button, keyStr;
+//    wxString button, keyStr;
 
     for (int i=0; i <=16; i++)
     {

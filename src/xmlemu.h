@@ -39,6 +39,7 @@
 #include "cdp1877.h"
 #include "cdp1878.h"
 #include "cd4536b.h"
+#include "ct2425.h"
 #include "dip.h"
 #include "mm57109.h"
 #include "upd765.h"
@@ -103,13 +104,18 @@ public:
     void outConfiguration(OutputConfiguration outConfiguration, Byte port, Word address, Byte value);
     void cycle(int type);
     void cycleCd();
+    void cycleCt2425();
+    void answerCall(wxCommandEvent&event);
+    void answerCall();
+    void insertCoin(wxCommandEvent&event);
+    void insertCoin(Byte value);
     void cycleVP550();
     void cycleBitKeyPad();
     void cycleDma();
     void cycleInt();
     void picInterruptRequest(int type, bool state, int picNumber);
     void cycleLed();
-    void setCdp1863ColorToneLatch(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
+    void setCdp1863ColorToneLatch(Byte value);
     void setCdp1864ColorToneLatch(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
     void setClockRate(double clock);
     void printOutPecom(int q);
@@ -120,6 +126,7 @@ public:
     void showData(Byte value);
     void showCycleData(Byte val);
     void showCycleAddress(Word val);
+    void forceLedUpdate();
     void setGoTimer();
     void setMode();
     void showState(int state);
@@ -191,8 +198,8 @@ public:
     void loadRomRam(size_t configNumber);
     void writeMemDataType(Word address, Byte type);
     Byte readMemDataType(Word address, uint64_t* executed);
-    Byte readMem(Word address);
-    void writeMem(Word address, Byte value, bool writeRom);
+    Byte readMem(Word address, bool dmaReadWrite = false);
+    void writeMem(Word address, Byte value, bool writeRom, bool dmaReadWrite = false);
     Byte readMemDebug(Word address, int function = 0);
     void writeMemDebug(Word address, Byte value, bool writeRom);
     void cpuInstruction();
@@ -297,7 +304,7 @@ public:
 
     void terminalSave(wxString fileName, int protocol);
     void terminalYsSave(wxString fileName, int protocol);
-    void terminalLoad(wxString filePath, wxString fileName, int protocol);
+    void terminalLoad(wxString fileName, int protocol);
     void terminalStop();
     void setDivider(Byte value);
     void thrStatusVt100(bool data);

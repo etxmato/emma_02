@@ -2912,7 +2912,7 @@
                         <long name="proxy-Stretch factor">0</long>
                         <string name="proxy-Strings">"Yes|No"</string>
                         <string name="proxy-Tooltip text">""</string>
-                        <long name="proxy-Width">-1</long>
+                        <long name="proxy-Width">60</long>
                         <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                         <bool name="proxy-wxBOTTOM">1</bool>
                         <bool name="proxy-wxFIXED_MINSIZE">0</bool>
@@ -3154,7 +3154,7 @@
                               <long name="proxy-Stretch factor">0</long>
                               <string name="proxy-Strings">"Lower case|Upper case|Capitalize"</string>
                               <string name="proxy-Tooltip text">""</string>
-                              <long name="proxy-Width">-1</long>
+                              <long name="proxy-Width">100</long>
                               <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                               <bool name="proxy-wxBOTTOM">1</bool>
                               <bool name="proxy-wxFIXED_MINSIZE">0</bool>
@@ -3337,7 +3337,7 @@
                               <long name="proxy-Stretch factor">0</long>
                               <string name="proxy-Strings">"Lower case|Upper case|Capitalize"</string>
                               <string name="proxy-Tooltip text">""</string>
-                              <long name="proxy-Width">-1</long>
+                              <long name="proxy-Width">100</long>
                               <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                               <bool name="proxy-wxBOTTOM">1</bool>
                               <bool name="proxy-wxFIXED_MINSIZE">0</bool>
@@ -3399,7 +3399,7 @@
                           <bool name="proxy-Hidden">0</bool>
                           <string name="proxy-Id name">"wxID_ANY"</string>
                           <long name="proxy-Id value">-1</long>
-                          <string name="proxy-Label">"Back-up"</string>
+                          <string name="proxy-Label">"Backup"</string>
                           <string name="proxy-Member variable name">""</string>
                           <string name="proxy-Orientation">"Vertical"</string>
                           <string name="proxy-Parenting">"Use wxWidgets version"</string>
@@ -3556,7 +3556,7 @@
                               <long name="proxy-Stretch factor">0</long>
                               <string name="proxy-Strings">"Yes|No"</string>
                               <string name="proxy-Tooltip text">""</string>
-                              <long name="proxy-Width">-1</long>
+                              <long name="proxy-Width">60</long>
                               <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                               <bool name="proxy-wxBOTTOM">1</bool>
                               <bool name="proxy-wxFIXED_MINSIZE">0</bool>
@@ -3713,7 +3713,7 @@
                               <long name="proxy-Stretch factor">0</long>
                               <string name="proxy-Strings">"Yes|No"</string>
                               <string name="proxy-Tooltip text">""</string>
-                              <long name="proxy-Width">-1</long>
+                              <long name="proxy-Width">60</long>
                               <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                               <bool name="proxy-wxBOTTOM">1</bool>
                               <bool name="proxy-wxFIXED_MINSIZE">0</bool>

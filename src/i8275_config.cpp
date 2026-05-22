@@ -154,6 +154,9 @@ void I8275Config::i8275ConfigInit()
     computerConfiguration.i8275Configuration.defaultX = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     computerConfiguration.i8275Configuration.defaultY = mainWindowY_;
 
+    if (!mode_.gui)
+        return;
+
     XRCCTRL(*this, THIS_PANEL_NAME, wxPanel)->Hide();
 
     XRCCTRL(*this, "8275IoGroupText", wxStaticText)->SetLabel("");
@@ -256,7 +259,8 @@ void I8275Config::parseXml_Intel8275Video(wxXmlNode &node)
                 {
                     computerConfiguration.i8275Configuration.readParameter = parseXml_IoPort(*child, I8275_READ_PARAMETER_IN);
                     setIoPortConfig(computerConfiguration.i8275Configuration.readParameter, registerIdI8275[I8275_READ_PARAMETER], registerFunctionI8275[I8275_READ_PARAMETER], "I");
-                    XRCCTRL(*this, registerIdI8275[I8275_READ_PARAMETER], wxTextCtrl)->Enable(false);
+                    if (mode_.gui)
+                        XRCCTRL(*this, registerIdI8275[I8275_READ_PARAMETER], wxTextCtrl)->Enable(false);
                 }
             break;
 
@@ -410,8 +414,6 @@ void I8275Config::parseXml_Intel8275Video(wxXmlNode &node)
 
 void I8275Config::updateI8275Panel()
 {
-    wxString buffer;
-
     if (computerConfiguration.i8275Configuration.defined)
     {
         for (size_t registerNumber = 0; registerNumber<I8275_NUMBER_OF_REGISTERS; registerNumber++)
@@ -441,7 +443,7 @@ int I8275Config::setI8275Register(int registerNumber, Word value, int showTrace)
 
     if (XRCCTRL(*this,registerIdI8275[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionI8275[registerNumber], i8275ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionI8275[registerNumber], i8275ConfigRegisterValueString[registerNumber], showTrace);
       
         if (showTrace == SHOW_ADDRESS_TRACE)
             return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -457,7 +459,7 @@ int I8275Config::setI8275Register(int registerNumber, Byte value, int showTrace)
 
     if (XRCCTRL(*this,registerIdI8275[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionI8275[registerNumber], i8275ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionI8275[registerNumber], i8275ConfigRegisterValueString[registerNumber], showTrace);
         
         if (showTrace == SHOW_ADDRESS_TRACE)
             return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -473,7 +475,7 @@ int I8275Config::setI8275RegisterNibble(int registerNumber, Byte value, int show
 
     if (XRCCTRL(*this,registerIdI8275[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(registerFunctionI8275[registerNumber], i8275ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText(registerFunctionI8275[registerNumber], i8275ConfigRegisterValueString[registerNumber], showTrace);
         
         if (showTrace == SHOW_ADDRESS_TRACE)
             return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -489,7 +491,7 @@ int I8275Config::setI8275RegisterValue(int registerNumber, Byte value, int showT
 
     if (XRCCTRL(*this,registerIdI8275[registerNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText("Register value", i8275ConfigRegisterValueString[registerNumber], showTrace);
+        showVideoTraceText("Register value", i8275ConfigRegisterValueString[registerNumber], showTrace);
 
         if (showTrace == SHOW_ADDRESS_TRACE)
             return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -512,7 +514,7 @@ int I8275Config::setI8275SelectorValue(int selectorNumber, int selectorValue, in
 
     if (XRCCTRL(*this,selectorIdI8275[selectorNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(selectorFunctionI8275[selectorNumber][i8275ConfigSelector[selectorNumber]], showTrace);
+        showVideoTraceText(selectorFunctionI8275[selectorNumber][i8275ConfigSelector[selectorNumber]], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -532,7 +534,7 @@ int I8275Config::setI8275SelectorValue(int selectorNumber, bool selectorValue, i
 
     if (XRCCTRL(*this,selectorIdI8275[selectorNumber]+"Trace", wxCheckBox)->IsChecked())
     {
-        showTraceText(selectorFunctionI8275[selectorNumber][i8275ConfigSelector[selectorNumber]], showTrace);
+        showVideoTraceText(selectorFunctionI8275[selectorNumber][i8275ConfigSelector[selectorNumber]], showTrace);
         
           if (showTrace == SHOW_ADDRESS_TRACE)
               return DO_NOT_SHOW_ADDRESS_TRACE;
@@ -544,7 +546,7 @@ void I8275Config::I8275Command(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -558,7 +560,7 @@ void I8275Config::I8275WriteParameter(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -572,7 +574,7 @@ void I8275Config::I8275Status(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -586,7 +588,7 @@ void I8275Config::I8275CharRow(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -600,7 +602,7 @@ void I8275Config::I8275VerticalRetrace(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -614,7 +616,7 @@ void I8275Config::I8275RowsFrame(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -628,7 +630,7 @@ void I8275Config::I8275Underline(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -642,7 +644,7 @@ void I8275Config::I8275LinesRow(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -656,7 +658,7 @@ void I8275Config::I8275CursorFormat(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -670,7 +672,7 @@ void I8275Config::I8275HorizontalRetrace(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -685,7 +687,7 @@ void I8275Config::I8275BurstSpaceCode(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -701,7 +703,7 @@ void I8275Config::I8275DmaCyclesBurst(wxCommandEvent& WXUNUSED(event))
     Byte const BB [8] = {0, 1, 1, 2, 2, 2, 2, 3};
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -720,7 +722,7 @@ void I8275Config::I8275CursorChar(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
@@ -734,7 +736,7 @@ void I8275Config::I8275CursorRow(wxCommandEvent& WXUNUSED(event))
 {
     if (!computerRunning_)
     {
-        showNotRunning();
+        showVideoNotRunning();
         return;
     }
 
