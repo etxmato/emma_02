@@ -1,0 +1,54 @@
+
+Emma 02 Documentation Style Guide
+=================================
+
+Structure for all help pages
+----------------------------
+1. <html>
+2. <title>
+3. <body>
+4. <h1> Page Title
+5. Introduction paragraph (what the feature does)
+6. How to access / usage instructions
+7. Screenshots (<IMG> tags on one line)
+8. Details / explanation sections (<h2>)
+9. Related Topics or Table of Contents (navigation)
+10. </body>
+11. </html>
+
+HTML Rules
+----------
+- Keep <html>, <title>, <body> unchanged.
+- Keep <IMG> tags on one line.
+- Keep <FONT> tags for colour formatting.
+- Do not wrap <ul> or <ol> in <p> tags.
+- Use <ul> for navigation with 2+ links.
+- Use <li>content</li> on one line.
+- Use uppercase <IMG> for consistency.
+
+Wording Rules
+-------------
+- Use "emulation" instead of "emulator running".
+- Use "To open the ... tab, select".
+- Use consistent capitalization: XML, Memory Dump, Direct Assembler, Profiler.
+- Prefer clear short sentences.
+- Avoid passive voice where possible.
+
+Terminology
+-----------
+emulator = program
+emulation = running state
+computer = emulated machine
+GUI = interface
+
+Navigation
+----------
+- Use <ul> lists for related topics.
+- Use heading "Related Topics" or "Table of Contents".
+- Avoid duplicate links.
+
+Notes
+-----
+- Use: <strong>Note:</strong> text
+- Avoid numbered notes.
+

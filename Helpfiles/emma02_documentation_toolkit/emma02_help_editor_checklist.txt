@@ -1,0 +1,43 @@
+Emma 02 Help File Editor Checklist
+
+Before Finalizing a Help File
+
+Structure
+
+[ ]
+,
+, and
+tags present [ ] Correct page title [ ] Screenshot inserted [ ]
+Description paragraph present
+
+HTML Rules
+
+[ ] IMG tags on a single line [ ] FONT tags preserved [ ] Proper
+lists used
+
+Markers
+
+[ ] Markers numbered (1–9) [ ] Marker numbering resets for each
+screenshot [ ] Markers placed inside buttons when possible [ ] Markers
+not covering important UI text [ ] Marker numbers referenced correctly
+in text
+
+Screenshots
+
+[ ] Clean crop [ ] No dimmed background [ ] No transparency artifacts [
+] Consistent padding
+
+Text Review
+
+[ ] Clear technical wording [ ] No conversational phrases [ ] Marker
+references formatted (1), (2), etc. [ ] ASCII characters only
+
+Terminology
+
+[ ] Consistent use of “tab” and “sub tab” [ ] Emulator features named
+correctly
+
+Final Check
+
+[ ] Screenshot markers match text descriptions [ ] Lists formatted
+correctly [ ] File renders correctly in help viewer

@@ -1,0 +1,142 @@
+Emma 02 Emulator – Help File Style Guide
+
+1. Purpose
+
+This document defines the style, formatting, and documentation standards
+used in the Emma 02 emulator help files.
+
+Goals: - Maintain consistent documentation across all help pages -
+Ensure clear explanations of emulator functionality - Provide clean,
+readable screenshots and markers - Preserve compatibility with the Emma
+02 help viewer - Support long-term maintainability
+
+The help files are written in HTML-like .htd format and include
+screenshots, numbered markers, and structured descriptions.
+
+2. File Structure
+
+Each help file follows the same basic structure.
+
+Page Title
+Typical contents: 1. Page title 2. Screenshot showing the tab or feature
+3. Description of the interface 4. Numbered explanations referencing
+screenshot markers 5. Additional notes or lists
+
+3. HTML Conventions
+
+IMG tags must remain on one line:
+
+FONT tags must be preserved:
+
+Error
+
+Preferred list format:
+
+Item description
+Item description
+Lists are used for: - UI element explanations - Feature descriptions -
+Option lists
+
+4. Language and Writing Style
+
+Use a clear technical style.
+
+Tone: - Neutral - Direct - Informative
+
+Avoid conversational wording.
+
+Example (preferred): “The Debugger tab allows inspection of registers
+and memory during execution.”
+
+5. Screenshot Standards
+
+Screenshots must be: - Clear - Consistent - Reproducible
+
+Preferred background: White or light background.
+
+Avoid macOS transparency artifacts.
+
+6. Numbered Marker System
+
+Markers identify interface elements.
+
+Markers referenced as: (1) (2) (3)
+
+Do NOT use: [1] #1 ((1))
+
+Marker design: - 40 x 40 pixels - White circle - Thin black border -
+Subtle drop shadow - Non-bold number
+
+Numbers are optically centered.
+
+7. Marker Usage
+
+Rules: - Numbers range from 1–9 - Numbering resets per screenshot -
+Place markers inside buttons when possible - Otherwise place next to
+labels or controls
+
+Example:
+
+(1) Run button
+    (2) Step button
+        (3) Reset button
+
+8. Color References
+
+Avoid referring to controls by color alone.
+
+Avoid: “The yellow highlighted button”
+
+Preferred: “The Run button (1)”
+
+Color may be referenced when required using FONT tags.
+
+9. Dropdown Lists
+
+If dropdowns are difficult to capture, list items in text.
+
+Example:
+
+COSMAC Elf
+VIP
+Telmac
+COMX
+10. Terminology
+
+Use consistent terms:
+
+Correct: Tab Sub tab Window Panel
+
+Examples: Computer tab Debugger tab Memory Dump tab Configuration tab
+
+11. ASCII Compliance
+
+Prefer ASCII characters only.
+
+Avoid: Smart quotes Unicode punctuation
+
+Use: ” ’ -
+
+12. Screenshot Workflow
+
+Typical workflow:
+
+1.  Capture screenshot on macOS
+2.  Use Snagit for editing
+3.  Apply marker stamps
+4.  Export PNG
+5.  Insert image into HTD help file
+
+Marker stamps stored in:
+
+~/Library/Application Support/TechSmith/Snagit/Stamps
+
+13. General Principles
+
+Documentation should always be:
+
+-   Consistent
+-   Clear
+-   Technically accurate
+-   Maintainable
+-   Focused on the emulator interface

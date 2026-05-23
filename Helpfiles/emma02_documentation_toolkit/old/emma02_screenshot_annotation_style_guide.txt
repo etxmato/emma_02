@@ -1,0 +1,128 @@
+Emma 02 Documentation — Screenshot Annotation Style Guide (Updated)
+
+Purpose
+Provide consistent, readable visual references in Emma 02 help documentation using numbered callout markers for GUI elements.
+
+This ensures:
+- consistent appearance across help pages
+- easy maintenance
+- fast screenshot creation
+- clear user guidance
+
+
+1. Callout Marker Design
+
+Marker Format
+- Shape: circle
+- Fill: white
+- Border: black
+- Border thickness: thin (2 px)
+- Background: transparent
+- Number color: black
+- Number style: regular (not bold)
+- Visual effect: subtle drop shadow (light shadow, soft blur)
+
+Marker Size
+- Canvas: 40 × 40 pixels
+- Circle centered on canvas
+- Designed for placement inside UI controls
+- Chosen for optimal readability and placement on typical screenshots
+
+Number Position
+- Optical alignment adjustments applied:
+  - all numbers positioned slightly higher for visual centering
+  - number 2 shifted slightly right for improved centering
+  - all digits avoid touching circle border
+
+Number Range
+- Use 1–9 only
+- Reset numbering per screenshot
+- Avoid two-digit markers to maintain readability
+
+
+2. Marker Placement Rules
+
+Primary rule
+Markers must never float in empty space.
+
+Place markers:
+1. Inside the control (preferred)
+2. If no control → immediately right of label text
+
+Never:
+- place markers in empty areas
+- cover important text
+- overlap critical UI elements
+- place far from referenced element
+
+
+3. Numbering Usage
+
+General rules
+- Number in order of explanation in text
+- Keep numbering logical and sequential
+- Reset numbering for each screenshot
+
+Recommended maximum
+- Prefer ≤ 7 markers per image
+- Split screenshots if more are required
+
+
+4. Reference Style in Help Text
+
+Use numeric references:
+Press Start (1).
+Select the computer (2).
+Choose the XML file (3).
+
+Avoid:
+- color references (e.g., "highlighted in yellow")
+- directional descriptions (e.g., "top left button")
+- vague wording
+
+
+5. Screenshot Usage Policy
+
+Use screenshots when they provide:
+- UI location clarity
+- workflow explanation
+- visual state differences
+- complex configuration guidance
+
+Avoid screenshots that only duplicate text.
+
+
+6. Snagit Workflow (Standard Tool)
+
+Markers are implemented using Snagit stamps.
+
+Process:
+1. Capture screenshot.
+2. Apply numbered stamp.
+3. Place marker inside control or right of label.
+4. Export.
+
+Custom markers stored in:
+~/Library/Application Support/TechSmith/Snagit/Stamps
+
+
+7. Consistency Requirements
+
+All Emma 02 help pages must:
+- use the same marker style
+- follow placement rules
+- avoid color highlighting
+- use numeric references in text
+- maintain identical visual appearance
+
+
+8. Rationale
+
+This standard was chosen because it:
+- improves readability
+- reduces maintenance work
+- works in dark/light UI
+- avoids color ambiguity
+- scales across all help pages
+- matches professional technical documentation practices
+- provides clear visibility without visual clutter

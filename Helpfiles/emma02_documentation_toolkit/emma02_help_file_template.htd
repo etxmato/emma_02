@@ -1,0 +1,42 @@
+
+<html>
+<title>PAGE TITLE</title>
+<body>
+
+<h2>PAGE TITLE</h2>
+
+<img src="image_placeholder.png">
+
+The PAGE TITLE tab provides functionality for DESCRIPTION OF FEATURE.
+
+<ul>
+<li>(1) Control description.</li>
+<li>(2) Control description.</li>
+<li>(3) Control description.</li>
+</ul>
+
+<h3>Description</h3>
+
+Provide a clear explanation of the tab or feature here. Explain how the interface works
+and what the user can do with the controls shown in the screenshot.
+
+<h3>Usage</h3>
+
+Typical usage steps:
+
+<ul>
+<li>Select the appropriate option.</li>
+<li>Press the relevant control.</li>
+<li>Observe the result in the emulator window.</li>
+</ul>
+
+<h3>Notes</h3>
+
+<ul>
+<li>Markers correspond to the numbered circles in the screenshot.</li>
+<li>Marker numbering resets for each screenshot.</li>
+<li>Markers should be placed inside buttons when possible.</li>
+</ul>
+
+</body>
+</html>

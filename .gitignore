@@ -30,8 +30,10 @@
 /Helpfiles/emma_02_ids.h
 /Helpfiles/macros.h
 /Helpfiles/macros.db
+/Helpfiles/images_original/*
 /IsTool/vccrt.msi
 *.pjd.bak
 .DS_Store
+/Helpfiles/.DS_Store
 emma_02
 Makefile
