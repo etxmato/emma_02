@@ -372,6 +372,7 @@
 		9909A21F1F2144D200B17E58 /* Splash.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Splash.pjd; sourceTree = "<group>"; };
 		9909A2231F2144D200B17E58 /* Cassette.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Cassette.pjd; sourceTree = "<group>"; };
 		9909A22F1F2144D200B17E58 /* Datadir.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Datadir.pjd; sourceTree = "<group>"; };
+		990CB2FD2FC2DD6E00E13C2C /* libserialport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = libserialport.h; path = src/libserialport.h; sourceTree = "<group>"; };
 		990D84BA2E2EDA8300B8119E /* win7_11.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = win7_11.ini; sourceTree = "<group>"; };
 		990D84BB2E2EDA8300B8119E /* win7_12.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = win7_12.ini; sourceTree = "<group>"; };
 		991199421E92ECC30074ADAA /* splash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = splash.cpp; path = src/splash.cpp; sourceTree = "<group>"; };
@@ -992,6 +993,7 @@
 				99C5977F2A66BBD400A4F97D /* keypadfred.h */,
 				9976474B1A61D5EE00FB9B33 /* led.cpp */,
 				997647A91A61D5EE00FB9B33 /* led.h */,
+				990CB2FD2FC2DD6E00E13C2C /* libserialport.h */,
 				99321272285FB74F00A7793E /* mac_OS12.cpp */,
 				997646F61A61D5EE00FB9B33 /* mac.cpp */,
 				997646F71A61D5EE00FB9B33 /* mac.h */,
@@ -1662,10 +1664,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					/opt/homebrew/Cellar/libserialport/0.1.1/lib,
 					"$(PROJECT_DIR)/images",
 					"$(PROJECT_DIR)/images_osx",
-					/usr/local/Cellar/libserialport/0.1.1/lib,
 					/usr/local/lib/serialport,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
@@ -1850,10 +1850,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					/opt/homebrew/Cellar/libserialport/0.1.1/lib,
 					"$(PROJECT_DIR)/images",
 					"$(PROJECT_DIR)/images_osx",
-					/usr/local/Cellar/libserialport/0.1.1/lib,
 					/usr/local/lib/serialport,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
