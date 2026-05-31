@@ -59,7 +59,7 @@ CLS code=A0
 XOR code=AF
 /SCR
 SP
-D , o , kk code=Doyz
+D , o , kk code=Dokk
 D , p , Vy , Vz code=Dpyz
 O , o , kk code=Bokk
 P , p , kk code=Bpkk
