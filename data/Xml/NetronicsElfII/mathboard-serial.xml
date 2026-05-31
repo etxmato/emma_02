@@ -43,6 +43,11 @@
             <pos>398, 180</pos>
         </item>
         <item>
+            <type>led</type>
+            <function>qled</function>
+            <pos>440, 192</pos>
+        </item>
+        <item>
             <type>push</type>
             <init>up</init>
             <function>in</function>
