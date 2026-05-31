@@ -374,7 +374,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
+<flag>wxGROW|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
 <border>1</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>

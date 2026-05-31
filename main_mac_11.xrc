@@ -388,13 +388,13 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxGROW|wxALIGN_TOP</flag>
+<flag>wxGROW|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
 <border>1</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
 <option>20</option>
 <object class="wxComboBox" name="RomRam0Xml">
 <size>166,-1</size>
@@ -429,8 +429,8 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
 <option>20</option>
 <object class="wxComboBox" name="RomRam1Xml">
 <size>166,-1</size>
