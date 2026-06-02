@@ -48,6 +48,8 @@
 		99484DBC2EA976F800C86425 /* sn76430n_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99484DBA2EA976F800C86425 /* sn76430n_config.cpp */; };
 		9948CE642B02CF1E00116F45 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9999EAC41CBA8B8800A50336 /* SDL2.framework */; };
 		9948CE652B02CF1E00116F45 /* SDL2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9999EAC41CBA8B8800A50336 /* SDL2.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		994CC7DA2FCCD19E004A6655 /* GPL-2b.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9997521A2FCCCFD70006C6A1 /* GPL-2b.syntax */; };
+		994CC7DB2FCCD19E004A6655 /* GPL-2b.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9997521A2FCCCFD70006C6A1 /* GPL-2b.syntax */; };
 		994F84FF28CBD9C200CCFB27 /* bitkeypad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 994F84FE28CBD9C200CCFB27 /* bitkeypad.cpp */; };
 		994F850028CBD9C200CCFB27 /* bitkeypad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 994F84FE28CBD9C200CCFB27 /* bitkeypad.cpp */; };
 		995222F92F33F5B0003DCD5A /* guidebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 995222F82F33F5B0003DCD5A /* guidebugger.cpp */; };
@@ -1213,6 +1215,7 @@
 				99D5FCDA211C938E001F4391 /* ST2.syntax in Resources */,
 				99B2ABBD27863E2500C73EB9 /* keymap_tmc_11.xrc in Resources */,
 				99B2AB8827863D8000C73EB9 /* about_14.xrc in Resources */,
+				994CC7DA2FCCD19E004A6655 /* GPL-2b.syntax in Resources */,
 				99B2AC1F27863EEC00C73EB9 /* vt_11.xrc in Resources */,
 				99034D172130AFDC007F1BF3 /* FPL-4.syntax in Resources */,
 				99D92E73211AA0AD007D868E /* CARDTRAN.syntax in Resources */,
@@ -1278,6 +1281,7 @@
 				99F37EDC285D1D9200C57417 /* ST2.syntax in Resources */,
 				99F37EDD285D1D9200C57417 /* keymap_tmc_11.xrc in Resources */,
 				99F37EDF285D1D9200C57417 /* about_14.xrc in Resources */,
+				994CC7DB2FCCD19E004A6655 /* GPL-2b.syntax in Resources */,
 				99F37EE1285D1D9200C57417 /* vt_11.xrc in Resources */,
 				99F37EE2285D1D9200C57417 /* FPL-4.syntax in Resources */,
 				99F37EE3285D1D9200C57417 /* CARDTRAN.syntax in Resources */,

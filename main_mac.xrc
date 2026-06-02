@@ -9782,6 +9782,78 @@
                                                                                     <object class="sizeritem">
                                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                                                                         <border>2</border>
+                                                                                        <object class="wxStaticText" name="R1Text">
+                                                                                            <size>20,13</size>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                                <family>roman</family>
+                                                                                            </font>
+                                                                                            <style>wxALIGN_RIGHT</style>
+                                                                                            <enabled>0</enabled>
+                                                                                            <label>R1 </label>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                        <border>0</border>
+                                                                                        <object class="wxTextCtrl" name="R1" subclass="HexEdit">
+                                                                                            <size>34,14</size>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                                <family>roman</family>
+                                                                                            </font>
+                                                                                            <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                            <enabled>0</enabled>
+                                                                                            <maxlength>4</maxlength>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                    <object class="spacer">
+                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                        <border>0</border>
+                                                                                        <size>1,19</size>
+                                                                                    </object>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                                        <border>2</border>
+                                                                                        <object class="wxStaticText" name="R9Text">
+                                                                                            <size>22,13</size>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                                <family>roman</family>
+                                                                                            </font>
+                                                                                            <style>wxALIGN_RIGHT</style>
+                                                                                            <enabled>0</enabled>
+                                                                                            <label>R9 </label>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                        <border>0</border>
+                                                                                        <object class="wxTextCtrl" name="R9" subclass="HexEdit">
+                                                                                            <size>34,14</size>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                                <family>roman</family>
+                                                                                            </font>
+                                                                                            <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                            <enabled>0</enabled>
+                                                                                            <maxlength>4</maxlength>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_HORIZONTAL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxBoxSizer">
+                                                                                    <orient>wxHORIZONTAL</orient>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                                        <border>2</border>
                                                                                         <object class="wxStaticText" name="R2Text">
                                                                                             <size>20,13</size>
                                                                                             <font>
@@ -10193,78 +10265,6 @@
                                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                         <border>0</border>
                                                                                         <object class="wxTextCtrl" name="R15" subclass="HexEdit">
-                                                                                            <size>34,14</size>
-                                                                                            <font>
-                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                <size>-1</size>
-                                                                                                <family>roman</family>
-                                                                                            </font>
-                                                                                            <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-                                                                                            <enabled>0</enabled>
-                                                                                            <maxlength>4</maxlength>
-                                                                                        </object>
-                                                                                    </object>
-                                                                                </object>
-                                                                            </object>
-                                                                            <object class="sizeritem">
-                                                                                <flag>wxALIGN_CENTER_HORIZONTAL</flag>
-                                                                                <border>0</border>
-                                                                                <object class="wxBoxSizer">
-                                                                                    <orient>wxHORIZONTAL</orient>
-                                                                                    <object class="sizeritem">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                                        <border>2</border>
-                                                                                        <object class="wxStaticText" name="R1Text">
-                                                                                            <size>20,13</size>
-                                                                                            <font>
-                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                <size>-1</size>
-                                                                                                <family>roman</family>
-                                                                                            </font>
-                                                                                            <style>wxALIGN_RIGHT</style>
-                                                                                            <enabled>0</enabled>
-                                                                                            <label>R1 </label>
-                                                                                        </object>
-                                                                                    </object>
-                                                                                    <object class="sizeritem">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                                        <border>0</border>
-                                                                                        <object class="wxTextCtrl" name="R1" subclass="HexEdit">
-                                                                                            <size>34,14</size>
-                                                                                            <font>
-                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                <size>-1</size>
-                                                                                                <family>roman</family>
-                                                                                            </font>
-                                                                                            <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-                                                                                            <enabled>0</enabled>
-                                                                                            <maxlength>4</maxlength>
-                                                                                        </object>
-                                                                                    </object>
-                                                                                    <object class="spacer">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                                        <border>0</border>
-                                                                                        <size>1,19</size>
-                                                                                    </object>
-                                                                                    <object class="sizeritem">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                                        <border>2</border>
-                                                                                        <object class="wxStaticText" name="R9Text">
-                                                                                            <size>22,13</size>
-                                                                                            <font>
-                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                <size>-1</size>
-                                                                                                <family>roman</family>
-                                                                                            </font>
-                                                                                            <style>wxALIGN_RIGHT</style>
-                                                                                            <enabled>0</enabled>
-                                                                                            <label>R9 </label>
-                                                                                        </object>
-                                                                                    </object>
-                                                                                    <object class="sizeritem">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                                        <border>0</border>
-                                                                                        <object class="wxTextCtrl" name="R9" subclass="HexEdit">
                                                                                             <size>34,14</size>
                                                                                             <font>
                                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
