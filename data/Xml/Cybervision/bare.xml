@@ -4,7 +4,7 @@
 <emmaconfig>
     
     <system>
-        <name>Cybervision 2001</name>
+        <name>CyberVision 2001</name>
         <config>Bare</config>
         <clock>2.51748</clock>
         <boot>0</boot>

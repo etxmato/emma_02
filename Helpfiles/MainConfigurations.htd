@@ -404,7 +404,7 @@ Cosmicos running the Hex and UT4 Monitor.
 </p>
 
 
-<h2>Cybervision 2001</h2>
+<h2>CyberVision 2001</h2>
 
 <p><strong>dollarwatch.xml</strong></p>
 <p>
@@ -1007,6 +1007,19 @@ Pico/Elf configuration using the STG ROM including Elf/Os, TMS9918 video and a s
 <p><strong>stg,tms,elfos-uart.xml</strong></p>
 <p>
 Pico/Elf configuration using the STG ROM including Elf/Os, TMS9918 video and a UART 16450.
+</p>
+
+
+<h2>RCA APT VP4801</h2>
+
+<p><strong>vp4801-APT.xml</strong></p>
+<p>
+RCA APT VP4801 terminal running RCA APT ROMs.
+</p>
+
+<p><strong>vp4801-MII.xml</strong></p>
+<p>
+VP4801 terminal running MII ROMs.
 </p>
 
 
@@ -1636,18 +1649,6 @@ VIS1802 terminal running on NTSC video.
 <p><strong>vp3301.xml</strong></p>
 <p>
 VP3301 terminal running on NTSC video.
-</p>
-
-<h2>VP4801</h2>
-
-<p><strong>vp4801-APT.xml</strong></p>
-<p>
-VP4801 terminal running RCA APT ROMs.
-</p>
-
-<p><strong>vp4801-MII.xml</strong></p>
-<p>
-VP4801 terminal running MII ROMs.
 </p>
 
 <h2>VT1802</h2>

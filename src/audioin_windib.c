@@ -19,6 +19,7 @@ static HWAVEIN __hWaveIn=NULL;
 static int WINDIB_OpenAudioIn(SDL_AudioSpec *, SDL_AudioSpec *);
 static void WINDIB_CloseAudioIn(void);
 static int WINDIB_PauseAudioIn(int);
+static SDL_AudioSpec *__nSpec = NULL;
 
 typedef struct queuebuf
 {
@@ -199,8 +200,8 @@ int WINDIB_OpenAudioIn(SDL_AudioSpec *requested, SDL_AudioSpec *result)
 
 	audioin_status=SDL_AUDIO_PAUSED;
 
-	free(nSpec); // Having this just before if(result) crashed real tape recording 
-				 // but as it causes a memory leak i moved it to the end of this routine... 
+	__nSpec = nSpec;  // keep it alive for the callback
+
 	return(0);
 }
 
@@ -257,6 +258,7 @@ void WINDIB_CloseAudioIn()
 	SDL_DestroySemaphore(writesem); writesem=NULL;	
 
 	audioin_status=SDL_AUDIO_STOPPED;
+    if (__nSpec) { free(__nSpec); __nSpec = NULL; }
 }
 
 int enqueue_thread(void *dat)

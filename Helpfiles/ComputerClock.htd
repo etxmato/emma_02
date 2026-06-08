@@ -211,7 +211,7 @@ Default frequencies as used in Emma 02:
     </tr>
 
     <tr>
-        <td align="left" valign="top">Cybervision 2001</td>
+        <td align="left" valign="top">CyberVision 2001</td>
         <td align="left" valign="top">2.52</td>
         <td align="left" valign="top">SN76430N</td>
         <td align="left" valign="top">60</td>
@@ -350,6 +350,13 @@ Default frequencies as used in Emma 02:
     </tr>
 
     <tr>
+        <td align="left" valign="top">RCA APT VP4801</td>
+        <td align="left" valign="top">2.835</td>
+        <td align="left" valign="top">SCN2672 / CRT8002</td>
+        <td align="left" valign="top">60</td>
+    </tr>
+
+    <tr>
         <td align="left" valign="top">RCA COSMAC Computer Game System</td>
         <td align="left" valign="top">1.6</td>
         <td align="left" valign="top">64x32 pixels, similar to the CDP1861</td>
@@ -465,13 +472,6 @@ Default frequencies as used in Emma 02:
         <td align="left" valign="top">VP3301</td>
         <td align="left" valign="top">2.835</td>
         <td align="left" valign="top">CDP1870</td>
-        <td align="left" valign="top">60</td>
-    </tr>
-
-    <tr>
-        <td align="left" valign="top">VP4801</td>
-        <td align="left" valign="top">2.835</td>
-        <td align="left" valign="top">SCN2672 / CRT8002</td>
         <td align="left" valign="top">60</td>
     </tr>
 

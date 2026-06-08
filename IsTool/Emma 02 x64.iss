@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V2.06
-AppVersion=2.06
+AppVerName=Emma 02 - V2.00.16
+AppVersion=2.00.16
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
@@ -154,6 +154,7 @@ Source: ..\data\Elf2K\Tinyos2k\*.*; DestDir: {app}\data\Elf2K\Tinyos2k; Componen
 Source: ..\data\Eti\*.*; DestDir: {app}\data\Eti; Components: MAIN
 Source: ..\data\FRED1\*.*; DestDir: {app}\data\FRED1; Components: MAIN
 Source: ..\data\FRED1_5\*.*; DestDir: {app}\data\FRED1_5; Components: MAIN
+Source: ..\data\FRED3\*.*; DestDir: {app}\data\FRED3; Components: MAIN
 Source: ..\data\HEC1802\*.*; DestDir: {app}\data\HEC1802; Components: MAIN
 Source: ..\data\HUG1802\*.*; DestDir: {app}\data\HUG1802; Components: MAIN
 Source: ..\data\Macbug\*.*; DestDir: {app}\data\Macbug; Components: MAIN
@@ -175,6 +176,7 @@ Source: ..\data\MS2000\RP\*.*; DestDir: {app}\data\MS2000\RP; Components: MAIN
 Source: ..\data\MS2000\Software\*.*; DestDir: {app}\data\MS2000\Software; Components: MAIN
 Source: ..\data\Nano\*.*; DestDir: {app}\data\Nano; Components: MAIN
 Source: ..\data\NetronicsElfII\*.*; DestDir: {app}\data\NetronicsElfII; Components: MAIN
+Source: ..\data\Payphone\*.*; DestDir: {app}\data\Payphone; Components: MAIN
 Source: ..\data\Pecom\*.*; DestDir: {app}\data\Pecom; Components: MAIN
 Source: ..\data\Pico\*.*; DestDir: {app}\data\Pico; Components: MAIN
 Source: ..\data\SBC1802\*.*; DestDir: {app}\data\SBC1802; Components: MAIN
@@ -198,8 +200,9 @@ Source: ..\data\Vip\*.*; DestDir: {app}\data\Vip; Components: MAIN
 Source: ..\data\Vip2K\*.*; DestDir: {app}\data\Vip2K; Components: MAIN
 Source: ..\data\VipII\*.*; DestDir: {app}\data\VipII; Components: MAIN
 Source: ..\data\VIS1802\*.*; DestDir: {app}\data\VIS1802; Components: MAIN
-Source: ..\data\VT1802\*.*; DestDir: {app}\data\VT1802; Components: MAIN
 Source: ..\data\VP3000\*.*; DestDir: {app}\data\VP3000; Components: MAIN
+Source: ..\data\VP4801\*.*; DestDir: {app}\data\VP4801; Components: MAIN
+Source: ..\data\VT1802\*.*; DestDir: {app}\data\VT1802; Components: MAIN
 Source: ..\data\Visicom\*.*; DestDir: {app}\data\Visicom; Components: MAIN
 Source: ..\data\Xml\*.*; DestDir: {app}\data\Xml; Components: MAIN
 Source: ..\data\Xml\CDP18S020\*.*; DestDir: {app}\data\Xml\CDP18S020; Components: MAIN
@@ -219,6 +222,7 @@ Source: ..\data\Xml\Elf2K\*.*; DestDir: {app}\data\Xml\Elf2K; Components: MAIN
 Source: ..\data\Xml\Eti\*.*; DestDir: {app}\data\Xml\Eti; Components: MAIN
 Source: ..\data\Xml\FRED1\*.*; DestDir: {app}\data\Xml\FRED1; Components: MAIN
 Source: ..\data\Xml\FRED1_5\*.*; DestDir: {app}\data\Xml\FRED1_5; Components: MAIN
+Source: ..\data\Xml\FRED3\*.*; DestDir: {app}\data\Xml\FRED3; Components: MAIN
 Source: ..\data\Xml\HEC1802\*.*; DestDir: {app}\data\Xml\HEC1802; Components: MAIN
 Source: ..\data\Xml\HUG1802\*.*; DestDir: {app}\data\Xml\HUG1802; Components: MAIN
 Source: ..\data\Xml\JVIP\*.*; DestDir: {app}\data\Xml\JVIP; Components: MAIN
@@ -231,6 +235,7 @@ Source: ..\data\Xml\MicrotutorII\*.*; DestDir: {app}\data\Xml\MicrotutorII; Comp
 Source: ..\data\Xml\MS2000\*.*; DestDir: {app}\data\Xml\MS2000; Components: MAIN
 Source: ..\data\Xml\Nano\*.*; DestDir: {app}\data\Xml\Nano; Components: MAIN
 Source: ..\data\Xml\NetronicsElfII\*.*; DestDir: {app}\data\Xml\NetronicsElfII; Components: MAIN
+Source: ..\data\Xml\Payphone\*.*; DestDir: {app}\data\Xml\Payphone; Components: MAIN
 Source: ..\data\Xml\Pecom32\*.*; DestDir: {app}\data\Xml\Pecom32; Components: MAIN
 Source: ..\data\Xml\Pecom64\*.*; DestDir: {app}\data\Xml\Pecom64; Components: MAIN
 Source: ..\data\Xml\PicoElfV2\*.*; DestDir: {app}\data\Xml\PicoElfV2; Components: MAIN
@@ -250,6 +255,7 @@ Source: ..\data\Xml\Vip2K\*.*; DestDir: {app}\data\Xml\Vip2K; Components: MAIN
 Source: ..\data\Xml\VipII\*.*; DestDir: {app}\data\Xml\VipII; Components: MAIN
 Source: ..\data\Xml\VIS1802\*.*; DestDir: {app}\data\Xml\VIS1802; Components: MAIN
 Source: ..\data\Xml\VP3000\*.*; DestDir: {app}\data\Xml\VP3000; Components: MAIN
+Source: ..\data\Xml\VP4801\*.*; DestDir: {app}\data\Xml\VP4801; Components: MAIN
 Source: ..\data\Xml\VT1802\*.*; DestDir: {app}\data\Xml\VT1802; Components: MAIN
 Source: ..\data\Xml\Visicom\*.*; DestDir: {app}\data\Xml\Visicom; Components: MAIN
 Source: ..\images\*.*; DestDir: {app}\images; Components: MAIN

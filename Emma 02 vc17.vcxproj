@@ -474,6 +474,8 @@
     <ClCompile Include="src\cdp1878.cpp" />
     <ClCompile Include="src\coin_video_config.cpp" />
     <ClCompile Include="src\crt8002_config.cpp" />
+    <ClCompile Include="src\ct2425.cpp" />
+    <ClCompile Include="src\ct2425_config.cpp" />
     <ClCompile Include="src\datadir.cpp" />
     <ClCompile Include="src\debug.cpp" />
     <ClCompile Include="src\dip.cpp" />
@@ -481,6 +483,7 @@
     <ClCompile Include="src\fdc.cpp" />
     <ClCompile Include="src\fred_video_config.cpp" />
     <ClCompile Include="src\functionkey.cpp" />
+    <ClCompile Include="src\guidebugger.cpp" />
     <ClCompile Include="src\guimain.cpp" />
     <ClCompile Include="src\guipopup.cpp" />
     <ClCompile Include="src\guisb.cpp" />
@@ -506,6 +509,7 @@
     <ClCompile Include="src\memory.cpp" />
     <ClCompile Include="src\mm57109.cpp" />
     <ClCompile Include="src\network.cpp" />
+    <ClCompile Include="src\other_config.cpp" />
     <ClCompile Include="src\pixie.cpp" />
     <ClCompile Include="src\pixie_config.cpp" />
     <ClCompile Include="src\portext.cpp" />
@@ -579,6 +583,8 @@
     <ClInclude Include="src\coin_video_config.h" />
     <ClInclude Include="src\computerconfig.h" />
     <ClInclude Include="src\crt8002_config.h" />
+    <ClInclude Include="src\ct2425.h" />
+    <ClInclude Include="src\ct2425_config.h" />
     <ClInclude Include="src\datadir.h" />
     <ClInclude Include="src\debug.h" />
     <ClInclude Include="src\dip.h" />
@@ -586,6 +592,7 @@
     <ClInclude Include="src\fdc.h" />
     <ClInclude Include="src\fred_video_config.h" />
     <ClInclude Include="src\functionkey.h" />
+    <ClInclude Include="src\guidebugger.h" />
     <ClInclude Include="src\guimain.h" />
     <ClInclude Include="src\guipopup.h" />
     <ClInclude Include="src\guisb.h" />
@@ -611,6 +618,7 @@
     <ClInclude Include="src\memory.h" />
     <ClInclude Include="src\mm57109.h" />
     <ClInclude Include="src\network.h" />
+    <ClInclude Include="src\other_config.h" />
     <ClInclude Include="src\pixie.h" />
     <ClInclude Include="src\pixie_config.h" />
     <ClInclude Include="src\portext.h" />
