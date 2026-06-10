@@ -33,7 +33,7 @@ To use wave files, specify the <tt>.wav</tt> file name in the <strong>File name<
 </p>
 
 <p>
-For automatic and fast loading or saving <tt>.wav</tt> files, check options: <strong>Auto</strong> (4) and <strong>Turbo</strong> (5). This is the default setting for most XML configurations with cassette support.
+For automatic and fast loading or saving of <tt>.wav</tt> files, check the <strong>Auto</strong> (4) and <strong>Turbo</strong> (5) options. This is the default setting for most XML configurations with cassette support.
 </p>
 
 <p>
@@ -59,12 +59,11 @@ Press the <strong>Eject</strong> button (3) to remove the file name.<br>
 </p>
 
 <p>
-Use <a href="ComputerMemAccess.htm">Memory Access</a> <tt>SAVE</tt> after loading a <tt>.wav</tt> file to store it in a modern computer format.<br>
-<strong>Result:</strong> Faster and easier loading in future sessions.
+Use <a href="ComputerMemAccess.htm">Memory Access</a> <tt>SAVE</tt> after loading a <tt>.wav</tt> file to store it in a modern format for faster loading in future sessions.
 </p>
 
 <p>
-<strong>Important:</strong> Changing the wave file settings might impact the usability of the <tt>.wav</tt> files on a real computer as well as the possibility to load computer-generated <tt>.wav</tt> files into the emulator. See the 'Wave File Settings' section below.
+<strong>Important:</strong> Changing the wave file settings can affect the usability of the <tt>.wav</tt> files on a real computer and the ability to load computer-generated <tt>.wav</tt> files into the emulator. See the Wave File Settings section below.
 </p>
 
 
@@ -75,7 +74,7 @@ When the <strong>Turbo</strong> option (5) is selected, the emulator will increa
 </p>
 
 <p>
-<strong>Note:</strong> The default Turbo speed is 15 MHz. Higher values (e.g., 50 MHz) may work on fast systems but can fully consume CPU resources on slower computers.
+<strong>Note:</strong> The default Turbo speed is 15 MHz. Higher values (e.g. 50 MHz) may work on fast systems but can consume all CPU resources on slower host computers.
 </p>
 
 
@@ -87,10 +86,6 @@ Open <strong>Wav File and Real Cassette Settings</strong> via the menu shown bel
 
 <p>
 <img src="images/wav_settings_menu.png" border="0" width="334" height="272">
-</p>
-
-<p>
-The following subsections describe applicable settings in more detail. 
 </p>
 
 <p>
@@ -182,7 +177,7 @@ Two conversion types can be used:
 </ol>
 
 <p>
-Default this is set to <strong>Amplitude</strong>, which works for all <tt>.wav</tt> files. Depending on the emulated computer this might need to be changed if loading does not work or gives tape errors.
+By default, this is set to <strong>Amplitude</strong>, which works for all <tt>.wav</tt> files. Depending on the emulated computer, this might need to be changed if loading does not work or gives tape errors.
 </p>
 
 <h4>Reversed Polarity (3)</h4> 
@@ -223,7 +218,7 @@ Press the <strong>Batch - wav</strong> button (1) to select files to be converte
 </ul>
 
 <p>
-The number of files selected is shown in the <strong>File count</strong> text field (3) to the right of the <strong>Convert</strong> button (3).
+The number of files selected is shown in the <strong>File count</strong> text field (3) to the right of the <strong>Convert</strong> button (2).
 </p>
 
 <p>
@@ -237,7 +232,7 @@ Press the <strong>Convert</strong> button (2) to start the conversion.
 </p>
 
 <p>
-<strong>Note:</strong> Not all files are supported, for example COMX machine code <tt>.comx</tt> files (first byte = 1) are not supported (as they cannot be saved with <tt>PSAVE</tt>).
+<strong>Note:</strong> Not all files are supported. For example, COMX-35 machine code <tt>.comx</tt> files (first byte = 1) cannot be saved with <tt>PSAVE</tt>.
 </p>
 
 </body>

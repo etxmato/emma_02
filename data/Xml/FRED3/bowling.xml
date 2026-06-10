@@ -5,7 +5,7 @@
     
     <system>
         <name>FRED 3</name>
-        <config>Coin Bowling</config>
+        <config>Bowling</config>
         <clock>1.6</clock>
         <cpu>1801</cpu>
         <boot dma="out">0</boot>
