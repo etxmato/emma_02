@@ -47,10 +47,10 @@ During installation, software is placed in the emulator directories (located in 
 Program and data files (formats designed for this emulator, such as <tt>.comx</tt>, <tt>.pecom</tt>, <tt>.tmc600</tt>, <tt>.fpb</tt>, <tt>.rca</tt>, <tt>.super</tt>, and <tt>.tiny</tt>) can be loaded in the following emulators:
 </p>
 <ul>
-<li>COMX or COMiX (<tt>.comx</tt>)</li>
-<li>PECOM 32 or 64 (<tt>.pecom</tt>)</li>
-<li>Telmac TMC 600 (<tt>.tmc600</tt>)</li>
-<li>Cosmac VIP or VIP II when running Fixed Point Basic (<tt>.fpb</tt>)</li>
+<li>COMX-35 or COMiX-35 (<tt>.comx</tt>)</li>
+<li>PECOM 32 or PECOM 64 (<tt>.pecom</tt>)</li>
+<li>Telmac TMC-600 (<tt>.tmc600</tt>)</li>
+<li>COSMAC VIP or COSMAC VIP II when running Fixed Point Basic (<tt>.fpb</tt>)</li>
 <li>Any computer running Quest Super Basic (<tt>.super</tt>)</li>
 <li>Any computer running RCA Basic (<tt>.rca</tt>)</li>
 <li>Any computer running Tiny Basic (<tt>.tiny</tt>)</li>
@@ -110,8 +110,8 @@ To save a BASIC or BASIC/machine code program (similar to <tt>PSAVE</tt>):
 To save data (similar to <tt>DSAVE</tt>):
 </p>
 <ul>
+<li>Set the data via a BASIC program before saving</li>
 <li>Use the <strong>Data SAVE</strong> button (4)</li>
-<li>Ensure the data is set via a BASIC program before saving</li>
 </ul>
 
 <p>
@@ -123,7 +123,7 @@ For loading data files (similar to <tt>DLOAD</tt>):
 </ul>
 
 <p>
-Data can be reloaded while a BASIC program is running. To do so, a <tt>DLOAD</tt> command would need to be replaced by a message to the user to use the <strong>LOAD</strong> button.
+Data can be reloaded while a BASIC program is running. Replace the <tt>DLOAD</tt> command in the program with a message instructing the user to press the <strong>LOAD</strong> button (2).
 </p>
 
 
@@ -162,7 +162,7 @@ After any <strong>RUN</strong>, <strong>LOAD</strong>, or <strong>SAVE</strong> 
 </p>
 
 <p>
-<strong>Note:</strong> On the COMX emulator, this also applies to BASIC DOS commands <strong>LOAD</strong>, <strong>SAVE</strong>, <strong>RUN</strong>, and <strong>URUN</strong>.
+<strong>Note:</strong> On the COMX-35 emulator, this also applies to BASIC DOS commands <strong>LOAD</strong>, <strong>SAVE</strong>, <strong>RUN</strong>, and <strong>URUN</strong>.
 </p>
 
 <p>
@@ -231,10 +231,10 @@ After any <strong>LOAD</strong> or <strong>SAVE</strong> command, the software n
 </p>
 
 
-<h3>F&amp;M Basic on the COMX emulator</h3>
+<h3>F&amp;M Basic on the COMX-35 emulator</h3>
 
 <p>
-After loading and running F&amp;M Basic on the COMX emulator, the buttons change as shown below:
+After loading and running F&amp;M Basic on the COMX-35 emulator, the buttons change as shown below:
 </p>
 
 <p>

@@ -2,6 +2,7 @@
 <title>Disk Support</title>
 <body>
 
+
 <h1>Disk Support</h1>
 
 <p>
@@ -16,10 +17,10 @@ Disk support will be activated if the selected XML file includes a disk definiti
 
 
 <h2>FDC GUI</h2>
+
 <p>
 <img src="images/disk_fdc.png" border="0" width="724" height="609">
 </p>
-
 <ul>
 <li>(1) <strong>FDC x</strong> button</li>
 <li>(2) <strong>File name</strong> text field</li>
@@ -27,15 +28,15 @@ Disk support will be activated if the selected XML file includes a disk definiti
 </ul>
 
 <p>
-Depending on the configuration 1 to 4 drives (0-3) can be defined. In the example above a COMX is configured with 2 <tt>WD1770</tt> drives. To change a disk at runtime select a different file name using one of the <strong>FDC x</strong> buttons (1) or type a file name in the <strong>File name</strong> text field (2). To eject the disk use the <strong>Eject</strong> button (3) or remove the file name in the <strong>File name</strong> text field.
+Depending on the configuration, one to four drives (0-3) can be defined. In the example above, a COMX-35 is configured with two <tt>WD1770</tt> drives. To change a disk at runtime, select a different file name using one of the <strong>FDC x</strong> buttons (1) or type a file name in the <strong>File name</strong> text field (2). To eject the disk, use the <strong>Eject</strong> button (3) or remove the file name in the <strong>File name</strong> text field.
 </p>
 
 
 <h2>HD GUI</h2>
+
 <p>
 <img src="images/disk_hd.png" border="0" width="724" height="609">
 </p>
-
 <ul>
 <li>(1) <strong>HD x</strong> button</li>
 <li>(2) <strong>Double arrow</strong> button</li>
@@ -43,7 +44,7 @@ Depending on the configuration 1 to 4 drives (0-3) can be defined. In the exampl
 </ul>
 
 <p>
-The <tt>HD</tt> GUI is available for <tt>upd765</tt> drives; instead of using a disk image, it supports direct access to the PC hard disk. The actual HD directory can be specified using the <strong>HD 0</strong> to <strong>HD 3</strong> buttons (1). The directory name will be displayed in the <strong>Directory</strong> text field (3).
+The <tt>HD</tt> GUI is available for <tt>upd765</tt> drives; instead of using a disk image, it supports direct access to the host computer hard disk. The HD directory can be specified using the <strong>HD 0</strong> to <strong>HD 3</strong> buttons (1). The directory name will be displayed in the <strong>Directory</strong> text field (3).
 </p>
 
 <p>
@@ -51,20 +52,19 @@ To switch between <tt>HD</tt> and <tt>FDC</tt> mode, press one of the <strong>Do
 </p>
 
 <p>
-Using the <tt>HD</tt> feature allows for a simple import/export from/to the PC file system. Additionally, there is no disk size limit (310 KB for FDC images). In theory there is no limit to the total size of the directory; however, the following limitations still exist:
+The <tt>HD</tt> feature provides direct import/export to and from the host computer file system. Unlike <tt>FDC</tt> images, which are limited to 310 KB, the <tt>HD</tt> directory has no total size limit. However, the following per-directory limitations apply:
 </p>
-
 <ul>
-<li>Maximum number of files in one directory is 128</li>
-<li>Maximum file size is 300 KB to 310 KB depending on how many files are stored in the directory</li>
+<li>The maximum number of files in one directory is 128</li>
+<li>The maximum file size is 300 KB to 310 KB, depending on how many files are stored in the directory</li>
 </ul>
 
 
 <h2>IDE GUI</h2>
+
 <p>
 <img src="images/disk_ide.png" border="0" width="724" height="609">
 </p>
-
 <ul>
 <li>(1) <strong>IDE x</strong> button</li>
 <li>(2) <strong>File name</strong> text field</li>
@@ -72,7 +72,7 @@ Using the <tt>HD</tt> feature allows for a simple import/export from/to the PC f
 </ul>
 
 <p>
-2 <tt>IDE</tt> drives (0 and 1) can be defined. In the example above a COSMAC Elf 2000 is configured. To change a disk at runtime select a different file name using one of the <strong>IDE x</strong> buttons (1) or type a file name in the <strong>File name</strong> text field (2). To eject the disk use the <strong>Eject</strong> button (3) or remove the file name in the <strong>File name</strong> text field.
+Two <tt>IDE</tt> drives (0 and 1) can be defined. In the example above, a COSMAC Elf 2000 is configured. To change a disk at runtime, select a different file name using one of the <strong>IDE x</strong> buttons (1) or type a file name in the <strong>File name</strong> text field (2). To eject the disk, use the <strong>Eject</strong> button (3) or remove the file name in the <strong>File name</strong> text field.
 </p>
 
 <p>
@@ -81,10 +81,10 @@ After initial start-up, any file <tt>&lt;type&gt;-installation.ide</tt> (or <tt>
 
 
 <h2>TU58 GUI</h2>
+
 <p>
 <img src="images/disk_tu58.png" border="0" width="724" height="609">
 </p>
-
 <ul>
 <li>(1) <strong>TU58 x</strong> button</li>
 <li>(2) <strong>File name</strong> text field</li>
@@ -92,7 +92,7 @@ After initial start-up, any file <tt>&lt;type&gt;-installation.ide</tt> (or <tt>
 </ul>
 
 <p>
-2 <tt>TU58</tt> drives (0 and 1) can be defined. In the example above a SBC1802 is configured. To change a disk at runtime select a different file name using one of the <strong>TU58 x</strong> buttons (1) or type a file name in the <strong>File name</strong> text field (2). To eject the disk use the <strong>Eject</strong> button (3) or remove the file name in the <strong>File name</strong> text field.
+Two <tt>TU58</tt> drives (0 and 1) can be defined. In the example above, an SBC1802 is configured. To change a disk at runtime, select a different file name using one of the <strong>TU58 x</strong> buttons (1) or type a file name in the <strong>File name</strong> text field (2). To eject the disk, use the <strong>Eject</strong> button (3) or remove the file name in the <strong>File name</strong> text field.
 </p>
 
 </body>

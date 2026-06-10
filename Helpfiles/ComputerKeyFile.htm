@@ -3,19 +3,16 @@
 <title>Key File</title>
 <body>
 
+
 <h1>Key File</h1>
-<p>
-The Key File function lets you specify a set of keys (or text) to be typed into the emulated computer automatically as defined in the file. The Key File must be specified before starting the emulated computer or before performing a <strong>Reset</strong>.
-</p>
 
 <p>
-<strong>Note:</strong> On start-up or reset the specified key file will be read by Emma 02 and every character in the file will be sent to the emulated computer as a key press. A key file must be a regular text file.
+The Key File function lets you specify a set of keys (or text) to be typed into the emulated computer automatically as defined in the file. The Key File must be specified before starting the emulated computer or before performing a <strong>Reset</strong>. On start-up or reset, every character in the file will be sent to the emulated computer as a key press. A key file must be a regular text file.
 </p>
 
 <p>
 <img src="images/key_file.png" border="0" width="724" height="609">
 </p>
-
 <ul>
 <li>(1) <strong>Key File</strong> button</li>
 <li>(2) <strong>File name</strong> text field</li>
@@ -23,29 +20,38 @@ The Key File function lets you specify a set of keys (or text) to be typed into 
 </ul>
 
 <p>
-To browse for a key file use the <strong>Key File</strong> button (1) or type a file name in the text field (2). To eject the key file use the eject button (3) or remove the filename from the text field.
+To browse for a key file, use the <strong>Key File</strong> button (1) or type a file name in the <strong>File name</strong> text field (2). To eject the key file, use the <strong>Eject</strong> button (3) or remove the filename from the <strong>File name</strong> text field.
 </p>
 
-<h2>COMX</h2>
-<p>
-<strong>Note:</strong> Specify one extra empty line at the start of the COMX key file to allow the COMX to start BASIC (see the key file example in the <tt>Comx</tt> directory).
-</p>
+
+<h2>COMX-35</h2>
 
 <p>
-As only capital characters are used in COMX BASIC, the Key File function for the COMX will translate all capital characters in the file as a non-shift key press. I.e., capital <tt>A</tt> in the file will also result in an <tt>A</tt> on the COMX. To get the shift <tt>A</tt> character typed on the COMX you need to specify <tt>a</tt> in the file.
-</p>
-
-<p>
-Included are some BASIC key file examples: one very simple (<strong>COMX Key File Example</strong>), <strong>Recall BASIC</strong>, which when used as key file will recover the BASIC program after a reset (you need to include <tt>0 REM</tt> as first line), and <strong>Trainspotting</strong>, which is the listing of that game and can be used to re-type the complete game.
-</p>
-
-<h2>TMC-600</h2>
-<p>
-<strong>Note:</strong> Specify one extra <tt>C</tt> at the start of the TMC-600 key file to allow the TMC-600 to start BASIC.
+<strong>Note:</strong> Specify one extra empty line at the start of the COMX-35 key file to allow the COMX-35 to start BASIC (see the key file example in the <tt>Comx</tt> directory).
 </p>
 
 <p>
-<strong>Important:</strong> If the key file uses both capital and lower case characters press <tt>Caps Lock</tt> at start-up to allow input of lower case characters.
+As only capital characters are used in COMX-35 BASIC, the Key File function translates all capital characters in the file as non-shift key presses. For example, capital <tt>A</tt> in the file will also result in an <tt>A</tt> on the COMX-35. To type the shift <tt>A</tt> character on the COMX-35, specify <tt>a</tt> in the file.
+</p>
+
+<p>
+Some BASIC key file examples are included:
+</p>
+<ul>
+<li><strong>COMX Key File Example</strong> - a very simple example</li>
+<li><strong>Recall BASIC</strong> - when used as key file, recovers the BASIC program after a reset (you need to include <tt>0 REM</tt> as first line)</li>
+<li><strong>Trainspotting</strong> - the listing of that game, which can be used to re-type the complete game</li>
+</ul>
+
+
+<h2>Telmac TMC-600</h2>
+
+<p>
+<strong>Note:</strong> Specify one extra <tt>C</tt> at the start of the Telmac TMC-600 key file to allow the Telmac TMC-600 to start BASIC.
+</p>
+
+<p>
+<strong>Important:</strong> If the key file uses both capital and lower case characters, press <tt>Caps Lock</tt> at start-up to enable lower case character input.
 </p>
 
 </body>
