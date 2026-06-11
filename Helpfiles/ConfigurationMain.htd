@@ -5,11 +5,7 @@
 <h1>Configuration</h1>
 
 <p>
-The Configuration tab provides configuration information for the emulated computer.
-</p>
-
-<p>
-The main elements of the Configuration tab are shown in the screenshot below.
+The Configuration tab shows the I/O configuration summary for the emulated computer. The Configuration tab interface is shown below:
 </p>
 
 <p>
@@ -30,11 +26,13 @@ The Configuration tab contains three sub-tabs:
 <li>(4) <strong>Other</strong> sub-tab - debugging of other configurations. See the <a href="ConfigurationOther.htm">Other Configurations</a> section.</li>
 </ul>
 
+
 <h2>Important Notes</h2>
 
 <ul>
 <li>Settings in the <strong>Video</strong> and <strong>Other</strong> tabs are <strong>not</strong> saved in the Emma 02 configuration file. Each time Emma 02 starts, configuration settings return to their default values.</li>
 </ul>
+
 
 <h2>When to Use the Configuration tab</h2>
 

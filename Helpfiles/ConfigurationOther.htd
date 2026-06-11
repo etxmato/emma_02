@@ -5,11 +5,7 @@
 <h1>Other Configurations</h1>
 
 <p>
-The Other sub-tab of the Configuration tab provides configuration information for other HW components of the emulated computer.
-</p>
-
-<p>
-The main elements of the Other sub-tab are shown in the screenshot below.
+The Other sub-tab shows I/O configuration and status for additional hardware components of the emulated computer. The Other sub-tab interface is shown below:
 </p>
 
 <p>
@@ -20,14 +16,11 @@ The main elements of the Other sub-tab are shown in the screenshot below.
 To open this tab, select the <strong>Configuration</strong> tab (1) and then the <strong>Other</strong> sub-tab (2).
 </p>
 
+
 <h2>I/O</h2>
 
 <p>
-The I/O section shows and controls I/O values and status.
-</p>
-
-<p>
-The I/O controls are shown in the screenshot below.
+The I/O section displays register values and allows toggling individual I/O functions. The I/O controls are shown in the screenshot below.
 </p>
 
 <p>
@@ -40,18 +33,18 @@ The I/O controls are shown in the screenshot below.
 </ul>
 
 <p>
-Where applicable, the I/O definition may include heading:
+Depending on the HW chip, the I/O definition may include the following headings:
 </p>
 
 <ul>
-<li><strong>Function</strong> - description of the function.</li>
-<li><strong>D</strong> - <strong>D</strong>irection (I = input, O = output, B = both; not used in screenshot).</li>
+<li><strong>Function</strong> - description of the I/O function.</li>
+<li><strong>D</strong> - <strong>D</strong>irection (I = input, O = output, B = both). B is not used in the screenshot example.</li>
 <li><strong>P</strong> - <strong>P</strong>ort number.</li>
-<li><strong>Value</strong> - value.</li>
+<li><strong>Value</strong> - current register value.</li>
 </ul>
 
 <p>
-The currently defined Other HW configurations:
+The following hardware configurations are currently supported:
 </p>
 
 <ul>
@@ -59,17 +52,14 @@ The currently defined Other HW configurations:
 </ul>
 
 <p>
-Only I/O information and controls are shown for the configured other HW chips.
+Only I/O information and controls are shown for configured hardware chips.
 </p>
+
 
 <h2>Log</h2>
 
 <p>
-The Log section controls logging of I/O events.
-</p>
-
-<p>
-The Log controls are shown in the screenshot below.
+The Log section controls logging of I/O events. The Log controls are shown in the screenshot below.
 </p>
 
 <p>
@@ -80,7 +70,7 @@ The Log controls are shown in the screenshot below.
 <li>(1) <strong>Log</strong> button - switch log on/off (default off).</li>
 <li>(2) <strong>Time</strong> button - switch time logging on/off (default on).</li>
 <li>(3) <strong>Clear</strong> button - clear log window.</li>
-<li>(4) <strong>I/O</strong> checkbox - enable logging for the specified I/O.</li>
+<li>(4) <strong>I/O</strong> checkbox - enable or disable logging for individual I/O functions.</li>
 </ul>
 
 </body>

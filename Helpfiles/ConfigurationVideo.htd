@@ -5,11 +5,7 @@
 <h1>Video Configurations</h1>
 
 <p>
-The Video sub-tab of the Configuration tab provides video configuration information for the emulated computer.
-</p>
-
-<p>
-The main elements of the Video sub-tab are shown in the screenshot below.
+The Video sub-tab shows I/O configuration and status for the video chip of the emulated computer. The Video sub-tab interface is shown below:
 </p>
 
 <p>
@@ -20,14 +16,11 @@ The main elements of the Video sub-tab are shown in the screenshot below.
 To open this tab, select the <strong>Configuration</strong> tab (1) and then the <strong>Video</strong> sub-tab (2).
 </p>
 
+
 <h2>I/O</h2>
 
 <p>
-The I/O section shows and controls I/O values and status.
-</p>
-
-<p>
-The I/O controls are shown in the screenshot below.
+The I/O section displays register values and allows toggling individual I/O functions. The I/O controls are shown in the screenshot below.
 </p>
 
 <p>
@@ -40,21 +33,21 @@ The I/O controls are shown in the screenshot below.
 </ul>
 
 <p>
-Where applicable, the I/O definition may include heading:
+Depending on the video chip, the I/O definition may include the following headings:
 </p>
 
 <ul>
-<li><strong>Function</strong> - description of the function.</li>
-<li><strong>D</strong> - <strong>D</strong>irection (I = input, O = output, B = both; not used in screenshot).</li>
-<li><strong>P</strong> - <strong>P</strong>ort number or <strong>P</strong>olarity (not used in screenshot).</li>
+<li><strong>Function</strong> - description of the I/O function.</li>
+<li><strong>D</strong> - <strong>D</strong>irection (I = input, O = output, B = both). B is not used in the screenshot example.</li>
+<li><strong>P</strong> - <strong>P</strong>ort number or <strong>P</strong>olarity. Polarity is not used in the screenshot example.</li>
 <li><strong>Q</strong> - <strong>Q</strong> value (Q = 0, Q = 1).</li>
-<li><strong>Value</strong> - value.</li>
-<li><strong>R</strong> - <strong>R</strong>egister number (not used in screenshot).</li>
-<li><strong>Address</strong> - address (not used in screenshot).</li>
+<li><strong>Value</strong> - current register value.</li>
+<li><strong>R</strong> - <strong>R</strong>egister number. Not used in the screenshot example.</li>
+<li><strong>Address</strong> - memory address. Not used in the screenshot example.</li>
 </ul>
 
 <p>
-The currently defined Video configurations:
+The following video configurations are currently supported:
 </p>
 
 <ul>
@@ -76,17 +69,14 @@ The currently defined Video configurations:
 </ul>
 
 <p>
-Only I/O information and controls are shown for the configured video chips.
+Only I/O information and controls are shown for configured video chips.
 </p>
+
 
 <h2>Log</h2>
 
 <p>
-The Log section controls logging of I/O events.
-</p>
-
-<p>
-The Log controls are shown in the screenshot below.
+The Log section controls logging of I/O events. The Log controls are shown in the screenshot below.
 </p>
 
 <p>
@@ -97,7 +87,7 @@ The Log controls are shown in the screenshot below.
 <li>(1) <strong>Log</strong> button - switch log on/off (default off).</li>
 <li>(2) <strong>Time</strong> button - switch time logging on/off (default on).</li>
 <li>(3) <strong>Clear</strong> button - clear log window.</li>
-<li>(4) <strong>I/O</strong> checkbox - enable logging for the specified I/O.</li>
+<li>(4) <strong>I/O</strong> checkbox - enable or disable logging for individual I/O functions.</li>
 </ul>
 
 </body>
