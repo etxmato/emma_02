@@ -6,7 +6,7 @@
 <h1>HEX and XMODEM Support</h1>
 
 <p>
-HEX or XMODEM file transfer will be activated if the selected XML file includes a HEX or XMODEM definition.
+HEX or XMODEM file transfer is available when the selected XML file includes a HEX or XMODEM definition.
 </p>
 
 
@@ -32,7 +32,7 @@ The main controls for HEX Support are shown in the screenshot below. The numbere
 </ul>
 
 <p>
-A HEX file can be loaded in configurations such as Elf 2000 (when using a terminal), CDP18S020 Evaluation Kit Emulator, Membership Card and VIP2K Membership Card.
+A HEX file can be loaded in configurations such as COSMAC Elf 2000 (when using a terminal), CDP18S020 Evaluation Kit, Membership Card, and VIP2K Membership Card.
 </p>
 
 <p>
@@ -65,10 +65,10 @@ Turbo Mode      : Enable for faster transfer
 <p>
 Clear the <strong>Auto</strong> checkbox (4).
 </p>
-
+apply all
 <p>
-Start an Elf 2000 emulator<br>
-<strong>Result:</strong> The Elf 2000 monitor starts and shows the <tt>>>></tt> prompt.
+Start a COSMAC Elf 2000 emulator.<br>
+<strong>Result:</strong> The COSMAC Elf 2000 monitor starts and shows the <tt>>>></tt> prompt.
 </p>
 
 
@@ -80,7 +80,7 @@ Press the <strong>Play</strong> button (6).<br>
 </p>
 
 <p>
-When the last line shows <tt>>>>:00000001FF</tt>, press <tt>RETURN</tt>; <tt>EOF</tt> is shown, indicating end of file.
+When the last line shows <tt>>>>:00000001FF</tt>, press <tt>RETURN</tt>; <tt>EOF</tt> is shown, indicating the end of the file.
 </p>
 
 <p>
@@ -95,8 +95,8 @@ Clear the <strong>Auto</strong> checkbox (4).
 </p>
 
 <p>
-Start a CDP18S020 Evaluation Kit emulator<br>
-Press <tt>RETURN</tt><br>
+Start a CDP18S020 Evaluation Kit emulator.<br>
+Press <tt>RETURN</tt>.<br>
 <strong>Result:</strong> The UT4 monitor starts and shows the <tt>*</tt> prompt.
 </p>
 
@@ -113,7 +113,7 @@ Press the <strong>Play</strong> button (6).<br>
 </p>
 
 <p>
-Press the <strong>Stop</strong> button (7), when terminal output stops, to stop the transfer.
+When terminal output stops, press the <strong>Stop</strong> button (7) to end the transfer.
 </p>
 
 
@@ -129,18 +129,18 @@ Press the <strong>Record</strong> button (8) and then press <tt>RETURN</tt>.<br>
 </p>
 
 <p>
-Press the <strong>Stop</strong> button (7), when terminal output stops, to stop the transfer.
+When terminal output stops, press the <strong>Stop</strong> button (7) to end the transfer.
 </p>
 
 
 <h3>Membership Card and VIP2K Membership Card</h3>
 
 <p>
-The following describes HEX file transfer for the Membership Card and VIP2K Membership Card using the monitor software.
+HEX file transfer for the Membership Card and VIP2K Membership Card uses the monitor software.
 </p>
 
 <p>
-Start a Membership Card emulator<br>
+Start a Membership Card emulator.<br>
 <strong>Result:</strong> The Membership Card monitor starts and shows the <tt>></tt> prompt.
 </p>
 
@@ -213,7 +213,7 @@ Select the <strong>Turbo</strong> checkbox (5).<br>
 </p>
 
 <p>
-<strong>Important:</strong> Too high values may cause performance issues on slower systems.
+<strong>Important:</strong> Values that are too high may cause performance issues on slower systems.
 </p>
 
 
@@ -301,12 +301,12 @@ Clear the <strong>Auto</strong> checkbox (4).
 </p>
 
 <p>
-Press the <strong>Play</strong> button (6) to send to Elf/Os.<br>
+Press the <strong>Play</strong> button (6) to send the file to Elf/Os.<br>
 <strong>Result:</strong> The selected file is loaded.
 </p>
 
 <p>
-Press the <strong>Record</strong> button (8) to receive from Elf/Os.<br>
+Press the <strong>Record</strong> button (8) to receive a file from Elf/Os.<br>
 <strong>Result:</strong> The selected file is saved.
 </p>
 
@@ -327,7 +327,7 @@ Select the <strong>Turbo</strong> checkbox (5).<br>
 </p>
 
 <p>
-<strong>Important:</strong> Too high values may cause performance issues on slower systems.
+<strong>Important:</strong> Values that are too high may cause performance issues on slower systems.
 </p>
 
 
@@ -335,7 +335,7 @@ Select the <strong>Turbo</strong> checkbox (5).<br>
 
 <p>
 Press the <strong>VT Setup</strong> button (9).<br>
-<strong>Result:</strong> The VT Setup window opens where Packet size can be set to Auto, 1024 or 128.
+<strong>Result:</strong> The VT Setup window opens, where the packet size can be set to <tt>Auto</tt>, <tt>1024</tt>, or <tt>128</tt>.
 </p>
 
 <p>
@@ -343,7 +343,7 @@ Press the <strong>VT Setup</strong> button (9).<br>
 </p>
 
 <p>
-For details see the <a href="TerminalSetup.htm">Terminal Setup</a> section.
+For details, see the <a href="TerminalSetup.htm">Terminal Setup</a> section.
 </p>
 
 </body>

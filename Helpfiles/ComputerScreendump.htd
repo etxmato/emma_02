@@ -4,11 +4,7 @@
 
 <h1>Video Dump</h1>
 <p>
-All emulators supporting video output include the option to dump (or save) that output to a file:
-</p>
-
-<p>
-The Video Dump controls are shown below:
+All emulators with video output can save the screen to a file. The Video Dump controls are shown below.
 </p>
 
 <p>
@@ -22,7 +18,7 @@ The Video Dump controls are shown below:
 </ul>
 
 <p>
-To save the screen output to a file, press the <strong>Save</strong> button (1) or press the <tt>F5</tt> key (both are only possible if one of the emulators is running).
+To save the screen output to a file, press the <strong>Save</strong> button (1) or the <tt>F5</tt> key (only available while an emulator is running).
 </p>
 
 <p>
@@ -30,7 +26,7 @@ To save the screen output to a file, press the <strong>Save</strong> button (1) 
 </p>
 
 <p>
-Type a different file name in the <strong>File name</strong> text field (2) to change the output file name. To change the directory location of the output file (and/or also the file name) use the <strong>VideoDump</strong> button (3) and select another directory and/or file in the file selector window that opens.
+To change the output file name, type a new name in the <strong>File name</strong> text field (2). To change the directory location or file name, use the <strong>VideoDump</strong> button (3) and select another directory or file in the file selector window.
 </p>
 
 <p>
@@ -38,7 +34,7 @@ By default, the file will be stored in the emulator directory (located in the ap
 </p>
 
 <p>
-To save a file of a different type than a Portable Network Graphics image, change the extension to the desired type. The following extensions are supported: <tt>.png</tt> (Portable Network Graphics image), <tt>.jpeg</tt> (JPEG image), <tt>.bmp</tt> (Bitmap image) and <tt>.pcx</tt> (Paintbrush image).
+To save in a different image format, change the file extension. The following extensions are supported: <tt>.png</tt> (Portable Network Graphics image), <tt>.jpeg</tt> (JPEG image), <tt>.bmp</tt> (Bitmap image), and <tt>.pcx</tt> (Paintbrush image).
 </p>
 
 </body>

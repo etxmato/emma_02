@@ -5,7 +5,7 @@
 
 <h1>Printer/Plotter Support</h1>
 <p>
-Printer support will be activated if the selected XML file includes a printer definition.
+Printer support is available when the selected XML file includes a printer definition.
 </p>
 
 <h2>Print to File</h2>
@@ -20,13 +20,13 @@ Printer support will be activated if the selected XML file includes a printer de
 </ul>
 
 <p>
-To print to a file select <strong>File</strong> using the <strong>Mode</strong> selector (1). If the indicated print file (2) already exists, a new file will be created (with a sequence number) every time the emulated computer window is initiated.
+To print to a file, select <strong>File</strong> using the <strong>Mode</strong> selector (1). If the indicated print file (2) already exists, a new file will be created (with a sequence number) every time the emulated computer is started.
 </p>
 <p>
-Example: if the print file is <tt>printerout.txt</tt>, this file is used the first time, next time the file <tt>printerout.1.txt</tt> will be created.
+Example: if the print file is <tt>printerout.txt</tt>, this file is used the first time; the next time, the file <tt>printerout.1.txt</tt> will be created.
 </p>
 <p>
-To specify a different print file use the <strong>Printer</strong> button (3) to browse for the file, or type a new file name in the text field (2).
+To specify a different print file, use the <strong>Printer</strong> button (3) to browse for the file, or type a new file name in the text field (2).
 </p>
 
 <h2>Print (or Plot) to a Window</h2>
@@ -40,13 +40,17 @@ To specify a different print file use the <strong>Printer</strong> button (3) to
 </ul>
 
 <p>
-To print to an output window and optionally to a real printer select <strong>Window</strong> using the <strong>Mode</strong> selector (1). To print to a COMX PL-80 Plotter window and optionally to a real printer select <strong>Plotter</strong> using the <strong>Mode</strong> selector (1).
+To print to an output window and optionally to a real printer, select <strong>Window</strong> using the <strong>Mode</strong> selector (1).
+</p>
+
+<p>
+To print to a COMX PL-80 Plotter window and optionally to a real printer, select <strong>Plotter</strong> using the <strong>Mode</strong> selector (1).
 </p>
 <p>
-<strong>Note:</strong> To start a new printout close and reopen the printer output window.
+<strong>Note:</strong> To start a new printout, close and reopen the printer output window.
 </p>
 <p>
-To open a printer window manually press the <tt>F4</tt> key or the <strong>Printer</strong> button (2).
+To open a printer window manually, press the <tt>F4</tt> key or the <strong>Printer</strong> button (2).
 </p>
 
 
@@ -59,18 +63,18 @@ To open a printer window manually press the <tt>F4</tt> key or the <strong>Print
 <li>(1) <strong>Print</strong> button</li>
 <li>(2) <strong>Preview</strong> button</li>
 <li>(3) <strong>Setup</strong> button</li>
-<li>(4) Second <strong>Font</strong> choice button</li>
-<li>(5) First <strong>Font</strong> choice button</li>
+<li>(4) First <strong>Font</strong> choice button (characters per line)</li>
+<li>(5) Second <strong>Font</strong> choice button (font name)</li>
 </ul>
 
 <p>
-From the printer output window, use the <strong>Print</strong> button (1) to send the printout to a real printer, use <strong>Preview</strong> (2) and/or <strong>Setup</strong> (3).
+From the printer output window, use the <strong>Print</strong> button (1) to send the printout to a real printer, use <strong>Preview</strong> (2) or <strong>Setup</strong> (3).
 </p>
 <p>
-The number of characters per line can be changed (40, 80, 96 or 120) with the first <strong>Font</strong> choice button (5).
+The number of characters per line can be changed (40, 80, 96 or 120) with the first <strong>Font</strong> choice button (4).
 </p>
 <p>
-The printer font can be changed with the second <strong>Font</strong> choice button (4). By default, the teletype font is used, which has a fixed width per line (like a matrix printer); all other fonts have a variable character width.
+The printer font can be changed with the second <strong>Font</strong> choice button (5). By default, the teletype font is used, which has a fixed width per line (like a matrix printer); all other fonts have a variable character width.
 </p>
 
 
@@ -88,7 +92,7 @@ The printer font can be changed with the second <strong>Font</strong> choice but
 </ul>
 
 <p>
-From the plotter output window, use the <strong>Print</strong> button (1) to send the printout to a real printer, use <strong>Preview</strong> (2) and/or <strong>Setup</strong> (3).
+From the plotter output window, use the <strong>Print</strong> button (1) to send the printout to a real printer, use <strong>Preview</strong> (2) or <strong>Setup</strong> (3).
 </p>
 <p>
 The plotter system ROM file can be changed via the <strong>ROM</strong> control (4) and the character ROM file via the <strong>CHAR</strong> control (5).
@@ -97,10 +101,10 @@ The plotter system ROM file can be changed via the <strong>ROM</strong> control 
 
 <h4>System and Character ROMs</h4>
 <p>
-The installation includes a plotter system ROM file (<tt>pl80.bin</tt>) with the original character font set, as well as additional font ROMs: Italic, Emphasized and Outline (<tt>pl80.it.em.ou.bin</tt>) and Tiny (<tt>pl80.tiny.bin</tt>). The first font ROM also includes 2 sets designed for use with MSX computers.
+The installation includes a plotter system ROM file (<tt>pl80.bin</tt>) with the original character font set, as well as additional font ROMs: Italic, Emphasized and Outline (<tt>pl80.it.em.ou.bin</tt>) and Tiny (<tt>pl80.tiny.bin</tt>). The first font ROM also includes two sets designed for use with MSX computers.
 </p>
 <p>
-To access the fonts use code <tt>12</tt> and character set:
+To access the fonts, use code <tt>12</tt> and character set:
 </p>
 
 <pre>
@@ -128,11 +132,11 @@ With the tiny font ROM selected:
 </pre>
 
 <p>
-An example is also included to print the different character sets, see the file <tt>Fonts.comx</tt> in the <tt>Comx/Plotter</tt> directory.
+An example is included to print the different character sets; see the file <tt>Fonts.comx</tt> in the <tt>Comx/Plotter</tt> directory.
 </p>
 
 <p>
-For additional PL-80 commands please have a look in the PL-80 directory on the <a href="http://www.comxclub.hobby-site.com">Dutch COMX Club</a>.
+For additional PL-80 commands, see the PL-80 directory on the <a href="http://www.comxclub.hobby-site.com">Dutch COMX Club</a>.
 </p>
 
 
@@ -140,7 +144,7 @@ For additional PL-80 commands please have a look in the PL-80 directory on the <
 
 <h3>LED disable</h3>
 <p>
-To disable the COMX status LEDs, click one of the LEDs; a red cross shows the LEDs are disabled (1). This will speed up printout especially when using higher CPU speeds.
+To disable the COMX status LEDs, click one of the LEDs; a red cross shows the LEDs are disabled (1) as shown in the screenshot below. Disabling the LEDs speeds up printout, especially at higher CPU speeds.
 </p>
 
 <p>

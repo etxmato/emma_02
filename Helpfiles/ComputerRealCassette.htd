@@ -12,7 +12,7 @@
 </p>
 
 <p>
-To use Real Cassette Support, in Windows <strong>Sound</strong> settings set the <strong>Recording Device</strong> to line-in or microphone (1) shown below:
+To use Real Cassette Support, open the Windows <strong>Sound</strong> settings and set the <strong>Recording Device</strong> to line-in or microphone (1) as shown below.
 </p>
 
 <p>
@@ -51,7 +51,7 @@ In the Emma 02 GUI, press the <strong>Real Cassette Support</strong> button (1) 
 </ul>
 
 <p>
-<strong>Important:</strong> When real cassette loading is active the Turbo and Auto load/save features are disabled.
+<strong>Important:</strong> When real cassette loading is active, the Turbo and Auto load/save features are disabled.
 </p>
 
 <p>
@@ -62,7 +62,7 @@ Wave file saving remains possible; wave file loading is disabled until real cass
 <h2>Workflow</h2>
 
 <p>
-After starting the emulated computer, start the tape recorder, and use the applicable load command on the emulated computer.
+After starting the emulated computer, start the tape recorder and use the applicable load command.
 </p>
 
 <pre>
@@ -88,7 +88,7 @@ If the <strong>VU meter</strong> goes into the red, lower the cassette player vo
 </p>
 
 <p>
-<strong>Note:</strong> If loading does not work or gives tape errors, try changing one of the settings as described in the Settings section below.
+<strong>Note:</strong> If loading does not work or gives tape errors, change one of the settings as described in the Settings section below.
 </p>
 
 
@@ -107,10 +107,6 @@ The main controls for Real Cassette Settings are shown in the screenshot below. 
 </p>
 
 <p>
-Press the <strong>Save</strong> button (4) to save the settings.
-</p>
-
-<p>
 <img src="images/real_cassette_settings.png" border="0" width="663" height="572">
 </p>
 <ul>
@@ -120,11 +116,15 @@ Press the <strong>Save</strong> button (4) to save the settings.
 <li>(4) <strong>Save</strong> button</li>
 </ul>
 
+<p>
+Press the <strong>Save</strong> button (4) to save the settings.
+</p>
+
 
 <h3>Reversed Polarity (1)</h3>
 
 <p>
-Switch converted signal polarity (1-&gt;0 and 0-&gt;1) as described for the conversion types above.
+This switches the converted signal polarity (1-&gt;0 and 0-&gt;1).
 </p>
 
 
@@ -139,26 +139,26 @@ This selects the left or right cassette player sound channel.
 </p>
 
 <p>
-Only change this setting if the <strong>VU meter</strong> does not work when playing a tape.
+Only change this setting if the <strong>VU meter</strong> shows no signal when playing a tape.
 </p>
 
 
 <h3>Cassette conversion (3)</h3>
 
 <p>
-Two conversion types can be used:
+Two conversion types are available:
 </p>
 <ol>
-<li><strong>Amplitude</strong>: where the signal is converted to a 1 on a positive amplitude and a 0 on a negative amplitude.</li>
-<li><strong>Sinus</strong>: where the signal is converted to a 1 on an upward sinus and a 0 on a downward sinus.</li>
+<li><strong>Amplitude</strong>: where positive amplitudes are converted to 1 and negative amplitudes to 0.</li>
+<li><strong>Sinus</strong>: where upward sine waves are converted to 1 and downward sine waves to 0.</li>
 </ol>
 
 <p>
-<strong>Note:</strong> By default, this is set to <strong>Sinus</strong> which proved to work with a real COMX tape.
+<strong>Note:</strong> By default, this is set to <strong>Sinus</strong> which has been tested successfully with a real COMX tape.
 </p>
 
 <p>
-Depending on the emulated computer, this might need to be changed if loading does not work or gives tape errors.
+Depending on the emulated computer, change this setting if loading does not work or gives tape errors.
 </p>
 </body>
 </html>

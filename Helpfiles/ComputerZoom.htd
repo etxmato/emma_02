@@ -5,7 +5,7 @@
 <h1>Zoom Level and Full Screen Mode</h1>
 
 <p>
-All emulators that support one or more video outputs include options to change the zoom level and switch to full screen mode using the controls shown below:
+All emulators with video output include zoom level and full screen mode controls, shown below.
 </p>
 
 <p>
@@ -26,7 +26,7 @@ The default zoom level is 1 or 2 (depending on the emulated video type), where e
 </p>
 
 <p>
-The zoom level can be set to 0.5 or higher, depending on the host system screen size and resolution.
+Set the zoom level to 0.5 or higher, depending on the host system screen size and resolution.
 </p>
 
 
@@ -59,7 +59,7 @@ To change to Full Screen Mode, use one of the following options:
 </ul>
 
 <p>
-When both a Video Terminal and video emulation are active (e.g., on a VElf or Cosmicos), the video terminal switches to full-screen mode first. Press <tt>F3</tt> again to switch the video output to full-screen mode.
+When both a Video Terminal and video emulation are active (e.g., on a VELF or Cosmicos), the video terminal switches to full-screen mode first. Press <tt>F3</tt> again to switch the video output to full-screen mode.
 </p>
 
 <h2>Multiple Video Outputs</h2>
@@ -71,7 +71,7 @@ If a computer configuration contains multiple video outputs, the <strong>Switch<
 <h2>Floating-Point Zooming</h2>
 
 <p>
-Floating-point zooming is enabled or disabled via <strong>Settings/Window/Enable Floating Point Zooming</strong>, shown below:
+Floating-point zooming is enabled or disabled via <strong>Settings/Window/Enable Floating Point Zooming</strong>, shown below.
 </p>
 
 <p>
@@ -79,7 +79,7 @@ Floating-point zooming is enabled or disabled via <strong>Settings/Window/Enable
 </p>
 
 <p>
-Zooming can be performed with or without floating-point precision. By default, floating-point zooming is enabled, allowing more flexible use of the available window or screen space.
+By default, floating-point zooming is enabled, allowing more flexible use of the available window or screen space.
 </p>
 
 <p>
