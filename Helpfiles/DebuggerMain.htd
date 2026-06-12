@@ -17,7 +17,7 @@ The main elements of the Debugger tab are shown in the screenshot below.
 </p>
 
 <p>
-To open this tab, select the <strong>Debugger</strong> tab (1). 
+To open this tab, select the <strong>Debugger</strong> tab (1).
 </p>
 
 <p>
@@ -29,14 +29,16 @@ The Debugger tab contains two sub-tabs:
 <li>(3) <strong>Pseudo</strong> sub-tab - debugging of pseudo-code interpreters such as Chip-8, ST2, ST4, FEL-1, CARDTRAN, etc. See the <a href="DebuggerChip8.htm">Pseudo Debugger</a> section.</li>
 </ul>
 
+
 <h2>Important Notes</h2>
 
 <ul>
 <li>Settings in the <strong>1802</strong> and <strong>Pseudo</strong> tabs are <strong>not</strong> saved in the Emma 02 configuration file. Each time Emma 02 starts, debugger settings return to their default values.</li>
 
-<li>Some options, such as SCRT definitions, can be configured in the emulator XML configuration files.</li>
+<li>SCRT definitions and other options can be configured in the emulator XML configuration files.</li>
 
 </ul>
+
 
 <h2>When to Use the Debugger</h2>
 

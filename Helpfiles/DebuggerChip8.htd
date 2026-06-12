@@ -4,11 +4,11 @@
 <h1>Pseudo Debugger</h1>
 
 <p>
-The Pseudo Debugger allows tracing and controlling of pseudo-code.
+The Pseudo Debugger allows tracing and control of pseudo-code.
 </p>
 
 <p>
-The main elements of the Pseudo debugger are shown in the screenshot below.
+The main elements of the Pseudo Debugger are shown in the screenshot below.
 </p>
 
 <p>
@@ -29,6 +29,7 @@ To open this tab, select the <strong>Debugger</strong> tab (1) and then the <str
 The type of pseudo-code is shown in the <strong>Pseudo Type</strong> field (3).
 </p>
 
+
 <h2>Debug Mode</h2>
 
 <p>
@@ -45,7 +46,7 @@ Debug mode enables instruction tracing and debugging controls.
 </ul>
 
 <p>
-Enable debug mode using the <strong>Debug Mode</strong> checkbox (1). Debug mode is also activated automatically when trace commands (<strong>Trace</strong> or <strong>INT</strong>) are used (2).
+Enable debug mode using the <strong>Debug Mode</strong> checkbox (1). Using the <strong>Trace</strong> or <strong>INT</strong> buttons (2) also activates debug mode.
 </p>
 
 <p>
@@ -89,14 +90,9 @@ Trace output appears in the trace window (1) shown below.
 
 <ul>
 <li>(1) Trace window</li>
-<li>(2) <strong>Log</strong> button</li>
-<li>(3) <strong>Clear</strong> button</li>
+<li>(2) <strong>Log</strong> button - saves the trace output to a file.</li>
+<li>(3) <strong>Clear</strong> button - clears the trace window.</li>
 </ul>
-
-<p>
-Click <strong>Log</strong> (2) to save the trace output to a file.
-Click <strong>Clear</strong> (3) to clear the trace window.
-</p>
 
 
 <h2>Execution Control</h2>
@@ -116,7 +112,7 @@ Execution control buttons are shown in the screenshot below.
 </ul>
 
 <p>
-If the pause button is pressed during execution of a pseudo-code instruction, pseudo-code is paused only when the current instruction is finished. During execution of the current instruction the pause button will be disabled. This is especially visible when pausing during a command like LD Vx, K in Chip-8. In this case the pause command will only take effect after a key press.
+If the <strong>Pause</strong> button is pressed during execution of a pseudo-code instruction, pseudo-code pauses only when the current instruction finishes. During execution of the current instruction, the <strong>Pause</strong> button is disabled. This is especially visible when pausing during a command such as <tt>LD Vx, K</tt> in Chip-8 - the pause action takes effect only after a key press.
 </p>
 
 
@@ -142,11 +138,11 @@ The current values of all variables (1), the I register (2) and the PC register 
 </p>
 
 <p>
-By default, values cannot be edited (<strong>Protected</strong> Mode) to prevent crashes. To edit values (except the PC register), uncheck <strong>Protected</strong> (4).
+The <strong>Protected</strong> checkbox (4) is enabled by default, preventing value edits that could crash the emulator. To edit values (except the PC register), uncheck <strong>Protected</strong> (4).
 </p>
 
 <p>
-To change a value, type the new value and press Enter. Changes are not applied until Enter is pressed. For best results, pause the emulator before editing values.
+To change a value, type the new value and press <tt>ENTER</tt>. Changes apply only after pressing <tt>ENTER</tt>. Pause the emulator before editing values to avoid unexpected behaviour.
 </p>
 
 
@@ -166,21 +162,23 @@ Breakpoints allow execution to pause automatically when a specified address is r
 </ul>
 
 <p>
-Enter an execution address in the Breakpoint text field (1) and press Enter or press the <strong>Set</strong> button. When execution reaches this address, the emulator pauses. All breakpoints are displayed (2) so they can be deleted, deactivated or edited.
+Enter an execution address in the <strong>Breakpoint</strong> text field (1) and press <tt>ENTER</tt> or the <strong>Set</strong> button; execution pauses when it reaches this address. All set breakpoints appear in the list (2) and can be deleted, deactivated, or edited.
 </p>
 
 
 <h3>Delete</h3>
 
 <p>
-Select a breakpoint in the list and press the <strong>Delete</strong> key to remove it.
+Select a breakpoint in the list and press the <tt>DELETE</tt> key to remove it.
 </p>
+
 
 <h3>Deactivate</h3>
 
 <p>
 (Windows only) Uncheck a breakpoint checkbox to deactivate it. Check it again to reactivate.
 </p>
+
 
 <h3>Edit</h3>
 

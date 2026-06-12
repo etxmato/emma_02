@@ -6,11 +6,15 @@
 <h1>Branch Data</h1>
 
 <p>
-Some code will need branch tables or use 2 bytes to identify an address location. As an example, COMX BASIC uses R4/R5 for subroutine handling, where <tt>SEP R4</tt> is a subroutine call to the address specified in the 2 following bytes and <tt>SEP R5</tt> is used as a subroutine return.
+Some code uses branch tables or two-byte address references. For example, COMX BASIC uses R4/R5 for subroutine handling. <tt>SEP R4</tt> calls the subroutine at the address specified in the following two bytes, and <tt>SEP R5</tt> returns from the subroutine.
 </p>
 
 <p>
-For these cases, branch data bytes can be defined in the <strong>Direct Assembler</strong> by typing <tt>:address</tt> in the command line or by marking the data bytes as <strong>Branch</strong> via the procedure described in the <a href="DirectMarking.htm">Memory Type Selection</a> section. By doing this, the branch data will be corrected when using <a href="DirectInsert.htm">insert, delete</a> or <a href="DirectCopy.htm">copy</a> commands. All branch data will be shown in <font color="#A85BA5">purple</font> text.
+Define branch data bytes in the <strong>Direct Assembler</strong> by typing <tt>:address</tt> in the command line or by marking the data bytes as <strong>Branch</strong> via the procedure described in the <a href="DirectMarking.htm">Memory Type Selection</a> section.
+</p>
+
+<p>
+All branch data is shown in <font color="#A85BA5">purple</font> text. The branch data is then corrected automatically when using <a href="DirectInsert.htm">insert, delete</a>, or <a href="DirectCopy.htm">copy</a> commands.
 </p>
 
 <p>
@@ -22,7 +26,7 @@ For example, inserting at address 0000 (hexadecimal) in the code below:
 </p>
 
 <p>
-will result in:
+results in the following:
 </p>
 
 <p>
@@ -34,7 +38,7 @@ will result in:
 </p>
 
 <p>
-If an insert is made at address 0001 (hexadecimal) in the original example, the branch to 0001 (hexadecimal) will not change. This allows adding space at the start of a routine, as shown in the example below:
+If an insert is made at address 0001 (hexadecimal) in the original example, the branch to 0001 (hexadecimal) does not change. This allows adding space at the start of a routine, as shown in the example below:
 </p>
 
 <p>

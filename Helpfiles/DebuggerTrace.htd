@@ -5,11 +5,11 @@
 <h1>1802 Debugger</h1>
 
 <p>
-The 1802 Debugger allows tracing and controlling of RCA 1802 machine code.
+The 1802 Debugger allows tracing and control of RCA 1802 machine code.
 </p>
 
 <p>
-The main elements of the 1802 debugger are shown in the screenshot below.
+The main elements of the 1802 Debugger are shown in the screenshot below.
 </p>
 
 <p>
@@ -42,7 +42,7 @@ Debug mode enables instruction tracing and debugging controls.
 </ul>
 
 <p>
-Enable debug mode using the <strong>Debug</strong> checkbox (1). Debug mode is also activated automatically when trace commands (<strong>Trace</strong>, <strong>INT</strong>, or <strong>DMA</strong>) are used (2). Press <strong>F6</strong> in the emulated computer window to toggle debug mode.
+Enable debug mode using the <strong>Debug</strong> checkbox (1). Using the <strong>Trace</strong>, <strong>DMA</strong>, or <strong>INT</strong> buttons (2) also activates debug mode. Press <tt>F6</tt> in the emulated computer window to toggle debug mode.
 </p>
 
 <p>
@@ -69,14 +69,15 @@ The tracing controls are shown in the screenshot below.
 </p>
 
 <ul>
-<li>(1) <strong>Trace</strong> - shows all executed 1802 instructions.</li>
-<li>(2) <strong>DMA</strong> - shows executed DMA instructions. </li>
-<li>(3) <strong>INT</strong> - shows executed interrupt instructions.</li>
+<li>(1) <strong>Trace</strong> button - shows all executed 1802 instructions.</li>
+<li>(2) <strong>DMA</strong> button - shows executed DMA instructions.</li>
+<li>(3) <strong>INT</strong> button - shows executed interrupt instructions.</li>
 </ul>
 
 <p>
-<strong>Note:</strong> Press DMA twice to switch to <strong>D-MT</strong> (DMA Memory Traps), which shows DMA memory access when Memory Traps are enabled (see <i>Breakpoints and Traps</i> below).
+<strong>Note:</strong> Press <strong>DMA</strong> twice to switch to <strong>D-MT</strong> (DMA Memory Traps), which shows DMA memory access when Memory Traps are enabled (see the Breakpoints and Traps section below).
 </p>
+
 
 <h2>Trace Window</h2>
 
@@ -90,14 +91,9 @@ Trace output appears in the trace window (1) shown below.
 
 <ul>
 <li>(1) Trace window</li>
-<li>(2) <strong>Log</strong> button</li>
-<li>(3) <strong>Clear</strong> button</li>
+<li>(2) <strong>Log</strong> button - saves the trace output to a file.</li>
+<li>(3) <strong>Clear</strong> button - clears the trace window.</li>
 </ul>
-
-<p>
-Click <strong>Log</strong> (2) to save the trace output to a file.
-Click <strong>Clear</strong> (3) to clear the trace window.
-</p>
 
 
 <h2>Execution Control</h2>
@@ -111,15 +107,16 @@ Execution control buttons are shown in the screenshot below.
 </p>
 
 <ul>
-<li>(1) <strong>Pause</strong> - pauses program execution.</li>
-<li>(2) <strong>Step</strong> - executes the specified number of instructions.</li>
-<li>(3) <strong>Run</strong> - resumes execution.</li>
-<li>(4) <strong>Speed</strong> - controls execution speed while debugging.</li>
+<li>(1) <strong>Pause</strong> button - pauses program execution.</li>
+<li>(2) <strong>Step</strong> button - executes the specified number of instructions.</li>
+<li>(3) <strong>Run</strong> button - resumes execution.</li>
+<li>(4) <strong>Speed</strong> slider - controls execution speed while debugging.</li>
 </ul>
 
 <p>
 When program execution is paused, this is indicated in the title of the emulated computer window.
 </p>
+
 
 <h2>SCRT</h2>
 
@@ -138,8 +135,8 @@ Tracing inside SCRT routines can be hidden using the <strong>SCRT</strong> check
 <p>When enabled:</p>
 
 <ul>
-<li>If a <strong>SEP R4</strong> instruction is detected, the debugger shows <strong>CALL address</strong> (2).</li>
-<li>If a <strong>SEP R5</strong> instruction is detected, the debugger shows <strong>RETURN</strong> (3).</li>
+<li>If a <tt>SEP R4</tt> instruction is detected, the debugger shows <tt>CALL address</tt> (2).</li>
+<li>If a <tt>SEP R5</tt> instruction is detected, the debugger shows <tt>RETURN</tt> (3).</li>
 </ul>
 
 <p>
@@ -155,7 +152,7 @@ These can be changed at runtime using the <strong>Call:</strong> (4) and <strong
 <h2>CPU Registers</h2>
 
 <p>
-CPU register control buttons are shown in the screenshot below.
+CPU register controls are shown in the screenshot below.
 </p>
 
 <p>
@@ -172,21 +169,22 @@ The current values of all registers, flags, and I/O ports are displayed (1).
 </p>
 
 <p>
-By default, values cannot be edited (<strong>Protected</strong> mode) to prevent crashes. To edit values (except input ports), uncheck <strong>Protected</strong> (2).
+The <strong>Protected</strong> checkbox (2) is enabled by default, preventing value edits that could crash the emulator. To edit values (except input ports), uncheck <strong>Protected</strong> (2).
 </p>
 
 <p>
-To change a value, type the new value and press Enter. Changes are not applied until Enter is pressed. For best results, pause the emulator before editing values.
+To change a value, type the new value and press <tt>ENTER</tt>. Changes apply only after pressing <tt>ENTER</tt>. Pause the emulator before editing values to avoid unexpected behaviour.
 </p>
 
 <p>
 <strong>Note:</strong> Some outputs may be 8- or 16-bit depending on the hardware. For example, when using the CDP1870, outputs 4-7 use a 16-bit address instead of the 8-bit data bus.
 </p>
 
+
 <h2>CPU Action</h2>
 
 <p>
-CPU action control buttons are shown in the screenshot below.
+CPU action buttons are shown in the screenshot below.
 </p>
 
 <p>
@@ -203,7 +201,7 @@ Click <strong>Reset</strong> (1) to reset the emulated computer.
 </p>
 
 <p>
-Click <strong>Gen. INT</strong> (2) to manually generate an interrupt. This only works if interrupts are enabled (IE = 1).
+Click <strong>Gen. INT</strong> (2) to manually generate an interrupt. This only works if interrupts are enabled (<tt>IE = 1</tt>).
 </p>
 
 
@@ -228,7 +226,7 @@ Breakpoints and traps allow execution to pause automatically when a specified ad
 <h3>Breakpoints</h3>
 
 <p>
-Enter an execution address in the <strong>Breakpoint</strong> field and press Enter or press the Breakpoint button. When execution reaches this address, the emulator pauses.
+Enter an execution address in the <strong>Breakpoint</strong> field and press <tt>ENTER</tt> or the <strong>Break Point</strong> button. When execution reaches this address, the emulator pauses.
 </p>
 
 
@@ -244,14 +242,18 @@ Select a register and value, then press <strong>Register trap</strong>. Executio
 Select an instruction and press <strong>Instruction trap</strong>. Execution pauses when that instruction executes.
 </p>
 
-<p>Traps can also be set on instruction ranges using wildcards:</p>
+<p>
+Traps can also be set on instruction ranges using wildcards:
+</p>
 
 <ul>
 <li><strong>Rx</strong> matches any register.</li>
 <li><strong>X</strong> matches any 4-, 8-, or 16-bit value.</li>
 </ul>
 
-<p>Example: <strong>BZ X</strong> traps all BZ instructions.</p>
+<p>
+<strong>Example:</strong> <tt>BZ X</tt> traps all BZ instructions.
+</p>
 
 
 <h3>Memory Traps</h3>
@@ -284,12 +286,12 @@ The screenshot below shows the memory trap controls.
 <li>(2) First <strong>address</strong> text field</li>
 <li>(3) Second <strong>address</strong> text field</li>
 <li>(4) <strong>Value</strong> text field</li>
-<li>(5)-(8) Memory Trap example</li>
+<li>(5)-(8) Memory Trap examples</li>
 </ul>
 
 <p>
 All memory traps are defined using the same format: <strong>up to two addresses and an optional value</strong>.
-Depending on what you fill in, the debugger interprets the trap in one of four ways.
+The debugger interprets the trap based on which fields are populated.
 </p>
 
 <p>
@@ -313,7 +315,7 @@ Then enter addresses and (optionally) a value using these rules:
 </ul>
 
 <p>
-Leave unused address fields empty. The debugger automatically interprets what you entered.
+Leave unused address fields empty.
 </p>
 
 <p>
@@ -321,18 +323,19 @@ When a matching memory access occurs, the emulator pauses automatically and ente
 </p>
 
 <p>
-Tip: Use memory traps to find where a variable changes unexpectedly, detect writes to protected memory, or discover which code reads an input buffer.
+<strong>Note:</strong> Use memory traps to find where a variable changes unexpectedly, detect writes to protected memory, or discover which code reads an input buffer.
 </p>
 
 <p>
 Examples shown in the image above:
 </p>
 <ul>
-<li>(5) <strong>MT R 4000</strong> - <strong>M</strong>emory <strong>T</strong>rap <strong>R</strong>ead on address 0x4000</li>
-<li>(6) <strong>MT W 4100:AA</strong> - <strong>M</strong>emory <strong>T</strong>rap <strong>W</strong>rite on address 0x4100 with value 0xAA</li>
-<li>(7) <strong>MT B 4200-4300</strong> - <strong>M</strong>emory <strong>T</strong>rap <strong>B</strong>oth read and write on address 0x4200 to 0x4300</li>
-<li>(8) <strong>MT W 4400-4500:10</strong> - <strong>M</strong>emory <strong>T</strong>rap <strong>W</strong>rite on address 0x4400 to 0x4500 with value 0x10</li>
+<li>(5) <strong>MT R 4000</strong> - <strong>M</strong>emory <strong>T</strong>rap <strong>R</strong>ead on address 4000 (hexadecimal)</li>
+<li>(6) <strong>MT W 4100:AA</strong> - <strong>M</strong>emory <strong>T</strong>rap <strong>W</strong>rite on address 4100 with value AA (hexadecimal)</li>
+<li>(7) <strong>MT B 4200-4300</strong> - <strong>M</strong>emory <strong>T</strong>rap <strong>B</strong>oth read and write on address 4200 to 4300 (hexadecimal)</li>
+<li>(8) <strong>MT W 4400-4500:10</strong> - <strong>M</strong>emory <strong>T</strong>rap <strong>W</strong>rite on address 4400 to 4500 with value 10 (hexadecimal)</li>
 </ul>
+
 
 <h3>Break</h3>
 <p>
@@ -342,7 +345,7 @@ To show all occurrences of a breakpoint or trap without pausing execution, clear
 
 <h3>Delete</h3>
 <p>
-Select a breakpoint or trap in the list and press the <strong>Delete</strong> key to remove it.
+Select a breakpoint or trap in the list and press the <tt>DELETE</tt> key to remove it.
 </p>
 
 

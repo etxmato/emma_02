@@ -563,7 +563,7 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
     label.Printf("%d Characters", (computerConfiguration.vis1870Configuration.charMemSize+1)/computerConfiguration.vis1870Configuration.maxCharLines);
     XRCCTRL(*this, "VisCharNumberText", wxStaticText)->SetLabel(label);
 
-    label.Printf("PCB Mask = 0x%02X", computerConfiguration.vis1870Configuration.pcbMask);
+    label.Printf("PCB Mask = %02X", computerConfiguration.vis1870Configuration.pcbMask);
     XRCCTRL(*this, "VisPcbMaskText", wxStaticText)->SetLabel(label);
 
     label.Printf("Clock speed = %.3g MHz", computerConfiguration.vis1870Configuration.videoClock);
