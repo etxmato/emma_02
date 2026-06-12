@@ -6,7 +6,7 @@
 <h1>Data View</h1>
 
 <p>
-Two data views are possible, <strong>Dump</strong> or <strong>Single</strong>. The view can be switched using the <strong>Data view</strong> selector (1) shown below.
+Two data views are possible: <strong>Dump</strong> and <strong>Single</strong>. The view can be switched using the <strong>Data view</strong> selector (1) shown below.
 </p>
 
 <p>
@@ -31,7 +31,7 @@ Two data views are possible, <strong>Dump</strong> or <strong>Single</strong>. T
 </p>
 
 <p>
-In <strong>Dump</strong> view, 4 bytes and 4 characters are shown per line; in <strong>Single</strong> view, 1 byte and 1 character are shown per line.
+In <strong>Dump</strong> view, four bytes and four characters are shown per line; in <strong>Single</strong> view, one byte and one character are shown per line.
 </p>
 
 </body>

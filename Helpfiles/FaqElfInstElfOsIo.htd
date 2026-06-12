@@ -9,14 +9,14 @@ Elf/Os is a disk-based operating system for Elf-class computers designed by Mike
 </p>
 
 <p>
-The installation procedure for Elf/Os described below makes use of the adapted version including the "BIOS Video I/O Module" designed by Richard Peters. This version allows the use of Elf/Os on different video types such as 1861 Pixie, MC6845, MC6847 and TMS9918. This will install Elf/Os 2.5 Build 87. To install Biosio on Elf/Os 2.8 follow the FAQ <a href="FaqElfInstElfOs.htm">How do I install Elf/Os 2.8 on an Elf?</a> followed by <a href="FaqElfInstBiosio.htm">How do I change to Biosio after Elf/Os 2.8 installation?</a>
+The installation procedure for Elf/Os described below makes use of the adapted version including the "BIOS Video I/O Module" designed by Richard Peters. This version allows the use of Elf/Os on different video types such as 1861 Pixie, MC6845, MC6847, and TMS9918. This will install Elf/Os 2.5 Build 87. To install Biosio on Elf/Os 2.8, follow the FAQ <a href="FaqElfInstElfOs.htm">How do I install Elf/Os 2.8 on an Elf?</a> followed by <a href="FaqElfInstBiosio.htm">How do I change to Biosio after Elf/Os 2.8 installation?</a>
 </p>
 
 <p>
 To start installation, first select one of the Elf/Os installation XML files located under the Elf computer (elfos-installation-biosio-&lt;type&gt;). Now follow these steps:
 </p>
 
-<h2>1. Press <strong>Start<h2>
+<h2>1. Press <strong>Start</strong></h2>
 
 <p>
 This should start an Elf computer window showing the menu:
@@ -174,7 +174,7 @@ Elf/Os will also boot without INIT file using VT 100 serial mode with EF Serial 
 </p>
 
 <p>
-To install Elf/Os with other video systems please follow the steps above but note that the boot address should be different and for use of keyboard the input port and EF flag settings should be changed as follows:
+To install Elf/Os with other video systems, please follow the steps above but note that the boot address should be different and for use of keyboard the input port and EF flag settings should be changed as follows:
 </p>
 
 <p>

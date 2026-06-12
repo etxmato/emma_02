@@ -4,7 +4,7 @@
 <h1>Direct Assembler</h1>
 
 <p>
-The Direct Assembler allows direct assembly and disassembly to and from the emulated computer.
+The Direct Assembler allows assembling and disassembling code directly on the emulated computer.
 </p>
 
 <p>
@@ -24,7 +24,7 @@ To open this tab, select the <strong>Direct Assembler</strong> tab (1).
 </p>
 
 <p>
-When a computer emulation is running, the left half of the Direct Assembler tab displays a section of memory.
+When an emulator is running, the left half of the Direct Assembler tab displays a section of memory.
 </p>
 
 <p>
@@ -97,7 +97,7 @@ Further details are available in the following sub-sections:
 <li><a href="DirectSearch.htm">Search</a></li>
 <li><a href="DirectBranchData.htm">Branch Data</a></li>
 <li><a href="DirectRevBranchData.htm">Reversed Branch Data</a></li>
-<li><a href="DirectLdl.htm">LDL, LDRL, LDV and RLDL Instructions</a></li>
+<li><a href="DirectLdl.htm">LDL, LDRL, LDV, and RLDL Instructions</a></li>
 <li><a href="DirectSlots.htm">Branching to COMX slots and Elf EMS pages</a></li>
 <li><a href="DirectMnemonic.htm">Switch Mnemonic</a></li>
 <li><a href="DirectClear.htm">Clear</a></li>

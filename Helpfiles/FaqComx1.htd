@@ -22,7 +22,7 @@ The example below shows the controls needed to run a program on the COMX-35.
 </ul>
 
 <p>
-Select <strong>COMX-35</strong> in the computer selector (1) if not already selected. Press <strong>Start</strong> (2) to start the emulator. Then press <strong>RUN</strong> (3) and in the Load window that opens, select and open the desired <tt>.comx</tt> file.
+Select <tt>COMX-35</tt> in the computer selector (1) if not already selected. Press <strong>Start</strong> (2) to start the emulator. Then press <strong>RUN</strong> (3) and in the Load window that opens, select and open the desired <tt>.comx</tt> file.
 </p>
 
 <p>

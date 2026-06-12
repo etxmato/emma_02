@@ -6,7 +6,7 @@
 <h1>Program Configuration - Example</h1>
 
 <p>
-This section gives a simple example of how to use the program configuration in the <strong>Direct Assembler</strong>. It will also show the basics for the insert and delete functions. See the <a href="DirectMain.htm">Direct Assembler</a> section.
+This section gives a simple example of how to use the program configuration in the <strong>Direct Assembler</strong>. It also demonstrates the basics of the insert and delete functions. For details, see the <a href="DirectMain.htm">Direct Assembler</a> section.
 </p>
 
 
@@ -49,7 +49,7 @@ Write some code, for example a short counter going down from 10 (hexadecimal) to
 </p>
 
 <p>
-After writing this counter, you realise you need to make the counter larger, i.e., greater than FF (hexadecimal), say 110 (hexadecimal).
+After writing this counter, you realise you need to make the counter larger - say 110 (hexadecimal), which is greater than FF (hexadecimal).
 </p>
 
 <p>
@@ -60,11 +60,11 @@ After writing this counter, you realise you need to make the counter larger, i.e
 </ul>
 
 <p>
-To do this, go to address 0 and press the <strong>Insert</strong> button (1) three times. When doing that, also look at what happens to the BNZ <font color="#fc5900">03</font> code. It will change on every insert!
+To do this, go to address 0 and press the <strong>Insert</strong> button (1) three times. When doing that, also look at what happens to the <tt>BNZ <font color="#fc5900">03</font></tt> instruction. It will change on every insert!
 </p>
 
 <p>
-After the three inserts, you have room to add: LDI 02 / PHI RA on address 0000 (hexadecimal) and 0002 (hexadecimal). Also add a check on RA.1 at the end to get:
+After the three inserts, you have room to add: <tt>LDI 02</tt> / <tt>PHI RA</tt> on address 0000 and 0002 (hexadecimal). Also add a check on <tt>RA.1</tt> at the end to get:
 </p>
 
 <p>
@@ -76,7 +76,7 @@ After the three inserts, you have room to add: LDI 02 / PHI RA on address 0000 (
 </p>
 
 <p>
-The reason to define program boundaries is so that the assembler knows which parts of memory to check for branches. In the above example, addresses 0000 (hexadecimal) to 1000 (hexadecimal) will be checked.
+Program boundaries define which parts of memory the assembler checks for branches. In the above example, addresses 0000 to 1000 (hexadecimal) will be checked.
 </p>
 
 
@@ -95,11 +95,11 @@ To see how this works, write something like:
 </p>
 
 <p>
-Insert at address 00FD (hexadecimal); the BR <font color="#fc5900">FF</font> will change to an LBR <font color="#fc5900">0101</font>.
+Insert at address 00FD (hexadecimal); the <tt>BR <font color="#fc5900">FF</font></tt> will change to an <tt>LBR <font color="#fc5900">0101</font></tt>.
 </p>
 
 <p>
-The <strong>Direct Assembler</strong> inserts a NOP at 00FD (hexadecimal) and also expands the BR to an LBR, adding an extra byte.
+The <strong>Direct Assembler</strong> inserts a <tt>NOP</tt> at 00FD (hexadecimal) and also expands the <tt>BR</tt> to an <tt>LBR</tt>, adding an extra byte.
 </p>
 
 <p>
@@ -107,11 +107,11 @@ The <strong>Direct Assembler</strong> inserts a NOP at 00FD (hexadecimal) and al
 </p>
 
 <p>
-The same will happen with <strong>Delete</strong>: if an LBR is no longer needed, it will be replaced by a BR.
+The same will happen with <strong>Delete</strong>: if an <tt>LBR</tt> is no longer needed, it will be replaced by a <tt>BR</tt>.
 </p>
 
 <p>
-<strong>Note:</strong> In the example above, deleting the NOP on 00FE (hexadecimal) will not cause the LBR to change to a BR. The LBR will still be to 0100 (hexadecimal), which means a BR does not fit. An extra delete, for example on 00F5 (hexadecimal), would change the LBR to a BR.
+<strong>Note:</strong> In the example above, deleting the <tt>NOP</tt> on 00FE (hexadecimal) will not cause the <tt>LBR</tt> to change to a <tt>BR</tt>. The <tt>LBR</tt> will still be to 0100 (hexadecimal), which means a <tt>BR</tt> does not fit. An extra delete, for example on 00F5 (hexadecimal), would change the <tt>LBR</tt> to a <tt>BR</tt>.
 </p>
 
 <p>

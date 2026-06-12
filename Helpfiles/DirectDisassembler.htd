@@ -6,7 +6,11 @@
 <h1>Disassembler</h1>
 
 <p>
-All code shown in the <strong>Disassembled code</strong> panel (1) is disassembled in real time. Any part of memory can also be disassembled to an assembler (.asm or .txt) file; see section below. The disassembler interface is shown below:
+All code shown in the <strong>Disassembled code</strong> panel (1) is disassembled in real time. Any part of memory can also be disassembled to an assembler file (.asm or .txt).
+</p>
+
+<p>
+The disassembler interface is shown below:
 </p>
 
 <p>
@@ -28,29 +32,29 @@ Press the <strong>Dis</strong> button (2) to disassemble any part of memory to a
 </p>
 
 <p>
-In the example above, pressing <strong>Dis</strong> will disassemble from hexadecimal address 0 to 100.
+In the example above, pressing <strong>Dis</strong> will disassemble from address 0 to 100 (hexadecimal).
 </p>
 
 
 <h2>How disassembly works</h2>
 
 <p>
-Code is disassembled based on execution by the CPU. Therefore, only code that has been executed is marked as 180x code and will be disassembled. As shown by marker (5) in the example above, code at addresses 000D to 0012 has not been executed yet and is as such shown as data (hex code); when executed these will become long branches (to 037D and 0258).
+Code is disassembled based on execution by the CPU. Therefore, only code that has been executed is marked as 180x code and will be disassembled. As shown by marker (5) in the example above, code at addresses 000D to 0012 (hexadecimal) has not been executed yet and is shown as data (hex code); when executed, these will become long branches (to 037D and 0258 (hexadecimal)).
 </p>
 
 <p>
-<strong>Note:</strong> Address 0015 and 0017 clearly contain data and will never be disassembled to 180x code. BB is used in the DIS instruction and F0 in the OUT 3.
+<strong>Note:</strong> Addresses 0015 and 0017 (hexadecimal) clearly contain data and will never be disassembled to 180x code. <tt>BB</tt> is used in the DIS instruction, and <tt>F0</tt> in the <tt>OUT 3</tt>.
 </p>
 
 <p>
-The main advantage is that data will be shown as bytes instead of 180x code. For a complete disassembly, all code must first be executed. Parts of the code that are harder to execute can, however, be marked as code manually. Executed pseudo code will be shown as <tt>DB</tt> in the output file with the pseudo-code shown as comments.
+The main advantage of execution-based disassembly is that data is shown as bytes instead of 180x code. For a complete disassembly, all code must first be executed. Parts of the code that are harder to reach can, however, be marked as code manually. Executed pseudo code will be shown as <tt>DB</tt> in the output file with the pseudo-code shown as comments.
 </p>
 
 
 <h2>Marking</h2>
 
 <p>
-For details on marking code, data, ASCII text and address references, see the <a href="DirectMarking.htm">Memory Type Selection</a> section.
+For details on marking code, data, ASCII text, and address references, see the <a href="DirectMarking.htm">Memory Type Selection</a> section.
 </p>
 
 
