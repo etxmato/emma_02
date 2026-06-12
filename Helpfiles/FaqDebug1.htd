@@ -19,7 +19,7 @@ The example shows the controls needed to trace a section of code:
 </ul>
 
 <p>
-Set two breakpoints (1): one at the start and one at the end of the section you want to trace. Emulation will stop when the first breakpoint is hit. Delete the breakpoint in the breakpoints area (2) and enable tracing with the <strong>Trace:</strong> button (3). To start tracing press <strong>RUN</strong> (4). When emulation stops again, turn off the trace using (3).
+Set two breakpoints (1): one at the start and one at the end of the section you want to trace. Emulation will stop when the first breakpoint is hit. Delete the breakpoint in the breakpoints area (2) and enable tracing with the <strong>Trace:</strong> button (3). To start tracing, press <strong>RUN</strong> (4). When emulation stops again, turn off the trace using (3).
 </p>
 
 <p>
@@ -27,7 +27,7 @@ Edit breakpoints in the breakpoints area (2) by pressing the <strong>delete</str
 </p>
 
 <p>
-Other trace options that can be used are the <strong>Register Trap</strong> for a register reaching a specific value, <strong>Instr. Trap</strong> for a specific instruction being executed or <strong>Mem. Trap</strong> for a memory address or range being read or written.
+Other trace options that can be used are the <strong>Register Trap</strong> for a register reaching a specific value, <strong>Instr. Trap</strong> for a specific instruction being executed, or <strong>Mem. Trap</strong> for a memory address or range being read or written.
 </p>
 
 <p>

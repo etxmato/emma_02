@@ -23,7 +23,7 @@ Any long branch instruction or branch data <strong>from</strong> a slot or EMS p
 <h2>LBR macro</h2>
 
 <p>
-The <tt>LBR Sxx,yyyy</tt> macro can be used for any long branch instruction (<tt>LBDF</tt>, <tt>LBNF</tt>, <tt>LBNQ</tt>, <tt>LBNZ</tt>, <tt>LBQ</tt>, <tt>LBR</tt> or <tt>LBZ</tt>). <tt>Sxx</tt> specifies the slot code or EMS page where the branch should jump to and <tt>yyyy</tt> defines the branch address.
+The <tt>LBR Sxx,yyyy</tt> macro can be used for any long branch instruction (<tt>LBDF</tt>, <tt>LBNF</tt>, <tt>LBNQ</tt>, <tt>LBNZ</tt>, <tt>LBQ</tt>, <tt>LBR</tt> or <tt>LBZ</tt>). <tt>Sxx</tt> specifies the slot code or EMS page where the branch should jump to, and <tt>yyyy</tt> defines the branch address.
 </p>
 
 
@@ -77,7 +77,7 @@ Therefore, the <tt>S11</tt> branch is corrected as a byte is inserted in bank 8,
 <h2>Other macros</h2>
 
 <p>
-The <tt>: Sxx,yyyy</tt>, <tt>LDL Sxx,Rx,yyyy</tt> and <tt>LDRL Sxx,Rx,yyyy</tt> macros work the same as the <tt>LBR Sxx,yyyy</tt> macro, except they are used for branch addresses and loading memory locations.
+The <tt>: Sxx,yyyy</tt>, <tt>LDL Sxx,Rx,yyyy</tt>, and <tt>LDRL Sxx,Rx,yyyy</tt> macros work the same as the <tt>LBR Sxx,yyyy</tt> macro, except they are used for branch addresses and loading memory locations.
 </p>
 </body>
 </html>

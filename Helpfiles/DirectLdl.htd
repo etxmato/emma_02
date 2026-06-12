@@ -1,19 +1,19 @@
 <html>
-<title>LDL, LDRL, LDV and RLDL instructions</title>
+<title>LDL, LDRL, LDV, and RLDL instructions</title>
 <body>
 
 
-<h1>LDL, LDRL, LDV and RLDL instructions</h1>
+<h1>LDL, LDRL, LDV, and RLDL instructions</h1>
 
 
 <h2>LDL and LDRL</h2>
 
 <p>
-Some code will need to load locations into registers and use the location in the register to load data. This can be done by using the <tt>LDL</tt> (LoaD Location) or <tt>LDRL</tt> (LoaD Reversed Location) macro in the <strong>Direct Assembler</strong>, or by marking specific 1802 code as <tt>LDL</tt> or <tt>LDRL</tt> via the procedure described in the <a href="DirectMarking.htm">Memory Type Selection</a> section.
+Some code loads memory locations into registers and then uses those registers to access data. This can be done by using the <tt>LDL</tt> (LoaD Location) or <tt>LDRL</tt> (LoaD Reversed Location) macro in the <strong>Direct Assembler</strong>, or by marking specific 1802 code as <tt>LDL</tt> or <tt>LDRL</tt> via the procedure described in the <a href="DirectMarking.htm">Memory Type Selection</a> section.
 </p>
 
 <p>
-By doing this, the location data will be corrected when using <a href="DirectInsert.htm">insert, delete</a> or <a href="DirectCopy.htm">copy</a> commands. All location data will be shown in <font color="#A85BA5">purple</font> text.
+By doing this, the location data will be corrected when using <a href="DirectInsert.htm">insert, delete</a>, or <a href="DirectCopy.htm">copy</a> commands. All location data will be shown in <font color="#A85BA5">purple</font> text.
 </p>
 
 <p>
@@ -44,7 +44,7 @@ If an insert is made at address 0220 (hexadecimal) in the original example, the 
 <h2>LDV</h2>
 
 <p>
-A similar <tt>LDV</tt> (LoaD Value) macro is available, resulting in the same 1802 code sequence; however, for this macro the value is not changed by any insert, delete or copy commands. <tt>LDV</tt> data values are shown in the default text colour, not in <font color="#A85BA5">purple</font>.
+A similar <tt>LDV</tt> (LoaD Value) macro is available, resulting in the same 1802 code sequence; however, for this macro, the value is not changed by any insert, delete, or copy commands. <tt>LDV</tt> data values are shown in the default text colour, not in <font color="#A85BA5">purple</font>.
 </p>
 
 

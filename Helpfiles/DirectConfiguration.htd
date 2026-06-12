@@ -6,11 +6,11 @@
 <h1>Program Configuration</h1>
 
 <p>
-For every computer a default program configuration is defined. For most computers this is the first available 1, 2 or 4K of RAM. For the Studio clones it is the cart area and for the Cidelsa the game ROM.
+Emma 02 defines a default program configuration for every computer. For most computers, this is the first available one, two, or four K of RAM. For the Studio clones, it is the cart area, and for the Cidelsa, the game ROM.
 </p>
 
 <p>
-A program configuration must be defined to save debug or type information, i.e., the information defining what locations are 1802 code, data and possibly pseudo-code. The same goes for using the <strong>Insert</strong>, <strong>Delete</strong> and <strong>Search</strong> features; see the <a href="DirectInsert.htm">Insert &amp; Delete Code</a> and <a href="DirectSearch.htm">Search</a> sections.
+A program configuration must be defined to save type information - the classification of memory locations as code, data, or pseudo-code. The same goes for using the <strong>Insert</strong>, <strong>Delete</strong>, and <strong>Search</strong> features; see the <a href="DirectInsert.htm">Insert &amp; Delete Code</a> and <a href="DirectSearch.htm">Search</a> sections.
 </p>
 
 
@@ -35,11 +35,11 @@ The program configuration interface is shown below:
 </ul>
 
 <p>
-The example shown above defines a code area of hex 4400-53FF and a data area between hex 5400-5FFF. After this configuration is defined, pressing the <strong>Save</strong> button (8) will store a binary file <tt>mycode.bin</tt> from memory locations hex 4400-5FFF as well as save type information in a file <tt>mycode.debug</tt>.
+The example shown above defines a code area of 4400-53FF (hexadecimal) and a data area between 5400-5FFF (hexadecimal). After defining this configuration, press the <strong>Save</strong> button (8) to store a binary file <tt>mycode.bin</tt> from memory locations 4400-5FFF (hexadecimal) and save type information in a file <tt>mycode.debug</tt>.
 </p>
 
 <p>
-When <strong>Save</strong> is pressed, a configuration file name is also requested; this file will save all configuration data such as program name, directory, code start, etc.
+When <strong>Save</strong> is pressed, Emma 02 also prompts for a configuration file name. This file stores all configuration data such as program name, directory, and code start.
 </p>
 
 <p>
@@ -47,7 +47,7 @@ To load an existing configuration file, use the <strong>Load</strong> button (7)
 </p>
 
 <p>
-Keep all data either at the start of the code area, or after it in the data area between <strong>Code end</strong> and <strong>(Program) end</strong>. Data can also be used mixed in with code as long as the <tt>LVL</tt> macro is used to load the data address (see the <a href="DirectAssembler.htm">LDL, LDRL, LDV and RLDL instructions</a> section).
+Keep all data either at the start of the code area, or after it in the data area between <strong>Code end</strong> and <strong>(Program) end</strong>. Data can also be placed within the code area, as long as the <tt>LVL</tt> macro is used to load the data address (see the <a href="DirectAssembler.htm">LDL, LDRL, LDV and RLDL instructions</a> section).
 </p>
 
 <p>
@@ -58,15 +58,15 @@ If no data area is needed, <strong>Code end</strong> and <strong>(Program) end</
 <h2>COMX and Elf settings</h2>
 
 <p>
-The COMX Slot code must be defined as the COMX out 1 definition:
+The COMX Slot code must be defined as the COMX <tt>OUT 1</tt> definition:
 </p>
 <ul>
-<li>b0: 0=Select ROM bank, 1=Select RAM bank</li>
-<li>b1: Select slot 1</li>
-<li>b2: Select slot 2</li>
-<li>b3: Select slot 3</li>
-<li>b4: Select slot 4</li>
-<li>b5-b7: bank number 0 to 8</li>
+<li>bit 0: 0=Select ROM bank, 1=Select RAM bank</li>
+<li>bit 1: Select slot 1</li>
+<li>bit 2: Select slot 2</li>
+<li>bit 3: Select slot 3</li>
+<li>bit 4: Select slot 4</li>
+<li>bits 5-7: bank number 0 to 8</li>
 </ul>
 
 <p>
@@ -74,11 +74,11 @@ Bits 0 and 5 to 7 are only used in combination with the SB FW.
 </p>
 
 <p>
-The Elf EMS Page is the page number 0 to 1F.
+The Elf EMS Page is the page number 0 to 1F (hexadecimal).
 </p>
 
 <p>
-<strong>Note:</strong> Any configuration range in a COMX Slot must always be between hex C000 and hex DFFF and the Elf Page between hex 8000 and hex BFFF.
+<strong>Note:</strong> Any configuration range in a COMX Slot must always be between C000 and DFFF (hexadecimal) and the Elf Page between 8000 and BFFF (hexadecimal).
 </p>
 
 
@@ -110,7 +110,7 @@ Fill in the <strong>Program name</strong>, <strong>Code start</strong>, <strong>
 </p>
 
 <p>
-Press the <strong>Configuration</strong> spin button (4) to step through the defined configurations (only possible if more than one is defined). The current program configuration number is shown in field (1).
+Press the <strong>Configuration</strong> spin button (4) to step through the defined configurations (only possible if more than one configuration is defined). The current program configuration number is shown in field (1).
 </p>
 
 <p>
@@ -122,14 +122,14 @@ All areas defined as code will show the address locations in black; other areas 
 </p>
 
 <p>
-Multiple program areas can be defined in one configuration. For example, loading the SB configuration (press the <strong>SB</strong> button (6) on a COMX with SB active) will load 15 program areas.
+Multiple program areas can be defined in one configuration. For example, loading the SB configuration (press the <strong>SB</strong> button (6) on a COMX with SB active) will load fifteen program areas.
 </p>
 
 
 <h2>Configuration version</h2>
 
 <p>
-After every program configuration <strong>Save</strong>, all binary and debug files are backed up by appending a version number extension to the file name. Version numbers start at 1 and count up.
+After every program configuration <strong>Save</strong>, all binary and debug files are backed up by appending a version number extension to the file name. Version numbers start at 1 and increment with each save.
 </p>
 
 <p>
@@ -144,11 +144,11 @@ The configuration version interface is shown below:
 </ul>
 
 <p>
-The <strong>Direct Assembler</strong> can load any of these configuration versions back by filling in a number in the <strong>Configuration version</strong> text field (1). To load back the oldest backup configuration, fill in <tt>1</tt>; to load back the latest, fill in the latest number found in the directory where all configurations are saved. The example above would load back version 4.
+To restore a previous version, enter its number in the <strong>Configuration version</strong> text field (1). Enter <tt>1</tt> to load the oldest backup, or the highest number in the directory to load the latest. The example above would load back version 4.
 </p>
 
 <p>
-<strong>Note:</strong> All files that have the same configuration extension will be loaded. After adding an additional program into a configuration, that program will start with version 1 while older programs may already have a higher version number. Therefore, delete or move older versions when adding a new program to a configuration.
+<strong>Note:</strong> All files that have the same configuration extension will be loaded. After adding an additional program into a configuration, that program will start with version 1 while older programs may already have a higher version number. Therefore, when adding a new program to a configuration, delete or move older version files to keep numbering consistent.
 </p>
 </body>
 </html>

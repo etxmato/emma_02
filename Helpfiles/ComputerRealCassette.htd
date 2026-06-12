@@ -149,12 +149,12 @@ Only change this setting if the <strong>VU meter</strong> shows no signal when p
 Two conversion types are available:
 </p>
 <ol>
-<li><strong>Amplitude</strong>: where positive amplitudes are converted to 1 and negative amplitudes to 0.</li>
-<li><strong>Sinus</strong>: where upward sine waves are converted to 1 and downward sine waves to 0.</li>
+<li><tt>Amplitude</tt>: where positive amplitudes are converted to 1 and negative amplitudes to 0.</li>
+<li><tt>Sinus</tt>: where upward sine waves are converted to 1 and downward sine waves to 0.</li>
 </ol>
 
 <p>
-<strong>Note:</strong> By default, this is set to <strong>Sinus</strong> which has been tested successfully with a real COMX tape.
+<strong>Note:</strong> By default, this is set to <tt>Sinus</tt> which has been tested successfully with a real COMX tape.
 </p>
 
 <p>

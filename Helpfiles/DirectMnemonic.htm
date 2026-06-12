@@ -13,30 +13,30 @@
 There are a few 1802 op codes with multiple mnemonics:
 </p>
 <ul>
-<li><tt>33</tt>: <strong>BDF</strong>, BPZ or BGE</li>
-<li><tt>38</tt>: <strong>NBR</strong> or SKP</li>
-<li><tt>3B</tt>: <strong>BNF</strong>, BM or BL</li>
-<li><tt>76</tt>: <strong>SHRC</strong> or RSHR</li>
-<li><tt>7E</tt>: <strong>SHLC</strong> or RSHL</li>
-<li><tt>C8</tt>: <strong>NLBR</strong> or LSKP</li>
+<li><tt>33</tt>: <tt>BDF</tt>, <tt>BPZ</tt>, or <tt>BGE</tt></li>
+<li><tt>38</tt>: <tt>NBR</tt> or <tt>SKP</tt></li>
+<li><tt>3B</tt>: <tt>BNF</tt>, <tt>BM</tt>, or <tt>BL</tt></li>
+<li><tt>76</tt>: <tt>SHRC</tt> or <tt>RSHR</tt></li>
+<li><tt>7E</tt>: <tt>SHLC</tt> or <tt>RSHL</tt></li>
+<li><tt>C8</tt>: <tt>NLBR</tt> or <tt>LSKP</tt></li>
 </ul>
 
 <p>
-All variants are accepted in the assembler. The variant used will be stored as a type. This can also be changed via the procedure described in the <a href="DirectMarking.htm">Memory Type Selection</a> section, using the <strong>Switch</strong> marking type. When no type is specified, the mnemonics shown in bold will be used.
+All variants are accepted in the assembler. The variant used will be stored as the memory type. This can also be changed via the procedure described in the <a href="DirectMarking.htm">Memory Type Selection</a> section, using the <tt>Switch</tt> marking type. When no type is specified, the first mnemonic listed for each op code will be used.
 </p>
 
 
 <h2>Example</h2>
 
 <p>
-For example, if the type is set to <strong>Switch</strong> (1) and the <strong>Mark</strong> button (2) is pressed on address 0000 (hexadecimal) in the following example:
+For example, if the type is set to <tt>Switch</tt> (1) and the <strong>Mark</strong> button (2) is pressed on address 0000 (hexadecimal) in the following example:
 </p>
 
 <p>
 <img src="images/assembler_switch_mark.png" border="0" width="724" height="609">
 </p>
 <ul>
-<li>(1) <strong>Switch</strong> type selection</li>
+<li>(1) <tt>Switch</tt> type selection</li>
 <li>(2) <strong>Mark</strong> button</li>
 </ul>
 
@@ -49,7 +49,7 @@ the code will change to:
 </p>
 
 <p>
-Pressing <strong>Mark</strong> again on address 0000 (hexadecimal) and the code will change to:
+Press <strong>Mark</strong> again on address 0000 (hexadecimal) and the code will change to:
 </p>
 
 <p>

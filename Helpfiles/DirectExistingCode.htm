@@ -11,7 +11,7 @@ This section gives a simple example of how to use the <strong>Direct Assembler</
 </p>
 
 <p>
-For this example a small Studio II game written in 1802 code will be used.
+For this example, a small Studio II game written in 1802 code will be used.
 </p>
 
 
@@ -32,7 +32,7 @@ First set up the Studio II emulator with the Space Invaders game:
 </ul>
 
 <p>
-A Studio II emulator running Space Invaders should start. Make sure to play the game enough so that most code gets executed: move in all directions, shoot some invaders, and get killed. By default, the keys are mapped as follows:
+A Studio II emulator running Space Invaders will start. Play the game enough so that most code gets executed: move in all directions, shoot some invaders, and get killed. By default, the keys are mapped as follows:
 </p>
 <ul>
 <li>Left: arrow left (4 on keyboard A)</li>
@@ -65,11 +65,11 @@ This address will show an ST2 instruction <tt>SYS 45D</tt> (4) in <font color="#
 </ul>
 
 <p>
-The Space Invaders game runs from 0400 (hexadecimal) to 07FF (hexadecimal). Do a manual walk through the code from the current address to 0800 (hexadecimal). The easiest way is to use <tt>SHIFT DOWN</tt> which moves one page down on every press. Check that all code is shown as 1802 code in black/<font color="#EA6F32">orange</font> text and data is shown in <font color="#3947CE">blue</font>.
+The Space Invaders game runs from 0400 (hexadecimal) to 07FF (hexadecimal). Do a manual walk through the code from the current address to 0800 (hexadecimal). The easiest way is to use <tt>SHIFT DOWN</tt>, which moves one page down on every press. Check that all code is shown as 1802 code in black/<font color="#EA6F32">orange</font> text and data is shown in <font color="#3947CE">blue</font>.
 </p>
 
 <p>
-Pay close attention to all <font color="#3947CE">blue</font> text, as this is code or data that has not been executed by the emulator - it is either data, or code that was not reached during the game.
+Pay close attention to all <font color="#3947CE">blue</font> text, as this is code or data that has not been executed by the emulator - it is either data or code that was not reached during the game.
 </p>
 
 
@@ -79,7 +79,7 @@ Pay close attention to all <font color="#3947CE">blue</font> text, as this is co
 The following areas will probably show in <font color="#3947CE">blue</font> (depending on how long the game is played):
 </p>
 <ul>
-<li>0402 (hexadecimal) - 041D (hexadecimal): At the start of the game this is likely some kind of table, but no proof yet.</li>
+<li>0402 (hexadecimal) - 041D (hexadecimal): At the start of the game this is likely some kind of table, but there is no proof yet.</li>
 <li>0594 (hexadecimal) / 0598 (hexadecimal): Two bytes - the first is preceded by a <tt>SEX R3</tt> and both are followed by an <tt>OUT 2</tt>. This is clearly data; an <tt>OUT 2</tt> is being done with the value 04 stored at 0594 (hexadecimal):
 <p>
 <img src="images/assembler_example_594_598.png" border="0" width="724" height="609">
@@ -95,7 +95,7 @@ The following areas will probably show in <font color="#3947CE">blue</font> (dep
 <img src="images/assembler_example_6CB.png" border="0" width="724" height="609">
 </p>
 <p>
-To manually correct this, set the mark type to <strong>1802</strong> (1) and select 06CB (hexadecimal) as the address (2). Press the <strong>Mark</strong> button (3) for every address. See the <a href="DirectMarking.htm">Memory Type Selection</a> section.</p>
+To manually correct this, set the mark type to <tt>1802</tt> (1) and select 06CB (hexadecimal) as the address (2). Press the <strong>Mark</strong> button (3) for every address. See the <a href="DirectMarking.htm">Memory Type Selection</a> section.</p>
 </li>
 <li>06E4 (hexadecimal) - 06E7 (hexadecimal): Same as above - mark as 1802 code via the <strong>Mark</strong> button.</li>
 <li>0733 (hexadecimal) - 0737 (hexadecimal): Same as above - mark as 1802 code via the <strong>Mark</strong> button.</li>
@@ -156,13 +156,13 @@ LD L:   071D
 <img src="images/assembler_example_47A.png" border="0" width="724" height="609">
 </p>
 <p>
-Mark 047A (hexadecimal) as an <strong>LDL</strong> instruction (select <strong>LDL</strong> instead of <strong>1802</strong> and press <strong>Mark</strong>), resulting in:
+Mark 047A (hexadecimal) as an <tt>LDL</tt> instruction (select <tt>LDL</tt> instead of <tt>1802</tt> and press <strong>Mark</strong>), resulting in:
 </p>
 <p>
 <img src="images/assembler_example_47A_corrected.png" border="0" width="724" height="609">
 </p>
 </li>
-<li>LD L: 047D (hexadecimal) - part of the LDL found at 047A (hexadecimal).</li>
+<li>LD L: 047D (hexadecimal) - part of the <tt>LDL</tt> found at 047A (hexadecimal).</li>
 <li>LD L: 04E3 (hexadecimal) - at first glance this only loads 02 into RF.0. To verify, set a bookmark on address 04E3 (hexadecimal) and check what RF.1 is at this point. RF.1 = 08, confirming this is not an address within the code but points at RAM. No further action needed:
 <p>
 <img src="images/assembler_example_4E3.png" border="0" width="724" height="609">
@@ -170,7 +170,7 @@ Mark 047A (hexadecimal) as an <strong>LDL</strong> instruction (select <strong>L
 </li>
 <li>LD H: 04FC (hexadecimal) - starting at 04F9 (hexadecimal), RA is loaded with location 044A (hexadecimal), followed by a <tt>SEP A</tt>.
 <p>
-Replace this with an <tt>LDRL A,044A</tt> as the code loads RA.0 first and then RA.1 (select <strong>LDRL</strong> instead of <strong>1802</strong> and press <strong>Mark</strong>), resulting in:
+Replace this with an <tt>LDRL A,044A</tt> as the code loads RA.0 first and then RA.1 (select <tt>LDRL</tt> instead of <tt>1802</tt> and press <strong>Mark</strong>), resulting in:
 </p>
 <p>
 <img src="images/assembler_example_4F9_corrected.png" border="0" width="724" height="609">
@@ -200,11 +200,11 @@ After this, print 0400 (hexadecimal) to 0800 (hexadecimal) to a disassembly file
 <h2>Making changes</h2>
 
 <p>
-That's it! In theory it should now be possible to insert a byte anywhere between 041E (hexadecimal) and 07F7 (hexadecimal) and the code should still run correctly. Inserting on 041E (hexadecimal) and playing the game should work.
+The analysis is complete. It is now possible to insert a byte anywhere between 041E and 07F7 (hexadecimal), and the code will still run correctly. Inserting on 041E (hexadecimal) and playing the game should work.
 </p>
 
 <p>
-<strong>Note:</strong> Inserting will give a memory warning. To clear this, fill memory from 0770 (hexadecimal) to 07F7 (hexadecimal) with 0, as the <strong>Direct Assembler</strong> only uses that value as unused memory.
+<strong>Note:</strong> Inserting will give a memory warning. To clear this, fill memory from 0770 to 07F7 (hexadecimal) with 0, as the <strong>Direct Assembler</strong> treats 0 as unused memory.
 </p>
 
 <p>

@@ -23,7 +23,7 @@ To copy data or code, first specify the start (1) and end (2) address. Then fill
 </ul>
 
 <p>
-If code is copied to the same lower 8-bit start address, all long branches, <a href="DirectBranchData.htm">branch data</a>, <a href="DirectRevBranchData.htm">reversed branch data</a>, <a href="DirectLdl.htm">LDL/LDRL/RLDL instructions</a> and pseudo-code long branches (as listed in the <a href="DirectInsert.htm">Insert &amp; Delete Code</a> section under heading Pseudo variants - Instructions, marked as aaa or aaaa) will be converted.
+If code is copied to the same lower 8-bit start address, all long branches, <a href="DirectBranchData.htm">branch data</a>, <a href="DirectRevBranchData.htm">reversed branch data</a>, <a href="DirectLdl.htm">LDL/LDRL/RLDL instructions</a>, and pseudo-code long branches will be converted. Pseudo-code long branches are listed in the <a href="DirectInsert.htm">Insert &amp; Delete Code</a> section under heading Pseudo variants - Instructions, marked as aaa or aaaa.
 </p>
 
 <p>
@@ -38,11 +38,11 @@ The copy configured above will result in:
 </ul>
 
 <p>
-In the above example, the information that address 0000 (hexadecimal) and 0010 (hexadecimal) contain 1802 instructions will be copied to 0100 (hexadecimal), i.e., showing 1802 code at 0100 (hexadecimal) and 0110 (hexadecimal).
+In the above example, the information that address 0000 (hexadecimal) and 0010 (hexadecimal) contain 1802 instructions will be copied to 0100 (hexadecimal), resulting in 1802 code shown at 0100 and 0110 (hexadecimal).
 </p>
 
 <p>
-A copy from 0000 (hexadecimal) to 0013 (hexadecimal) copied to 0120 (hexadecimal) will, however, result in:
+Copying from 0000 to 0013 (hexadecimal) to destination 0120 (hexadecimal) will, however, result in:
 </p>
 
 <p>

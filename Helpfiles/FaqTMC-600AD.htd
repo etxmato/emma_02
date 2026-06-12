@@ -14,7 +14,7 @@ A/DS    Converting input voltage 0 to 1500 mV
 </pre>
 
 <p>
-Both functions are only available when expansion ROM 151182 is loaded and can be used for channel 0 to E (or to F when using the <tt>A/DS</tt> function).
+Both functions are only available when expansion ROM 151182 is loaded and can be used for channels 0 to E (hexadecimal), or to F when using the <tt>A/DS</tt> function.
 </p>
 
 <p>

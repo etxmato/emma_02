@@ -6,11 +6,11 @@
 <h1>Memory Type</h1>
 
 <p>
-The memory type of the main 64K CPU memory is shown when the <strong>Memory</strong> selector (1) is set to <tt>Type</tt>. Each field defines one page, i.e., 256 bytes of memory, so the top-left field (2) defines addresses 0000 to 00FF. To change the memory type of a page, select the field and change its value.
+The memory type of the main 64K CPU memory is shown when the <strong>Memory</strong> selector (1) is set to <tt>Type</tt>. Each field defines one page, i.e., 256 bytes of memory, so the top-left field (2) defines addresses 0000 to 00FF (hexadecimal). To change the memory type of a page, select the field and change its value.
 </p>
 
 <p>
-<strong>Note:</strong> Changing any of these values might crash the emulated computer, so use with care.
+<strong>Note:</strong> Changing any of these values might crash the emulated computer, so use this feature with care.
 </p>
 
 <p>
