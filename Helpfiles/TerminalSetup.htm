@@ -26,7 +26,7 @@ The main video terminal (VT) settings can be changed in the <strong>Terminal</st
 </ul>
 
 <p>
-The <strong>VT type</strong> selector (1) sets the terminal type: <strong>none</strong> (no video terminal), <strong>VT52</strong>, <strong>VT100</strong>, <strong>External</strong> (external terminal software), or <strong>Loop</strong> (loopback).
+The <strong>VT type</strong> selector (1) sets the terminal type: <tt>none</tt> (no video terminal), <tt>VT52</tt>, <tt>VT100</tt>, <tt>External</tt> (external terminal software), or <tt>Loop</tt> (loopback).
 The <strong>Setup</strong> button (2) opens the detailed setup window described below.
 For serial terminals, both <strong>Baud</strong> rates (3) are always the same; therefore only the <tt>T</tt> (transmitter) button is enabled.
 For UART terminals, both <tt>T</tt> and <tt>R</tt> (receiver) buttons are enabled independently, allowing different baud rates per direction.
@@ -63,7 +63,7 @@ The VT setup window controls are shown below:
 
 <p>
 The setup window above shows all possible specific settings for a VT100 terminal.
-These settings are VT specific, and will look slightly different for the <strong>VT52</strong>, <strong>External</strong>, and <strong>Loop</strong> options.
+These settings are VT specific, and will look slightly different for the <tt>VT52</tt>, <tt>External</tt>, and <tt>Loop</tt> options.
 </p>
 
 <p>
@@ -103,7 +103,7 @@ If a wav file is specified, the sound contained in that file will be played when
 <h4>UART CDP1854</h4>
 
 <p>
-The Cosmac Elf, Microboard System, MS2000, Netronics Elf, and Quest Super Elf support the UART CDP1854.
+The COSMAC Elf, Microboard System, MS2000, Netronics Elf II, and Quest Super Elf support the UART CDP1854.
 </p>
 
 <p>
@@ -118,7 +118,7 @@ The Cosmac Elf, Microboard System, MS2000, Netronics Elf, and Quest Super Elf su
 <h4>UART 16450 &amp; RTC</h4>
 
 <p>
-The Cosmac Elf, Elf 2000, Pico/Elf V2, Netronics Elf and Quest Super Elf support the UART 16450.
+The COSMAC Elf, COSMAC Elf 2000, Pico/Elf V2, Netronics Elf II, and Quest Super Elf support the UART 16450.
 </p>
 
 <p>
@@ -185,11 +185,11 @@ To use the VT with reverse Q output, select the checkbox.
 
 <p>
 When XMODEM is configured, the YMODEM receive packet size can be selected.
-By default, this is set to <strong>Auto</strong>, but it can be changed to 1024 or 128.
+By default, this is set to <tt>Auto</tt>, but it can be changed to 1024 or 128.
 </p>
 
 <p>
-When <strong>Auto</strong> is used, Emma 02 sends packets of 1024 bytes when sufficient data is available.
+When <tt>Auto</tt> is used, Emma 02 sends packets of 1024 bytes when sufficient data is available.
 If less data is available, 128-byte packets are used.
 </p>
 
