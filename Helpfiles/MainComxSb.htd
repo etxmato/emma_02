@@ -4,7 +4,7 @@ Final review: <html>
 
 <h1>COMX SuperBoard</h1>
 <p>
-For more information about the SuperBoard (SB) project, please see our <a href="http://www.comx35.com/superboard.html">COMX SuperBoard</a> page.
+For details about the SuperBoard (SB) project, see the <a href="http://www.comx35.com/superboard.html">COMX SuperBoard</a> page.
 </p>
 
 <p>
@@ -45,7 +45,7 @@ The <strong>Online</strong> tab shows all settings related to USB commands using
 </p>
 
 <ul>
-<li>(1) <strong>Player name</strong> and <strong>Player location<strong> text fields</li>
+<li>(1) <strong>Player name</strong> and <strong>Player location</strong> text fields</li>
 <li>(2) <strong>Email address</strong> text field</li>
 <li>(3) <strong>Home page</strong> text field</li>
 <li>(4) <strong>Bookmark</strong> selector and text field</li>
@@ -87,7 +87,7 @@ The <strong>USB</strong> tab shows all settings related to USB commands: <tt>CD<
 <li>(2) <strong>Root path</strong> text field</li>
 <li>(3) <strong>Show top directory in USB CD</strong> selector</li>
 <li>(4) <strong>Case conversion</strong> field</li>
-<li>(5) <strong>Backup</strong> field</li>
+<li>(5) <strong>Back-up</strong> field</li>
 </ul>
 
 <p>
@@ -107,7 +107,7 @@ Use the <strong>Root</strong> button (1) or change the path manually (2) to defi
 </p>
 
 <p>
-<strong>Backup</strong> (5) - Select Yes / No:
+<strong>Back-up</strong> (5) - Select Yes / No:
 </p>
 <ul>
 <li><tt>Yes</tt>: Creates backup files using format <tt>nameNumber.type.bak</tt> (e.g., <tt>happiehap1.comx.bak</tt>)</li>

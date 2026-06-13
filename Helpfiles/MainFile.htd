@@ -89,11 +89,11 @@ Subdirectories:
 <li>Chip-8 ETI660 Hybrids (ETI660 only)</li>
 <li>Chip-8 Games</li>
 <li>Chip-8 Hires (extended resolution interpreter)</li>
-<li>Chip-8 Hybrids (1802 + Chip-8)</li>
+<li>Chip-8 Hybrids (CDP1802 + Chip-8)</li>
 <li>Chip-8 Programs</li>
 <li>Chip-8X</li>
 <li>Chip-10</li>
-<li>Super-chip Games (see the Emma 02 website <a href="https://www.emma02.hobby-site.com/pseudo_super_chip.html">Super-chip</a>) section</li>
+<li>Super-chip Games (see the Emma 02 website <a href="https://www.emma02.hobby-site.com/pseudo_super_chip.html">Super-chip</a> section)</li>
 </ul>
 
 
@@ -266,13 +266,13 @@ RcBasic L2                 8000
 
 <h3>Elf/Games</h3>
 <p>
-Directory containing several Elf games. Please see the Configuration section of <a href="https://www.emma02.hobby-site.com/elf.html">Cosmac Elf</a> for instructions on loading the Game Mode configuration.
+Directory containing several Elf games. See the Configuration section of <a href="https://www.emma02.hobby-site.com/elf.html">Cosmac Elf</a> for instructions on loading the Game Mode configuration.
 </p>
 
 
 <h3>Elf/Music</h3>
 <p>
-Directory containing Elf music software and Christmas songs. Please see the Configuration section of <a href="https://www.emma02.hobby-site.com/elf.html">Cosmac Elf</a> for instructions on loading the Music Machine configuration.
+Directory containing Elf music software and Christmas songs. See the Configuration section of <a href="https://www.emma02.hobby-site.com/elf.html">Cosmac Elf</a> for instructions on loading the Music Machine configuration.
 </p>
 
 
@@ -320,7 +320,7 @@ Directory containing Netronics Tiny Basic for the Elf/Os operating system.
 
 <h3>Elf/VDU</h3>
 <p>
-Software supporting the ACE VDU board. Two configurations are provided: <strong>VDU / ASCII keyboard</strong> and <strong>VDU / Hex keypad</strong>. The first is for Tiny Basic and Monitor, the second for games. Please see the Configuration section of <a href="https://www.emma02.hobby-site.com/elf.html">Cosmac Elf</a> for instructions on loading these configurations.
+Software supporting the ACE VDU board. Two configurations are provided: <strong>VDU / ASCII keyboard</strong> and <strong>VDU / Hex keypad</strong>. The first is for Tiny Basic and Monitor, the second for games. See the Configuration section of <a href="https://www.emma02.hobby-site.com/elf.html">Cosmac Elf</a> for instructions on loading these configurations.
 </p>
 
 
@@ -336,7 +336,7 @@ Directory containing <a href="https://www.emma02.hobby-site.com/eti.html">ETI 66
 </p>
 
 
-<h3>Fig Forth 1802</h3>
+<h3>Fig Forth CDP1802</h3>
 <p>
 Fig Forth assembler, listing and hex files.
 </p>

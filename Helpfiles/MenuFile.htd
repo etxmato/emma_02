@@ -59,7 +59,7 @@ When installing a new version of Emma 02, the data directory will NOT be re-inst
 
 <h3>XML Files</h3>
 <p>
-This will re-install the default XML files as stored in the Emma 02 XML data directory. This may be needed to install updated XML files from a newer Emma 02 release or if the current installed files are corrupt.
+This will re-install the default XML files as stored in the Emma 02 XML data directory. This may be needed to install updated XML files from a newer Emma 02 release or if the currently installed files are corrupt.
 </p>
 
 <p>

@@ -9,7 +9,7 @@ Elf/Os is a disk-based operating system for Elf-class computers designed by Mike
 </p>
 
 <p>
-The installation procedure for Elf/Os described below makes use of the adapted version including the "BIOS Video I/O Module" designed by Richard Peters. This version allows the use of Elf/Os on different video types such as 1861 Pixie, MC6845, MC6847, and TMS9918. This will install Elf/Os 2.5 Build 87. To install Biosio on Elf/Os 2.8, follow the FAQ <a href="FaqElfInstElfOs.htm">How do I install Elf/Os 2.8 on an Elf?</a> followed by <a href="FaqElfInstBiosio.htm">How do I change to Biosio after Elf/Os 2.8 installation?</a>
+The installation procedure for Elf/Os described below makes use of the adapted version including the "BIOS Video I/O Module" designed by Richard Peters. This version allows the use of Elf/Os on different video types such as CDP1861 Pixie, MC6845, MC6847, and TMS9918. This will install Elf/Os 2.5 Build 87. To install Biosio on Elf/Os 2.8, follow the FAQ <a href="FaqElfInstElfOs.htm">How do I install Elf/Os 2.8 on an Elf?</a> followed by <a href="FaqElfInstBiosio.htm">How do I change to Biosio after Elf/Os 2.8 installation?</a>
 </p>
 
 <p>

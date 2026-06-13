@@ -479,7 +479,7 @@ This XML configuration is for running Elf/Os on Serial I/O.
 
 <p><strong>figforth-uart.xml</strong></p>
 <p>
-This XML configuration loads and runs Fig Forth for the 1802.
+This XML configuration loads and runs Fig Forth for the CDP1802.
 </p>
 <p>
 This version of Forth uses a terminal connected to a CDP1854 UART, for which basic support is implemented in the emulator.
@@ -565,7 +565,7 @@ For documentation about this ROM, see the file section of the CosmacElf Yahoo gr
 
 <p><strong>tinybasic-interpreter.xml</strong></p>
 <p>
-This XML configuration loads and runs the <strong>Tiny Basic Interpreter</strong> for the COSMAC 1802, version 2.
+This XML configuration loads and runs the <strong>Tiny Basic Interpreter</strong> for the COSMAC CDP1802, version 2.
 </p>
 <p>
 Designed by Robert Edwards, including output routines for an MC6847 video chip.
@@ -833,7 +833,7 @@ FRED 1.5 configuration to load WAV files into memory.
 
 <p><strong>bare.xml</strong></p>
 <p>
-Bare FRED 3 configuration to load one of the games, select game ROM in the ROM field.</tt>.
+Bare FRED 3 configuration to load one of the games, select game ROM in the ROM field.
 </p>
 
 <p><strong>bowling.xml</strong></p>
@@ -912,7 +912,7 @@ Select any Chip-8 file in the <strong>RAM</strong> field or use <strong>LOAD</st
 
 <p><strong>adventure.xml</strong></p>
 <p>
-Richard Goedeken's <strong>Adventureland+</strong> game. See the <a href="https://github.com/richard42/1802-adventureland-plus">1802 Adventureland+</a> github.
+Richard Goedeken's <strong>Adventureland+</strong> game. See the <a href="https://github.com/richard42/1802-adventureland-plus">1802 Adventureland+</a> GitHub page.
 </p>
 
 <p><strong>front-&lt;rev&gt;.xml</strong></p>

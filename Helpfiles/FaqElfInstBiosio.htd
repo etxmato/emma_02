@@ -9,7 +9,7 @@ This instruction describes how to install and use Biosio with Elf/Os. For instal
 </p>
 
 <p>
-The "BIOS Video I/O Module" is designed by Richard Peters. This version allows the use of Elf/Os on different video types such as 1861 Pixie, MC6845, MC6847, and TMS9918.  
+The "BIOS Video I/O Module" is designed by Richard Peters. This version allows the use of Elf/Os on different video types such as CDP1861 Pixie, MC6845, MC6847, and TMS9918.  
 </p>
 
 <p>
@@ -45,7 +45,7 @@ Press Return in the VT100 window
 When Elf/Os has started use the <tt>SAVE</tt> command with the details below for the required I/O configuration:
 </p>
 
-<h2>1861 Pixie:</h2>
+<h2>CDP1861 Pixie:</h2>
 
 <pre>
 START address: 7000 

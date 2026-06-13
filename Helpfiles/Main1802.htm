@@ -1,32 +1,32 @@
 
 <html>
-<title>The RCA 1802</title>
+<title>The RCA CDP1802</title>
 <body>
-<h1>The RCA 1802</h1>
+<h1>The RCA CDP1802</h1>
 
 <p>
-The <a href="https://www.emma02.hobby-site.com/1802.html">RCA CDP1802</a> is an 8-bit CMOS microprocessor introduced by RCA in early 1976. COSMAC is an acronym for Complementary Silicon Metal-Oxide Conductor and was RCA's name for its CMOS semiconductor technology. The 1802 has an architecture quite different from most other 8-bit microprocessors. The RCA 1802 is the one-chip implementation of the earlier two-chip
+The <a href="https://www.emma02.hobby-site.com/1802.html">RCA CDP1802</a> is an 8-bit CMOS microprocessor introduced by RCA in early 1976. COSMAC is an acronym for Complementary Silicon Metal-Oxide Conductor and was RCA's name for its CMOS semiconductor technology. The CDP1802 has an architecture quite different from most other 8-bit microprocessors. The RCA CDP1802 is the one-chip implementation of the earlier two-chip
 <a href="https://www.emma02.hobby-site.com/1801.html">RCA CDP1801</a>.
 </p>
 
 <p>
-RCA also produced the <a href="https://www.emma02.hobby-site.com/1804.html">RCA CDP1804</a> microcontroller based on the RCA 1802 architecture. The 1804 had 64 bytes of RAM, 2 KB ROM, an on-chip oscillator, and an 8-bit timer. The instruction set of the 1804 was enhanced with 32 additional instructions, including subroutine call and return instructions. The <a href="https://www.emma02.hobby-site.com/1805.html">RCA CDP1805</a> and RCA CDP1806 were similar to the 1804, but they didn't have on-chip ROM.
+RCA also produced the <a href="https://www.emma02.hobby-site.com/1804.html">RCA CDP1804</a> microcontroller based on the RCA CDP1802 architecture. The CDP1804 had 64 bytes of RAM, 2 KB ROM, an on-chip oscillator, and an 8-bit timer. The instruction set of the CDP1804 was enhanced with 32 additional instructions, including subroutine call and return instructions. The <a href="https://www.emma02.hobby-site.com/1805.html">RCA CDP1805</a> and RCA CDP1806 were similar to the CDP1804, but they did not have on-chip ROM.
 </p>
 
 <p>
-The first known prototype of the RCA CDP180x family is a chip set called the <a href="https://www.emma02.hobby-site.com/system00.html">RCA SYSTEM00</a> used in the <a href="https://www.emma02.hobby-site.com/fred1.html">FRED 1</a>. The SYSTEM00 chip set uses a subset of the 1801 instruction set with some incompatible differences and is likely the basis for the later CDP1801.
+The first known prototype of the RCA CDP180x family is a chip set called the <a href="https://www.emma02.hobby-site.com/system00.html">RCA SYSTEM00</a> used in the <a href="https://www.emma02.hobby-site.com/fred1.html">FRED 1</a>. The SYSTEM00 chip set uses a subset of the CDP1801 instruction set with some incompatible differences and is likely the basis for the later CDP1801.
 </p>
 
-<h2>Notable Characteristics of the RCA 1802</h2>
+<h2>Notable Characteristics of the RCA CDP1802</h2>
 
 <p>
-The RCA 1802 has several architectural features that distinguish it from many other
+The RCA CDP1802 has several architectural features that distinguish it from many other
 8-bit microprocessors of the same era.
 </p>
 
 <h3>No Minimum Clock Speed</h3>
 <p>
-The RCA 1802 uses a fully static CMOS design and therefore has no minimum clock
+The RCA CDP1802 uses a fully static CMOS design and therefore has no minimum clock
 frequency. The clock can be slowed down significantly or even stopped completely
 without losing the processor state. Execution can resume when the clock is restarted.
 </p>
@@ -38,9 +38,9 @@ demonstration purposes.
 
 <h3>Register-Based Program Counter</h3>
 <p>
-The register set of the 1802 consists of sixteen 16-bit registers (R0-R15). Unlike most
+The register set of the CDP1802 consists of sixteen 16-bit registers (R0-R15). Unlike most
 other microprocessors, any of these registers can act as the program counter.
-The instruction <strong>SEP Rx</strong> selects which register is used as the program counter.
+The instruction <tt>SEP Rx</tt> selects which register is used as the program counter.
 </p>
 <p>
 This allows simple implementation of multiple program counters, pointers, and
@@ -49,7 +49,7 @@ lightweight task switching.
 
 <h3>Simple Interrupt Structure</h3>
 <p>
-The interrupt system of the 1802 is intentionally simple. When an interrupt occurs,
+The interrupt system of the CDP1802 is intentionally simple. When an interrupt occurs,
 the processor stores the current program counter register number and begins execution
 using register R1 as the program counter. Software is responsible for saving and
 restoring the processor context if required.
@@ -57,8 +57,8 @@ restoring the processor context if required.
 
 <h3>Q Output and EF Inputs</h3>
 <p>
-The 1802 provides a single programmable output line called <strong>Q</strong> and four external
-flag input lines called <strong>EF1-EF4</strong>. These signals are frequently used for simple I/O
+The CDP1802 provides a single programmable output line called <tt>Q</tt> and four external
+flag input lines called <tt>EF1-EF4</tt>. These signals are frequently used for simple I/O
 operations, bit-level communication, or status monitoring in COSMAC-based systems.
 </p>
 
@@ -73,7 +73,7 @@ design but requires additional cycles for memory access.
 <h3>Use in High-Reliability Systems</h3>
 <p>
 Due to its static CMOS design, low power consumption, and tolerance to radiation,
-the RCA 1802 was widely used in spacecraft and other high-reliability applications.
+the RCA CDP1802 was widely used in spacecraft and other high-reliability applications.
 </p>
 </body>
 </html>

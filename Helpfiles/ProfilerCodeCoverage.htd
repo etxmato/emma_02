@@ -17,7 +17,7 @@ Code that is not executed is shown as data, as in the <a href="DirectMain.htm">D
 </ul>
 
 <p>
-The parts shown as data may of course be actual data used by the software, or code that has not yet been executed. The branch at 0185 checking EF3 is currently always branching to 0191. In this case the running computer (COMX-35) uses EF3 as an indication of a key press, so testing this piece of software indicates that a key needs to be pressed to execute all code. Pressing a key results in the following:
+The parts shown as data may, of course, be actual data used by the software, or code that has not yet been executed. The branch at 0185 checking EF3 is currently always branching to 0191. In this case the running computer (COMX-35) uses EF3 as an indication of a key press, so testing this piece of software indicates that a key needs to be pressed to execute all code. Pressing a key results in the following:
 </p>
 
 <p>

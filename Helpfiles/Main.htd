@@ -26,8 +26,7 @@ To switch between tabs, select the desired tab (1).
 
 <p>
 The sections below describe the functions of each tab.
-For more information on how specific computers work, see the Emma 02 website <a href="https://www.emma02.hobby-site.com/computers.html">Computer List</a>
-section.
+For details about specific computers, see the Emma 02 website <a href="https://www.emma02.hobby-site.com/computers.html">Computer List</a> section.
 Additional details about emulation features can be found in the
 <a href="FaqMain.htm">FAQ</a>.
 </p>
@@ -35,7 +34,7 @@ Additional details about emulation features can be found in the
 <p>See the <a href="GeneralMain.htm">General</a> section for:</p>
 
 <ul>
-<li><a href="Main1802.htm">The RCA 1802</a></li>
+<li><a href="Main1802.htm">RCA 1802</a></li>
 <li><a href="FaqMain.htm">FAQ</a></li>
 <li><a href="MenuMain.htm">Global Settings &amp; Menu</a></li>
 <li><a href="MainFile.htm">Directory and File Structure</a></li>
@@ -53,13 +52,13 @@ Additional details about emulation features can be found in the
 
 <h2>Computer</h2>
 <p>
-The <a href="ComputerMain.htm">Computer</a> tab allows you to configure the emulated computer by selecting preconfigured XML files, adjust settings, control execution, and start the emulation.
+The <a href="ComputerMain.htm">Computer</a> tab allows you to select preconfigured XML files, adjust settings, control execution, and start the emulation.
 </p>
 
 <h2>Direct Assembler</h2>
 <p>
-The <a href="DirectMain.htm">Direct Assembler</a> tab (and disassembler) supports all 180x-related code (SYSTEM00, 1801, 1802, 1804, and 1805/1806) as well as multiple pseudo-code variants such as Chip-8, Super-Chip, ST2, and ST4.
-See the <a href="SyntaxMain.htm">Syntax</a> section.
+The <a href="DirectMain.htm">Direct Assembler</a> tab (and disassembler) supports all 180x-related code (SYSTEM00, CDP1801, CDP1802, CDP1804, and CDP1805/CDP1806) as well as multiple pseudo-code variants such as Chip-8, Super-Chip, ST2, and ST4.
+See the <a href="MainMachineCodeSyntax.htm">Machine Code Syntax</a> and <a href="MainPseudoCodeSyntax.htm">Pseudo Code Syntax</a> sections.
 </p>
 
 <p>
@@ -86,7 +85,7 @@ The <a href="DebuggerMain.htm">Debugger</a> tab allows you to trace code, set br
 </p>
 
 <ul>
-<li>1802 sub-tab - trace and debug 1802 machine code</li>
+<li>1802 sub-tab - trace and debug CDP1802 machine code</li>
 <li>Pseudo-code sub-tab - trace and debug pseudo-code programs</li>
 </ul>
 

@@ -37,7 +37,7 @@ The copy configured above will result in:
 </ul>
 
 <p>
-In the above example, the information that address 0000 (hexadecimal) and 0010 (hexadecimal) contain 1802 instructions will be copied to 0100 (hexadecimal), resulting in 1802 code shown at 0100 and 0110 (hexadecimal).
+In the above example, the information that address 0000 (hexadecimal) and 0010 (hexadecimal) contain CDP1802 instructions will be copied to 0100 (hexadecimal), resulting in CDP1802 code shown at 0100 and 0110 (hexadecimal).
 </p>
 
 <p>

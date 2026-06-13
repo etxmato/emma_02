@@ -11,7 +11,7 @@ This section gives a simple example of how to use the <strong>Direct Assembler</
 </p>
 
 <p>
-For this example, a small Studio II game written in 1802 code will be used.
+For this example, a small Studio II game written in CDP1802 code will be used.
 </p>
 
 
@@ -49,7 +49,7 @@ Select the <strong>Direct Assembler</strong> tab (1). This should show the <stro
 </p>
 
 <p>
-This address will show an ST2 instruction <tt>SYS 45D</tt> (4) in <font color="#5C9597">steel blue</font>, which is a call to a 1802 code routine at address 045D (hexadecimal). From address 0402 (hexadecimal) to 041D (hexadecimal) (5) data bytes should be shown in <font color="#3947CE">blue</font>. From 041E (hexadecimal) onwards (6) 1802 code should be shown in black.
+This address will show an ST2 instruction <tt>SYS 45D</tt> (4) in <font color="#5C9597">steel blue</font>, which is a call to a CDP1802 code routine at address 045D (hexadecimal). From address 0402 (hexadecimal) to 041D (hexadecimal) (5) data bytes should be shown in <font color="#3947CE">blue</font>. From 041E (hexadecimal) onwards (6) CDP1802 code should be shown in black.
 </p>
 
 <p>
@@ -61,11 +61,11 @@ This address will show an ST2 instruction <tt>SYS 45D</tt> (4) in <font color="#
 <li>(3) <strong>Navigation</strong> scrollbar</li>
 <li>(4) <tt>SYS 45D</tt> instruction in <font color="#5C9597">steel blue</font></li>
 <li>(5) Data bytes in <font color="#3947CE">blue</font> (addresses 0402-041D)</li>
-<li>(6) 1802 code in black (from 041E onwards)</li>
+<li>(6) CDP1802 code in black (from 041E onwards)</li>
 </ul>
 
 <p>
-The Space Invaders game runs from 0400 (hexadecimal) to 07FF (hexadecimal). Do a manual walk through the code from the current address to 0800 (hexadecimal). The easiest way is to use <tt>SHIFT DOWN</tt>, which moves one page down on every press. Check that all code is shown as 1802 code in black/<font color="#EA6F32">orange</font> text and data is shown in <font color="#3947CE">blue</font>.
+The Space Invaders game runs from 0400 (hexadecimal) to 07FF (hexadecimal). Do a manual walk through the code from the current address to 0800 (hexadecimal). The easiest way is to use <tt>SHIFT DOWN</tt>, which moves one page down on every press. Check that all code is shown as CDP1802 code in black/<font color="#EA6F32">orange</font> text and data is shown in <font color="#3947CE">blue</font>.
 </p>
 
 <p>
@@ -97,8 +97,8 @@ The following areas will probably show in <font color="#3947CE">blue</font> (dep
 <p>
 To manually correct this, set the mark type to <tt>1802</tt> (1) and select 06CB (hexadecimal) as the address (2). Press the <strong>Mark</strong> button (3) for every address. See the <a href="DirectMarking.htm">Memory Type Selection</a> section.</p>
 </li>
-<li>06E4 (hexadecimal) - 06E7 (hexadecimal): Same as above - mark as 1802 code via the <strong>Mark</strong> button.</li>
-<li>0733 (hexadecimal) - 0737 (hexadecimal): Same as above - mark as 1802 code via the <strong>Mark</strong> button.</li>
+<li>06E4 (hexadecimal) - 06E7 (hexadecimal): Same as above - mark as CDP1802 code via the <strong>Mark</strong> button.</li>
+<li>0733 (hexadecimal) - 0737 (hexadecimal): Same as above - mark as CDP1802 code via the <strong>Mark</strong> button.</li>
 <li>076A (hexadecimal): Same as 0594 (hexadecimal).</li>
 <li>0770 (hexadecimal) - 07F7 (hexadecimal): Looks like the end of the code - probably not used.</li>
 <li>07F8 (hexadecimal) - 07FF (hexadecimal): Maybe a table or checksum:

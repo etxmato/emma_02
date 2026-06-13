@@ -6,10 +6,10 @@
 <h1>Switch Mnemonic</h1>
 
 
-<h2>Op codes</h2>
+<h2>Opcodes</h2>
 
 <p>
-There are a few 1802 op codes with multiple mnemonics:
+There are a few CDP1802 opcodes with multiple mnemonics:
 </p>
 <ul>
 <li><tt>33</tt>: <tt>BDF</tt>, <tt>BPZ</tt>, or <tt>BGE</tt></li>
@@ -21,7 +21,7 @@ There are a few 1802 op codes with multiple mnemonics:
 </ul>
 
 <p>
-All variants are accepted in the assembler. The variant used will be stored as the memory type. This can also be changed via the procedure described in the <a href="DirectMarking.htm">Memory Type Selection</a> section, using the <tt>Switch</tt> marking type. When no type is specified, the first mnemonic listed for each op code will be used.
+All variants are accepted in the assembler. The variant used will be stored as the memory type. This can also be changed via the procedure described in the <a href="DirectMarking.htm">Memory Type Selection</a> section, using the <tt>Switch</tt> marking type. When no type is specified, the first mnemonic listed for each opcode will be used.
 </p>
 
 

@@ -241,11 +241,11 @@ When you have completed your entries in one mode and wish to switch to another m
 </p>
 
 <p>
-After Numpad <tt>0</tt> has been released, you may select the next mode. Pressing Numpad <tt>0</tt> also causes the control program to store most of the 1802 internal 16-bit registers in memory so they can be examined using the memory read mode. This is very useful when trying to debug a program.
+After Numpad <tt>0</tt> has been released, you may select the next mode. Pressing Numpad <tt>0</tt> also causes the control program to store most of the CDP1802 internal 16-bit registers in memory so they can be examined using the memory read mode. This is very useful when trying to debug a program.
 </p>
 
 <p>
-All registers except R0, R1, R2 and R8 are stored in RAM at addresses <tt>09B3</tt> to <tt>09CF</tt>. The last digit of the address is the register number; if the third address digit is <tt>B</tt>, it is the lower-order register address. For example, <tt>09B5</tt> contains the contents of 1802 register R5.0, while <tt>09C5</tt> contains the contents of register R5.1.
+All registers except R0, R1, R2 and R8 are stored in RAM at addresses <tt>09B3</tt> to <tt>09CF</tt>. The last digit of the address is the register number; if the third address digit is <tt>B</tt>, it is the lower-order register address. For example, <tt>09B5</tt> contains the contents of CDP1802 register R5.0, while <tt>09C5</tt> contains the contents of register R5.1.
 </p>
 
 <h4>Load Mode (key <tt>1</tt>)</h4>
