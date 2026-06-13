@@ -20,7 +20,7 @@ To copy memory values within the CPU or video memory space, use the <strong>Copy
 </ul>
 
 <p>
-First, specify the <strong>Start address</strong> (2) and <strong>End address</strong> (3) of the source and the <strong>Start address</strong> (4) of the destination location, all in hexadecimal format.
+First, specify the <strong>Start address</strong> (2) and <strong>End address</strong> (3) of the source and the <strong>Start address</strong> (4) of the destination, all in hexadecimal.
 </p>
 </body>
 </html>

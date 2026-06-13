@@ -36,7 +36,7 @@ Resets all computer emulator specific settings, <strong>Wav File and Real Casset
 <h3>XML ROM/RAM</h3>
 
 <p>
-By default, this option is set to <strong>Latest from GUI</strong>, meaning the ROM and RAM configuration is loaded from the XML file, including changes made in the GUI. The second option, <strong>Always from XML</strong>, forces the ROM and RAM configuration to be loaded from the XML file, ignoring any GUI changes. This is mainly used when developing XML files to test modified ROM or RAM configurations.
+By default, this option is set to <tt>Latest from GUI</tt>, meaning the ROM and RAM configuration is loaded from the XML file, including changes made in the GUI. The second option, <tt>Always from XML</tt>, forces the ROM and RAM configuration to be loaded from the XML file, ignoring any GUI changes. This is mainly used when developing XML files to test modified ROM or RAM configurations.
 </p>
 
 
@@ -49,7 +49,7 @@ By default, this option is set to <strong>Latest from GUI</strong>, meaning the 
 
 <h3>1802 SW Files</h3>
 <p>
-This will re-install the default 1802 SW files as stored in the Emma 02 data directory. This may be needed to install updated 1802 SW files from a newer Emma 02 release or if the currently installed files are corrupt.
+This will re-install the default CDP1802 SW files as stored in the Emma 02 data directory. This may be needed to install updated CDP1802 SW files from a newer Emma 02 release or if the currently installed files are corrupt.
 </p>
 
 <p>

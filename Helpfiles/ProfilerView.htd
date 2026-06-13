@@ -6,7 +6,7 @@
 <h1>Data View</h1>
 
 <p>
-Two data views are possible, <strong>Dump</strong> or <strong>Single</strong>. The view can be switched using the <strong>Data view</strong> selector (1) shown below.
+Two data views are possible, <tt>Dump</tt> or <tt>Single</tt>. The view can be switched using the <strong>Data view</strong> selector (1) shown below.
 </p>
 
 <p>
@@ -18,7 +18,7 @@ Two data views are possible, <strong>Dump</strong> or <strong>Single</strong>. T
 </p>
 <ul>
 <li>(1) <strong>Data view</strong> selector</li>
-<li>(2) <strong>Profiler</strong> panel, showing <strong>Dump</strong> view</li>
+<li>(2) <strong>Profiler</strong> panel, showing <tt>Dump</tt> view</li>
 </ul>
 
 <p>
@@ -30,7 +30,7 @@ Two data views are possible, <strong>Dump</strong> or <strong>Single</strong>. T
 </p>
 
 <p>
-In <strong>Dump</strong> view, 4 bytes and 4 characters are shown per line; in <strong>Single</strong> view, 1 byte and 1 character are shown per line.
+In <tt>Dump</tt> view, four bytes and four characters are shown per line; in <tt>Single</tt> view, one byte and one character are shown per line.
 </p>
 </body>
 </html>

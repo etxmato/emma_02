@@ -63,7 +63,7 @@ The bottom left part (5) shows the profiler, which can be used for the following
 <h2>Memory Dump - Profiler</h2>
 
 <p>
-On the <strong>Profiler</strong> tab only a small number of locations is shown at any one time. To scan through memory more quickly, the profiler on the <strong>Memory Dump</strong> tab can be used:
+On the <strong>Profiler</strong> tab only a small number of locations are shown at any one time. To scan through memory more quickly, the profiler on the <strong>Memory Dump</strong> tab can be used:
 </p>
 
 <p>
@@ -72,14 +72,14 @@ On the <strong>Profiler</strong> tab only a small number of locations is shown a
 
 <ul>
 <li>(1) <strong>Memory Dump</strong> tab</li>
-<li>(2) <strong>Memory type</strong> selector, set to <strong>Profiler</strong></li>
+<li>(2) <strong>Memory type</strong> selector, set to <tt>Profiler</tt></li>
 <li>(3) Counter values display</li>
 <li>(4) <strong>Page navigation</strong> spin buttons</li>
 <li>(5) <strong>Address</strong> text field</li>
 </ul>
 
 <p>
-To select the Memory Dump profiler, first select the <strong>Memory Dump</strong> tab (1) and then choose <strong>Profiler</strong> (2) as the <strong>Memory</strong> option.
+To select the Memory Dump profiler, first select the <strong>Memory Dump</strong> tab (1) and then choose <tt>Profiler</tt> (2) as the <strong>Memory</strong> option.
 A total of 256 addresses are shown (3), each containing one counter value between 1 and 255. The colour scheme is the same as on the <strong>Profiler</strong> tab. Instructions executed more frequently are shown in a deeper red colour.
 The displayed counter uses the same logarithmic scale as the colour definition. The colour is calculated using a logarithmic scale.
 </p>

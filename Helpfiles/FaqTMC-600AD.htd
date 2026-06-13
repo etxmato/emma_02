@@ -18,7 +18,7 @@ Both functions are only available when expansion ROM 151182 is loaded and can be
 </p>
 
 <p>
-For an example of using <tt>A/DI</tt>, see the <tt>demo2.txt</tt> program in the TMC-600 directory (Temperature part).
+For an example of using <tt>A/DI</tt>, see the <tt>demo2.txt</tt> program in the TMC600 directory (Temperature part).
 </p>
 
 </body>

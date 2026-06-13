@@ -10,9 +10,9 @@ This section provides brief instructions for the built-in games.
 
 <p>
 The descriptions below assume you are using a numeric keypad and have selected
-<tt>Settings / Use Numeric Keypad</tt>. If this option is not selected, the alternative key
+<strong>Settings/Use Numeric Keypad</strong>. If this option is not selected, the alternative key
 is shown in parentheses.
-For Player B, the keys <tt>W</tt>, <tt>A</tt>, <tt>S</tt>, <tt>Z</tt> control direction and <tt>TAB</tt> is used to fire. These keys work both with and without the <tt>Use Numeric Keypad</tt> setting enabled.
+For Player B, the keys <tt>W</tt>, <tt>A</tt>, <tt>S</tt>, <tt>Z</tt> control direction and <tt>TAB</tt> is used to fire. These keys work both with and without the <strong>Use Numeric Keypad</strong> setting enabled.
 </p>
 
 

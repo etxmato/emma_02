@@ -22,7 +22,7 @@ The <strong>Profiler</strong> navigation controls are shown below:
 </ul>
 
 <p>
-The <strong>Navigation</strong> scrollbar (1) moves through the code, with the top of the scrollbar at address 0 and the bottom at FFFF. <tt>UP</tt>/<tt>DOWN</tt> moves the code one line up or down, and <tt>SHIFT UP</tt>/<tt>SHIFT DOWN</tt> moves one page up or down. Alternatively, an address can be specified in the <strong>Move to:</strong> field (2), which moves the profiler directly to the specified address.
+The <strong>Navigation</strong> scrollbar (1) moves through the code, with the top of the scrollbar at address 0 and the bottom at FFFF (hexadecimal). <tt>UP</tt>/<tt>DOWN</tt> moves the code one line up or down, and <tt>SHIFT UP</tt>/<tt>SHIFT DOWN</tt> moves one page up or down. Alternatively, an address can be specified in the <strong>Move to:</strong> field (2), which moves the profiler directly to the specified address.
 </p>
 </body>
 </html>

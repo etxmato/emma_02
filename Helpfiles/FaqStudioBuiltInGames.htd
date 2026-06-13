@@ -8,9 +8,9 @@ The sections below provide brief instructions on how to play the built-in games.
 </p>
 
 <p>
-The descriptions below assume you are using a numeric keypad and have selected <tt>Settings / Use Numeric Keypad</tt>.
+The descriptions below assume you are using a numeric keypad and have selected <strong>Settings/Use Numeric Keypad</strong>.
 If this option is not selected, the alternative key is shown in parentheses.
-For Player B, the keys <tt>W</tt>, <tt>A</tt>, <tt>S</tt>, <tt>Z</tt> control direction and <tt>TAB</tt> is used to fire. These keys work both with and without the <tt>Use Numeric Keypad</tt> setting enabled.
+For Player B, the keys <tt>W</tt>, <tt>A</tt>, <tt>S</tt>, <tt>Z</tt> control direction and <tt>TAB</tt> is used to fire. These keys work both with and without the <strong>Use Numeric Keypad</strong> setting enabled.
 </p>
 
 <h2>Doodle</h2>
@@ -39,7 +39,7 @@ another pattern and have the Studio II print over your Doodle.
 </p>
 
 <p>
-After finishing your Doodle, press <tt>2</tt>. To reverse the image first press the <tt>Right Arrow</tt> key. 
+After finishing your Doodle, press <tt>2</tt>. To reverse the image, first press the <tt>Right Arrow</tt> key. 
 Then press <tt>SPACE</tt> or Numpad <tt>0</tt> and the screen will start to 'paint' itself white. 
 You can freeze the picture any time by pressing Numpad <tt>5</tt> (<tt>TAB</tt>).
 </p>

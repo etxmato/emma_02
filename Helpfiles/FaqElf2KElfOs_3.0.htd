@@ -5,11 +5,11 @@
 <h1>How do I install Elf/Os 3.0 on a COSMAC Elf 2000?</h1>
 
 <p>
-Elf/Os is a disk-based operating system for Elf-class computers designed by Mike Riley. See the <a href="http://www.elf-emulation.com">Elf/1802 Emulation</a> website.
+Elf/Os is a disk-based operating system for Elf-class computers designed by Mike Riley. See the <a href="https://github.com/rileym65/Website-ElfEmulation">Elf/1802 Emulation</a> website.
 </p>
 
 <p>
-To install Elf/Os follow these steps:
+To install Elf/Os, follow these steps:
 </p>
 
 <h2>1. Start the COSMAC Elf 2000</h2>
@@ -104,7 +104,7 @@ The Intel 8275 is a programmable CRT controller used in the Elf 2000 video syste
 </p>
 
 <p>
-When using Elf/Os in combination with Intel 8275 video some utilities will not work correctly because the 8275 video hardware uses part of the same memory space that is used by certain Elf/Os programs.
+When using Elf/Os in combination with Intel 8275 video, some utilities will not work correctly because the 8275 video hardware uses part of the same memory space that is used by certain Elf/Os programs.
 </p>
 
 <p><strong>Important:</strong> It is recommended to perform the Elf/Os installation using a serial or UART configuration.</p>
@@ -119,7 +119,7 @@ The standard Elf/Os <tt>LOAD</tt> command cannot be used when Intel 8275 video i
 
 <ul>
 <li>A modified version of the <tt>LOAD</tt> command is provided.</li>
-<li>This version is located at address <tt>7400-74AE</tt>.</li>
+<li>This version is located at address <tt>7400</tt>-<tt>74AE</tt> (hexadecimal).</li>
 <li>The program is included in file <tt>LOAD-8275.hex</tt>.</li>
 </ul>
 

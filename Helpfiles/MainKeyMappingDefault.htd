@@ -6,7 +6,7 @@
 <h1>Default Keyboard</h1>
 
 <p>
-Default keyboard mapping is defined for a US keyboard layout. Several additional layouts are provided and can be selected via the menu below:
+Default keyboard mapping is defined for a US keyboard layout. Several additional layouts are provided and can be selected via the menu shown below:
 </p>
 
 <p>
@@ -14,11 +14,11 @@ Default keyboard mapping is defined for a US keyboard layout. Several additional
 </p>
 
 <p>
-Currently, layouts for Dutch, German, French, Swedish / Finnish, and US are available, as well as an option to specify a user-defined layout.
+Currently, layouts for Dutch, German, French, Swedish/Finnish, and US are available, as well as an option to specify a user-defined layout.
 </p>
 
 <p>
-If you require a specific mapping for your keyboard, please send an email with your requirements; it may be included in a future release.
+If you require a specific mapping for your keyboard, please send an email with your requirements; the mapping may be included in a future release.
 </p>
 
 <p>
@@ -71,7 +71,7 @@ Keypad B, on location mapping when <strong>Use Numeric Keypad</strong> is not se
 </ul>
 
 <p>
-For the TMC-600, a subset of keys can be changed as listed under <tt>[TMC600]</tt>. Regular keys are identified by <tt>Key</tt> and shift keys by <tt>KeyShift</tt>, both followed by a 2-digit number as defined in the table below.
+For the Telmac TMC-600, a subset of keys can be changed as listed under <tt>[TMC600]</tt>. Regular keys are identified by <tt>Key</tt> and shift keys by <tt>KeyShift</tt>, both followed by a 2-digit number as defined in the table below.
 </p>
 
 <p>

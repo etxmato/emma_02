@@ -6,7 +6,7 @@
 <h1>Reversed Branch Data</h1>
 
 <p>
-Although less commonly used than <a href="DirectBranchData.htm">Branch Data</a>, reversed branch data can be useful in 1802 code where the first byte is the lower 8 bits and the second byte is the higher 8 bits of a 16-bit address.
+Although less commonly used than <a href="DirectBranchData.htm">Branch Data</a>, reversed branch data can be useful in CDP1802 code where the first byte is the lower 8 bits and the second byte is the higher 8 bits of a 16-bit address.
 </p>
 
 <p>
