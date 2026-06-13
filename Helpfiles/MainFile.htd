@@ -195,7 +195,7 @@ Programming languages.
 
 <h3>Comx/Usb FW</h3>
 <p>
-COMX Super Board firmware files. See the <a href="http://www.comx35.com/superboard.html">COMX Super Board</a> website.
+COMX Super Board firmware files. See the <a href="https://www.comx35.com/superboard.html">COMX Super Board</a> website.
 </p>
 
 
@@ -243,7 +243,7 @@ BIOSIO PS2 files for Elf/Os 0.2.8.
 
 <h3>Elf/elf-emulation.com</h3>
 <p>
-Software from the <a href="http://www.elf-emulation.com">Elf/1802 Emulation</a> website, including source and documentation. All software in this directory is copyright by Michael H Riley.
+Software from the <a href="https://github.com/rileym65/Website-ElfEmulation">Elf/1802 Emulation</a> website, including source and documentation. All software in this directory is copyright by Michael H Riley.
 </p>
 
 <p>
@@ -434,7 +434,7 @@ Directory containing <a href="https://www.emma02.hobby-site.com/elf2.html">Netro
 
 <h2>Payphone</h2>
 <p>
-Directory containing <a href="https://www.emma02.hobby-site.com/payphone.html">Payphone</a> firmware and configuration files.
+Directory containing <a href="https://www.emma02.hobby-site.com/ct_payphone.html">Payphone</a> firmware and configuration files.
 </p>
 
 

@@ -43,7 +43,7 @@ One of the ports must be specified in the <strong>Serial Port</strong> text fiel
 
 <p>
 On Windows, the following have been tested:
-<a href="http://com0com.sourceforge.net/">Null-modem emulator (com0com)</a> (free),
+<a href="https://com0com.sourceforge.net/">Null-modem emulator (com0com)</a> (free),
 <a href="https://www.eltima.com/vspd-comparison-chart.html">Virtual Serial Port Driver</a> from Eltima Software,
 and <a href="https://eterlogic.com/Products.VSPE.html">Virtual Serial Port Emulator (VSPE)</a> from Eterlogic.
 </p>
