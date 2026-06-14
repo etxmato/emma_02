@@ -136,12 +136,28 @@ When terminal output stops, press the <strong>Stop</strong> button (7) to end th
 <h3>Membership Card and VIP2K Membership Card</h3>
 
 <p>
-HEX file transfer for the Membership Card and VIP2K Membership Card uses the monitor software.
+HEX file transfer for the Membership Card and VIP2K Membership Card uses the monitor software. All files transferred via the monitor must be in <strong>Intel HEX format</strong> (<tt>.hex</tt> extension).
+</p>
+
+<p>
+<strong>Important:</strong> Raw binary files (e.g., <tt>.ch8</tt> or <tt>.bin</tt>) cannot be used directly. They must first be converted to Intel HEX format.
 </p>
 
 <p>
 Start a Membership Card emulator.<br>
 <strong>Result:</strong> The Membership Card monitor starts and shows the <tt>></tt> prompt.
+</p>
+
+<h4>Monitor Commands</h4>
+
+<ul>
+<li><tt>L</tt> — Load a program (Intel HEX file loaded to address specified in the HEX file)</li>
+<li><tt>I</tt> — Load a Chip-8 program (Intel HEX file loaded to the Chip-8 memory area)</li>
+<li><tt>S</tt> — Save a program</li>
+</ul>
+
+<p>
+<strong>Note:</strong> Both <tt>L</tt> and <tt>I</tt> use the Intel HEX protocol. The difference is that <tt>I</tt> sets the destination to the Chip-8 memory area before loading.
 </p>
 
 
