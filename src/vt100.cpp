@@ -497,10 +497,7 @@ void Vt100::cycleVt()
 
         cycleValue_ = cycleSize_;
         if (changeScreenSize_)
-        {
             changeScreenSize();
-            changeScreenSize_ = false;
-        }
 //        if (zoomChanged_ != 0)
 //        {
 //            zoom_ = zoomChanged_;

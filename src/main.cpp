@@ -1737,7 +1737,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 
     guiInitialized_ = true;
     panelRefreshOngoing_ = false;
-    videoRefreshOngoing_ = false;
+    for (int i=0; i<VIDEOXMLMAX; i++)
+       videoRefreshOngoing_[i] = false;
     emuClosing_ = false;
 }
 
@@ -5743,15 +5744,15 @@ void Main::refreshVideoEvent(guiEvent&event)
         p_Vt100[uart_video_Number]->refreshVideo();
     else
         p_Video[uart_video_Number]->refreshVideo();
-    videoRefreshOngoing_ = false;
+    videoRefreshOngoing_[uart_video_Number] = false;
 }
 
 void Main::eventRefreshVideo(bool isVt, int uart_video_Number)
 {
-    if (videoRefreshOngoing_)
+    if (videoRefreshOngoing_[uart_video_Number])
         return;
     
-    videoRefreshOngoing_ = true;
+    videoRefreshOngoing_[uart_video_Number] = true;
     guiEvent event(GUI_MSG, REFRESH_VIDEO);
     event.SetEventObject( p_Main );
 

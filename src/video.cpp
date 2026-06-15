@@ -501,6 +501,7 @@ void Video::changeScreenSize()
     if (p_Main->isZoomEventOngoing())
         return;
 
+    changeScreenSize_ = false;
     memoryDCvalid_ = false;
 
     double zoomx, zoomy;

@@ -445,7 +445,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 2.00
-#define EMMA_SUB_VERSION 16
+#define EMMA_SUB_VERSION 17
 
 #define XML 0
 
@@ -1156,7 +1156,7 @@ public:
 
     void refreshVideoEvent(guiEvent& event);
     void eventRefreshVideo(bool isVt, int uart_video_Number);
-    bool isVideoRefreshOngoing() {return videoRefreshOngoing_;};
+//    bool isVideoRefreshOngoing() {return videoRefreshOngoing_;};
 
     void refreshPanelEvent(guiEvent& event);
     void eventRefreshPanel();
@@ -1260,7 +1260,7 @@ private:
     bool statusLedUpdate_;
 
     bool panelRefreshOngoing_;
-    bool videoRefreshOngoing_;
+    bool videoRefreshOngoing_[VIDEOXMLMAX];
 
     bool downloadOngoing_;
     bool emuClosing_;

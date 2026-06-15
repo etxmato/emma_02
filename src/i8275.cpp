@@ -508,10 +508,8 @@ void i8275::cycle8275()
         {
             cycleBlankValue8275_ = fullCycleSize8275_;
             if (changeScreenSize_)
-            {
                 changeScreenSize();
-                changeScreenSize_ = false;
-            }
+
             reBlit_ = true;
             reDraw_ = false;
 
@@ -575,10 +573,7 @@ void i8275::cycle8275()
                         cursorBlinkOn_ = !cursorBlinkOn_;
                     }
                 if (changeScreenSize_)
-                {
                     changeScreenSize();
-                    changeScreenSize_ = false;
-                }
                 copyScreen();
                 videoSyncCount_++;
             }

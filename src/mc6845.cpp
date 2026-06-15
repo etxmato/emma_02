@@ -438,13 +438,10 @@ void MC6845::blink6845()
     if (blinkValue6845_ <= 0)
     {
         blinkValue6845_ = blinkSize6845_;
-        copyScreen();
         videoSyncCount_++;
         if (changeScreenSize_)
-        {
             changeScreenSize();
-            changeScreenSize_ = false;
-        }
+        copyScreen();
         blink_--;
         if (blink_ <= 0)
         {
@@ -542,6 +539,7 @@ void MC6845::copyScreen()
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
+//        gc->Flush();
         p_Main->eventRefreshVideo(false, videoNumber_);
         reBlit_ = false;
         reDraw_ = false;

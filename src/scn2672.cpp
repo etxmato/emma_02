@@ -1165,13 +1165,10 @@ void Scn2672::blinkScn2672()
     if (cursorBlinkValueScn2672_ <= 0)
     {
         cursorBlinkValueScn2672_ = cursorBlinkSizeScn2672_;
-        copyScreen();
         videoSyncCount_++;
         if (changeScreenSize_)
-        {
             changeScreenSize();
-            changeScreenSize_ = false;
-        }
+        copyScreen();
         cursorBlinkTimeValue_--;
         if (cursorBlinkTimeValue_ <= 0)
         {
@@ -1184,13 +1181,10 @@ void Scn2672::blinkScn2672()
     if (characterBlinkValueScn2672_ <= 0)
     {
         characterBlinkValueScn2672_ = characterBlinkSizeScn2672_;
-        copyScreen();
         videoSyncCount_++;
         if (changeScreenSize_)
-        {
             changeScreenSize();
-            changeScreenSize_ = false;
-        }
+        copyScreen();
         characterBlinkTimeValue_--;
         if (characterBlinkTimeValue_ <= 0)
         {

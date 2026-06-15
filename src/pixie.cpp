@@ -465,7 +465,6 @@ void Pixie::cyclePixie()
                 changeScreenSize();
                 if (!fullScreenSet_)
                     p_Main->pixieBarSizeEvent();
-                changeScreenSize_ = false;
             }
             graphicsMode_ = 0;
             copyScreen();
@@ -543,10 +542,7 @@ void Pixie::cyclePixieCoinArcade()
         if (graphicsMode_ >= cdp1861Configuration_.pixieGraphics.screenend)
         {
             if (changeScreenSize_)
-            {
                 changeScreenSize();
-                changeScreenSize_ = false;
-            }
             graphicsMode_ = 0;
             copyScreen();
             videoSyncCount_++;
@@ -612,7 +608,6 @@ void Pixie::cyclePixieCdp1864()
                 changeScreenSize();
                 if (!fullScreenSet_)
                     p_Main->pixieBarSizeEvent();
-                changeScreenSize_ = false;
             }
             graphicsMode_ = 0;
             copyScreen();
@@ -1062,10 +1057,7 @@ void PixieFred::cyclePixie()
         if (graphicsMode_ >= 64)
         {
             if (changeScreenSize_)
-            {
                 changeScreenSize();
-                changeScreenSize_ = false;
-            }
             graphicsMode_ = 0;
             copyScreen();
             videoSyncCount_++;
@@ -1310,10 +1302,7 @@ void PixieVip2K::executeSequencer(Byte sequencerValue)
         }
         
         if (changeScreenSize_)
-        {
             changeScreenSize();
-            changeScreenSize_ = false;
-        }
         
         scanLine_ = 0;
         viewableLines_ = 0;
@@ -1400,10 +1389,7 @@ void PixieStudioIV::cyclePixie()
         if (graphicsMode_ >= cdp1861Configuration_.pixieGraphics.screenend)
         {
             if (changeScreenSize_)
-            {
                 changeScreenSize();
-                changeScreenSize_ = false;
-            }
             graphicsMode_ = 0;
             copyScreen();
             videoSyncCount_++;

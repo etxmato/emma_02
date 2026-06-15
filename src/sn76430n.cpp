@@ -144,13 +144,10 @@ void SN76430N::cycle()
     if (cycleValue_ == 0)
     {
         cycleValue_ = cycleSize_;
-        copyScreen();
         videoSyncCount_++;
         if (changeScreenSize_)
-        {
             changeScreenSize();
-            changeScreenSize_ = false;
-        }
+        copyScreen();
     }
 }
 

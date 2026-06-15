@@ -502,9 +502,7 @@ void VIS1870::out5_1870(Word address)
     if ((old & 0x8) != (register5_ & 0x8)) // && (computerType_ == COMX))
     {
         if (fullScreenSet_)
-        {
             changeScreenSize();
-        }
         else
         {
             dcMemory.SelectObject(wxNullBitmap);
@@ -628,7 +626,6 @@ void VIS1870::cycle1870()
             if (!fullScreenSet_)
                 if (vis1870Configuration_.statusBarType != STATUSBAR_NONE)
                     p_Main->v1870BarSizeEvent();
-            changeScreenSize_ = false;
         }
 
         copyScreen();

@@ -424,7 +424,6 @@ void Tms9918::cycleTms()
     if (cycleValue_ == 0)
     {
         cycleValue_ = cycleSize_;
-        copyScreen();
         videoSyncCount_++;
         if (enableInterrupt_)
         {
@@ -432,10 +431,8 @@ void Tms9918::cycleTms()
             p_Main->setTms9918Register(TMS9918_STATUS, statusRegister_, DO_NOT_SHOW_ANY_TRACE);
         }
         if (changeScreenSize_)
-        {
             changeScreenSize();
-            changeScreenSize_ = false;
-        }
+        copyScreen();
     }
 }
 

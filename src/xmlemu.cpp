@@ -8197,6 +8197,7 @@ void Computer::configureVideoExtensions()
         mc6845Pointer->configure6845();
         mc6845Pointer->init6845();
         mc6845Pointer->Show(true);
+        mc6845Pointer->SendSizeEvent();
     }
 
     if (currentComputerConfiguration.i8275Configuration.defined)

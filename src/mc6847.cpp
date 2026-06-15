@@ -455,10 +455,7 @@ void mc6847::cycle6847()
     if (cycleValue_ == (cycleSize_ - (int)(nonDisplay_/2)))
     {
         if (changeScreenSize_)
-        {
             changeScreenSize();
-            changeScreenSize_ = false;
-        }
         copyScreen();
         videoSyncCount_++;
     }
