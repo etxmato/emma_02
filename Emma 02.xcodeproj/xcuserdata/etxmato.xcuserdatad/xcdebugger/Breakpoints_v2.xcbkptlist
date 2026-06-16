@@ -62,9 +62,9 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4816"
-            endingLineNumber = "4816"
-            landmarkName = "XmlParser::parseXml_FrontPanelItem(node, frontNumber, origin)"
+            startingLineNumber = "4823"
+            endingLineNumber = "4823"
+            landmarkName = "XmlParser::parseXmlFile(xmlDir, xmlFile)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -478,9 +478,9 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5937"
-            endingLineNumber = "5937"
-            landmarkName = "XmlParser::parseXml_Cdp1852(node, windowOn)"
+            startingLineNumber = "5944"
+            endingLineNumber = "5944"
+            landmarkName = "XmlParser::parseXmlFile(xmlDir, xmlFile)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -769,6 +769,38 @@
             startingLineNumber = "501"
             endingLineNumber = "501"
             landmarkName = "Video::changeScreenSize()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0405CB18-A7B4-4FA0-96D4-96E989F5A60E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/cdp1802.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "4155"
+            endingLineNumber = "4155"
+            landmarkName = "Cdp1802::readProgram(romDir, rom, memoryType, address, loadOffSet, showFilename)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DDFC80D9-8B7A-4227-8CC3-BAA16F0F03E0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/cdp1802.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "4356"
+            endingLineNumber = "4356"
+            landmarkName = "Cdp1802::readFile(fileName, memoryType, address, end, loadOffSet, showFilename)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

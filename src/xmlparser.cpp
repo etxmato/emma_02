@@ -528,8 +528,6 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     for (int ef=1; ef<5; ef++)
         computerConfiguration.bitKeypadEf[ef] = false;
 
-    oldXmlFileName_ = xmlDir + xmlFile;
-    oldXmlDate_ = newDate;
     computerConfiguration.mainDir_ = dataDir_;
 
     int tagTypeInt;
@@ -540,12 +538,21 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     wxXmlDocument doc;
     
     if (!doc.Load(xmlDir + xmlFile))
+    {
+        p_Main->eventShowTextMessage("Error loading XML file");
         return;
+    }
     
     // start processing the XML file
     if (doc.GetRoot()->GetName() != "emmaconfig")
+    {
+        p_Main->eventShowTextMessage("Invalid XML file");
         return;
-    
+    }
+
+    oldXmlFileName_ = xmlDir + xmlFile;
+    oldXmlDate_ = newDate;
+
     wxXmlNode *child = doc.GetRoot()->GetChildren();
     
     tagTypeInt = 0;
