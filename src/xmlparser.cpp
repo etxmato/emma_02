@@ -199,7 +199,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     }
         
     wxFileName xmlFileName = wxFileName(xmlDir + xmlFile);
-    wxDateTime newDate = xmlFileName.G:)etModificationTime();
+    wxDateTime newDate = xmlFileName.GetModificationTime();
     
     if (oldXmlFileName_ == xmlDir + xmlFile)
     {

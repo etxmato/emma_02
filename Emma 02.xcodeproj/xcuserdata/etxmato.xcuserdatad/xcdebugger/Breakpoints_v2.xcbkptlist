@@ -368,7 +368,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "719"
             endingLineNumber = "719"
-            landmarkName = "GuiXml::onXmodemText(event)"
+            landmarkName = "GuiXml::onXmodem()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -384,7 +384,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "717"
             endingLineNumber = "717"
-            landmarkName = "GuiXml::onXmodemText(event)"
+            landmarkName = "GuiXml::onXmodem()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -801,6 +801,22 @@
             startingLineNumber = "4356"
             endingLineNumber = "4356"
             landmarkName = "Cdp1802::readFile(fileName, memoryType, address, end, loadOffSet, showFilename)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9CD38A3A-A1D5-4C08-ABE1-410779E37E00"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/xmlparser.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
+            landmarkName = "XmlParser::parseXmlFile(xmlDir, xmlFile)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

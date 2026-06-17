@@ -4096,6 +4096,11 @@ void Main::onStart()
     parseXmlFile(computerConfiguration.xmlFileConfiguration.directory, computerConfiguration.xmlFileConfiguration.fileName);
     setXmlGui();
     
+    {
+        wxFile dbg(dataDir_ + "romload_debug.txt", wxFile::write_append);
+        if (dbg.IsOpened()) { dbg.Write("onStart: rom0=[" + computerConfiguration.memoryConfiguration[romRamButton0_].filename + "] dir0=[" + computerConfiguration.memoryConfiguration[romRamButton0_].dirname + "] rom1=[" + computerConfiguration.memoryConfiguration[romRamButton1_].filename + "] dir1=[" + computerConfiguration.memoryConfiguration[romRamButton1_].dirname + "]\n"); dbg.Close(); }
+    }
+
      p_Computer = new Computer (computerInfo.name, computerConfiguration.clockSpeed_, computerConfiguration.soundConfiguration.tempo, computerConfiguration);
      stereo = computerConfiguration.soundConfiguration.stereo;
      if (computerConfiguration.soundConfiguration.type == SOUND_SUPER_VP550)
