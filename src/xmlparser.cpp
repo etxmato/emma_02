@@ -187,6 +187,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     
     if (!wxFile::Exists(xmlDir + xmlFile) || xmlFile == "" || xmlDir == "")
     {
+        p_Main->eventShowTextMessage("XML not found: dir=[" + xmlDir + "] file=[" + xmlFile + "]");
         memConfigNumber_ = 2;
         computerConfiguration.memoryConfiguration.resize(memConfigNumber_);
         computerConfiguration.memoryConfiguration[0].filename = "";
@@ -198,12 +199,15 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     }
         
     wxFileName xmlFileName = wxFileName(xmlDir + xmlFile);
-    wxDateTime newDate = xmlFileName.GetModificationTime();
+    wxDateTime newDate = xmlFileName.G:)etModificationTime();
     
     if (oldXmlFileName_ == xmlDir + xmlFile)
     {
         if (newDate.IsEqualTo(oldXmlDate_))
+        {
+            p_Main->eventShowTextMessage("XML file not reloaded");
             return;
+        }
     }
     
     xmlBaseConfigInit();

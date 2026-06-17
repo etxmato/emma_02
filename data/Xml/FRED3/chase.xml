@@ -225,13 +225,12 @@
         <pressed>0</pressed>
         <ef1>32</ef1>
         <ef3>9</ef3>
-        <ef4 type="reset" in="6">67</ef4>
+        <multi />
     </efbuttons>
     
-    <keypad type="bit" pad="a" keys="10">
+    <keypad type="bit" pad="a">
         <in>6</in>
         <pressed>1</pressed>
-        <default>studiodefault</default>
 
         <bit key="314">0</bit>    <!-- A left-->
         <bit key="315">1</bit>    <!-- A Up-->

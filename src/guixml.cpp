@@ -1634,10 +1634,26 @@ void GuiXml::setXmlGui()
     setRomRamButtonOrder();
     if (isXmlRomRamOptionGui())
     {
-        computerConfiguration.memoryConfiguration[romRamButton0_].dirname = readConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/"+computerConfiguration.memoryConfiguration[romRamButton0_].filename+"/Dir/GuiRomRam0", computerConfiguration.memoryConfiguration[romRamButton0_].dirname);
-        computerConfiguration.memoryConfiguration[romRamButton1_].dirname = readConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/"+computerConfiguration.memoryConfiguration[romRamButton1_].filename+"/Dir/GuiRomRam1", computerConfiguration.memoryConfiguration[romRamButton1_].dirname);
-        computerConfiguration.memoryConfiguration[romRamButton0_].filename = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/GuiRomRam0", computerConfiguration.memoryConfiguration[romRamButton0_].filename);
-        computerConfiguration.memoryConfiguration[romRamButton1_].filename = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/GuiRomRam1", computerConfiguration.memoryConfiguration[romRamButton1_].filename);
+ //       computerConfiguration.memoryConfiguration[romRamButton0_].dirname = readConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/"+computerConfiguration.memoryConfiguration[romRamButton0_].filename+"/Dir/GuiRomRam0", computerConfiguration.memoryConfiguration[romRamButton0_].dirname);
+//        computerConfiguration.memoryConfiguration[romRamButton1_].dirname = readConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/"+computerConfiguration.memoryConfiguration[romRamButton1_].filename+"/Dir/GuiRomRam1", computerConfiguration.memoryConfiguration[romRamButton1_].dirname);
+//        computerConfiguration.memoryConfiguration[romRamButton0_].filename = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/GuiRomRam0", computerConfiguration.memoryConfiguration[romRamButton0_].filename);
+//        computerConfiguration.memoryConfiguration[romRamButton1_].filename = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/GuiRomRam1", computerConfiguration.memoryConfiguration[romRamButton1_].filename);
+
+        wxString guiDirRom0 = readConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/"+computerConfiguration.memoryConfiguration[romRamButton0_].filename+"/Dir/GuiRomRam0", computerConfiguration.memoryConfiguration[romRamButton0_].dirname);
+        if (guiDirRom0 != "")
+            computerConfiguration.memoryConfiguration[romRamButton0_].dirname = guiDirRom0;
+          
+        wxString guiDirRom1 = readConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/"+computerConfiguration.memoryConfiguration[romRamButton1_].filename+"/Dir/GuiRomRam1", computerConfiguration.memoryConfiguration[romRamButton1_].dirname);
+        if (guiDirRom1 != "")
+            computerConfiguration.memoryConfiguration[romRamButton1_].dirname = guiDirRom1;
+
+        wxString guiRom0 = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/GuiRomRam0", computerConfiguration.memoryConfiguration[romRamButton0_].filename);
+        if (guiRom0 != "")
+              computerConfiguration.memoryConfiguration[romRamButton0_].filename = guiRom0;
+          
+        wxString guiRom1 = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/GuiRomRam1", computerConfiguration.memoryConfiguration[romRamButton1_].filename);
+        if (guiRom1 != "")
+              computerConfiguration.memoryConfiguration[romRamButton1_].filename = guiRom1;
     }
     computerConfiguration.ledTime_ = configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Led_Update_Frequency", computerConfiguration.ledTime_);
     configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Enable_Turbo_Cassette", &computerConfiguration.turbo_, computerConfiguration.turbo_);

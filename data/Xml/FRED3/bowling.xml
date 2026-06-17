@@ -225,20 +225,17 @@
         <pressed>0</pressed>
         <ef1>32</ef1>
         <ef3>9</ef3>
-        <ef4 type="reset" in="6">67</ef4>
+        <multi />
     </efbuttons>
     
     <keypad type="bit" pad="a">
         <in>6</in>
         <pressed>1</pressed>
-        <bit0>314</bit0>    <!-- A left -->
-        <bit1>315</bit1>    <!-- A Up -->
-        <bit2>316</bit2>    <!-- A Right -->
-        <bit3>317</bit3>    <!-- A Down-->
-        <bit0>49</bit0>     <!-- 1 -->
-        <bit1>50</bit1>     <!-- 2 -->
-        <bit2>51</bit2>     <!-- 3 -->
-        <bit3>52</bit3>     <!-- 4 -->
+        
+        <bit key="314">0</bit>    <!-- A left-->
+        <bit key="315">1</bit>    <!-- A Up-->
+        <bit key="316">2</bit>    <!-- A Right-->
+        <bit key="317">3</bit>    <!-- A Down-->
         <bit key="65">4</bit>    <!-- B left-->
         <bit key="87">5</bit>    <!-- B Up-->
         <bit key="83">6</bit>    <!-- B Right-->

@@ -62,9 +62,9 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4823"
-            endingLineNumber = "4823"
-            landmarkName = "XmlParser::parseXmlFile(xmlDir, xmlFile)"
+            startingLineNumber = "4827"
+            endingLineNumber = "4827"
+            landmarkName = "XmlParser::parseXml_FrontPanelItem(node, frontNumber, origin)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -478,9 +478,9 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5944"
-            endingLineNumber = "5944"
-            landmarkName = "XmlParser::parseXmlFile(xmlDir, xmlFile)"
+            startingLineNumber = "5948"
+            endingLineNumber = "5948"
+            landmarkName = "XmlParser::parseXml_Cdp1852(node, windowOn)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -696,7 +696,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "9C283804-EC81-4D7F-A2B5-F0B25776E168"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/video.cpp"
