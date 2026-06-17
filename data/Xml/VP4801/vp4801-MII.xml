@@ -4,7 +4,7 @@
 <emmaconfig>
     
     <system>
-        <name>VP4801</name>
+        <name>RCA APT VP4801</name>
         <config>MII</config>
         <clock>2.835</clock>
         <boot>0</boot>
