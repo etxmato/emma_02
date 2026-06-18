@@ -36,7 +36,7 @@ Resets all computer emulator specific settings, <strong>Wav File and Real Casset
 <h3>XML ROM/RAM</h3>
 
 <p>
-By default, this option is set to <tt>Latest from GUI</tt>, meaning the ROM and RAM configuration is loaded from the XML file, including changes made in the GUI. The second option, <tt>Always from XML</tt>, forces the ROM and RAM configuration to be loaded from the XML file, ignoring any GUI changes. This is mainly used when developing XML files to test modified ROM or RAM configurations.
+By default, this option is set to <code>Latest from GUI</code>, meaning the ROM and RAM configuration is loaded from the XML file, including changes made in the GUI. The second option, <code>Always from XML</code>, forces the ROM and RAM configuration to be loaded from the XML file, ignoring any GUI changes. This is mainly used when developing XML files to test modified ROM or RAM configurations.
 </p>
 
 

@@ -43,11 +43,11 @@ Code is disassembled based on execution by the CPU. Therefore, only code that ha
 </p>
 
 <p>
-<strong>Note:</strong> Addresses 0015 and 0017 (hexadecimal) clearly contain data and will never be disassembled to 180x code. <tt>BB</tt> is used in the DIS instruction, and <tt>F0</tt> in the <tt>OUT 3</tt>.
+<strong>Note:</strong> Addresses 0015 and 0017 (hexadecimal) clearly contain data and will never be disassembled to 180x code. <code>BB</code> is used in the DIS instruction, and <code>F0</code> in the <code>OUT 3</code>.
 </p>
 
 <p>
-The main advantage of execution-based disassembly is that data is shown as bytes instead of 180x code. For a complete disassembly, all code must first be executed. Parts of the code that are harder to reach can, however, be marked as code manually. Executed pseudo code will be shown as <tt>DB</tt> in the output file with the pseudo-code shown as comments.
+The main advantage of execution-based disassembly is that data is shown as bytes instead of 180x code. For a complete disassembly, all code must first be executed. Parts of the code that are harder to reach can, however, be marked as code manually. Executed pseudo code will be shown as <code>DB</code> in the output file with the pseudo-code shown as comments.
 </p>
 
 
@@ -65,7 +65,7 @@ The output file is fully compatible with the A18 assembler and will include list
 </p>
 <ul>
 <li>Labels: showing all labels used in the disassembled code.</li>
-<li>Unused or indirect labels: showing labels for which no branches or subroutine calls are found in the code. Most likely <tt>SEP Rx</tt> instructions exist in the code that cause jumps to these labels.</li>
+<li>Unused or indirect labels: showing labels for which no branches or subroutine calls are found in the code. Most likely <code>SEP Rx</code> instructions exist in the code that cause jumps to these labels.</li>
 <li>Out of range branches or addresses: showing which branches refer to addresses outside the disassembled code.</li>
 </ul>
 </body>

@@ -99,7 +99,7 @@ Subdirectories:
 
 <h2>Cidelsa</h2>
 <p>
-Directory containing <a href="https://www.emma02.hobby-site.com/cidelsa.html">Cidelsa</a> ROMs and CrossLib games such as <tt>Xbomber</tt>, <tt>Xchase</tt> and <tt>Xshoot</tt>.
+Directory containing <a href="https://www.emma02.hobby-site.com/cidelsa.html">Cidelsa</a> ROMs and CrossLib games such as <code>Xbomber</code>, <code>Xchase</code> and <code>Xshoot</code>.
 </p>
 
 
@@ -123,7 +123,7 @@ F&amp;M demos that were not released as full standalone games.
 
 <h3>Comx/Disks</h3>
 <p>
-Disk images including COMX DOS 1.4, F&amp;M Disk Tools, and various software packages. Some software (e.g., <tt>Hit It</tt>, <tt>Comxstar</tt>) is only available on disk.
+Disk images including COMX DOS 1.4, F&amp;M Disk Tools, and various software packages. Some software (e.g., <code>Hit It</code>, <code>Comxstar</code>) is only available on disk.
 </p>
 
 
@@ -247,7 +247,7 @@ Software from the <a href="https://github.com/rileym65/Website-ElfEmulation">Elf
 </p>
 
 <p>
-To run this software, use <tt>bios1.0.4.rom</tt> as main ROM with VT100 terminal emulation and start or auto boot hex address as listed:
+To run this software, use <code>bios1.0.4.rom</code> as main ROM with VT100 terminal emulation and start or auto boot hex address as listed:
 </p>
 
 <pre>

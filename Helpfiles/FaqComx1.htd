@@ -4,7 +4,7 @@
 <h1>How do I run a program on the COMX-35?</h1>
 
 <p>
-The easiest way to run your favourite game or program on the COMX emulator is to load and run a <tt>.comx</tt> file using the memory RUN feature (see steps below). At installation, all available software is stored in the Comx directory (located in the application data directory). See the <a href="MainFile.htm">Directory and File Structure</a> section.
+The easiest way to run your favourite game or program on the COMX emulator is to load and run a <code>.comx</code> file using the memory RUN feature (see steps below). At installation, all available software is stored in the Comx directory (located in the application data directory). See the <a href="MainFile.htm">Directory and File Structure</a> section.
 </p>
 
 <p>
@@ -22,7 +22,7 @@ The example below shows the controls needed to run a program on the COMX-35.
 </ul>
 
 <p>
-Select <tt>COMX-35</tt> in the computer selector (1) if not already selected. Press <strong>Start</strong> (2) to start the emulator. Then press <strong>RUN</strong> (3) and in the Load window that opens, select and open the desired <tt>.comx</tt> file.
+Select <code>COMX-35</code> in the computer selector (1) if not already selected. Press <strong>Start</strong> (2) to start the emulator. Then press <strong>RUN</strong> (3) and in the Load window that opens, select and open the desired <code>.comx</code> file.
 </p>
 
 <p>

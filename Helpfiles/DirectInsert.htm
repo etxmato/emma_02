@@ -30,7 +30,7 @@ The following subsections describe the basic functionality of the <strong>Insert
 <h3>Short branch adjustment</h3>
 
 <p>
-Pressing the <strong>Insert</strong> button will insert one <tt>NOP</tt>, i.e., instruction <tt>C4</tt>, when used on an address with code; otherwise a <tt>0</tt> will be inserted.
+Pressing the <strong>Insert</strong> button will insert one <code>NOP</code>, i.e., instruction <code>C4</code>, when used on an address with code; otherwise a <code>0</code> will be inserted.
 </p>
 
 <p>
@@ -46,7 +46,7 @@ For example, inserting at address 0002 (hexadecimal) in the code above will chan
 </p>
 
 <p>
-If, however, the insert is done on or after address 0003 (hexadecimal), the <tt>BR</tt> <font color="#fc5900">03</font> will stay the same.
+If, however, the insert is done on or after address 0003 (hexadecimal), the <code>BR</code> <font color="#fc5900">03</font> will stay the same.
 </p>
 
 
@@ -69,14 +69,14 @@ will change it to:
 </p>
 
 <p>
-<strong>Note:</strong> The branch has changed to 0101 (hexadecimal) and not 0100 (hexadecimal), as an extra byte had to be inserted to fit the 3-byte long <tt>LBR</tt> instruction.
+<strong>Note:</strong> The branch has changed to 0101 (hexadecimal) and not 0100 (hexadecimal), as an extra byte had to be inserted to fit the 3-byte long <code>LBR</code> instruction.
 </p>
 
 
 <h3>Short branch warning</h3>
 
 <p>
-Not all short branches have equivalent long branch instructions (e.g. <tt>B1</tt>, <tt>B2</tt>). Therefore, if an insert is done on address 0002 (hexadecimal) in the code below:
+Not all short branches have equivalent long branch instructions (e.g. <code>B1</code>, <code>B2</code>). Therefore, if an insert is done on address 0002 (hexadecimal) in the code below:
 </p>
 
 <p>
@@ -91,12 +91,12 @@ the following will happen:
 <img src="images/assembler_insert_message.png" border="0" width="724" height="609">
 </p>
 <ul>
-<li>(1) Updated <tt>B1</tt> instruction</li>
+<li>(1) Updated <code>B1</code> instruction</li>
 <li>(2) Warning in the <strong>Message</strong> field</li>
 </ul>
 
 <p>
-As shown above, <tt>B1</tt> <font color="#fc5900">FF</font> changes to <tt>B1</tt> <font color="#fc5900">00</font> (1) and a warning is shown in the message field (2) stating that a check or correction is needed on address 0.
+As shown above, <code>B1</code> <font color="#fc5900">FF</font> changes to <code>B1</code> <font color="#fc5900">00</font> (1) and a warning is shown in the message field (2) stating that a check or correction is needed on address 0.
 </p>
 
 
@@ -105,7 +105,7 @@ As shown above, <tt>B1</tt> <font color="#fc5900">FF</font> changes to <tt>B1</t
 <h3>Short branch adjustment</h3>
 
 <p>
-Pressing the <strong>Delete</strong> button will delete the current instruction or byte; one or more <tt>0</tt>s will be stored just before the code or program end.
+Pressing the <strong>Delete</strong> button will delete the current instruction or byte; one or more <code>0</code>s will be stored just before the code or program end.
 </p>
 
 <p>
@@ -148,7 +148,7 @@ will change it to:
 </p>
 
 <p>
-<strong>Note:</strong> The branch has changed to FE (hexadecimal) and not FF (hexadecimal), as an extra byte could be deleted because the 3-byte long <tt>LBR</tt> is replaced by a 2-byte long <tt>BR</tt>.
+<strong>Note:</strong> The branch has changed to FE (hexadecimal) and not FF (hexadecimal), as an extra byte could be deleted because the 3-byte long <code>LBR</code> is replaced by a 2-byte long <code>BR</code>.
 </p>
 
 
@@ -158,41 +158,41 @@ will change it to:
 The following CDP180x instructions will be corrected by the insert and delete function:
 </p>
 <ul>
-<li><tt>BDF xx</tt></li>
-<li><tt>BGE xx</tt></li>
-<li><tt>BL xx</tt></li>
-<li><tt>BM xx</tt></li>
-<li><tt>BNF xx</tt></li>
-<li><tt>BNZ xx</tt></li>
-<li><tt>BN1 xx</tt></li>
-<li><tt>BN2 xx</tt></li>
-<li><tt>BN3 xx</tt></li>
-<li><tt>BN4 xx</tt></li>
-<li><tt>BPQ xx</tt></li>
-<li><tt>BPZ xx</tt></li>
-<li><tt>BQ xx</tt></li>
-<li><tt>BR xx</tt></li>
-<li><tt>BZ xx</tt></li>
-<li><tt>B1 xx</tt></li>
-<li><tt>B2 xx</tt></li>
-<li><tt>B3 xx</tt></li>
-<li><tt>B4 xx</tt></li>
-<li><tt>LBDF xxxx</tt></li>
-<li><tt>LBNF xxxx</tt></li>
-<li><tt>LBNQ xxxx</tt></li>
-<li><tt>LBNZ xxxx</tt></li>
-<li><tt>LBQ xxxx</tt></li>
-<li><tt>LBR xxxx</tt></li>
-<li><tt>LBZ xxxx</tt></li>
+<li><code>BDF xx</code></li>
+<li><code>BGE xx</code></li>
+<li><code>BL xx</code></li>
+<li><code>BM xx</code></li>
+<li><code>BNF xx</code></li>
+<li><code>BNZ xx</code></li>
+<li><code>BN1 xx</code></li>
+<li><code>BN2 xx</code></li>
+<li><code>BN3 xx</code></li>
+<li><code>BN4 xx</code></li>
+<li><code>BPQ xx</code></li>
+<li><code>BPZ xx</code></li>
+<li><code>BQ xx</code></li>
+<li><code>BR xx</code></li>
+<li><code>BZ xx</code></li>
+<li><code>B1 xx</code></li>
+<li><code>B2 xx</code></li>
+<li><code>B3 xx</code></li>
+<li><code>B4 xx</code></li>
+<li><code>LBDF xxxx</code></li>
+<li><code>LBNF xxxx</code></li>
+<li><code>LBNQ xxxx</code></li>
+<li><code>LBNZ xxxx</code></li>
+<li><code>LBQ xxxx</code></li>
+<li><code>LBR xxxx</code></li>
+<li><code>LBZ xxxx</code></li>
 </ul>
 
 <p>
 The following macros will also be corrected:
 </p>
 <ul>
-<li><tt>LDL Ry,xxxx</tt></li>
-<li><tt>LDRL Ry,xxxx</tt></li>
-<li><tt>RLDL Ry,xxxx</tt></li>
+<li><code>LDL Ry,xxxx</code></li>
+<li><code>LDRL Ry,xxxx</code></li>
+<li><code>RLDL Ry,xxxx</code></li>
 <li><a href="DirectBranchData.htm">Branch data</a></li>
 <li><a href="DirectRevBranchData.htm">Reversed Branch Data</a></li>
 </ul>
@@ -211,59 +211,59 @@ The following sections list the pseudo instructions per variant that will be cor
 
 <h3><a href="https://www.emma02.hobby-site.com/pseudo_amvbas.html">AMVBAS</a> &amp; <a href="https://www.emma02.hobby-site.com/pseudo_am4kbas.html">AM4KBAS</a></h3>
 <ul>
-<li><tt>DO aaaa</tt></li>
-<li><tt>EXEC aaa</tt></li>
-<li><tt>GO aa</tt></li>
-<li><tt>GOCR aa</tt></li>
-<li><tt>GOEZ Rz, aa</tt></li>
-<li><tt>GOEZ [aa], bb</tt></li>
-<li><tt>GOEQ Vx, kk, aa</tt></li>
-<li><tt>GOGE Vy, kk, aa</tt></li>
-<li><tt>GOGE [aa], kk, bb</tt></li>
-<li><tt>GOLT Vy, kk, aa</tt></li>
-<li><tt>GOLT [aa], kk, bb</tt></li>
-<li><tt>GONC aa</tt></li>
-<li><tt>GONE Vx, kk, aa</tt></li>
-<li><tt>GONZ Vx, aa</tt></li>
-<li><tt>GOTO aaaa</tt></li>
-<li><tt>KEY Vy, aa</tt></li>
-<li><tt>KEY [aa], bb</tt></li>
-<li><tt>LRGI Rx, aaaa</tt></li>
+<li><code>DO aaaa</code></li>
+<li><code>EXEC aaa</code></li>
+<li><code>GO aa</code></li>
+<li><code>GOCR aa</code></li>
+<li><code>GOEZ Rz, aa</code></li>
+<li><code>GOEZ [aa], bb</code></li>
+<li><code>GOEQ Vx, kk, aa</code></li>
+<li><code>GOGE Vy, kk, aa</code></li>
+<li><code>GOGE [aa], kk, bb</code></li>
+<li><code>GOLT Vy, kk, aa</code></li>
+<li><code>GOLT [aa], kk, bb</code></li>
+<li><code>GONC aa</code></li>
+<li><code>GONE Vx, kk, aa</code></li>
+<li><code>GONZ Vx, aa</code></li>
+<li><code>GOTO aaaa</code></li>
+<li><code>KEY Vy, aa</code></li>
+<li><code>KEY [aa], bb</code></li>
+<li><code>LRGI Rx, aaaa</code></li>
 </ul>
 
 
 <h3><a href="https://www.emma02.hobby-site.com/pseudo_cardtran.html">CARDTRAN</a></h3>
 <ul>
-<li><tt>ADD [2aa], DR</tt></li>
-<li><tt>DISP0 [2aa]</tt></li>
-<li><tt>DISP1 [2aa]</tt></li>
-<li><tt>INPUT [2aa]</tt></li>
-<li><tt>JNZ DR, 2aa</tt></li>
-<li><tt>JP 2aa</tt></li>
-<li><tt>JZ DR, 2aa</tt></li>
-<li><tt>LD [2aa], DR</tt></li>
-<li><tt>LD DR, [2aa]</tt></li>
-<li><tt>LDD [2aa], DR</tt></li>
-<li><tt>SUB [2aa], DR</tt></li>
-<li><tt>RSH [2aa]</tt></li>
+<li><code>ADD [2aa], DR</code></li>
+<li><code>DISP0 [2aa]</code></li>
+<li><code>DISP1 [2aa]</code></li>
+<li><code>INPUT [2aa]</code></li>
+<li><code>JNZ DR, 2aa</code></li>
+<li><code>JP 2aa</code></li>
+<li><code>JZ DR, 2aa</code></li>
+<li><code>LD [2aa], DR</code></li>
+<li><code>LD DR, [2aa]</code></li>
+<li><code>LDD [2aa], DR</code></li>
+<li><code>SUB [2aa], DR</code></li>
+<li><code>RSH [2aa]</code></li>
 </ul>
 
 
 <h3><a href="https://www.emma02.hobby-site.com/pseudo_chip8.html">Chip-8 / Chip-8X / ETI / Elf/Os / Studio</a></h3>
 <ul>
-<li><tt>CALL aaa</tt></li>
-<li><tt>JP aaa</tt></li>
-<li><tt>JP V0, aaa</tt> (not in Chip 8X)</li>
-<li><tt>LD I,aaa</tt></li>
-<li><tt>SYS aaa</tt></li>
+<li><code>CALL aaa</code></li>
+<li><code>JP aaa</code></li>
+<li><code>JP V0, aaa</code> (not in Chip 8X)</li>
+<li><code>LD I,aaa</code></li>
+<li><code>SYS aaa</code></li>
 </ul>
 
 
 <h3><a href="https://www.emma02.hobby-site.com/pseudo_fel-1.html">FEL-1</a></h3>
 <ul>
-<li><tt>CALL aaa</tt></li>
-<li><tt>JP aaa</tt></li>
-<li><tt>SYS aaa</tt></li>
+<li><code>CALL aaa</code></li>
+<li><code>JP aaa</code></li>
+<li><code>SYS aaa</code></li>
 </ul>
 
 
@@ -275,140 +275,140 @@ No source code is available for FPA-1, meaning Emma 02 cannot detect running FPA
 
 <h3><a href="https://www.emma02.hobby-site.com/pseudo_fpl-2.html">FPL-2</a></h3>
 <ul>
-<li><tt>CALL aaa</tt></li>
-<li><tt>JP aaa</tt></li>
-<li><tt>LD [6aa], Vx</tt></li>
-<li><tt>SYS aaa</tt></li>
+<li><code>CALL aaa</code></li>
+<li><code>JP aaa</code></li>
+<li><code>LD [6aa], Vx</code></li>
+<li><code>SYS aaa</code></li>
 </ul>
 
 
 <h3><a href="https://www.emma02.hobby-site.com/pseudo_fpl-4.html">FPL-4</a></h3>
 <ul>
-<li><tt>CALL aaa</tt></li>
-<li><tt>JP aaa</tt></li>
-<li><tt>JNK Vx, kk</tt></li>
-<li><tt>SYS aaa</tt></li>
+<li><code>CALL aaa</code></li>
+<li><code>JP aaa</code></li>
+<li><code>JNK Vx, kk</code></li>
+<li><code>SYS aaa</code></li>
 </ul>
 
 
 <h3><a href="https://www.emma02.hobby-site.com/pseudo_gpl-2.html">GPL-2</a></h3>
 <ul>
-<li><tt>CALL aaa</tt></li>
-<li><tt>JNZ V0, aaa</tt></li>
-<li><tt>JP FIREA, kk</tt></li>
-<li><tt>JP 'EF1', kk</tt></li>
-<li><tt>JP 'EF2', kk</tt></li>
-<li><tt>JP FIREB, kk</tt></li>
-<li><tt>JP 'EF3', kk</tt></li>
-<li><tt>JP COIN, kk</tt></li>
-<li><tt>JP 'EF4', kk</tt></li>
-<li><tt>JZ V0, aaa</tt></li>
-<li><tt>LD RE, aaa</tt></li>
-<li><tt>SYS aaa</tt></li>
+<li><code>CALL aaa</code></li>
+<li><code>JNZ V0, aaa</code></li>
+<li><code>JP FIREA, kk</code></li>
+<li><code>JP 'EF1', kk</code></li>
+<li><code>JP 'EF2', kk</code></li>
+<li><code>JP FIREB, kk</code></li>
+<li><code>JP 'EF3', kk</code></li>
+<li><code>JP COIN, kk</code></li>
+<li><code>JP 'EF4', kk</code></li>
+<li><code>JZ V0, aaa</code></li>
+<li><code>LD RE, aaa</code></li>
+<li><code>SYS aaa</code></li>
 </ul>
 
 
 <h3><a href="https://www.emma02.hobby-site.com/pseudo_gpl-3.html">GPL-3</a></h3>
 <ul>
-<li><tt>CALL aaa</tt></li>
-<li><tt>JNZ V0, aaa</tt></li>
-<li><tt>JP aaa</tt></li>
-<li><tt>JP FIREA, kk</tt></li>
-<li><tt>JP 'EF1', kk</tt></li>
-<li><tt>JP 'EF2', kk</tt></li>
-<li><tt>JP FIREB, kk</tt></li>
-<li><tt>JP 'EF3', kk</tt></li>
-<li><tt>JP COIN, kk</tt></li>
-<li><tt>JP 'EF4', kk</tt></li>
-<li><tt>JZ V0, aaa</tt></li>
-<li><tt>SYS aaa</tt></li>
+<li><code>CALL aaa</code></li>
+<li><code>JNZ V0, aaa</code></li>
+<li><code>JP aaa</code></li>
+<li><code>JP FIREA, kk</code></li>
+<li><code>JP 'EF1', kk</code></li>
+<li><code>JP 'EF2', kk</code></li>
+<li><code>JP FIREB, kk</code></li>
+<li><code>JP 'EF3', kk</code></li>
+<li><code>JP COIN, kk</code></li>
+<li><code>JP 'EF4', kk</code></li>
+<li><code>JZ V0, aaa</code></li>
+<li><code>SYS aaa</code></li>
 </ul>
 
 
 <h3><a href="https://www.emma02.hobby-site.com/pseudo_gpl-4.html">GPL-4</a></h3>
 <ul>
-<li><tt>CALL aaa</tt></li>
-<li><tt>JP aaa</tt></li>
-<li><tt>SYS aaa</tt></li>
+<li><code>CALL aaa</code></li>
+<li><code>JP aaa</code></li>
+<li><code>SYS aaa</code></li>
 </ul>
 
 
 <h3><a href="https://www.emma02.hobby-site.com/pseudo_gpl-a_ram.html">GPL-A (2K RAM)</a></h3>
 <ul>
-<li><tt>CALL aaa</tt></li>
-<li><tt>JP aaa</tt></li>
-<li><tt>LD [6aa], Vx</tt></li>
-<li><tt>SE Vx, [6aa]</tt></li>
-<li><tt>SNE Vx, [6aa]</tt></li>
-<li><tt>SYS aaa</tt></li>
+<li><code>CALL aaa</code></li>
+<li><code>JP aaa</code></li>
+<li><code>LD [6aa], Vx</code></li>
+<li><code>SE Vx, [6aa]</code></li>
+<li><code>SNE Vx, [6aa]</code></li>
+<li><code>SYS aaa</code></li>
 </ul>
 
 
 <h3><a href="https://www.emma02.hobby-site.com/pseudo_gpl-a_rom.html">GPL-A (2K ROM)</a></h3>
 <ul>
-<li><tt>CALL aaa</tt></li>
-<li><tt>JP aaa</tt></li>
-<li><tt>LD [6aa], Vx</tt></li>
-<li><tt>SNE Vx, [6aa]</tt></li>
-<li><tt>SYS aaa</tt></li>
+<li><code>CALL aaa</code></li>
+<li><code>JP aaa</code></li>
+<li><code>LD [6aa], Vx</code></li>
+<li><code>SNE Vx, [6aa]</code></li>
+<li><code>SYS aaa</code></li>
 </ul>
 
 
 <h3><a href="https://www.emma02.hobby-site.com/pseudo_st2.html">ST2</a></h3>
 <ul>
-<li><tt>CALL aaa</tt></li>
-<li><tt>DJNZ V0, kk</tt></li>
-<li><tt>JKP n, kk</tt></li>
-<li><tt>JKP VB, kk</tt></li>
-<li><tt>JNZ Vx, kk</tt></li>
-<li><tt>JP aaa</tt></li>
-<li><tt>JZ Vx, kk</tt></li>
-<li><tt>LD I,aaa</tt></li>
-<li><tt>SP DRW, kk</tt></li>
-<li><tt>SP DRW, JC, kk</tt></li>
-<li><tt>SYS aaa</tt></li>
+<li><code>CALL aaa</code></li>
+<li><code>DJNZ V0, kk</code></li>
+<li><code>JKP n, kk</code></li>
+<li><code>JKP VB, kk</code></li>
+<li><code>JNZ Vx, kk</code></li>
+<li><code>JP aaa</code></li>
+<li><code>JZ Vx, kk</code></li>
+<li><code>LD I,aaa</code></li>
+<li><code>SP DRW, kk</code></li>
+<li><code>SP DRW, JC, kk</code></li>
+<li><code>SYS aaa</code></li>
 </ul>
 
 
 <h3><a href="https://www.emma02.hobby-site.com/pseudo_st4.html">ST4</a></h3>
 <ul>
-<li><tt>CALL 6kk</tt></li>
-<li><tt>CALL 7kk</tt></li>
-<li><tt>CALL 8kk</tt></li>
-<li><tt>CALL 10kk</tt></li>
-<li><tt>CALL 11kk</tt></li>
-<li><tt>JNZ Vx, kk</tt></li>
-<li><tt>JP kk</tt></li>
-<li><tt>JZ Vx, kk</tt></li>
-<li><tt>LD I, 0aaa</tt></li>
-<li><tt>LD I, 2aaa</tt></li>
-<li><tt>LD I, 3aaa</tt></li>
-<li><tt>LD I, 4aaa</tt></li>
+<li><code>CALL 6kk</code></li>
+<li><code>CALL 7kk</code></li>
+<li><code>CALL 8kk</code></li>
+<li><code>CALL 10kk</code></li>
+<li><code>CALL 11kk</code></li>
+<li><code>JNZ Vx, kk</code></li>
+<li><code>JP kk</code></li>
+<li><code>JZ Vx, kk</code></li>
+<li><code>LD I, 0aaa</code></li>
+<li><code>LD I, 2aaa</code></li>
+<li><code>LD I, 3aaa</code></li>
+<li><code>LD I, 4aaa</code></li>
 </ul>
 
 
 <h3><a href="https://www.emma02.hobby-site.com/pseudo_stk.html">STK</a></h3>
 <ul>
-<li><tt>CALL aaa</tt></li>
-<li><tt>JP aaa</tt></li>
+<li><code>CALL aaa</code></li>
+<li><code>JP aaa</code></li>
 </ul>
 
 
 <h3><a href="https://www.emma02.hobby-site.com/pseudo_test_word.html">Test-Word</a></h3>
 <ul>
-<li><tt>CALL aaa</tt></li>
-<li><tt>JP aaa</tt></li>
-<li><tt>SYS aaa</tt></li>
+<li><code>CALL aaa</code></li>
+<li><code>JP aaa</code></li>
+<li><code>SYS aaa</code></li>
 </ul>
 
 
 <h3><a href="https://www.emma02.hobby-site.com/pseudo_super_chip.html">Super-chip</a></h3>
 <ul>
-<li><tt>CALL aaa</tt></li>
-<li><tt>JP aaa</tt></li>
-<li><tt>JP V0, aaa</tt></li>
-<li><tt>LD I, aaa</tt></li>
-<li><tt>SYS aaa</tt></li>
+<li><code>CALL aaa</code></li>
+<li><code>JP aaa</code></li>
+<li><code>JP V0, aaa</code></li>
+<li><code>LD I, aaa</code></li>
+<li><code>SYS aaa</code></li>
 </ul>
 </body>
 </html>

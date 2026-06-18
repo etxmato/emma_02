@@ -4,7 +4,7 @@
 <h1>Command Line</h1>
 
 <p>
-Any of the Emma 02 computers can be started via the command line. If the option <tt>-c=&lt;str&gt;</tt> is used, no GUI will be started but instead the computer specified in the <tt>&lt;str&gt;</tt> field will be started directly. The following computer strings can be specified:
+Any of the Emma 02 computers can be started via the command line. If the option <code>-c=&lt;str&gt;</code> is used, no GUI will be started but instead the computer specified in the <code>&lt;str&gt;</code> field will be started directly. The following computer strings can be specified:
 </p>
 
 <ul>
@@ -73,7 +73,7 @@ Options valid for all command line cases:
 </pre>
 
 <p>
-Options only valid when <tt>-c</tt> is specified:
+Options only valid when <code>-c</code> is specified:
 </p>
 
 <pre>
@@ -89,15 +89,15 @@ Options only valid when <tt>-c</tt> is specified:
 </pre>
 
 <p>
-<strong>Note:</strong> The equal sign is optional in the above commands. All commands where software files are specified can either include the full path (<tt>c:\games\invaders.st2</tt>) or just the file name. If only a file name is used, Emma 02 will try to load the game file from the directory specified in the used XML file.
+<strong>Note:</strong> The equal sign is optional in the above commands. All commands where software files are specified can either include the full path (<code>c:\games\invaders.st2</code>) or just the file name. If only a file name is used, Emma 02 will try to load the game file from the directory specified in the used XML file.
 </p>
 
 <p>
-Specify <tt>-s=""</tt> (for a Studio II, Studio III, Conic, MPT-02 or Visicom COM-100) to start without an st2 file loaded, i.e., to run the emulator with the built-in games. This will result in the same behavior as not using a <tt>-s</tt> or <tt>-st</tt> option.
+Specify <code>-s=""</code> (for a Studio II, Studio III, Conic, MPT-02 or Visicom COM-100) to start without an st2 file loaded, i.e., to run the emulator with the built-in games. This will result in the same behavior as not using a <code>-s</code> or <code>-st</code> option.
 </p>
 
 <p>
-In portable mode (<tt>-p</tt>) the emulator can run from any location and will expect all data and setting files in the subdirectory "data" in the application directory (wherever the Emma 02.exe file is located). The first time option <tt>-p</tt> is used, all directory entries in the .ini file will be set to the application directory on startup. Also, if the "data" directory does not exist, it will be created.
+In portable mode (<code>-p</code>) the emulator can run from any location and will expect all data and setting files in the subdirectory "data" in the application directory (wherever the Emma 02.exe file is located). The first time option <code>-p</code> is used, all directory entries in the .ini file will be set to the application directory on startup. Also, if the "data" directory does not exist, it will be created.
 </p>
 
 <p>
@@ -123,7 +123,7 @@ Examples:
 <p><strong>Result:</strong> Starts Victory Invaders, assuming the Victory directory is set to default.</p>
 
 <p>
-On game computers such as Studio II and Cidelsa, <tt>-s</tt> is the same as <tt>-r</tt>. For others such as the COMX, <tt>-s</tt> only loads the software but does not run it like <tt>-r</tt>.
+On game computers such as Studio II and Cidelsa, <code>-s</code> is the same as <code>-r</code>. For others such as the COMX, <code>-s</code> only loads the software but does not run it like <code>-r</code>.
 </p>
 
 <p>

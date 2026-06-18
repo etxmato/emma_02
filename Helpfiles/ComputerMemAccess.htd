@@ -31,9 +31,9 @@ The Memory Access controls are shown below:
 Supported file formats:
 </p>
 <ul>
-<li>Program and/or data files (<tt>.comx</tt>, <tt>.pecom</tt>, <tt>.tmc600</tt>, <tt>.fpb</tt>, <tt>.rca</tt>, <tt>.super</tt>, <tt>.tiny</tt>)</li>
-<li>Intel Hex (<tt>.hex</tt>)</li>
-<li>Binary (<tt>.bin</tt>, <tt>.rom</tt>, <tt>.ram</tt>, <tt>.cos</tt>, <tt>.c8</tt>, <tt>.c8x</tt>)</li>
+<li>Program and/or data files (<code>.comx</code>, <code>.pecom</code>, <code>.tmc600</code>, <code>.fpb</code>, <code>.rca</code>, <code>.super</code>, <code>.tiny</code>)</li>
+<li>Intel Hex (<code>.hex</code>)</li>
+<li>Binary (<code>.bin</code>, <code>.rom</code>, <code>.ram</code>, <code>.cos</code>, <code>.c8</code>, <code>.c8x</code>)</li>
 </ul>
 
 <p>
@@ -44,16 +44,16 @@ During installation, software is placed in the emulator directories (located in 
 <h2>Program and Data Files</h2>
 
 <p>
-Program and data files (formats designed for this emulator, such as <tt>.comx</tt>, <tt>.pecom</tt>, <tt>.tmc600</tt>, <tt>.fpb</tt>, <tt>.rca</tt>, <tt>.super</tt>, and <tt>.tiny</tt>) can be loaded in the following emulators:
+Program and data files (formats designed for this emulator, such as <code>.comx</code>, <code>.pecom</code>, <code>.tmc600</code>, <code>.fpb</code>, <code>.rca</code>, <code>.super</code>, and <code>.tiny</code>) can be loaded in the following emulators:
 </p>
 <ul>
-<li>COMX-35 or COMiX-35 (<tt>.comx</tt>)</li>
-<li>PECOM 32 or PECOM 64 (<tt>.pecom</tt>)</li>
-<li>Telmac TMC-600 (<tt>.tmc600</tt>)</li>
-<li>COSMAC VIP or COSMAC VIP II when running Fixed Point Basic (<tt>.fpb</tt>)</li>
-<li>Any computer running Quest Super Basic (<tt>.super</tt>)</li>
-<li>Any computer running RCA Basic (<tt>.rca</tt>)</li>
-<li>Any computer running Tiny Basic (<tt>.tiny</tt>)</li>
+<li>COMX-35 or COMiX-35 (<code>.comx</code>)</li>
+<li>PECOM 32 or PECOM 64 (<code>.pecom</code>)</li>
+<li>Telmac TMC-600 (<code>.tmc600</code>)</li>
+<li>COSMAC VIP or COSMAC VIP II when running Fixed Point Basic (<code>.fpb</code>)</li>
+<li>Any computer running Quest Super Basic (<code>.super</code>)</li>
+<li>Any computer running RCA Basic (<code>.rca</code>)</li>
+<li>Any computer running Tiny Basic (<code>.tiny</code>)</li>
 </ul>
 
 
@@ -80,7 +80,7 @@ The emulator will automatically load and run the software.
 <h3>LOAD Program</h3>
 
 <p>
-To load a program file without running (similar to <tt>PLOAD</tt>):
+To load a program file without running (similar to <code>PLOAD</code>):
 </p>
 <ul>
 <li>Start an emulator</li>
@@ -96,7 +96,7 @@ To load a program file without running (similar to <tt>PLOAD</tt>):
 <h3>SAVE Program</h3>
 
 <p>
-To save a BASIC or BASIC/machine code program (similar to <tt>PSAVE</tt>):
+To save a BASIC or BASIC/machine code program (similar to <code>PSAVE</code>):
 </p>
 <ul>
 <li>Use the <strong>SAVE</strong> button (3)</li>
@@ -107,7 +107,7 @@ To save a BASIC or BASIC/machine code program (similar to <tt>PSAVE</tt>):
 <h3>Data SAVE / LOAD</h3>
 
 <p>
-To save data (similar to <tt>DSAVE</tt>):
+To save data (similar to <code>DSAVE</code>):
 </p>
 <ul>
 <li>Set the data via a BASIC program before saving</li>
@@ -115,7 +115,7 @@ To save data (similar to <tt>DSAVE</tt>):
 </ul>
 
 <p>
-For loading data files (similar to <tt>DLOAD</tt>):
+For loading data files (similar to <code>DLOAD</code>):
 </p>
 <ul>
 <li>Use the <strong>LOAD</strong> button (2)</li>
@@ -123,7 +123,7 @@ For loading data files (similar to <tt>DLOAD</tt>):
 </ul>
 
 <p>
-Data can be reloaded while a BASIC program is running. Replace the <tt>DLOAD</tt> command in the program with a message instructing the user to press the <strong>LOAD</strong> button (2).
+Data can be reloaded while a BASIC program is running. Replace the <code>DLOAD</code> command in the program with a message instructing the user to press the <strong>LOAD</strong> button (2).
 </p>
 
 
@@ -215,7 +215,7 @@ To save memory to a file:
 </ul>
 
 <p>
-Use Intel Hex (<tt>.hex</tt>) format when not saving from address 0.
+Use Intel Hex (<code>.hex</code>) format when not saving from address 0.
 </p>
 
 <p>

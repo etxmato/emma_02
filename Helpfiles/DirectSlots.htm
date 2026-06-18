@@ -14,17 +14,17 @@ Any long branch instruction or branch data <strong>from</strong> a slot or EMS p
 </p>
 <ul>
 <li>The same slot or page code is used for both configuration ranges</li>
-<li>A <tt>LBR Sxx,yyyy</tt> macro is used for branch instructions</li>
-<li>A <tt>: Sxx,yyyy</tt> macro is used for branch data</li>
-<li>A <tt>LDL Sxx,Rx,yyyy</tt> macro is used for loading a data location</li>
-<li>A <tt>LDRL Sxx,Rx,yyyy</tt> macro is used for loading a data location in reversed byte order</li>
+<li>A <code>LBR Sxx,yyyy</code> macro is used for branch instructions</li>
+<li>A <code>: Sxx,yyyy</code> macro is used for branch data</li>
+<li>A <code>LDL Sxx,Rx,yyyy</code> macro is used for loading a data location</li>
+<li>A <code>LDRL Sxx,Rx,yyyy</code> macro is used for loading a data location in reversed byte order</li>
 </ul>
 
 
 <h2>LBR macro</h2>
 
 <p>
-The <tt>LBR Sxx,yyyy</tt> macro can be used for any long branch instruction (<tt>LBDF</tt>, <tt>LBNF</tt>, <tt>LBNQ</tt>, <tt>LBNZ</tt>, <tt>LBQ</tt>, <tt>LBR</tt> or <tt>LBZ</tt>). <tt>Sxx</tt> specifies the slot code or EMS page where the branch should jump to, and <tt>yyyy</tt> defines the branch address.
+The <code>LBR Sxx,yyyy</code> macro can be used for any long branch instruction (<code>LBDF</code>, <code>LBNF</code>, <code>LBNQ</code>, <code>LBNZ</code>, <code>LBQ</code>, <code>LBR</code> or <code>LBZ</code>). <code>Sxx</code> specifies the slot code or EMS page where the branch should jump to, and <code>yyyy</code> defines the branch address.
 </p>
 
 
@@ -71,14 +71,14 @@ Inserting at address C010 (hexadecimal) in RAM bank 0, slot code 11 (hexadecimal
 </p>
 
 <p>
-Therefore, the <tt>S11</tt> branch is corrected as a byte is inserted in bank 8, but the <tt>S31</tt> branch remains unchanged as no byte is inserted in bank 9.
+Therefore, the <code>S11</code> branch is corrected as a byte is inserted in bank 8, but the <code>S31</code> branch remains unchanged as no byte is inserted in bank 9.
 </p>
 
 
 <h2>Other macros</h2>
 
 <p>
-The <tt>: Sxx,yyyy</tt>, <tt>LDL Sxx,Rx,yyyy</tt>, and <tt>LDRL Sxx,Rx,yyyy</tt> macros work the same as the <tt>LBR Sxx,yyyy</tt> macro, except they are used for branch addresses and loading memory locations.
+The <code>: Sxx,yyyy</code>, <code>LDL Sxx,Rx,yyyy</code>, and <code>LDRL Sxx,Rx,yyyy</code> macros work the same as the <code>LBR Sxx,yyyy</code> macro, except they are used for branch addresses and loading memory locations.
 </p>
 </body>
 </html>

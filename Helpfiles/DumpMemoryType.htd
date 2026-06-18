@@ -6,7 +6,7 @@
 <h1>Memory Type</h1>
 
 <p>
-The memory type of the main 64K CPU memory is shown when the <strong>Memory</strong> selector (1) is set to <tt>Type</tt>. Each field defines one page, i.e., 256 bytes of memory, so the top-left field (2) defines addresses 0000 to 00FF (hexadecimal). To change the memory type of a page, select the field and change its value.
+The memory type of the main 64K CPU memory is shown when the <strong>Memory</strong> selector (1) is set to <code>Type</code>. Each field defines one page, i.e., 256 bytes of memory, so the top-left field (2) defines addresses 0000 to 00FF (hexadecimal). To change the memory type of a page, select the field and change its value.
 </p>
 
 <p>
@@ -14,14 +14,14 @@ The memory type of the main 64K CPU memory is shown when the <strong>Memory</str
 </p>
 
 <p>
-The <strong>Memory Dump</strong> tab with the <strong>Memory</strong> selector set to <tt>Type</tt> is shown below:
+The <strong>Memory Dump</strong> tab with the <strong>Memory</strong> selector set to <code>Type</code> is shown below:
 </p>
 
 <p>
 <img src="images/dump_memory_type.png" border="0" width="724" height="609">
 </p>
 <ul>
-<li>(1) <strong>Memory</strong> selector, set to <tt>Type</tt></li>
+<li>(1) <strong>Memory</strong> selector, set to <code>Type</code></li>
 <li>(2) Top-left page field (addresses 0000-00FF)</li>
 <li>(3) Address range linked to a hardware mapper</li>
 <li>(4) Memory type linked to a hardware mapper</li>

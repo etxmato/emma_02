@@ -12,7 +12,7 @@ This section includes short instructions for some of the dumped Visicom cartridg
 The descriptions below assume you are using a numeric keypad and have selected
 <strong>Settings/Use Numeric Keypad</strong>. If this option is not selected, the alternative key
 is shown in parentheses.
-For Player B, the keys <tt>W</tt>, <tt>A</tt>, <tt>S</tt>, <tt>Z</tt> control direction and <tt>TAB</tt> is used to fire. These keys work both with and without the <strong>Use Numeric Keypad</strong> setting enabled.
+For Player B, the keys <code>W</code>, <code>A</code>, <code>S</code>, <code>Z</code> control direction and <code>TAB</code> is used to fire. These keys work both with and without the <strong>Use Numeric Keypad</strong> setting enabled.
 </p>
 
 
@@ -21,7 +21,7 @@ For Player B, the keys <tt>W</tt>, <tt>A</tt>, <tt>S</tt>, <tt>Z</tt> control di
 <h3>Baseball</h3>
 
 <p>
-Press <tt>0</tt> to start. Player A bats first and Player B pitches. The pitching player attempts to catch the ball by moving the fielders. Player A and Player B alternate every half inning.
+Press <code>0</code> to start. Player A bats first and Player B pitches. The pitching player attempts to catch the ball by moving the fielders. Player A and Player B alternate every half inning.
 </p>
 
 <p><strong>Controls</strong></p>
@@ -76,7 +76,7 @@ Hold the key down for 1/4 second for a change-up (slow ball).
 <h3>Sumo Wrestling</h3>
 
 <p>
-Press <tt>SPACE</tt> to start. Then press <tt>0</tt> and Numpad <tt>0</tt> (<tt>P</tt>) to perform the initial charge.
+Press <code>SPACE</code> to start. Then press <code>0</code> and Numpad <code>0</code> (<code>P</code>) to perform the initial charge.
 </p>
 
 <p><strong>Controls</strong></p>

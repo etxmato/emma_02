@@ -18,11 +18,11 @@ Code that is not executed is shown as data, as in the <a href="DirectMain.htm">D
 </ul>
 
 <p>
-The parts shown as data may, of course, be actual data used by the software, or code that has not yet been executed. Possibly the code is dead code, as is likely the case at (2). On closer inspection, at address 0185 <tt>D</tt> will never be 0, so the code at 0187 will not be executed unless another branch to 0187 exists somewhere.
+The parts shown as data may, of course, be actual data used by the software, or code that has not yet been executed. Possibly the code is dead code, as is likely the case at (2). On closer inspection, at address 0185 <code>D</code> will never be 0, so the code at 0187 will not be executed unless another branch to 0187 exists somewhere.
 </p>
 
 <p>
-The blue bytes at (1) are, however, clearly data, as are the following blue bytes. The <tt>SEP R4</tt> at 01A2 likely reads the value <tt>14</tt> from 01A3, and the <tt>OUT 3</tt> uses <tt>20</tt> as the output value.
+The blue bytes at (1) are, however, clearly data, as are the following blue bytes. The <code>SEP R4</code> at 01A2 likely reads the value <code>14</code> from 01A3, and the <code>OUT 3</code> uses <code>20</code> as the output value.
 </p>
 </body>
 </html>

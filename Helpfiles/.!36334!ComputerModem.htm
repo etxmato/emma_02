@@ -1,0 +1,154 @@
+
+<html>
+<title>HEX and XMODEM Support</title>
+<body>
+
+
+<h1>HEX and XMODEM Support</h1>
+
+<p>
+HEX or XMODEM file transfer is available when the selected XML file includes a HEX or XMODEM definition.
+</p>
+
+
+<h2>HEX Support</h2>
+
+<p>
+The main controls for HEX Support are shown in the screenshot below. The numbered markers in the screenshot correspond to the descriptions in this section.
+</p>
+
+<p>
+<img src="images/computer_hexmodem.png" border="0" width="724" height="609">
+</p>
+<ul>
+<li>(1) <strong>HEX</strong> button</li>
+<li>(2) <strong>HEX</strong> text field (selected file)</li>
+<li>(3) <strong>Eject</strong> button</li>
+<li>(4) <strong>Auto</strong> checkbox</li>
+<li>(5) <strong>Turbo</strong> checkbox</li>
+<li>(6) <strong>Play</strong> button</li>
+<li>(7) <strong>Stop</strong> button</li>
+<li>(8) <strong>Record</strong> button</li>
+<li>(9) <strong>CPU speed</strong> field (MHz)</li>
+</ul>
+
+<p>
+A HEX file can be loaded in configurations such as COSMAC Elf 2000 (when using a terminal), CDP18S020 Evaluation Kit, Membership Card, and VIP2K Membership Card.
+</p>
+
+<p>
+Press the <strong>HEX</strong> button (1) and select a file.<br>
+<strong>Result:</strong> The selected file is shown in the HEX text field (2).
+</p>
+
+<p>
+Press the <strong>Eject</strong> button (3).<br>
+<strong>Result:</strong> The selected file is cleared.
+</p>
+
+<p>
+<strong>Note:</strong> The default and simplest method is <strong>Auto file transfer</strong> (4). For faster transfer, select the <strong>Turbo</strong> checkbox (5).
+</p>
+
+
+<h3>Workflow</h3>
+
+<pre>
+Select File     : Press the HEX button
+Start Transfer  : Auto file transfer or press the Play or Record button
+Stop Transfer   : Press the Stop button
+Turbo Mode      : Enable for faster transfer
+</pre>
+
+
+<h3>Elf 2000 (Manual only)</h3>
+
+<p>
+Clear the <strong>Auto</strong> checkbox (4).
+</p>
+apply all
+<p>
+Start a COSMAC Elf 2000 emulator.<br>
+<strong>Result:</strong> The COSMAC Elf 2000 monitor starts and shows the <code>>>></code> prompt.
+</p>
+
+
+<h4>Loading</h4>
+
+<p>
+Press the <strong>Play</strong> button (6).<br>
+<strong>Result:</strong> HEX data is shown on the terminal window.
+</p>
+
+<p>
+When the last line shows <code>>>>:00000001FF</code>, press <code>RETURN</code>; <code>EOF</code> is shown, indicating the end of the file.
+</p>
+
+<p>
+Press the <strong>Stop</strong> button (7) to stop the transfer.
+</p>
+
+
+<h3>CDP18S020 Evaluation Kit (Manual only)</h3>
+
+<p>
+Clear the <strong>Auto</strong> checkbox (4).
+</p>
+
+<p>
+Start a CDP18S020 Evaluation Kit emulator.<br>
+Press <code>RETURN</code>.<br>
+<strong>Result:</strong> The UT4 monitor starts and shows the <code>*</code> prompt.
+</p>
+
+
+<h4>Loading</h4>
+
+<p>
+<strong>Command:</strong> Type <code>!M</code>.
+</p>
+
+<p>
+Press the <strong>Play</strong> button (6).<br>
+<strong>Result:</strong> Unreadable data is shown on the terminal window.
+</p>
+
+<p>
+When terminal output stops, press the <strong>Stop</strong> button (7) to end the transfer.
+</p>
+
+
+<h4>Saving</h4>
+
+<p>
+<strong>Command:</strong> Type <code>?M&lt;start&gt; &lt;length&gt;</code>.
+</p>
+
+<p>
+Press the <strong>Record</strong> button (8) and then press <code>RETURN</code>.<br>
+<strong>Result:</strong> Output data is shown on the terminal window.
+</p>
+
+<p>
+When terminal output stops, press the <strong>Stop</strong> button (7) to end the transfer.
+</p>
+
+
+<h3>Membership Card and VIP2K Membership Card</h3>
+
+<p>
+HEX file transfer for the Membership Card and VIP2K Membership Card uses the monitor software. All files transferred via the monitor must be in <strong>Intel HEX format</strong> (<code>.hex</code> extension).
+</p>
+
+<p>
+<strong>Important:</strong> Raw binary files (e.g., <code>.ch8</code> or <code>.bin</code>) cannot be used directly. They must first be converted to Intel HEX format.
+</p>
+
+<p>
+Start a Membership Card emulator.<br>
+<strong>Result:</strong> The Membership Card monitor starts and shows the <code>></code> prompt.
+</p>
+
+<h4>Monitor Commands</h4>
+
+<ul>

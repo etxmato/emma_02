@@ -13,7 +13,7 @@ This section lists and explains some of the included XML configuration files.
 
 <p><strong>bare.xml</strong></p>
 <p>
-Any XML file with <tt>bare</tt> in the filename includes a basic configuration for that specific computer.
+Any XML file with <code>bare</code> in the filename includes a basic configuration for that specific computer.
 </p>
 
 
@@ -34,7 +34,7 @@ Tiny BASIC directly loaded into RAM.
 
 <p><strong>diagnostic-&lt;video-type&gt;.xml</strong></p>
 <p>
-COMX Diagnostic Board for video type <tt>pal</tt> or <tt>ntsc</tt>.
+COMX Diagnostic Board for video type <code>pal</code> or <code>ntsc</code>.
 </p>
 
 <p><strong>fdc-print-32k-80col.xml</strong></p>
@@ -54,7 +54,7 @@ COMX configured with FDC, thermal printer, 32K RAM and joy card.
 
 <p><strong>&lt;video-type&gt;_high_speed_direct_connect.xml</strong></p>
 <p>
-COMX configured with High Speed Direct Connect board for video type <tt>pal</tt> or <tt>ntsc</tt>.
+COMX configured with High Speed Direct Connect board for video type <code>pal</code> or <code>ntsc</code>.
 </p>
 
 <p><strong>superboard-80col.xml</strong></p>
@@ -128,43 +128,43 @@ Elf 2000 configuration using a terminal connected via UART and a Pixie video car
 
 <p><strong>tops.xml</strong></p>
 <p>
-Microtutor configuration using the mini OS <tt>TOPS</tt> and the utility memory concept.
+Microtutor configuration using the mini OS <code>TOPS</code> and the utility memory concept.
 </p>
 
 <h2>COSMAC VIP</h2>
 
 <p><strong>32K.xml</strong></p>
 <p>
-COSMAC VIP with 32K RAM, using the patched <tt>vip.32.rom</tt> file.
+COSMAC VIP with 32K RAM, using the patched <code>vip.32.rom</code> file.
 </p>
 
 <p><strong>chip8.xml</strong></p>
 <p>
-COSMAC VIP running Chip-8, using the patched <tt>vip.32.rom</tt> file.
+COSMAC VIP running Chip-8, using the patched <code>vip.32.rom</code> file.
 </p>
 
 <p>
-Select a Chip-8 file in the <strong>RAM</strong> field or use <tt>LOAD</tt> after <strong>Start</strong>.
+Select a Chip-8 file in the <strong>RAM</strong> field or use <code>LOAD</code> after <strong>Start</strong>.
 </p>
 
 <p><strong>chip8x-vp580-vp590-vp595.xml</strong></p>
 <p>
-COSMAC VIP running Chip-8X with VP580, VP590 and VP595 expansion boards, using the patched <tt>vip.32.rom</tt> file. Select a Chip-8 file in the RAM field or use <tt>LOAD</tt> after <tt>Start</tt>.
+COSMAC VIP running Chip-8X with VP580, VP590 and VP595 expansion boards, using the patched <code>vip.32.rom</code> file. Select a Chip-8 file in the RAM field or use <code>LOAD</code> after <code>Start</code>.
 </p>
 
 <p><strong>chip10.xml</strong></p>
 <p>
-COSMAC VIP running Chip-10, using the patched <tt>vip.32.rom</tt> file. Select a Chip-8 file in the RAM field or use <tt>LOAD</tt> after <tt>Start</tt>.
+COSMAC VIP running Chip-10, using the patched <code>vip.32.rom</code> file. Select a Chip-8 file in the RAM field or use <code>LOAD</code> after <code>Start</code>.
 </p>
 
 <p><strong>fpb-vp590.xml</strong></p>
 <p>
-COSMAC VIP running Fixed Point Basic with the VP590 board, using the patched <tt>vip.32.rom</tt> file.
+COSMAC VIP running Fixed Point Basic with the VP590 board, using the patched <code>vip.32.rom</code> file.
 </p>
 
 <p><strong>fpb.xml</strong></p>
 <p>
-COSMAC VIP running Fixed Point Basic, using the patched <tt>vip.32.rom</tt> file.
+COSMAC VIP running Fixed Point Basic, using the patched <code>vip.32.rom</code> file.
 </p>
 
 <p><strong>pin-8-vp550-&lt;stereo&gt;.xml</strong></p>
@@ -199,7 +199,7 @@ COSMAC VIP running with a VP590 board.
 
 <p><strong>vp700-vp590-vp595.xml</strong></p>
 <p>
-RCA VP700 Tiny BASIC ROM, using the patched <tt>vip.32.rom</tt> file. In addition, this configuration includes the VP590 and VP595 extension boards.
+RCA VP700 Tiny BASIC ROM, using the patched <code>vip.32.rom</code> file. In addition, this configuration includes the VP590 and VP595 extension boards.
 </p>
 
 
@@ -219,8 +219,8 @@ To start up in ROM Mode:
 </p>
 
 <ul>
-<li>Press <tt>F12</tt> (run switch) while pressing <strong>Start</strong></li>
-<li>Press <tt>C</tt> and while keeping it pressed, press <tt>F12</tt></li>
+<li>Press <code>F12</code> (run switch) while pressing <strong>Start</strong></li>
+<li>Press <code>C</code> and while keeping it pressed, press <code>F12</code></li>
 </ul>
 <p>
 See the <a href="MainFunctionKeys.htm">Function and Hot Keys</a> section.
@@ -495,7 +495,7 @@ This XML configuration runs most games. By default, <strong>Invaders</strong> is
 Basic XML configuration to run the <strong>Music Maker</strong> and Christmas songs as published in <strong>Ipso Facto</strong> (Issue 5 and 8).
 </p>
 <p>
-By default, <tt>Music Maker.hex</tt> and the song <tt>O Christmas Tree.hex</tt> are loaded.
+By default, <code>Music Maker.hex</code> and the song <code>O Christmas Tree.hex</code> are loaded.
 </p>
 <p>
 Some songs require a different speed, which is indicated in the song file name (Double, 1_2, etc.). To play these, also load the equivalent <strong>Music Maker</strong> file.
@@ -516,16 +516,16 @@ RCA Monitor program as described in <strong>IPSO Facto</strong> number 10.
 
 <p><strong>rommapper-&lt;type&gt;.xml</strong></p>
 <p>
-<strong>Richard's ROM Mapper</strong> uses <tt>OUT 7</tt> to select a 32K slot from a large ROM chip.
+<strong>Richard's ROM Mapper</strong> uses <code>OUT 7</code> to select a 32K slot from a large ROM chip.
 </p>
 <p>
 The selected ROM is switched to 8000-FFFF (hexadecimal) using A15 from bit 0 on port 7, A16 from bit 1, etc.
 </p>
 <p>
-After starting the Elf, press <tt>RETURN</tt> and type <tt>RUN</tt>.
+After starting the Elf, press <code>RETURN</code> and type <code>RUN</code>.
 </p>
 <p>
-To load a program, type the program number or <tt>N</tt> for the next page.
+To load a program, type the program number or <code>N</code> for the next page.
 </p>
 
 <p><strong>superbasic-tapeloader.xml</strong></p>
@@ -546,7 +546,7 @@ EPROM board XML configuration including a Mini Monitor and Quest <strong>Super B
 This ROM file was created by Eric Tchong. <strong>Super BASIC</strong> itself was designed by Ron Cenker.
 </p>
 <p>
-<strong>Super BASIC</strong> can be started from the monitor by pressing <tt>B</tt>.
+<strong>Super BASIC</strong> can be started from the monitor by pressing <code>B</code>.
 </p>
 <p>
 For documentation on these ROMs, see the file section of the CosmacElf Yahoo group.
@@ -614,10 +614,10 @@ FRED 1 configuration running <strong>Add Drill</strong>.
 </p>
 
 <p>
-This software requires spoken text and tones recorded on the original tape and included in <tt>Add Drill.wav</tt> (if not available, it will be downloaded).
+This software requires spoken text and tones recorded on the original tape and included in <code>Add Drill.wav</code> (if not available, it will be downloaded).
 </p>
 <p>
-The start card is requested with card <tt>0</tt>, FE (hexadecimal).
+The start card is requested with card <code>0</code>, FE (hexadecimal).
 </p>
 <p>
 Press the start card two times and, after the tone, a third time.
@@ -634,11 +634,11 @@ FRED 1 configuration running the <strong>Animate Demo</strong>.
 Demo that loads data from tape and displays it on the screen.
 </p>
 <p>
-The data is included in <tt>Animate Demo Data.wav</tt> (if not available, it will be downloaded).
+The data is included in <code>Animate Demo Data.wav</code> (if not available, it will be downloaded).
 </p>
 
 <p>
-The same data is also included in binary form in <tt>Animate demo data.bin</tt>, but this file cannot be loaded directly in Emma 02.
+The same data is also included in binary form in <code>Animate demo data.bin</code>, but this file cannot be loaded directly in Emma 02.
 </p>
 
 <p><strong>bowling.xml</strong></p>
@@ -647,7 +647,7 @@ FRED 1 configuration running <strong>Bowling</strong>.
 </p>
 
 <p>
-Two players: <tt>X</tt> and <tt>O</tt>. Five frames, two balls per frame.
+Two players: <code>X</code> and <code>O</code>. Five frames, two balls per frame.
 </p>
 
 <p><strong>Controls</strong></p>
@@ -664,7 +664,7 @@ This game uses sounds on tape when a ball is rolled. The sounds are recordings o
 </p>
 
 <p>
-The file used here is <tt>Bowling.wav</tt>, which includes the rolling ball once (if not available, it will be downloaded).
+The file used here is <code>Bowling.wav</code>, which includes the rolling ball once (if not available, it will be downloaded).
 </p>
 
 <p>
@@ -690,7 +690,7 @@ As described in the <a href="https://www.retrotechnology.com/memship/Sarnoff_FRE
 </p>
 
 <p>
-This game uses spoken text and tones recorded on the original tape and included in <tt>Clue.wav</tt> (if not available, it will be downloaded).
+This game uses spoken text and tones recorded on the original tape and included in <code>Clue.wav</code> (if not available, it will be downloaded).
 </p>
 
 <p><strong>deduce-leds.xml</strong></p>
@@ -703,12 +703,12 @@ As described in the <a href="https://www.retrotechnology.com/memship/Sarnoff_FRE
 </p>
 
 <p>
-This game uses spoken text and tones recorded on the original tape and included in <tt>Deduce-leds.wav</tt> (if not available, it will be downloaded).
+This game uses spoken text and tones recorded on the original tape and included in <code>Deduce-leds.wav</code> (if not available, it will be downloaded).
 </p>
 
 <p><strong>demo.xml</strong></p>
 <p>
-FRED 1 configuration running a demo using spoken text and tones recorded on the original tape and included in <tt>Demo.wav</tt> (if not available, it will be downloaded).
+FRED 1 configuration running a demo using spoken text and tones recorded on the original tape and included in <code>Demo.wav</code> (if not available, it will be downloaded).
 </p>
 
 <p><strong>flip I.xml</strong></p>
@@ -716,13 +716,13 @@ FRED 1 configuration running a demo using spoken text and tones recorded on the 
 FRED 1 configuration running <strong>Flip I</strong>.
 </p>
 <p>
-Start the game with card <tt>0</tt> (twice).
+Start the game with card <code>0</code> (twice).
 </p>
 <p>
 The game uses two players: white and black square. The first player to get eight squares of his type wins. The centre square indicates which player gets the next turn.
 </p>
 <p>
-Use card <tt>1</tt> or 6D (hexadecimal), <tt>2</tt> or 97 (hexadecimal) or <tt>3</tt> or 9E (hexadecimal) to flip squares.
+Use card <code>1</code> or 6D (hexadecimal), <code>2</code> or 97 (hexadecimal) or <code>3</code> or 9E (hexadecimal) to flip squares.
 </p>
 <p>
 If no player wins by turn 50, the player with the most squares wins.
@@ -733,22 +733,22 @@ If no player wins by turn 50, the player with the most squares wins.
 FRED 1 configuration running <strong>Match I</strong>.
 </p>
 <p>
-This game is for two players (<tt>1</tt> and <tt>2</tt>). The object is to find matching pairs of symbols.
+This game is for two players (<code>1</code> and <code>2</code>). The object is to find matching pairs of symbols.
 </p>
 <p>
-Press card <tt>0</tt> or FF (hexadecimal) in BYTE mode to start the game.
+Press card <code>0</code> or FF (hexadecimal) in BYTE mode to start the game.
 </p>
 <p>
 A 4 x 4 array of symbols is shown on the screen. The 16 keyboard positions represent symbol positions.
 </p>
 <p>
-Player 1 selects two positions to find matching symbols. If a match is found, they are replaced by <tt>1</tt> on the screen and the player gets another turn.
+Player 1 selects two positions to find matching symbols. If a match is found, they are replaced by <code>1</code> on the screen and the player gets another turn.
 </p>
 <p>
 If no match is found, it is player 2's turn. Turns alternate until all symbols are matched.
 </p>
 <p>
-Count the number of <tt>1</tt> and <tt>2</tt> values to determine the winner. New game = <tt>RESET</tt>/<tt>RUN</tt>.
+Count the number of <code>1</code> and <code>2</code> values to determine the winner. New game = <code>RESET</code>/<code>RUN</code>.
 </p>
 
 <p><strong>memory test.xml</strong></p>
@@ -756,7 +756,7 @@ Count the number of <tt>1</tt> and <tt>2</tt> values to determine the winner. Ne
 FRED 1 configuration running <strong>Memory Test</strong>.
 </p>
 <p>
-Press a value between <tt>00</tt> and <tt>80</tt>, followed by a second byte.
+Press a value between <code>00</code> and <code>80</code>, followed by a second byte.
 </p>
 <p>
 The second byte is stored in memory at 01xx (hexadecimal), where xx is the first byte.
@@ -781,7 +781,7 @@ The objective is to create a path from the left dot to the right dot using rando
 FRED 1 configuration running <strong>Prog. Apt. Test</strong>.
 </p>
 <p>
-This software requires spoken text and tones recorded on the original tapes and included in <tt>Prog. Apt. Test.wav</tt> (if not available, it will be downloaded).
+This software requires spoken text and tones recorded on the original tapes and included in <code>Prog. Apt. Test.wav</code> (if not available, it will be downloaded).
 </p>
 
 <p><strong>slide puzzle I.xml</strong></p>
@@ -789,10 +789,10 @@ This software requires spoken text and tones recorded on the original tapes and 
 FRED 1 configuration running <strong>Slide Puzzle I</strong>.
 </p>
 <p>
-Start the game with card <tt>0</tt>, followed by card <tt>1</tt> or 31 (hexadecimal), <tt>2</tt> or 33 (hexadecimal), <tt>3</tt> or 35 (hexadecimal).
+Start the game with card <code>0</code>, followed by card <code>1</code> or 31 (hexadecimal), <code>2</code> or 33 (hexadecimal), <code>3</code> or 35 (hexadecimal).
 </p>
 <p>
-Card <tt>1</tt>, <tt>2</tt> or <tt>3</tt> selects the game type.
+Card <code>1</code>, <code>2</code> or <code>3</code> selects the game type.
 </p>
 
 <p><strong>Controls</strong></p>
@@ -804,10 +804,10 @@ Card <tt>1</tt>, <tt>2</tt> or <tt>3</tt> selects the game type.
 </pre>
 
 <p>
-For card <tt>2</tt> and <tt>3</tt>, create a pattern symmetrical about the centre row in a minimum number of turns (10 for card <tt>2</tt>).
+For card <code>2</code> and <code>3</code>, create a pattern symmetrical about the centre row in a minimum number of turns (10 for card <code>2</code>).
 </p>
 <p>
-For card <tt>1</tt>, swap the full and empty squares while keeping the rest unchanged within 18 turns.
+For card <code>1</code>, swap the full and empty squares while keeping the rest unchanged within 18 turns.
 </p>
 
 
@@ -815,7 +815,7 @@ For card <tt>1</tt>, swap the full and empty squares while keeping the rest unch
 
 <p><strong>demo.xml</strong></p>
 <p>
-FRED 1.5 configuration running the <strong>Fred Demo</strong> using audio (voice) from <tt>Fred Demo.wav</tt>.
+FRED 1.5 configuration running the <strong>Fred Demo</strong> using audio (voice) from <code>Fred Demo.wav</code>.
 </p>
 
 <p><strong>fel-1.xml</strong></p>
@@ -968,7 +968,7 @@ Netronics Elf II configuration using the <strong>Super Monitor</strong>.
 These XML configurations load and run Netronics <strong>Tiny Basic</strong>, either on Pixie video or a VT100 terminal.
 </p>
 <p>
-To start <strong>Tiny Basic</strong>, press <tt>RETURN</tt> when using the Pixie version and press <tt>RETURN</tt> twice when using the VT100 version.
+To start <strong>Tiny Basic</strong>, press <code>RETURN</code> when using the Pixie version and press <code>RETURN</code> twice when using the VT100 version.
 </p>
 
 <h2>Payphone</h2>

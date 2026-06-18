@@ -68,7 +68,7 @@ Clear the <strong>Auto</strong> checkbox (4).
 apply all
 <p>
 Start a COSMAC Elf 2000 emulator.<br>
-<strong>Result:</strong> The COSMAC Elf 2000 monitor starts and shows the <tt>>>></tt> prompt.
+<strong>Result:</strong> The COSMAC Elf 2000 monitor starts and shows the <code>>>></code> prompt.
 </p>
 
 
@@ -80,7 +80,7 @@ Press the <strong>Play</strong> button (6).<br>
 </p>
 
 <p>
-When the last line shows <tt>>>>:00000001FF</tt>, press <tt>RETURN</tt>; <tt>EOF</tt> is shown, indicating the end of the file.
+When the last line shows <code>>>>:00000001FF</code>, press <code>RETURN</code>; <code>EOF</code> is shown, indicating the end of the file.
 </p>
 
 <p>
@@ -96,15 +96,15 @@ Clear the <strong>Auto</strong> checkbox (4).
 
 <p>
 Start a CDP18S020 Evaluation Kit emulator.<br>
-Press <tt>RETURN</tt>.<br>
-<strong>Result:</strong> The UT4 monitor starts and shows the <tt>*</tt> prompt.
+Press <code>RETURN</code>.<br>
+<strong>Result:</strong> The UT4 monitor starts and shows the <code>*</code> prompt.
 </p>
 
 
 <h4>Loading</h4>
 
 <p>
-<strong>Command:</strong> Type <tt>!M</tt>.
+<strong>Command:</strong> Type <code>!M</code>.
 </p>
 
 <p>
@@ -120,11 +120,11 @@ When terminal output stops, press the <strong>Stop</strong> button (7) to end th
 <h4>Saving</h4>
 
 <p>
-<strong>Command:</strong> Type <tt>?M&lt;start&gt; &lt;length&gt;</tt>.
+<strong>Command:</strong> Type <code>?M&lt;start&gt; &lt;length&gt;</code>.
 </p>
 
 <p>
-Press the <strong>Record</strong> button (8) and then press <tt>RETURN</tt>.<br>
+Press the <strong>Record</strong> button (8) and then press <code>RETURN</code>.<br>
 <strong>Result:</strong> Output data is shown on the terminal window.
 </p>
 
@@ -136,39 +136,39 @@ When terminal output stops, press the <strong>Stop</strong> button (7) to end th
 <h3>Membership Card and VIP2K Membership Card</h3>
 
 <p>
-HEX file transfer for the Membership Card and VIP2K Membership Card uses the monitor software. All files transferred via the monitor must be in <strong>Intel HEX format</strong> (<tt>.hex</tt> extension).
+HEX file transfer for the Membership Card and VIP2K Membership Card uses the monitor software. All files transferred via the monitor must be in <strong>Intel HEX format</strong> (<code>.hex</code> extension).
 </p>
 
 <p>
-<strong>Important:</strong> Raw binary files (e.g., <tt>.ch8</tt> or <tt>.bin</tt>) cannot be used directly. They must first be converted to Intel HEX format.
+<strong>Important:</strong> Raw binary files (e.g., <code>.ch8</code> or <code>.bin</code>) cannot be used directly. They must first be converted to Intel HEX format.
 </p>
 
 <p>
 Start a Membership Card emulator.<br>
-<strong>Result:</strong> The Membership Card monitor starts and shows the <tt>></tt> prompt.
+<strong>Result:</strong> The Membership Card monitor starts and shows the <code>></code> prompt.
 </p>
 
 <h4>Monitor Commands</h4>
 
 <ul>
-<li><tt>L</tt> — Load a program (Intel HEX file loaded to address specified in the HEX file)</li>
-<li><tt>I</tt> — Load a Chip-8 program (Intel HEX file loaded to the Chip-8 memory area)</li>
-<li><tt>S</tt> — Save a program</li>
+<li><code>L</code> — Load a program (Intel HEX file loaded to address specified in the HEX file)</li>
+<li><code>I</code> — Load a Chip-8 program (Intel HEX file loaded to the Chip-8 memory area)</li>
+<li><code>S</code> — Save a program</li>
 </ul>
 
 <p>
-<strong>Note:</strong> Both <tt>L</tt> and <tt>I</tt> use the Intel HEX protocol. The difference is that <tt>I</tt> sets the destination to the Chip-8 memory area before loading.
+<strong>Note:</strong> Both <code>L</code> and <code>I</code> use the Intel HEX protocol. The difference is that <code>I</code> sets the destination to the Chip-8 memory area before loading.
 </p>
 
 
 <h4>Auto LOAD/SAVE</h4>
 
 <p>
-<strong>Command:</strong> Press <tt>L</tt> to load a program or <tt>I</tt> to load a Chip-8 program.
+<strong>Command:</strong> Press <code>L</code> to load a program or <code>I</code> to load a Chip-8 program.
 </p>
 
 <p>
-<strong>Command:</strong> Press <tt>S</tt> to save.
+<strong>Command:</strong> Press <code>S</code> to save.
 </p>
 
 <p>
@@ -190,8 +190,8 @@ Clear the <strong>Auto</strong> checkbox (4).
 <h5>Loading</h5>
 
 <p>
-<strong>Command:</strong> Press <tt>L</tt> to load a program or <tt>I</tt> to load a Chip-8 program.<br>
-<strong>Result:</strong> Terminal shows <tt>Ready to LOAD Program</tt>.
+<strong>Command:</strong> Press <code>L</code> to load a program or <code>I</code> to load a Chip-8 program.<br>
+<strong>Result:</strong> Terminal shows <code>Ready to LOAD Program</code>.
 </p>
 
 <p>
@@ -203,8 +203,8 @@ Press the <strong>Play</strong> button (6).<br>
 <h5>Saving</h5>
 
 <p>
-<strong>Command:</strong> Press <tt>S</tt> to save.<br>
-<strong>Result:</strong> Terminal shows <tt>Ready to SAVE Program</tt>.
+<strong>Command:</strong> Press <code>S</code> to save.<br>
+<strong>Result:</strong> Terminal shows <code>Ready to SAVE Program</code>.
 </p>
 
 <p>
@@ -286,19 +286,19 @@ Select the <strong>Auto</strong> checkbox (4).
 </p>
 
 <p>
-<strong>Command:</strong> Type <tt>xr</tt>, <tt>xrb</tt>, <tt>xs</tt>, <tt>xsb</tt>, <tt>yr</tt> or <tt>ys</tt> in Elf/Os.
+<strong>Command:</strong> Type <code>xr</code>, <code>xrb</code>, <code>xs</code>, <code>xsb</code>, <code>yr</code> or <code>ys</code> in Elf/Os.
 </p>
 
 <p>
-<strong>Note:</strong> For <tt>xr</tt>, <tt>xrb</tt>, <tt>xs</tt>, <tt>xsb</tt>, only one file is used.
+<strong>Note:</strong> For <code>xr</code>, <code>xrb</code>, <code>xs</code>, <code>xsb</code>, only one file is used.
 </p>
 
 <p>
-<strong>Note:</strong> The <tt>yr</tt> command supports multiple files.
+<strong>Note:</strong> The <code>yr</code> command supports multiple files.
 </p>
 
 <p>
-<strong>Note:</strong> The <tt>ys</tt> command uses filenames defined in Elf/Os.
+<strong>Note:</strong> The <code>ys</code> command uses filenames defined in Elf/Os.
 </p>
 
 <p>
@@ -351,7 +351,7 @@ Select the <strong>Turbo</strong> checkbox (5).<br>
 
 <p>
 Press the <strong>VT Setup</strong> button (9).<br>
-<strong>Result:</strong> The VT Setup window opens, where the packet size can be set to <tt>Auto</tt>, <tt>1024</tt>, or <tt>128</tt>.
+<strong>Result:</strong> The VT Setup window opens, where the packet size can be set to <code>Auto</code>, <code>1024</code>, or <code>128</code>.
 </p>
 
 <p>

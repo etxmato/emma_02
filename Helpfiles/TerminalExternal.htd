@@ -10,7 +10,7 @@ To use Emma 02 with an external terminal, additional software is required.
 </p>
 
 <p>
-<strong>Note:</strong> On Linux, <tt>socat</tt> will not work; use <tt>tty0tty</tt> instead (see below).
+<strong>Note:</strong> On Linux, <code>socat</code> will not work; use <code>tty0tty</code> instead (see below).
 </p>
 
 <p>

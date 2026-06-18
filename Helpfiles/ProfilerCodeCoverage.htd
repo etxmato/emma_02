@@ -32,7 +32,7 @@ The result shows that all code on this page has now been executed.
 </p>
 
 <p>
-<strong>Note:</strong> The blue bytes at the bottom are clearly data, as are the following blue bytes. The <tt>SEP R4</tt> at 01A2 likely reads the value <tt>14</tt> from 01A3, and the <tt>OUT 3</tt> uses <tt>20</tt> as the output value.
+<strong>Note:</strong> The blue bytes at the bottom are clearly data, as are the following blue bytes. The <code>SEP R4</code> at 01A2 likely reads the value <code>14</code> from 01A3, and the <code>OUT 3</code> uses <code>20</code> as the output value.
 </p>
 </body>
 </html>

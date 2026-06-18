@@ -50,6 +50,54 @@
 #endif
 
 #include "main.h"
+
+#include "wx/html/winpars.h"
+
+class CodeTagHandler : public wxHtmlWinTagHandler
+{
+public:
+    wxString GetSupportedTags() override { return "CODE"; }
+
+    bool HandleTag(const wxHtmlTag& tag) override
+    {
+        wxColour savedColour = m_WParser->GetActualColor();
+
+        m_WParser->SetFontFixed(true);
+        m_WParser->GetContainer()->InsertCell(
+            new wxHtmlFontCell(m_WParser->CreateCurrentFont()));
+        m_WParser->GetContainer()->InsertCell(
+            new wxHtmlColourCell(wxColour(0xf4, 0xf4, 0xf4), wxHTML_CLR_BACKGROUND));
+        m_WParser->SetActualColor(wxColour(0x00, 0x00, 0x00));
+        m_WParser->GetContainer()->InsertCell(
+            new wxHtmlColourCell(wxColour(0x00, 0x00, 0x00), wxHTML_CLR_FOREGROUND));
+
+        ParseInner(tag);
+
+        m_WParser->GetContainer()->InsertCell(
+            new wxHtmlColourCell(wxColour(0xFF, 0xFF, 0xFF), wxHTML_CLR_BACKGROUND));
+        m_WParser->SetActualColor(savedColour);
+        m_WParser->GetContainer()->InsertCell(
+            new wxHtmlColourCell(savedColour, wxHTML_CLR_FOREGROUND));
+        m_WParser->SetFontFixed(false);
+        m_WParser->GetContainer()->InsertCell(
+            new wxHtmlFontCell(m_WParser->CreateCurrentFont()));
+
+        return true;
+    }
+};
+
+class CodeTagModule : public wxHtmlTagsModule
+{
+    DECLARE_DYNAMIC_CLASS(CodeTagModule)
+public:
+    void FillHandlersTable(wxHtmlWinParser *parser) override
+    {
+        parser->AddTagHandler(new CodeTagHandler());
+    }
+};
+
+IMPLEMENT_DYNAMIC_CLASS(CodeTagModule, wxHtmlTagsModule)
+
 #include "psave.h"
 #include "functionkey.h"
 #include "datadir.h"
@@ -1562,6 +1610,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 
     wxString helpFile = applicationDirectory_ + "emma_02.htb";
 
+    wxHtmlWinParser::AddModule(new CodeTagModule());
     help_ = new MyHtmlHelpController(wxHF_TOOLBAR | wxHF_CONTENTS | wxHF_INDEX | wxHF_SEARCH | wxHF_BOOKMARKS | wxHF_PRINT | wxHF_BOOKMARKS);
         
     if (!help_->AddBook(helpFile))

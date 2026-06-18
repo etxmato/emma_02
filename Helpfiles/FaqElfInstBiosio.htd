@@ -5,7 +5,7 @@
 <h1>How do I change to Biosio after Elf/Os 2.8 installation?</h1>
 
 <p>
-This instruction describes how to install and use Biosio with Elf/Os. For installation of Elf/Os, please follow the FAQ <a href="FaqElfInstElfOs.htm">How do I install Elf/Os 2.8 on an Elf?</a>. For details on how to use Biosio with other applications, see the <tt>.txt</tt> files in the Biosio directory.
+This instruction describes how to install and use Biosio with Elf/Os. For installation of Elf/Os, please follow the FAQ <a href="FaqElfInstElfOs.htm">How do I install Elf/Os 2.8 on an Elf?</a>. For details on how to use Biosio with other applications, see the <code>.txt</code> files in the Biosio directory.
 </p>
 
 <p>
@@ -42,7 +42,7 @@ Press Return in the VT100 window
 <p><strong>Result:</strong> Elf/Os will start in the VT100 window.</p>
 
 <p>
-When Elf/Os has started use the <tt>SAVE</tt> command with the details below for the required I/O configuration:
+When Elf/Os has started use the <code>SAVE</code> command with the details below for the required I/O configuration:
 </p>
 
 <h2>CDP1861 Pixie:</h2>

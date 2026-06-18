@@ -15,7 +15,7 @@ To install Elf/Os, follow these steps:
 <h2>1. Start the COSMAC Elf 2000</h2>
 
 <p>
-Start an Elf 2000 using ROM <tt>Elf2Kv110.bin</tt> (or later) and a VT simulator (serial or UART).
+Start an Elf 2000 using ROM <code>Elf2Kv110.bin</code> (or later) and a VT simulator (serial or UART).
 </p>
 
 <p>
@@ -26,7 +26,7 @@ The Elf/Os loader must first be transferred into RAM using the HEX loader.
 
 <pre>
 Select HEX mode (instead of XMODEM)
-Select file <tt>elfos_ram.hex</tt> via the HEX button
+Select file <code>elfos_ram.hex</code> via the HEX button
 Unselect Auto
 Press Play
 </pre>
@@ -56,7 +56,7 @@ Execute installation steps 1 to 5 from the Elf/Os installation menu.
 
 <pre>
 Reset the Elf 2000
-Select file <tt>supplement.hex</tt> via the HEX button
+Select file <code>supplement.hex</code> via the HEX button
 Press Play
 </pre>
 
@@ -72,7 +72,7 @@ Type run 3000
 <p><strong>Result:</strong> The installation program starts again.</p>
 
 <p>
-Execute step 4 to install <tt>xrb.bin</tt>.
+Execute step 4 to install <code>xrb.bin</code>.
 </p>
 
 <h2>4. Boot Elf/Os</h2>
@@ -92,7 +92,7 @@ b
 </pre>
 
 <p>
-Both commands start the Elf/Os boot procedure. The <tt>b</tt> command is simply a short form of <tt>boot</tt>.
+Both commands start the Elf/Os boot procedure. The <code>b</code> command is simply a short form of <code>boot</code>.
 </p>
 
 <p><strong>Result:</strong> Elf/Os loads from disk and the operating system starts.</p>
@@ -112,29 +112,29 @@ When using Elf/Os in combination with Intel 8275 video, some utilities will not 
 <h3>LOAD command</h3>
 
 <p>
-The standard Elf/Os <tt>LOAD</tt> command cannot be used when Intel 8275 video is enabled because the command uses memory that overlaps with the 8275 video RAM.
+The standard Elf/Os <code>LOAD</code> command cannot be used when Intel 8275 video is enabled because the command uses memory that overlaps with the 8275 video RAM.
 </p>
 
 <p><strong>Solution:</strong></p>
 
 <ul>
-<li>A modified version of the <tt>LOAD</tt> command is provided.</li>
-<li>This version is located at address <tt>7400</tt>-<tt>74AE</tt> (hexadecimal).</li>
-<li>The program is included in file <tt>LOAD-8275.hex</tt>.</li>
+<li>A modified version of the <code>LOAD</code> command is provided.</li>
+<li>This version is located at address <code>7400</code>-<code>74AE</code> (hexadecimal).</li>
+<li>The program is included in file <code>LOAD-8275.hex</code>.</li>
 </ul>
 
 <h3>MINIMON @ command</h3>
 
 <p>
-The <tt>@</tt> command in <tt>MINIMON</tt> will not work correctly when Intel 8275 video is enabled. The original version uses register <tt>R0</tt> as the program counter, which conflicts with the requirements of the Intel 8275 video configuration.
+The <code>@</code> command in <code>MINIMON</code> will not work correctly when Intel 8275 video is enabled. The original version uses register <code>R0</code> as the program counter, which conflicts with the requirements of the Intel 8275 video configuration.
 </p>
 
 <p><strong>Solution:</strong></p>
 
 <ul>
-<li>A modified version of <tt>MINIMON</tt> is provided.</li>
-<li>This version uses register <tt>R3</tt> as program counter.</li>
-<li>The program is included in file <tt>MINIMON-8275.hex</tt>.</li>
+<li>A modified version of <code>MINIMON</code> is provided.</li>
+<li>This version uses register <code>R3</code> as program counter.</li>
+<li>The program is included in file <code>MINIMON-8275.hex</code>.</li>
 </ul>
 
 </body>

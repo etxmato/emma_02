@@ -13,7 +13,7 @@ In some cases more detailed instructions can be found in the corresponding game 
 The descriptions below assume you are using a numeric keypad and have selected
 <strong>Settings/Use Numeric Keypad</strong>. If this option is not selected, the alternative key
 is shown in parentheses.
-For Player B, the keys <tt>W</tt>, <tt>A</tt>, <tt>S</tt>, <tt>Z</tt> control direction and <tt>TAB</tt> is used to fire. These keys work both with and without the <strong>Use Numeric Keypad</strong> setting enabled.
+For Player B, the keys <code>W</code>, <code>A</code>, <code>S</code>, <code>Z</code> control direction and <code>TAB</code> is used to fire. These keys work both with and without the <strong>Use Numeric Keypad</strong> setting enabled.
 </p>
 
 <p>
@@ -24,7 +24,7 @@ For MPT-02 cartridges that also run on the Studio II, see the <a href="FaqVictor
 <h2>Baseball</h2>
 
 <p>
-Press <tt>0</tt> to start. Player A bats first and Player B pitches. The pitching player attempts to catch the ball by moving the fielders. Player A and Player B alternate every half inning.
+Press <code>0</code> to start. Player A bats first and Player B pitches. The pitching player attempts to catch the ball by moving the fielders. Player A and Player B alternate every half inning.
 </p>
 
 <p><strong>Controls</strong></p>
@@ -79,13 +79,13 @@ Hold the key down for about a quarter second to throw a change-up (slow ball).
 <h2>Biorhythm</h2>
 
 <p>
-Press <tt>0</tt> to start.
+Press <code>0</code> to start.
 </p>
 
 <p>
-Enter your birth date using Numpad <tt>0</tt>-<tt>9</tt>
-(<tt>P</tt>, <tt>Q</tt>, <tt>W</tt>, <tt>E</tt>, <tt>R</tt>, <tt>T</tt>, <tt>Y</tt>, <tt>U</tt>, <tt>I</tt>, <tt>O</tt>)
-in the format <tt>MM DD YYYY</tt>.
+Enter your birth date using Numpad <code>0</code>-<code>9</code>
+(<code>P</code>, <code>Q</code>, <code>W</code>, <code>E</code>, <code>R</code>, <code>T</code>, <code>Y</code>, <code>U</code>, <code>I</code>, <code>O</code>)
+in the format <code>MM DD YYYY</code>.
 </p>
 
 <p>
@@ -104,12 +104,12 @@ I    intellectual cycle
 <h2>Blackjack</h2>
 
 <p>
-Press <tt>1</tt> for a one-player game or <tt>2</tt> for a two-player game.
+Press <code>1</code> for a one-player game or <code>2</code> for a two-player game.
 </p>
 
 <p>
-For all numerical input, Player A uses keyboard <tt>0</tt>-<tt>9</tt> and Player B uses
-Numpad <tt>0</tt>-<tt>9</tt> (<tt>P</tt>, <tt>Q</tt>, <tt>W</tt>, <tt>E</tt>, <tt>R</tt>, <tt>T</tt>, <tt>Y</tt>, <tt>U</tt>, <tt>I</tt>, <tt>O</tt>).
+For all numerical input, Player A uses keyboard <code>0</code>-<code>9</code> and Player B uses
+Numpad <code>0</code>-<code>9</code> (<code>P</code>, <code>Q</code>, <code>W</code>, <code>E</code>, <code>R</code>, <code>T</code>, <code>Y</code>, <code>U</code>, <code>I</code>, <code>O</code>).
 For a one-player game the controls for Player B are used.
 </p>
 
@@ -156,8 +156,8 @@ Press one of the following keys:
 </pre>
 
 <p>
-For all numerical input, Player A uses keyboard <tt>0</tt>-<tt>9</tt> and Player B uses
-Numpad <tt>0</tt>-<tt>9</tt> (<tt>P</tt>, <tt>Q</tt>, <tt>W</tt>, <tt>E</tt>, <tt>R</tt>, <tt>T</tt>, <tt>Y</tt>, <tt>U</tt>, <tt>I</tt>, <tt>O</tt>).
+For all numerical input, Player A uses keyboard <code>0</code>-<code>9</code> and Player B uses
+Numpad <code>0</code>-<code>9</code> (<code>P</code>, <code>Q</code>, <code>W</code>, <code>E</code>, <code>R</code>, <code>T</code>, <code>Y</code>, <code>U</code>, <code>I</code>, <code>O</code>).
 For a one-player game the controls for Player B are used.
 </p>
 
@@ -191,8 +191,8 @@ In a two-player game both players enter their secret number before the game star
 <h3>Reverse</h3>
 
 <p>
-Rearrange the numbers so they appear in sequence from <tt>1</tt>-<tt>9</tt>.
-Press Numpad keys <tt>2</tt>-<tt>9</tt> (<tt>W</tt>, <tt>E</tt>, <tt>R</tt>, <tt>T</tt>, <tt>Y</tt>, <tt>U</tt>, <tt>I</tt>, <tt>O</tt>).
+Rearrange the numbers so they appear in sequence from <code>1</code>-<code>9</code>.
+Press Numpad keys <code>2</code>-<code>9</code> (<code>W</code>, <code>E</code>, <code>R</code>, <code>T</code>, <code>Y</code>, <code>U</code>, <code>I</code>, <code>O</code>).
 The number pressed determines how many digits are reversed.
 </p>
 
@@ -207,20 +207,20 @@ This cartridge originates from the Sarnoff Collection at TCNJ (S.572.33, S.572.4
 <h3>Doodle</h3>
 
 <p>
-Press <tt>1</tt> to start. A white dot will appear in the lower left corner.
-Move the dot using the Arrow Keys or Numpad <tt>1</tt>-<tt>9</tt>. Pressing two move keys
+Press <code>1</code> to start. A white dot will appear in the lower left corner.
+Move the dot using the Arrow Keys or Numpad <code>1</code>-<code>9</code>. Pressing two move keys
 simultaneously moves diagonally.
 </p>
 
 <p>
-Press Numpad <tt>5</tt> (<tt>TAB</tt>) to begin drawing. Press <tt>SPACE</tt> or Numpad <tt>0</tt> to erase.
+Press Numpad <code>5</code> (<code>TAB</code>) to begin drawing. Press <code>SPACE</code> or Numpad <code>0</code> to erase.
 </p>
 
 
 <h3>Curling</h3>
 
 <p>
-Press <tt>2</tt> to start. Press <tt>0</tt> on keypad A or B, depending on whose turn it is.
+Press <code>2</code> to start. Press <code>0</code> on keypad A or B, depending on whose turn it is.
 Hold the key long enough to reach one of the target symbols.
 </p>
 
@@ -228,7 +228,7 @@ Hold the key long enough to reach one of the target symbols.
 <h3>Pong Variant</h3>
 
 <p>
-Press <tt>5</tt> to start. Press <tt>0</tt> on keypad A or B to move the paddle up.
+Press <code>5</code> to start. Press <code>0</code> on keypad A or B to move the paddle up.
 When the key is released, the paddle returns to the bottom of the screen.
 </p>
 
@@ -236,7 +236,7 @@ When the key is released, the paddle returns to the bottom of the screen.
 <h3>Addition</h3>
 
 <p>
-Press <tt>6</tt> to start. Add the digits shown and press the correct number.
+Press <code>6</code> to start. Add the digits shown and press the correct number.
 Faster answers score more points.
 </p>
 
@@ -244,7 +244,7 @@ Faster answers score more points.
 <h3>Freeway</h3>
 
 <p>
-Press <tt>7</tt> to start. Press <tt>5</tt> to start the car.
+Press <code>7</code> to start. Press <code>5</code> to start the car.
 </p>
 
 <p><strong>Controls</strong></p>
@@ -293,7 +293,7 @@ TAB                fire (tap: fast bullet, hold: two slow bullets)
 <h3>Moonship Battle</h3>
 
 <p>
-Press <tt>3</tt> to start. Each moonship can move in eight directions.
+Press <code>3</code> to start. Each moonship can move in eight directions.
 Pressing two move keys simultaneously moves diagonally (for both players).
 </p>
 
@@ -339,8 +339,8 @@ Next, select one of the following:
 </pre>
 
 <p>
-For all numerical input, Player A uses keyboard <tt>0</tt>-<tt>9</tt> and Player B uses
-Numpad <tt>0</tt>-<tt>9</tt> (<tt>P</tt>, <tt>Q</tt>, <tt>W</tt>, <tt>E</tt>, <tt>R</tt>, <tt>T</tt>, <tt>Y</tt>, <tt>U</tt>, <tt>I</tt>, <tt>O</tt>).
+For all numerical input, Player A uses keyboard <code>0</code>-<code>9</code> and Player B uses
+Numpad <code>0</code>-<code>9</code> (<code>P</code>, <code>Q</code>, <code>W</code>, <code>E</code>, <code>R</code>, <code>T</code>, <code>Y</code>, <code>U</code>, <code>I</code>, <code>O</code>).
 For a one-player game the controls for Player B are used.
 </p>
 
@@ -373,8 +373,8 @@ Decide which quiz you want to play (1-9). The Studio II will show a letter (A-H)
 </p>
 
 <p>
-For all numerical input, Player A uses keyboard <tt>0</tt>-<tt>9</tt> and Player B uses
-Numpad <tt>0</tt>-<tt>9</tt> (<tt>P</tt>, <tt>Q</tt>, <tt>W</tt>, <tt>E</tt>, <tt>R</tt>, <tt>T</tt>, <tt>Y</tt>, <tt>U</tt>, <tt>I</tt>, <tt>O</tt>).
+For all numerical input, Player A uses keyboard <code>0</code>-<code>9</code> and Player B uses
+Numpad <code>0</code>-<code>9</code> (<code>P</code>, <code>Q</code>, <code>W</code>, <code>E</code>, <code>R</code>, <code>T</code>, <code>Y</code>, <code>U</code>, <code>I</code>, <code>O</code>).
 For a one-player game the controls for Player B are used.
 </p>
 
@@ -384,7 +384,7 @@ For a one-player game the controls for Player B are used.
 <h3>Horizontal Intercept</h3>
 
 <p>
-Press <tt>1</tt> to start.
+Press <code>1</code> to start.
 </p>
 
 <pre>
@@ -397,7 +397,7 @@ Right Arrow    steer rocket right
 <h3>Vertical Intercept</h3>
 
 <p>
-Press <tt>3</tt> to start.
+Press <code>3</code> to start.
 </p>
 
 <pre>
@@ -435,14 +435,14 @@ Numpad 6 (S)     move right
 <h3>Speedway</h3>
 
 <p>
-Press <tt>1</tt> to start the nine-lap race.
+Press <code>1</code> to start the nine-lap race.
 </p>
 
 
 <h3>Tag</h3>
 
 <p>
-Press <tt>2</tt> to start. The black marker chases the white marker.
+Press <code>2</code> to start. The black marker chases the white marker.
 Each tag scores 10 points. The game lasts two minutes.
 </p>
 

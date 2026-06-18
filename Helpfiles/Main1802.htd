@@ -39,7 +39,7 @@ demonstration purposes.
 <p>
 The register set of the CDP1802 consists of sixteen 16-bit registers (R0-R15). Unlike most
 other microprocessors, any of these registers can act as the program counter.
-The instruction <tt>SEP Rx</tt> selects which register is used as the program counter.
+The instruction <code>SEP Rx</code> selects which register is used as the program counter.
 </p>
 <p>
 This allows simple implementation of multiple program counters, pointers, and
@@ -56,8 +56,8 @@ restoring the processor context if required.
 
 <h3>Q Output and EF Inputs</h3>
 <p>
-The CDP1802 provides a single programmable output line called <tt>Q</tt> and four external
-flag input lines called <tt>EF1-EF4</tt>. These signals are frequently used for simple I/O
+The CDP1802 provides a single programmable output line called <code>Q</code> and four external
+flag input lines called <code>EF1-EF4</code>. These signals are frequently used for simple I/O
 operations, bit-level communication, or status monitoring in COSMAC-based systems.
 </p>
 

@@ -9,7 +9,7 @@ Elf/Os is a disk-based operating system for Elf-class computers designed by Mike
 </p>
 
 <p>
-During installation the following <tt>.ide</tt> files are provided with Elf/Os 2.8 already installed:
+During installation the following <code>.ide</code> files are provided with Elf/Os 2.8 already installed:
 </p>
 
 <ul>
@@ -31,7 +31,7 @@ The following example will install Elf/Os 2.8 via a VT100 terminal. To change vi
 </p>
 
 <p>
-To start installation, first load the XML configuration file <tt>elfos-installation-serial.xml</tt> located under the Elf computer. Now follow these steps:
+To start installation, first load the XML configuration file <code>elfos-installation-serial.xml</code> located under the Elf computer. Now follow these steps:
 </p>
 
 <h2>1. Press <strong>Start</strong></h2>
@@ -113,28 +113,28 @@ This will install the binary utilities onto the disk.
 </p>
 
 <ul>
-<li><tt>DIR</tt> - View the disk directory</li>
-<li><tt>SAVE</tt> - Save memory contents to an executable file</li>
-<li><tt>DUMP</tt> - Dump memory contents to executable files</li>
-<li><tt>MINIMON</tt> - Simple monitor for viewing and modifying memory</li>
-<li><tt>LOAD</tt> - Load an executable program into memory without executing it</li>
-<li><tt>FREE</tt> - Show disk usage statistics</li>
-<li><tt>DEL</tt> - Delete files</li>
-<li><tt>HEXDUMP</tt> - Display the contents of a file in hex</li>
-<li><tt>COPY</tt> - Copy files</li>
-<li><tt>RENAME</tt> - Rename files</li>
-<li><tt>TYPE</tt> - Display the contents of an ASCII file</li>
-<li><tt>EDIT</tt> - Simple text editor</li>
-<li><tt>EXEC</tt> - Execute a program already in memory</li>
-<li><tt>RINSTALL</tt> - Load additional packages</li>
-<li><tt>MKDIR</tt> - Make a directory</li>
-<li><tt>RMDIR</tt> - Remove a directory</li>
-<li><tt>CHDIR</tt> - Change or view the current directory</li>
-<li><tt>PATCH</tt> - Apply program patches</li>
-<li><tt>VER</tt> - Get the Elf/Os version</li>
-<li><tt>ASM</tt> - Assembler</li>
-<li><tt>STAT</tt> - View file statistics</li>
-<li><tt>SEDIT</tt></li>
+<li><code>DIR</code> - View the disk directory</li>
+<li><code>SAVE</code> - Save memory contents to an executable file</li>
+<li><code>DUMP</code> - Dump memory contents to executable files</li>
+<li><code>MINIMON</code> - Simple monitor for viewing and modifying memory</li>
+<li><code>LOAD</code> - Load an executable program into memory without executing it</li>
+<li><code>FREE</code> - Show disk usage statistics</li>
+<li><code>DEL</code> - Delete files</li>
+<li><code>HEXDUMP</code> - Display the contents of a file in hex</li>
+<li><code>COPY</code> - Copy files</li>
+<li><code>RENAME</code> - Rename files</li>
+<li><code>TYPE</code> - Display the contents of an ASCII file</li>
+<li><code>EDIT</code> - Simple text editor</li>
+<li><code>EXEC</code> - Execute a program already in memory</li>
+<li><code>RINSTALL</code> - Load additional packages</li>
+<li><code>MKDIR</code> - Make a directory</li>
+<li><code>RMDIR</code> - Remove a directory</li>
+<li><code>CHDIR</code> - Change or view the current directory</li>
+<li><code>PATCH</code> - Apply program patches</li>
+<li><code>VER</code> - Get the Elf/Os version</li>
+<li><code>ASM</code> - Assembler</li>
+<li><code>STAT</code> - View file statistics</li>
+<li><code>SEDIT</code></li>
 </ul>
 
 
@@ -153,7 +153,7 @@ This will boot Elf/Os.
 <h2>7. Start Elf/Os</h2>
 
 <p>
-From now on you can start Elf/Os directly by loading XML configuration <tt>elfos-serial.xml</tt>.
+From now on you can start Elf/Os directly by loading XML configuration <code>elfos-serial.xml</code>.
 </p>
 
 </body>

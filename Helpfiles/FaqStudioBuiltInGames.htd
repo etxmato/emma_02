@@ -10,13 +10,13 @@ The sections below provide brief instructions on how to play the built-in games.
 <p>
 The descriptions below assume you are using a numeric keypad and have selected <strong>Settings/Use Numeric Keypad</strong>.
 If this option is not selected, the alternative key is shown in parentheses.
-For Player B, the keys <tt>W</tt>, <tt>A</tt>, <tt>S</tt>, <tt>Z</tt> control direction and <tt>TAB</tt> is used to fire. These keys work both with and without the <strong>Use Numeric Keypad</strong> setting enabled.
+For Player B, the keys <code>W</code>, <code>A</code>, <code>S</code>, <code>Z</code> control direction and <code>TAB</code> is used to fire. These keys work both with and without the <strong>Use Numeric Keypad</strong> setting enabled.
 </p>
 
 <h2>Doodle</h2>
 
 <p>
-Press <tt>1</tt> to start.
+Press <code>1</code> to start.
 </p>
 
 <p><strong>Controls</strong></p>
@@ -28,7 +28,7 @@ SPACE / Numpad 0          erase
 </pre>
 
 <p>
-A white dot will appear in the lower left corner. Move the dot using the Arrow Keys or Numpad keys <tt>1</tt>-<tt>9</tt>.
+A white dot will appear in the lower left corner. Move the dot using the Arrow Keys or Numpad keys <code>1</code>-<code>9</code>.
 Pressing two move keys simultaneously moves the dot diagonally across the screen.
 </p>
 
@@ -39,15 +39,15 @@ another pattern and have the Studio II print over your Doodle.
 </p>
 
 <p>
-After finishing your Doodle, press <tt>2</tt>. To reverse the image, first press the <tt>Right Arrow</tt> key. 
-Then press <tt>SPACE</tt> or Numpad <tt>0</tt> and the screen will start to 'paint' itself white. 
-You can freeze the picture any time by pressing Numpad <tt>5</tt> (<tt>TAB</tt>).
+After finishing your Doodle, press <code>2</code>. To reverse the image, first press the <code>Right Arrow</code> key. 
+Then press <code>SPACE</code> or Numpad <code>0</code> and the screen will start to 'paint' itself white. 
+You can freeze the picture any time by pressing Numpad <code>5</code> (<code>TAB</code>).
 </p>
 
 <h2>Patterns</h2>
 
 <p>
-Press <tt>2</tt> to start.
+Press <code>2</code> to start.
 </p>
 
 <p><strong>Controls</strong></p>
@@ -60,25 +60,25 @@ Numpad 5 (TAB)            freeze pattern
 
 <p>
 No dot will appear until a key is pressed. Form a simple design using the Arrow Keys 
-(or Numpad <tt>1</tt>-<tt>9</tt>). To erase part of your design, simply trace back over it.
+(or Numpad <code>1</code>-<code>9</code>). To erase part of your design, simply trace back over it.
 </p>
 
 <p>
-When your design is ready, press <tt>SPACE</tt> or Numpad <tt>0</tt>. The Studio II will repeat your design across the screen to form the pattern.
+When your design is ready, press <code>SPACE</code> or Numpad <code>0</code>. The Studio II will repeat your design across the screen to form the pattern.
 </p>
 
 <p>
-To 'freeze' the pattern, press Numpad <tt>5</tt> (<tt>TAB</tt>). Restart with <tt>SPACE</tt> or Numpad <tt>0</tt>.
+To 'freeze' the pattern, press Numpad <code>5</code> (<code>TAB</code>). Restart with <code>SPACE</code> or Numpad <code>0</code>.
 </p>
 
 <p>
-After 130 key entries, the Studio II will start forming a pattern even if no <tt>SPACE</tt> is pressed.
+After 130 key entries, the Studio II will start forming a pattern even if no <code>SPACE</code> is pressed.
 </p>
 
 <h2>Bowling</h2>
 
 <p>
-Press <tt>3</tt> to start. Players take turns rolling the ball.
+Press <code>3</code> to start. Players take turns rolling the ball.
 </p>
 
 <p><strong>Controls</strong></p>
@@ -104,7 +104,7 @@ The game consists of 10 frames.
 <h2>Freeway</h2>
 
 <p>
-Press <tt>4</tt> to start.
+Press <code>4</code> to start.
 </p>
 
 <p><strong>Controls</strong></p>
@@ -125,7 +125,7 @@ The score is given after 2 minutes.
 <h2>Addition</h2>
 
 <p>
-Press <tt>5</tt> to start.
+Press <code>5</code> to start.
 </p>
 
 <p><strong>Controls</strong></p>

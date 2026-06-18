@@ -18,7 +18,7 @@ To get started:
 <ul>
 <li>Start an emulator of your choice.</li>
 <li>Decide what your code start and end address will be. As an example, start at 0 and end at 0FFF (hexadecimal).</li>
-<li>Fill in the start and end text fields, as well as a file name, e.g., <tt>test.bin</tt>. You should have something like the screenshot shown below.</li>
+<li>Fill in the start and end text fields, as well as a file name, e.g., <code>test.bin</code>. You should have something like the screenshot shown below.</li>
 </ul>
 
 <p>
@@ -60,11 +60,11 @@ After writing this counter, you realise you need to make the counter larger - sa
 </ul>
 
 <p>
-To do this, go to address 0 and press the <strong>Insert</strong> button (1) three times. When doing that, also look at what happens to the <tt>BNZ <font color="#fc5900">03</font></tt> instruction. It will change on every insert!
+To do this, go to address 0 and press the <strong>Insert</strong> button (1) three times. When doing that, also look at what happens to the <code>BNZ <font color="#fc5900">03</font></code> instruction. It will change on every insert!
 </p>
 
 <p>
-After the three inserts, you have room to add: <tt>LDI 02</tt> / <tt>PHI RA</tt> on address 0000 and 0002 (hexadecimal). Also add a check on <tt>RA.1</tt> at the end to get:
+After the three inserts, you have room to add: <code>LDI 02</code> / <code>PHI RA</code> on address 0000 and 0002 (hexadecimal). Also add a check on <code>RA.1</code> at the end to get:
 </p>
 
 <p>
@@ -95,11 +95,11 @@ To see how this works, write something like:
 </p>
 
 <p>
-Insert at address 00FD (hexadecimal); the <tt>BR <font color="#fc5900">FF</font></tt> will change to an <tt>LBR <font color="#fc5900">0101</font></tt>.
+Insert at address 00FD (hexadecimal); the <code>BR <font color="#fc5900">FF</font></code> will change to an <code>LBR <font color="#fc5900">0101</font></code>.
 </p>
 
 <p>
-The <strong>Direct Assembler</strong> inserts a <tt>NOP</tt> at 00FD (hexadecimal) and also expands the <tt>BR</tt> to an <tt>LBR</tt>, adding an extra byte.
+The <strong>Direct Assembler</strong> inserts a <code>NOP</code> at 00FD (hexadecimal) and also expands the <code>BR</code> to an <code>LBR</code>, adding an extra byte.
 </p>
 
 <p>
@@ -107,11 +107,11 @@ The <strong>Direct Assembler</strong> inserts a <tt>NOP</tt> at 00FD (hexadecima
 </p>
 
 <p>
-The same will happen with <strong>Delete</strong>: if an <tt>LBR</tt> is no longer needed, it will be replaced by a <tt>BR</tt>.
+The same will happen with <strong>Delete</strong>: if an <code>LBR</code> is no longer needed, it will be replaced by a <code>BR</code>.
 </p>
 
 <p>
-<strong>Note:</strong> In the example above, deleting the <tt>NOP</tt> on 00FE (hexadecimal) will not cause the <tt>LBR</tt> to change to a <tt>BR</tt>. The <tt>LBR</tt> will still be to 0100 (hexadecimal), which means a <tt>BR</tt> does not fit. An extra delete, for example on 00F5 (hexadecimal), would change the <tt>LBR</tt> to a <tt>BR</tt>.
+<strong>Note:</strong> In the example above, deleting the <code>NOP</code> on 00FE (hexadecimal) will not cause the <code>LBR</code> to change to a <code>BR</code>. The <code>LBR</code> will still be to 0100 (hexadecimal), which means a <code>BR</code> does not fit. An extra delete, for example on 00F5 (hexadecimal), would change the <code>LBR</code> to a <code>BR</code>.
 </p>
 
 <p>
@@ -122,7 +122,7 @@ The same will happen with <strong>Delete</strong>: if an <tt>LBR</tt> is no long
 <h2>Saving</h2>
 
 <p>
-Use the <strong>Save</strong> button on the <strong>Direct Assembler</strong> tab to save all debug data. This will save <tt>test.bin</tt>, <tt>test.debug</tt>, and the configuration files. The <tt>.debug</tt> file includes information about where branches and code are located. The <tt>.config</tt> file includes information about the specified configuration.
+Use the <strong>Save</strong> button on the <strong>Direct Assembler</strong> tab to save all debug data. This will save <code>test.bin</code>, <code>test.debug</code>, and the configuration files. The <code>.debug</code> file includes information about where branches and code are located. The <code>.config</code> file includes information about the specified configuration.
 </p>
 
 <p>

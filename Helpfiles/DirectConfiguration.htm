@@ -36,7 +36,7 @@ The program configuration interface is shown below:
 </ul>
 
 <p>
-The example shown above defines a code area of 4400-53FF (hexadecimal) and a data area between 5400-5FFF (hexadecimal). After defining this configuration, press the <strong>Save</strong> button (8) to store a binary file <tt>mycode.bin</tt> from memory locations 4400-5FFF (hexadecimal) and save type information in a file <tt>mycode.debug</tt>.
+The example shown above defines a code area of 4400-53FF (hexadecimal) and a data area between 5400-5FFF (hexadecimal). After defining this configuration, press the <strong>Save</strong> button (8) to store a binary file <code>mycode.bin</code> from memory locations 4400-5FFF (hexadecimal) and save type information in a file <code>mycode.debug</code>.
 </p>
 
 <p>
@@ -48,7 +48,7 @@ To load an existing configuration file, use the <strong>Load</strong> button (7)
 </p>
 
 <p>
-Keep all data either at the start of the code area, or after it in the data area between <strong>Code end</strong> and <strong>(Program) end</strong>. Data can also be placed within the code area, as long as the <tt>LVL</tt> macro is used to load the data address (see the <a href="DirectAssembler.htm">LDL, LDRL, LDV and RLDL instructions</a> section).
+Keep all data either at the start of the code area, or after it in the data area between <strong>Code end</strong> and <strong>(Program) end</strong>. Data can also be placed within the code area, as long as the <code>LVL</code> macro is used to load the data address (see the <a href="DirectAssembler.htm">LDL, LDRL, LDV and RLDL instructions</a> section).
 </p>
 
 <p>
@@ -59,7 +59,7 @@ If no data area is needed, <strong>Code end</strong> and <strong>(Program) end</
 <h2>COMX and Elf settings</h2>
 
 <p>
-The COMX Slot code must be defined as the COMX <tt>OUT 1</tt> definition:
+The COMX Slot code must be defined as the COMX <code>OUT 1</code> definition:
 </p>
 <ul>
 <li>bit 0: 0=Select ROM bank, 1=Select RAM bank</li>
@@ -115,7 +115,7 @@ Press the <strong>Configuration</strong> spin button (4) to step through the def
 </p>
 
 <p>
-To automatically save the defined programs as well as the <tt>.config</tt> file, enable the <strong>Save on exit</strong> checkbox (5). If no configuration file has been specified, a default file <tt>debug.config</tt> will be saved.
+To automatically save the defined programs as well as the <code>.config</code> file, enable the <strong>Save on exit</strong> checkbox (5). If no configuration file has been specified, a default file <code>debug.config</code> will be saved.
 </p>
 
 <p>
@@ -145,7 +145,7 @@ The configuration version interface is shown below:
 </ul>
 
 <p>
-To restore a previous version, enter its number in the <strong>Configuration version</strong> text field (1). Enter <tt>1</tt> to load the oldest backup, or the highest number in the directory to load the latest. The example above would load back version 4.
+To restore a previous version, enter its number in the <strong>Configuration version</strong> text field (1). Enter <code>1</code> to load the oldest backup, or the highest number in the directory to load the latest. The example above would load back version 4.
 </p>
 
 <p>

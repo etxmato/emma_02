@@ -22,7 +22,7 @@ The current working address is shown in bold, between <strong>&gt;</strong> and 
 </p>
 
 <p>
-<strong>Note:</strong> All data values must be given as hexadecimal values unless preceded by <tt>&amp;</tt>, in which case the values are interpreted as decimal, i.e., <tt>LDI &amp;100</tt> is the same as <tt>LDI 64</tt>.
+<strong>Note:</strong> All data values must be given as hexadecimal values unless preceded by <code>&amp;</code>, in which case the values are interpreted as decimal, i.e., <code>LDI &amp;100</code> is the same as <code>LDI 64</code>.
 </p>
 
 <p>
@@ -37,15 +37,15 @@ In addition to 180x and pseudo-code, the options described in the following subs
 <h2>Data Input</h2>
 
 <p>
-<strong>Format:</strong> <tt>#ww xx yy zz</tt>
+<strong>Format:</strong> <code>#ww xx yy zz</code>
 </p>
 
 <p>
-The values ww, xx, yy, zz are hexadecimal and are stored at the current and following working addresses. At least one value (ww) must be specified. Spaces after <tt>#</tt> and between bytes are optional.
+The values ww, xx, yy, zz are hexadecimal and are stored at the current and following working addresses. At least one value (ww) must be specified. Spaces after <code>#</code> and between bytes are optional.
 </p>
 
 <p>
-<strong>Example:</strong> type in <tt># 10 20 30</tt> (1) at address 4424 (hexadecimal); this results in code <tt>10 20 30</tt> at addresses 4424-4426 (hexadecimal) (2):
+<strong>Example:</strong> type in <code># 10 20 30</code> (1) at address 4424 (hexadecimal); this results in code <code>10 20 30</code> at addresses 4424-4426 (hexadecimal) (2):
 </p>
 
 <p>
@@ -68,15 +68,15 @@ The values ww, xx, yy, zz are hexadecimal and are stored at the current and foll
 <h2>ASCII Text</h2>
 
 <p>
-<strong>Format:</strong> <tt>'text</tt>
+<strong>Format:</strong> <code>'text</code>
 </p>
 
 <p>
-All text after <tt>'</tt> is stored as ASCII code at the current working address.
+All text after <code>'</code> is stored as ASCII code at the current working address.
 </p>
 
 <p>
-<strong>Example:</strong> type in <tt>'SOME TEXT</tt> (1) at address 4427 (hexadecimal); this results in ASCII code for SOME TEXT at addresses 4427-442F (hexadecimal) (2):
+<strong>Example:</strong> type in <code>'SOME TEXT</code> (1) at address 4427 (hexadecimal); this results in ASCII code for SOME TEXT at addresses 4427-442F (hexadecimal) (2):
 </p>
 
 <p>
@@ -95,15 +95,15 @@ All text after <tt>'</tt> is stored as ASCII code at the current working address
 <h2>ASCII Text - High Colour</h2>
 
 <p>
-<strong>Format:</strong> <tt>"text</tt>
+<strong>Format:</strong> <code>"text</code>
 </p>
 
 <p>
-Only applicable to the COMX to store ASCII text in <strong>high colour</strong>; all text after <tt>"</tt> is stored as ASCII code (range 80 to FF (hexadecimal)) at the current working address.
+Only applicable to the COMX to store ASCII text in <strong>high colour</strong>; all text after <code>"</code> is stored as ASCII code (range 80 to FF (hexadecimal)) at the current working address.
 </p>
 
 <p>
-<strong>Example:</strong> type in <tt>"SOME TEXT</tt> (1) at address 4430 (hexadecimal); this results in ASCII code in <strong>high colour</strong> for SOME TEXT at addresses 4430-4438 (hexadecimal) (2):
+<strong>Example:</strong> type in <code>"SOME TEXT</code> (1) at address 4430 (hexadecimal); this results in ASCII code in <strong>high colour</strong> for SOME TEXT at addresses 4430-4438 (hexadecimal) (2):
 </p>
 
 <p>
@@ -118,7 +118,7 @@ Only applicable to the COMX to store ASCII text in <strong>high colour</strong>;
 <h2>Branch Address</h2>
 
 <p>
-<strong>Format:</strong> <tt>:hex address</tt>
+<strong>Format:</strong> <code>:hex address</code>
 </p>
 
 <p>
@@ -126,7 +126,7 @@ Stores a 16-bit branch address; see the <a href="DirectBranchData.htm">Branch Da
 </p>
 
 <p>
-<strong>Example:</strong> type in <tt>:1234</tt> (1) at address 4439 (hexadecimal); this stores <tt>12</tt> at address 4439 and <tt>34</tt> at address 443A, representing address 1234 (hexadecimal) (2):
+<strong>Example:</strong> type in <code>:1234</code> (1) at address 4439 (hexadecimal); this stores <code>12</code> at address 4439 and <code>34</code> at address 443A, representing address 1234 (hexadecimal) (2):
 </p>
 
 <p>

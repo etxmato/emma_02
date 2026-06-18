@@ -26,8 +26,8 @@ First set up the Studio II emulator with the Space Invaders game:
 </p>
 <ul>
 <li>(1) <strong>Computer</strong> selector - select RCA Studio II</li>
-<li>(2) <strong>XML</strong> selector - select <tt>standard.xml</tt></li>
-<li>(3) <strong>ROM @0400</strong> selector - select <tt>invaders.st2</tt></li>
+<li>(2) <strong>XML</strong> selector - select <code>standard.xml</code></li>
+<li>(3) <strong>ROM @0400</strong> selector - select <code>invaders.st2</code></li>
 <li>(4) <strong>Start</strong> button</li>
 </ul>
 
@@ -49,7 +49,7 @@ Select the <strong>Direct Assembler</strong> tab (1). This should show the <stro
 </p>
 
 <p>
-This address will show an ST2 instruction <tt>SYS 45D</tt> (4) in <font color="#5C9597">steel blue</font>, which is a call to a CDP1802 code routine at address 045D (hexadecimal). From address 0402 (hexadecimal) to 041D (hexadecimal) (5) data bytes should be shown in <font color="#3947CE">blue</font>. From 041E (hexadecimal) onwards (6) CDP1802 code should be shown in black.
+This address will show an ST2 instruction <code>SYS 45D</code> (4) in <font color="#5C9597">steel blue</font>, which is a call to a CDP1802 code routine at address 045D (hexadecimal). From address 0402 (hexadecimal) to 041D (hexadecimal) (5) data bytes should be shown in <font color="#3947CE">blue</font>. From 041E (hexadecimal) onwards (6) CDP1802 code should be shown in black.
 </p>
 
 <p>
@@ -59,13 +59,13 @@ This address will show an ST2 instruction <tt>SYS 45D</tt> (4) in <font color="#
 <li>(1) <strong>Direct Assembler</strong> tab</li>
 <li>(2) <strong>Move to:</strong> field</li>
 <li>(3) <strong>Navigation</strong> scrollbar</li>
-<li>(4) <tt>SYS 45D</tt> instruction in <font color="#5C9597">steel blue</font></li>
+<li>(4) <code>SYS 45D</code> instruction in <font color="#5C9597">steel blue</font></li>
 <li>(5) Data bytes in <font color="#3947CE">blue</font> (addresses 0402-041D)</li>
 <li>(6) CDP1802 code in black (from 041E onwards)</li>
 </ul>
 
 <p>
-The Space Invaders game runs from 0400 (hexadecimal) to 07FF (hexadecimal). Do a manual walk through the code from the current address to 0800 (hexadecimal). The easiest way is to use <tt>SHIFT DOWN</tt>, which moves one page down on every press. Check that all code is shown as CDP1802 code in black/<font color="#EA6F32">orange</font> text and data is shown in <font color="#3947CE">blue</font>.
+The Space Invaders game runs from 0400 (hexadecimal) to 07FF (hexadecimal). Do a manual walk through the code from the current address to 0800 (hexadecimal). The easiest way is to use <code>SHIFT DOWN</code>, which moves one page down on every press. Check that all code is shown as CDP1802 code in black/<font color="#EA6F32">orange</font> text and data is shown in <font color="#3947CE">blue</font>.
 </p>
 
 <p>
@@ -80,7 +80,7 @@ The following areas will probably show in <font color="#3947CE">blue</font> (dep
 </p>
 <ul>
 <li>0402 (hexadecimal) - 041D (hexadecimal): At the start of the game this is likely some kind of table, but there is no proof yet.</li>
-<li>0594 (hexadecimal) / 0598 (hexadecimal): Two bytes - the first is preceded by a <tt>SEX R3</tt> and both are followed by an <tt>OUT 2</tt>. This is clearly data; an <tt>OUT 2</tt> is being done with the value 04 stored at 0594 (hexadecimal):
+<li>0594 (hexadecimal) / 0598 (hexadecimal): Two bytes - the first is preceded by a <code>SEX R3</code> and both are followed by an <code>OUT 2</code>. This is clearly data; an <code>OUT 2</code> is being done with the value 04 stored at 0594 (hexadecimal):
 <p>
 <img src="images/assembler_example_594_598.png" border="0" width="724" height="609">
 </p>
@@ -90,12 +90,12 @@ The following areas will probably show in <font color="#3947CE">blue</font> (dep
 <img src="images/assembler_example_668.png" border="0" width="724" height="609">
 </p>
 </li>
-<li>06CB (hexadecimal) - 06CF (hexadecimal): This must be code, as it is preceded by a <tt>BNZ D2</tt> - the zero case will execute 06CB (hexadecimal):
+<li>06CB (hexadecimal) - 06CF (hexadecimal): This must be code, as it is preceded by a <code>BNZ D2</code> - the zero case will execute 06CB (hexadecimal):
 <p>
 <img src="images/assembler_example_6CB.png" border="0" width="724" height="609">
 </p>
 <p>
-To manually correct this, set the mark type to <tt>1802</tt> (1) and select 06CB (hexadecimal) as the address (2). Press the <strong>Mark</strong> button (3) for every address. See the <a href="DirectMarking.htm">Memory Type Selection</a> section.</p>
+To manually correct this, set the mark type to <code>1802</code> (1) and select 06CB (hexadecimal) as the address (2). Press the <strong>Mark</strong> button (3) for every address. See the <a href="DirectMarking.htm">Memory Type Selection</a> section.</p>
 </li>
 <li>06E4 (hexadecimal) - 06E7 (hexadecimal): Same as above - mark as CDP1802 code via the <strong>Mark</strong> button.</li>
 <li>0733 (hexadecimal) - 0737 (hexadecimal): Same as above - mark as CDP1802 code via the <strong>Mark</strong> button.</li>
@@ -112,7 +112,7 @@ To manually correct this, set the mark type to <tt>1802</tt> (1) and select 06CB
 <h2>Setting up the program configuration</h2>
 
 <p>
-Now save the <a href="DirectConfiguration.htm">program configuration</a> including all debug information collected. Press the <strong>Configuration</strong> spinbutton (1) down so it shows configuration one, then fill in a file name (2) (e.g., <tt>invaders.bin</tt>), code start (3) to 0400 (hexadecimal), code end (4) to 07F7 (hexadecimal), end (5) to 07FF (hexadecimal), and press <strong>Store</strong> (6). The configuration should look as follows:
+Now save the <a href="DirectConfiguration.htm">program configuration</a> including all debug information collected. Press the <strong>Configuration</strong> spinbutton (1) down so it shows configuration one, then fill in a file name (2) (e.g., <code>invaders.bin</code>), code start (3) to 0400 (hexadecimal), code end (4) to 07F7 (hexadecimal), end (5) to 07FF (hexadecimal), and press <strong>Store</strong> (6). The configuration should look as follows:
 </p>
 
 <p>
@@ -120,7 +120,7 @@ Now save the <a href="DirectConfiguration.htm">program configuration</a> includi
 </p>
 
 <p>
-Press <strong>Save</strong> (7) and give the configuration a name, e.g., <tt>invaders.config</tt>.
+Press <strong>Save</strong> (7) and give the configuration a name, e.g., <code>invaders.config</code>.
 </p>
 
 <p>
@@ -151,41 +151,41 @@ LD L:   071D
 </pre>
 
 <ul>
-<li>LD H-L: 047A (hexadecimal) - move to location 047A (hexadecimal). Here 0402 (hexadecimal) is loaded into RC (1). Looking closer, a few <tt>LDA RC</tt> instructions (2) are done, followed by a check for a 0 (3) that branches out of the routine. This confirms that 0402 (hexadecimal) to 041D (hexadecimal) is a data table ending with a 0 at 041D (hexadecimal).
+<li>LD H-L: 047A (hexadecimal) - move to location 047A (hexadecimal). Here 0402 (hexadecimal) is loaded into RC (1). Looking closer, a few <code>LDA RC</code> instructions (2) are done, followed by a check for a 0 (3) that branches out of the routine. This confirms that 0402 (hexadecimal) to 041D (hexadecimal) is a data table ending with a 0 at 041D (hexadecimal).
 <p>
 <img src="images/assembler_example_47A.png" border="0" width="724" height="609">
 </p>
 <p>
-Mark 047A (hexadecimal) as an <tt>LDL</tt> instruction (select <tt>LDL</tt> instead of <tt>1802</tt> and press <strong>Mark</strong>), resulting in:
+Mark 047A (hexadecimal) as an <code>LDL</code> instruction (select <code>LDL</code> instead of <code>1802</code> and press <strong>Mark</strong>), resulting in:
 </p>
 <p>
 <img src="images/assembler_example_47A_corrected.png" border="0" width="724" height="609">
 </p>
 </li>
-<li>LD L: 047D (hexadecimal) - part of the <tt>LDL</tt> found at 047A (hexadecimal).</li>
+<li>LD L: 047D (hexadecimal) - part of the <code>LDL</code> found at 047A (hexadecimal).</li>
 <li>LD L: 04E3 (hexadecimal) - at first glance this only loads 02 into RF.0. To verify, set a bookmark on address 04E3 (hexadecimal) and check what RF.1 is at this point. RF.1 = 08, confirming this is not an address within the code but points at RAM. No further action needed:
 <p>
 <img src="images/assembler_example_4E3.png" border="0" width="724" height="609">
 </p>
 </li>
-<li>LD H: 04FC (hexadecimal) - starting at 04F9 (hexadecimal), RA is loaded with location 044A (hexadecimal), followed by a <tt>SEP A</tt>.
+<li>LD H: 04FC (hexadecimal) - starting at 04F9 (hexadecimal), RA is loaded with location 044A (hexadecimal), followed by a <code>SEP A</code>.
 <p>
-Replace this with an <tt>LDRL A,044A</tt> as the code loads RA.0 first and then RA.1 (select <tt>LDRL</tt> instead of <tt>1802</tt> and press <strong>Mark</strong>), resulting in:
+Replace this with an <code>LDRL A,044A</code> as the code loads RA.0 first and then RA.1 (select <code>LDRL</code> instead of <code>1802</code> and press <strong>Mark</strong>), resulting in:
 </p>
 <p>
 <img src="images/assembler_example_4F9_corrected.png" border="0" width="724" height="609">
 </p>
 </li>
-<li>LD H: 050E (hexadecimal) - same as 04FC (hexadecimal); address 050B (hexadecimal) should be replaced by an <tt>LDRL R4,0437</tt>.</li>
-<li>LD H: 0518 (hexadecimal) - same as 04FC (hexadecimal); address 0515 (hexadecimal) should be replaced by an <tt>LDRL R4,041E</tt>.</li>
-<li>LD H: 05A5 (hexadecimal) - same as 04FC (hexadecimal); address 05A2 (hexadecimal) should be replaced by an <tt>LDRL R4,041E</tt>.</li>
-<li>LD H: 05B4 (hexadecimal) - same as 04FC (hexadecimal); address 05B1 (hexadecimal) should be replaced by an <tt>LDRL R4,0437</tt>.</li>
+<li>LD H: 050E (hexadecimal) - same as 04FC (hexadecimal); address 050B (hexadecimal) should be replaced by an <code>LDRL R4,0437</code>.</li>
+<li>LD H: 0518 (hexadecimal) - same as 04FC (hexadecimal); address 0515 (hexadecimal) should be replaced by an <code>LDRL R4,041E</code>.</li>
+<li>LD H: 05A5 (hexadecimal) - same as 04FC (hexadecimal); address 05A2 (hexadecimal) should be replaced by an <code>LDRL R4,041E</code>.</li>
+<li>LD H: 05B4 (hexadecimal) - same as 04FC (hexadecimal); address 05B1 (hexadecimal) should be replaced by an <code>LDRL R4,0437</code>.</li>
 <li>LD L: 06DD (hexadecimal) - same as 04E3 (hexadecimal), no action needed.</li>
 <li>LD L: 071D (hexadecimal) - same as 04E3 (hexadecimal), no action needed.</li>
 </ul>
 
 <p>
-After this, print 0400 (hexadecimal) to 0800 (hexadecimal) to a disassembly file (via <strong>Dis</strong>, see the <a href="DirectDisassembler.htm">Disassembler</a> section) and search for all <tt>SEP</tt> instructions to make sure all are covered. No further instances should be found.
+After this, print 0400 (hexadecimal) to 0800 (hexadecimal) to a disassembly file (via <strong>Dis</strong>, see the <a href="DirectDisassembler.htm">Disassembler</a> section) and search for all <code>SEP</code> instructions to make sure all are covered. No further instances should be found.
 </p>
 
 

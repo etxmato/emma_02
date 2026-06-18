@@ -8,7 +8,7 @@ For details about the SuperBoard (SB) project, see the <a href="https://www.comx
 </p>
 
 <p>
-To run the COMX emulator with the SuperBoard, select the XML file <tt>superboard.xml</tt> or <tt>superboard-80col.xml</tt>.
+To run the COMX emulator with the SuperBoard, select the XML file <code>superboard.xml</code> or <code>superboard-80col.xml</code>.
 </p>
 
 
@@ -37,7 +37,7 @@ All tabs contain a <strong>Save All</strong> button (2); make sure to press this
 
 <h3>Online</h3>
 <p>
-The <strong>Online</strong> tab shows all settings related to USB commands using online connections, i.e., <tt>USB HSWEB</tt>, <tt>EMAIL</tt>, and <tt>BROWSER</tt>.
+The <strong>Online</strong> tab shows all settings related to USB commands using online connections, i.e., <code>USB HSWEB</code>, <code>EMAIL</code>, and <code>BROWSER</code>.
 </p>
 
 <p>
@@ -57,25 +57,25 @@ The <strong>Online</strong> tab shows all settings related to USB commands using
 </ul>
 
 <p>
-Define the <strong>Player name</strong> and <strong>Player location</strong> (1), as used in the <tt>USB HSWEB</tt> command. The maximum length is 25 characters. The following characters are not allowed and will be ignored: <tt># ~ ; :</tt>.
+Define the <strong>Player name</strong> and <strong>Player location</strong> (1), as used in the <code>USB HSWEB</code> command. The maximum length is 25 characters. The following characters are not allowed and will be ignored: <code># ~ ; :</code>.
 </p>
 
 <p>
-To use your email address as sender with <tt>USB EMAIL</tt>, enter a valid email address in the <strong>Email address</strong> field (2).
+To use your email address as sender with <code>USB EMAIL</code>, enter a valid email address in the <strong>Email address</strong> field (2).
 </p>
 
 <p>
-The <strong>Home page</strong> (3) and <strong>Bookmark</strong> (4) fields are used by the <tt>USB BROWSER</tt> command. These can be accessed on the COMX by pressing <tt>H</tt> or <tt>0-9</tt> during a browser session. The maximum length is 126 characters. To store a bookmark, press the <strong>Store</strong> button (5); this button is enabled when text is entered in the <strong>Bookmark</strong> field (4).
+The <strong>Home page</strong> (3) and <strong>Bookmark</strong> (4) fields are used by the <code>USB BROWSER</code> command. These can be accessed on the COMX by pressing <code>H</code> or <code>0-9</code> during a browser session. The maximum length is 126 characters. To store a bookmark, press the <strong>Store</strong> button (5); this button is enabled when text is entered in the <strong>Bookmark</strong> field (4).
 </p>
 
 <p>
-Email aliases are used by the <tt>USB EMAIL</tt> command. Existing aliases can be edited using the <strong>Aliases</strong> selector (6). To define a new alias, select <strong>NEW</strong> and enter the alias and email address (7). Press <strong>Store</strong> (9) to save or <strong>Delete</strong> (8) to remove the alias.
+Email aliases are used by the <code>USB EMAIL</code> command. Existing aliases can be edited using the <strong>Aliases</strong> selector (6). To define a new alias, select <strong>NEW</strong> and enter the alias and email address (7). Press <strong>Store</strong> (9) to save or <strong>Delete</strong> (8) to remove the alias.
 </p>
 
 
 <h3>USB</h3>
 <p>
-The <strong>USB</strong> tab shows all settings related to USB commands: <tt>CD</tt>, <tt>CHAR</tt>, <tt>BSAVE</tt>, <tt>DSAVE</tt>, <tt>PSAVE</tt>, <tt>DISKTOIMG</tt>, <tt>SYSSAVE</tt>, and <tt>NSAVE</tt>.
+The <strong>USB</strong> tab shows all settings related to USB commands: <code>CD</code>, <code>CHAR</code>, <code>BSAVE</code>, <code>DSAVE</code>, <code>PSAVE</code>, <code>DISKTOIMG</code>, <code>SYSSAVE</code>, and <code>NSAVE</code>.
 </p>
 
 <p>
@@ -98,26 +98,26 @@ Use the <strong>Root</strong> button (1) or change the path manually (2) to defi
 <strong>Show top directory in USB CD</strong> (3) - Select Yes / No:
 </p>
 <ul>
-<li><tt>No</tt>: PR <tt>USB CD</tt> shows <tt>/</tt></li>
-<li><tt>Yes</tt>: PR <tt>USB CD</tt> shows the root directory (e.g., <tt>COMX</tt> when using the default root)</li>
+<li><code>No</code>: PR <code>USB CD</code> shows <code>/</code></li>
+<li><code>Yes</code>: PR <code>USB CD</code> shows the root directory (e.g., <code>COMX</code> when using the default root)</li>
 </ul>
 
 <p>
-<strong>Case conversion</strong> (4) is used only with <tt>USB CHAR(0)</tt> (default, normal character set) or <tt>USB CHAR(1)</tt> (lower case). Filenames and directory names are converted to lower case, upper case, or capitalised as specified. When using <tt>USB CHAR(2)</tt> or <tt>USB CHAR(3)</tt>, filenames are stored exactly as typed on the COMX.
+<strong>Case conversion</strong> (4) is used only with <code>USB CHAR(0)</code> (default, normal character set) or <code>USB CHAR(1)</code> (lower case). Filenames and directory names are converted to lower case, upper case, or capitalised as specified. When using <code>USB CHAR(2)</code> or <code>USB CHAR(3)</code>, filenames are stored exactly as typed on the COMX.
 </p>
 
 <p>
 <strong>Back-up</strong> (5) - Select Yes / No:
 </p>
 <ul>
-<li><tt>Yes</tt>: Creates backup files using format <tt>nameNumber.type.bak</tt> (e.g., <tt>happiehap1.comx.bak</tt>)</li>
-<li><tt>No</tt>: COMX prompts for overwrite (<tt>Y/N</tt>) if the file already exists</li>
+<li><code>Yes</code>: Creates backup files using format <code>nameNumber.type.bak</code> (e.g., <code>happiehap1.comx.bak</code>)</li>
+<li><code>No</code>: COMX prompts for overwrite (<code>Y/N</code>) if the file already exists</li>
 </ul>
 
 
 <h3>Backup</h3>
 <p>
-The <strong>Backup</strong> tab shows all backup (<tt>.bak</tt>) files (1) in the selected directory, and optionally, subdirectories (2).
+The <strong>Backup</strong> tab shows all backup (<code>.bak</code>) files (1) in the selected directory, and optionally, subdirectories (2).
 </p>
 
 <p>

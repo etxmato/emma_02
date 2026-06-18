@@ -9,7 +9,7 @@
 <h2>LDL and LDRL</h2>
 
 <p>
-Some code loads memory locations into registers and then uses those registers to access data. This can be done by using the <tt>LDL</tt> (LoaD Location) or <tt>LDRL</tt> (LoaD Reversed Location) macro in the <strong>Direct Assembler</strong>, or by marking specific 1802 code as <tt>LDL</tt> or <tt>LDRL</tt> via the procedure described in the <a href="DirectMarking.htm">Memory Type Selection</a> section.
+Some code loads memory locations into registers and then uses those registers to access data. This can be done by using the <code>LDL</code> (LoaD Location) or <code>LDRL</code> (LoaD Reversed Location) macro in the <strong>Direct Assembler</strong>, or by marking specific 1802 code as <code>LDL</code> or <code>LDRL</code> via the procedure described in the <a href="DirectMarking.htm">Memory Type Selection</a> section.
 </p>
 
 <p>
@@ -17,7 +17,7 @@ By doing this, the location data will be corrected when using <a href="DirectIns
 </p>
 
 <p>
-Use <tt>LDL</tt> for code loading the high byte first and <tt>LDRL</tt> for code loading the low byte first:
+Use <code>LDL</code> for code loading the high byte first and <code>LDRL</code> for code loading the low byte first:
 </p>
 
 <p>
@@ -33,7 +33,7 @@ For example, inserting at address 020C (hexadecimal) in the code above will resu
 </p>
 
 <p>
-If an insert is made at address 0220 (hexadecimal) in the original example, the <tt>LDL</tt> at 0200 (hexadecimal) will not change. This allows adding space at the start of a data section, as shown in the example below:
+If an insert is made at address 0220 (hexadecimal) in the original example, the <code>LDL</code> at 0200 (hexadecimal) will not change. This allows adding space at the start of a data section, as shown in the example below:
 </p>
 
 <p>
@@ -44,14 +44,14 @@ If an insert is made at address 0220 (hexadecimal) in the original example, the 
 <h2>LDV</h2>
 
 <p>
-A similar <tt>LDV</tt> (LoaD Value) macro is available, resulting in the same CDP1802 code sequence; however, for this macro, the value is not changed by any insert, delete, or copy commands. <tt>LDV</tt> data values are shown in the default text colour, not in <font color="#A85BA5">purple</font>.
+A similar <code>LDV</code> (LoaD Value) macro is available, resulting in the same CDP1802 code sequence; however, for this macro, the value is not changed by any insert, delete, or copy commands. <code>LDV</code> data values are shown in the default text colour, not in <font color="#A85BA5">purple</font>.
 </p>
 
 
 <h2>RLDL</h2>
 
 <p>
-For use with CDP1804 or CDP1805 code, an <tt>RLDL</tt> macro is available. <tt>RLDL</tt> will generate the same CDP1804/CDP1805 code as the CDP1804/CDP1805 instruction <tt>RLDI</tt>; however, the <strong>Direct Assembler</strong> will treat <tt>RLDL</tt> as a location load similar to <tt>LDL</tt>. The <tt>RLDL</tt> data value is shown in <font color="#A85BA5">purple</font>; the <tt>RLDI</tt> data is not.
+For use with CDP1804 or CDP1805 code, an <code>RLDL</code> macro is available. <code>RLDL</code> will generate the same CDP1804/CDP1805 code as the CDP1804/CDP1805 instruction <code>RLDI</code>; however, the <strong>Direct Assembler</strong> will treat <code>RLDL</code> as a location load similar to <code>LDL</code>. The <code>RLDL</code> data value is shown in <font color="#A85BA5">purple</font>; the <code>RLDI</code> data is not.
 </p>
 
 <p>
@@ -71,7 +71,7 @@ will result in:
 </p>
 
 <p>
-<strong>Note:</strong> The <tt>RLDL</tt> value changed to 0221 (hexadecimal) whereas the <tt>RLDI</tt> value stayed the same.
+<strong>Note:</strong> The <code>RLDL</code> value changed to 0221 (hexadecimal) whereas the <code>RLDI</code> value stayed the same.
 </p>
 </body>
 </html>

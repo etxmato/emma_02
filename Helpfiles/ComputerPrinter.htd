@@ -19,10 +19,10 @@ Printer support is available when the selected XML file includes a printer defin
 </ul>
 
 <p>
-To print to a file, select <tt>File</tt> using the <strong>Mode</strong> selector (1). If the indicated print file (2) already exists, a new file will be created (with a sequence number) every time the emulated computer is started.
+To print to a file, select <code>File</code> using the <strong>Mode</strong> selector (1). If the indicated print file (2) already exists, a new file will be created (with a sequence number) every time the emulated computer is started.
 </p>
 <p>
-Example: if the print file is <tt>printerout.txt</tt>, this file is used the first time; the next time, the file <tt>printerout.1.txt</tt> will be created.
+Example: if the print file is <code>printerout.txt</code>, this file is used the first time; the next time, the file <code>printerout.1.txt</code> will be created.
 </p>
 <p>
 To specify a different print file, use the <strong>Printer</strong> button (3) to browse for the file, or type a new file name in the text field (2).
@@ -39,17 +39,17 @@ To specify a different print file, use the <strong>Printer</strong> button (3) t
 </ul>
 
 <p>
-To print to an output window and optionally to a real printer, select <tt>Window</tt> using the <strong>Mode</strong> selector (1).
+To print to an output window and optionally to a real printer, select <code>Window</code> using the <strong>Mode</strong> selector (1).
 </p>
 
 <p>
-To print to a COMX PL-80 Plotter window and optionally to a real printer, select <tt>Plotter</tt> using the <strong>Mode</strong> selector (1).
+To print to a COMX PL-80 Plotter window and optionally to a real printer, select <code>Plotter</code> using the <strong>Mode</strong> selector (1).
 </p>
 <p>
 <strong>Note:</strong> To start a new printout, close and reopen the printer output window.
 </p>
 <p>
-To open a printer window manually, press the <tt>F4</tt> key or the <strong>Printer</strong> button (2).
+To open a printer window manually, press the <code>F4</code> key or the <strong>Printer</strong> button (2).
 </p>
 
 
@@ -100,10 +100,10 @@ The plotter system ROM file can be changed via the <strong>ROM</strong> control 
 
 <h4>System and Character ROMs</h4>
 <p>
-The installation includes a plotter system ROM file (<tt>pl80.bin</tt>) with the original character font set, as well as additional font ROMs: Italic, Emphasized and Outline (<tt>pl80.it.em.ou.bin</tt>) and Tiny (<tt>pl80.tiny.bin</tt>). The first font ROM also includes two sets designed for use with MSX computers.
+The installation includes a plotter system ROM file (<code>pl80.bin</code>) with the original character font set, as well as additional font ROMs: Italic, Emphasized and Outline (<code>pl80.it.em.ou.bin</code>) and Tiny (<code>pl80.tiny.bin</code>). The first font ROM also includes two sets designed for use with MSX computers.
 </p>
 <p>
-To access the fonts, use code <tt>12</tt> and character set:
+To access the fonts, use code <code>12</code> and character set:
 </p>
 
 <pre>
@@ -131,7 +131,7 @@ With the tiny font ROM selected:
 </pre>
 
 <p>
-An example is included to print the different character sets; see the file <tt>Fonts.comx</tt> in the <tt>Comx/Plotter</tt> directory.
+An example is included to print the different character sets; see the file <code>Fonts.comx</code> in the <code>Comx/Plotter</code> directory.
 </p>
 
 <p>
@@ -160,18 +160,18 @@ To run the COMX emulator with the Parallel printer card (as well as COMX PL-80 P
 </p>
 
 <ul>
-<li><tt>fdc-print-32k-80col.xml</tt></li>
-<li><tt>fdc-print-32k-eprom.xml</tt></li>
-<li><tt>superboard-80col.xml</tt></li>
-<li><tt>superboard.xml</tt></li>
+<li><code>fdc-print-32k-80col.xml</code></li>
+<li><code>fdc-print-32k-eprom.xml</code></li>
+<li><code>superboard-80col.xml</code></li>
+<li><code>superboard.xml</code></li>
 </ul>
 
 <p>
-To run the COMX emulator with the Serial printer card select XML file <tt>fdc-serial-32k-eprom.xml</tt>.
+To run the COMX emulator with the Serial printer card select XML file <code>fdc-serial-32k-eprom.xml</code>.
 </p>
 
 <p>
-To run the COMX emulator with the Thermal printer card select XML file <tt>fdc-thermal-32k-joy.xml</tt>.
+To run the COMX emulator with the Thermal printer card select XML file <code>fdc-thermal-32k-joy.xml</code>.
 </p>
 
 </body>

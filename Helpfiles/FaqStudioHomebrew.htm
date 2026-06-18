@@ -10,11 +10,11 @@ This section includes short instructions for most included <strong>homebrew</str
 </p>
 
 <p>
-The descriptions below assume you are using a numeric keypad and have selected menu item <tt>Settings / Use Numeric Keypad</tt>. If this option is not selected, the alternative key is indicated in parentheses.
+The descriptions below assume you are using a numeric keypad and have selected menu item <code>Settings / Use Numeric Keypad</code>. If this option is not selected, the alternative key is indicated in parentheses.
 </p>
 
 <p>
-<strong>Note:</strong> For Player B, keys <tt>W</tt>, <tt>A</tt>, <tt>S</tt>, <tt>Z</tt> control direction and <tt>TAB</tt> is used to fire. These keys work both with and without the <tt>Use Numeric Keypad</tt> setting enabled.
+<strong>Note:</strong> For Player B, keys <code>W</code>, <code>A</code>, <code>S</code>, <code>Z</code> control direction and <code>TAB</code> is used to fire. These keys work both with and without the <code>Use Numeric Keypad</code> setting enabled.
 </p>
 
 
@@ -111,7 +111,7 @@ Numpad 0 (TAB) fire
 <p><strong>Start</strong></p>
 
 <p>
-The game will display G? in the middle of the screen. Enter the code of the game you want to play using keys <tt>0</tt>-<tt>9</tt>. After entering the game code, press Numpad <tt>0</tt> (<tt>TAB</tt>) to start the game.
+The game will display G? in the middle of the screen. Enter the code of the game you want to play using keys <code>0</code>-<code>9</code>. After entering the game code, press Numpad <code>0</code> (<code>TAB</code>) to start the game.
 </p>
 
 <p>
@@ -230,63 +230,63 @@ Game 248 : Plane  :Long range Slow missiles. Enclosed area. Tank Bases.
 <h2>Graphics Computer</h2>
 
 <p>
-To start the <strong>Graphics Computer</strong> (a DIY ROM cartridge to convert the RCA Studio II to a graphics computer), select the CART file <tt>computer.st2</tt> and start the Studio II.
+To start the <strong>Graphics Computer</strong> (a DIY ROM cartridge to convert the RCA Studio II to a graphics computer), select the CART file <code>computer.st2</code> and start the Studio II.
 </p>
 
 <p>
-After start-up, four modes may be selected using keys <tt>1</tt>-<tt>4</tt> (see sections below).
+After start-up, four modes may be selected using keys <code>1</code>-<code>4</code> (see sections below).
 </p>
 
 <p>
-When you have completed your entries in one mode and wish to switch to another mode, press Numpad <tt>0</tt>. <strong>DO NOT PRESS RESET.</strong> Pressing reset will destroy part of the program you have just entered.
+When you have completed your entries in one mode and wish to switch to another mode, press Numpad <code>0</code>. <strong>DO NOT PRESS RESET.</strong> Pressing reset will destroy part of the program you have just entered.
 </p>
 
 <p>
-After Numpad <tt>0</tt> has been released, you may select the next mode. Pressing Numpad <tt>0</tt> also causes the control program to store most of the CDP1802 internal 16-bit registers in memory so they can be examined using the memory read mode. This is very useful when trying to debug a program.
+After Numpad <code>0</code> has been released, you may select the next mode. Pressing Numpad <code>0</code> also causes the control program to store most of the CDP1802 internal 16-bit registers in memory so they can be examined using the memory read mode. This is very useful when trying to debug a program.
 </p>
 
 <p>
-All registers except R0, R1, R2 and R8 are stored in RAM at addresses <tt>09B3</tt> to <tt>09CF</tt>. The last digit of the address is the register number; if the third address digit is <tt>B</tt>, it is the lower-order register address. For example, <tt>09B5</tt> contains the contents of CDP1802 register R5.0, while <tt>09C5</tt> contains the contents of register R5.1.
+All registers except R0, R1, R2 and R8 are stored in RAM at addresses <code>09B3</code> to <code>09CF</code>. The last digit of the address is the register number; if the third address digit is <code>B</code>, it is the lower-order register address. For example, <code>09B5</code> contains the contents of CDP1802 register R5.0, while <code>09C5</code> contains the contents of register R5.1.
 </p>
 
-<h4>Load Mode (key <tt>1</tt>)</h4>
+<h4>Load Mode (key <code>1</code>)</h4>
 
 <p>
-When key <tt>1</tt> is pressed, the Studio II waits for the starting address of the program you intend to load. You enter this address in hexadecimal notation using keys <tt>0</tt>-<tt>9</tt> for digits 0 to 9 and Numpad <tt>1</tt>-<tt>6</tt> for A-F (A=Numpad <tt>1</tt>, B=Numpad <tt>2</tt>, C=Numpad <tt>3</tt>, D=Numpad <tt>4</tt>, E=Numpad <tt>5</tt>, F=Numpad <tt>6</tt>). The address will be displayed on the screen.
+When key <code>1</code> is pressed, the Studio II waits for the starting address of the program you intend to load. You enter this address in hexadecimal notation using keys <code>0</code>-<code>9</code> for digits 0 to 9 and Numpad <code>1</code>-<code>6</code> for A-F (A=Numpad <code>1</code>, B=Numpad <code>2</code>, C=Numpad <code>3</code>, D=Numpad <code>4</code>, E=Numpad <code>5</code>, F=Numpad <code>6</code>). The address will be displayed on the screen.
 </p>
 
 <p>
-The normal start address is <tt>0800</tt>, and your program can normally extend from there to address <tt>08FB</tt>. There is also RAM from address <tt>0900</tt> to <tt>09FF</tt>; this RAM is normally bit-mapped onto the display, but may be used for program storage if your program does not need a full display.
+The normal start address is <code>0800</code>, and your program can normally extend from there to address <code>08FB</code>. There is also RAM from address <code>0900</code> to <code>09FF</code>; this RAM is normally bit-mapped onto the display, but may be used for program storage if your program does not need a full display.
 </p>
 
 <p>
 After you enter the four-digit start address, you next enter the first byte of the program. Then continue to key in your code one byte after another until you are done. The address display automatically increments as you enter each byte, and each data byte is displayed as it is entered.
 </p>
 
-<h4>Memory-Read Mode (key <tt>2</tt>)</h4>
+<h4>Memory-Read Mode (key <code>2</code>)</h4>
 
 <p>
-When key <tt>2</tt> is pressed, enter the address of the memory location you wish to examine. Pressing any key (<tt>0</tt>-<tt>9</tt>) will then display the byte stored at that location.
+When key <code>2</code> is pressed, enter the address of the memory location you wish to examine. Pressing any key (<code>0</code>-<code>9</code>) will then display the byte stored at that location.
 </p>
 
 <p>
-Continuing to press any key (<tt>0</tt>-<tt>9</tt>) will sequentially step through memory, displaying its contents and incrementing the address display at the same time.
+Continuing to press any key (<code>0</code>-<code>9</code>) will sequentially step through memory, displaying its contents and incrementing the address display at the same time.
 </p>
 
-<h4>Run Mode (key <tt>3</tt>)</h4>
+<h4>Run Mode (key <code>3</code>)</h4>
 
 <p>
-The program that has just been loaded can be run by pressing key <tt>3</tt> and then entering the four-digit start address of the program. The program will start running as soon as the last digit of the start address has been entered and will use R9 as the program counter.
+The program that has just been loaded can be run by pressing key <code>3</code> and then entering the four-digit start address of the program. The program will start running as soon as the last digit of the start address has been entered and will use R9 as the program counter.
 </p>
 
-<h4>Shift Mode (key <tt>4</tt>)</h4>
+<h4>Shift Mode (key <code>4</code>)</h4>
 
 <p>
-Suppose you have loaded a program and then want to add several bytes in the middle of it. Press key <tt>4</tt> and then enter a four-digit start address to shift the entire program, beginning with this address, one location higher in memory.
+Suppose you have loaded a program and then want to add several bytes in the middle of it. Press key <code>4</code> and then enter a four-digit start address to shift the entire program, beginning with this address, one location higher in memory.
 </p>
 
 <p>
-The shifting is done by pressing either key <tt>8</tt> or key <tt>9</tt>. Press key <tt>8</tt> to shift page 8 (hex <tt>800</tt>-<tt>8FB</tt>) or press key <tt>9</tt> to shift page 9 (hex <tt>900</tt>-<tt>9FF</tt>). Each key press shifts the entire program after the start address one location higher in memory.
+The shifting is done by pressing either key <code>8</code> or key <code>9</code>. Press key <code>8</code> to shift page 8 (hex <code>800</code>-<code>8FB</code>) or press key <code>9</code> to shift page 9 (hex <code>900</code>-<code>9FF</code>). Each key press shifts the entire program after the start address one location higher in memory.
 </p>
 
 
@@ -374,7 +374,7 @@ Down Arrow    move down
 
 <p>
 Press both directions simultaneously for double speed.
-Once the game is over, press <tt>SPACE</tt> to start a new game.
+Once the game is over, press <code>SPACE</code> to start a new game.
 </p>
 
 
@@ -410,7 +410,7 @@ Conversion of the game written by Joseph Weisbecker, published in Byte magazine 
 </p>
 
 <p>
-Press <tt>1</tt> or <tt>TAB</tt> to start.
+Press <code>1</code> or <code>TAB</code> to start.
 </p>
 
 <p><strong>Controls</strong></p>
@@ -442,7 +442,7 @@ SPACE                 fire
 </pre>
 
 <p>
-At the start it displays G?. Press <tt>2</tt> for easy, <tt>4</tt> for medium, <tt>6</tt> for hard.
+At the start it displays G?. Press <code>2</code> for easy, <code>4</code> for medium, <code>6</code> for hard.
 </p>
 
 <p>
@@ -479,7 +479,7 @@ Developed by Lee Romanow.
 <h4>Craps</h4>
 
 <p>
-Press <tt>1</tt> to start.
+Press <code>1</code> to start.
 </p>
 
 <p><strong>Gameplay</strong></p>
@@ -489,7 +489,7 @@ A pair of numbers are shown on the screen. The number on the left represents the
 </p>
 
 <p>
-To place your bet, press a non-zero key (<tt>1</tt>-<tt>9</tt>) which corresponds to a bet from $1.00 to $9.00. The dice will automatically be thrown.
+To place your bet, press a non-zero key (<code>1</code>-<code>9</code>) which corresponds to a bet from $1.00 to $9.00. The dice will automatically be thrown.
 </p>
 
 <p>
@@ -507,14 +507,14 @@ The end of the round is indicated by a long series of beeps, and the player's wa
 </p>
 
 <p>
-If the balance is above $0.00, the game continues. If the balance is $0.00, the game is over. Press <tt>SPACE</tt> or Numpad <tt>1</tt> to start a new game.
+If the balance is above $0.00, the game continues. If the balance is $0.00, the game is over. Press <code>SPACE</code> or Numpad <code>1</code> to start a new game.
 </p>
 
 
 <h4>Moon Lander</h4>
 
 <p>
-Press <tt>2</tt> to start.
+Press <code>2</code> to start.
 </p>
 
 <p>
@@ -522,35 +522,35 @@ Distance to the surface, downward velocity, and available fuel are shown as thre
 </p>
 
 <ul>
-<li>Distance (<tt>x</tt>) on the left</li>
-<li>Velocity (<tt>v</tt>) in the centre</li>
-<li>Fuel (<tt>f</tt>) on the right</li>
+<li>Distance (<code>x</code>) on the left</li>
+<li>Velocity (<code>v</code>) in the centre</li>
+<li>Fuel (<code>f</code>) on the right</li>
 </ul>
 
 <p>
-Each turn you burn from 0 to 9 units of fuel by pressing that number (<tt>0</tt>-<tt>9</tt>). If you request more fuel than is available, the computer will burn what remains.
+Each turn you burn from 0 to 9 units of fuel by pressing that number (<code>0</code>-<code>9</code>). If you request more fuel than is available, the computer will burn what remains.
 </p>
 
 <p>
-The computer calculates new values for <tt>x</tt>, <tt>v</tt>, and <tt>f</tt>, and updates the display.
+The computer calculates new values for <code>x</code>, <code>v</code>, and <code>f</code>, and updates the display.
 </p>
 
 <p>
-While <tt>x</tt> is greater than 0, the game continues.
+While <code>x</code> is greater than 0, the game continues.
 </p>
 
 <p>
-When <tt>x</tt> reaches 0, the lander has reached the surface and the game ends. You win if the final value of <tt>v</tt> is not higher than 5.
+When <code>x</code> reaches 0, the lander has reached the surface and the game ends. You win if the final value of <code>v</code> is not higher than 5.
 </p>
 
 <p>
-Press <tt>SPACE</tt> or Numpad <tt>1</tt> to start a new game.
+Press <code>SPACE</code> or Numpad <code>1</code> to start a new game.
 </p>
 
 <h4>Repeat After Me</h4>
 
 <p>
-Press <tt>3</tt> to start.
+Press <code>3</code> to start.
 </p>
 
 <p>
@@ -562,7 +562,7 @@ Try to memorise the order of the numbers as they are played. When the sequence i
 </p>
 
 <p>
-Replay the sequence using keys <tt>1</tt>, <tt>2</tt>, <tt>3</tt>, and <tt>4</tt>. The computer checks each entry as you press it.
+Replay the sequence using keys <code>1</code>, <code>2</code>, <code>3</code>, and <code>4</code>. The computer checks each entry as you press it.
 </p>
 
 <p>
@@ -578,13 +578,13 @@ If you successfully memorise a sequence of 25 numbers, the game ends with a perf
 </p>
 
 <p>
-Press <tt>SPACE</tt> or Numpad <tt>1</tt> to start a new game.
+Press <code>SPACE</code> or Numpad <code>1</code> to start a new game.
 </p>
 
 <h4>Space Rescue</h4>
 
 <p>
-Press <tt>4</tt> to start.
+Press <code>4</code> to start.
 </p>
 
 <p>
@@ -596,7 +596,7 @@ Avoid hitting the asteroids for as long as possible.
 </p>
 
 <p>
-Steer the spaceship using the <tt>Left Arrow</tt> and <tt>Right Arrow</tt> keys. Movement is limited to within the screen edges.
+Steer the spaceship using the <code>Left Arrow</code> and <code>Right Arrow</code> keys. Movement is limited to within the screen edges.
 </p>
 
 <p>
@@ -604,7 +604,7 @@ If the ship collides with an asteroid, a long series of beeps will be heard and 
 </p>
 
 <p>
-Press <tt>SPACE</tt> or Numpad <tt>1</tt> to start a new game.
+Press <code>SPACE</code> or Numpad <code>1</code> to start a new game.
 </p>
 
 <h4>Nim</h4>
@@ -637,7 +637,7 @@ Player 1 starts when the game begins.
 </p>
 
 <p>
-On each turn, remove 1 to 3 stones by pressing <tt>1</tt>, <tt>2</tt>, or <tt>3</tt> on the active keyboard.
+On each turn, remove 1 to 3 stones by pressing <code>1</code>, <code>2</code>, or <code>3</code> on the active keyboard.
 </p>
 
 <p>
@@ -645,7 +645,7 @@ After a move, the pile is updated and the other player's turn begins.
 </p>
 
 <p>
-Press <tt>0</tt> to reset the game, including scores.
+Press <code>0</code> to reset the game, including scores.
 </p>
 
 <p>
