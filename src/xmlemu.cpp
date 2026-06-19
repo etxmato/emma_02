@@ -1255,7 +1255,17 @@ void Computer::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
 
 void Computer::initComputer()
 {
+    monitor_ = false;
     configureMemory();
+    {
+        wxFile dbg(p_Main->getDataDir() + "romload_debug.txt", wxFile::write_append);
+        if (dbg.IsOpened()) {
+            wxString msg;
+            msg.Printf("after configureMemory: mem[0]=0x%02X mem[1]=0x%02X mem[2]=0x%02X mem[3]=0x%02X\n",
+                mainMemory_[0], mainMemory_[1], mainMemory_[2], mainMemory_[3]);
+            dbg.Write(msg); dbg.Close();
+        }
+    }
 //    Show(p_Main->showFrontPanel());
     for (int i=0; i<8; i++)
         inpSwitchState_[i]=0;
@@ -1285,8 +1295,6 @@ void Computer::initComputer()
     switches_ = 0;
     inbuttonEfState_ = 1;
     nextNybble_ = 'H';
-
-    monitor_ = false;
 
     for (int i=0; i<8; i++)  dataSwitchState_[i]=0;
     for (int i=0; i<4; i++)  efSwitchState_[i]=0;
@@ -7733,6 +7741,24 @@ void Computer::configureMemory()
             break;
         }
         memConfNumber++;
+    }
+    {
+        wxFile dbg(p_Main->getDataDir() + "romload_debug.txt", wxFile::write_append);
+        if (dbg.IsOpened()) {
+            wxString msg;
+            int btn0 = p_Main->getRomRamButton0();
+            int btn1 = p_Main->getRomRamButton1();
+            msg.Printf("configureMemory: btn0=%d type0=0x%04X file0=[%s] dir0=[%s] btn1=%d type1=0x%04X file1=[%s] dir1=[%s] memSize=%zu\n",
+                btn0, currentComputerConfiguration.memoryConfiguration[btn0].type,
+                currentComputerConfiguration.memoryConfiguration[btn0].filename,
+                currentComputerConfiguration.memoryConfiguration[btn0].dirname,
+                btn1, currentComputerConfiguration.memoryConfiguration[btn1].type,
+                currentComputerConfiguration.memoryConfiguration[btn1].filename,
+                currentComputerConfiguration.memoryConfiguration[btn1].dirname,
+                currentComputerConfiguration.memoryConfiguration.size());
+            dbg.Write(msg);
+            dbg.Close();
+        }
     }
     if ((currentComputerConfiguration.memoryConfiguration[p_Main->getRomRamButton0()].type & 0xff) == NVRAM)
         loadNvRam(p_Main->getRomRamButton0());

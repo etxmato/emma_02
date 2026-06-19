@@ -30,9 +30,9 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5267"
-            endingLineNumber = "5267"
-            landmarkName = "Computer::loadRomRam(configNumber)"
+            startingLineNumber = "5265"
+            endingLineNumber = "5265"
+            landmarkName = "Computer::startComputer()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -318,9 +318,9 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9643"
-            endingLineNumber = "9643"
-            landmarkName = "Computer::terminalLoad(fileName, protocol)"
+            startingLineNumber = "9641"
+            endingLineNumber = "9641"
+            landmarkName = "Computer::isComputerRunning()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -414,8 +414,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9323"
-            endingLineNumber = "9323"
+            startingLineNumber = "9321"
+            endingLineNumber = "9321"
             landmarkName = "Computer::executeFunction(function, additionalAddress)"
             landmarkType = "7">
          </BreakpointContent>
@@ -430,8 +430,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9313"
-            endingLineNumber = "9313"
+            startingLineNumber = "9311"
+            endingLineNumber = "9311"
             landmarkName = "Computer::executeFunction(function, additionalAddress)"
             landmarkType = "7">
          </BreakpointContent>
@@ -494,8 +494,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1752"
-            endingLineNumber = "1752"
+            startingLineNumber = "1750"
+            endingLineNumber = "1750"
             landmarkName = "Computer::ef(flag)"
             landmarkType = "7">
          </BreakpointContent>
@@ -510,8 +510,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7956"
-            endingLineNumber = "7956"
+            startingLineNumber = "7954"
+            endingLineNumber = "7954"
             landmarkName = "Computer::configureExtensions()"
             landmarkType = "7">
          </BreakpointContent>
@@ -526,9 +526,9 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4532"
-            endingLineNumber = "4532"
-            landmarkName = "Computer::onRamButton()"
+            startingLineNumber = "4530"
+            endingLineNumber = "4530"
+            landmarkName = "Computer::onEmsButton(event)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
