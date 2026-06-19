@@ -10,8 +10,10 @@ public:
     void configure(BitKeypadConfiguration bitKeypadConfiguration);
     
     void keyDown(int keycode);
+    void keyDown(int keycode, int modifiers);
     bool keyDownCtrlV(int keycode);
     void keyUp(int keycode);
+    void keyUp(int keycode, int modifiers);
     void keyUpCtrlV(int keycode);
     void keysUp();
 

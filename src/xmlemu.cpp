@@ -842,7 +842,7 @@ bool Computer::keyDownExtended(int keycode, wxKeyEvent& event)
     for (int pad=0; pad<=lastBitKeyPad_; pad++)
     {
         if (currentComputerConfiguration.bitKeypadConfiguration[pad].defined)
-            bitkeypadPointer[pad]->keyDown(keycode);
+            bitkeypadPointer[pad]->keyDown(keycode, event.GetModifiers());
     }
     if (currentComputerConfiguration.cvKeypadConfiguration.defined)
         cvkeypadPointer->keyDown(keycode, event);
@@ -936,7 +936,7 @@ bool Computer::keyUpReleased(int key, wxKeyEvent& event)
     for (int pad=0; pad<=lastBitKeyPad_; pad++)
     {
         if (currentComputerConfiguration.bitKeypadConfiguration[pad].defined)
-            bitkeypadPointer[pad]->keyUp(key);
+            bitkeypadPointer[pad]->keyUp(key, event.GetModifiers());
     }
     if (currentComputerConfiguration.cvKeypadConfiguration.defined)
        cvkeypadPointer->keyUp(key, event);

@@ -120,6 +120,7 @@ class BitModKey
 public:
     int value;
     int ef;
+    int mod;
     int bitMaskPressed;
     int bitMaskReleased;
 };

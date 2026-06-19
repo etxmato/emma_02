@@ -3457,9 +3457,31 @@ void XmlParser::parseXml_BitKeypad(int padnumber, wxXmlNode &node)
                     computerConfiguration.bitKeypadConfiguration[padnumber].bitModkey.resize(computerConfiguration.bitKeypadConfiguration[padnumber].numberOfModKeys+1);
                     computerConfiguration.bitKeypadConfiguration[padnumber].bitModkey[computerConfiguration.bitKeypadConfiguration[padnumber].numberOfModKeys].value = (int)parseXml_Number(*child);
                     computerConfiguration.bitKeypadConfiguration[padnumber].bitModkey[computerConfiguration.bitKeypadConfiguration[padnumber].numberOfModKeys].ef = (int)parseXml_Number(*child, "ef");
+                    computerConfiguration.bitKeypadConfiguration[padnumber].bitModkey[computerConfiguration.bitKeypadConfiguration[padnumber].numberOfModKeys].mod = 0;
                     computerConfiguration.bitKeypadConfiguration[padnumber].bitModkey[computerConfiguration.bitKeypadConfiguration[padnumber].numberOfModKeys].bitMaskPressed = 1 << (tagTypeInt - TAG_BIT0);
                     computerConfiguration.bitKeypadConfiguration[padnumber].bitModkey[computerConfiguration.bitKeypadConfiguration[padnumber].numberOfModKeys].bitMaskReleased = computerConfiguration.bitKeypadConfiguration[padnumber].bitModkey[computerConfiguration.bitKeypadConfiguration[padnumber].numberOfModKeys].bitMaskPressed ^ 0xff;
                     computerConfiguration.bitKeypadEf[computerConfiguration.bitKeypadConfiguration[padnumber].bitModkey[computerConfiguration.bitKeypadConfiguration[padnumber].numberOfModKeys].ef] = true;
+                    computerConfiguration.bitKeypadConfiguration[padnumber].numberOfModKeys++;
+                }
+                else if (child->HasAttribute("mod"))
+                {
+                    int modValue = 0;
+                    wxString modStr = child->GetAttribute("mod");
+                    if (modStr == "shift")
+                        modValue = wxMOD_SHIFT;
+                    else if (modStr == "ctrl" || modStr == "control")
+#ifdef __WXMAC__
+                        modValue = wxMOD_RAW_CONTROL;
+#else
+                        modValue = wxMOD_CONTROL;
+#endif
+
+                    computerConfiguration.bitKeypadConfiguration[padnumber].bitModkey.resize(computerConfiguration.bitKeypadConfiguration[padnumber].numberOfModKeys+1);
+                    computerConfiguration.bitKeypadConfiguration[padnumber].bitModkey[computerConfiguration.bitKeypadConfiguration[padnumber].numberOfModKeys].value = (int)parseXml_Number(*child);
+                    computerConfiguration.bitKeypadConfiguration[padnumber].bitModkey[computerConfiguration.bitKeypadConfiguration[padnumber].numberOfModKeys].ef = 0;
+                    computerConfiguration.bitKeypadConfiguration[padnumber].bitModkey[computerConfiguration.bitKeypadConfiguration[padnumber].numberOfModKeys].mod = modValue;
+                    computerConfiguration.bitKeypadConfiguration[padnumber].bitModkey[computerConfiguration.bitKeypadConfiguration[padnumber].numberOfModKeys].bitMaskPressed = 1 << (tagTypeInt - TAG_BIT0);
+                    computerConfiguration.bitKeypadConfiguration[padnumber].bitModkey[computerConfiguration.bitKeypadConfiguration[padnumber].numberOfModKeys].bitMaskReleased = computerConfiguration.bitKeypadConfiguration[padnumber].bitModkey[computerConfiguration.bitKeypadConfiguration[padnumber].numberOfModKeys].bitMaskPressed ^ 0xff;
                     computerConfiguration.bitKeypadConfiguration[padnumber].numberOfModKeys++;
                 }
                 else

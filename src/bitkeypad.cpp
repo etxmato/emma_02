@@ -57,6 +57,26 @@ void BitKeypad::keyDown(int keycode)
     lastKey_ = keycode;
 }
 
+void BitKeypad::keyDown(int keycode, int modifiers)
+{
+    if (keycode != lastKey_ || bitKeypadConfiguration_.repeat)
+    {
+        for (int key=0; key<bitKeypadConfiguration_.numberOfKeys; key++)
+        {
+            if (bitKeypadConfiguration_.bitkey[key].value == keycode)
+                inputValue_ |= bitKeypadConfiguration_.bitkey[key].bitMaskPressed;
+        }
+        for (int key=0; key<bitKeypadConfiguration_.numberOfModKeys; key++)
+        {
+            if (bitKeypadConfiguration_.bitModkey[key].mod != 0 &&
+                bitKeypadConfiguration_.bitModkey[key].value == keycode &&
+                (modifiers & bitKeypadConfiguration_.bitModkey[key].mod))
+                inputValue_ |= bitKeypadConfiguration_.bitModkey[key].bitMaskPressed;
+        }
+    }
+    lastKey_ = keycode;
+}
+
 bool BitKeypad::keyDownCtrlV(int keycode)
 {
     bool keyFound = false;
@@ -88,6 +108,22 @@ void BitKeypad::keyUp(int keycode)
     {
         if (bitKeypadConfiguration_.bitkey[key].value == keycode)
             inputValue_ &= bitKeypadConfiguration_.bitkey[key].bitMaskReleased;
+    }
+}
+
+void BitKeypad::keyUp(int keycode, int modifiers)
+{
+    lastKey_ = 0;
+    for (int key=0; key<bitKeypadConfiguration_.numberOfKeys; key++)
+    {
+        if (bitKeypadConfiguration_.bitkey[key].value == keycode)
+            inputValue_ &= bitKeypadConfiguration_.bitkey[key].bitMaskReleased;
+    }
+    for (int key=0; key<bitKeypadConfiguration_.numberOfModKeys; key++)
+    {
+        if (bitKeypadConfiguration_.bitModkey[key].mod != 0 &&
+            bitKeypadConfiguration_.bitModkey[key].value == keycode)
+            inputValue_ &= bitKeypadConfiguration_.bitModkey[key].bitMaskReleased;
     }
 }
 
