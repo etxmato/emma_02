@@ -4356,14 +4356,14 @@ bool Cdp1802::readFile(wxString fileName, int memoryType, Word address, long end
     wxFFile inFile;
     char buffer[4];
 
-    {
+/*    {
         wxFile dbg(p_Main->getDataDir() + "romload_debug.txt", wxFile::write_append);
         if (dbg.IsOpened()) {
             wxString msg;
             msg.Printf("readFile: [%s] exists=%d addr=0x%04X\n", fileName, (int)wxFile::Exists(fileName), address);
             dbg.Write(msg); dbg.Close();
         }
-    }
+    }*/
     if (wxFile::Exists(fileName))
     {
         if (inFile.Open(fileName, _("rb")))

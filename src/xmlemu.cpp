@@ -1257,7 +1257,7 @@ void Computer::initComputer()
 {
     monitor_ = false;
     configureMemory();
-    {
+/*    {
         wxFile dbg(p_Main->getDataDir() + "romload_debug.txt", wxFile::write_append);
         if (dbg.IsOpened()) {
             wxString msg;
@@ -1265,7 +1265,7 @@ void Computer::initComputer()
                 mainMemory_[0], mainMemory_[1], mainMemory_[2], mainMemory_[3]);
             dbg.Write(msg); dbg.Close();
         }
-    }
+    }*/
 //    Show(p_Main->showFrontPanel());
     for (int i=0; i<8; i++)
         inpSwitchState_[i]=0;
@@ -7742,7 +7742,7 @@ void Computer::configureMemory()
         }
         memConfNumber++;
     }
-    {
+/*    {
         wxFile dbg(p_Main->getDataDir() + "romload_debug.txt", wxFile::write_append);
         if (dbg.IsOpened()) {
             wxString msg;
@@ -7759,7 +7759,7 @@ void Computer::configureMemory()
             dbg.Write(msg);
             dbg.Close();
         }
-    }
+    }*/
     if ((currentComputerConfiguration.memoryConfiguration[p_Main->getRomRamButton0()].type & 0xff) == NVRAM)
         loadNvRam(p_Main->getRomRamButton0());
     else
