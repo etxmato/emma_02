@@ -1,0 +1,194 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+    
+    <system>
+        <name>FRED II</name>
+        <config>Bare (select game file in RAM field or use LOAD after Start)</config>
+        <clock>1.00</clock>
+        <cpu>1801</cpu>
+        <boot start="no" dma="zero">0</boot>
+        <dma_in>reset</dma_in>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
+        <dirname>FREDII</dirname>
+    </system>
+
+    <gui>
+        <memaccess>
+            <location>on</location>
+            <start>0</start>
+        </memaccess>
+        <auto>on</auto>
+        <turbo>off</turbo>
+    </gui>
+
+    <splash>
+        <text>Load game via LOAD button and press RUN</text>
+    </splash>
+
+    <iogroup>
+        <out>1</out>
+    </iogroup>
+
+    <frontpanel init="on">
+        <size>410, 100</size>
+        <!-- Silver background with black border and COSMAC text -->
+        <item>
+            <type>png</type>
+            <filename dirname="images">FREDII.png</filename>
+        </item>
+        <!-- S button: Step/Start - generates DMA OUT(N) and CLEAR(N) -->
+        <item>
+            <type size="small">push</type>
+            <function type="boot">run</function>
+            <label></label>
+            <pos>20, 40</pos>
+            <size>25, 25</size>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">S</label>
+            <pos>27, 68</pos>
+        </item>
+        <!-- E: Red Error LED - driven by EF4/F4(N) -->
+        <item>
+            <type>led</type>
+            <function>errorled</function>
+            <pos>70, 45</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">E</label>
+            <pos>72, 68</pos>
+        </item>
+        <!-- T: Green Tape LED - driven by tape state -->
+        <item>
+            <type>led</type>
+            <function>readyled</function>
+            <pos>120, 45</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">T</label>
+            <pos>123, 68</pos>
+        </item>
+        <!-- LD: Load toggle switch -->
+        <item>
+            <type>switch</type>
+            <function>read</function>
+            <init>down</init>
+            <pos>170, 40</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">LD</label>
+            <pos>168, 68</pos>
+        </item>
+        <!-- RN: Run toggle switch -->
+        <item>
+            <type>switch</type>
+            <function>cardswitch</function>
+            <init>down</init>
+            <pos>220, 40</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">RN</label>
+            <pos>218, 68</pos>
+        </item>
+        <!-- Display: 2x TIL hex digits (updated via OUT 6) -->
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>1</value>
+            <function>datatil</function>
+            <pos>265, 35</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>0</value>
+            <function>datatil</function>
+            <pos>293, 35</pos>
+        </item>
+        <!-- ON/OFF power switch -->
+        <item>
+            <type>text</type>
+            <label size="12">ON</label>
+            <pos>337, 25</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>stop</function>
+            <init>up</init>
+            <pos>340, 40</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">OFF</label>
+            <pos>335, 68</pos>
+        </item>
+    </frontpanel>
+
+    <memory>
+        <ram type="gui" mask="0xfff">
+            <start>0x0000</start>
+            <end>0xFFFF</end>
+            <pulldown mask="*.bin">FREDII</pulldown>
+        </ram>
+    </memory>
+    
+    <keypad type="fred">
+        <iogroup>1</iogroup>
+        <out>2</out>
+        <in type="key" mode="1">0</in>
+        <in type="coin">6</in>
+        <ef type="key" mode="1">1</ef>
+        <ef type="fireb">3</ef> 
+        <ef type="coin">4</ef>
+        <mode>hex</mode>
+    </keypad>
+
+    <video type="fred">
+        <iogroup>2</iogroup>
+        <out>2</out>
+        <border>33x33</border>
+        <color type="fore">255, 255, 255</color>
+        <color type="back">0, 0, 0</color>
+     </video>
+
+    <cassette type="fred">
+        <iogroup>3</iogroup>
+        <stoptone />
+        <bootstart />
+        <ef type="in" mode="2">1</ef>
+        <ef type="run">2</ef>
+        <ef type="error">4</ef>
+        <in mode="2">0</in>
+        <out type="mode">2</out>
+        <out type="sound">3</out>
+        <freq type="0">5200</freq>
+        <freq type="1">6200</freq>
+        <databits>8</databits>
+        <threshold type="8bit">10</threshold>
+        <threshold type="16bit">500</threshold>
+        <threshold type="24bit">1000</threshold>
+        <filename cassette="0"></filename>
+    </cassette>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>fred.bin</filename>
+            <code_start>0</code_start>
+            <code_end>0xFFF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>

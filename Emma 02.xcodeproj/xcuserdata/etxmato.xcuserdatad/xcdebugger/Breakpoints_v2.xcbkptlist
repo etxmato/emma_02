@@ -30,10 +30,10 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5267"
-            endingLineNumber = "5267"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "5265"
+            endingLineNumber = "5265"
+            landmarkName = "Computer::startComputer()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -318,8 +318,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9643"
-            endingLineNumber = "9643"
+            startingLineNumber = "9641"
+            endingLineNumber = "9641"
             landmarkName = "Computer::isComputerRunning()"
             landmarkType = "7">
          </BreakpointContent>
@@ -414,8 +414,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9323"
-            endingLineNumber = "9323"
+            startingLineNumber = "9321"
+            endingLineNumber = "9321"
             landmarkName = "Computer::executeFunction(function, additionalAddress)"
             landmarkType = "7">
          </BreakpointContent>
@@ -430,8 +430,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9313"
-            endingLineNumber = "9313"
+            startingLineNumber = "9311"
+            endingLineNumber = "9311"
             landmarkName = "Computer::executeFunction(function, additionalAddress)"
             landmarkType = "7">
          </BreakpointContent>
@@ -494,8 +494,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1752"
-            endingLineNumber = "1752"
+            startingLineNumber = "1750"
+            endingLineNumber = "1750"
             landmarkName = "Computer::ef(flag)"
             landmarkType = "7">
          </BreakpointContent>
@@ -510,8 +510,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7956"
-            endingLineNumber = "7956"
+            startingLineNumber = "7954"
+            endingLineNumber = "7954"
             landmarkName = "Computer::configureExtensions()"
             landmarkType = "7">
          </BreakpointContent>
@@ -526,10 +526,10 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4532"
-            endingLineNumber = "4532"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "4530"
+            endingLineNumber = "4530"
+            landmarkName = "Computer::onEmsButton(event)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -654,9 +654,9 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5746"
-            endingLineNumber = "5746"
-            landmarkName = "Main::printSerialEvent(event)"
+            startingLineNumber = "5750"
+            endingLineNumber = "5750"
+            landmarkName = "Main::printThermalEvent(event)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -670,9 +670,9 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5752"
-            endingLineNumber = "5752"
-            landmarkName = "Main::eventPrintSerial(value)"
+            startingLineNumber = "5756"
+            endingLineNumber = "5756"
+            landmarkName = "Main::printThermalEvent(event)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -817,6 +817,38 @@
             startingLineNumber = "206"
             endingLineNumber = "206"
             landmarkName = "XmlParser::parseXmlFile(xmlDir, xmlFile)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "30D3231F-6D4A-4819-AC8A-345A86F73D53"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/main.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "3119"
+            endingLineNumber = "3119"
+            landmarkName = "Main::removeOldXml(dirName, pathSep)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B559A3F0-88D8-4B36-9467-07A67819832D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/main.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "3113"
+            endingLineNumber = "3113"
+            landmarkName = "Main::removeOldXml(dirName, pathSep)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -1696,21 +1696,21 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         if (answer == wxYES)
         {
            reInstall(applicationDirectory_ + "data" + pathSeparator_ + "Xml" + pathSeparator_, dataDir_ + "Xml" + pathSeparator_, pathSeparator_);
+
+           if (wxFile::Exists(dataDir_ + "CosmacElf"  + pathSeparator_+ "cosmac-elf,bare.xml") || wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "FRED1" + pathSeparator_+ "21 I.xml") || wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "FRED1_5" + pathSeparator_+ "bare.xml"))
+           {
+              answer = wxMessageBox("Old XML files detected: \n\nCleanup of Xml folder recommended\n\nThis will remove older .xml files:\n\nContinue cleanup of Xml folder?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+              if (answer == wxYES)
+              {
+                 removeOldXml(dataDir_ + "Xml" + pathSeparator_, pathSeparator_);
+              }
+           }
         }
 
         answer = wxMessageBox("New release detected: \n\nRe-install of 1802 software files recommended\n\nThis will overwrite files in the 1802 software directory:\n"+dataDir_+"\n\nContinue to install default 1802 software files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
         if (answer == wxYES)
         {
             reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_, "Xml");
-           
-            if (wxFile::Exists(dataDir_ + "CosmacElf"  + pathSeparator_+ "cosmac-elf,bare.xml"))
-            {
-               answer = wxMessageBox("Old XML files detected: \n\nCleanup of Xml folder recommended\n\nThis will remove older .xml files:\n"+dataDir_+"\n\nContinue cleanup of Xml folder?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
-               if (answer == wxYES)
-               {
-                  removeOldXml(dataDir_ + "Xml" + pathSeparator_, pathSeparator_);
-               }
-            }
         }
     }
 
@@ -1752,12 +1752,12 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         dirFound = dir->GetNext(&dirName);
     }
     delete dir;
-    bool redundantFilesRemoveCheck;
-    configPointer->Read("/Main/RedundantFilesRemoveCheck", &redundantFilesRemoveCheck, false);
-    if (!redundantFilesRemoveCheck)
+    bool redundantFilesRemoveCheck2;
+    configPointer->Read("/Main/RedundantFilesRemoveCheck2", &redundantFilesRemoveCheck2, false);
+    if (!redundantFilesRemoveCheck2)
     {
         removeRedundantFiles();
-        configPointer->Write("/Main/RedundantFilesRemoveCheck", true);
+        configPointer->Write("/Main/RedundantFilesRemoveCheck2", true);
     }
  
     if (forceGuiSizeReset && mode_.window_position_fixed)
@@ -2743,7 +2743,7 @@ void Main::onReInstallData(wxCommandEvent&WXUNUSED(event))
    {
       reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_, "Xml");
 
-      if (wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "CosmacElf" + pathSeparator_+ "cosmac-elf,bare.xml") || wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "Cosmac Elf" + pathSeparator_+ "cosmac-elf,bare.xml") )
+      if (wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "CosmacElf" + pathSeparator_+ "cosmac-elf,bare.xml") || wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "Cosmac Elf" + pathSeparator_+ "cosmac-elf,bare.xml") || wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "FRED1" + pathSeparator_+ "21 I.xml") || wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "FRED1_5" + pathSeparator_+ "bare.xml") )
       {
          answer = wxMessageBox("Old XML files detected: \n\nCleanup of Xml folder recommended\n\nThis will remove older .xml files in:\n"+dataDir_+"Xml\n\nContinue cleanup of Xml folder?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
          if (answer == wxYES)
@@ -2763,8 +2763,11 @@ void Main::removeRedundantFiles()
     bool cpd18s600conf = wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + "CDP18S600");
     bool cpd18s601conf = wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + "CDP18S601");
     bool cpd18s603conf = wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + "CDP18S603A");
+    bool fred1 = wxDir::Exists(dataDir_ + "FRED1");
+    bool fred1_5 = wxDir::Exists(dataDir_ + "FRED1_5");
+    bool fred3 = wxDir::Exists(dataDir_ + "FRED3");
 
-    if (cpd18s600 || cpd18s601 || cpd18s603 || cpd18s600conf || cpd18s601conf || cpd18s603conf)
+    if (cpd18s600 || cpd18s601 || cpd18s603 || cpd18s600conf || cpd18s601conf || cpd18s603conf || fred1 || fred1_5 || fred3)
     {
         wxString message = "Redundant files and directories found:\n";
         if (cpd18s600)
@@ -2779,6 +2782,12 @@ void Main::removeRedundantFiles()
             message = message + iniDir_ + "Configurations" + pathSeparator_ + "CDP18S601\n";
         if (cpd18s603conf)
             message = message + iniDir_ + "Configurations" + pathSeparator_ + "CDP18S603A\n";
+        if (fred1)
+            message = message + dataDir_ + "FRED1\n";
+        if (fred1_5)
+            message = message + dataDir_ + "FRED1_5\n";
+        if (fred3)
+            message = message + dataDir_ + "FRED3\n";
 
         int answer = wxMessageBox(message+"\nDelete files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
         
@@ -2796,6 +2805,12 @@ void Main::removeRedundantFiles()
                 deleteDir (iniDir_ + "Configurations" + pathSeparator_ + "CDP18S601");
             if (cpd18s603conf)
                 deleteDir (iniDir_ + "Configurations" + pathSeparator_ + "CDP18S603A");
+            if (fred1)
+                deleteDir (dataDir_ + "FRED1");
+            if (fred1_5)
+                deleteDir (dataDir_ + "FRED1_5");
+            if (fred3)
+                deleteDir (dataDir_ + "FRED3");
         }
     }
 }
@@ -3081,6 +3096,9 @@ void Main::removeOldXml(wxString dirName, wxString pathSep)
       "Microtutor II",
       "Netronics Elf II",
       "TMC-600",
+      "FRED1",
+      "FRED1_5",
+      "FRED3",
       "",
       "",
    };
@@ -3092,27 +3110,29 @@ void Main::removeOldXml(wxString dirName, wxString pathSep)
 
    while (dirList[number] != "")
    {
-      dir.Open(dirName + dirList[number]);
-      cont = dir.GetFirst(&filename);
-      
-      while ( cont )
+      if (dir.Open(dirName + dirList[number]))
       {
-         if (filename.Left(dirList[number+1].Len()) == dirList[number+1])
+         cont = dir.GetFirst(&filename);
+         
+         while ( cont )
          {
-            wxString folder = dirName + dirList[number] + pathSeparator_;
-            wxString newFileName = filename.Right(filename.Len() - dirList[number+1].Len() - 1);
-            wxString newFileName2 = filename.Right(filename.Len() - dirList[number+1].Len() - 3);
-            newFileName2.Replace(" + ", "+");
-
-            if (newFileName == "xml")
-               newFileName = dirList[number+1] + ".xml";
-
-            if (wxFile::Exists(folder + newFileName))
-               wxRemoveFile(folder + filename);
-            if (wxFile::Exists(folder + newFileName2))
-               wxRemoveFile(folder + filename);
+            if (filename.Left(dirList[number+1].Len()) == dirList[number+1])
+            {
+               wxString folder = dirName + dirList[number] + pathSeparator_;
+               wxString newFileName = filename.Right(filename.Len() - dirList[number+1].Len() - 1);
+               wxString newFileName2 = filename.Right(filename.Len() - dirList[number+1].Len() - 3);
+               newFileName2.Replace(" + ", "+");
+               
+               if (newFileName == "xml")
+                  newFileName = dirList[number+1] + ".xml";
+               
+               if (wxFile::Exists(folder + newFileName))
+                  wxRemoveFile(folder + filename);
+               if (wxFile::Exists(folder + newFileName2))
+                  wxRemoveFile(folder + filename);
+            }
+            cont = dir.GetNext(&filename);
          }
-         cont = dir.GetNext(&filename);
       }
       number += 2;
    }
@@ -3123,6 +3143,31 @@ void Main::removeOldXml(wxString dirName, wxString pathSep)
       if (wxFile::Exists(dirName + fileDeleteList[number] + pathSeparator_ + fileDeleteList[number+1]))
          wxRemoveFile(dirName + fileDeleteList[number] + pathSeparator_ + fileDeleteList[number+1]);
       number += 2;
+   }
+
+   wxString dirDeleteAllFilesList[]=
+   {
+      "FRED1",
+      "FRED1_5",
+      "FRED3",
+      "",
+   };
+
+   number=0;
+   while (dirDeleteAllFilesList[number] != "")
+   {
+      wxString fullDirPath = dirName + dirDeleteAllFilesList[number];
+      if (wxDir::Exists(fullDirPath))
+      {
+         dir.Open(fullDirPath);
+         cont = dir.GetFirst(&filename);
+         while (cont)
+         {
+            wxRemoveFile(fullDirPath + pathSeparator_ + filename);
+            cont = dir.GetNext(&filename);
+         }
+      }
+      number++;
    }
 
    number=0;
