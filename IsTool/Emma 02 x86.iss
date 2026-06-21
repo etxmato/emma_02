@@ -150,9 +150,9 @@ Source: ..\data\Elf2K\1802 Disassembler\*.*; DestDir: {app}\data\Elf2K\1802 Disa
 Source: ..\data\Elf2K\Clock\*.*; DestDir: {app}\data\Elf2K\Clock\; Components: MAIN
 Source: ..\data\Elf2K\Tinyos2k\*.*; DestDir: {app}\data\Elf2K\Tinyos2k; Components: MAIN
 Source: ..\data\Eti\*.*; DestDir: {app}\data\Eti; Components: MAIN
-Source: ..\data\FRED1\*.*; DestDir: {app}\data\FRED1; Components: MAIN
-Source: ..\data\FRED1_5\*.*; DestDir: {app}\data\FRED1_5; Components: MAIN
-Source: ..\data\FRED3\*.*; DestDir: {app}\data\FRED3; Components: MAIN
+Source: ..\data\FREDI\*.*; DestDir: {app}\data\FREDI; Components: MAIN
+Source: ..\data\FREDII\*.*; DestDir: {app}\data\FREDII; Components: MAIN
+Source: ..\data\FREDIII\*.*; DestDir: {app}\data\FREDIII; Components: MAIN
 Source: ..\data\HEC1802\*.*; DestDir: {app}\data\HEC1802; Components: MAIN
 Source: ..\data\HUG1802\*.*; DestDir: {app}\data\HUG1802; Components: MAIN
 Source: ..\data\Macbug\*.*; DestDir: {app}\data\Macbug; Components: MAIN
@@ -218,9 +218,9 @@ Source: ..\data\Xml\EFA-datorn\*.*; DestDir: {app}\data\Xml\EFA-datorn; Componen
 Source: ..\data\Xml\Elf\*.*; DestDir: {app}\data\Xml\Elf; Components: MAIN
 Source: ..\data\Xml\Elf2K\*.*; DestDir: {app}\data\Xml\Elf2K; Components: MAIN
 Source: ..\data\Xml\Eti\*.*; DestDir: {app}\data\Xml\Eti; Components: MAIN
-Source: ..\data\Xml\FRED1\*.*; DestDir: {app}\data\Xml\FRED1; Components: MAIN
-Source: ..\data\Xml\FRED1_5\*.*; DestDir: {app}\data\Xml\FRED1_5; Components: MAIN
-Source: ..\data\Xml\FRED3\*.*; DestDir: {app}\data\Xml\FRED3; Components: MAIN
+Source: ..\data\Xml\FREDI\*.*; DestDir: {app}\data\Xml\FREDI; Components: MAIN
+Source: ..\data\Xml\FREDII\*.*; DestDir: {app}\data\Xml\FREDII; Components: MAIN
+Source: ..\data\Xml\FREDIII\*.*; DestDir: {app}\data\Xml\FREDIII; Components: MAIN
 Source: ..\data\Xml\HEC1802\*.*; DestDir: {app}\data\Xml\HEC1802; Components: MAIN
 Source: ..\data\Xml\HUG1802\*.*; DestDir: {app}\data\Xml\HUG1802; Components: MAIN
 Source: ..\data\Xml\JVIP\*.*; DestDir: {app}\data\Xml\JVIP; Components: MAIN
@@ -301,14 +301,14 @@ procedure CurStepChanged(CurStep: TSetupStep);
     if (CurStep = ssInstall) then begin
 
       fredDirOld :=  ExpandConstant('{app}') + '\data\FRED2';
-      fredDirNew :=  ExpandConstant('{app}') + '\data\FRED1_5';
+      fredDirNew :=  ExpandConstant('{app}') + '\data\FREDII';
       if DirExists(fredDirOld) then
       begin
         RenameFile(fredDirOld, fredDirNew);
       end;
 
       fredDirOld :=  ExpandConstant('{app}') + '\Configurations\FRED2';
-      fredDirNew :=  ExpandConstant('{app}') + '\Configurations\FRED1_5';
+      fredDirNew :=  ExpandConstant('{app}') + '\Configurations\FREDII';
       if DirExists(fredDirOld) then
       begin
         RenameFile(fredDirOld, fredDirNew);
