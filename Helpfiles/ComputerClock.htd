@@ -232,21 +232,21 @@ Default frequencies as used in Emma 02:
     </tr>
 
     <tr>
-        <td align="left" valign="top">FRED 1</td>
+        <td align="left" valign="top">FRED I</td>
         <td align="left" valign="top">1.0</td>
         <td align="left" valign="top">32x32, 64x16 or 64x32 pixels</td>
         <td align="left" valign="top">60</td>
     </tr>
 
     <tr>
-        <td align="left" valign="top">FRED 1.5</td>
+        <td align="left" valign="top">FRED II</td>
         <td align="left" valign="top">1.0</td>
         <td align="left" valign="top">32x32, 64x16 or 64x32 pixels</td>
         <td align="left" valign="top">60</td>
     </tr>
 
     <tr>
-        <td align="left" valign="top">FRED 3</td>
+        <td align="left" valign="top">FRED III</td>
         <td align="left" valign="top">1.0</td>
         <td align="left" valign="top">64x32 pixels, similar to the CDP1861</td>
         <td align="left" valign="top">60</td>

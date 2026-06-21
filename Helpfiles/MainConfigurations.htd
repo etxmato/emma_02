@@ -590,11 +590,11 @@ VDU / MC6847 configuration with a hex keypad.
 </p>
 
 
-<h2>FRED 1</h2>
+<h2>FRED I</h2>
 
 <p><strong>21 I.xml</strong></p>
 <p>
-FRED 1 configuration running <strong>21 I</strong>.
+FRED I configuration running <strong>21 I</strong>.
 </p>
 
 <p>
@@ -610,7 +610,7 @@ Use punch cards as follows:
 
 <p><strong>add drill.xml</strong></p>
 <p>
-FRED 1 configuration running <strong>Add Drill</strong>.
+FRED I configuration running <strong>Add Drill</strong>.
 </p>
 
 <p>
@@ -628,7 +628,7 @@ Then type the result of the addition question when it appears.
 
 <p><strong>animate demo.xml</strong></p>
 <p>
-FRED 1 configuration running the <strong>Animate Demo</strong>.
+FRED I configuration running the <strong>Animate Demo</strong>.
 </p>
 <p>
 Demo that loads data from tape and displays it on the screen.
@@ -643,7 +643,7 @@ The same data is also included in binary form in <code>Animate demo data.bin</co
 
 <p><strong>bowling.xml</strong></p>
 <p>
-FRED 1 configuration running <strong>Bowling</strong>.
+FRED I configuration running <strong>Bowling</strong>.
 </p>
 
 <p>
@@ -673,7 +673,7 @@ This file (with only one rolling ball sound) can be used in Emma 02, as Emma 02 
 
 <p><strong>cardtran.xml</strong></p>
 <p>
-FRED 1 configuration running the <strong>CARDTRAN Interpreter</strong>.
+FRED I configuration running the <strong>CARDTRAN Interpreter</strong>.
 </p>
 
 <p>
@@ -682,7 +682,7 @@ See <strong>Cardtran.readme</strong> or <strong>Cardtran.asm</strong> for more i
 
 <p><strong>clue.xml</strong></p>
 <p>
-FRED 1 configuration running <strong>Clue</strong>.
+FRED I configuration running <strong>Clue</strong>.
 </p>
 
 <p>
@@ -695,7 +695,7 @@ This game uses spoken text and tones recorded on the original tape and included 
 
 <p><strong>deduce-leds.xml</strong></p>
 <p>
-FRED 1 configuration running <strong>Deduce-leds</strong>.
+FRED I configuration running <strong>Deduce-leds</strong>.
 </p>
 
 <p>
@@ -708,12 +708,12 @@ This game uses spoken text and tones recorded on the original tape and included 
 
 <p><strong>demo.xml</strong></p>
 <p>
-FRED 1 configuration running a demo using spoken text and tones recorded on the original tape and included in <code>Demo.wav</code> (if not available, it will be downloaded).
+FRED I configuration running a demo using spoken text and tones recorded on the original tape and included in <code>Demo.wav</code> (if not available, it will be downloaded).
 </p>
 
 <p><strong>flip I.xml</strong></p>
 <p>
-FRED 1 configuration running <strong>Flip I</strong>.
+FRED I configuration running <strong>Flip I</strong>.
 </p>
 <p>
 Start the game with card <code>0</code> (twice).
@@ -730,7 +730,7 @@ If no player wins by turn 50, the player with the most squares wins.
 
 <p><strong>Match I.xml</strong></p>
 <p>
-FRED 1 configuration running <strong>Match I</strong>.
+FRED I configuration running <strong>Match I</strong>.
 </p>
 <p>
 This game is for two players (<code>1</code> and <code>2</code>). The object is to find matching pairs of symbols.
@@ -753,7 +753,7 @@ Count the number of <code>1</code> and <code>2</code> values to determine the wi
 
 <p><strong>memory test.xml</strong></p>
 <p>
-FRED 1 configuration running <strong>Memory Test</strong>.
+FRED I configuration running <strong>Memory Test</strong>.
 </p>
 <p>
 Press a value between <code>00</code> and <code>80</code>, followed by a second byte.
@@ -767,7 +767,7 @@ A binary representation is shown on the screen. The screen has 128 positions for
 
 <p><strong>nimnet.xml</strong></p>
 <p>
-FRED 1 configuration running <strong>Nimnet</strong>.
+FRED I configuration running <strong>Nimnet</strong>.
 </p>
 <p>
 This game uses cards with codes A1/A2, B1-B4, C1-C5, D1-D5, E1-E4 and F1/F2 (hexadecimal).
@@ -778,7 +778,7 @@ The objective is to create a path from the left dot to the right dot using rando
 
 <p><strong>prog apt test.xml</strong></p>
 <p>
-FRED 1 configuration running <strong>Prog. Apt. Test</strong>.
+FRED I configuration running <strong>Prog. Apt. Test</strong>.
 </p>
 <p>
 This software requires spoken text and tones recorded on the original tapes and included in <code>Prog. Apt. Test.wav</code> (if not available, it will be downloaded).
@@ -786,7 +786,7 @@ This software requires spoken text and tones recorded on the original tapes and 
 
 <p><strong>slide puzzle I.xml</strong></p>
 <p>
-FRED 1 configuration running <strong>Slide Puzzle I</strong>.
+FRED I configuration running <strong>Slide Puzzle I</strong>.
 </p>
 <p>
 Start the game with card <code>0</code>, followed by card <code>1</code> or 31 (hexadecimal), <code>2</code> or 33 (hexadecimal), <code>3</code> or 35 (hexadecimal).
@@ -811,64 +811,64 @@ For card <code>1</code>, swap the full and empty squares while keeping the rest 
 </p>
 
 
-<h2>FRED 1.5</h2>
+<h2>FRED II</h2>
 
 <p><strong>demo.xml</strong></p>
 <p>
-FRED 1.5 configuration running the <strong>Fred Demo</strong> using audio (voice) from <code>Fred Demo.wav</code>.
+FRED II configuration running the <strong>Fred Demo</strong> using audio (voice) from <code>Fred Demo.wav</code>.
 </p>
 
 <p><strong>fel-1.xml</strong></p>
 <p>
-FRED 1.5 configuration running <strong>FEL-1</strong>.
+FRED II configuration running <strong>FEL-1</strong>.
 </p>
 
 <p><strong>tape sw.xml</strong></p>
 <p>
-FRED 1.5 configuration to load WAV files into memory.
+FRED II configuration to load WAV files into memory.
 </p>
 
 
-<h2>FRED 3</h2>
+<h2>FRED III</h2>
 
 <p><strong>bare.xml</strong></p>
 <p>
-Bare FRED 3 configuration to load one of the games, select game ROM in the ROM field.
+Bare FRED III configuration to load one of the games, select game ROM in the ROM field.
 </p>
 
 <p><strong>bowling.xml</strong></p>
 <p>
-FRED 3 configuration running <strong>Bowling</strong>.
+FRED III configuration running <strong>Bowling</strong>.
 </p>
 
 <p><strong>chase.xml</strong></p>
 <p>
-FRED 3 configuration running <strong>Chase</strong>.
+FRED III configuration running <strong>Chase</strong>.
 </p>
 
 <p><strong>home_down.xml</strong></p>
 <p>
-FRED 3 configuration running <strong>Home Down</strong>.
+FRED III configuration running <strong>Home Down</strong>.
 </p>
 
 <p><strong>maze_draw.xml</strong></p>
 <p>
-FRED 3 configuration running <strong>Maze Draw</strong>.
+FRED III configuration running <strong>Maze Draw</strong>.
 </p>
 
 <p><strong>mines.xml</strong></p>
 <p>
-FRED 3 configuration running <strong>Mines</strong>.
+FRED III configuration running <strong>Mines</strong>.
 </p>
 
 <p><strong>pong.xml</strong></p>
 <p>
-FRED 3 configuration running <strong>Pong</strong>.
+FRED III configuration running <strong>Pong</strong>.
 </p>
 
 <p><strong>split-second.xml</strong></p>
 <p>
-FRED 3 configuration running <strong>Split-second</strong>.
+FRED III configuration running <strong>Split-second</strong>.
 </p>
 
 
