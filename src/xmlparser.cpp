@@ -185,7 +185,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     
     if (!wxFile::Exists(xmlDir + xmlFile) || xmlFile == "" || xmlDir == "")
     {
-        p_Main->eventShowTextMessage("XML not found: dir=[" + xmlDir + "] file=[" + xmlFile + "]");
+//        p_Main->eventShowTextMessage("XML not found: dir=[" + xmlDir + "] file=[" + xmlFile + "]");
         memConfigNumber_ = 2;
         computerConfiguration.memoryConfiguration.resize(memConfigNumber_);
         computerConfiguration.memoryConfiguration[0].filename = "";
@@ -203,7 +203,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     {
         if (newDate.IsEqualTo(oldXmlDate_))
         {
-            p_Main->eventShowTextMessage("XML file not reloaded");
+ //           p_Main->eventShowTextMessage("XML file not reloaded");
             return;
         }
     }
@@ -5255,6 +5255,8 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                             case BUTTON_FUNC_PAUSE:
                                 if (child->GetAttribute("type") == "cosmicos")
                                     computerConfiguration.stepPressType = STEP_TYPE_COSMICOS;
+                                if (child->GetAttribute("type") == "fredii")
+                                    computerConfiguration.stepPressType = STEP_TYPE_FRED_II;
                                 if (child->GetAttribute("type") == "switch_push")
                                     computerConfiguration.stepPressType = STEP_TYPE_SWITCH_PUSH;
                             break;

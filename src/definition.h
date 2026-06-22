@@ -592,6 +592,7 @@ enum
 {
     STEP_TYPE_DEFAULT,
     STEP_TYPE_COSMICOS,
+    STEP_TYPE_FRED_II,
     STEP_TYPE_SWITCH_PUSH,
 };
 
@@ -1373,13 +1374,15 @@ static wxString commandComputerList_[]=
     "eti-660",
     "Eti",
     "fred",
-    "FRED1",
+    "FREDI",
     "fred15",
-    "FRED1_5",
+    "FREDII",
     "fred1.5",
-    "FRED1_5",
+    "FREDII",
+    "fred2",
+    "FREDII",
     "fred3",
-    "FRED3",
+    "FREDIII",
     "hec",
     "HEC1802",
     "hug",
