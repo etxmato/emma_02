@@ -4615,11 +4615,6 @@ void Computer::onSingleStep()
 {
     switch (currentComputerConfiguration.stepPressType)
     {
-        case STEP_TYPE_FRED_II:
-            setClear(0);
-            dmaOut();
-        break;
-
         case STEP_TYPE_COSMICOS:
         case STEP_TYPE_SWITCH_PUSH:
             setWait(1);

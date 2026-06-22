@@ -956,7 +956,7 @@ void PixieFred::configureFredVideo(FredVideoConfiguration fredVideoConfiguration
     defineColours();
 
     p_Main->configureMessage(&fredVideoConfiguration.ioGroupVector, "FRED Video");
-    p_Computer->setOutType(&fredVideoConfiguration.ioGroupVector, fredVideoConfiguration.output, "display type 0 = TV off, 1 = 32x32, 2 = 64x16, 3 = 64x32\n");
+    p_Computer->setOutType(&fredVideoConfiguration.ioGroupVector, fredVideoConfiguration.output, "display type 0 = TV off, 1 = 32x32, 2 = 64x16, 3 = 64x32");
     p_Computer->setCycleType(CYCLE_TYPE_VIDEO_FRED, FRED_VIDEO_CYCLE);
 
     p_Main->message("");

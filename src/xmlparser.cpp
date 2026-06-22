@@ -5255,8 +5255,6 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                             case BUTTON_FUNC_PAUSE:
                                 if (child->GetAttribute("type") == "cosmicos")
                                     computerConfiguration.stepPressType = STEP_TYPE_COSMICOS;
-                                if (child->GetAttribute("type") == "fredii")
-                                    computerConfiguration.stepPressType = STEP_TYPE_FRED_II;
                                 if (child->GetAttribute("type") == "switch_push")
                                     computerConfiguration.stepPressType = STEP_TYPE_SWITCH_PUSH;
                             break;
