@@ -3897,8 +3897,8 @@ void Computer::autoBoot()
     if (currentComputerConfiguration.autoBootConfiguration.dmaOutOnBoot)
         dmaOut();
 
-    if (currentComputerConfiguration.autoBootConfiguration.dmaOutOnBootIfMem0is0 && readMemDebug(0) == 0)
-        dmaOut();
+//    if (currentComputerConfiguration.autoBootConfiguration.dmaOutOnBootIfMem0is0 && readMemDebug(0) == 0)
+//        dmaOut();
 
     segNumber_ = 0;
 }
@@ -4244,8 +4244,8 @@ void Computer::dmaOnBoot()
         if (currentComputerConfiguration.autoBootConfiguration.dmaOutOnBoot)
             dmaOut();
 
-        if (currentComputerConfiguration.autoBootConfiguration.dmaOutOnBootIfMem0is0 && readMemDebug(0) == 0)
-            dmaOut();
+//        if (currentComputerConfiguration.autoBootConfiguration.dmaOutOnBootIfMem0is0 && readMemDebug(0) == 0)
+//            dmaOut();
     }
 }
 
@@ -5113,6 +5113,9 @@ void Computer::startComputer()
         panelPointer[frontPanel]->setQLed(qLedStatus_);
         panelPointer[frontPanel]->showAddress(address_);
     }
+
+    if (currentComputerConfiguration.autoBootConfiguration.dmaOutOnBootIfMem0is0 && readMemDebug(0) == 0)
+        dmaOut();
 
     if (currentComputerConfiguration.autoBootConfiguration.defined)
     {
@@ -7232,6 +7235,8 @@ void Computer::cpuInstruction()
     if (clearResetPressed_)
     {
         resetCpu();
+        if (currentComputerConfiguration.autoBootConfiguration.dmaOutOnBootIfMem0is0 && readMemDebug(0) == 0)
+            dmaOut();
         clearResetPressed_ = false;
     }
     if (cpuMode_ != lastMode_)
@@ -7431,6 +7436,7 @@ void Computer::resetPressed()
         matrixKeyboardPointer->resetKeyboard();
 
     showCycleData(0);
+
     if (currentComputerConfiguration.autoBootConfiguration.defined)
     {
         setScratchpadRegister(0, currentComputerConfiguration.autoBootConfiguration.address);
