@@ -1256,6 +1256,8 @@ void Computer::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
 void Computer::initComputer()
 {
     monitor_ = false;
+    bootstrap_ = 0;
+
     configureMemory();
 /*    {
         wxFile dbg(p_Main->getDataDir() + "romload_debug.txt", wxFile::write_append);
@@ -1304,8 +1306,6 @@ void Computer::initComputer()
         if (currentComputerConfiguration.efButtonsConfiguration.key[ef].defined)
             efKeyValue[ef] = currentComputerConfiguration.efButtonsConfiguration.keyPressed ^ 1;
     }
-
-    bootstrap_ = 0;
 
     pulseCountStopTone_ = 2000;
     tapeFormat56_ = false;
@@ -5114,9 +5114,6 @@ void Computer::startComputer()
         panelPointer[frontPanel]->showAddress(address_);
     }
 
-    if (currentComputerConfiguration.autoBootConfiguration.dmaOutOnBootIfMem0is0 && readMemDebug(0) == 0)
-        dmaOut();
-
     if (currentComputerConfiguration.autoBootConfiguration.defined)
     {
         scratchpadRegister_[0] = currentComputerConfiguration.autoBootConfiguration.address;
@@ -5130,6 +5127,8 @@ void Computer::startComputer()
             autoBoot();
         }
     }
+    if (currentComputerConfiguration.autoBootConfiguration.dmaOutOnBootIfMem0is0 && readMemDebug(0) == 0 && cpuMode_ != LOAD)
+        dmaOut();
 
     if (currentComputerConfiguration.multicartEmsNumber_ != -1)
         setMultiCartGame();
@@ -7235,7 +7234,7 @@ void Computer::cpuInstruction()
     if (clearResetPressed_)
     {
         resetCpu();
-        if (currentComputerConfiguration.autoBootConfiguration.dmaOutOnBootIfMem0is0 && readMemDebug(0) == 0)
+        if (currentComputerConfiguration.autoBootConfiguration.dmaOutOnBootIfMem0is0 && readMemDebug(0) == 0 && cpuMode_ != LOAD)
             dmaOut();
         clearResetPressed_ = false;
     }

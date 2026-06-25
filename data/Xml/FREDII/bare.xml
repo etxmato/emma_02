@@ -35,17 +35,22 @@
     </iogroup>
 
     <frontpanel init="on">
+        <out>6</out>
         <size>410, 100</size>
-        <!-- Silver background with black border and COSMAC text -->
+        <!-- Silver background with black border -->
         <item>
             <type>png</type>
-            <filename dirname="images">FREDII.png</filename>
+            <filename dirname="images">fredii.png</filename>
         </item>
-        <!-- S button: Step/Start - generates DMA OUT(N) and CLEAR(N) -->
         <item>
-            <type size="small">push</type>
-            <function type="boot">run</function>
-            <label></label>
+            <type>text</type>
+            <label size="12">C O S M A C  . . . . . .</label>
+            <pos>10, 10</pos>
+        </item>
+        <!-- S button: Clear/Reset - generates CLEAR(N) -->
+        <item>
+            <type form="round" color="black" action="both">push</type>
+            <function>clear_reset</function>
             <pos>20, 40</pos>
             <size>25, 25</size>
         </item>
@@ -63,7 +68,7 @@
         <item>
             <type>text</type>
             <label size="12">E</label>
-            <pos>72, 68</pos>
+            <pos>70, 68</pos>
         </item>
         <!-- T: Green Tape LED - driven by tape state -->
         <item>
@@ -74,42 +79,42 @@
         <item>
             <type>text</type>
             <label size="12">T</label>
-            <pos>123, 68</pos>
+            <pos>120, 68</pos>
         </item>
         <!-- LD: Load toggle switch -->
         <item>
             <type>switch</type>
-            <function>read</function>
+            <function>load</function>
             <init>down</init>
             <pos>170, 40</pos>
         </item>
         <item>
             <type>text</type>
             <label size="12">LD</label>
-            <pos>168, 68</pos>
+            <pos>171, 68</pos>
         </item>
         <!-- RN: Run toggle switch -->
         <item>
             <type>switch</type>
-            <function>cardswitch</function>
+            <function type="switch">run</function>
             <init>down</init>
             <pos>220, 40</pos>
         </item>
         <item>
             <type>text</type>
             <label size="12">RN</label>
-            <pos>218, 68</pos>
+            <pos>220, 68</pos>
         </item>
         <!-- Display: 2x TIL hex digits (updated via OUT 6) -->
         <item>
             <type form="313" font="italic">til</type>
-            <value>1</value>
+            <value>0</value>
             <function>datatil</function>
             <pos>265, 35</pos>
         </item>
         <item>
             <type form="313" font="italic">til</type>
-            <value>0</value>
+            <value>1</value>
             <function>datatil</function>
             <pos>293, 35</pos>
         </item>
@@ -117,7 +122,7 @@
         <item>
             <type>text</type>
             <label size="12">ON</label>
-            <pos>337, 25</pos>
+            <pos>339, 22</pos>
         </item>
         <item>
             <type>switch</type>

@@ -1,99 +1,11 @@
 <html>
 <title>How do I play the Visicom COM-100 cartridge games?</title>
 <body>
-
 <h1>How do I play the Visicom COM-100 cartridge games?</h1>
 
 <p>
-This section includes short instructions for some of the dumped Visicom cartridge files.
+Game instructions can be found on the <a href="https://www.emma02.hobby-site.com/visicom_cart_software.html">Visicom COM-100 Cartridge Software</a> page of the Emma 02 website.
 </p>
-
-<p>
-The descriptions below assume you are using a numeric keypad and have selected
-<strong>Settings/Use Numeric Keypad</strong>. If this option is not selected, the alternative key
-is shown in parentheses.
-For Player B, the keys <code>W</code>, <code>A</code>, <code>S</code>, <code>Z</code> control direction and <code>TAB</code> is used to fire. These keys work both with and without the <strong>Use Numeric Keypad</strong> setting enabled.
-</p>
-
-
-<h2>cas-130</h2>
-
-<h3>Baseball</h3>
-
-<p>
-Press <code>0</code> to start. Player A bats first and Player B pitches. The pitching player attempts to catch the ball by moving the fielders. Player A and Player B alternate every half inning.
-</p>
-
-<p><strong>Controls</strong></p>
-
-<p><strong>Batting</strong></p>
-
-<pre>
-Player A
---------
-SPACE              swing bat
-
-Player B
---------
-Numpad 5 (TAB)     swing bat
-</pre>
-
-<p><strong>Pitching</strong></p>
-
-<pre>
-Player A
---------
-Up Arrow           inside curve
-SPACE              straight pitch
-Down Arrow         outside curve
-
-Player B
---------
-Numpad 8 (W)       inside curve
-Numpad 5 (TAB)     straight pitch
-Numpad 2 (Z)       outside curve
-</pre>
-
-<p><strong>Moving Fielders</strong></p>
-
-<pre>
-Player A
---------
-Up Arrow           move up
-Down Arrow         move down
-
-Player B
---------
-Numpad 8 (W)       move up
-Numpad 2 (Z)       move down
-</pre>
-
-<p>
-Hold the key down for 1/4 second for a change-up (slow ball).
-</p>
-
-
-<h3>Sumo Wrestling</h3>
-
-<p>
-Press <code>SPACE</code> to start. Then press <code>0</code> and Numpad <code>0</code> (<code>P</code>) to perform the initial charge.
-</p>
-
-<p><strong>Controls</strong></p>
-
-<pre>
-Player A (left)
----------------
-Right Arrow        push
-Left Arrow         pull
-SPACE              throw
-
-Player B
---------
-Numpad 4 (A)       push
-Numpad 6 (S)       pull
-Numpad 5 (TAB)     throw
-</pre>
 
 </body>
 </html>

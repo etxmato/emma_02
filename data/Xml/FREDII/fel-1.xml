@@ -31,181 +31,105 @@
     </iogroup>
 
     <frontpanel init="on">
-        <size>310, 180</size>
+        <out>6</out>
+        <size>410, 100</size>
+        <!-- Silver background with black border -->
         <item>
-            <type size="small">push</type>
-            <function type="full">reset</function>
-            <label></label>
-            <pos>35, 60</pos>
+            <type>png</type>
+            <filename dirname="images">fredii.png</filename>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">C O S M A C  . . . . . .</label>
+            <pos>10, 10</pos>
+        </item>
+        <!-- S button: Clear/Reset - generates CLEAR(N) -->
+        <item>
+            <type form="round" color="black" action="both">push</type>
+            <function>clear_reset</function>
+            <pos>20, 40</pos>
             <size>25, 25</size>
         </item>
         <item>
             <type>text</type>
-            <label size="12">RESET</label>
-            <pos>20, 88</pos>
+            <label size="12">S</label>
+            <pos>27, 68</pos>
         </item>
+        <!-- E: Red Error LED - driven by EF4/F4(N) -->
         <item>
-            <type size="small">push</type>
-            <function type="boot">run</function>
-            <label></label>
-            <pos>85, 60</pos>
-            <size>25, 25</size>
+            <type>led</type>
+            <function>errorled</function>
+            <pos>70, 45</pos>
         </item>
         <item>
             <type>text</type>
-            <label size="12">RUN</label>
-            <pos>80, 88</pos>
+            <label size="12">E</label>
+            <pos>70, 68</pos>
         </item>
+        <!-- T: Green Tape LED - driven by tape state -->
+        <item>
+            <type>led</type>
+            <function>readyled</function>
+            <pos>120, 45</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">T</label>
+            <pos>120, 68</pos>
+        </item>
+        <!-- LD: Load toggle switch -->
         <item>
             <type>switch</type>
-            <function>read</function>
+            <function>load</function>
             <init>down</init>
-            <pos>135, 60</pos>
+            <pos>170, 40</pos>
         </item>
         <item>
             <type>text</type>
-            <label size="12">READ</label>
-            <pos>125, 88</pos>
+            <label size="12">LD</label>
+            <pos>171, 68</pos>
         </item>
+        <!-- RN: Run toggle switch -->
         <item>
             <type>switch</type>
-            <function>cardswitch</function>
+            <function type="switch">run</function>
             <init>down</init>
-            <pos>185, 60</pos>
+            <pos>220, 40</pos>
         </item>
         <item>
             <type>text</type>
-            <label size="12">CARD</label>
-            <pos>175, 88</pos>
+            <label size="12">RN</label>
+            <pos>220, 68</pos>
         </item>
-       <item>
+        <!-- Display: 2x TIL hex digits (updated via OUT 6) -->
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>0</value>
+            <function>datatil</function>
+            <pos>265, 35</pos>
+        </item>
+        <item>
+            <type form="313" font="italic">til</type>
+            <value>1</value>
+            <function>datatil</function>
+            <pos>293, 35</pos>
+        </item>
+        <!-- ON/OFF power switch -->
+        <item>
+            <type>text</type>
+            <label size="12">ON</label>
+            <pos>339, 22</pos>
+        </item>
+        <item>
             <type>switch</type>
             <function>stop</function>
             <init>up</init>
-            <pos>235, 60</pos>
+            <pos>340, 40</pos>
         </item>
         <item>
             <type>text</type>
             <label size="12">OFF</label>
-            <pos>232, 88</pos>
-        </item>
-        <item>
-            <type>text</type>
-            <label size="12">STOP</label>
-            <pos>42, 138</pos>
-        </item>
-        <item>
-            <type>led</type>
-            <function>stopled</function>
-            <pos>55, 160</pos>
-        </item>
-        <item>
-            <type>text</type>
-            <label size="12">READY</label>
-            <pos>120, 138</pos>
-        </item>
-        <item>
-            <type>led</type>
-            <function>readyled</function>
-            <pos>140, 160</pos>
-        </item>
-        <item>
-            <type>text</type>
-            <label size="12">ERROR</label>
-            <pos>205, 138</pos>
-        </item>
-        <item>
-            <type>led</type>
-            <function>errorled</function>
-            <pos>225, 160</pos>
-        </item>
-        <item>
-            <type>text</type>
-            <label size="12">0</label>
-            <pos>262, 35</pos>
-        </item>
-        <item>
-            <type>led</type>
-            <value>0</value>
-            <function load="show">bitled</function>
-            <pos>262, 15</pos>
-        </item>
-        <item>
-            <type>text</type>
-            <label size="12">1</label>
-            <pos>228, 35</pos>
-        </item>
-        <item>
-            <type>led</type>
-            <value>1</value>
-            <function load="show">bitled</function>
-            <pos>228, 15</pos>
-        </item>
-        <item>
-            <type>text</type>
-            <label size="12">2</label>
-            <pos>194, 35</pos>
-        </item>
-        <item>
-            <type>led</type>
-            <value>2</value>
-            <function load="show">bitled</function>
-            <pos>194, 15</pos>
-        </item>
-        <item>
-            <type>text</type>
-            <label size="12">3</label>
-            <pos>160, 35</pos>
-        </item>
-        <item>
-            <type>led</type>
-            <value>3</value>
-            <function load="show">bitled</function>
-            <pos>160, 15</pos>
-        </item>
-        <item>
-            <type>text</type>
-            <label size="12">4</label>
-            <pos>126, 35</pos>
-        </item>
-        <item>
-            <type>led</type>
-            <value>4</value>
-            <function load="show">bitled</function>
-            <pos>126, 15</pos>
-        </item>
-        <item>
-            <type>text</type>
-            <label size="12">5</label>
-            <pos>92, 35</pos>
-        </item>
-        <item>
-            <type>led</type>
-            <value>5</value>
-            <function load="show">bitled</function>
-            <pos>92, 15</pos>
-        </item>
-        <item>
-            <type>text</type>
-            <label size="12">6</label>
-            <pos>58, 35</pos>
-        </item>
-        <item>
-            <type>led</type>
-            <value>6</value>
-            <function load="show">bitled</function>
-            <pos>58, 15</pos>
-        </item>
-        <item>
-            <type>text</type>
-            <label size="12">7</label>
-            <pos>24, 35</pos>
-        </item>
-        <item>
-            <type>led</type>
-            <value>7</value>
-            <function load="show">bitled</function>
-            <pos>24, 15</pos>
+            <pos>335, 68</pos>
         </item>
     </frontpanel>
 
