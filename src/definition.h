@@ -525,6 +525,7 @@ enum
     SWITCH_BUTTON_YELLOW,
     SWITCH_BUTTON_BLUE,
     SWITCH_BUTTON_VERTICAL_PIO, // Last switch button - all switch buttons need to be defined before this
+    PUSH_SWITCH_BUTTON,
     PUSH_BUTTON,                // First push button - only push button can be defined after this
     PUSH_BUTTON_SMALL,
     PUSH_BUTTON_RECTANGLE,

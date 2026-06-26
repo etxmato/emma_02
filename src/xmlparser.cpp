@@ -4750,7 +4750,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
     int rangeLow, rangeHigh;
     int addressLine = -1;
     bool dpQvalue = false;
-    wxString position, size, range, itemFunctionText;
+    wxString position, size, range, itemFunctionText, temp;
 
     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration.resize(guiItemConfigNumber_+1);
     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = -1;
@@ -4843,7 +4843,8 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                 if (child->GetNodeContent() == "push")
                 {
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].actOnPress = true;
-                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PUSH_BUTTON;
+                    if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type != PUSH_SWITCH_BUTTON)
+                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PUSH_BUTTON;
                     if (child->HasAttribute("size"))
                     {
                         if (child->GetAttribute("size") == "small")
@@ -5248,6 +5249,11 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                                     computerConfiguration.runPressType = RUN_TYPE_UC1800;
                                 if (child->GetAttribute("type") == "microtutor")
                                     computerConfiguration.runPressType = RUN_TYPE_MICROTUTOR;
+                            break;
+
+                            case BUTTON_FUNC_LOAD:
+                                if (child->GetAttribute("type") == "switch")
+                                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PUSH_SWITCH_BUTTON;
                             break;
 
                             case BUTTON_FUNC_RUN0:

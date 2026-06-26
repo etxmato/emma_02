@@ -530,7 +530,7 @@ bool SwitchButton::onMousePress(wxDC& dc, wxCoord x, wxCoord y)
 {
     if ((x >= (x_+buttonStartX_)) &&(x <= (x_+buttonSize_.x)) &&(y >= (y_+buttonStartY_)) &&(y <= (y_+buttonSize_.y)))
     {
-        if (type_ >= PUSH_BUTTON)
+        if (type_ >= PUSH_SWITCH_BUTTON)
         {
             state_ = !state_;
             if (state_ == BUTTON_UP)
@@ -850,6 +850,7 @@ Panel::~Panel()
             break;
 
             case PUSH_BUTTON:
+            case PUSH_SWITCH_BUTTON:
             case PUSH_BUTTON_SMALL:
             case PUSH_BUTTON_RECTANGLE:
             case PUSH_BUTTON_RECTANGLE_SMALL:
@@ -1151,6 +1152,7 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
             break;
                 
             case PUSH_BUTTON:
+            case PUSH_SWITCH_BUTTON:
             case PUSH_BUTTON_SMALL:
             case PUSH_BUTTON_RECTANGLE:
             case PUSH_BUTTON_RECTANGLE_SMALL:
@@ -1451,6 +1453,7 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
             break;
 
             case PUSH_BUTTON:
+            case PUSH_SWITCH_BUTTON:
             case PUSH_BUTTON_SMALL:
             case PUSH_BUTTON_RECTANGLE:
             case PUSH_BUTTON_RECTANGLE_SMALL:
@@ -1722,6 +1725,7 @@ void Panel::onMousePress(wxMouseEvent&event)
             break;
                 
             case PUSH_BUTTON:
+            case PUSH_SWITCH_BUTTON:
             case PUSH_BUTTON_SMALL:
             case PUSH_BUTTON_RECTANGLE:
             case PUSH_BUTTON_RECTANGLE_SMALL:
@@ -1783,6 +1787,7 @@ void Panel::onMouseRelease(wxMouseEvent&event)
             break;
 
             case PUSH_BUTTON:
+            case PUSH_SWITCH_BUTTON:
             case PUSH_BUTTON_SMALL:
             case PUSH_BUTTON_RECTANGLE:
             case PUSH_BUTTON_RECTANGLE_SMALL:
@@ -1943,7 +1948,7 @@ void Panel::executeMouseReleaseFunction(std::vector<GuiItemConfiguration>::itera
         break;
 
         case BUTTON_FUNC_RUN:
-            if (button->type >= PUSH_BUTTON)
+            if (button->type >= PUSH_SWITCH_BUTTON)
                 p_Computer->onRunButtonRelease();
             else
                 p_Computer->onRunButtonPress(false);
