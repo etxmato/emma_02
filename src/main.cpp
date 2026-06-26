@@ -3855,6 +3855,11 @@ bool Main::checkFunctionKey(wxKeyEvent& event)
             p_Computer->onInButtonPress(computerConfiguration.mainFrontPanelConfiguration.dataSwitchButtons);
             return true;
         }
+        if (key == computerConfiguration.mainFrontPanelConfiguration.amKey)
+        {
+            p_Computer->onAmButtonPress();
+            return true;
+        }
     }
 
     return false;
@@ -3958,6 +3963,11 @@ void Main::onKeyUp(wxKeyEvent& event)
         if (key == p_Computer->getInKey1() || key == p_Computer->getInKey2())
         {
             p_Computer->onInButtonRelease();
+            return;
+        }
+        if (key == computerConfiguration.mainFrontPanelConfiguration.amKey)
+        {
+            p_Computer->onAmButtonRelease();
             return;
         }
     }

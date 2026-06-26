@@ -4969,6 +4969,12 @@ void Computer::onHexKeyDown(int keycode)
                 latchKeyPointer[2]->keyDown(i);
         }
     }
+
+    if (amPressed_ && cpuMode_ == LOAD)
+    {
+        writeMem(scratchpadRegister_[0], switches_, false);
+        showData(switches_);
+    }
 }
 
 void Computer::onHexDown(int hex)

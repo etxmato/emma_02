@@ -1740,6 +1740,7 @@ public:
     bool waitButtonDefined;
     bool nibbleLeds;
     
+    int amKey;
     int xBorder, yBorder;
 };
 

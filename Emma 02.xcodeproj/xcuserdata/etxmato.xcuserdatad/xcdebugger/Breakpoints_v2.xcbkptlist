@@ -62,8 +62,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4827"
-            endingLineNumber = "4827"
+            startingLineNumber = "4825"
+            endingLineNumber = "4825"
             landmarkName = "XmlParser::parseXml_FrontPanelItem(node, frontNumber, origin)"
             landmarkType = "7">
          </BreakpointContent>
@@ -320,7 +320,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "9642"
             endingLineNumber = "9642"
-            landmarkName = "Computer::isComputerRunning()"
+            landmarkName = "Computer::getCtrlvChar(increase)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -478,10 +478,10 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5949"
-            endingLineNumber = "5949"
-            landmarkName = "XmlParser::parseXml_Cdp1852(node, windowOn)"
-            landmarkType = "7">
+            startingLineNumber = "5946"
+            endingLineNumber = "5946"
+            landmarkName = "enum"
+            landmarkType = "13">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -528,8 +528,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4532"
             endingLineNumber = "4532"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "Computer::setMultiCartGame()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -656,8 +656,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "5746"
             endingLineNumber = "5746"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "Main::printParallelFinishedEvent()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -672,7 +672,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "5752"
             endingLineNumber = "5752"
-            landmarkName = "Main::printThermalEvent(event)"
+            landmarkName = "Main::eventPrintParallelFinished()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -960,55 +960,87 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "7237"
             endingLineNumber = "7237"
-            landmarkName = "Computer::cpuInstruction()"
+            landmarkName = "Computer::writeMemDebug(address, value, writeRom)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2B87E3D1-05A9-4E05-9399-4355ABA93E48"
+            uuid = "D4F868B5-35D8-4049-87D3-706C1C6E90AD"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/xmlparser.cpp"
+            filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4490"
-            endingLineNumber = "4490"
-            landmarkName = "XmlParser::parseXml_FrontPanel(node, frontNumber)"
+            startingLineNumber = "1031"
+            endingLineNumber = "1031"
+            landmarkName = "Computer::onAmButtonPress()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6CC010F9-D5C0-4F81-B17C-283AB918CAEB"
+            uuid = "5FBD77F5-96E0-404C-BC04-2D3297DF96E7"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/xmlbase.cpp"
+            filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "560"
-            endingLineNumber = "560"
-            landmarkName = "XmlBase::getNextHexDec(numberString, allowMinus)"
+            startingLineNumber = "1038"
+            endingLineNumber = "1038"
+            landmarkName = "Computer::onAmButtonRelease()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "761C25A5-C276-433C-AC4C-56A0EE738D6A"
+            uuid = "94D47AFF-FF34-4A2F-BF24-10FCDC13ADE8"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/xmlparser.cpp"
+            filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4489"
-            endingLineNumber = "4489"
-            landmarkName = "XmlParser::parseXml_FrontPanel(node, frontNumber)"
+            startingLineNumber = "3858"
+            endingLineNumber = "3858"
+            landmarkName = "Main::checkFunctionKey(event)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AB270D33-8F68-4BB9-A856-908841EF2C5A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/xmlemu.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "4854"
+            endingLineNumber = "4854"
+            landmarkName = "Computer::onNumberKeyDown(id)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5E41E6BF-AEB6-4030-B1D0-9EAA0A1ECFE2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/xmlemu.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "4820"
+            endingLineNumber = "4820"
+            landmarkName = "Computer::onNumberKeyDown(id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

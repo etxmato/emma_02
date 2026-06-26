@@ -464,6 +464,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.mainFrontPanelConfiguration.dataPushButtons = false;
     computerConfiguration.mainFrontPanelConfiguration.powerButtonDefined = false;
     computerConfiguration.mainFrontPanelConfiguration.waitButtonDefined = false;
+    computerConfiguration.mainFrontPanelConfiguration.amKey = -1;
     computerConfiguration.mainFrontPanelConfiguration.xBorder = windowInfo.xBorder2;
     computerConfiguration.mainFrontPanelConfiguration.yBorder = windowInfo.yBorder2;
 
@@ -5165,6 +5166,13 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                             case BUTTON_FUNC_EF:
                                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].actOnRelease = true;
                                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].actOnPress = true;
+                                if (itemFunctionId == BUTTON_FUNC_AM)
+                                {
+                                    if (child->HasAttribute("key"))
+                                        computerConfiguration.mainFrontPanelConfiguration.amKey = (int)parseXml_Number(*child, "key");
+                                    else
+                                        computerConfiguration.mainFrontPanelConfiguration.amKey = 77;
+                                }
                             break;
 
                             case BUTTON_FUNC_HEX:
@@ -5494,6 +5502,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         
         child = child->GetNext();
     }
+
     guiItemConfigNumber_++;
 }
 
