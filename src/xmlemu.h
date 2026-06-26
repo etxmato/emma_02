@@ -82,6 +82,8 @@ public:
     void onSwitchButtonPress(wxCommandEvent& event);
     void onInButtonPress(bool switchButton);
     void onInButtonRelease();
+    void onAmButtonPress();
+    void onAmButtonRelease();
     void onHexKeyDown(int keycode);
     void onHexDown(int hex);
     void onHexKeyUp(int keycode);
@@ -501,6 +503,7 @@ private:
     int keyDefGameHexB_[5];
     
     bool inPressed_;
+    bool amPressed_;
     int dataSwitchState_[8];
     int efSwitchState_[4];
 

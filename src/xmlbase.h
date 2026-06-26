@@ -30,7 +30,7 @@ protected:
     int parseXml_Mc6847BitSetup(wxXmlNode &node, int bitNumber, wxString childName);
     bool parseXml_Range(wxXmlNode &node, long *start, long *end);
     long getHexDec(wxString numberString);
-    long getNextHexDec(wxString *numberString);
+    long getNextHexDec(wxString *numberString, bool allowMinus = false);
     bool parseXml_Size(wxXmlNode &node, long *width, long *height);
     wxString getDoubleString(wxString doubleSting, wxString tag, double max, wxString maxStr);
     double getDouble(wxString doubleSting, wxString tag, double max, wxString maxStr, bool allowZero);

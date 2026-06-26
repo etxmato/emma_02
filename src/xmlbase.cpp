@@ -537,7 +537,7 @@ long XmlBase::getHexDec(wxString numberString)
     return number;
 }
 
-long XmlBase::getNextHexDec(wxString *numberString)
+long XmlBase::getNextHexDec(wxString *numberString, bool allowMinus)
 {
     int base;
     long number;
@@ -557,7 +557,7 @@ long XmlBase::getNextHexDec(wxString *numberString)
         base = 10;
     
     int comma = nextNumberString.Find(",");
-    if (comma == wxNOT_FOUND)
+    if (comma == wxNOT_FOUND && !allowMinus)
 		comma = nextNumberString.Find("-");
     if (comma == wxNOT_FOUND)
     {

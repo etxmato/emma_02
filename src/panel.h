@@ -116,6 +116,7 @@ public:
     virtual void inUp();
     virtual void inDown();
     void inSetState(bool state);
+    void amSetState(bool state);
     void clearSetState(bool state);
     void clearResetSetState(bool state);
 //    virtual void resetSetState(bool state);
@@ -151,6 +152,8 @@ protected:
     bool powerButtonDefined;
     std::vector<GuiItemConfiguration>::iterator inButton;
     bool inButtonDefined;
+    std::vector<GuiItemConfiguration>::iterator amButton;
+    bool amButtonDefined;
     std::vector<GuiItemConfiguration>::iterator waitButton;
     bool waitButtonDefined;
     std::vector<GuiItemConfiguration>::iterator clearButton;
@@ -396,6 +399,7 @@ public:
     void turnOff313Italic(bool status) {panelPointer->turnOff313Italic(status);};
 
     void inSetState(bool state) {panelPointer->inSetState(state);};
+    void amSetState(bool state) {panelPointer->amSetState(state);};
     void clearSetState(bool state) {panelPointer->clearSetState(state);};
     void waitSetState(bool state) {panelPointer->waitSetState(state);};
     void runSetState(bool state) {panelPointer->runSetState(state);};

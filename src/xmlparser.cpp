@@ -4486,7 +4486,7 @@ void XmlParser::parseXml_FrontPanel(wxXmlNode &node, int frontNumber)
             case TAG_ORIGIN:
                 position = child->GetNodeContent();
                 origin.x = (int)getNextHexDec(&position);
-                origin.y = (int)getNextHexDec(&position);
+                origin.y = (int)getNextHexDec(&position, true);
             break;
 
             case TAG_SIZE:
@@ -4631,6 +4631,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         "thumb_plus",
         "f_s_clock",
         "data_io",
+        "am",
         "powerled",
         "stopled",
         "readyled",
@@ -4706,6 +4707,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         BUTTON_FUNC_THUMB_PLUS,
         BUTTON_FUNC_F_S_CLOCK,
         BUTTON_FUNC_DATA_IO,
+        BUTTON_FUNC_AM,
         LED_FUNC_POWER,             // 29
         LED_FUNC_STOP,
         LED_FUNC_READY,
@@ -5157,6 +5159,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                         switch (itemFunctionId)
                         {
                             case BUTTON_FUNC_IN:
+                            case BUTTON_FUNC_AM:
                             case BUTTON_FUNC_IN_SWITCH:
                             case BUTTON_FUNC_IN_INTERRUPT:
                             case BUTTON_FUNC_EF:

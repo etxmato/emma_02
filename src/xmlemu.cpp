@@ -1025,6 +1025,20 @@ void Computer::onInButtonRelease()
     inbuttonEfState_ = 1;
 }
 
+void Computer::onAmButtonPress()
+{
+    amPressed_ = true;
+    for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+        panelPointer[frontPanel]->amSetState(BUTTON_DOWN);
+}
+
+void Computer::onAmButtonRelease()
+{
+    amPressed_ = false;
+    for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+        panelPointer[frontPanel]->amSetState(BUTTON_UP);
+}
+
 void Computer::configureComputer()
 {
     setEfType(1, UNDEFINED_EF1);
@@ -1373,6 +1387,7 @@ void Computer::initComputer()
 void Computer::resetComputer()
 {
     inPressed_ = false;
+    amPressed_ = false;
     cassetteEf_ = 0;
     oldCassetteEf_ = 1;
 
@@ -4832,6 +4847,12 @@ void Computer::onNumberKeyDown(int id)
             switches_ = id;
         else
             switches_ = ((switches_ << 4) & 0xf0) | id;
+    }
+
+    if (amPressed_ && cpuMode_ == LOAD)
+    {
+        writeMem(scratchpadRegister_[0], switches_, false);
+        showData(switches_);
     }
 }
 

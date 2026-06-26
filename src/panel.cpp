@@ -1006,6 +1006,7 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
     clearRunButtonDefined = false;
     clearResetButtonDefined = false;
     inButtonDefined = false;
+    amButtonDefined = false;
     spinCtrlAdiDefined = false;
     spinCtrlAdiVoltDefined = false;
     spinCtrlAdsDefined = false;
@@ -1102,6 +1103,11 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
                     case BUTTON_FUNC_IN_INTERRUPT:
                         inButton = button;
                         inButtonDefined = true;
+                    break;
+
+                    case BUTTON_FUNC_AM:
+                        amButton = button;
+                        amButtonDefined = true;
                     break;
 
                     case BUTTON_FUNC_THUMB_PLUS:
@@ -1858,6 +1864,10 @@ void Panel::executeMousePressFunction(std::vector<GuiItemConfiguration>::iterato
             p_Computer->onNumberKeyDown(button->value);
         break;
 
+        case BUTTON_FUNC_AM:
+            p_Computer->onAmButtonPress();
+        break;
+
         case BUTTON_FUNC_EF:
             if (button->rangeLow != -1)
             {
@@ -1916,6 +1926,10 @@ void Panel::executeMouseReleaseFunction(std::vector<GuiItemConfiguration>::itera
         case BUTTON_FUNC_HEX:
             p_Computer->keyUpReleased(button->value);
             p_Computer->onNumberKeyUp();
+        break;
+
+        case BUTTON_FUNC_AM:
+            p_Computer->onAmButtonRelease();
         break;
 
         case BUTTON_FUNC_EF:
@@ -2684,6 +2698,15 @@ void Panel::inSetState(bool state)
 
     wxClientDC dc(this);
     inButton->switchButton->setState(dc, state);
+}
+
+void Panel::amSetState(bool state)
+{
+    if (!amButtonDefined)
+        return;
+
+    wxClientDC dc(this);
+    amButton->switchButton->setState(dc, state);
 }
 
 void Panel::clearSetState(bool state)
