@@ -427,6 +427,14 @@ Cybervision configuration running <strong>Sub-Chase</strong>.
 </p>
 
 
+<h2>EDUKIT</h2>
+
+<p><strong>bare.xml</strong></p>
+<p>
+Bare EDUKIT configuration to load one of the example programs, select progam binary file in the ROM field.
+</p>
+
+
 <h2>EFA-datorn</h2>
 
 <p><strong>efa-4.xml</strong></p>
