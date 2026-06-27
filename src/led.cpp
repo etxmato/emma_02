@@ -34,6 +34,8 @@ Led::Led(wxDC& dc, int x, int y, int ledType, bool reversePol)
     status_ = 0;
     ledType_ = ledType;
     reversePol_ = reversePol;
+    if (reversePol_)
+        status_ = status_ ^ 1;
 
     x_ = x;
     y_ = y;
