@@ -5141,6 +5141,8 @@ void Computer::startComputer()
         panelPointer[frontPanel]->showAddress(address_);
     }
 
+    setMode();
+
     if (currentComputerConfiguration.autoBootConfiguration.defined)
     {
         scratchpadRegister_[0] = currentComputerConfiguration.autoBootConfiguration.address;

@@ -18,197 +18,287 @@
         <out>4</out>
         <in>4</in>
         <ef type="in">4</ef>
-        <size>534, 386</size>
+        <size>356, 304</size>
+
+        <!-- Background image -->
         <item>
             <type>png</type>
             <filename dirname="images">edukit.png</filename>
         </item>
+
+        <!-- Q LED -->
         <item>
-            <type>switch</type>
-            <function>stop</function>
-            <init>up</init>
-            <pos>490, 20</pos>
+            <type>text</type>
+            <label size="12">Q</label>
+            <pos>59, 62</pos>
         </item>
+        <item>
+            <type>led</type>
+            <function>qled</function>
+            <pos>60, 42</pos>
+        </item>
+
+        <!-- RUN LED -->
+        <item>
+            <type>text</type>
+            <label size="12">RUN</label>
+            <pos>82, 62</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function pol="rev">clearled</function>
+            <pos>94, 42</pos>
+        </item>
+
+        <!-- LOAD LED -->
+        <item>
+            <type>text</type>
+            <label size="12">LOAD</label>
+            <pos>126, 62</pos>
+        </item>
+        <item>
+            <type>led</type>
+            <function>waitled</function>
+            <pos>142, 42</pos>
+        </item>
+
+        <!-- TIL displays -->
         <item>
             <type form="313" font="italic">til</type>
             <value>0</value>
             <function>datatil</function>
-            <pos>370, 180</pos>
+            <pos>183, 24</pos>
+        </item>
+        <item>
+            <type>text</type>
+            <label size="12">DI2</label>
+            <pos>184, 62</pos>
         </item>
         <item>
             <type form="313" font="italic">til</type>
             <value>1</value>
             <function>datatil</function>
-            <pos>398, 180</pos>
+            <pos>211, 24</pos>
         </item>
         <item>
-            <type>led</type>
-            <function>qled</function>
-            <pos>440, 192</pos>
+            <type>text</type>
+            <label size="12">DI1</label>
+            <pos>215, 62</pos>
+        </item>
+
+        <!-- M/P toggle switch -->
+        <item>
+            <type>text</type>
+            <label size="12">M/P</label>
+            <pos>20, 62</pos>
         </item>
         <item>
-            <type>push</type>
+            <type>switch</type>
+            <function>mp</function>
+            <init>down</init>
+            <pos>22, 34</pos>
+        </item>
+
+        <!-- ON/OFF power switch -->
+        <item>
+            <type>text</type>
+            <label size="12">ON</label>
+            <pos>250, 18</pos>
+        </item>
+        <item>
+            <type>switch</type>
+            <function>stop</function>
             <init>up</init>
-            <function>in</function>
-            <label>IN</label>
-            <pos>435, 327</pos>
-            <size>30, 30</size>
+            <pos>252, 34</pos>
         </item>
         <item>
-            <type>push</type>
-            <function>hex</function>
-            <value>0xc</value>
-            <label>C</label>
-            <pos>304, 231</pos>
-            <size>30, 30</size>
+            <type>text</type>
+            <label size="12">OFF</label>
+            <pos>248, 62</pos>
         </item>
-        <item>
-            <type>push</type>
-            <function>hex</function>
-            <value>0xd</value>
-            <label>D</label>
-            <pos>336, 231</pos>
-            <size>30, 30</size>
-        </item>
-        <item>
-            <type>push</type>
-            <function>hex</function>
-            <value>0xe</value>
-            <label>E</label>
-            <pos>368, 231</pos>
-            <size>30, 30</size>
-        </item>
-        <item>
-            <type>push</type>
-            <function>hex</function>
-            <value>0xf</value>
-            <label>F</label>
-            <pos>400, 231</pos>
-            <size>30, 30</size>
-        </item>
-        <item>
-            <type>push</type>
-            <function>hex</function>
-            <value>8</value>
-            <label>8</label>
-            <pos>304, 263</pos>
-            <size>30, 30</size>
-        </item>
-        <item>
-            <type>push</type>
-            <function>hex</function>
-            <value>9</value>
-            <label>9</label>
-            <pos>336, 263</pos>
-            <size>30, 30</size>
-        </item>
-        <item>
-            <type>push</type>
-            <function>hex</function>
-            <value>0xa</value>
-            <label>A</label>
-            <pos>368, 263</pos>
-            <size>30, 30</size>
-        </item>
-        <item>
-            <type>push</type>
-            <function>hex</function>
-            <value>0xb</value>
-            <label>B</label>
-            <pos>400, 263</pos>
-            <size>30, 30</size>
-        </item>
-        <item>
-            <type>push</type>
-            <function>hex</function>
-            <value>4</value>
-            <label>4</label>
-            <pos>304, 295</pos>
-            <size>30, 30</size>
-        </item>
-        <item>
-            <type>push</type>
-            <function>hex</function>
-            <value>5</value>
-            <label>5</label>
-            <pos>336, 295</pos>
-            <size>30, 30</size>
-        </item>
-        <item>
-            <type>push</type>
-            <function>hex</function>
-            <value>6</value>
-            <label>6</label>
-            <pos>368, 295</pos>
-            <size>30, 30</size>
-        </item>
-        <item>
-            <type>push</type>
-            <function>hex</function>
-            <value>7</value>
-            <label>7</label>
-            <pos>400, 295</pos>
-            <size>30, 30</size>
-        </item>
+
+        <!-- Keypad Row 1: 0 1 2 3 L -->
         <item>
             <type>push</type>
             <function>hex</function>
             <value>0</value>
             <label>0</label>
-            <pos>304, 327</pos>
-            <size>30, 30</size>
+            <pos>51, 94</pos>
+            <size>32, 32</size>
         </item>
         <item>
             <type>push</type>
             <function>hex</function>
             <value>1</value>
             <label>1</label>
-            <pos>336, 327</pos>
-            <size>30, 30</size>
+            <pos>91, 94</pos>
+            <size>32, 32</size>
         </item>
         <item>
             <type>push</type>
             <function>hex</function>
             <value>2</value>
             <label>2</label>
-            <pos>368, 327</pos>
-            <size>30, 30</size>
+            <pos>131, 94</pos>
+            <size>32, 32</size>
         </item>
         <item>
             <type>push</type>
             <function>hex</function>
             <value>3</value>
             <label>3</label>
-            <pos>400, 327</pos>
-            <size>30, 30</size>
+            <pos>171, 94</pos>
+            <size>32, 32</size>
         </item>
         <item>
-            <type>switch</type>
-            <function>load</function>
-            <init>down</init>
-            <pos>440, 265</pos>
+            <type>push</type>
+            <init>up</init>
+            <function type="switch">load</function>
+            <label>L</label>
+            <pos>211, 94</pos>
+            <size>32, 32</size>
+        </item>
+
+        <!-- Keypad Row 2: 4 5 6 7 R -->
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>4</value>
+            <label>4</label>
+            <pos>51, 136</pos>
+            <size>32, 32</size>
         </item>
         <item>
-            <type>switch</type>
-            <function>mp</function>
-            <init>down</init>
-            <pos>440, 295</pos>
+            <type>push</type>
+            <function>hex</function>
+            <value>5</value>
+            <label>5</label>
+            <pos>91, 136</pos>
+            <size>32, 32</size>
         </item>
         <item>
-            <type>switch</type>
+            <type>push</type>
+            <function>hex</function>
+            <value>6</value>
+            <label>6</label>
+            <pos>131, 136</pos>
+            <size>32, 32</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>7</value>
+            <label>7</label>
+            <pos>171, 136</pos>
+            <size>32, 32</size>
+        </item>
+        <item>
+            <type>push</type>
+            <init>up</init>
             <function type="switch">run</function>
-            <init>down</init>
-            <pos>440, 235</pos>
+            <label>R</label>
+            <pos>211, 136</pos>
+            <size>32, 32</size>
         </item>
+
+        <!-- Keypad Row 3: 8 9 A B Am -->
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>8</value>
+            <label>8</label>
+            <pos>51, 178</pos>
+            <size>32, 32</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>9</value>
+            <label>9</label>
+            <pos>91, 178</pos>
+            <size>32, 32</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xa</value>
+            <label>A</label>
+            <pos>131, 178</pos>
+            <size>32, 32</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xb</value>
+            <label>B</label>
+            <pos>171, 178</pos>
+            <size>32, 32</size>
+        </item>
+        <item>
+            <type>push</type>
+            <init>up</init>
+            <function key="77">am</function>
+            <label>Am</label>
+            <pos>211, 178</pos>
+            <size>32, 32</size>
+        </item>
+
+        <!-- Keypad Row 4: C D E F In -->
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xc</value>
+            <label>C</label>
+            <pos>51, 220</pos>
+            <size>32, 32</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xd</value>
+            <label>D</label>
+            <pos>91, 220</pos>
+            <size>32, 32</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xe</value>
+            <label>E</label>
+            <pos>131, 220</pos>
+            <size>32, 32</size>
+        </item>
+        <item>
+            <type>push</type>
+            <function>hex</function>
+            <value>0xf</value>
+            <label>F</label>
+            <pos>171, 220</pos>
+            <size>32, 32</size>
+        </item>
+        <item>
+            <type>push</type>
+            <init>up</init>
+            <function>in</function>
+            <label>In</label>
+            <pos>211, 220</pos>
+            <size>32, 32</size>
+        </item>
+
     </frontpanel>
 
-     <memory>
+    <memory mask="0xff">
         <ram type="gui">
             <start>0x0000</start>
             <end>0x00FF</end>
+            <pulldown mask="*.bin">EDUKIT</pulldown>
         </ram>
     </memory>
     
+    <sound type="q">
+        <sw />
+    </sound>
+
     <debugger>
         <scrt mode="off">
             <call reg="4">-1</call>
