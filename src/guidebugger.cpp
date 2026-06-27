@@ -1560,7 +1560,7 @@ void GuiDebugger::addInstructionTrap()
             }
         break;
     }
-    breakPointAndTrapWindowPointer->InsertItem(numberOfBreakPointsAndTraps_, printBuffer);
+    breakPointAndTrapWindowPointer->InsertItem(numberOfBreakPointsAndTraps_, "IT " + printBuffer);
     numberOfBreakPointsAndTraps_++;
 }
 
