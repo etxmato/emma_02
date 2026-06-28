@@ -3591,7 +3591,7 @@ void Computer::cycleCt2425()
         ct2425Pointer[num]->cycle();
 }
 
-void Computer::answerCall(wxCommandEvent&event)
+void Computer::answerCall(wxCommandEvent&WXUNUSED(event))
 {
     answerCall();
 }

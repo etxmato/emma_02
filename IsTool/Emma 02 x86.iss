@@ -124,6 +124,7 @@ Source: ..\data\Conic\*.*; DestDir: {app}\data\Conic; Components: MAIN
 Source: ..\data\CosmacGameSystem\*.*; DestDir: {app}\data\CosmacGameSystem; Components: MAIN
 Source: ..\data\Cosmicos\*.*; DestDir: {app}\data\Cosmicos; Components: MAIN
 Source: ..\data\Cybervision\*.*; DestDir: {app}\data\Cybervision; Components: MAIN
+Source: ..\data\EDUKIT\*.*; DestDir: {app}\data\EDUKIT; Components: MAIN
 Source: ..\data\EFA-datorn\*.*; DestDir: {app}\data\EFA-datorn; Components: MAIN
 Source: ..\data\Elf\*.*; DestDir: {app}\data\Elf; Components: MAIN
 Source: ..\data\Elf\Biosio\*.*; DestDir: {app}\data\Elf\Biosio; Components: MAIN
@@ -214,6 +215,7 @@ Source: ..\data\Xml\CosmacElf\*.*; DestDir: {app}\data\Xml\CosmacElf; Components
 Source: ..\data\Xml\CosmacGameSystem\*.*; DestDir: {app}\data\Xml\CosmacGameSystem; Components: MAIN
 Source: ..\data\Xml\Cosmicos\*.*; DestDir: {app}\data\Xml\Cosmicos; Components: MAIN
 Source: ..\data\Xml\Cybervision\*.*; DestDir: {app}\data\Xml\Cybervision; Components: MAIN
+Source: ..\data\Xml\EDUKIT\*.*; DestDir: {app}\data\Xml\EDUKIT; Components: MAIN
 Source: ..\data\Xml\EFA-datorn\*.*; DestDir: {app}\data\Xml\EFA-datorn; Components: MAIN
 Source: ..\data\Xml\Elf\*.*; DestDir: {app}\data\Xml\Elf; Components: MAIN
 Source: ..\data\Xml\Elf2K\*.*; DestDir: {app}\data\Xml\Elf2K; Components: MAIN

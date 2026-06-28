@@ -111,7 +111,7 @@ void BitKeypad::keyUp(int keycode)
     }
 }
 
-void BitKeypad::keyUp(int keycode, int modifiers)
+void BitKeypad::keyUp(int keycode, int WXUNUSED(modifiers))
 {
     lastKey_ = 0;
     for (int key=0; key<bitKeypadConfiguration_.numberOfKeys; key++)

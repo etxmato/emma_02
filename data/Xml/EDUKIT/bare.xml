@@ -93,7 +93,7 @@
             <pos>20, 62</pos>
         </item>
         <item>
-            <type>switch</type>
+            <type direction="horizontal">switch</type>
             <function>mp</function>
             <init>down</init>
             <pos>22, 34</pos>
