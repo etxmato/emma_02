@@ -56,9 +56,9 @@
 class CodeTagHandler : public wxHtmlWinTagHandler
 {
 public:
-    wxString GetSupportedTags() override { return "CODE"; }
+    wxString GetSupportedTags() { return "CODE"; }
 
-    bool HandleTag(const wxHtmlTag& tag) override
+    bool HandleTag(const wxHtmlTag& tag)
     {
         wxColour savedColour = m_WParser->GetActualColor();
 
@@ -90,7 +90,7 @@ class CodeTagModule : public wxHtmlTagsModule
 {
     DECLARE_DYNAMIC_CLASS(CodeTagModule)
 public:
-    void FillHandlersTable(wxHtmlWinParser *parser) override
+    void FillHandlersTable(wxHtmlWinParser *parser)
     {
         parser->AddTagHandler(new CodeTagHandler());
     }
