@@ -529,6 +529,8 @@ public:
     
     wxSize charSize;
     wxSize screenSize;
+    
+    Byte numberOfRomBytesPerChar;
 };
 
 class Mc6847Configuration : public VideoConfiguration

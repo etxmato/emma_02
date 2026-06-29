@@ -329,7 +329,7 @@ void MC6845::writeRegister6845(Byte regNumber, Byte value, int showTrace)
             if (value != (scanLine_-1))
             {
                 scanLine_ = value + 1;
-                videoHeight_ = rows_*scanLine_*2; 
+                videoHeight_ = rows_*scanLine_*2;
                 reDraw_ = true;
                 setScreenSize();
                 reCycle_ = true;
@@ -643,7 +643,7 @@ void MC6845::drawCharacter6845(wxCoord x, wxCoord y, Byte v)
     line = 0;
     for (wxCoord j=y; j<y+(scanLine_-1)*videoM_; j+=videoM_)
     {
-        line_byte = mc6845CharRom_[v*8+line];
+        line_byte = mc6845CharRom_[v*mc6845Configuration_.numberOfRomBytesPerChar+line];
         for (wxCoord i=x; i<x+charW_; i++)
         {
             if (line_byte & 128)
@@ -699,7 +699,7 @@ void MC6845::drawCursor6845(Word addr, bool status)
         }
         else
         {
-            line_byte = mc6845CharRom_[v*8+line];
+            line_byte = mc6845CharRom_[v*mc6845Configuration_.numberOfRomBytesPerChar+line];
             for (wxCoord i=x; i<x+charW_; i++)
             {
                 if (line_byte & 128)
@@ -768,7 +768,7 @@ void MC6845::drawCursor6845(wxDC &dc, Word addr, bool status)
         }
         else
         {
-            line_byte = mc6845CharRom_[v*8+line];
+            line_byte = mc6845CharRom_[v*mc6845Configuration_.numberOfRomBytesPerChar+line];
             for (wxCoord i=x; i<x+charW_; i++)
             {
                 if (line_byte & 128)

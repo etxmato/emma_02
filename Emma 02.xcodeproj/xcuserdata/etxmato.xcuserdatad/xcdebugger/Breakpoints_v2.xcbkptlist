@@ -1272,7 +1272,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "3C763910-F18D-4467-80C1-0F7AB3F770C3"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/mc6845.cpp"
@@ -1297,6 +1297,22 @@
             startingLineNumber = "739"
             endingLineNumber = "739"
             landmarkName = "MC6845::drawCursor6845(dc, addr, status)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E90FB750-5376-483E-93C4-1AD012026F23"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/mc6845.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "296"
+            endingLineNumber = "296"
+            landmarkName = "MC6845::writeRegister6845(regNumber, value, showTrace)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

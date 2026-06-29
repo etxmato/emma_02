@@ -123,7 +123,8 @@ void Mc6845Config::mc6845ConfigInit()
     computerConfiguration.mc6845Configuration.screenSize.x = 64;
     computerConfiguration.mc6845Configuration.screenSize.y = 16;
     computerConfiguration.mc6845Configuration.ioGroupVector.clear();
-
+    computerConfiguration.mc6845Configuration.numberOfRomBytesPerChar = 8;
+    
     if (!mode_.gui)
         return;
 
@@ -168,6 +169,7 @@ void Mc6845Config::parseXml_MC6845Video(wxXmlNode &node)
         "border",
         "pos",
         "color",
+        "rom_bytes",
         "comment",
         "undefined"
     };
@@ -187,6 +189,7 @@ void Mc6845Config::parseXml_MC6845Video(wxXmlNode &node)
         TAG_BORDER,
         TAG_POS,
         TAG_COLOR,
+        TAG_BYTES,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
@@ -356,7 +359,11 @@ void Mc6845Config::parseXml_MC6845Video(wxXmlNode &node)
                 if (child->GetAttribute("type") == "back")
                     screenInfo.defaultColour[COL_MC6845_BACK].Printf("#%02X%02X%02X", red, green, blue);
             break;
-                
+    
+            case TAG_BYTES:
+                computerConfiguration.mc6845Configuration.numberOfRomBytesPerChar = getHexDec(child->GetNodeContent());
+            break;
+
             case TAG_COMMENT:
             break;
 
