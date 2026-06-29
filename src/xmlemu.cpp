@@ -4878,10 +4878,8 @@ void Computer::onEfKeyDown(int ef)
 
 void Computer::onHexKeyDown(int keycode)
 {
-#if defined (__WXMAC__)
-    if (hexEfState_ == 0) // This is to avoid multiple key presses on OSX
+    if (hexEfState_ == 0) // Avoid multiple key presses from OS auto-repeat
         return;
-#endif
     
     if (currentComputerConfiguration.fredKeypadConfiguration.defined)
     {
