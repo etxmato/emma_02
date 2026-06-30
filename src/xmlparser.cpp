@@ -727,6 +727,8 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
                     parseXml_MC6845Video (*child);
                 if (child->GetAttribute("type") == "mc6847")
                     parseXml_MC6847Video (*child);
+                if (child->GetAttribute("type") == "hd44780")
+                    parseXml_HD44780Video (*child);
                 if (child->GetAttribute("type") == "tms9918")
                     parseXml_TMS9918Video (*child);
                 if (child->GetAttribute("type") == "intel8275")

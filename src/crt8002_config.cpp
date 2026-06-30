@@ -33,7 +33,7 @@
 
 #define THIS_PANEL_NAME "PanelVideoCrt8002"
 
-BEGIN_EVENT_TABLE(Crt8002Config, Mc6845Config)
+BEGIN_EVENT_TABLE(Crt8002Config, Hd44780Config)
     EVT_TEXT_ENTER(XRCID("Crt8002Attrbute_00"), Crt8002Config::Crt8002Register)
     EVT_TEXT_ENTER(XRCID("Crt8002AttrbuteScreen1_01"), Crt8002Config::Crt8002Register)
     EVT_TEXT_ENTER(XRCID("Crt8002Reverse_02"), Crt8002Config::Crt8002Register)
@@ -84,7 +84,7 @@ wxString registerFunctionCrt8002[] =
 };
 
 Crt8002Config::Crt8002Config(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
-: Mc6845Config(title, pos, size, mode, dataDir, iniDir)
+: Hd44780Config(title, pos, size, mode, dataDir, iniDir)
 {
 }
 

@@ -16,6 +16,7 @@
 #include "pixie.h"
 #include "mc6847.h"
 #include "mc6845.h"
+#include "hd44780.h"
 #include "scn2671.h"
 #include "scn2672.h"
 #include "i8275.h"

@@ -30,8 +30,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5266"
-            endingLineNumber = "5266"
+            startingLineNumber = "5290"
+            endingLineNumber = "5290"
             landmarkName = "Computer::startComputer()"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4825"
-            endingLineNumber = "4825"
+            startingLineNumber = "4827"
+            endingLineNumber = "4827"
             landmarkName = "XmlParser::parseXml_FrontPanelItem(node, frontNumber, origin)"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,8 +142,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3035"
-            endingLineNumber = "3035"
+            startingLineNumber = "3055"
+            endingLineNumber = "3055"
             landmarkName = "GuiMain::enableLoadGui(status)"
             landmarkType = "7">
          </BreakpointContent>
@@ -318,8 +318,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9642"
-            endingLineNumber = "9642"
+            startingLineNumber = "9682"
+            endingLineNumber = "9682"
             landmarkName = "Computer::getCtrlvChar(increase)"
             landmarkType = "7">
          </BreakpointContent>
@@ -350,8 +350,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2833"
-            endingLineNumber = "2833"
+            startingLineNumber = "2853"
+            endingLineNumber = "2853"
             landmarkName = "GuiMain::startTerminalLoad(protocol)"
             landmarkType = "7">
          </BreakpointContent>
@@ -398,8 +398,8 @@
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3168"
-            endingLineNumber = "3168"
+            startingLineNumber = "3188"
+            endingLineNumber = "3188"
             landmarkName = "GuiMain::setTapeState(tapeState, tapeNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -414,8 +414,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9322"
-            endingLineNumber = "9322"
+            startingLineNumber = "9362"
+            endingLineNumber = "9362"
             landmarkName = "Computer::executeFunction(function, additionalAddress)"
             landmarkType = "7">
          </BreakpointContent>
@@ -430,8 +430,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9312"
-            endingLineNumber = "9312"
+            startingLineNumber = "9352"
+            endingLineNumber = "9352"
             landmarkName = "Computer::executeFunction(function, additionalAddress)"
             landmarkType = "7">
          </BreakpointContent>
@@ -478,8 +478,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5952"
-            endingLineNumber = "5952"
+            startingLineNumber = "5954"
+            endingLineNumber = "5954"
             landmarkName = "enum"
             landmarkType = "13">
          </BreakpointContent>
@@ -510,8 +510,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7955"
-            endingLineNumber = "7955"
+            startingLineNumber = "7979"
+            endingLineNumber = "7979"
             landmarkName = "Computer::configureExtensions()"
             landmarkType = "7">
          </BreakpointContent>
@@ -526,8 +526,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4532"
-            endingLineNumber = "4532"
+            startingLineNumber = "4556"
+            endingLineNumber = "4556"
             landmarkName = "Computer::setMultiCartGame()"
             landmarkType = "7">
          </BreakpointContent>
@@ -942,8 +942,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5117"
-            endingLineNumber = "5117"
+            startingLineNumber = "5141"
+            endingLineNumber = "5141"
             landmarkName = "Computer::startComputer()"
             landmarkType = "7">
          </BreakpointContent>
@@ -958,8 +958,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7237"
-            endingLineNumber = "7237"
+            startingLineNumber = "7261"
+            endingLineNumber = "7261"
             landmarkName = "Computer::writeMemDebug(address, value, writeRom)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1022,8 +1022,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4854"
-            endingLineNumber = "4854"
+            startingLineNumber = "4878"
+            endingLineNumber = "4878"
             landmarkName = "Computer::onNumberKeyDown(id)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1038,8 +1038,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4820"
-            endingLineNumber = "4820"
+            startingLineNumber = "4844"
+            endingLineNumber = "4844"
             landmarkName = "Computer::onNumberKeyDown(id)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1054,8 +1054,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3803"
-            endingLineNumber = "3803"
+            startingLineNumber = "3827"
+            endingLineNumber = "3827"
             landmarkName = "Computer::setMode()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1070,8 +1070,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4223"
-            endingLineNumber = "4223"
+            startingLineNumber = "4247"
+            endingLineNumber = "4247"
             landmarkName = "Computer::onRunButtonPress(run0)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1134,8 +1134,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4847"
-            endingLineNumber = "4847"
+            startingLineNumber = "4849"
+            endingLineNumber = "4849"
             landmarkName = "XmlParser::parseXml_FrontPanelItem(node, frontNumber, origin)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1150,8 +1150,8 @@
             filePath = "src/xmlparser.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5240"
-            endingLineNumber = "5240"
+            startingLineNumber = "5242"
+            endingLineNumber = "5242"
             landmarkName = "XmlParser::parseXml_FrontPanelItem(node, frontNumber, origin)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1182,8 +1182,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3832"
-            endingLineNumber = "3832"
+            startingLineNumber = "3856"
+            endingLineNumber = "3856"
             landmarkName = "Computer::setMode()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1198,8 +1198,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3833"
-            endingLineNumber = "3833"
+            startingLineNumber = "3857"
+            endingLineNumber = "3857"
             landmarkName = "Computer::setMode()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1214,8 +1214,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3834"
-            endingLineNumber = "3834"
+            startingLineNumber = "3858"
+            endingLineNumber = "3858"
             landmarkName = "Computer::setMode()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1246,8 +1246,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7274"
-            endingLineNumber = "7274"
+            startingLineNumber = "7298"
+            endingLineNumber = "7298"
             landmarkName = "Computer::cpuInstruction()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1314,6 +1314,22 @@
             endingLineNumber = "296"
             landmarkName = "MC6845::writeRegister6845(regNumber, value, showTrace)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1D67BF79-CD91-489C-B2DC-D5D68450BDC9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/main.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1317"
+            endingLineNumber = "1317"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

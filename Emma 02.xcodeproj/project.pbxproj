@@ -142,6 +142,10 @@
 		99AD5DF42931600C0060EC01 /* keybmatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99AD5DF329315FFB0060EC01 /* keybmatrix.cpp */; };
 		99AD5DF52931600C0060EC01 /* keybmatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99AD5DF329315FFB0060EC01 /* keybmatrix.cpp */; };
 		99AD77891F2BDDA900487F8F /* images in Resources */ = {isa = PBXBuildFile; fileRef = 9973DDFC1A69B7B300B57557 /* images */; };
+		99AFD5572FF43FCD00696C70 /* hd44780_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99AFD5562FF43FCD00696C70 /* hd44780_config.cpp */; };
+		99AFD5582FF43FCD00696C70 /* hd44780_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99AFD5562FF43FCD00696C70 /* hd44780_config.cpp */; };
+		99AFD55B2FF43FDB00696C70 /* hd44780.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99AFD55A2FF43FDB00696C70 /* hd44780.cpp */; };
+		99AFD55C2FF43FDB00696C70 /* hd44780.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99AFD55A2FF43FDB00696C70 /* hd44780.cpp */; };
 		99B2AB8727863D8000C73EB9 /* about_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB8527863D7F00C73EB9 /* about_11.xrc */; };
 		99B2AB8827863D8000C73EB9 /* about_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB8627863D7F00C73EB9 /* about_14.xrc */; };
 		99B2AB8D27863DB900C73EB9 /* cassette_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB8B27863DB800C73EB9 /* cassette_11.xrc */; };
@@ -609,6 +613,10 @@
 		99AD30EA2E90E6C7001D1920 /* studioiv_video_config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = studioiv_video_config.cpp; path = src/studioiv_video_config.cpp; sourceTree = "<group>"; };
 		99AD5DF229315FFB0060EC01 /* keybmatrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = keybmatrix.h; path = src/keybmatrix.h; sourceTree = "<group>"; };
 		99AD5DF329315FFB0060EC01 /* keybmatrix.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = keybmatrix.cpp; path = src/keybmatrix.cpp; sourceTree = "<group>"; };
+		99AFD5552FF43FCD00696C70 /* hd44780_config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = hd44780_config.h; path = src/hd44780_config.h; sourceTree = "<group>"; };
+		99AFD5562FF43FCD00696C70 /* hd44780_config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = hd44780_config.cpp; path = src/hd44780_config.cpp; sourceTree = "<group>"; };
+		99AFD5592FF43FDB00696C70 /* hd44780.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = hd44780.h; path = src/hd44780.h; sourceTree = "<group>"; };
+		99AFD55A2FF43FDB00696C70 /* hd44780.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = hd44780.cpp; path = src/hd44780.cpp; sourceTree = "<group>"; };
 		99B2AB7E27863D4C00C73EB9 /* main_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = main_11.xrc; sourceTree = "<group>"; };
 		99B2AB8527863D7F00C73EB9 /* about_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = about_11.xrc; sourceTree = "<group>"; };
 		99B2AB8627863D7F00C73EB9 /* about_14.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = about_14.xrc; sourceTree = "<group>"; };
@@ -967,6 +975,10 @@
 				9976475D1A61D5EE00FB9B33 /* guivip2.h */,
 				99BBC9A9281DD36F00BD9345 /* guixml.cpp */,
 				99BBC9A8281DD36F00BD9345 /* guixml.h */,
+				99AFD55A2FF43FDB00696C70 /* hd44780.cpp */,
+				99AFD5592FF43FDB00696C70 /* hd44780.h */,
+				99AFD5562FF43FCD00696C70 /* hd44780_config.cpp */,
+				99AFD5552FF43FCD00696C70 /* hd44780_config.h */,
 				9976474A1A61D5EE00FB9B33 /* i8275.cpp */,
 				997647881A61D5EE00FB9B33 /* i8275.h */,
 				992954A22EA2D1D1002D03A6 /* i8275_config.cpp */,
@@ -1385,6 +1397,7 @@
 				997647CC1A61D5EF00FB9B33 /* guipopup.cpp in Sources */,
 				99C597802A66BBE500A4F97D /* keypadfred.cpp in Sources */,
 				997648081A61D5EF00FB9B33 /* about.cpp in Sources */,
+				99AFD55B2FF43FDB00696C70 /* hd44780.cpp in Sources */,
 				997647BD1A61D5EE00FB9B33 /* guicomx.cpp in Sources */,
 				997647E91A61D5EF00FB9B33 /* keypad.cpp in Sources */,
 				99AD5DF42931600C0060EC01 /* keybmatrix.cpp in Sources */,
@@ -1414,6 +1427,7 @@
 				992B7AF12E6CC88900351241 /* xmlbase.cpp in Sources */,
 				99B643142E8B173B004081A0 /* fred_video_config.cpp in Sources */,
 				997646F51A61D5D400FB9B33 /* usb.cpp in Sources */,
+				99AFD5582FF43FCD00696C70 /* hd44780_config.cpp in Sources */,
 				99BDBDC81E7F3ECA00DB0FB8 /* debug.cpp in Sources */,
 				99200F2928C299E300E94880 /* vis1870.cpp in Sources */,
 				997647D51A61D5EF00FB9B33 /* joycard.cpp in Sources */,
@@ -1496,6 +1510,7 @@
 				99F37E84285D1D9200C57417 /* about.cpp in Sources */,
 				99C597812A66BBE600A4F97D /* keypadfred.cpp in Sources */,
 				99F37E86285D1D9200C57417 /* guicomx.cpp in Sources */,
+				99AFD55C2FF43FDB00696C70 /* hd44780.cpp in Sources */,
 				99F37E88285D1D9200C57417 /* keypad.cpp in Sources */,
 				99F37E8D285D1D9200C57417 /* datadir.cpp in Sources */,
 				99AD5DF52931600C0060EC01 /* keybmatrix.cpp in Sources */,
@@ -1525,6 +1540,7 @@
 				992B7AF22E6CC88900351241 /* xmlbase.cpp in Sources */,
 				99B643152E8B173B004081A0 /* fred_video_config.cpp in Sources */,
 				99F37EA3285D1D9200C57417 /* debug.cpp in Sources */,
+				99AFD5572FF43FCD00696C70 /* hd44780_config.cpp in Sources */,
 				99F37EA6285D1D9200C57417 /* joycard.cpp in Sources */,
 				99200F2A28C299E300E94880 /* vis1870.cpp in Sources */,
 				99F37EA7285D1D9200C57417 /* iodevice.cpp in Sources */,

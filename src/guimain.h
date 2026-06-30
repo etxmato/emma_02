@@ -244,6 +244,8 @@ public:
     void set6845Pos(wxPoint position);
     wxPoint get6847Pos();
     void set6847Pos(wxPoint position);
+    void setHd44780Pos(wxPoint position);
+    wxPoint getHd44780Pos();
     wxPoint get8275Pos();
     void set8275Pos(wxPoint position);
     wxPoint getV1870Pos();

@@ -1,9 +1,9 @@
 #ifndef CRT8002_CONFIG_H
 #define CRT8002_CONFIG_H
 
-#include "mc6845_config.h"
+#include "hd44780_config.h"
 
-class Crt8002Config: public Mc6845Config
+class Crt8002Config: public Hd44780Config
 {
 public:
 

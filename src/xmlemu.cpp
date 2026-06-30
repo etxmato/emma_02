@@ -2223,6 +2223,14 @@ Byte Computer::inConfiguration(InputConfiguration inConfiguration, Byte port, Wo
             return cdp1878InstancePointer[inConfiguration.itemNumber[qState_][ioGroup_+1][port]]->readCounterLow(inConfiguration.type[qState_][ioGroup_+1][port]-TIMER_COUNTER_LOW_A);
         break;
 
+        case HD44780_STATUS_IN:
+            return hd44780Pointer->readStatus();
+        break;
+
+        case HD44780_DATA_IN:
+            return hd44780Pointer->readData();
+        break;
+
         // Folowing I/O is not adapted to ioGroups
         case TMS_DATA_PORT_OUT:
             ret = tmsPointer->readVRAM();
@@ -2977,6 +2985,14 @@ void Computer::outConfiguration(OutputConfiguration outConfiguration, Byte port,
             ct2425Pointer[outConfiguration.itemNumber[qState_][ioGroup_+1][port]]->setControl(value);
         break;
 
+        case HD44780_COMMAND_OUT:
+            hd44780Pointer->writeCommand(value);
+        break;
+
+        case HD44780_DATA_OUT:
+            hd44780Pointer->writeData(value);
+        break;
+
             // Folowing I/O is not adapted to ioGroups
         case MEMORY_SLOT_OUT:
             slotOut(value);
@@ -3444,6 +3460,14 @@ void Computer::cycle(int type)
 
         case MC6847_CYCLE:
             mc6847Pointer->cycle6847();
+        break;
+
+        case HD44780_BLINK_CYCLE:
+            hd44780Pointer->blinkHd44780();
+        break;
+
+        case HD44780_CYCLE:
+            hd44780Pointer->cycleHd44780();
         break;
 
         case SCN2672_CYCLE:
@@ -8256,6 +8280,22 @@ void Computer::configureVideoExtensions()
         mc6845Pointer->init6845();
         mc6845Pointer->Show(true);
         mc6845Pointer->SendSizeEvent();
+    }
+
+    if (currentComputerConfiguration.hd44780Configuration.defined)
+    {
+        double zoom = p_Main->getZoom(currentComputerConfiguration.hd44780Configuration.videoNumber);
+        int cellW = (currentComputerConfiguration.hd44780Configuration.charSize.x + 1) * currentComputerConfiguration.hd44780Configuration.pixelSize;
+        int cellH = (currentComputerConfiguration.hd44780Configuration.charSize.y + 1) * currentComputerConfiguration.hd44780Configuration.pixelSize;
+        int screenW = currentComputerConfiguration.hd44780Configuration.screenSize.x * cellW;
+        int screenH = currentComputerConfiguration.hd44780Configuration.screenSize.y * cellH;
+        hd44780Pointer = new HD44780(p_Main->getRunningComputerText() + " - HD44780", p_Main->getHd44780Pos(), wxSize(screenW * zoom, screenH * zoom), zoom, computerClockSpeed_, currentComputerConfiguration.hd44780Configuration);
+        hd44780Pointer->Move(p_Main->getHd44780Pos());
+        p_Video[currentComputerConfiguration.hd44780Configuration.videoNumber] = hd44780Pointer;
+        hd44780Pointer->configureHd44780();
+        hd44780Pointer->initHd44780();
+        hd44780Pointer->Show(true);
+        hd44780Pointer->SendSizeEvent();
     }
 
     if (currentComputerConfiguration.i8275Configuration.defined)

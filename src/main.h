@@ -546,7 +546,8 @@ public:
 #define VIDEOFRED 11
 #define VIDEOSTUDIOIV 12
 #define VIDEOSCN2672 13
-//#define VIDEOXMLMAX 14
+#define VIDEOXMLHD44780 14
+//#define VIDEOXMLMAX 15
 
 #define VIDEOVT 0
 #define VIDEOPIXIE 1
@@ -1313,6 +1314,7 @@ EXT VIS1870 *vis1870Pointer;
 EXT Tms9918 *tmsPointer;
 EXT i8275 *i8275Pointer;
 EXT MC6845 *mc6845Pointer;
+EXT HD44780 *hd44780Pointer;
 EXT Scn2672 *scn2672Pointer;
 EXT mc6847 *mc6847Pointer;
 EXT Pixie *pixiePointer;

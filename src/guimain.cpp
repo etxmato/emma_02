@@ -2108,6 +2108,26 @@ void GuiMain::set6847Pos(wxPoint position)
     }
 }
 
+wxPoint GuiMain::getHd44780Pos()
+{
+    return wxPoint(computerConfiguration.hd44780Configuration.x, computerConfiguration.hd44780Configuration.y);
+}
+
+void GuiMain::setHd44780Pos(wxPoint position)
+{
+    if (!mode_.window_position_fixed)
+    {
+        computerConfiguration.hd44780Configuration.x = -1;
+        computerConfiguration.hd44780Configuration.y = -1;
+    }
+    else
+    {
+        if (position.x > 0)
+            computerConfiguration.hd44780Configuration.x = position.x;
+        if (position.y > 0)
+            computerConfiguration.hd44780Configuration.y = position.y;
+    }
+}
 
 wxPoint GuiMain::get8275Pos()
 {

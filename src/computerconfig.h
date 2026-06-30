@@ -577,6 +577,20 @@ public:
     int gm2;
 };
 
+class Hd44780Configuration : public VideoConfiguration
+{
+public:
+    IoPort commandPort;     // OUT port for HD44780 instruction register (RS=0)
+    IoPort dataPort;        // OUT port for HD44780 data register (RS=1)
+    IoPort statusPort;      // IN port to read busy flag + address (RS=0)
+    IoPort dataReadPort;    // IN port to read data (RS=1)
+    EfFlag ef;              // EF flag for busy status
+
+    wxSize charSize;        // 5x8 default
+    wxSize screenSize;      // 16x2 default
+    int pixelSize;          // Rendering pixel size (2 or 3)
+};
+
 // Video Terminal configuration class definitions:
 
 class TerminalInterfaceSetting
@@ -1824,6 +1838,7 @@ public:
     Crt8002Configuration crt8002Configuration;
     Mc6845Configuration mc6845Configuration;
     Mc6847Configuration mc6847Configuration;
+    Hd44780Configuration hd44780Configuration;
     Vis1870Configuration vis1870Configuration;
     
     // Terminal configurations
