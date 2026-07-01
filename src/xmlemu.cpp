@@ -594,6 +594,11 @@ Computer::~Computer()
         p_Main->set6847Pos(mc6847Pointer->GetPosition());
         mc6847Pointer->Destroy();
     }
+    if (currentComputerConfiguration.hd44780Configuration.defined)
+    {
+        p_Main->setHd44780Pos(hd44780Pointer->GetPosition());
+        hd44780Pointer->Destroy();
+    }
     if (currentComputerConfiguration.i8275Configuration.defined)
     {
         p_Main->set8275Pos(i8275Pointer->GetPosition());
@@ -5783,7 +5788,25 @@ Byte Computer::readMemDebug(Word address, int function)
             }
 		}
 	}
-	
+
+    if (currentComputerConfiguration.hd44780Configuration.defined)
+    {
+        if (currentComputerConfiguration.hd44780Configuration.statusPort.addressMode)
+        {
+            if (address == currentComputerConfiguration.hd44780Configuration.statusPort.portNumber[0])
+            {
+                return hd44780Pointer->readStatus();
+            }
+        }
+        if (currentComputerConfiguration.hd44780Configuration.dataReadPort.addressMode)
+        {
+            if (address == currentComputerConfiguration.hd44780Configuration.dataReadPort.portNumber[0])
+            {
+                return hd44780Pointer->readData();
+            }
+        }
+    }
+
     if (currentComputerConfiguration.scn2672Configuration.defined)
     {
         groupFound = false;
@@ -6538,6 +6561,26 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
         {
             if (address>=currentComputerConfiguration.mc6847Configuration.outputStart && address <=currentComputerConfiguration.mc6847Configuration.outputEnd)
             mc6847Pointer->outMc6847(value);
+        }
+    }
+
+    if (currentComputerConfiguration.hd44780Configuration.defined)
+    {
+        if (currentComputerConfiguration.hd44780Configuration.commandPort.addressMode)
+        {
+            if (address == currentComputerConfiguration.hd44780Configuration.commandPort.portNumber[0])
+            {
+                hd44780Pointer->writeCommand(value);
+                return;
+            }
+        }
+        if (currentComputerConfiguration.hd44780Configuration.dataPort.addressMode)
+        {
+            if (address == currentComputerConfiguration.hd44780Configuration.dataPort.portNumber[0])
+            {
+                hd44780Pointer->writeData(value);
+                return;
+            }
         }
     }
 
@@ -8285,11 +8328,9 @@ void Computer::configureVideoExtensions()
     if (currentComputerConfiguration.hd44780Configuration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.hd44780Configuration.videoNumber);
-        int cellW = (currentComputerConfiguration.hd44780Configuration.charSize.x + 1) * currentComputerConfiguration.hd44780Configuration.pixelSize;
-        int cellH = (currentComputerConfiguration.hd44780Configuration.charSize.y + 1) * currentComputerConfiguration.hd44780Configuration.pixelSize;
-        int screenW = currentComputerConfiguration.hd44780Configuration.screenSize.x * cellW;
-        int screenH = currentComputerConfiguration.hd44780Configuration.screenSize.y * cellH;
-        hd44780Pointer = new HD44780(p_Main->getRunningComputerText() + " - HD44780", p_Main->getHd44780Pos(), wxSize(screenW * zoom, screenH * zoom), zoom, computerClockSpeed_, currentComputerConfiguration.hd44780Configuration);
+        int hd44780PixelW = currentComputerConfiguration.hd44780Configuration.screenSize.x * (currentComputerConfiguration.hd44780Configuration.charSize.x + 1);
+        int hd44780PixelH = currentComputerConfiguration.hd44780Configuration.screenSize.y * (currentComputerConfiguration.hd44780Configuration.charSize.y + 1);
+        hd44780Pointer = new HD44780(p_Main->getRunningComputerText() + " - HD44780", p_Main->getHd44780Pos(), wxSize(hd44780PixelW * zoom, hd44780PixelH * zoom), zoom, computerClockSpeed_, currentComputerConfiguration.hd44780Configuration);
         hd44780Pointer->Move(p_Main->getHd44780Pos());
         p_Video[currentComputerConfiguration.hd44780Configuration.videoNumber] = hd44780Pointer;
         hd44780Pointer->configureHd44780();
@@ -8666,6 +8707,8 @@ void Computer::moveWindows()
         mc6845Pointer->Move(p_Main->get6845Pos());
     if (currentComputerConfiguration.mc6847Configuration.defined)
         mc6847Pointer->Move(p_Main->get6847Pos());
+    if (currentComputerConfiguration.hd44780Configuration.defined)
+        hd44780Pointer->Move(p_Main->getHd44780Pos());
     if (currentComputerConfiguration.i8275Configuration.defined)
         i8275Pointer->Move(p_Main->get8275Pos());
     if (currentComputerConfiguration.vis1870Configuration.defined)
@@ -8704,6 +8747,8 @@ void Computer::updateTitle(wxString Title)
         mc6845Pointer->SetTitle(p_Main->getRunningComputerText() + " - MC6845"+Title);
     if (currentComputerConfiguration.mc6847Configuration.defined)
         mc6847Pointer->SetTitle(p_Main->getRunningComputerText() + " - MC6847"+Title);
+    if (currentComputerConfiguration.hd44780Configuration.defined)
+        hd44780Pointer->SetTitle(p_Main->getRunningComputerText() + " - HD44780"+Title);
     if (currentComputerConfiguration.i8275Configuration.defined)
         i8275Pointer->SetTitle(p_Main->getRunningComputerText() + " - Intel 8275"+Title);
     if (currentComputerConfiguration.vis1870Configuration.defined)

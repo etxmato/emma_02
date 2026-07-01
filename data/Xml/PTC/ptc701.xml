@@ -40,11 +40,10 @@
 
     <video type="hd44780">
         <!-- HD44780-compatible 2x16 character LCD display
-        Interface via AMI 9217MLB custom gate array:
-        - OUT 1: display address/position (maps to HD44780 set DDRAM address command)
-        - OUT 2: display character data (maps to HD44780 data write)
-        - INP 2: status (maps to HD44780 busy flag read)
-        - EF1: display ready signal
+        Interface via AMI 9217MLB custom gate array (memory-mapped I/O):
+        - 0x3F80: command register (RS=0) — HD44780 instruction writes
+        - 0x3F81: data register (RS=1) — character data writes
+        - 0x3FA0: status register — bit 0 = busy flag
 
         Character ROM: hd44780u_a00.bin (4096 bytes, standard HD44780 CGROM)
         Must be obtained from MAME romset or generated from datasheet.
@@ -52,14 +51,13 @@
 
         <font>hd44780u_a00.bin</font>
         <dirname>PTC</dirname>
-        <out type="command">1</out>
-        <out type="data">2</out>
-        <in type="status">2</in>
+        <out type="command">0x3F80</out>
+        <out type="data">0x3F81</out>
+        <in type="status">0x3FA0</in>
         <ef>1</ef>
         <screen>16x2</screen>
         <char>5x8</char>
-        <pixelsize>3</pixelsize>
-        <zoom>2.00</zoom>
+        <zoom>4.00</zoom>
         <border>4x4</border>
         <color type="fore">0, 0, 0</color>
         <color type="back">0x9E, 0xB5, 0x5B</color>
@@ -83,7 +81,7 @@
         <!-- Key mapping TBD based on further ROM analysis -->
     </keyboard>
 
-    <serial type="bit">
+    <vt type="loop_back" connection="serial">
         <!-- Bit-banged RS-232 serial communication
         TX: Q line (SEQ = mark/1, REQ = space/0)
         RX: EF4 (B4/BN4 for bit sampling)
@@ -93,10 +91,12 @@
         Common rates for POS terminals: 1200, 2400, 4800 baud
         -->
 
+        <font>vt100.bin</font>
         <q pol="rev"></q>
         <ef pol="rev">4</ef>
-        <baudrate>1200</baudrate>
-    </serial>
+        <baud type="receive">1200</baud>
+        <baud type="transmit">1200</baud>
+    </vt>
 
     <debugger>
         <scrt mode="on">
@@ -110,7 +110,7 @@
         <assembler>
             <filename>ptc701</filename>
             <code_start>0x0000</code_start>
-            <code_end>0x3EBE</code_end>
+            <code_end>0x3F7F</code_end>
         </assembler>
     </debugger>
 

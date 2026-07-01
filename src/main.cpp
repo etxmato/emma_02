@@ -734,7 +734,7 @@ bool Emu1802::OnInit()
     p_PageSetupData->SetMarginTopLeft(wxPoint(9, 9));
     p_PageSetupData->SetMarginBottomRight(wxPoint(9, 9));
 
-    int mainWindowX = (int)configPointer->Read("/Main/Window_Position_X", 30 + offsetX);
+    int mainWindowX = (int)configPointer->Read("/Main/", 30 + offsetX);
     int mainWindowY = (int)configPointer->Read("/Main/Window_Position_Y", 30 + offsetY);
     
     p_Main = new Main("Emma 02", wxPoint(mainWindowX, mainWindowY), wxSize(-1, -1), mode_, dataDir_, iniDirectory_);
@@ -4110,6 +4110,8 @@ void Main::fixedWindowPosition()
     computerConfiguration.mc6845Configuration.y = computerConfiguration.mc6845Configuration.defaultY;
     computerConfiguration.mc6847Configuration.x = computerConfiguration.mc6847Configuration.defaultX;
     computerConfiguration.mc6847Configuration.y = computerConfiguration.mc6847Configuration.defaultY;
+    computerConfiguration.hd44780Configuration.x = computerConfiguration.hd44780Configuration.defaultX;
+    computerConfiguration.hd44780Configuration.y = computerConfiguration.hd44780Configuration.defaultY;
     computerConfiguration.i8275Configuration.x = computerConfiguration.i8275Configuration.defaultX;
     computerConfiguration.i8275Configuration.y = computerConfiguration.i8275Configuration.defaultY;
     computerConfiguration.videoTerminalConfiguration.x = computerConfiguration.videoTerminalConfiguration.defaultX;
@@ -4492,8 +4494,8 @@ void Main::enableGui(bool status)
      }
      if (!computerConfiguration.videoTerminalConfiguration.external)
      {
-        XRCCTRL(*this,"FullScreenF3Xml", wxButton)->Enable(!status&(computerConfiguration.cdp1861Configuration.defined||computerConfiguration.cdp1864Configuration.defined||computerConfiguration.coinConfiguration.defined||computerConfiguration.vip2KVideoConfiguration.defined||computerConfiguration.fredVideoConfiguration.defined||computerConfiguration.studio4VideoConfiguration.defined||computerConfiguration.tmsConfiguration.defined||computerConfiguration.i8275Configuration.defined||computerConfiguration.sn76430NConfiguration.defined||computerConfiguration.scn2672Configuration.defined||computerConfiguration.mc6845Configuration.defined||computerConfiguration.mc6847Configuration.defined||computerConfiguration.vis1870Configuration.defined||(computerConfiguration.videoTerminalConfiguration.type != VTNONE)));
-        XRCCTRL(*this,"ScreenDumpF5Xml", wxButton)->Enable(!status&(computerConfiguration.cdp1861Configuration.defined||computerConfiguration.cdp1864Configuration.defined||computerConfiguration.coinConfiguration.defined||computerConfiguration.vip2KVideoConfiguration.defined||computerConfiguration.fredVideoConfiguration.defined||computerConfiguration.studio4VideoConfiguration.defined||computerConfiguration.tmsConfiguration.defined||computerConfiguration.i8275Configuration.defined||computerConfiguration.sn76430NConfiguration.defined||computerConfiguration.scn2672Configuration.defined||computerConfiguration.mc6845Configuration.defined||computerConfiguration.mc6847Configuration.defined||computerConfiguration.vis1870Configuration.defined||(computerConfiguration.videoTerminalConfiguration.type != VTNONE)));
+        XRCCTRL(*this,"FullScreenF3Xml", wxButton)->Enable(!status&(computerConfiguration.cdp1861Configuration.defined||computerConfiguration.cdp1864Configuration.defined||computerConfiguration.coinConfiguration.defined||computerConfiguration.vip2KVideoConfiguration.defined||computerConfiguration.fredVideoConfiguration.defined||computerConfiguration.studio4VideoConfiguration.defined||computerConfiguration.tmsConfiguration.defined||computerConfiguration.i8275Configuration.defined||computerConfiguration.sn76430NConfiguration.defined||computerConfiguration.scn2672Configuration.defined||computerConfiguration.mc6845Configuration.defined||computerConfiguration.mc6847Configuration.defined||computerConfiguration.hd44780Configuration.defined||computerConfiguration.vis1870Configuration.defined||(computerConfiguration.videoTerminalConfiguration.type != VTNONE)));
+        XRCCTRL(*this,"ScreenDumpF5Xml", wxButton)->Enable(!status&(computerConfiguration.cdp1861Configuration.defined||computerConfiguration.cdp1864Configuration.defined||computerConfiguration.coinConfiguration.defined||computerConfiguration.vip2KVideoConfiguration.defined||computerConfiguration.fredVideoConfiguration.defined||computerConfiguration.studio4VideoConfiguration.defined||computerConfiguration.tmsConfiguration.defined||computerConfiguration.i8275Configuration.defined||computerConfiguration.sn76430NConfiguration.defined||computerConfiguration.scn2672Configuration.defined||computerConfiguration.mc6845Configuration.defined||computerConfiguration.mc6847Configuration.defined||computerConfiguration.hd44780Configuration.defined||computerConfiguration.vis1870Configuration.defined||(computerConfiguration.videoTerminalConfiguration.type != VTNONE)));
     }
      
     enableMemAccessGui(!status);

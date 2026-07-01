@@ -39,7 +39,6 @@ HD44780::HD44780(const wxString& title, const wxPoint& pos, const wxSize& size, 
     rows_ = hd44780Configuration.screenSize.y;   // 2
     charW_ = hd44780Configuration.charSize.x;    // 5
     charH_ = hd44780Configuration.charSize.y;    // 8
-    pixelSize_ = hd44780Configuration.pixelSize; // typically 2 or 3
 
     videoType_ = VIDEOXMLHD44780;
     colourIndex_ = COL_HD44780_FORE - 2;
@@ -62,9 +61,8 @@ HD44780::HD44780(const wxString& title, const wxPoint& pos, const wxSize& size, 
 
     // Calculate pixel dimensions for the LCD display
     // Each character cell: charW_ pixels wide + 1 gap, charH_ pixels high + 1 gap
-    // Rendered at pixelSize_ scale
-    int cellW = (charW_ + 1) * pixelSize_;
-    int cellH = (charH_ + 1) * pixelSize_;
+    int cellW = (charW_ + 1);
+    int cellH = (charH_ + 1);
     int screenW = cols_ * cellW;
     int screenH = rows_ * cellH;
 
@@ -122,7 +120,6 @@ void HD44780::configureHd44780()
 {
     p_Main->configureMessage(&hd44780Configuration_.ioGroupVector, "HD44780");
 
-    wxString printBuffer;
     p_Computer->setOutType(&hd44780Configuration_.ioGroupVector, hd44780Configuration_.commandPort, "HD44780 command");
     p_Computer->setOutType(&hd44780Configuration_.ioGroupVector, hd44780Configuration_.dataPort, "HD44780 data");
     p_Computer->setInType(&hd44780Configuration_.ioGroupVector, hd44780Configuration_.statusPort, "HD44780 status");
@@ -268,6 +265,10 @@ void HD44780::writeData(Byte value)
 Byte HD44780::readStatus()
 {
     // RS=0, R/W=1: returns busy flag + address counter
+    // Memory-mapped mode: busy flag in bit 0 (as used by AMI gate array in PTC-701)
+    if (hd44780Configuration_.statusPort.addressMode)
+        return (busyFlag_ ? 0x01 : 0x00);
+
     return (busyFlag_ ? 0x80 : 0) | (addressCounter_ & 0x7F);
 }
 
@@ -433,8 +434,8 @@ void HD44780::drawCharacter(int col, int row, Byte value)
     if (!displayOn_)
         return;
 
-    int cellW = (charW_ + 1) * pixelSize_;
-    int cellH = (charH_ + 1) * pixelSize_;
+    int cellW = (charW_ + 1);
+    int cellH = (charH_ + 1);
     int x = col * cellW + offsetX_;
     int y = row * cellH + offsetY_;
 
@@ -464,7 +465,7 @@ void HD44780::drawCharacter(int col, int row, Byte value)
         {
             if (lineData & (0x10 >> px))  // HD44780 font is 5 pixels wide, bit 4 = leftmost
             {
-                drawRectangle(x + px * pixelSize_, y + py * pixelSize_, pixelSize_, pixelSize_);
+                drawRectangle(x + px, y + py, 1, 1);
             }
         }
     }
@@ -484,8 +485,8 @@ void HD44780::drawCursor(int col, int row, bool status)
     if (!displayOn_)
         return;
 
-    int cellW = (charW_ + 1) * pixelSize_;
-    int cellH = (charH_ + 1) * pixelSize_;
+    int cellW = (charW_ + 1);
+    int cellH = (charH_ + 1);
     int x = col * cellW + offsetX_;
     int y = row * cellH + offsetY_;
 
@@ -500,9 +501,9 @@ void HD44780::drawCursor(int col, int row, bool status)
     else if (cursorOn_)
     {
         // Underline cursor at bottom row of character cell
-        int cursorY = y + (charH_ - 1) * pixelSize_;
+        int cursorY = y + charH_ - 1;
         clr = status ? colour_[colourIndex_ + FOREGROUND] : colour_[colourIndex_ + backGround_];
-        videoScreenPointer->drawRectangle(clr, x * zoom_, cursorY * zoom_, (charW_ * pixelSize_) * zoom_, pixelSize_ * zoom_);
+        videoScreenPointer->drawRectangle(clr, x * zoom_, cursorY * zoom_, charW_ * zoom_, zoom_);
     }
 }
 
@@ -511,8 +512,8 @@ void HD44780::drawCursor(wxDC &dc, int col, int row, bool status)
     if (!displayOn_)
         return;
 
-    int cellW = (charW_ + 1) * pixelSize_;
-    int cellH = (charH_ + 1) * pixelSize_;
+    int cellW = (charW_ + 1);
+    int cellH = (charH_ + 1);
     int x = col * cellW + offsetX_;
     int y = row * cellH + offsetY_;
 
@@ -527,11 +528,11 @@ void HD44780::drawCursor(wxDC &dc, int col, int row, bool status)
     }
     else if (cursorOn_)
     {
-        int cursorY = y + (charH_ - 1) * pixelSize_;
+        int cursorY = y + charH_ - 1;
         clr = status ? colour_[colourIndex_ + FOREGROUND] : colour_[colourIndex_ + backGround_];
         dc.SetBrush(wxBrush(clr));
         dc.SetPen(wxPen(clr));
-        dc.DrawRectangle(x, cursorY, charW_ * pixelSize_, pixelSize_);
+        dc.DrawRectangle(x, cursorY, charW_, 1);
     }
 }
 

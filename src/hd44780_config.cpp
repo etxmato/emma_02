@@ -83,7 +83,6 @@ void Hd44780Config::hd44780ConfigInit()
     computerConfiguration.hd44780Configuration.charSize.y = 8;
     computerConfiguration.hd44780Configuration.screenSize.x = 16;
     computerConfiguration.hd44780Configuration.screenSize.y = 2;
-    computerConfiguration.hd44780Configuration.pixelSize = 2;
     computerConfiguration.hd44780Configuration.ioGroupVector.clear();
 
     if (!mode_.gui)
@@ -125,7 +124,6 @@ void Hd44780Config::parseXml_HD44780Video(wxXmlNode &node)
         "border",
         "pos",
         "color",
-        "pixelsize",
         "comment",
         "undefined"
     };
@@ -144,7 +142,6 @@ void Hd44780Config::parseXml_HD44780Video(wxXmlNode &node)
         TAG_BORDER,
         TAG_POS,
         TAG_COLOR,
-        TAG_PIXELSIZE,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
@@ -168,22 +165,22 @@ void Hd44780Config::parseXml_HD44780Video(wxXmlNode &node)
             case TAG_OUT:
                 if (child->GetAttribute("type") == "command")
                 {
-                    computerConfiguration.hd44780Configuration.commandPort = parseXml_IoPort(*child);
+                    computerConfiguration.hd44780Configuration.commandPort = parseXml_IoPort(*child, HD44780_COMMAND_OUT);
                 }
                 if (child->GetAttribute("type") == "data")
                 {
-                    computerConfiguration.hd44780Configuration.dataPort = parseXml_IoPort(*child);
+                    computerConfiguration.hd44780Configuration.dataPort = parseXml_IoPort(*child, HD44780_DATA_OUT);
                 }
             break;
 
             case TAG_IN:
                 if (child->GetAttribute("type") == "status")
                 {
-                    computerConfiguration.hd44780Configuration.statusPort = parseXml_IoPort(*child);
+                    computerConfiguration.hd44780Configuration.statusPort = parseXml_IoPort(*child, HD44780_STATUS_IN);
                 }
                 if (child->GetAttribute("type") == "data")
                 {
-                    computerConfiguration.hd44780Configuration.dataReadPort = parseXml_IoPort(*child);
+                    computerConfiguration.hd44780Configuration.dataReadPort = parseXml_IoPort(*child, HD44780_DATA_IN);
                 }
             break;
 
@@ -199,7 +196,7 @@ void Hd44780Config::parseXml_HD44780Video(wxXmlNode &node)
 
             case TAG_EF:
                 computerConfiguration.hd44780Configuration.ef = parseXml_EfFlag(*child, HD44780_EF);
-                setEfFlagConfig(computerConfiguration.hd44780Configuration.ef, "busy", "Hd44780Ef");
+                setEfFlagConfig(computerConfiguration.hd44780Configuration.ef, "busy", "Hd44780EfDisplayText");
             break;
                 
             case TAG_IOGROUP:
@@ -244,8 +241,6 @@ void Hd44780Config::parseXml_HD44780Video(wxXmlNode &node)
                     computerConfiguration.hd44780Configuration.screenSize.y = (int)height;
                 }
                 label.Printf("Screen: %dx%d", (int)width, (int)height);
-                if (mode_.gui)
-                    XRCCTRL(*this, "Hd44780ScreenSizeText", wxStaticText)->SetLabel(label);
             break;
 
             case TAG_BORDER:
@@ -284,10 +279,6 @@ void Hd44780Config::parseXml_HD44780Video(wxXmlNode &node)
                     screenInfo.defaultColour[COL_HD44780_FORE].Printf("#%02X%02X%02X", red, green, blue);
                 if (child->GetAttribute("type") == "back")
                     screenInfo.defaultColour[COL_HD44780_BACK].Printf("#%02X%02X%02X", red, green, blue);
-            break;
-
-            case TAG_PIXELSIZE:
-                computerConfiguration.hd44780Configuration.pixelSize = getHexDec(child->GetNodeContent());
             break;
 
             case TAG_COMMENT:

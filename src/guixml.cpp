@@ -370,6 +370,8 @@ void GuiXml::readXmlWindowConfig()
     computerConfiguration.mc6845Configuration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_MC6845_Y", computerConfiguration.mc6845Configuration.defaultY);
     computerConfiguration.mc6847Configuration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_MC6847_X", computerConfiguration.mc6847Configuration.defaultX);
     computerConfiguration.mc6847Configuration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_MC6847_Y", computerConfiguration.mc6847Configuration.defaultY);
+    computerConfiguration.hd44780Configuration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_HD44780_X", computerConfiguration.hd44780Configuration.defaultX);
+    computerConfiguration.hd44780Configuration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_HD44780_Y", computerConfiguration.hd44780Configuration.defaultY);
     computerConfiguration.i8275Configuration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_I8275_X", computerConfiguration.i8275Configuration.defaultX);
     computerConfiguration.i8275Configuration.y = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_I8275_Y", computerConfiguration.i8275Configuration.defaultY);
     computerConfiguration.vis1870Configuration.x = (int)configPointer->Read(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_v1870_X", computerConfiguration.vis1870Configuration.defaultX);
@@ -468,6 +470,13 @@ void GuiXml::writeXmlWindowConfig()
             configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_MC6847_X", computerConfiguration.mc6847Configuration.x);
         if (computerConfiguration.mc6847Configuration.y > 0)
             configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_MC6847_Y", computerConfiguration.mc6847Configuration.y);
+    }
+    if (computerConfiguration.hd44780Configuration.defined)
+    {
+        if (computerConfiguration.hd44780Configuration.x > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_HD44780_X", computerConfiguration.hd44780Configuration.x);
+        if (computerConfiguration.hd44780Configuration.y > 0)
+            configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Window_Position_HD44780_Y", computerConfiguration.hd44780Configuration.y);
     }
     if (computerConfiguration.i8275Configuration.defined)
     {

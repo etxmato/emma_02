@@ -78,6 +78,9 @@ void VideoConfig::updateVideoPanel()
     if (computerConfiguration.mc6847Configuration.defined)
         p_Main->updateMc6847Panel();
     
+    if (computerConfiguration.hd44780Configuration.defined)
+        p_Main->updateHd44780Panel();
+    
     if (computerConfiguration.cdp1861Configuration.defined)
         p_Main->updatePixiePanel();
     

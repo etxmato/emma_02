@@ -73,7 +73,6 @@ private:
     int rows_;                  // Number of visible rows (2)
     int charW_;                 // Character width in pixels (5)
     int charH_;                 // Character height in pixels (8)
-    int pixelSize_;             // Pixel size for rendering (gap included)
 };
 
 #endif  // HD44780_H

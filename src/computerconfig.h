@@ -588,7 +588,6 @@ public:
 
     wxSize charSize;        // 5x8 default
     wxSize screenSize;      // 16x2 default
-    int pixelSize;          // Rendering pixel size (2 or 3)
 };
 
 // Video Terminal configuration class definitions:
