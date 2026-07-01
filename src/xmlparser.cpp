@@ -3193,6 +3193,9 @@ void XmlParser::parseXml_MatrixKeyboard(wxXmlNode &node)
             case TAG_IN:
                 computerConfiguration.matrixKeyboardConfiguration.input = parseXml_IoPort(*child, MATRIX_KEYBOARD_IN);
                 
+                if (!child->HasAttribute("addressmask") && computerConfiguration.matrixKeyboardConfiguration.input.addressMode)
+                    computerConfiguration.matrixKeyboardConfiguration.input.addressMask = 0x0000;
+
                 if (child->GetAttribute("useaddress") == "yes")
                     computerConfiguration.matrixKeyboardConfiguration.useAddress = true;
 

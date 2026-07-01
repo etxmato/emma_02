@@ -5983,8 +5983,9 @@ Byte Computer::readMemDebug(Word address, int function)
     {
         if (currentComputerConfiguration.matrixKeyboardConfiguration.input.addressMode)
         {
-            if (address == currentComputerConfiguration.matrixKeyboardConfiguration.input.portNumber[0])
-                return matrixKeyboardPointer->in();
+            Word mask = currentComputerConfiguration.matrixKeyboardConfiguration.input.addressMask;
+            if ((address & ~mask) == (currentComputerConfiguration.matrixKeyboardConfiguration.input.portNumber[0] & ~mask))
+                return matrixKeyboardPointer->in(address);
         }
     }
 

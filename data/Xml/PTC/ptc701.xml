@@ -19,10 +19,15 @@
         <!-- System ROM: 16K at 0x0000-0x3FFF -->
         <rom type="gui">
             <start>0x0000</start>
-            <end>0x3EBE</end>
+            <end>0x3F00</end>
             <pulldown mask="ptc701*.bin">PTC</pulldown>
             <filename verify="true">ptc701.bin</filename>
         </rom>
+
+        <ram>
+            <start>0x3f00</start>
+            <end>0x3fFF</end>
+        </ram>
 
         <!-- Application ROM: 32K at 0x4000-0xBFFF (McDonald's inventory v3.0) -->
         <rom>
@@ -63,22 +68,95 @@
         <color type="back">0x9E, 0xB5, 0x5B</color>
     </video>
 
-    <keyboard type="bit">
-        <!-- PTC-701 keyboard: 35 keys (7 columns x 5 rows)
-        Keyboard scan: OUT 3 selects column, INP 3 reads row (via AMI chip)
+    <keyboard type="matrix">
+        <!-- PTC-701 keyboard: 35 keys, scanned by AMI 9217MLB gate array
+        Memory-mapped keyboard scan buffer at 0x3F20-0x3F25 (6 columns, 8 bits each)
+        Bit = 1: key pressed (active high), Bit 7 scanned first (MSB)
+        addressmask 0x07: matches 0x3F20-0x3F27, indexes keyValue_[0..7]
         
-        Key layout from ptcmcd.bin:
-        Row 1: - i A B C D E F
-        Row 2: 7 8 9
-        Row 3: 4 5 6
-        Row 4: 1 2 3
-        Bottom: 0 . CE
-        Function: x(multiply) y(yes) e(enter) r(repeat) s(send)
+        Physical layout (from Telxon PTC-701 photo):
+                 Col1     Col2      Col3      Col4      Col5      Col6
+        Row1:  ON/OFF    A         B         C         —         —
+        Row2:  D         E         F         G         H         —
+        Row3:  I         J         K         L         M         —
+        Row4:  SHIFT     N         O         P         CLEAR     —
+        Row5:  Q         7         8         9/S       <         —
+        Row6:  T         4         5         U/6       V/>       —
+        Row7:  W         1         2         X/3       Y         ENTER
+        Row8:  SP        -         0         Z/.       —         ENTER
+
+        Mapping: address=column(0-5), bit=row(7=top,0=bottom)
+        PC keycodes: letters=65-90(upper), digits=48-57, special keys by wxWidgets code
+        
+        NOTE: This is an ESTIMATED mapping! Verify by pressing keys and checking
+        which column/bit the firmware detects. Adjust as needed.
         -->
 
-        <out>3</out>
-        <in>3</in>
-        <!-- Key mapping TBD based on further ROM analysis -->
+        <in addressmask="0x07">0x3F20</in>
+
+        <!-- Column 0 (0x3F20): leftmost physical column -->
+        <!-- bit7=ON/OFF(skip), bit6=D, bit5=I, bit4=SHIFT(skip), bit3=Q, bit2=T, bit1=W, bit0=SP -->
+        <keydef address="0" bit="6">68</keydef>     <!-- D -->
+        <keydef address="0" bit="5">73</keydef>     <!-- I -->
+        <keydef address="0" bit="3">81</keydef>     <!-- Q -->
+        <keydef address="0" bit="2">84</keydef>     <!-- T -->
+        <keydef address="0" bit="1">87</keydef>     <!-- W -->
+        <keydef address="0" bit="0">32</keydef>     <!-- Space -->
+
+        <!-- Column 1 (0x3F21): second column -->
+        <!-- bit7=A, bit6=E, bit5=J, bit4=N, bit3=7, bit2=4, bit1=1, bit0=- -->
+        <keydef address="1" bit="7">65</keydef>     <!-- A -->
+        <keydef address="1" bit="6">69</keydef>     <!-- E -->
+        <keydef address="1" bit="5">74</keydef>     <!-- J -->
+        <keydef address="1" bit="4">78</keydef>     <!-- N -->
+        <keydef address="1" bit="3">55</keydef>     <!-- 7 -->
+        <keydef address="1" bit="2">52</keydef>     <!-- 4 -->
+        <keydef address="1" bit="1">49</keydef>     <!-- 1 -->
+        <keydef address="1" bit="0">45</keydef>     <!-- - (minus) -->
+
+        <!-- Column 2 (0x3F22): third column -->
+        <!-- bit7=B, bit6=F, bit5=K, bit4=O, bit3=8, bit2=5, bit1=2, bit0=0 -->
+        <keydef address="2" bit="7">66</keydef>     <!-- B -->
+        <keydef address="2" bit="6">70</keydef>     <!-- F -->
+        <keydef address="2" bit="5">75</keydef>     <!-- K -->
+        <keydef address="2" bit="4">79</keydef>     <!-- O -->
+        <keydef address="2" bit="3">56</keydef>     <!-- 8 -->
+        <keydef address="2" bit="2">53</keydef>     <!-- 5 -->
+        <keydef address="2" bit="1">50</keydef>     <!-- 2 -->
+        <keydef address="2" bit="0">48</keydef>     <!-- 0 -->
+
+        <!-- Column 3 (0x3F23): fourth column -->
+        <!-- bit7=C, bit6=G, bit5=L, bit4=P, bit3=9, bit2=6, bit1=3, bit0=. -->
+        <keydef address="3" bit="7">67</keydef>     <!-- C -->
+        <keydef address="3" bit="6">71</keydef>     <!-- G -->
+        <keydef address="3" bit="5">76</keydef>     <!-- L -->
+        <keydef address="3" bit="4">80</keydef>     <!-- P -->
+        <keydef address="3" bit="3">57</keydef>     <!-- 9 -->
+        <keydef address="3" bit="2">54</keydef>     <!-- 6 -->
+        <keydef address="3" bit="1">51</keydef>     <!-- 3 -->
+        <keydef address="3" bit="0">46</keydef>     <!-- . (period) -->
+
+        <!-- Column 4 (0x3F24): fifth column -->
+        <!-- bit7=S, bit6=H, bit5=M, bit4=CLEAR, bit3=U, bit2=X, bit1=Y, bit0=Z -->
+        <keydef address="4" bit="7">83</keydef>     <!-- S -->
+        <keydef address="4" bit="6">72</keydef>     <!-- H -->
+        <keydef address="4" bit="5">77</keydef>     <!-- M -->
+        <keydef address="4" bit="4">127</keydef>    <!-- CLEAR → PC Delete key -->
+        <keydef address="4" bit="3">85</keydef>     <!-- U -->
+        <keydef address="4" bit="2">88</keydef>     <!-- X -->
+        <keydef address="4" bit="1">89</keydef>     <!-- Y -->
+        <keydef address="4" bit="0">90</keydef>     <!-- Z -->
+
+        <!-- Column 5 (0x3F25): sixth/rightmost column -->
+        <!-- bit7=ENTER, bit6=<(left), bit5=>(right), bit4=V -->
+        <keydef address="5" bit="7">13</keydef>     <!-- ENTER (Return key) -->
+        <keydef address="5" bit="4">86</keydef>     <!-- V -->
+
+        <!-- TEXT key definitions for arrow keys and return -->
+        <keydef type="text" address="5" bit="6">left</keydef>
+        <keydef type="text" address="5" bit="5">right</keydef>
+        <keydef type="text" address="5" bit="7">return</keydef>
+
     </keyboard>
 
     <vt type="loop_back" connection="serial">
@@ -110,7 +188,7 @@
         <assembler>
             <filename>ptc701</filename>
             <code_start>0x0000</code_start>
-            <code_end>0x3F7F</code_end>
+            <code_end>0x3F00</code_end>
         </assembler>
     </debugger>
 
