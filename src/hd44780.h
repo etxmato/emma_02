@@ -11,6 +11,7 @@ public:
 
     void configureHd44780();
     void initHd44780();
+    bool ioGroup(int ioGroup);
     Byte efHd44780();
     void cycleHd44780();
     void blinkHd44780();

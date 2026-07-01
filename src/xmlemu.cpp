@@ -5789,20 +5789,23 @@ Byte Computer::readMemDebug(Word address, int function)
 		}
 	}
 
-    if (currentComputerConfiguration.hd44780Configuration.defined)
+    if (currentComputerConfiguration.hd44780Configuration.defined && hd44780Pointer != NULL)
     {
-        if (currentComputerConfiguration.hd44780Configuration.statusPort.addressMode)
+        if (hd44780Pointer->ioGroup(ioGroup_))
         {
-            if (address == currentComputerConfiguration.hd44780Configuration.statusPort.portNumber[0])
+            if (currentComputerConfiguration.hd44780Configuration.statusPort.addressMode)
             {
-                return hd44780Pointer->readStatus();
+                if (address == currentComputerConfiguration.hd44780Configuration.statusPort.portNumber[0])
+                {
+                    return hd44780Pointer->readStatus();
+                }
             }
-        }
-        if (currentComputerConfiguration.hd44780Configuration.dataReadPort.addressMode)
-        {
-            if (address == currentComputerConfiguration.hd44780Configuration.dataReadPort.portNumber[0])
+            if (currentComputerConfiguration.hd44780Configuration.dataReadPort.addressMode)
             {
-                return hd44780Pointer->readData();
+                if (address == currentComputerConfiguration.hd44780Configuration.dataReadPort.portNumber[0])
+                {
+                    return hd44780Pointer->readData();
+                }
             }
         }
     }
@@ -6564,22 +6567,25 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
         }
     }
 
-    if (currentComputerConfiguration.hd44780Configuration.defined)
+    if (currentComputerConfiguration.hd44780Configuration.defined && hd44780Pointer != NULL)
     {
-        if (currentComputerConfiguration.hd44780Configuration.commandPort.addressMode)
+        if (hd44780Pointer->ioGroup(ioGroup_))
         {
-            if (address == currentComputerConfiguration.hd44780Configuration.commandPort.portNumber[0])
+            if (currentComputerConfiguration.hd44780Configuration.commandPort.addressMode)
             {
-                hd44780Pointer->writeCommand(value);
-                return;
+                if (address == currentComputerConfiguration.hd44780Configuration.commandPort.portNumber[0])
+                {
+                    hd44780Pointer->writeCommand(value);
+                    return;
+                }
             }
-        }
-        if (currentComputerConfiguration.hd44780Configuration.dataPort.addressMode)
-        {
-            if (address == currentComputerConfiguration.hd44780Configuration.dataPort.portNumber[0])
+            if (currentComputerConfiguration.hd44780Configuration.dataPort.addressMode)
             {
-                hd44780Pointer->writeData(value);
-                return;
+                if (address == currentComputerConfiguration.hd44780Configuration.dataPort.portNumber[0])
+                {
+                    hd44780Pointer->writeData(value);
+                    return;
+                }
             }
         }
     }

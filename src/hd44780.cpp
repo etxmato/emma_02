@@ -140,6 +140,23 @@ void HD44780::initHd44780()
     newBackGround_ = false;
 }
 
+bool HD44780::ioGroup(int ioGroup)
+{
+    bool groupFound = false;
+    
+    if (hd44780Configuration_.ioGroupVector.size() == 0)
+        groupFound = true;
+    else
+    {
+        for (std::vector<int>::iterator ioGroupIterator = hd44780Configuration_.ioGroupVector.begin (); ioGroupIterator != hd44780Configuration_.ioGroupVector.end (); ++ioGroupIterator)
+        {
+            if (*ioGroupIterator == ioGroup)
+                groupFound = true;
+        }
+    }
+    return groupFound;
+}
+
 Byte HD44780::efHd44780()
 {
     // Return busy flag status (active low or high depending on polarity)

@@ -91,7 +91,6 @@ void Hd44780Config::hd44780ConfigInit()
     XRCCTRL(*this, THIS_PANEL_NAME, wxPanel)->Hide();
 
     XRCCTRL(*this, "Hd44780IoGroupText", wxStaticText)->SetLabel("");
-    XRCCTRL(*this, "Hd44780ScreenSizeText", wxStaticText)->SetLabel("Screen: 16x2");
 }
 
 void Hd44780Config::parseXml_HD44780Video(wxXmlNode &node)

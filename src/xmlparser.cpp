@@ -582,6 +582,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     scn2672ConfigInit();
     crt8002ConfigInit();
     mc6845ConfigInit();
+    hd44780ConfigInit();
     mc6847ConfigInit();
     pixieConfigInit();
     coinVideoConfigInit();
