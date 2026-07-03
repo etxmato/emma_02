@@ -5372,19 +5372,26 @@ void Computer::writeMemDataType(Word address, Byte type)
     }
 
     int memNumber;
+    Word offset;
+    long physical;
     switch (memoryType_[address/256]&0xff)
     {
         case EMSMEMORY:
-            switch (emsMemory_[number].memoryType_[((address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress) |(currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits))/256])
+            offset = address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress;
+            if (currentComputerConfiguration.emsMemoryConfiguration[number].addressMask != 0)
+                offset &= currentComputerConfiguration.emsMemoryConfiguration[number].addressMask;
+            physical = (long)(offset | (currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits));
+
+            switch (emsMemory_[number].memoryType_[physical/256])
             {
                 case ROM:
                 case RAM:
-                    if (emsMemory_[number].dataType_[(long) ((address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress) |(currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits))] != type)
+                    if (emsMemory_[number].dataType_[physical] != type)
                     {
                         p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                        emsMemory_[number].dataType_[(long) ((address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress) |(currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits))] = type;
+                        emsMemory_[number].dataType_[physical] = type;
                     }
-                    increaseExecutedEms(number, (long) ((address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress) |(currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits)), type);
+                    increaseExecutedEms(number, physical, type);
                 break;
             }
         break;
@@ -5550,16 +5557,23 @@ Byte Computer::readMemDataType(Word address, uint64_t* executed)
     }
 
     int memNumber;
+    Word offset;
+    long physical;
     switch (memoryType_[address/256]&0xff)
     {
         case EMSMEMORY:
-            switch (emsMemory_[number].memoryType_[((address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress) |(currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits))/256])
+            offset = address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress;
+            if (currentComputerConfiguration.emsMemoryConfiguration[number].addressMask != 0)
+                offset &= currentComputerConfiguration.emsMemoryConfiguration[number].addressMask;
+            physical = (long)(offset | (currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits));
+
+            switch (emsMemory_[number].memoryType_[physical/256])
             {
                 case ROM:
                 case RAM:
                     if (profilerCounter_ != PROFILER_OFF)
-                        *executed = emsMemory_[number].executed_[(long) ((address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress) |(currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits))];
-                    return emsMemory_[number].dataType_[(long) ((address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress) |(currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits))];
+                        *executed = emsMemory_[number].executed_[physical];
+                    return emsMemory_[number].dataType_[physical];
                 break;
             }
         break;
@@ -6146,10 +6160,17 @@ Byte Computer::readMemDebug(Word address, int function)
     size_t number = (memoryType_[address / 256] >> 8);
     
     int memNumber = 0;
+    Word offset;
+    long physical;
     switch (memoryType_[address/256]&0xff)
     {
         case EMSMEMORY:
-            switch (emsMemory_[number].memoryType_[((address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress) |(currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits))/256])
+            offset = address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress;
+            if (currentComputerConfiguration.emsMemoryConfiguration[number].addressMask != 0)
+                offset &= currentComputerConfiguration.emsMemoryConfiguration[number].addressMask;
+            physical = (long)(offset | (currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits));
+
+            switch (emsMemory_[number].memoryType_[physical/256])
             {
                 case UNDEFINED:
                     return 255;
@@ -6157,7 +6178,7 @@ Byte Computer::readMemDebug(Word address, int function)
                     
                 case ROM:
                 case RAM:
-                    return emsMemory_[number].mainMem[(long) ((address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress) |(currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits))];
+                    return emsMemory_[number].mainMem[physical];
                 break;
                     
                 default:
@@ -6574,7 +6595,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
         {
             if (currentComputerConfiguration.hd44780Configuration.commandPort.addressMode)
             {
-                if (address == currentComputerConfiguration.hd44780Configuration.commandPort.portNumber[0])
+                if (address == currentComputerConfiguration.hd44780Configuration.commandPort.portNumber[0] || address == 0x3f4f)
                 {
                     hd44780Pointer->writeCommand(value);
                     return;
@@ -6927,21 +6948,28 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
     }
     
     int memNumber = 0;
+    Word offset;
+    long physical;
     switch (memoryType_[address/256]&0xff)
     {
         case EMSMEMORY:
-            switch (emsMemory_[number].memoryType_[((address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress) |(currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits))/256])
+            offset = address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress;
+            if (currentComputerConfiguration.emsMemoryConfiguration[number].addressMask != 0)
+                offset &= currentComputerConfiguration.emsMemoryConfiguration[number].addressMask;
+            physical = (long)(offset | (currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits));
+
+            switch (emsMemory_[number].memoryType_[physical/256])
             {
                 case UNDEFINED:
                 case ROM:
                     if (writeRom)
-                        emsMemory_[number].mainMem[(long) ((address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress) |(currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits))] = value;
+                        emsMemory_[number].mainMem[physical] = value;
                 break;
                     
                 case RAM:
                     if (!getMpButtonState())
                     {
-                        emsMemory_[number].mainMem[(long) ((address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress) |(currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits))] = value;
+                        emsMemory_[number].mainMem[physical] = value;
                         if (address >= memoryStart_ && address<(memoryStart_ + 256))
                             p_Main->updateDebugMemory(address);
                         p_Main->updateAssTabCheck(address);

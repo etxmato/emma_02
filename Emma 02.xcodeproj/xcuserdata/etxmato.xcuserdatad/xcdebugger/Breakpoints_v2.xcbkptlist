@@ -318,8 +318,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9693"
-            endingLineNumber = "9693"
+            startingLineNumber = "9721"
+            endingLineNumber = "9721"
             landmarkName = "Computer::ctrlvText(text)"
             landmarkType = "7">
          </BreakpointContent>
@@ -414,8 +414,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9373"
-            endingLineNumber = "9373"
+            startingLineNumber = "9401"
+            endingLineNumber = "9401"
             landmarkName = "Computer::executeFunction(function, additionalAddress)"
             landmarkType = "7">
          </BreakpointContent>
@@ -430,8 +430,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9363"
-            endingLineNumber = "9363"
+            startingLineNumber = "9391"
+            endingLineNumber = "9391"
             landmarkName = "Computer::executeFunction(function, additionalAddress)"
             landmarkType = "7">
          </BreakpointContent>
@@ -510,8 +510,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7990"
-            endingLineNumber = "7990"
+            startingLineNumber = "8018"
+            endingLineNumber = "8018"
             landmarkName = "Computer::configureExtensions()"
             landmarkType = "7">
          </BreakpointContent>
@@ -958,8 +958,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7272"
-            endingLineNumber = "7272"
+            startingLineNumber = "7300"
+            endingLineNumber = "7300"
             landmarkName = "Computer::writeMemDebug(address, value, writeRom)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1246,8 +1246,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7309"
-            endingLineNumber = "7309"
+            startingLineNumber = "7337"
+            endingLineNumber = "7337"
             landmarkName = "Computer::writeMemDebug(address, value, writeRom)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1374,8 +1374,8 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6530"
-            endingLineNumber = "6530"
+            startingLineNumber = "6551"
+            endingLineNumber = "6551"
             landmarkName = "Computer::writeMemDebug(address, value, writeRom)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1390,9 +1390,25 @@
             filePath = "src/xmlemu.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6531"
-            endingLineNumber = "6531"
+            startingLineNumber = "6552"
+            endingLineNumber = "6552"
             landmarkName = "Computer::writeMemDebug(address, value, writeRom)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DEFB7BF6-42A7-4380-9B97-47271738C502"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/xmlparser.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "10910"
+            endingLineNumber = "10910"
+            landmarkName = "XmlParser::parseXml_Ems(node, type, configNumber)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

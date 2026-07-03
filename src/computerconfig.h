@@ -1230,6 +1230,7 @@ public:
     Word mask;
     Word outputStart;
     Word outputEnd;
+    Word addressMask;
     int maskBits;
     int type;
     int emsType;

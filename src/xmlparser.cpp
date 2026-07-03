@@ -10874,6 +10874,7 @@ void XmlParser::parseXml_Ems(wxXmlNode &node, int type, size_t configNumber)
     computerConfiguration.emsMemoryConfiguration[configNumber].dirname = computerConfiguration.mainDir_ ;
     computerConfiguration.emsMemoryConfiguration[configNumber].type = type;
     computerConfiguration.emsMemoryConfiguration[configNumber].output = init_IoPort();
+    computerConfiguration.emsMemoryConfiguration[configNumber].addressMask = 0xffff;
 
     size_t rangeNumber = 0;
     Word mask;
@@ -10898,6 +10899,10 @@ void XmlParser::parseXml_Ems(wxXmlNode &node, int type, size_t configNumber)
                 else
                     computerConfiguration.emsMemoryConfiguration[configNumber].range[rangeNumber].end = (Word) end & 0xffff;
                 computerConfiguration.emsMemoryConfiguration[configNumber].range[rangeNumber].start = (Word) start & 0xffff;
+
+                if (child->HasAttribute("addressmask"))
+                    computerConfiguration.emsMemoryConfiguration[configNumber].addressMask = (Word)parseXml_Number(*child, "addressmask");
+
                 rangeNumber++;
             break;
 
