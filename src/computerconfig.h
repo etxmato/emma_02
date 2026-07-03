@@ -1232,6 +1232,7 @@ public:
     Word outputEnd;
     Word addressMask;
     int maskBits;
+    int granularity;
     int type;
     int emsType;
     Byte page;

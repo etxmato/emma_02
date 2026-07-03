@@ -650,7 +650,16 @@ void Memory::allocMcrMapMemory(int type)
 
 wxFileOffset Memory::allocRomMapperMemory(size_t emsNumber, wxFileOffset length)
 {
-    emsSize_ = (currentComputerConfiguration.emsMemoryConfiguration[emsNumber].mask + 1) * (currentComputerConfiguration.emsMemoryConfiguration[emsNumber].output.mask + 1);
+    if (currentComputerConfiguration.emsMemoryConfiguration[emsNumber].granularity != 0)
+    {
+        long windowSize = currentComputerConfiguration.emsMemoryConfiguration[emsNumber].mask + 1;
+        emsSize_ = (long)currentComputerConfiguration.emsMemoryConfiguration[emsNumber].output.mask
+                   * currentComputerConfiguration.emsMemoryConfiguration[emsNumber].granularity
+                   + windowSize;
+        emsSize_ = ((emsSize_ + 255) / 256) * 256;
+    }
+    else
+        emsSize_ = (currentComputerConfiguration.emsMemoryConfiguration[emsNumber].mask + 1) * (currentComputerConfiguration.emsMemoryConfiguration[emsNumber].output.mask + 1);
 
     if (length > emsSize_)
         length = emsSize_;
@@ -680,7 +689,16 @@ wxFileOffset Memory::allocRomMapperMemory(size_t emsNumber, wxFileOffset length)
 
 void Memory::allocEmsMemorySegment(size_t emsNumber)
 {    
-    emsSize_ = (currentComputerConfiguration.emsMemoryConfiguration[emsNumber].mask + 1) * (currentComputerConfiguration.emsMemoryConfiguration[emsNumber].output.mask + 1);
+    if (currentComputerConfiguration.emsMemoryConfiguration[emsNumber].granularity != 0)
+    {
+        long windowSize = currentComputerConfiguration.emsMemoryConfiguration[emsNumber].mask + 1;
+        emsSize_ = (long)currentComputerConfiguration.emsMemoryConfiguration[emsNumber].output.mask
+                   * currentComputerConfiguration.emsMemoryConfiguration[emsNumber].granularity
+                   + windowSize;
+        emsSize_ = ((emsSize_ + 255) / 256) * 256;
+    }
+    else
+        emsSize_ = (currentComputerConfiguration.emsMemoryConfiguration[emsNumber].mask + 1) * (currentComputerConfiguration.emsMemoryConfiguration[emsNumber].output.mask + 1);
     
     emsMemory_[emsNumber].mainMem = (Byte*)malloc((size_t)emsSize_);
     emsMemory_[emsNumber].dataType_ = (Byte*)malloc((size_t)emsSize_);

@@ -5380,7 +5380,10 @@ void Computer::writeMemDataType(Word address, Byte type)
             offset = address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress;
             if (currentComputerConfiguration.emsMemoryConfiguration[number].addressMask != 0)
                 offset &= currentComputerConfiguration.emsMemoryConfiguration[number].addressMask;
-            physical = (long)(offset | (currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits));
+            if (currentComputerConfiguration.emsMemoryConfiguration[number].granularity != 0)
+                physical = (long)currentComputerConfiguration.emsMemoryConfiguration[number].page * currentComputerConfiguration.emsMemoryConfiguration[number].granularity + offset;
+            else
+                physical = (long)(offset | (currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits));
 
             switch (emsMemory_[number].memoryType_[physical/256])
             {
@@ -5565,7 +5568,10 @@ Byte Computer::readMemDataType(Word address, uint64_t* executed)
             offset = address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress;
             if (currentComputerConfiguration.emsMemoryConfiguration[number].addressMask != 0)
                 offset &= currentComputerConfiguration.emsMemoryConfiguration[number].addressMask;
-            physical = (long)(offset | (currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits));
+            if (currentComputerConfiguration.emsMemoryConfiguration[number].granularity != 0)
+                physical = (long)currentComputerConfiguration.emsMemoryConfiguration[number].page * currentComputerConfiguration.emsMemoryConfiguration[number].granularity + offset;
+            else
+                physical = (long)(offset | (currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits));
 
             switch (emsMemory_[number].memoryType_[physical/256])
             {
@@ -6168,7 +6174,10 @@ Byte Computer::readMemDebug(Word address, int function)
             offset = address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress;
             if (currentComputerConfiguration.emsMemoryConfiguration[number].addressMask != 0)
                 offset &= currentComputerConfiguration.emsMemoryConfiguration[number].addressMask;
-            physical = (long)(offset | (currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits));
+            if (currentComputerConfiguration.emsMemoryConfiguration[number].granularity != 0)
+                physical = (long)currentComputerConfiguration.emsMemoryConfiguration[number].page * currentComputerConfiguration.emsMemoryConfiguration[number].granularity + offset;
+            else
+                physical = (long)(offset | (currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits));
 
             switch (emsMemory_[number].memoryType_[physical/256])
             {
@@ -6956,7 +6965,10 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
             offset = address - currentComputerConfiguration.emsMemoryConfiguration[number].startAddress;
             if (currentComputerConfiguration.emsMemoryConfiguration[number].addressMask != 0)
                 offset &= currentComputerConfiguration.emsMemoryConfiguration[number].addressMask;
-            physical = (long)(offset | (currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits));
+            if (currentComputerConfiguration.emsMemoryConfiguration[number].granularity != 0)
+                physical = (long)currentComputerConfiguration.emsMemoryConfiguration[number].page * currentComputerConfiguration.emsMemoryConfiguration[number].granularity + offset;
+            else
+                physical = (long)(offset | (currentComputerConfiguration.emsMemoryConfiguration[number].page << currentComputerConfiguration.emsMemoryConfiguration[number].maskBits));
 
             switch (emsMemory_[number].memoryType_[physical/256])
             {

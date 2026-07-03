@@ -320,7 +320,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "9721"
             endingLineNumber = "9721"
-            landmarkName = "Computer::ctrlvText(text)"
+            landmarkName = "Computer::startComputerRun(load)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1400,7 +1400,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "DEFB7BF6-42A7-4380-9B97-47271738C502"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/xmlparser.cpp"
@@ -1408,6 +1408,38 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "10910"
             endingLineNumber = "10910"
+            landmarkName = "XmlParser::parseXml_Ems(node, type, configNumber)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3CE3AB47-5A63-424C-949B-9208E4730E1B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/xmlparser.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "10911"
+            endingLineNumber = "10911"
+            landmarkName = "XmlParser::parseXml_Ems(node, type, configNumber)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BEF7EE07-6E8A-4F2B-9506-1B91D359C74D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/xmlparser.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "10912"
+            endingLineNumber = "10912"
             landmarkName = "XmlParser::parseXml_Ems(node, type, configNumber)"
             landmarkType = "7">
          </BreakpointContent>
