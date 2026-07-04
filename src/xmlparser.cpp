@@ -10541,9 +10541,9 @@ void XmlParser::parseXml_Memory(wxXmlNode &node)
                 computerConfiguration.memoryMapperConfiguration.defined = true;
                 
                 memMask = parseXml_Number(*child, "mask");
-                if (memMask != 0)
+                if (memMask == 0)
                     memMask = 0xffff;
-                memMask  |= 0xff;
+                memMask |= 0xff;
 
                 computerConfiguration.memoryMapperConfiguration.maskBits = 16;
                 computerConfiguration.memoryMapperConfiguration.mask = 0xFFFF;
@@ -11692,6 +11692,7 @@ void XmlParser::parseXml_portExt(wxXmlNode &node, int type, size_t configNumber)
     computerConfiguration.memoryConfiguration[configNumber].end = 0;
     computerConfiguration.memoryConfiguration[configNumber].type = type;
     computerConfiguration.memoryMapperConfiguration.ioGroupVector.clear();
+    computerConfiguration.memoryMapperConfiguration.addressOutputs.clear();
     computerConfiguration.memoryMapperConfiguration.selectOutput = init_IoPort();
     computerConfiguration.memoryMapperConfiguration.writeOutput = init_IoPort();
     computerConfiguration.memoryMapperConfiguration.input = init_IoPort();
@@ -11720,9 +11721,19 @@ void XmlParser::parseXml_portExt(wxXmlNode &node, int type, size_t configNumber)
             break;
 
             case TAG_OUT:
-                if (child->GetAttribute("type") == "select")
+                if (child->HasAttribute("slot"))
+                {
+                    AddressOutput addrOut;
+                    addrOut.address = (Word)parseXml_Number(*child) & 0xFFFF;
+                    addrOut.slot = (Byte)parseXml_Number(*child, "slot");
+                    addrOut.mask = 0xFF;
+                    if (child->HasAttribute("mask"))
+                        addrOut.mask = (Byte)parseXml_Number(*child, "mask");
+                    computerConfiguration.memoryMapperConfiguration.addressOutputs.push_back(addrOut);
+                }
+                else if (child->GetAttribute("type") == "select")
                     computerConfiguration.memoryMapperConfiguration.selectOutput = parseXml_IoPort(*child, PORT_EXTENDER_SELECT_OUT);
-                if (child->GetAttribute("type") == "write")
+                else if (child->GetAttribute("type") == "write")
                     computerConfiguration.memoryMapperConfiguration.writeOutput = parseXml_IoPort(*child, PORT_EXTENDER_WRITE_OUT);
             break;
 

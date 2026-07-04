@@ -1205,6 +1205,13 @@ public:
     vector<Word> mappingList;
 };
 
+struct AddressOutput
+{
+    Word address;
+    Byte slot;
+    Byte mask;
+};
+
 class MemoryMapperConfiguration : public IoGroupDefineConfiguration
 {
 public:
@@ -1216,6 +1223,8 @@ public:
     Word mask;
     Byte startPort;
     Byte endPort;
+    
+    vector<AddressOutput> addressOutputs;
 };
 
 class EmsMemoryConfiguration : public IoGroupConfiguration

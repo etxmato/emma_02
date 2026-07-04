@@ -6569,6 +6569,18 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
         }
     }
     
+    if (currentComputerConfiguration.memoryMapperConfiguration.defined && pagerDefined_ &&
+        !currentComputerConfiguration.memoryMapperConfiguration.addressOutputs.empty())
+    {
+        for (const auto& addrOut : currentComputerConfiguration.memoryMapperConfiguration.addressOutputs)
+        {
+            if (address == addrOut.address)
+            {
+                setPager(addrOut.slot, value & addrOut.mask);
+            }
+        }
+    }
+
     for (int instance=0; instance<numberOfCdp1877Instances_; instance++)
     {
         if (cdp1877InstancePointer[instance]->ioGroupCdp1877(ioGroup_))
@@ -7765,8 +7777,20 @@ void Computer::configureMemory()
             case PAGER:
                 configurePortExt(currentComputerConfiguration.memoryMapperConfiguration);
                 
+/*                if (!currentComputerConfiguration.memoryMapperConfiguration.addressOutputs.empty())
+                {
+                    for (const auto& addrOut : currentComputerConfiguration.memoryMapperConfiguration.addressOutputs)
+                    {
+                        printBuffer.Printf("\tAddress %04X: pager slot %d (mask %02X)", addrOut.address, addrOut.slot, addrOut.mask);
+                        p_Main->message(printBuffer);
+                    }
+                    p_Main->message("");
+                }*/
+
                 allocPagerMemory(memConfig->start, memConfig->end);
-                definePortExtForPager(currentComputerConfiguration.memoryMapperConfiguration.startPort, currentComputerConfiguration.memoryMapperConfiguration.endPort);
+
+                if (currentComputerConfiguration.memoryMapperConfiguration.addressOutputs.empty())
+                    definePortExtForPager(currentComputerConfiguration.memoryMapperConfiguration.startPort, currentComputerConfiguration.memoryMapperConfiguration.endPort);
 
                 defineMemoryType(memConfig->start, memConfig->end, PAGER);
             break;

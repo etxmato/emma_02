@@ -1667,6 +1667,22 @@ void Cdp1802::cpuCycleStep()
             playSaveLoad();
         
         p_Computer->checkComputerFunction();
+
+/*        // DEBUG: Log D register value every time PC hits 0x0FD2
+          if (scratchpadRegister_[programCounter_] == 0x0F76)
+          {
+              static FILE* debugFile = nullptr;
+              if (debugFile == nullptr)
+              {
+                  debugFile = fopen("/Users/etxmato/workspace/emma_02/debug_d_at_f76.bin", "wb");
+              }
+              if (debugFile != nullptr)
+              {
+                  unsigned char d = (unsigned char)accumulator_;
+                  fwrite(&d, 1, 1, debugFile);
+                  fflush(debugFile);
+              }
+          }*/
     }
     
     if (resetPressed_)
