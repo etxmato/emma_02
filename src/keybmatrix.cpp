@@ -102,6 +102,9 @@ void KeybMatrix::charEvent(int keycode)
             keyboardCode_ = keycode;
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_CTRL_KEY]] = matrixKeyboardConfiguration_.ctrlValue[keycode];
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_SHIFT_KEY]] = matrixKeyboardConfiguration_.shiftValue[keycode];
+            
+            if (matrixKeyboardConfiguration_.picInterrupt >= 0)
+                p_Computer->requestInterrupt(INTERRUPT_TYPE_KEYBOARD, true, matrixKeyboardConfiguration_.picInterrupt);
         }
     }
 }

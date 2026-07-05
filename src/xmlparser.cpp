@@ -32,6 +32,7 @@
 
 #include "main.h"
 #include "xmlparser.h"
+#include "ami_int_controller.h"
 
 BEGIN_EVENT_TABLE(XmlParser, Vis1870Config)
 
@@ -127,6 +128,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
         "mm57109",
         "scn2671",
         "ad_convertor",
+        "ami_int_controller",
         "debugger",
         "comment",
         "undefined"
@@ -178,6 +180,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
         TAG_MM57109,
         TAG_SCN2671,
         TAG_AD_CONVERTOR,
+        TAG_AMI_INT_CONTROLLER,
         TAG_DEBUGGER,
         TAG_COMMENT,
         TAG_UNDEFINED
@@ -366,6 +369,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.cdp1852Configuration.clear();
     computerConfiguration.cdp1854Configuration.clear();
     computerConfiguration.cdp1877Configuration.clear();
+    computerConfiguration.amiIntControllerConfiguration.defined = false;
     computerConfiguration.cdp1878Configuration.clear();
     computerConfiguration.cd4536bConfiguration.clear();
     computerConfiguration.ct2425Configuration.clear();
@@ -864,6 +868,10 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
 
             case TAG_AD_CONVERTOR:
                 parseXml_AdConvertor (*child);
+            break;
+
+            case TAG_AMI_INT_CONTROLLER:
+                parseXml_AmiIntController (*child);
             break;
 
             case TAG_KEYPAD:
@@ -3127,6 +3135,7 @@ void XmlParser::parseXml_MatrixKeyboard(wxXmlNode &node)
         "ef2",
         "ef3",
         "ef4",
+        "int",
         "iogroup",
         "comment",
         "undefined"
@@ -3142,6 +3151,7 @@ void XmlParser::parseXml_MatrixKeyboard(wxXmlNode &node)
         TAG_EF2,
         TAG_EF3,
         TAG_EF4,
+        TAG_INT,
         TAG_IOGROUP,
         TAG_COMMENT,
         TAG_UNDEFINED
@@ -3177,6 +3187,7 @@ void XmlParser::parseXml_MatrixKeyboard(wxXmlNode &node)
         computerConfiguration.matrixKeyboardConfiguration.textKey[i].ctrlValue = 1;
     
     computerConfiguration.matrixKeyboardConfiguration.useAddress = false;
+    computerConfiguration.matrixKeyboardConfiguration.picInterrupt = -1;
     
 
     wxXmlNode *child = node.GetChildren();
@@ -3285,6 +3296,10 @@ void XmlParser::parseXml_MatrixKeyboard(wxXmlNode &node)
                     computerConfiguration.matrixKeyboardConfiguration.ioGroupVector.resize(ioGroupNumber+1);
                     computerConfiguration.matrixKeyboardConfiguration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
                 }
+            break;
+
+            case TAG_INT:
+                computerConfiguration.matrixKeyboardConfiguration.picInterrupt = (int)parseXml_Number(*child);
             break;
 
             case TAG_COMMENT:
@@ -6348,6 +6363,90 @@ void XmlParser::parseXml_Cdp1877(wxXmlNode &node)
         child = child->GetNext();
     }
     computerConfiguration.cdp1877Configuration.push_back(cdp1877);
+}
+
+void XmlParser::parseXml_AmiIntController(wxXmlNode &node)
+{
+    AmiIntControllerConfiguration amiIntController;
+    
+    wxString tagList[]=
+    {
+        "register",
+        "cause_multiplier",
+        "sources",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_REGISTER,
+        TAG_CAUSE_MULTIPLIER,
+        TAG_SOURCES,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+
+    amiIntController.defined = true;
+    amiIntController.causeRegister = 0;
+    amiIntController.causeRegisterMask = 0xFFFF;
+    amiIntController.causeMultiplier = 4;
+    amiIntController.numberOfSources = 5;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+        
+        switch (tagTypeInt)
+        {
+            case TAG_REGISTER:
+            {
+                wxString content = child->GetNodeContent();
+                amiIntController.causeRegister = (Word)(getNextHexDec(&content) & 0xffff);
+                if (child->HasAttribute("addressmask"))
+                {
+                    wxString maskStr = child->GetAttribute("addressmask");
+                    amiIntController.causeRegisterMask = (Word)(getNextHexDec(&maskStr) & 0xffff);
+                }
+            }
+            break;
+
+            case TAG_CAUSE_MULTIPLIER:
+            {
+                wxString content = child->GetNodeContent();
+                amiIntController.causeMultiplier = (int)(getNextHexDec(&content) & 0xff);
+            }
+            break;
+
+            case TAG_SOURCES:
+            {
+                wxString content = child->GetNodeContent();
+                amiIntController.numberOfSources = (int)(getNextHexDec(&content) & 0xff);
+                if (amiIntController.numberOfSources > AMI_INT_MAX_SOURCES)
+                    amiIntController.numberOfSources = AMI_INT_MAX_SOURCES;
+            }
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+    computerConfiguration.amiIntControllerConfiguration = amiIntController;
 }
 
 void XmlParser::parseXml_Cdp1878(wxXmlNode &node)

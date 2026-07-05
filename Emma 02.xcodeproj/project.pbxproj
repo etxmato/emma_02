@@ -146,6 +146,8 @@
 		99AFD5582FF43FCD00696C70 /* hd44780_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99AFD5562FF43FCD00696C70 /* hd44780_config.cpp */; };
 		99AFD55B2FF43FDB00696C70 /* hd44780.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99AFD55A2FF43FDB00696C70 /* hd44780.cpp */; };
 		99AFD55C2FF43FDB00696C70 /* hd44780.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99AFD55A2FF43FDB00696C70 /* hd44780.cpp */; };
+		99B02B8C2FFAF27B00D66EDC /* ami_int_controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99B02B8B2FFAF27B00D66EDC /* ami_int_controller.cpp */; };
+		99B02B8D2FFAF27B00D66EDC /* ami_int_controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99B02B8B2FFAF27B00D66EDC /* ami_int_controller.cpp */; };
 		99B2AB8727863D8000C73EB9 /* about_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB8527863D7F00C73EB9 /* about_11.xrc */; };
 		99B2AB8827863D8000C73EB9 /* about_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB8627863D7F00C73EB9 /* about_14.xrc */; };
 		99B2AB8D27863DB900C73EB9 /* cassette_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AB8B27863DB800C73EB9 /* cassette_11.xrc */; };
@@ -617,6 +619,8 @@
 		99AFD5562FF43FCD00696C70 /* hd44780_config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = hd44780_config.cpp; path = src/hd44780_config.cpp; sourceTree = "<group>"; };
 		99AFD5592FF43FDB00696C70 /* hd44780.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = hd44780.h; path = src/hd44780.h; sourceTree = "<group>"; };
 		99AFD55A2FF43FDB00696C70 /* hd44780.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = hd44780.cpp; path = src/hd44780.cpp; sourceTree = "<group>"; };
+		99B02B8A2FFAF27B00D66EDC /* ami_int_controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ami_int_controller.h; path = src/ami_int_controller.h; sourceTree = "<group>"; };
+		99B02B8B2FFAF27B00D66EDC /* ami_int_controller.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ami_int_controller.cpp; path = src/ami_int_controller.cpp; sourceTree = "<group>"; };
 		99B2AB7E27863D4C00C73EB9 /* main_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = main_11.xrc; sourceTree = "<group>"; };
 		99B2AB8527863D7F00C73EB9 /* about_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = about_11.xrc; sourceTree = "<group>"; };
 		99B2AB8627863D7F00C73EB9 /* about_14.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = about_14.xrc; sourceTree = "<group>"; };
@@ -907,6 +911,8 @@
 			children = (
 				997647851A61D5EE00FB9B33 /* about.cpp */,
 				9976478D1A61D5EE00FB9B33 /* about.h */,
+				99B02B8B2FFAF27B00D66EDC /* ami_int_controller.cpp */,
+				99B02B8A2FFAF27B00D66EDC /* ami_int_controller.h */,
 				9942DD711F3B4DA200569242 /* audio_detect.h */,
 				9942DD721F3B4DA200569242 /* audioin_devdsp.c */,
 				998433592D429BAB00782761 /* ay-3-8912.cpp */,
@@ -1393,6 +1399,7 @@
 				99BD364F2F5C02DA00616742 /* ct2425_config.cpp in Sources */,
 				9976480E1A61D5EF00FB9B33 /* ide.cpp in Sources */,
 				99484DBC2EA976F800C86425 /* sn76430n_config.cpp in Sources */,
+				99B02B8C2FFAF27B00D66EDC /* ami_int_controller.cpp in Sources */,
 				997647E11A61D5EF00FB9B33 /* keymap.cpp in Sources */,
 				997647CC1A61D5EF00FB9B33 /* guipopup.cpp in Sources */,
 				99C597802A66BBE500A4F97D /* keypadfred.cpp in Sources */,
@@ -1506,6 +1513,7 @@
 				99BD364E2F5C02DA00616742 /* ct2425_config.cpp in Sources */,
 				99F37E7F285D1D9200C57417 /* keymap.cpp in Sources */,
 				99484DBB2EA976F800C86425 /* sn76430n_config.cpp in Sources */,
+				99B02B8D2FFAF27B00D66EDC /* ami_int_controller.cpp in Sources */,
 				99F37E80285D1D9200C57417 /* guipopup.cpp in Sources */,
 				99F37E84285D1D9200C57417 /* about.cpp in Sources */,
 				99C597812A66BBE600A4F97D /* keypadfred.cpp in Sources */,

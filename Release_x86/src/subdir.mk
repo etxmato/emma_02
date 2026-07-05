@@ -7,6 +7,7 @@ CPP_SRCS += \
 ../src/Blip_Buffer.cpp \
 ../src/Sync_Audio.cpp \
 ../src/about.cpp \
+../src/ami_int_controller.cpp \
 ../src/ay-3-8912.cpp \
 ../src/bitkeypad.cpp \
 ../src/cd4536b.cpp \
@@ -122,6 +123,7 @@ OBJS += \
 ./src/SDL_audioin.o \
 ./src/Sync_Audio.o \
 ./src/about.o \
+./src/ami_int_controller.o \
 ./src/ay-3-8912.o \
 ./src/audioin_devdsp.o \
 ./src/audioin_windib.o \
@@ -233,6 +235,7 @@ CPP_DEPS += \
 ./src/Blip_Buffer.d \
 ./src/Sync_Audio.d \
 ./src/about.d \
+./src/ami_int_controller.d \
 ./src/ay-3-8912.d \
 ./src/bitkeypad.d \
 ./src/cd4536b.d \

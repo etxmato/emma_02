@@ -12,6 +12,7 @@
 #include "vt100.h"
 #include "serial.h"
 
+#include "ami_int_controller.h"
 #include "tms9918.h"
 #include "pixie.h"
 #include "mc6847.h"
@@ -431,6 +432,8 @@ private:
 
     vector<Cdp1877Instance *> cdp1877InstancePointer;
     int numberOfCdp1877Instances_;
+
+    AmiIntController *amiIntControllerPointer;
 
     vector<Cdp1878Instance *> cdp1878InstancePointer;
     int numberOfCdp1878Instances_;

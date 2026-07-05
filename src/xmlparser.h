@@ -49,6 +49,7 @@ private:
     void parseXml_Cdp1854(wxXmlNode &node, int connection);
     void parseXml_Cdp1855(wxXmlNode &node);
     void parseXml_Cdp1877(wxXmlNode &node);
+    void parseXml_AmiIntController(wxXmlNode &node);
     void parseXml_Cdp1878(wxXmlNode &node);
     void parseXml_Cd4536b(wxXmlNode &node);
     void parseXml_Mm57109(wxXmlNode &node);

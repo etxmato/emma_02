@@ -840,6 +840,7 @@ public:
     KeyDefinition textKey[LAST_MATRIX_TEXT_KEY];
     Byte keyPressed;
     bool useAddress;
+    int picInterrupt;
 };
 
 class BitKeypadConfiguration : public IoGroupDefineConfiguration
@@ -1012,6 +1013,18 @@ public:
     
     IoPort readIrq;
     IoPort writeMien;
+};
+
+class AmiIntControllerConfiguration
+{
+public:
+    bool defined = false;
+    
+    Word causeRegister;         // Address for read (cause) and write (ACK)
+    Word causeRegisterMask;     // Address mask for register matching
+    
+    int causeMultiplier;        // Cause = source * multiplier (PTC-701: 4)
+    int numberOfSources;        // Number of interrupt sources (PTC-701: 5)
 };
 
 // PIO configuration class definitions:
@@ -1893,6 +1906,7 @@ public:
 
     // PIC configurations:
     vector<Cdp1877Configuration> cdp1877Configuration;
+    AmiIntControllerConfiguration amiIntControllerConfiguration;
     
     // Timer configurations:
     vector<Cdp1878Configuration> cdp1878Configuration;

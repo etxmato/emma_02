@@ -503,6 +503,7 @@ Computer::Computer(const wxString& title, double clock, int tempo, ComputerConfi
     numberOfCdp1852Frames_ = 0;
     numberOfCdp1854Instances_ = 0;
     numberOfCdp1877Instances_ = 0;
+    amiIntControllerPointer = NULL;
     numberOfCdp1878Instances_ = 0;
     numberOfScn2671Instances_ = 0;
     numberOfDipInstances_ = 0;
@@ -630,6 +631,8 @@ Computer::~Computer()
         delete cdp1854InstancePointer[num];
     for (int num=0; num<numberOfCdp1877Instances_ ; num++)
         delete cdp1877InstancePointer[num];
+    if (currentComputerConfiguration.amiIntControllerConfiguration.defined)
+        delete amiIntControllerPointer;
     for (int num=0; num<numberOfCd4536b_; num++)
         delete cd4536bPointer[num];
     for (int num=0; num<numberOfCt2425_; num++)
@@ -3729,6 +3732,15 @@ void Computer::cycleInt()
 
 void Computer::picInterruptRequest(int type, bool state, int picNumber)
 {
+    if (currentComputerConfiguration.amiIntControllerConfiguration.defined && amiIntControllerPointer != NULL)
+    {
+        if (state)
+            amiIntControllerPointer->requestInterrupt(picNumber);
+        else
+            amiIntControllerPointer->clearInterrupt(picNumber);
+        return;
+    }
+    
     int instance = picNumber >> 3;
     if (instance < numberOfCdp1877Instances_)
         cdp1877InstancePointer[instance]->requestInterrupt(type, state, picNumber & 0x7);
@@ -6048,6 +6060,12 @@ Byte Computer::readMemDebug(Word address, int function)
         }
     }
 
+    if (currentComputerConfiguration.amiIntControllerConfiguration.defined && amiIntControllerPointer != NULL)
+    {
+        if (amiIntControllerPointer->matchesAddress(address))
+            return amiIntControllerPointer->readCauseRegister();
+    }
+
     if (address == currentComputerConfiguration.mcrConfiguration.bbat.portNumber[0])
     {
         mainMemory_[address] = (mainMemory_[address] & (currentComputerConfiguration.mcrConfiguration.bbat.mask ^ 0xff)) | currentComputerConfiguration.mcrConfiguration.bbat.mask;
@@ -6589,6 +6607,12 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
         {
             cdp1877InstancePointer[instance]->devWrite(address, value);
         }
+    }
+
+    if (currentComputerConfiguration.amiIntControllerConfiguration.defined && amiIntControllerPointer != NULL)
+    {
+        if (amiIntControllerPointer->matchesAddress(address))
+            amiIntControllerPointer->writeAckRegister(value);
     }
 
     if (currentComputerConfiguration.mc6847Configuration.outputMode == 1 && currentComputerConfiguration.mc6847Configuration.defined)
@@ -7500,6 +7524,11 @@ void Computer::cpuInstruction()
                     interrupt();
             }
         }
+        else if (currentComputerConfiguration.amiIntControllerConfiguration.defined && amiIntControllerPointer != NULL)
+        {
+            if (amiIntControllerPointer->isInterruptPending())
+                interrupt();
+        }
         else
         {
             bool interruptRequest = false;
@@ -8091,6 +8120,12 @@ void Computer::configureExtensions()
         cdp1877InstancePointer[numberOfCdp1877Instances_] = new Cdp1877Instance(numberOfCdp1877Instances_);
         cdp1877InstancePointer[numberOfCdp1877Instances_]->configureCdp1877(*cdp1877);
         numberOfCdp1877Instances_++;
+    }
+
+    if (currentComputerConfiguration.amiIntControllerConfiguration.defined)
+    {
+        amiIntControllerPointer = new AmiIntController();
+        amiIntControllerPointer->configure(currentComputerConfiguration.amiIntControllerConfiguration);
     }
 
     cdp1878InstancePointer.clear();
