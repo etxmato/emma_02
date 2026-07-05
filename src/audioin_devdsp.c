@@ -16,6 +16,7 @@
 #include <sys/ioctl.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <unistd.h>
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_thread.h>
@@ -25,7 +26,6 @@
 
 #include "SDL_audioin.h"
 #include "SDL_audioin_internal.h"
-
 #define DEFAULT_DEV "/dev/dsp"
 #define MAX_RETRY   3
 
