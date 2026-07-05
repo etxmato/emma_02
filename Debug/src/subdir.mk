@@ -38,6 +38,8 @@ CPP_SRCS += \
 ../src/guisb.cpp \
 ../src/guivip2.cpp \
 ../src/guixml.cpp \
+../src/hd44780.cpp \
+../src/hd44780_config.cpp \
 ../src/i8275.cpp \
 ../src/i8275_config.cpp \
 ../src/ide.cpp \
@@ -153,6 +155,8 @@ OBJS += \
 ./src/guisb.o \
 ./src/guivip2.o \
 ./src/guixml.o \
+./src/hd44780.o \
+./src/hd44780_config.o \
 ./src/i8275.o \
 ./src/i8275_config.o \
 ./src/ide.o \
@@ -260,6 +264,8 @@ CPP_DEPS += \
 ./src/guisb.d \
 ./src/guivip2.d \
 ./src/guixml.d \
+./src/hd44780.d \
+./src/hd44780_config.d \
 ./src/i8275.d \
 ./src/i8275_config.d \
 ./src/ide.d \
