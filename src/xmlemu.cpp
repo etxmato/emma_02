@@ -6406,6 +6406,8 @@ void Computer::writeMem(Word address, Byte value, bool writeRom, bool dmaReadWri
         p_Main->checkMemoryTrap(scratchpadRegister_[programCounter_]-1, address, value, MEM_TRAP_WRITE, dmaReadWrite);
 }
 
+static int hd44780DataCount = 0;
+
 void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
 {
     address = address & currentComputerConfiguration.memoryMask;
@@ -6619,6 +6621,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
                 if (address == currentComputerConfiguration.hd44780Configuration.commandPort.portNumber[0] || address == 0x3f4f)
                 {
                     hd44780Pointer->writeCommand(value);
+                    hd44780DataCount = 0;  // reset counter on any command write
                     return;
                 }
             }
@@ -6626,7 +6629,17 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
             {
                 if (address == currentComputerConfiguration.hd44780Configuration.dataPort.portNumber[0])
                 {
-                    hd44780Pointer->writeData(value);
+                    // PTC-701: firmware writes 32 bytes per line to 0x3F50.
+                    // First 16 = character data, next 16 = AMI attribute/control bytes.
+                    // Only forward the first 16 to the HD44780.
+                    if (hd44780DataCount < 16)
+                    {
+                        wxString dbg;
+                        dbg.Printf("HD44780 data write: PC=%04X value=0x%02X '%c'", scratchpadRegister_[programCounter_], value, (value >= 0x20 && value <= 0x7E) ? value : '.');
+                        p_Main->eventShowTextMessage(dbg);
+                        hd44780Pointer->writeData(value);
+                    }
+                    hd44780DataCount++;
                     return;
                 }
             }

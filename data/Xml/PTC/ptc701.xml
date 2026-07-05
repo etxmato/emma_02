@@ -57,7 +57,7 @@
         <font>hd44780u_a00.bin</font>
         <dirname>PTC</dirname>
         <out type="command">0x3F80</out>
-        <out type="data">0x3F81</out>
+        <out type="data">0x3F50</out>
         <in type="status">0x3FA0</in>
         <ef>1</ef>
         <screen>16x2</screen>
@@ -74,88 +74,66 @@
         Bit = 1: key pressed (active high), Bit 7 scanned first (MSB)
         addressmask 0x07: matches 0x3F20-0x3F27, indexes keyValue_[0..7]
         
-        Physical layout (from Telxon PTC-701 photo):
-                 Col1     Col2      Col3      Col4      Col5      Col6
-        Row1:  ON/OFF    A         B         C         —         —
-        Row2:  D         E         F         G         H         —
-        Row3:  I         J         K         L         M         —
-        Row4:  SHIFT     N         O         P         CLEAR     —
-        Row5:  Q         7         8         9/S       <         —
-        Row6:  T         4         5         U/6       V/>       —
-        Row7:  W         1         2         X/3       Y         ENTER
-        Row8:  SP        -         0         Z/.       —         ENTER
-
-        Mapping: address=column(0-5), bit=row(7=top,0=bottom)
-        PC keycodes: letters=65-90(upper), digits=48-57, special keys by wxWidgets code
-        
-        NOTE: This is an ESTIMATED mapping! Verify by pressing keys and checking
-        which column/bit the firmware detects. Adjust as needed.
+        Verified scan matrix (from ptcmcd.bin offset 0x0013):
+        Col 0x3F20: bit7=—, bit6=—, bit5=—, bit4=I, bit3=A, bit2=B, bit1=C, bit0=—
+        Col 0x3F21: bit7=G, bit6=D, bit5=E, bit4=F, bit3=H, bit2=—, bit1=J, bit0=K
+        Col 0x3F22: bit7=L, bit6=M, bit5=N, bit4=—, bit3=O, bit2=P, bit1=CLEAR, bit0=SHIFT
+        Col 0x3F23: bit7=SPACE, bit6=—, bit5=—, bit4=LEFT, bit3=7, bit2=8, bit1=9, bit0=SYS-MODE
+        Col 0x3F24: bit7=—, bit6=RIGHT, bit5=4, bit4=5, bit3=6, bit2=—, bit1=—, bit0=ENTER
+        Col 0x3F25: bit7=1, bit6=2, bit5=3, bit4=—, bit3=—, bit2=., bit1=-, bit0=0
         -->
 
         <in addressmask="0x07">0x3F20</in>
 
-        <!-- Column 0 (0x3F20): leftmost physical column -->
-        <!-- bit7=ON/OFF(skip), bit6=D, bit5=I, bit4=SHIFT(skip), bit3=Q, bit2=T, bit1=W, bit0=SP -->
-        <keydef address="0" bit="6">68</keydef>     <!-- D -->
-        <keydef address="0" bit="5">73</keydef>     <!-- I -->
-        <keydef address="0" bit="3">81</keydef>     <!-- Q -->
-        <keydef address="0" bit="2">84</keydef>     <!-- T -->
-        <keydef address="0" bit="1">87</keydef>     <!-- W -->
-        <keydef address="0" bit="0">32</keydef>     <!-- Space -->
+        <!-- Column 0 (0x3F20) -->
+        <keydef address="0" bit="4">73</keydef>     <!-- I (SEARCH) -->
+        <keydef address="0" bit="3">65</keydef>     <!-- A (UPDATE) -->
+        <keydef address="0" bit="2">66</keydef>     <!-- B (SET UP) -->
+        <keydef address="0" bit="1">67</keydef>     <!-- C (INVENT) -->
 
-        <!-- Column 1 (0x3F21): second column -->
-        <!-- bit7=A, bit6=E, bit5=J, bit4=N, bit3=7, bit2=4, bit1=1, bit0=- -->
-        <keydef address="1" bit="7">65</keydef>     <!-- A -->
-        <keydef address="1" bit="6">69</keydef>     <!-- E -->
-        <keydef address="1" bit="5">74</keydef>     <!-- J -->
-        <keydef address="1" bit="4">78</keydef>     <!-- N -->
-        <keydef address="1" bit="3">55</keydef>     <!-- 7 -->
-        <keydef address="1" bit="2">52</keydef>     <!-- 4 -->
-        <keydef address="1" bit="1">49</keydef>     <!-- 1 -->
-        <keydef address="1" bit="0">45</keydef>     <!-- - (minus) -->
+        <!-- Column 1 (0x3F21) -->
+        <keydef address="1" bit="7">71</keydef>     <!-- G (ADD ON) -->
+        <keydef address="1" bit="6">68</keydef>     <!-- D (REVIEW) -->
+        <keydef address="1" bit="5">69</keydef>     <!-- E (EDIT) -->
+        <keydef address="1" bit="4">70</keydef>     <!-- F (SEND) -->
+        <keydef address="1" bit="3">72</keydef>     <!-- H (EXIT) -->
+        <keydef address="1" bit="1">74</keydef>     <!-- J (INSERT) -->
+        <keydef address="1" bit="0">75</keydef>     <!-- K (BCKSP) -->
 
-        <!-- Column 2 (0x3F22): third column -->
-        <!-- bit7=B, bit6=F, bit5=K, bit4=O, bit3=8, bit2=5, bit1=2, bit0=0 -->
-        <keydef address="2" bit="7">66</keydef>     <!-- B -->
-        <keydef address="2" bit="6">70</keydef>     <!-- F -->
-        <keydef address="2" bit="5">75</keydef>     <!-- K -->
-        <keydef address="2" bit="4">79</keydef>     <!-- O -->
-        <keydef address="2" bit="3">56</keydef>     <!-- 8 -->
-        <keydef address="2" bit="2">53</keydef>     <!-- 5 -->
-        <keydef address="2" bit="1">50</keydef>     <!-- 2 -->
-        <keydef address="2" bit="0">48</keydef>     <!-- 0 -->
+        <!-- Column 2 (0x3F22) -->
+        <keydef address="2" bit="7">76</keydef>     <!-- L (DELETE) -->
+        <keydef address="2" bit="6">77</keydef>     <!-- M (MODIFY) -->
+        <keydef address="2" bit="5">78</keydef>     <!-- N (NO) -->
+        <keydef address="2" bit="3">79</keydef>     <!-- O (LOOK UP) -->
+        <keydef address="2" bit="2">80</keydef>     <!-- P (YES) -->
+        <keydef address="2" bit="1">127</keydef>    <!-- CLEAR → PC Delete key -->
+        <keydef address="2" bit="0">113</keydef>    <!-- SHIFT → PC 'q' key -->
 
-        <!-- Column 3 (0x3F23): fourth column -->
-        <!-- bit7=C, bit6=G, bit5=L, bit4=P, bit3=9, bit2=6, bit1=3, bit0=. -->
-        <keydef address="3" bit="7">67</keydef>     <!-- C -->
-        <keydef address="3" bit="6">71</keydef>     <!-- G -->
-        <keydef address="3" bit="5">76</keydef>     <!-- L -->
-        <keydef address="3" bit="4">80</keydef>     <!-- P -->
-        <keydef address="3" bit="3">57</keydef>     <!-- 9 -->
-        <keydef address="3" bit="2">54</keydef>     <!-- 6 -->
-        <keydef address="3" bit="1">51</keydef>     <!-- 3 -->
-        <keydef address="3" bit="0">46</keydef>     <!-- . (period) -->
+        <!-- Column 3 (0x3F23) -->
+        <keydef address="3" bit="7">32</keydef>     <!-- SPACE -->
+        <keydef address="3" bit="3">55</keydef>     <!-- 7 -->
+        <keydef address="3" bit="2">56</keydef>     <!-- 8 -->
+        <keydef address="3" bit="1">57</keydef>     <!-- 9 -->
+        <keydef address="3" bit="0">9</keydef>      <!-- SYS-MODE → PC TAB key -->
 
-        <!-- Column 4 (0x3F24): fifth column -->
-        <!-- bit7=S, bit6=H, bit5=M, bit4=CLEAR, bit3=U, bit2=X, bit1=Y, bit0=Z -->
-        <keydef address="4" bit="7">83</keydef>     <!-- S -->
-        <keydef address="4" bit="6">72</keydef>     <!-- H -->
-        <keydef address="4" bit="5">77</keydef>     <!-- M -->
-        <keydef address="4" bit="4">127</keydef>    <!-- CLEAR → PC Delete key -->
-        <keydef address="4" bit="3">85</keydef>     <!-- U -->
-        <keydef address="4" bit="2">88</keydef>     <!-- X -->
-        <keydef address="4" bit="1">89</keydef>     <!-- Y -->
-        <keydef address="4" bit="0">90</keydef>     <!-- Z -->
+        <!-- Column 4 (0x3F24) -->
+        <keydef address="4" bit="5">52</keydef>     <!-- 4 -->
+        <keydef address="4" bit="4">53</keydef>     <!-- 5 -->
+        <keydef address="4" bit="3">54</keydef>     <!-- 6 -->
+        <keydef address="4" bit="0">13</keydef>     <!-- ENTER → PC Return key -->
 
-        <!-- Column 5 (0x3F25): sixth/rightmost column -->
-        <!-- bit7=ENTER, bit6=<(left), bit5=>(right), bit4=V -->
-        <keydef address="5" bit="7">13</keydef>     <!-- ENTER (Return key) -->
-        <keydef address="5" bit="4">86</keydef>     <!-- V -->
+        <!-- Column 5 (0x3F25) -->
+        <keydef address="5" bit="7">49</keydef>     <!-- 1 -->
+        <keydef address="5" bit="6">50</keydef>     <!-- 2 -->
+        <keydef address="5" bit="5">51</keydef>     <!-- 3 -->
+        <keydef address="5" bit="2">46</keydef>     <!-- . (period) -->
+        <keydef address="5" bit="1">45</keydef>     <!-- - (minus) -->
+        <keydef address="5" bit="0">48</keydef>     <!-- 0 -->
 
-        <!-- TEXT key definitions for arrow keys and return -->
-        <keydef type="text" address="5" bit="6">left</keydef>
-        <keydef type="text" address="5" bit="5">right</keydef>
-        <keydef type="text" address="5" bit="7">return</keydef>
+        <!-- Arrow keys (text type for special keys) -->
+        <keydef type="text" address="3" bit="4">left</keydef>   <!-- LEFT arrow -->
+        <keydef type="text" address="4" bit="6">right</keydef>  <!-- RIGHT arrow -->
+        <keydef type="text" address="4" bit="0">return</keydef> <!-- ENTER (duplicate for Return key) -->
 
     </keyboard>
 
