@@ -5780,6 +5780,39 @@ Byte Computer::readMemDebug(Word address, int function)
                 return (readMemDebug(address + copyConfigIterator->copy));
     }
     
+    if (currentComputerConfiguration.matrixKeyboardConfiguration.defined)
+    {
+        if (currentComputerConfiguration.matrixKeyboardConfiguration.input.addressMode)
+        {
+            Word mask = currentComputerConfiguration.matrixKeyboardConfiguration.input.addressMask;
+            if ((address & ~mask) == (currentComputerConfiguration.matrixKeyboardConfiguration.input.portNumber[0] & ~mask))
+                return matrixKeyboardPointer->in(address);
+        }
+    }
+
+    if (currentComputerConfiguration.hd44780Configuration.defined && hd44780Pointer != NULL)
+    {
+        if (hd44780Pointer->ioGroup(ioGroup_))
+        {
+            if (currentComputerConfiguration.hd44780Configuration.statusPort.addressMode)
+            {
+                if (address == currentComputerConfiguration.hd44780Configuration.statusPort.portNumber[0])
+                    return hd44780Pointer->readStatus();
+            }
+            if (currentComputerConfiguration.hd44780Configuration.dataReadPort.addressMode)
+            {
+                if (address == currentComputerConfiguration.hd44780Configuration.dataReadPort.portNumber[0])
+                    return hd44780Pointer->readData();
+            }
+        }
+    }
+
+    if (currentComputerConfiguration.amiIntControllerConfiguration.defined && amiIntControllerPointer != NULL)
+    {
+        if (amiIntControllerPointer->matchesAddress(address))
+            return amiIntControllerPointer->readCauseRegister();
+    }
+
     for (std::vector<MemoryPartConfiguration>::iterator ramPartConfigIterator = currentComputerConfiguration.memoryRamPartConfiguration.begin (); ramPartConfigIterator != currentComputerConfiguration.memoryRamPartConfiguration.end (); ++ramPartConfigIterator)
     {
         if (address >= ramPartConfigIterator->start && address <= ramPartConfigIterator->end)
@@ -6008,16 +6041,6 @@ Byte Computer::readMemDebug(Word address, int function)
             
             if (address >=currentComputerConfiguration.mc6845Configuration.startRam && address <= currentComputerConfiguration.mc6845Configuration.endRam)
                 return mc6845Pointer->read6845(address & currentComputerConfiguration.mc6845Configuration.ramMask);
-        }
-    }
-
-    if (currentComputerConfiguration.matrixKeyboardConfiguration.defined)
-    {
-        if (currentComputerConfiguration.matrixKeyboardConfiguration.input.addressMode)
-        {
-            Word mask = currentComputerConfiguration.matrixKeyboardConfiguration.input.addressMask;
-            if ((address & ~mask) == (currentComputerConfiguration.matrixKeyboardConfiguration.input.portNumber[0] & ~mask))
-                return matrixKeyboardPointer->in(address);
         }
     }
 
