@@ -53,6 +53,7 @@
 #define CHIP8_I 10
 #define CHIP8_PC 5
 #define CARDTRAN_PC 0xf
+#define PTC_PC 0xc
 #if defined (__linux__)
 #define EDIT_ROW 16
 #define PROFILER_OFFSET 6
@@ -1001,6 +1002,8 @@ void DebugWindow::cyclePseudoDebug()
     
     if (pseudoType_ == "CARDTRAN")
         chip8PC = p_Computer->getScratchpadRegister(CARDTRAN_PC);
+    else if (pseudoType_ == "PTC")
+        chip8PC = p_Computer->getScratchpadRegister(PTC_PC);
     else
         chip8PC = p_Computer->getScratchpadRegister(CHIP8_PC);
     
@@ -1109,6 +1112,8 @@ bool DebugWindow::chip8BreakPointCheck()
     wxString printBuffer;
     if (pseudoType_ == "CARDTRAN")
         chip8PC = p_Computer->getScratchpadRegister(CARDTRAN_PC);
+    else if (pseudoType_ == "PTC")
+        chip8PC = p_Computer->getScratchpadRegister(PTC_PC);
     else
         chip8PC = p_Computer->getScratchpadRegister(CHIP8_PC) & 0xfff;
     
@@ -1207,23 +1212,20 @@ void DebugWindow::updateChip8Window()
 #endif
     if (pseudoType_ == "CARDTRAN")
         scratchpadRegister = p_Computer->getScratchpadRegister(CARDTRAN_PC);
+    else if (pseudoType_ == "PTC")
+        scratchpadRegister = p_Computer->getScratchpadRegister(PTC_PC);
     else
         scratchpadRegister = p_Computer->getScratchpadRegister(CHIP8_PC);
     if (scratchpadRegister != lastPC_)
     {
-        if (pseudoType_ == "STIV")
-            buffer.Printf("%04X", scratchpadRegister);
+        if (pseudoType_ == "STIV" || pseudoType_ == "SUPERCHIP" || pseudoType_ == "PTC")
+            buffer.Printf("%04X", scratchpadRegister&0xffff);
         else
-        {
-            if (pseudoType_ == "SUPERCHIP")
-                buffer.Printf("%04X", scratchpadRegister&0xffff);
-            else
-                buffer.Printf("%03X", scratchpadRegister&0xfff);
-        }
+            buffer.Printf("%03X", scratchpadRegister&0xfff);
         p_Main->eventSetTextValue("Chip8PC", buffer);
         lastPC_ = scratchpadRegister;
     }
-    if (pseudoType_ != "CARDTRAN")
+    if (pseudoType_ != "CARDTRAN" && pseudoType_ != "PTC")
     {
         if (pseudoType_ == "STIV")
             scratchpadRegister = (p_Computer->readMemDebug(0x27f6)<<8)+p_Computer->readMemDebug(0x27f7);
@@ -15467,7 +15469,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
     }
     else
     {
-        if (pseudoType_ == "STIV")
+        if (pseudoType_ == "STIV" || pseudoType_ == "SUPERCHIP" || pseudoType_ == "PTC")
             addressStr.Printf("%04X", dis_address);
         else
             addressStr.Printf("%03X", dis_address&0xfff);
