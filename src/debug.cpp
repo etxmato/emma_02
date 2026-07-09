@@ -15409,7 +15409,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
 
     Word valueI, RegisterA, RegisterB;
     
-    if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020")
+    if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020" || pseudoType_ == "PTC")
     {
         chip8_opcode3 = p_Computer->readMemDebug(dis_address + 2);
         chip8_opcode4 = p_Computer->readMemDebug(dis_address + 3);
@@ -15462,7 +15462,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
 
     if (showOpcode)
     {
-        if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020")
+        if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020" || pseudoType_ == "PTC")
             addressStr.Printf("%04X: %02X%02X    ", dis_address, chip8_opcode1, chip8_opcode2);
         else
             addressStr.Printf("%04X: %02X%02X", dis_address, chip8_opcode1, chip8_opcode2);
@@ -15593,7 +15593,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                     switch (pseudoCodeDetails_[pseudoNr].length)
                     {
                         case 1:
-                            if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020")
+                            if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020" || pseudoType_ == "PTC")
                                 addressStr.Printf("%04X: %02X      ", dis_address, chip8_opcode1);
                             else
                                 addressStr.Printf("%04X: %02X  ", dis_address, chip8_opcode1);

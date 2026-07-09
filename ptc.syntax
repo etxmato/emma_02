@@ -21,12 +21,12 @@ code=06
 DIV
 code=07
 /DIV
-BRZ
+BZF
 kk code=08kk
-/BRZ
-BRNZ
+/BZF
+BZB
 kk code=09kk
-/BRNZ
+/BZB
 BRF
 kk code=0Akk
 /BRF
@@ -54,9 +54,9 @@ code=11
 OR
 code=12
 /OR
-EQ
+ISZ
 code=13
-/EQ
+/ISZ
 NEQ
 code=14
 /NEQ
