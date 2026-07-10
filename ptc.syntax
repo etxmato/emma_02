@@ -33,9 +33,9 @@ kk code=0Akk
 BRNF
 kk code=0Bkk
 /BRNF
-JP
+BRB
 kk code=0Ckk
-/JP
+/BRB
 CALL
 kk code=0Dkk
 /CALL
