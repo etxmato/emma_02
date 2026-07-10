@@ -15658,6 +15658,12 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                         parameterStr.Printf("%02X", wwValue);
                         parameterFound = true;
                     }
+                    if (parameter == "sys")
+                    {
+                        Word sysAddr = (chip8_opcode2 << 8) | ((chip8_opcode1 & 0x7F) << 1);
+                        parameterStr.Printf("%04X", sysAddr);
+                        parameterFound = true;
+                    }
                     if (parameter.Left(5) == "c-hex")
                     {
                         address = 0x200 + (((ddValue & 0xf0) >> 4) * 10 + (ddValue & 0xf)) * 2;
