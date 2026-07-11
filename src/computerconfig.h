@@ -1488,6 +1488,12 @@ public:
     IoPort input;
 };
 
+class RtcMm58174Configuration : public IoGroupDefineConfiguration
+{
+public:
+    Word base;
+};
+
 // DIP configuration class definition:
 
 class DipConfiguration : public IoGroupDefineConfiguration
@@ -1949,6 +1955,7 @@ public:
     RtcCdp1879Configuration rtcCdp1879Configuration;
     RtcM48t58Configuration rtcM48t58Configuration;
     RtcDs12887Configuration rtcDs12887Configuration;
+    RtcMm58174Configuration rtcMm58174Configuration;
     
     // DIP configurations:
     vector<DipConfiguration> dipConfiguration;

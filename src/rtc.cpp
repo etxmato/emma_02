@@ -166,7 +166,7 @@ Byte RtcCDP1879::readRtcCdp1879(Word address, Byte addressValue, wxDateTime syst
         timeFrozen_ = true;
         cycleValueFrozenTime_ = cycleSizeFrozenTime_;
 
-        systemNow = wxDateTime::Now();
+        systemNow = wxDateTime::UNow();
         timeDiff = systemNow.Subtract(systemTime);
 
         frozenTime_ = xmlComputerTime;
@@ -230,7 +230,7 @@ wxDateTime RtcCDP1879::writeRtcTimeCdp1879(Word address, Byte value, wxDateTime 
         low = value&0xf;
         value = high + low;
 
-        systemNow = wxDateTime::Now();
+        systemNow = wxDateTime::UNow();
         timeDiff = systemNow.Subtract(systemTime);
 
         now = xmlComputerTime;
@@ -277,7 +277,7 @@ wxDateTime RtcCDP1879::writeRtcDateCdp1879(Word address, Byte value, wxDateTime 
     low = value&0xf;
     value = high + low;
 
-    systemNow = wxDateTime::Now();
+    systemNow = wxDateTime::UNow();
     timeDiff = systemNow.Subtract(systemTime);
 
     now = xmlComputerTime;
@@ -348,7 +348,7 @@ void RtcCDP1879::cycleRtcCdp1879(wxDateTime systemTime, wxDateTime xmlComputerTi
         {
             cycleValueAlarm_ = cycleSizeAlarm_;
             
-            systemNow = wxDateTime::Now();
+            systemNow = wxDateTime::UNow();
             timeDiff = systemNow.Subtract(systemTime);
             now = xmlComputerTime;
             now.Add(timeDiff);
@@ -373,4 +373,182 @@ void RtcCDP1879::cycleRtcCdp1879(wxDateTime systemTime, wxDateTime xmlComputerTi
 void RtcCDP1879::unfreezeTimeCdp1879()
 {
     timeFrozen_ = false;
+}
+
+// MM58174AN Real-Time Clock (National Semiconductor)
+// 4-bit bus, 16 nibble registers, memory-mapped
+
+RtcMM58174::RtcMM58174()
+{
+    for (int i = 0; i < 16; i++)
+        registers_[i] = 0;
+    running_ = false;
+}
+
+void RtcMM58174::configureRtcMm58174(RtcMm58174Configuration rtcMm58174Configuration)
+{
+    rtcMm58174Configuration_ = rtcMm58174Configuration;
+    wxString message;
+
+    p_Main->configureMessage(&rtcMm58174Configuration.ioGroupVector, "RTC MM58174AN");
+    message.Printf("	I/O at address %04X-%04X\n", rtcMm58174Configuration.base, rtcMm58174Configuration.base + 0xF);
+    p_Main->message(message);
+
+    for (int i = 0; i < 16; i++)
+        registers_[i] = 0;
+    running_ = false;
+}
+
+bool RtcMM58174::ioGroupMm58174(int ioGroup)
+{
+    bool groupFound = false;
+    
+    if (rtcMm58174Configuration_.ioGroupVector.size() == 0)
+        groupFound = true;
+    else
+    {
+        for (std::vector<int>::iterator ioGroupIterator = rtcMm58174Configuration_.ioGroupVector.begin (); ioGroupIterator != rtcMm58174Configuration_.ioGroupVector.end (); ++ioGroupIterator)
+        {
+            if (*ioGroupIterator == ioGroup)
+                groupFound = true;
+        }
+    }
+    return groupFound;
+}
+
+Byte RtcMM58174::readRtcMm58174(Word address, wxDateTime systemTime, wxDateTime xmlComputerTime)
+{
+    int reg = (address - rtcMm58174Configuration_.base) & 0xF;
+
+    // Registers 0 (test) and D (leap year) are write-only, return 0
+    if (reg == 0x0 || reg == 0xD)
+        return 0;
+
+    // Register E (stop/start) is write-only
+    if (reg == 0xE)
+        return 0;
+
+    // Register F (interrupt control) - return stored value
+    if (reg == 0xF)
+        return registers_[0xF] & 0x0F;
+
+    // Time registers: compute current time
+    wxDateTime systemNow = wxDateTime::UNow();
+    wxTimeSpan timeDiff = systemNow.Subtract(systemTime);
+    wxDateTime now = xmlComputerTime;
+    now.Add(timeDiff);
+
+    Byte value = 0;
+    int ms;
+    switch (reg)
+    {
+        case 0x1:   // tenths of seconds
+            ms = now.GetMillisecond();
+            value = (now.GetMillisecond() / 100) & 0x0F;
+        break;
+
+        case 0x2:   // seconds units
+            value = now.GetSecond() % 10;
+        break;
+
+        case 0x3:   // seconds tens
+            value = now.GetSecond() / 10;
+        break;
+
+        case 0x4:   // minutes units
+            value = now.GetMinute() % 10;
+        break;
+
+        case 0x5:   // minutes tens
+            value = now.GetMinute() / 10;
+        break;
+
+        case 0x6:   // hours units
+            value = now.GetHour() % 10;
+        break;
+
+        case 0x7:   // hours tens
+            value = now.GetHour() / 10;
+        break;
+
+        case 0x8:   // days units
+            value = now.GetDay() % 10;
+        break;
+
+        case 0x9:   // days tens
+            value = now.GetDay() / 10;
+        break;
+
+        case 0xA:   // day of week (1-7)
+            value = now.GetWeekDay();
+            if (value == 0) value = 7;  // Sunday: wxDateTime=0, MM58174=7
+        break;
+
+        case 0xB:   // months units
+            value = (now.GetMonth() + 1) % 10;
+        break;
+
+        case 0xC:   // months tens
+            value = (now.GetMonth() + 1) / 10;
+        break;
+    }
+
+    return value & 0x0F;
+}
+
+wxDateTime RtcMM58174::writeRtcMm58174(Word address, Byte value, wxDateTime systemTime, wxDateTime xmlComputerTime)
+{
+    int reg = (address - rtcMm58174Configuration_.base) & 0xF;
+    value &= 0x0F;     // Only low nibble is significant
+
+    registers_[reg] = value;
+
+    // Register E: stop/start control
+    if (reg == 0xE)
+    {
+        running_ = (value & 0x01) != 0;
+        return xmlComputerTime;
+    }
+
+    // Register F: interrupt control (store but no action needed for emulation)
+    if (reg == 0xF)
+        return xmlComputerTime;
+
+    // Register 0: test mode (ignore)
+    if (reg == 0x0)
+        return xmlComputerTime;
+
+    // Register D: leap year counter (store but no action needed — wxDateTime handles leap years)
+    if (reg == 0xD)
+        return xmlComputerTime;
+
+    // Time registers: only update the computer time if clock is stopped (standard RTC set procedure)
+    if (!running_)
+    {
+        wxDateTime systemNow = wxDateTime::UNow();
+        wxTimeSpan timeDiff = systemNow.Subtract(systemTime);
+        wxDateTime now = xmlComputerTime;
+        now.Add(timeDiff);
+
+        int second = registers_[0x2] + registers_[0x3] * 10;
+        int minute = registers_[0x4] + registers_[0x5] * 10;
+        int hour = registers_[0x6] + registers_[0x7] * 10;
+        int day = registers_[0x8] + registers_[0x9] * 10;
+        int month = registers_[0xB] + registers_[0xC] * 10;
+
+        if (second >= 0 && second <= 59)
+            now.SetSecond(second);
+        if (minute >= 0 && minute <= 59)
+            now.SetMinute(minute);
+        if (hour >= 0 && hour <= 23)
+            now.SetHour(hour);
+        if (day >= 1 && day <= 31)
+            now.SetDay(day);
+        if (month >= 1 && month <= 12)
+            now.SetMonth(wxDateTime::Month(month - 1));
+
+        return now.Subtract(timeDiff);
+    }
+
+    return xmlComputerTime;
 }

@@ -58,7 +58,7 @@ public:
     int mcrMemNumber;
 };
 
-class Computer : public wxFrame, public Cdp1802, public Fdc, public Ide, public Tu58, public Keyboard, public Keyb1871, public PortExt, public Ps2, public Ps2gpio, public Joycard, public Usbcard, public RtcCDP1879, public RtcDs12788, public Upd765
+class Computer : public wxFrame, public Cdp1802, public Fdc, public Ide, public Tu58, public Keyboard, public Keyb1871, public PortExt, public Ps2, public Ps2gpio, public Joycard, public Usbcard, public RtcCDP1879, public RtcDs12788, public RtcMM58174, public Upd765
 {
 public:
     Computer(const wxString& title, double clock, int tempo, ComputerConfiguration computerConfig);
@@ -203,9 +203,11 @@ public:
     void writeMemDataType(Word address, Byte type);
     Byte readMemDataType(Word address, uint64_t* executed);
     Byte readMem(Word address, bool dmaReadWrite = false);
-    void writeMem(Word address, Byte value, bool writeRom, bool dmaReadWrite = false);
     Byte readMemDebug(Word address, int function = 0);
+    int readMemIo(Word address);
+    void writeMem(Word address, Byte value, bool writeRom, bool dmaReadWrite = false);
     void writeMemDebug(Word address, Byte value, bool writeRom);
+    void writeMemIo(Word address, Byte value);
     void cpuInstruction();
     void resetPressed();
     void showDataLeds(Byte value);
@@ -483,6 +485,7 @@ private:
     bool mpButtonState[4];
     bool mpSuperButtonActive_;
     bool nvRamDisable_;
+    bool configured_;
     int loadButtonState_;
     Byte inbuttonEfState_;
     Byte hexEfState_;

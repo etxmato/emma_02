@@ -101,6 +101,7 @@ private:
     void parseXml_RtcCdp1879(wxXmlNode &node);
     void parseXml_RtcM48T58(wxXmlNode &node);
     void parseXml_RtcDS12887(wxXmlNode &node);
+    void parseXml_RtcMM58174(wxXmlNode &node);
     void parseXml_UsbSuperBoard(wxXmlNode &node);
     void parseXml_nvRamMp(wxXmlNode &node);
 

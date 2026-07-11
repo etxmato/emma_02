@@ -266,6 +266,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.rtcCdp1879Configuration.defined = false;
     computerConfiguration.rtcM48t58Configuration.defined = false;
     computerConfiguration.rtcDs12887Configuration.defined = false;
+    computerConfiguration.rtcMm58174Configuration.defined = false;
     computerConfiguration.superBoardConfiguration.defined = false;
     computerConfiguration.memoryMapperConfiguration.defined = false;
     computerConfiguration.multicartEmsNumber_ = -1;
@@ -1117,6 +1118,8 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
                     parseXml_RtcM48T58 (*child);
                 if (child->GetAttribute("type") == "ds12887")
                     parseXml_RtcDS12887 (*child);
+                if (child->GetAttribute("type") == "mm58174")
+                    parseXml_RtcMM58174 (*child);
             break;
 
             case TAG_USB:
@@ -12168,6 +12171,70 @@ void XmlParser::parseXml_RtcDS12887(wxXmlNode &node)
     }
 }
 
+
+void XmlParser::parseXml_RtcMM58174(wxXmlNode &node)
+{
+    wxString tagList[]=
+    {
+        "iogroup",
+        "base",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_IOGROUP,
+        TAG_BASE,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+    wxString iogroup;
+    size_t ioGroupNumber = 0;
+
+    computerConfiguration.rtcMm58174Configuration.ioGroupVector.clear();
+    computerConfiguration.rtcMm58174Configuration.defined = true;
+    computerConfiguration.rtcMm58174Configuration.base = 0;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+
+        switch (tagTypeInt)
+        {
+            case TAG_IOGROUP:
+                iogroup = child->GetNodeContent();
+                while (iogroup != "")
+                {
+                    computerConfiguration.rtcMm58174Configuration.ioGroupVector.resize(ioGroupNumber+1);
+                    computerConfiguration.rtcMm58174Configuration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
+                }
+            break;
+
+            case TAG_BASE:
+                computerConfiguration.rtcMm58174Configuration.base = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
 
 void XmlParser::parseXml_UsbSuperBoard(wxXmlNode &node)
 {

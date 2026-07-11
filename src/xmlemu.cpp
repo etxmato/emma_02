@@ -1279,6 +1279,7 @@ void Computer::initComputer()
 {
     monitor_ = false;
     bootstrap_ = 0;
+    configured_ = false;
 
     configureMemory();
 /*    {
@@ -1425,8 +1426,8 @@ void Computer::resetComputer()
     else
         dmaCounter_ = currentComputerConfiguration.dmaConfiguration.cycleValue;
     
-    systemTime_ = wxDateTime::Now();
-    xmlComputerTime_ = wxDateTime::Now();
+    systemTime_ = wxDateTime::UNow();
+    xmlComputerTime_ = wxDateTime::UNow();
     nvramWriteProtected_ = currentComputerConfiguration.nvRamMpConfiguration.defined;
 
     printerStatus_ = PRIDLE;
@@ -5133,6 +5134,7 @@ void Computer::startComputer()
     configureKeyboardExtensions();
     configureDiskExtensions();
     configureSoundExtensions();
+    configured_ = true;
     
     if (currentComputerConfiguration.asciiKeyboardConfiguration.defined)
         startElfKeyFile("Xml");
@@ -5772,6 +5774,10 @@ Byte Computer::readMemDebug(Word address, int function)
             }
         }
     }
+
+    int returnValue = readMemIo(address);
+    if (returnValue != -1)
+        return returnValue;
 
     for (std::vector<MemoryPartConfiguration>::iterator copyConfigIterator = currentComputerConfiguration.memoryCopyConfiguration.begin (); copyConfigIterator != currentComputerConfiguration.memoryCopyConfiguration.end (); ++copyConfigIterator)
     {
@@ -6435,6 +6441,26 @@ Byte Computer::readMemDebug(Word address, int function)
     }
 }
 
+int Computer::readMemIo(Word address)
+{
+    if (!configured_)
+        return -1;
+
+    if (currentComputerConfiguration.rtcMm58174Configuration.defined)
+    {
+        if (ioGroupMm58174(ioGroup_))
+        {
+            if (address >= currentComputerConfiguration.rtcMm58174Configuration.base && address <= (currentComputerConfiguration.rtcMm58174Configuration.base + 0xF))
+            {
+                mainMemory_[address] = readRtcMm58174(address, systemTime_, xmlComputerTime_);
+                return mainMemory_[address];
+            }
+        }
+    }
+
+    return -1;
+}
+
 void Computer::writeMem(Word address, Byte value, bool writeRom, bool dmaReadWrite)
 {
     address_ = address;
@@ -6479,6 +6505,8 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
             }
         }
     }
+    
+    writeMemIo(address, value);
     
     for (std::vector<MemoryPartConfiguration>::iterator ramPartConfigIterator = currentComputerConfiguration.memoryRamPartConfiguration.begin (); ramPartConfigIterator != currentComputerConfiguration.memoryRamPartConfiguration.end (); ++ramPartConfigIterator)
     {
@@ -7442,6 +7470,25 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
     }
 }
 
+void Computer::writeMemIo(Word address, Byte value)
+{
+    if (!configured_)
+        return;
+
+    if (currentComputerConfiguration.rtcMm58174Configuration.defined)
+    {
+        if (ioGroupMm58174(ioGroup_))
+        {
+            if (address >= currentComputerConfiguration.rtcMm58174Configuration.base && address <= (currentComputerConfiguration.rtcMm58174Configuration.base + 0xF))
+            {
+                mainMemory_[address] = value & 0x0F;
+                xmlComputerTime_ = writeRtcMm58174(address, value, systemTime_, xmlComputerTime_);
+                return;
+            }
+        }
+    }
+}
+
 void Computer::cpuInstruction()
 {
     if (clearResetPressed_)
@@ -8048,6 +8095,9 @@ void Computer::configureExtensions()
 
     if (currentComputerConfiguration.rtcDs12887Configuration.defined)
         configureRtcDs12788(currentComputerConfiguration.rtcDs12887Configuration);
+
+    if (currentComputerConfiguration.rtcMm58174Configuration.defined)
+        configureRtcMm58174(currentComputerConfiguration.rtcMm58174Configuration);
 
     dipPointer.clear();
     numberOfDipInstances_ = 0;

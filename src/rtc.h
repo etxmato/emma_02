@@ -69,4 +69,22 @@ private:
     double clockSpeed_;
 };
 
+class RtcMM58174
+{
+public:
+    RtcMM58174();
+    ~RtcMM58174() {};
+
+    void configureRtcMm58174(RtcMm58174Configuration rtcMm58174Configuration);
+    bool ioGroupMm58174(int ioGroup);
+    Byte readRtcMm58174(Word address, wxDateTime systemTime, wxDateTime xmlComputerTime);
+    wxDateTime writeRtcMm58174(Word address, Byte value, wxDateTime systemTime, wxDateTime xmlComputerTime);
+
+private:
+    RtcMm58174Configuration rtcMm58174Configuration_;
+
+    Byte registers_[16];
+    bool running_;
+};
+
 #endif  // RTC_H
