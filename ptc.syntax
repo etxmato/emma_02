@@ -153,33 +153,33 @@ code=38
 BANKOP
 code=39
 /BANKOP
-STOREV
-kk , vv code=3Akkvv
-/STOREV
-STOREVH
-kk , vv code=3Bkkvv
-/STOREVH
-STOREVL
-kk , vv code=3Ckkvv
-/STOREVL
-STOREBI
-kk , vv code=3Dkkvv
-/STOREBI
+LDRAM
+mem=0000-FFFF code=3Ajjjj
+/LDRAM
+STRAM
+mem=0000-FFFF code=3Bjjjj
+/STRAM
+LDRMB
+mem=0000-FFFF code=3Cjjjj
+/LDRMB
+STRMB
+mem=0000-FFFF code=3Djjjj
+/STRMB
 LOADV
 kk code=3Ekk
 /LOADV
-LOADVH
+STVAR
 kk code=3Fkk
-/LOADVH
-LOADV2
+/STVAR
+LDVRB
 kk code=40kk
-/LOADV2
-LOADVL
+/LDVRB
+STVRB
 kk code=41kk
-/LOADVL
-LOADA
+/STVRB
+STIMM
 kk code=42kk
-/LOADA
+/STIMM
 DISP
 code=43
 /DISP
@@ -229,13 +229,13 @@ SUBFMV
 kk code=56kk
 /SUBFMV
 LDAND
-kk vv , ww code=57kkvvww
+mem=0000-FFFF , ww code=57jjjjww
 /LDAND
 PUSHVA
-kk , vv code=58kkvv
+mem=0000-FFFF code=58jjjj
 /PUSHVA
 PUSHVA2
-kk , vv code=59kkvv
+mem=0000-FFFF code=59jjjj
 /PUSHVA2
 KEYSCAN
 code=5A
@@ -243,39 +243,39 @@ code=5A
 KEYWAIT
 code=5B
 /KEYWAIT
-POPV
-kk code=5Dkk
-/POPV
-POPV2
-kk code=5Ekk
-/POPV2
-POPV3
-kk code=5Fkk
-/POPV3
-PUSHV2
-kk code=60kk
-/PUSHV2
-PUSHV3
-kk code=61kk
-/PUSHV3
-PUSHV4
-kk code=62kk
-/PUSHV4
-PUSHV5
-kk code=63kk
-/PUSHV5
-POPV5
-kk code=64kk
-/POPV5
+STVA
+code=5D
+/STVA
+LDVA
+code=5E
+/LDVA
+STVB
+code=5F
+/STVB
+LDVB
+code=60
+/LDVB
+STVC
+code=61
+/STVC
+LDVC
+code=62
+/LDVC
+STVD
+code=63
+/STVD
+LDVD
+code=64
+/LDVD
 LOADIND
-kk , vv code=66kkvv
+mem=0000-FFFF code=66jjjj
 /LOADIND
 BANKRD
 code=67
 /BANKRD
-BANKRD2
+LDROM
 code=6A
-/BANKRD2
+/LDROM
 BANKRD3
 code=6B
 /BANKRD3

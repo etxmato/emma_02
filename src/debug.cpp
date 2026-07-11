@@ -15736,7 +15736,12 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                     }
                     if (parameter.Left(3) == "mem")
                     {
-                        if (hexValueDigits == 3)
+                        if (hexValueDigits == 4)
+                        {
+                            address = (chip8_opcode2 << 8) + chip8_opcode3;
+                            parameterStr.Printf("[%04X]", address);
+                        }
+                        else if (hexValueDigits == 3)
                         {
                             parameterStr.Printf("%03X", address);
                             parameterStr = "["+ parameterStr + "]";
