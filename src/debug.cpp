@@ -3216,6 +3216,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
 {
     int parameterNumber;
     bool parameterFound=false;
+    bool sysFound=false;
     wxString pseudoLine, parameter, lowStr, highStr, regNumberStr;
     long high, low, regNumber;
     Word hexValue = 0, registerX = 0, registerY = 0, registerZ = 0, registerR = 0, nValue = 0, lValue = 0, oValue = 0, pValue = 0, qValue = 0, kkValue = 0, vvValue = 0, wwValue = 0, ddValue = 0;
@@ -3354,6 +3355,57 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     {
                         parameterFound = true;
                         wwValue = assInput.parameterValue[parameterNumber];
+                        parameterNumber++;
+                    }
+                }
+                else
+                    errorValue = ASS_ERROR_HEX;
+            }
+            if (parameter == "brf")
+            {
+                if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
+                {
+                    int delta = (int)assInput.parameterValue[parameterNumber] - (int)(dirAssAddress_ + 1);
+                    if (delta >= 0 && delta <= 255)
+                    {
+                        kkValue = (Word)delta;
+                        parameterFound = true;
+                        parameterNumber++;
+                    }
+                }
+                else
+                    errorValue = ASS_ERROR_HEX;
+            }
+            if (parameter == "brb")
+            {
+                if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
+                {
+                    int delta = (int)assInput.parameterValue[parameterNumber] - (int)(dirAssAddress_ + 1);
+                    if (delta >= -256 && delta < 0)
+                    {
+                        kkValue = (Word)(delta + 256);
+                        parameterFound = true;
+                        parameterNumber++;
+                    }
+                    else
+                        errorValue = ASS_ERROR_INCORR_ADDRESS;
+                }
+                else
+                    errorValue = ASS_ERROR_HEX;
+            }
+            if (parameter == "sys")
+            {
+                if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
+                {
+                    Word target = assInput.parameterValue[parameterNumber];
+                    if (target & 0x01)
+                        errorValue = ASS_ERROR_INCORR_ADDRESS;
+                    else
+                    {
+                        kkValue = 0x80 | ((target & 0xFF) >> 1);
+                        vvValue = (target >> 8) & 0xFF;
+                        sysFound = true;
+                        parameterFound = true;
                         parameterNumber++;
                     }
                 }
@@ -3911,6 +3963,16 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
             }
             if (parameter.Left(3) == "det")
                 parameterFound = true;
+            if (parameter.Left(4) == "code" && sysFound)
+            {
+                if (parameterNumber == assInput.numberOfParameters)
+                {
+                    *pseudoCode = (int32_t)((kkValue << 8) | vvValue);
+                    return 2;
+                }
+                else
+                    return ASS_ERROR_PAR;
+            }
             if (parameter.Left(4) == "code")
             {
                 if (parameterNumber == assInput.numberOfParameters)
@@ -3930,7 +3992,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     {
                         if (commandStr.GetChar(i) == 'a' || commandStr.GetChar(i) == 'j' || commandStr.GetChar(i) == 'b')
                         {
-                            if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020")
+                            if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020" || pseudoType_ == "PTC")
                             {
                                 if (i == 1)
                                 {
@@ -5481,7 +5543,8 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
         buffer.Left(6)== "[V0V1]" || buffer.Left(4)== "V0V1" || buffer.Left(6)== "[V2V3]" || buffer.Left(4)== "V2V3" ||
         buffer.Left(2)== "[I" || buffer.Left(3)== "V9]"|| buffer.Left(3)== "[I]" || buffer.Left(4)== "[>I]" ||
         buffer.Left(6)== "SWITCH" || buffer.Left(4)== "SWAP" || buffer.Left(2)== "ST" || buffer.Left(4)== "READ" ||
-        buffer.Left(2)== "DR" || buffer.Left(3)== "RAM" || buffer.Left(6)== "SETCOL" || buffer.Left(4)== "SKSP" || buffer.Left(4)== "SYNC")
+        buffer.Left(2)== "DR" || buffer.Left(3)== "RAM" || buffer.Left(6)== "SETCOL" || buffer.Left(4)== "SKSP" || buffer.Left(4)== "SYNC" ||
+        buffer.Left(3)== "TOS")
     {
         *type = ASS_STRING;
         return 0;
@@ -15664,6 +15727,18 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                         parameterStr.Printf("%04X", sysAddr);
                         parameterFound = true;
                     }
+                    if (parameter == "brf")
+                    {
+                        Word target = dis_address + 1 + chip8_opcode2;
+                        parameterStr.Printf("%04X", target);
+                        parameterFound = true;
+                    }
+                    if (parameter == "brb")
+                    {
+                        Word target = dis_address + 1 + chip8_opcode2 - 256;
+                        parameterStr.Printf("%04X", target);
+                        parameterFound = true;
+                    }
                     if (parameter.Left(5) == "c-hex")
                     {
                         address = 0x200 + (((ddValue & 0xf0) >> 4) * 10 + (ddValue & 0xf)) * 2;
@@ -15739,7 +15814,8 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                         if (hexValueDigits == 4)
                         {
                             address = (chip8_opcode2 << 8) + chip8_opcode3;
-                            parameterStr.Printf("[%04X]", address);
+                            parameterStr.Printf("%04X", address);
+                            parameterStr = "["+ parameterStr + "]";
                         }
                         else if (hexValueDigits == 3)
                         {

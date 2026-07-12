@@ -443,7 +443,6 @@ Byte RtcMM58174::readRtcMm58174(Word address, wxDateTime systemTime, wxDateTime 
     switch (reg)
     {
         case 0x1:   // tenths of seconds
-            ms = now.GetMillisecond();
             value = (now.GetMillisecond() / 100) & 0x0F;
         break;
 

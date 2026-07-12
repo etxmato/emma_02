@@ -21,18 +21,14 @@ code=06
 DIV
 code=07
 /DIV
-BZF
-kk code=08kk
-/BZF
-BZB
-kk code=09kk
-/BZB
-BRF
-kk code=0Akk
-/BRF
-BRNF
-kk code=0Bkk
-/BRNF
+JZ
+brf code=08kk
+brb code=09kk
+/JZ
+JP
+brf code=0Akk
+brb code=0Bkk
+/JP
 BRB
 kk code=0Ckk
 /BRB
@@ -153,33 +149,19 @@ code=38
 BANKOP
 code=39
 /BANKOP
-LDRAM
-mem=0000-FFFF code=3Ajjjj
-/LDRAM
-STRAM
-mem=0000-FFFF code=3Bjjjj
-/STRAM
-LDRMB
-mem=0000-FFFF code=3Cjjjj
-/LDRMB
-STRMB
-mem=0000-FFFF code=3Djjjj
-/STRMB
-LOADV
-kk code=3Ekk
-/LOADV
-STVAR
-kk code=3Fkk
-/STVAR
-LDVRB
-kk code=40kk
-/LDVRB
-STVRB
-kk code=41kk
-/STVRB
-STIMM
+LD
+TOS , mem=0000-FFFF code=3Ajjjj
+mem=0000-FFFF , TOS code=3Bjjjj
+TOS.0 , mem=0000-FFFF code=3Cjjjj
+mem=0000-FFFF , TOS.0 code=3Djjjj
+TOS , kk code=3Ekk
+kk , TOS code=3Fkk
+TOS.0 , kk code=40kk
+kk , TOS.0 code=41kk
+/LD
+LOADA
 kk code=42kk
-/STIMM
+/LOADA
 DISP
 code=43
 /DISP
@@ -229,13 +211,13 @@ SUBFMV
 kk code=56kk
 /SUBFMV
 LDAND
-mem=0000-FFFF , ww code=57jjjjww
+kk vv , ww code=57kkvvww
 /LDAND
 PUSHVA
-mem=0000-FFFF code=58jjjj
+kk , vv code=58kkvv
 /PUSHVA
 PUSHVA2
-mem=0000-FFFF code=59jjjj
+kk , vv code=59kkvv
 /PUSHVA2
 KEYSCAN
 code=5A
@@ -268,14 +250,14 @@ LDVD
 code=64
 /LDVD
 LOADIND
-mem=0000-FFFF code=66jjjj
+kk , vv code=66kkvv
 /LOADIND
 BANKRD
 code=67
 /BANKRD
-LDROM
+BANKRD2
 code=6A
-/LDROM
+/BANKRD2
 BANKRD3
 code=6B
 /BANKRD3
@@ -292,132 +274,12 @@ SERIAL
 code=7F
 /SERIAL
 SYS
-sys code=80kk
-sys code=81kk
-sys code=82kk
-sys code=83kk
-sys code=84kk
-sys code=85kk
-sys code=86kk
-sys code=87kk
-sys code=88kk
-sys code=89kk
-sys code=8Akk
-sys code=8Bkk
-sys code=8Ckk
-sys code=8Dkk
-sys code=8Ekk
-sys code=8Fkk
-sys code=90kk
-sys code=91kk
-sys code=92kk
-sys code=93kk
-sys code=94kk
-sys code=95kk
-sys code=96kk
-sys code=97kk
-sys code=98kk
-sys code=99kk
-sys code=9Akk
-sys code=9Bkk
-sys code=9Ckk
-sys code=9Dkk
-sys code=9Ekk
-sys code=9Fkk
-sys code=A0kk
-sys code=A1kk
-sys code=A2kk
-sys code=A3kk
-sys code=A4kk
-sys code=A5kk
-sys code=A6kk
-sys code=A7kk
-sys code=A8kk
-sys code=A9kk
-sys code=AAkk
-sys code=ABkk
-sys code=ACkk
-sys code=ADkk
-sys code=AEkk
-sys code=AFkk
-sys code=B0kk
-sys code=B1kk
-sys code=B2kk
-sys code=B3kk
-sys code=B4kk
-sys code=B5kk
-sys code=B6kk
-sys code=B7kk
-sys code=B8kk
-sys code=B9kk
-sys code=BAkk
-sys code=BBkk
-sys code=BCkk
-sys code=BDkk
-sys code=BEkk
-sys code=BFkk
-sys code=C0kk
-sys code=C1kk
-sys code=C2kk
-sys code=C3kk
-sys code=C4kk
-sys code=C5kk
-sys code=C6kk
-sys code=C7kk
-sys code=C8kk
-sys code=C9kk
-sys code=CAkk
-sys code=CBkk
-sys code=CCkk
-sys code=CDkk
-sys code=CEkk
-sys code=CFkk
-sys code=D0kk
-sys code=D1kk
-sys code=D2kk
-sys code=D3kk
-sys code=D4kk
-sys code=D5kk
-sys code=D6kk
-sys code=D7kk
-sys code=D8kk
-sys code=D9kk
-sys code=DAkk
-sys code=DBkk
-sys code=DCkk
-sys code=DDkk
-sys code=DEkk
-sys code=DFkk
-sys code=E0kk
-sys code=E1kk
-sys code=E2kk
-sys code=E3kk
-sys code=E4kk
-sys code=E5kk
-sys code=E6kk
-sys code=E7kk
-sys code=E8kk
-sys code=E9kk
-sys code=EAkk
-sys code=EBkk
-sys code=ECkk
-sys code=EDkk
-sys code=EEkk
-sys code=EFkk
-sys code=F0kk
-sys code=F1kk
-sys code=F2kk
-sys code=F3kk
-sys code=F4kk
-sys code=F5kk
-sys code=F6kk
-sys code=F7kk
-sys code=F8kk
-sys code=F9kk
-sys code=FAkk
-sys code=FBkk
-sys code=FCkk
-sys code=FDkk
-sys code=FEkk
-sys code=FFkk
+sys code=8gkk
+sys code=9gkk
+sys code=Agkk
+sys code=Bgkk
+sys code=Cgkk
+sys code=Dgkk
+sys code=Egkk
+sys code=Fgkk
 /SYS
