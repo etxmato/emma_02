@@ -255,9 +255,9 @@ kk , vv code=66kkvv
 BANKRD
 code=67
 /BANKRD
-BANKRD2
+LDROM
 code=6A
-/BANKRD2
+/LDROM
 BANKRD3
 code=6B
 /BANKRD3
