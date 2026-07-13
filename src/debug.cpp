@@ -3434,6 +3434,24 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                 else
                     errorValue = ASS_ERROR_HEX;
             }
+            if (parameter.Left(6) == "const=")
+            {
+                if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
+                {
+                    wxString constStr = parameter.Mid(6);
+                    long constValue;
+                    if (constStr.ToLong(&constValue, 16))
+                    {
+                        if (assInput.parameterValue[parameterNumber] == constValue)
+                        {
+                            parameterFound = true;
+                            parameterNumber++;
+                        }
+                    }
+                }
+                else
+                    errorValue = ASS_ERROR_HEX;
+            }
             if (parameter.Left(3) == "hex")
             {
                 if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
@@ -15743,6 +15761,11 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                     {
                         address = 0x200 + (((ddValue & 0xf0) >> 4) * 10 + (ddValue & 0xf)) * 2;
                         parameterStr.Printf("%03X", address);
+                        parameterFound = true;
+                    }
+                    if (parameter.Left(6) == "const=")
+                    {
+                        parameterStr = parameter.Mid(6);
                         parameterFound = true;
                     }
                     if (parameter.Left(3) == "hex")

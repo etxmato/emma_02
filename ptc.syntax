@@ -1,8 +1,8 @@
-ADD2
+ADD
 code=00
 1 code=03
 2 code=04
-/ADD2
+/ADD
 SHL
 code=01
 /SHL
@@ -87,9 +87,15 @@ code=20
 LOAD
 code=21
 /LOAD
-PUSHC
+PUSH
+const=0000 code=72
+const=0001 code=73
+const=0002 code=74
+const=0003 code=75
+const=FFFF code=76
 kk code=23kk
-/PUSHC
+hex=0000-FFFF code=22jjjj
+/PUSH
 PEEKCS
 code=24
 /PEEKCS
@@ -105,14 +111,6 @@ code=2B
 DREFB
 code=2C
 /DREFB
-PUSH
-hex=0000-FFFF code=22jjjj
-0000 code=72
-0001 code=73
-0002 code=74
-0003 code=75
-FFFF code=76
-/PUSH
 CLRB
 code=2E
 /CLRB
