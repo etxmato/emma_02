@@ -1,8 +1,8 @@
-ADD
+ADD2
 code=00
 1 code=03
 2 code=04
-/ADD
+/ADD2
 SHL
 code=01
 /SHL
