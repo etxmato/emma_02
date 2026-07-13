@@ -5562,7 +5562,8 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
         buffer.Left(2)== "[I" || buffer.Left(3)== "V9]"|| buffer.Left(3)== "[I]" || buffer.Left(4)== "[>I]" ||
         buffer.Left(6)== "SWITCH" || buffer.Left(4)== "SWAP" || buffer.Left(2)== "ST" || buffer.Left(4)== "READ" ||
         buffer.Left(2)== "DR" || buffer.Left(3)== "RAM" || buffer.Left(6)== "SETCOL" || buffer.Left(4)== "SKSP" || buffer.Left(4)== "SYNC" ||
-        buffer.Left(3)== "TOS")
+        buffer.Left(3)== "TOS" ||
+        buffer.Left(2)== "VA" || buffer.Left(2)== "VB" || buffer.Left(2)== "VC" || buffer.Left(2)== "VD")
     {
         *type = ASS_STRING;
         return 0;
@@ -15312,7 +15313,11 @@ void DebugWindow::definePseudoCommands()
                         }
                         command = subCommand.Left(1);
                         subCommand = pseudoLine.Right(1);
-                        pseudoCodeDetails_[psuedoNumber_-1].parameterText = pseudoLine.Left(pseudoLine.Len()-7);
+                        int codePos = pseudoLine.Find("code=");
+                        if (codePos != wxNOT_FOUND)
+                            pseudoCodeDetails_[psuedoNumber_-1].parameterText = pseudoLine.Left(codePos);
+                        else
+                            pseudoCodeDetails_[psuedoNumber_-1].parameterText = "";
                     }
                     else
                     {
