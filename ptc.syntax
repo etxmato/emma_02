@@ -1,20 +1,18 @@
 ADD
 code=00
+1 code=03
+2 code=04
 /ADD
-SUB
+SHL
 code=01
-/SUB
-RSUB
+/SHL
+SUB
 code=02
-/RSUB
-PUSH
-0100 code=03
-0200 code=04
-FFFF code=27
-/PUSH
-INC
+1 code=27
+/SUB
+ADDM
 code=05
-/INC
+/ADDM
 MUL
 code=06
 /MUL
@@ -29,117 +27,122 @@ JP
 brf code=0Akk
 brb code=0Bkk
 /JP
-BRB
+LOOP
 kk code=0Ckk
-/BRB
-CALL
+/LOOP
+LOOPV
 kk code=0Dkk
-/CALL
-DEC
+/LOOPV
+FRAME
 code=0E
-/DEC
+/FRAME
 CLRST
 code=0F
 /CLRST
-CALLN
+EXEC
 code=10
-/CALLN
+/EXEC
 RET
 code=11
 /RET
-OR
+AND
 code=12
-/OR
+/AND
 ISZ
 code=13
 /ISZ
-NEQ
+ISNEG
 code=14
-/NEQ
-GT
+/ISNEG
+LOAD
 code=15
-/GT
-LT
+/LOAD
+STORE
 code=16
-/LT
-GTE
+/STORE
+LOADB
 code=17
-/GTE
-LTE
+/LOADB
+STOREB
 code=19
-/LTE
+/STOREB
 NEG
 code=1A
 /NEG
-SHL
+DROP
 code=1C
-/SHL
+/DROP
 SHR
 code=1D
 /SHR
 SHRA
 code=1E
 /SHRA
-NOT
+DUPNZ
 code=1F
-/NOT
+/DUPNZ
 STORE
 code=20
 /STORE
 LOAD
 code=21
 /LOAD
-STOREB
-code=22
-/STOREB
-LOADB
-code=23
-/LOADB
-CALLX
+PUSHC
+kk code=23kk
+/PUSHC
+PEEKCS
 code=24
-/CALLX
-JPX
+/PEEKCS
+POPCS
 code=25
-/JPX
-XOR
+/POPCS
+PUSHCS
 code=26
-/XOR
+/PUSHCS
 DREF
 code=2B
 /DREF
 DREFB
 code=2C
 /DREFB
-PUSHC
+PUSH
+hex=0000-FFFF code=22jjjj
+0000 code=72
+0001 code=73
+0002 code=74
+0003 code=75
+FFFF code=76
+/PUSH
+CLRB
+code=2E
+/CLRB
+?
 kk code=2Dkk
-/PUSHC
-ADDSP
-kk code=2Ekk
-/ADDSP
-PUSHSP
-kk code=2Fkk
-/PUSHSP
-STSP
-kk code=30kk
-/STSP
+/?
+SETB
+code=2F
+/SETB
+ADDB
+code=30
+/ADDB
 ADDV
 kk code=31kk
 /ADDV
 SUBV
 kk code=32kk
 /SUBV
-ANDV
+OR
 code=33
-/ANDV
+/OR
 SWITCH
 code=34
 /SWITCH
 IDLE
 code=35
 /IDLE
-MOD
+STORE3
 code=36
-/MOD
+/STORE3
 STKOP
 kk code=37kk
 /STKOP
@@ -255,21 +258,21 @@ kk , vv code=66kkvv
 BANKRD
 code=67
 /BANKRD
-BANKRD2
+LDROM
 code=6A
-/BANKRD2
+/LDROM
 BANKRD3
 code=6B
 /BANKRD3
-ADD16
+SUB24
 code=6E
-/ADD16
-SUB16
+/SUB24
+ADD24
 code=6F
-/SUB16
-CMP16
+/ADD24
+SUB24V
 code=70
-/CMP16
+/SUB24V
 SERIAL
 code=7F
 /SERIAL
