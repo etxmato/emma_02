@@ -1,23 +1,21 @@
 ADD
-code=00
-1 code=03
-2 code=04
+TOS , NOS code=00
+TOS , const=1 code=03
+TOS , const=2 code=04
+[TOS] , NOS code=05
 /ADD
 SHL
-code=01
+TOS code=01
 /SHL
 SUB
-code=02
-1 code=27
+TOS , NOS code=02
+TOS , const=1 code=27
 /SUB
-ADDM
-code=05
-/ADDM
 MUL
-code=06
+TOS , NOS code=06
 /MUL
 DIV
-code=07
+TOS , NOS code=07
 /DIV
 JZ
 brf code=08kk
@@ -54,18 +52,6 @@ code=13
 ISNEG
 code=14
 /ISNEG
-LOAD
-code=15
-/LOAD
-STORE
-code=16
-/STORE
-LOADB
-code=17
-/LOADB
-STOREB
-code=19
-/STOREB
 MCOPY
 code=1A
 /MCOPY
@@ -73,7 +59,7 @@ DROP
 code=1C
 /DROP
 SHR
-code=1D
+TOS code=1D
 /SHR
 DUP
 code=1E
@@ -157,18 +143,22 @@ TOS , VC code=62
 TOS , VD code=64
 TOS , [RP] code=6A
 TOS.0 , [RP] code=2A
+TOS , [TOS] code=15
+TOS.0 , [TOS] code=17
+[TOS] , NOS code=16
+[TOS] , NOS.0 code=19
 VA , TOS code=5D
 VB , TOS code=5F
 VC , TOS code=61
 VD , TOS code=63
+TOS , mem=6000-60FF code=3Ebb
+mem=6000-60FF , TOS code=3Fbb
+TOS.0 , mem=6000-60FF code=40bb
+mem=6000-60FF , TOS.0 code=41bb
 TOS , mem=0000-FFFF code=3Ajjjj
 mem=0000-FFFF , TOS code=3Bjjjj
 TOS.0 , mem=0000-FFFF code=3Cjjjj
 mem=0000-FFFF , TOS.0 code=3Djjjj
-TOS , kk code=3Ekk
-kk , TOS code=3Fkk
-TOS.0 , kk code=40kk
-kk , TOS.0 code=41kk
 /LD
 LOADA
 kk code=42kk
