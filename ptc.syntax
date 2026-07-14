@@ -75,15 +75,15 @@ code=1C
 SHR
 code=1D
 /SHR
-SHRA
+DUP
 code=1E
-/SHRA
+/DUP
 DUPNZ
 code=1F
 /DUPNZ
-STORE
+SWAP
 code=20
-/STORE
+/SWAP
 LOAD
 code=21
 /LOAD
@@ -108,9 +108,6 @@ code=26
 DREF
 code=2B
 /DREF
-LDRB
-code=2A
-/LDRB
 DREFB
 code=2C
 /DREFB
@@ -147,9 +144,9 @@ code=36
 STKOP
 kk code=37kk
 /STKOP
-DUP
+DUP2
 code=38
-/DUP
+/DUP2
 BANKOP
 code=39
 /BANKOP
@@ -158,6 +155,8 @@ TOS , VA code=5E
 TOS , VB code=60
 TOS , VC code=62
 TOS , VD code=64
+TOS , [RP] code=6A
+TOS.0 , [RP] code=2A
 VA , TOS code=5D
 VB , TOS code=5F
 VC , TOS code=61
@@ -243,9 +242,6 @@ hex=0000-FFFF code=66jjjj
 BANKRD
 code=67
 /BANKRD
-LDROM
-code=6A
-/LDROM
 BANKRD3
 code=6B
 /BANKRD3
