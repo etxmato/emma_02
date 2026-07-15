@@ -5565,6 +5565,7 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
         buffer.Left(3)== "TOS" || buffer.Left(3)== "NOS" ||
         buffer.Left(5)== "[TOS]" ||
         buffer.Left(4)== "[RP]" ||
+        buffer.Left(5)== "FRAME" || buffer.Left(3)== "CLR" ||
         buffer.Left(2)== "VA" || buffer.Left(2)== "VB" || buffer.Left(2)== "VC" || buffer.Left(2)== "VD")
     {
         *type = ASS_STRING;

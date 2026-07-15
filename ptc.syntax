@@ -26,31 +26,25 @@ brf code=0Akk
 brb code=0Bkk
 /JP
 LOOP
-kk code=0Ckk
+FRAME code=0E
+CLR code=0F
+brb code=0Ckk
+TOS , brb code=0Dkk
 /LOOP
-LOOPV
-kk code=0Dkk
-/LOOPV
-FRAME
-code=0E
-/FRAME
-CLRST
-code=0F
-/CLRST
 EXEC
-code=10
+TOS code=10
 /EXEC
 RET
 code=11
 /RET
 AND
-code=12
+TOS , NOS code=12
 /AND
 ISZ
-code=13
+TOS code=13
 /ISZ
 ISNEG
-code=14
+TOS code=14
 /ISNEG
 MCOPY
 code=1A
