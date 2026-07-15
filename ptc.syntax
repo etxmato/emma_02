@@ -3,6 +3,7 @@ TOS , NOS code=00
 TOS , const=1 code=03
 TOS , const=2 code=04
 [TOS] , NOS code=05
+[TOS] , NOS.0 code=30
 /ADD
 SHL
 TOS code=01
@@ -47,14 +48,15 @@ ISNEG
 TOS code=14
 /ISNEG
 MCOPY
+const=3 code=31
 code=1A
 /MCOPY
 DROP
 code=1C
 /DROP
-SHR
+OVER
 TOS code=1D
-/SHR
+/OVER
 DUP
 code=1E
 /DUP
@@ -64,10 +66,11 @@ code=1F
 SWAP
 code=20
 /SWAP
-LOAD
+ROT
 code=21
-/LOAD
+/ROT
 PUSH
+CS code=24
 const=0000 code=72
 const=0001 code=73
 const=0002 code=74
@@ -76,39 +79,21 @@ const=FFFF code=76
 kk code=23kk
 hex=0000-FFFF code=22jjjj
 /PUSH
-PEEKCS
-code=24
-/PEEKCS
 POPCS
 code=25
 /POPCS
 PUSHCS
 code=26
 /PUSHCS
-DREF
+STRCP
 code=2B
-/DREF
-DREFB
+/STRCP
+NUMCP
 code=2C
-/DREFB
-CLRB
-code=2E
-/CLRB
-?
-kk code=2Dkk
-/?
-SETB
-code=2F
-/SETB
-ADDB
-code=30
-/ADDB
-ADDV
-kk code=31kk
-/ADDV
-SUBV
-kk code=32kk
-/SUBV
+/NUMCP
+NUMCZ
+code=2D
+/NUMCZ
 OR
 code=33
 /OR
@@ -141,6 +126,8 @@ TOS , [TOS] code=15
 TOS.0 , [TOS] code=17
 [TOS] , NOS code=16
 [TOS] , NOS.0 code=19
+[TOS] , const=0 code=2E
+[TOS] , const=1 code=2F
 VA , TOS code=5D
 VB , TOS code=5F
 VC , TOS code=61
@@ -233,6 +220,7 @@ SUB24
 code=6E
 /SUB24
 ADD24
+[NOS] , [TOS] code=32
 code=6F
 /ADD24
 SUB24V

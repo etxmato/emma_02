@@ -5563,9 +5563,10 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
         buffer.Left(6)== "SWITCH" || buffer.Left(4)== "SWAP" || buffer.Left(2)== "ST" || buffer.Left(4)== "READ" ||
         buffer.Left(2)== "DR" || buffer.Left(3)== "RAM" || buffer.Left(6)== "SETCOL" || buffer.Left(4)== "SKSP" || buffer.Left(4)== "SYNC" ||
         buffer.Left(3)== "TOS" || buffer.Left(3)== "NOS" ||
-        buffer.Left(5)== "[TOS]" ||
+        buffer.Left(5)== "[TOS]" || buffer.Left(5)== "[NOS]" ||
         buffer.Left(4)== "[RP]" ||
         buffer.Left(5)== "FRAME" || buffer.Left(3)== "CLR" ||
+        buffer.Left(2)== "CS" ||
         buffer.Left(2)== "VA" || buffer.Left(2)== "VB" || buffer.Left(2)== "VC" || buffer.Left(2)== "VD")
     {
         *type = ASS_STRING;
@@ -16337,12 +16338,25 @@ void DebugWindow::editChip8BreakPoint(wxListEvent&event)
         return;
     }
 
-    if (value > 0xfff)
+    if (pseudoType_ == "PTC")
     {
-        (void)wxMessageBox( "Please specify value of 12 bit max\n",
-                                    "Emma 02", wxICON_ERROR | wxOK );
-        event.Veto();
-        return;
+        if (value > 0xffff)
+        {
+            (void)wxMessageBox( "Please specify value of 16 bit max\n",
+                                        "Emma 02", wxICON_ERROR | wxOK );
+            event.Veto();
+            return;
+        }
+    }
+    else
+    {
+        if (value > 0xfff)
+        {
+            (void)wxMessageBox( "Please specify value of 12 bit max\n",
+                                        "Emma 02", wxICON_ERROR | wxOK );
+            event.Veto();
+            return;
+        }
     }
 
     chip8BreakPoints_[selectedItem] = value;
@@ -16352,14 +16366,20 @@ void DebugWindow::addChip8BreakPoint()
 {
     wxString printBuffer;
 
-    printBuffer.Printf("%03X", chip8BreakPoints_[numberOfChip8BreakPoints_]);
+    if (pseudoType_ == "PTC")
+        printBuffer.Printf("%04X", chip8BreakPoints_[numberOfChip8BreakPoints_]);
+    else
+        printBuffer.Printf("%03X", chip8BreakPoints_[numberOfChip8BreakPoints_]);
     chip8BreakPointWindowPointer->InsertItem(numberOfChip8BreakPoints_, printBuffer);
     numberOfChip8BreakPoints_++;
 }
 
 void DebugWindow::onChip8BreakPointAddress(wxCommandEvent&WXUNUSED(event))
 {
-    get12BitValue("Chip8BreakPointAddress");
+    if (pseudoType_ == "PTC")
+        get16BitValue("Chip8BreakPointAddress");
+    else
+        get12BitValue("Chip8BreakPointAddress");
 }
 
 void DebugWindow::onChip8BreakPointSet(wxCommandEvent&WXUNUSED(event))
