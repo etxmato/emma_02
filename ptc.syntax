@@ -55,7 +55,7 @@ DROP
 code=1C
 /DROP
 OVER
-TOS code=1D
+code=1D
 /OVER
 DUP
 code=1E
@@ -95,7 +95,7 @@ NUMCZ
 code=2D
 /NUMCZ
 OR
-code=33
+TOS , NOS code=33
 /OR
 SWITCH
 code=34
