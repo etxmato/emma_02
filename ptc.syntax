@@ -2,6 +2,7 @@ ADD
 TOS , NOS code=00
 TOS , const=1 code=03
 TOS , const=2 code=04
+TOS , [TOS] code=35
 [TOS] , NOS code=05
 [TOS] , NOS.0 code=30
 /ADD
@@ -49,6 +50,7 @@ TOS code=14
 /ISNEG
 MCOPY
 const=3 code=31
+[NOS] code=38
 code=1A
 /MCOPY
 DROP
@@ -97,24 +99,15 @@ code=2D
 OR
 TOS , NOS code=33
 /OR
-SWITCH
+COMP
 code=34
-/SWITCH
-IDLE
-code=35
-/IDLE
-STORE3
-code=36
-/STORE3
-STKOP
-kk code=37kk
-/STKOP
-DUP2
-code=38
-/DUP2
-BANKOP
-code=39
-/BANKOP
+/COMP
+LD24
+[TOS] , NOS code=36
+/LD24
+LDVAB
+[TOS] code=37
+/LDVAB
 LD
 TOS , VA code=5E
 TOS , VB code=60
@@ -211,6 +204,7 @@ CALLI
 hex=0000-FFFF code=66jjjj
 /CALLI
 BANKRD
+[TOS] code=39
 code=67
 /BANKRD
 BANKRD3
