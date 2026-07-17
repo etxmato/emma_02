@@ -129,50 +129,48 @@ TOS , mem=6000-60FF code=3Ebb
 mem=6000-60FF , TOS code=3Fbb
 TOS.0 , mem=6000-60FF code=40bb
 mem=6000-60FF , TOS.0 code=41bb
+[60BD] , kk code=42kk
 TOS , mem=0000-FFFF code=3Ajjjj
 mem=0000-FFFF , TOS code=3Bjjjj
 TOS.0 , mem=0000-FFFF code=3Cjjjj
 mem=0000-FFFF , TOS.0 code=3Djjjj
 /LD
-LOADA
-kk code=42kk
-/LOADA
 DISP
 code=43
 /DISP
 LCD
 code=44
 /LCD
-SOUND
-kk code=45kk
-/SOUND
+DELAY
+code=45
+/DELAY
 FILL
 code=46
 /FILL
-TIMER
+CKSUM
 code=47
-/TIMER
-TXBYTE
+/CKSUM
+TOBCD
 code=48
-/TXBYTE
-RXBYTE
+/TOBCD
+FMBCD
 code=49
-/RXBYTE
-MEMOP
+/FMBCD
+FMHEX
 code=4B
-/MEMOP
-MEMOP2
+/FMHEX
+TOHEX
 code=4C
-/MEMOP2
-STOREX
+/TOHEX
+ISLT
 code=4D
-/STOREX
-LOADX
+/ISLT
+ISGT
 code=4E
-/LOADX
-CMPX
+/ISGT
+ISEQ
 code=4F
-/CMPX
+/ISEQ
 INCV
 kk code=52kk
 /INCV
