@@ -83,7 +83,7 @@ const=0002 code=74
 const=0003 code=75
 const=FFFF code=76
 kk code=23kk
-hex=0000-FFFF code=22jjjj
+hex=0000-FFFF code=22aaaa
 /PUSH
 POPCS
 code=25
@@ -130,15 +130,15 @@ VA , TOS code=5D
 VB , TOS code=5F
 VC , TOS code=61
 VD , TOS code=63
-TOS , mem=6000-60FF code=3Ebb
-mem=6000-60FF , TOS code=3Fbb
-TOS.0 , mem=6000-60FF code=40bb
-mem=6000-60FF , TOS.0 code=41bb
+TOS , mem=6000-60FF code=3Eaa
+mem=6000-60FF , TOS code=3Faa
+TOS.0 , mem=6000-60FF code=40aa
+mem=6000-60FF , TOS.0 code=41aa
 [60BD] , kk code=42kk
-TOS , mem=0000-FFFF code=3Ajjjj
-mem=0000-FFFF , TOS code=3Bjjjj
-TOS.0 , mem=0000-FFFF code=3Cjjjj
-mem=0000-FFFF , TOS.0 code=3Djjjj
+TOS , mem=0000-FFFF code=3Aaaaa
+mem=0000-FFFF , TOS code=3Baaaa
+TOS.0 , mem=0000-FFFF code=3Caaaa
+mem=0000-FFFF , TOS.0 code=3Daaaa
 /LD
 DISP
 code=43
@@ -190,7 +190,7 @@ LDBNK
 kkvv , [wwtt] code=5Bkkvvwwtt
 /LDBNK
 CALLI
-hex=0000-FFFF code=66jjjj
+hex=0000-FFFF code=66aaaa
 /CALLI
 SETBK
 code=6B
