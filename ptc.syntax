@@ -49,6 +49,7 @@ ISNEG
 TOS code=14
 /ISNEG
 MCOPY
+kkvv , wwtt code=58kkvvwwtt
 const=3 code=31
 [NOS] code=38
 code=1A
@@ -73,6 +74,9 @@ code=21
 /ROT
 PUSH
 CS code=24
+VE , kk code=52kk
+[VE].0 , kk code=53kk
+[VE] , kk code=55kk
 const=0000 code=72
 const=0001 code=73
 const=0002 code=74
@@ -115,6 +119,7 @@ TOS , VC code=62
 TOS , VD code=64
 TOS , [RP] code=6A
 TOS.0 , [RP] code=2A
+VE , [RP] code=67
 TOS , [TOS] code=15
 TOS.0 , [TOS] code=17
 [TOS] , NOS code=16
@@ -171,56 +176,37 @@ code=4E
 ISEQ
 code=4F
 /ISEQ
-INCV
-kk code=52kk
-/INCV
-DECV
-kk code=53kk
-/DECV
-ADDTOV
-kk code=55kk
-/ADDTOV
-SUBFMV
-kk code=56kk
-/SUBFMV
+POP
+[VE] , kk code=56kk
+/POP
 LDAND
 kk vv , ww code=57kkvvww
 /LDAND
-PUSHVA
-kk , vv code=58kkvv
-/PUSHVA
-PUSHVA2
-kk , vv code=59kkvv
-/PUSHVA2
-KEYSCAN
-code=5A
-/KEYSCAN
-KEYWAIT
-code=5B
-/KEYWAIT
+STBNK
+[kkvv] , wwtt code=5Akkvvwwtt
+/STBNK
+LDBNK
+[TOS] code=39
+kkvv , [wwtt] code=5Bkkvvwwtt
+/LDBNK
 CALLI
 hex=0000-FFFF code=66jjjj
 /CALLI
-LDBNK
-[TOS] code=39
-code=67
-/LDBNK
-LDBNK3
+SETBK
 code=6B
-/LDBNK3
+/SETBK
 SUB24
-code=6E
+[NOS] , [TOS] code=6E
+[NOS] , TOS code=70
 /SUB24
 ADD24
 [NOS] , [TOS] code=32
-code=6F
+kkvv , wwtt code=59kkvvwwtt
+[NOS] , TOS code=6F
 /ADD24
-SUB24V
-code=70
-/SUB24V
-SERIAL
+NOP
 code=7F
-/SERIAL
+/NOP
 SYS
 sys code=8gkk
 sys code=9gkk

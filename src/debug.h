@@ -193,6 +193,7 @@ public:
     bool checkSingleCommand(Byte command);
     bool checkTrippleCommand(Byte command);
     bool checkQuadrupleCommand(Byte command);
+    bool checkQuintupleCommand(Byte command);
     bool chip8BreakPointCheck();
     void showInstructionTrace();
     void showInstructionTrace(Word address, bool showDetails = true);
@@ -547,9 +548,9 @@ private:
     wxString getLoadAddress(Word address);
     wxString getCurrentAddresssLabel(Word address);
     wxString getHexByte(Word address, bool textAssembler);
-    int assemblePseudo(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4);
+    int assemblePseudo(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4, Byte* b5);
     AssInput getAssInput(wxString buffer);
-    int checkParameterPseudo(AssInput assInput, int32_t* pseudoCode);
+    int checkParameterPseudo(AssInput assInput, int64_t* pseudoCode);
     Byte getCardtranAddress(long address);
     int getByte(AssInput assInput, Byte* b2, bool allowX);
     int getSlot(AssInput assInput, Byte* b2);
@@ -653,6 +654,9 @@ private:
 
     size_t quadrupleByteCommandNumber_;
     vector<Byte> quadrupleByteCommand_;
+
+    size_t quintupleByteCommandNumber_;
+    vector<Byte> quintupleByteCommand_;
 
     size_t jumpCommandNumber_;
     vector<Byte> jumpCommand_;
