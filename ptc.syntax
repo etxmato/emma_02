@@ -49,7 +49,7 @@ ISNEG
 TOS code=14
 /ISNEG
 MCOPY
-kkvv , wwtt code=58kkvvwwtt
+[kkvv] , [wwtt] code=58kkvvwwtt
 const=3 code=31
 [NOS] code=38
 code=1A
@@ -201,12 +201,12 @@ SUB24
 /SUB24
 ADD24
 [NOS] , [TOS] code=32
-kkvv , wwtt code=59kkvvwwtt
+[wwtt] , [kkvv] code=59kkvvwwtt
 [NOS] , TOS code=6F
 /ADD24
-NOP
+NOOP
 code=7F
-/NOP
+/NOOP
 SYS
 sys code=8gkk
 sys code=9gkk
