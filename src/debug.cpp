@@ -12493,8 +12493,33 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
     }
     
     size_t lineNumber = 5;
+    bool firstErrorFound = true;
     bool firstLabelFound = true;
     wxString AddressString, label, outOfRangeAddress;
+    
+    for (int i=0; i<=0xffff;i++)
+    {
+        if (!labelInfo_[i].labelDefined && labelInfo_[i].branchToFound)
+        {
+            if (firstErrorFound)
+            {
+                outputTextFile.InsertLine("", lineNumber++);
+                outputTextFile.InsertLine("; Errors - label in middle of instruction:", lineNumber++);
+                firstErrorFound = false;
+            }
+            label = getCurrentAddresssLabel(i);
+            if (label != "")
+            {
+                if (i >= 0xA000)
+                    AddressString.Printf("%05XH", i);
+                else
+                    AddressString.Printf("%04XH", i);
+                
+                outputTextFile.InsertLine(label + "    EQU " + AddressString, lineNumber++);
+            }
+        }
+    }
+
     for (int i=0; i<=0xffff;i++)
     {
         if (labelInfo_[i].labelDefined && labelInfo_[i].branchToFound)
