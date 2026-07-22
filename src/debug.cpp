@@ -994,7 +994,7 @@ void DebugWindow::cyclePseudoDebug()
     
     if (selectedTab_ == DEBUGGERTAB && debuggerChoice_ == CHIP8TAB)
     {
-        if (programCounterAddress == p_Computer->getChip8MainLoop())
+        if (p_Computer->isChip8MainLoop(programCounterAddress))
             updateChip8Window();
     }
     
@@ -1007,7 +1007,7 @@ void DebugWindow::cyclePseudoDebug()
     else
         chip8PC = p_Computer->getScratchpadRegister(CHIP8_PC);
     
-    if (programCounterAddress == p_Computer->getChip8MainLoop())
+    if (p_Computer->isChip8MainLoop(programCounterAddress))
     {
         p_Computer->writeMemDataType(chip8PC, MEM_TYPE_PSEUDO_1);
 
@@ -1039,7 +1039,7 @@ void DebugWindow::cyclePseudoDebug()
     {
         if (chip8Steps_ >= 0)
         {
-            if (programCounterAddress == p_Computer->getChip8MainLoop())
+            if (p_Computer->isChip8MainLoop(programCounterAddress))
             {
                 if (additionalChip8Details_)
                     chip8DebugTrace(addDetails());
@@ -1063,7 +1063,7 @@ void DebugWindow::cyclePseudoDebug()
         }
         else
         {
-            if (programCounterAddress == p_Computer->getChip8MainLoop())
+            if (p_Computer->isChip8MainLoop(programCounterAddress))
             {
                 if (additionalChip8Details_)
                     chip8DebugTrace(addDetails());
@@ -12493,33 +12493,8 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
     }
     
     size_t lineNumber = 5;
-    bool firstErrorFound = true;
     bool firstLabelFound = true;
     wxString AddressString, label, outOfRangeAddress;
-    
-    for (int i=0; i<=0xffff;i++)
-    {
-        if (!labelInfo_[i].labelDefined && labelInfo_[i].branchToFound)
-        {
-            if (firstErrorFound)
-            {
-                outputTextFile.InsertLine("", lineNumber++);
-                outputTextFile.InsertLine("; Errors - label in middle of instruction:", lineNumber++);
-                firstErrorFound = false;
-            }
-            label = getCurrentAddresssLabel(i);
-            if (label != "")
-            {
-                if (i >= 0xA000)
-                    AddressString.Printf("%05XH", i);
-                else
-                    AddressString.Printf("%04XH", i);
-                
-                outputTextFile.InsertLine(label + "    EQU " + AddressString, lineNumber++);
-            }
-        }
-    }
-
     for (int i=0; i<=0xffff;i++)
     {
         if (labelInfo_[i].labelDefined && labelInfo_[i].branchToFound)
@@ -15368,7 +15343,7 @@ void DebugWindow::pseudoTrace(Word address)
     chip8DebugTrace(pseudoDisassemble(address, true, false));
 }
 
-wxString DebugWindow::getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainLoop, bool* chip8register12bit, bool* pseudoLoaded)
+wxString DebugWindow::getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainLoop, size_t* pseudoMainLoopCount, bool* chip8register12bit, bool* pseudoLoaded)
 {
     wxTextFile defFile;
 
@@ -15377,7 +15352,7 @@ wxString DebugWindow::getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainL
 
     *pseudoLoaded = false;
     *pseudoBaseVar = 0;
-    *pseudoMainLoop = 0;
+    *pseudoMainLoopCount = 0;
     *chip8register12bit = false;
     commandSyntaxFile_ = applicationDirectory_ + "Chip8.syntax";
 
@@ -15421,9 +15396,12 @@ wxString DebugWindow::getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainL
                 }
                 if (definition == "LOOP" && *pseudoLoaded)
                 {
-                    addressStr = extractWord(&pseudoLine);
-                    if (addressStr.ToLong(&loop, 16))
-                        *pseudoMainLoop = loop;
+                    while (pseudoLine.Len() > 0 && *pseudoMainLoopCount < 8)
+                    {
+                        addressStr = extractWord(&pseudoLine);
+                        if (addressStr.ToLong(&loop, 16))
+                            pseudoMainLoop[(*pseudoMainLoopCount)++] = loop;
+                    }
                 }
                 if (definition == "FILE" && *pseudoLoaded)
                 {

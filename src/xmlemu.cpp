@@ -512,7 +512,8 @@ Computer::Computer(const wxString& title, double clock, int tempo, ComputerConfi
     vipIIRunCycleSize_ = (int) (((clock * 800000) / 8) ) * 2;
 
     chip8baseVar_ = 0xef0;
-    chip8mainLoop_ = 0x1b;
+    chip8mainLoop_[0] = 0x1b;
+    chip8mainLoopCount_ = 1;
     for (int i = 0; i<16; i++)
         chip8Register[i] = -1;
     pseudoLoaded_ = false;
@@ -4344,7 +4345,7 @@ void Computer::onRun()
     }
 
     stopTape();
-    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, chip8mainLoop_, &chip8mainLoopCount_, &chip8register12bit_, &pseudoLoaded_);
 
     switch (currentComputerConfiguration.runPressType)
     {
@@ -5227,7 +5228,7 @@ void Computer::startComputer()
     goCycleSize_ = (((computerClockSpeed_ * 1000000) / 8) / 1000) * 500;
     goCycleValue_ = -1;
 
-    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, chip8mainLoop_, &chip8mainLoopCount_, &chip8register12bit_, &pseudoLoaded_);
 
     setForceUpperCase(currentComputerConfiguration.forceUpperCase);
 
@@ -9682,7 +9683,7 @@ void Computer::executeFunction(int function, Word additionalAddress)
         break;
             
         case INFO_START_CHIP8:
-            chip8mainLoop_ = additionalAddress;
+            chip8mainLoop_[0] = additionalAddress; chip8mainLoopCount_ = 1;
             activateElfOsChip8();
         break;
 
@@ -9821,13 +9822,13 @@ void Computer::executeFunction(int function, Word additionalAddress)
 
         case INFO_SET_PSEUDO_AM4KBAS2020:
             pseudoType_ = "AM4KBAS2020";
-            chip8mainLoop_ = additionalAddress;
+            chip8mainLoop_[0] = additionalAddress; chip8mainLoopCount_ = 1;
             p_Main->forcePseudoDefinition(pseudoType_, "am2020bas.syntax", "AM4KBAS 2020");
         break;
 
         case INFO_SET_PSEUDO_AM4KBAS1978:
             pseudoType_ = "AM4KBAS1978";
-            chip8mainLoop_ = additionalAddress;
+            chip8mainLoop_[0] = additionalAddress; chip8mainLoopCount_ = 1;
             p_Main->forcePseudoDefinition(pseudoType_, "am4kbas.syntax", "AM4KBAS 1978");
         break;
 
@@ -10268,7 +10269,7 @@ void Computer::resetV1870VideoModeEf()
 
 void Computer::activateElfOsChip8()
 {
-    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, chip8mainLoop_, &chip8mainLoopCount_, &chip8register12bit_, &pseudoLoaded_);
     
     Word address = scratchpadRegister_[0xA];
     
