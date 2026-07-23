@@ -531,7 +531,8 @@ private:
 
     int dmaCounter_;
     int intCounter_;
-
+    int switchInt_;
+    
     wxDateTime systemTime_;
     wxDateTime xmlComputerTime_;
     int day_, month_, year_;

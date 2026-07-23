@@ -6396,7 +6396,7 @@ void XmlParser::parseXml_AmiIntController(wxXmlNode &node)
     amiIntController.causeRegister = 0;
     amiIntController.causeRegisterMask = 0xFFFF;
     amiIntController.causeMultiplier = 4;
-    amiIntController.numberOfSources = 5;
+    amiIntController.numberOfSources = 6;
 
     wxXmlNode *child = node.GetChildren();
     while (child)

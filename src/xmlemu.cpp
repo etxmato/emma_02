@@ -1421,6 +1421,7 @@ void Computer::resetComputer()
     }
 
     intCounter_ = currentComputerConfiguration.interruptConfiguration.cycleValue;
+    switchInt_ = 20;
 
     if (currentComputerConfiguration.dmaConfiguration.startOnFirstQ || currentComputerConfiguration.dmaConfiguration.startOnFirstOut != 0)
         dmaCounter_ = -1;
@@ -3726,7 +3727,14 @@ void Computer::cycleInt()
         intCounter_--;
         if (intCounter_ == 0)
         {
-            p_Computer->requestInterrupt(INTERRUPT_TYPE_TIMED, true, 0);
+ //           if (switchInt_-- < 0)
+ //           {
+ //               p_Computer->requestInterrupt(INTERRUPT_TYPE_TIMED, true, 5);
+ //               switchInt_ = 20;
+ //           }
+ //           else
+                p_Computer->requestInterrupt(INTERRUPT_TYPE_TIMED, true, 0);
+            
             intCounter_ = currentComputerConfiguration.interruptConfiguration.cycleValue;
         }
     }
@@ -5748,6 +5756,9 @@ Byte Computer::readMemDebug(Word address, int function)
 {
     address = address & currentComputerConfiguration.memoryMask;
 
+    if (address == 0x600a || address == 0x600b)
+        return 0;
+    
     wxDateTime systemNow;
     wxDateTime now;
     wxTimeSpan timeDiff;
