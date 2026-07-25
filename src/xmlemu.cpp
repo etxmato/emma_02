@@ -5756,8 +5756,8 @@ Byte Computer::readMemDebug(Word address, int function)
 {
     address = address & currentComputerConfiguration.memoryMask;
 
-    if (address == 0x600a || address == 0x600b)
-        return 0;
+//    if (address == 0x600a || address == 0x600b)
+//        return 0; for testing PTC-701 600A/600B counter
     
     wxDateTime systemNow;
     wxDateTime now;
