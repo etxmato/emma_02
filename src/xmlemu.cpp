@@ -5756,8 +5756,8 @@ Byte Computer::readMemDebug(Word address, int function)
 {
     address = address & currentComputerConfiguration.memoryMask;
 
-//    if (address == 0x600a || address == 0x600b)
-//        return 0; for testing PTC-701 600A/600B counter
+    if (address == 0x600a || address == 0x600b)
+        return 0; //for testing PTC-701 600A/600B counter
     
     wxDateTime systemNow;
     wxDateTime now;
@@ -6721,9 +6721,9 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
                     // Only forward the first 16 to the HD44780.
                     if (hd44780DataCount < 16)
                     {
-                        wxString dbg;
-                        dbg.Printf("HD44780 data write: PC=%04X value=0x%02X '%c'", scratchpadRegister_[programCounter_], value, (value >= 0x20 && value <= 0x7E) ? value : '.');
-                        p_Main->eventShowTextMessage(dbg);
+//                        wxString dbg;
+//                        dbg.Printf("HD44780 data write: PC=%04X value=0x%02X '%c'", scratchpadRegister_[programCounter_], value, (value >= 0x20 && value <= 0x7E) ? value : '.');
+//                        p_Main->eventShowTextMessage(dbg);
                         hd44780Pointer->writeData(value);
                     }
                     hd44780DataCount++;
