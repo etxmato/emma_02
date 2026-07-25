@@ -173,6 +173,13 @@ bool KeybMatrix::keyDownExtended(int keycode, wxKeyEvent& event)
             return true;
         break;
 
+        case WXK_BACK:
+            keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_BACK_KEY].keyValue] |= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_BACK_KEY].bitMaskPressed;
+            keyDown_ = true;
+            efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_TEXT_BACK_KEY]] = 0;
+            return true;
+        break;
+
         case WXK_RETURN:
             keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_RETURN_KEY].keyValue] |= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_RETURN_KEY].bitMaskPressed;
             keyDown_ = true;
@@ -256,6 +263,14 @@ void KeybMatrix::keyUpExtended(int keycode)
             efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_ESC_KEY]] = 1;
             return;
         break;
+
+        case WXK_BACK:
+            keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_BACK_KEY].keyValue] &= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_BACK_KEY].bitMaskNotPressed;
+            keyDown_ = false;
+            efKeyValue_[matrixKeyboardConfiguration_.efKey[MATRIX_TEXT_BACK_KEY]] = 1;
+            return;
+        break;
+            
 
         case WXK_RETURN:
             keyValue_[matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_RETURN_KEY].keyValue] &= matrixKeyboardConfiguration_.textKey[MATRIX_TEXT_RETURN_KEY].bitMaskNotPressed;
