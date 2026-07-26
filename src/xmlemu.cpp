@@ -539,6 +539,8 @@ Computer::~Computer()
     saveRtc();
     if (nvramDetails.size() > 0)
         saveNvRam();
+    if (currentComputerConfiguration.memoryMapperConfiguration.defined && currentComputerConfiguration.memoryMapperConfiguration.nvram)
+        savePagerNvRam();
 /*    for (int counter=0; counter<2 ; counter++)
     {
         computerTimerPointer[counter]->Stop();
@@ -5756,9 +5758,6 @@ Byte Computer::readMemDebug(Word address, int function)
 {
     address = address & currentComputerConfiguration.memoryMask;
 
-    if (address == 0x600a || address == 0x600b)
-        return 0; //for testing PTC-701 600A/600B counter
-    
     wxDateTime systemNow;
     wxDateTime now;
     wxTimeSpan timeDiff;
@@ -5785,6 +5784,12 @@ Byte Computer::readMemDebug(Word address, int function)
                 break;
             }
         }
+    }
+
+    for (std::vector<ReadValueOverride>::iterator i = currentComputerConfiguration.debuggerConfiguration.readValueOverride.begin (); i != currentComputerConfiguration.debuggerConfiguration.readValueOverride.end (); ++i)
+    {
+        if (address == i->address)
+            return i->value;
     }
 
     int returnValue = readMemIo(address);
@@ -7913,6 +7918,9 @@ void Computer::configureMemory()
 
                 allocPagerMemory(memConfig->start, memConfig->end);
 
+                if (currentComputerConfiguration.memoryMapperConfiguration.nvram)
+                    loadPagerNvRam();
+
                 if (currentComputerConfiguration.memoryMapperConfiguration.addressOutputs.empty())
                     definePortExtForPager(currentComputerConfiguration.memoryMapperConfiguration.startPort, currentComputerConfiguration.memoryMapperConfiguration.endPort);
 
@@ -9447,6 +9455,71 @@ void Computer::loadNvRam(size_t configNumber)
     }
 
     delete[] buffer;
+}
+
+void Computer::savePagerNvRam()
+{
+    if (nvRamDisable_)
+        return;
+
+    if (currentComputerConfiguration.memoryMapperConfiguration.dumpFilename == "")
+        return;
+
+    wxString fullPath = currentComputerConfiguration.mainDir_ + currentComputerConfiguration.memoryMapperConfiguration.dumpFilename;
+
+    wxUint32 saveSize = pagerSize_;
+    if (!currentComputerConfiguration.memoryMapperConfiguration.addressOutputs.empty())
+    {
+        Byte maxMask = 0;
+        for (std::vector<AddressOutput>::iterator i = currentComputerConfiguration.memoryMapperConfiguration.addressOutputs.begin(); i != currentComputerConfiguration.memoryMapperConfiguration.addressOutputs.end(); ++i)
+        {
+            if (i->mask > maxMask)
+                maxMask = i->mask;
+        }
+        saveSize = (wxUint32)(maxMask + 1) * (currentComputerConfiguration.memoryMapperConfiguration.mask + 1);
+        if (saveSize > pagerSize_)
+            saveSize = pagerSize_;
+    }
+
+    wxFile outputFile;
+    if (wxFile::Exists(fullPath))
+        outputFile.Open(fullPath, wxFile::write);
+    else
+        outputFile.Create(fullPath);
+
+    Byte value;
+    for (wxUint32 i = 0; i < saveSize; i++)
+    {
+        value = pagerMemory_[i];
+        outputFile.Write(&value, 1);
+    }
+    outputFile.Close();
+}
+
+void Computer::loadPagerNvRam()
+{
+    if (nvRamDisable_)
+        return;
+
+    if (currentComputerConfiguration.memoryMapperConfiguration.dumpFilename == "")
+        return;
+
+    wxString fullPath = currentComputerConfiguration.mainDir_ + currentComputerConfiguration.memoryMapperConfiguration.dumpFilename;
+
+    wxFFile inFile;
+    if (wxFile::Exists(fullPath))
+    {
+        if (inFile.Open(fullPath, _("rb")))
+        {
+            size_t length = pagerSize_;
+            char* buffer = new char[length];
+            length = inFile.Read(buffer, length);
+            for (size_t i = 0; i < length; i++)
+                pagerMemory_[i] = (Byte)buffer[i];
+            delete[] buffer;
+            inFile.Close();
+        }
+    }
 }
 
 void Computer::checkComputerFunction()

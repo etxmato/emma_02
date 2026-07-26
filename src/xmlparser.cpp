@@ -269,6 +269,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.rtcMm58174Configuration.defined = false;
     computerConfiguration.superBoardConfiguration.defined = false;
     computerConfiguration.memoryMapperConfiguration.defined = false;
+    computerConfiguration.memoryMapperConfiguration.nvram = false;
     computerConfiguration.multicartEmsNumber_ = -1;
     computerConfiguration.fdcConfiguration.wd1793_defined = false;
     computerConfiguration.fdcConfiguration.wd1770_defined = false;
@@ -9447,6 +9448,7 @@ void XmlParser::parseXml_Debugger(wxXmlNode &node)
         "scrt",
         "sep",
         "assembler",
+        "read_value",
         "comment",
         "undefined"
     };
@@ -9456,6 +9458,7 @@ void XmlParser::parseXml_Debugger(wxXmlNode &node)
         TAG_SCRT,
         TAG_SEP,
         TAG_ASSEMBLER,
+        TAG_READ_VALUE,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
@@ -9500,6 +9503,20 @@ void XmlParser::parseXml_Debugger(wxXmlNode &node)
                 	parseXml_Sep (*child, &sep);
                     computerConfiguration.sepConfiguration.push_back(sep);
                 }
+            break;
+
+            case TAG_READ_VALUE:
+            {
+                Byte val = (Byte)getHexDec(child->GetAttribute("value"));
+                wxString addressList = child->GetNodeContent();
+                while (addressList != "")
+                {
+                    ReadValueOverride readValueOverride;
+                    readValueOverride.address = (Word)getNextHexDec(&addressList);
+                    readValueOverride.value = val;
+                    computerConfiguration.debuggerConfiguration.readValueOverride.push_back(readValueOverride);
+                }
+            }
             break;
 
             case TAG_COMMENT:
@@ -10641,6 +10658,7 @@ void XmlParser::parseXml_Memory(wxXmlNode &node)
             case TAG_MAPPER:
                 computerConfiguration.memoryConfiguration.resize(memConfigNumber_+1);
                 computerConfiguration.memoryMapperConfiguration.defined = true;
+                computerConfiguration.memoryMapperConfiguration.nvram = (child->GetAttribute("type") == "nvram");
                 
                 memMask = parseXml_Number(*child, "mask");
                 if (memMask == 0)
@@ -11771,6 +11789,7 @@ void XmlParser::parseXml_portExt(wxXmlNode &node, int type, size_t configNumber)
         "start",
         "end",
         "iogroup",
+        "dump",
         "comment",
         "undefined"
     };
@@ -11782,6 +11801,7 @@ void XmlParser::parseXml_portExt(wxXmlNode &node, int type, size_t configNumber)
         TAG_START,
         TAG_END,
         TAG_IOGROUP,
+        TAG_DUMP,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
@@ -11846,6 +11866,10 @@ void XmlParser::parseXml_portExt(wxXmlNode &node, int type, size_t configNumber)
                     computerConfiguration.memoryMapperConfiguration.ioGroupVector.resize(ioGroupNumber+1);
                     computerConfiguration.memoryMapperConfiguration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
                 }
+            break;
+
+            case TAG_DUMP:
+                computerConfiguration.memoryMapperConfiguration.dumpFilename = child->GetNodeContent();
             break;
 
             case TAG_COMMENT:

@@ -168,6 +168,9 @@
             <code_start>0x0000</code_start>
             <code_end>0x3F00</code_end>
         </assembler>
+
+        <!-- Force counter addresses to return 0 (no hardware counter present in emulation) -->
+        <read_value value="0x00">0x600A, 0x600B</read_value>
     </debugger>
 
 </emmaconfig>

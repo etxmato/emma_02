@@ -240,6 +240,13 @@ public:
     int function;
 };
 
+class ReadValueOverride
+{
+public:
+    Word address;
+    Byte value;
+};
+
 class IoGroupConfiguration
 {
 public:
@@ -1238,6 +1245,9 @@ public:
     Byte endPort;
     
     vector<AddressOutput> addressOutputs;
+
+    bool nvram;
+    wxString dumpFilename;
 };
 
 class EmsMemoryConfiguration : public IoGroupConfiguration
@@ -1583,6 +1593,8 @@ public:
     
     bool videoLog_active;
     bool videoLog_defined;
+
+    vector<ReadValueOverride> readValueOverride;
 };
 
 class TraceInstructionSepDetails

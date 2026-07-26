@@ -286,6 +286,8 @@ public:
     Byte getPcbMask();
     void saveNvRam();
     void loadNvRam(size_t configNumber);
+    void savePagerNvRam();
+    void loadPagerNvRam();
 
     void checkComputerFunction();
     void checkRegFunction(char trigger);
