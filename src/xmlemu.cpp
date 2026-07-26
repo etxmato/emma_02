@@ -11497,6 +11497,27 @@ void Computer::showChip8Registers()
     }
 }
 
+void Computer::showPtcRegisters()
+{
+    // PTC pseudo variables are 16-bit, stored big-endian, consecutive from chip8baseVar_ (BASE)
+    // VA=BASE+0, VB=BASE+2, VC=BASE+4, VD=BASE+6, VE=BASE+8
+    int newValue;
+    wxString idReference, valueStr;
+
+    for (int i = 0; i < 5; i++)
+    {
+        Word addr = chip8baseVar_ + (i * 2);
+        newValue = (p_Computer->readMem(addr) << 8) | p_Computer->readMem(addr + 1);
+        if (newValue != chip8Register[0xA + i])
+        {
+            idReference.Printf("V%01X", 0xA + i);
+            valueStr.Printf("%04X", newValue & 0xFFFF);
+            p_Main->eventSetTextValue(idReference, valueStr);
+            chip8Register[0xA + i] = newValue;
+        }
+    }
+}
+
 void Computer::reDefineInKey(int inKey1, int inKey2)
 {
     inKey1_ = inKey1;

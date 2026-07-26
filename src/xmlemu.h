@@ -386,6 +386,7 @@ public:
     Word getChip8MainLoop() {return chip8mainLoopCount_>0 ? chip8mainLoop_[0] : 0;};
     wxString getPseudoType() {return pseudoType_;};
     void showChip8Registers();
+    void showPtcRegisters();
 
     void reDefineInKey(int inKey1, int inKey2);
     int getInKey1() {return inKey1_;};

@@ -863,13 +863,17 @@ void DebugWindow::enableChip8DebugGui(bool status)
     XRCCTRL(*this,"Chip8StepButton", wxBitmapButton)->Enable(false);
     for (int i=0; i<16; i++)
     {
-        chip8varTextPointer[i]->Enable(status&&!chip8ProtectedMode_);
+        bool varEnabled = status&&!chip8ProtectedMode_;
+        if (pseudoType_ == "PTC")
+            varEnabled = varEnabled && (i >= 0xA && i <= 0xE);
+
+        chip8varTextPointer[i]->Enable(varEnabled);
         text.Printf("V%01XText",i);
-        XRCCTRL(*this,text, wxStaticText)->Enable(status);
+        XRCCTRL(*this,text, wxStaticText)->Enable(varEnabled);
     }
     XRCCTRL(*this,"Chip8PCText", wxStaticText)->Enable(status);
-    XRCCTRL(*this,"Chip8I", wxTextCtrl)->Enable(status&&!chip8ProtectedMode_);
-    XRCCTRL(*this,"Chip8IText", wxStaticText)->Enable(status);
+    XRCCTRL(*this,"Chip8I", wxTextCtrl)->Enable(status&&!chip8ProtectedMode_&&pseudoType_!="CARDTRAN"&&pseudoType_!="PTC");
+    XRCCTRL(*this,"Chip8IText", wxStaticText)->Enable(status&&pseudoType_!="CARDTRAN"&&pseudoType_!="PTC");
     XRCCTRL(*this,"Chip8ProtectedMode", wxCheckBox)->Enable(status);
 
     if (computerRunning_)
@@ -1242,7 +1246,11 @@ void DebugWindow::updateChip8Window()
         p_Main->eventSetTextValue("Chip8PC", buffer);
         lastPC_ = scratchpadRegister;
     }
-    if (pseudoType_ != "CARDTRAN" && pseudoType_ != "PTC")
+    if (pseudoType_ == "PTC")
+    {
+        p_Computer->showPtcRegisters();
+    }
+    else if (pseudoType_ != "CARDTRAN")
     {
         if (pseudoType_ == "STIV")
             scratchpadRegister = (p_Computer->readMemDebug(0x27f6)<<8)+p_Computer->readMemDebug(0x27f7);
@@ -6386,7 +6394,20 @@ void DebugWindow::Vx(wxCommandEvent&event)
     wxString buttonNumber = buttonName.Last();
     long number;
     if (buttonNumber.ToLong(&number, 16))
-        p_Computer->writeMemDebug(p_Computer->getChip8baseVar() + number, value, false);
+    {
+        if (pseudoType_ == "PTC")
+        {
+            // PTC: 16-bit big-endian, consecutive from BASE (VA=+0, VB=+2, VC=+4, VD=+6, VE=+8)
+            if (number >= 0xA && number <= 0xE)
+            {
+                Word addr = p_Computer->getChip8baseVar() + (number - 0xA) * 2;
+                p_Computer->writeMemDebug(addr, (value >> 8) & 0xFF, false);
+                p_Computer->writeMemDebug(addr + 1, value & 0xFF, false);
+            }
+        }
+        else
+            p_Computer->writeMemDebug(p_Computer->getChip8baseVar() + number, value, false);
+    }
 }
 
 void DebugWindow::R0(wxCommandEvent&WXUNUSED(event))
@@ -16457,6 +16478,32 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 additionalDetailsPrintStr_ += "%02X";
                                 additionalChip8DetailsType_ = PSEUDO_DETAILS_MI;
                             }
+                            if (firstParameter == "VA" || firstParameter == "VB" || firstParameter == "VC" || firstParameter == "VD")
+                            {
+                                additionalChip8Details_ = true;
+                                int varIndex = 0;
+                                if (firstParameter == "VB") varIndex = 1;
+                                else if (firstParameter == "VC") varIndex = 2;
+                                else if (firstParameter == "VD") varIndex = 3;
+                                additionalDetailsAddress_ = p_Computer->getChip8baseVar() + (varIndex * 2);
+                                additionalDetailsPrintStr_ = firstParameter + "=%04X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R;
+                            }
+                            if (firstParameter == "TOS")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = 0xD;
+                                additionalDetailsPrintStr_ = "TOS=%04X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_TOS;
+                            }
+                            if (firstParameter == "[TOS]")
+                            {
+                                additionalChip8Details_ = true;
+                                Word rd = p_Computer->getScratchpadRegister(0xD);
+                                additionalDetailsAddress_ = (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1);
+                                additionalDetailsPrintStr_ = "[%04X]=%02X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_MTOS;
+                            }
                             if (!additionalChip8Details_)
                             {
                                 additionalChip8Details_ = true;
@@ -16501,7 +16548,7 @@ wxString DebugWindow::addDetails()
     switch (additionalChip8DetailsType_)
     {
         case PSEUDO_DETAILS_X:
-            buffer.Printf(additionalDetailsPrintStr_, p_Computer->readMemDebug(additionalDetailsAddress_));
+            buffer.Printf(" " + additionalDetailsPrintStr_, p_Computer->readMemDebug(additionalDetailsAddress_));
             if (additionalDetailsAddressV2_ != 0)
             {
                 v2String.Printf(additionalDetailsPrintStrV2_, p_Computer->readMemDebug(additionalDetailsAddressV2_));
@@ -16510,11 +16557,11 @@ wxString DebugWindow::addDetails()
         break;
       
         case PSEUDO_DETAILS_R:
-            buffer.Printf(additionalDetailsPrintStr_, (p_Computer->readMemDebug(additionalDetailsAddress_) << 8) + p_Computer->readMemDebug(additionalDetailsAddress_+1));
+            buffer.Printf(" " + additionalDetailsPrintStr_, (p_Computer->readMemDebug(additionalDetailsAddress_) << 8) + p_Computer->readMemDebug(additionalDetailsAddress_+1));
         break;
             
         case PSEUDO_DETAILS_MR:
-            buffer.Printf(additionalDetailsPrintStr_, p_Computer->readMemDebug((p_Computer->readMemDebug(additionalDetailsAddress_) << 8) + p_Computer->readMemDebug(additionalDetailsAddress_+1)));
+            buffer.Printf(" " + additionalDetailsPrintStr_, p_Computer->readMemDebug((p_Computer->readMemDebug(additionalDetailsAddress_) << 8) + p_Computer->readMemDebug(additionalDetailsAddress_+1)));
         break;
             
         case PSEUDO_DETAILS_I:
@@ -16522,7 +16569,7 @@ wxString DebugWindow::addDetails()
                 valueI = (p_Computer->readMemDebug(0x27f6)<<8)+p_Computer->readMemDebug(0x27f7);
             else
                 valueI = p_Computer->getScratchpadRegister(CHIP8_I) & 0xfff;
-            buffer.Printf(additionalDetailsPrintStr_, valueI);
+            buffer.Printf(" " + additionalDetailsPrintStr_, valueI);
         break;
 
         case PSEUDO_DETAILS_MI:
@@ -16530,7 +16577,20 @@ wxString DebugWindow::addDetails()
                 valueI = (p_Computer->readMemDebug(0x27f6)<<8)+p_Computer->readMemDebug(0x27f7);
             else
                 valueI = p_Computer->getScratchpadRegister(CHIP8_I) & 0xfff;
-            buffer.Printf(additionalDetailsPrintStr_, p_Computer->readMemDebug(additionalDetailsAddress_));
+            buffer.Printf(" " + additionalDetailsPrintStr_, p_Computer->readMemDebug(additionalDetailsAddress_));
+        break;
+
+        case PSEUDO_DETAILS_TOS:
+        {
+            Word rd = p_Computer->getScratchpadRegister(additionalDetailsAddress_);
+            buffer.Printf(" " + additionalDetailsPrintStr_, (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1));
+        }
+        break;
+
+        case PSEUDO_DETAILS_MTOS:
+        {
+            buffer.Printf(" " + additionalDetailsPrintStr_, additionalDetailsAddress_, p_Computer->readMemDebug(additionalDetailsAddress_));
+        }
         break;
     }
     additionalChip8Details_ = false;

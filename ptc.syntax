@@ -1,23 +1,23 @@
 ADD
-TOS , NOS code=00
-TOS , const=1 code=03
-TOS , const=2 code=04
-TOS , [TOS] code=35
-[TOS] , NOS code=05
-[TOS] , NOS.0 code=30
+TOS , NOS det code=00
+TOS , const=1 det code=03
+TOS , const=2 det code=04
+TOS , [TOS] det code=35
+[TOS] , NOS det code=05
+[TOS] , NOS.0 det code=30
 /ADD
 SHL
-TOS code=01
+TOS det code=01
 /SHL
 SUB
-TOS , NOS code=02
-TOS , const=1 code=27
+TOS , NOS det code=02
+TOS , const=1 det code=27
 /SUB
 MUL
-TOS , NOS code=06
+TOS , NOS det code=06
 /MUL
 DIV
-TOS , NOS code=07
+TOS , NOS det code=07
 /DIV
 JZ
 brf code=08kk
@@ -34,19 +34,19 @@ brb code=0Ckk
 TOS , brb code=0Dkk
 /LOOP
 EXEC
-TOS code=10
+TOS det code=10
 /EXEC
 RET
 code=11
 /RET
 AND
-TOS , NOS code=12
+TOS , NOS det code=12
 /AND
 ISZ
-TOS code=13
+TOS det code=13
 /ISZ
 ISNEG
-TOS code=14
+TOS det code=14
 /ISNEG
 MCOPY
 [kkvv] , [wwtt] code=58kkvvwwtt
@@ -104,41 +104,41 @@ NUMCZ
 code=2D
 /NUMCZ
 OR
-TOS , NOS code=33
+TOS , NOS det code=33
 /OR
 COMP
 code=34
 /COMP
 LD24
-[TOS] , NOS code=36
+[TOS] , NOS det code=36
 /LD24
-LDVAB
-[TOS] code=37
-/LDVAB
+LDVCD
+[TOS] det code=37
+/LDVCD
 LD
-TOS , VA code=5E
-TOS , VB code=60
-TOS , VC code=62
-TOS , VD code=64
-TOS , [RP] code=6A
+TOS , VC det code=5E
+TOS , VD det code=60
+TOS , VA det code=62
+TOS , VB det code=64
+TOS , [RP] det code=6A
 TOS.0 , [RP] code=2A
-VE , [RP] code=67
-TOS , [TOS] code=15
+VE , [RP] det code=67
+TOS , [TOS] det code=15
 TOS.0 , [TOS] code=17
-[TOS] , NOS code=16
-[TOS] , NOS.0 code=19
-[TOS] , const=0 code=2E
-[TOS] , const=1 code=2F
-VA , TOS code=5D
-VB , TOS code=5F
-VC , TOS code=61
-VD , TOS code=63
-TOS , mem=6000-60FF code=3Eaa
+[TOS] , NOS det code=16
+[TOS] , NOS.0 det code=19
+[TOS] , const=0 det code=2E
+[TOS] , const=1 det code=2F
+VC , TOS det code=5D
+VD , TOS det code=5F
+VA , TOS det code=61
+VB , TOS det code=63
+TOS , mem=6000-60FF det code=3Eaa
 mem=6000-60FF , TOS code=3Faa
 TOS.0 , mem=6000-60FF code=40aa
 mem=6000-60FF , TOS.0 code=41aa
 [60BD] , kk code=42kk
-TOS , mem=0000-FFFF code=3Aaaaa
+TOS , mem=0000-FFFF det code=3Aaaaa
 mem=0000-FFFF , TOS code=3Baaaa
 TOS.0 , mem=0000-FFFF code=3Caaaa
 mem=0000-FFFF , TOS.0 code=3Daaaa
@@ -189,7 +189,7 @@ STBNK
 [kkvv] , wwtt code=5Akkvvwwtt
 /STBNK
 LDBNK
-[TOS] code=39
+[TOS] det code=39
 kkvv , [wwtt] code=5Bkkvvwwtt
 /LDBNK
 CALLI

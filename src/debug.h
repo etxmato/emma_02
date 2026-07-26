@@ -75,6 +75,8 @@ public:
 #define PSEUDO_DETAILS_MI 2
 #define PSEUDO_DETAILS_R 3
 #define PSEUDO_DETAILS_MR 4
+#define PSEUDO_DETAILS_TOS 5
+#define PSEUDO_DETAILS_MTOS 6
 
 class PseudoCodeDetails
 {
