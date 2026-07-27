@@ -28,7 +28,7 @@ brf code=0Akk
 brb code=0Bkk
 /JP
 LOOP
-FRAME code=0E
+FRAME det code=0E
 CLR code=0F
 brb code=0Ckk
 TOS , brb code=0Dkk
@@ -61,29 +61,29 @@ OVER
 code=1D
 /OVER
 DUP
-code=1E
+det code=1E
 /DUP
 DUPNZ
 code=1F
 /DUPNZ
 SWAP
-code=20
+det code=20
 /SWAP
 ROT
 code=21
 /ROT
 PUSH
-CS code=24
-VE , kk code=52kk
-[VE].0 , kk code=53kk
-[VE] , kk code=55kk
-const=0000 code=72
-const=0001 code=73
-const=0002 code=74
-const=0003 code=75
-const=FFFF code=76
-kk code=23kk
-hex=0000-FFFF code=22aaaa
+CS det code=24
+VE , kk det code=52kk
+[VE].0 , kk det code=53kk
+[VE] , kk det code=55kk
+const=0000 det code=72
+const=0001 det code=73
+const=0002 det code=74
+const=0003 det code=75
+const=FFFF det code=76
+kk det code=23kk
+hex=0000-FFFF det code=22aaaa
 /PUSH
 POPCS
 code=25

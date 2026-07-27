@@ -1201,6 +1201,7 @@ void DebugWindow::cycleDebug()
 
 void DebugWindow::resetDisplay()
 {
+    topOfStackSet_ = false;
     for (int i=0; i<16; i++) lastR_[i] = p_Computer->getScratchpadRegister(i)+1;
     for (int i=1; i<8; i++) lastOut_[i] = p_Computer->getOutValue(i) + 1;
     for (int i=1; i<8; i++) lastIn_[i] = p_Computer->getInValue(i) + 1;
@@ -15361,6 +15362,12 @@ void DebugWindow::onChip8Clear(wxCommandEvent& WXUNUSED(event))
 
 void DebugWindow::pseudoTrace(Word address)
 {
+    if (!topOfStackSet_)
+    {
+        topOfDataStack_ = p_Computer->getScratchpadRegister(0xD);
+        topOfReturnStack_ = p_Computer->getScratchpadRegister(2);
+        topOfStackSet_ = true;
+    }
     chip8DebugTrace(pseudoDisassemble(address, true, false));
 }
 
@@ -16492,12 +16499,19 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 additionalDetailsPrintStr_ = firstParameter + "=%04X";
                                 additionalChip8DetailsType_ = PSEUDO_DETAILS_R;
                             }
-                            if (firstParameter == "TOS" || firstParameter == "TOS.0")
+                            if (commandText == "PUSH" || commandText == "DUP" || commandText == "SWAP" || firstParameter == "TOS" || firstParameter == "TOS.0")
                             {
                                 additionalChip8Details_ = true;
                                 additionalDetailsAddress_ = 0xD;
-                                additionalDetailsPrintStr_ = "TOS=%04X";
-                                additionalChip8DetailsType_ = PSEUDO_DETAILS_TOS;
+                                additionalDetailsPrintStr_ = "DS: %04X, %04X, %04X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_DATA_STACK;
+                            }
+                            if (commandText == "LOOP" && firstParameter == "FRAME")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = 0x2;
+                                additionalDetailsPrintStr_ = "RS: %04X, %04X, %04X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_RETURN_STACK;
                             }
                             if (firstParameter == "[TOS]")
                             {
@@ -16507,12 +16521,22 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 if (commandText == "LD24")
                                 {
                                     additionalDetailsPrintStr_ = "[%04X]=%02X%02X%02X";
-                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_MNOS;
+                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_MTOS_24;
                                 }
                                 else
                                 {
-                                    additionalDetailsPrintStr_ = "[%04X]=%02X";
-                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_MTOS;
+                                    secondParameter = extractWord(&pseudoLineCopy); // read ,
+                                    secondParameter = extractWord(&pseudoLineCopy); // read second parameter
+                                    if (secondParameter == "NOS")
+                                    {
+                                        additionalDetailsPrintStr_ = "[%04X]=%04X";
+                                        additionalChip8DetailsType_ = PSEUDO_DETAILS_MTOS_16;
+                                    }
+                                    else
+                                    {
+                                        additionalDetailsPrintStr_ = "[%04X]=%02X";
+                                        additionalChip8DetailsType_ = PSEUDO_DETAILS_MTOS_8;
+                                    }
                                 }
                             }
                             if (firstParameter == "[NOS]")
@@ -16521,7 +16545,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 Word rd = p_Computer->getScratchpadRegister(0xD);
                                 additionalDetailsAddress_ = (p_Computer->readMemDebug(rd + 2) << 8) + p_Computer->readMemDebug(rd + 3);
                                 additionalDetailsPrintStr_ = "[%04X]=%02X%02X%02X";
-                                additionalChip8DetailsType_ = PSEUDO_DETAILS_MNOS;
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_MTOS_24;
                             }
                             if (firstParameter == "mem=6000-60FF")
                             {
@@ -16599,7 +16623,8 @@ wxString DebugWindow::addDetails()
 {
     wxString buffer, v2String;
     Word valueI;
-
+    int stackDepth;
+    
     switch (additionalChip8DetailsType_)
     {
         case PSEUDO_DETAILS_X:
@@ -16635,20 +16660,42 @@ wxString DebugWindow::addDetails()
             buffer.Printf(" " + additionalDetailsPrintStr_, p_Computer->readMemDebug(additionalDetailsAddress_));
         break;
 
-        case PSEUDO_DETAILS_TOS:
+        case PSEUDO_DETAILS_DATA_STACK:
+        case PSEUDO_DETAILS_RETURN_STACK:
         {
             Word rd = p_Computer->getScratchpadRegister(additionalDetailsAddress_);
-            buffer.Printf(" " + additionalDetailsPrintStr_, (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1));
+            if (additionalChip8DetailsType_ == PSEUDO_DETAILS_DATA_STACK)
+                stackDepth = (topOfStackSet_) ? (topOfDataStack_ - rd) / 2 : 3;
+            else
+                stackDepth = (topOfStackSet_) ? (topOfReturnStack_ - rd) / 2 : 3;
+            if (stackDepth >= 3)
+                buffer.Printf(" DS: %04X, %04X, %04X",
+                    (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1),
+                    (p_Computer->readMemDebug(rd + 2) << 8) + p_Computer->readMemDebug(rd + 3),
+                    (p_Computer->readMemDebug(rd + 4) << 8) + p_Computer->readMemDebug(rd + 5));
+            else if (stackDepth == 2)
+                buffer.Printf(" DS: %04X, %04X",
+                    (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1),
+                    (p_Computer->readMemDebug(rd + 2) << 8) + p_Computer->readMemDebug(rd + 3));
+            else if (stackDepth == 1)
+                buffer.Printf(" DS: %04X",
+                    (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1));
         }
         break;
 
-        case PSEUDO_DETAILS_MTOS:
+        case PSEUDO_DETAILS_MTOS_8:
         {
             buffer.Printf(" " + additionalDetailsPrintStr_, additionalDetailsAddress_, p_Computer->readMemDebug(additionalDetailsAddress_));
         }
         break;
 
-        case PSEUDO_DETAILS_MNOS:
+        case PSEUDO_DETAILS_MTOS_16:
+        {
+            buffer.Printf(" " + additionalDetailsPrintStr_, additionalDetailsAddress_, (p_Computer->readMemDebug(additionalDetailsAddress_) << 8) + p_Computer->readMemDebug(additionalDetailsAddress_ + 1));
+        }
+        break;
+
+        case PSEUDO_DETAILS_MTOS_24:
         {
             buffer.Printf(" " + additionalDetailsPrintStr_, additionalDetailsAddress_,
                 p_Computer->readMemDebug(additionalDetailsAddress_),

@@ -75,9 +75,11 @@ public:
 #define PSEUDO_DETAILS_MI 2
 #define PSEUDO_DETAILS_R 3
 #define PSEUDO_DETAILS_MR 4
-#define PSEUDO_DETAILS_TOS 5
-#define PSEUDO_DETAILS_MTOS 6
-#define PSEUDO_DETAILS_MNOS 7
+#define PSEUDO_DETAILS_DATA_STACK 5
+#define PSEUDO_DETAILS_RETURN_STACK 6
+#define PSEUDO_DETAILS_MTOS_8 7
+#define PSEUDO_DETAILS_MTOS_16 8
+#define PSEUDO_DETAILS_MTOS_24 9
 
 class PseudoCodeDetails
 {
@@ -518,6 +520,10 @@ protected:
     Word additionalDetailsAddressV2_;
     wxString additionalDetailsPrintStr_;
     wxString additionalDetailsPrintStrV2_;
+
+    Word topOfDataStack_;
+    Word topOfReturnStack_;
+    bool topOfStackSet_;
 
     double percentageClock_;
     bool saveDebugFile_;
