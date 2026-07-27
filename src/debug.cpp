@@ -15977,6 +15977,9 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
 
                 wxString pseudoLine = pseudoCodeDetails_[pseudoNr].parameterText;
                 wxString pseudoLineCopy = pseudoLine;
+                wxString commandText = pseudoCodeDetails_[pseudoNr].commandText;
+                commandText.Trim(false);
+                commandText.Trim(true);
                 firstParameter = extractWord(&pseudoLineCopy);
                 pseudoLine = pseudoCodeDetails_[pseudoNr].parameterText;
                 
@@ -16489,7 +16492,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 additionalDetailsPrintStr_ = firstParameter + "=%04X";
                                 additionalChip8DetailsType_ = PSEUDO_DETAILS_R;
                             }
-                            if (firstParameter == "TOS")
+                            if (firstParameter == "TOS" || firstParameter == "TOS.0")
                             {
                                 additionalChip8Details_ = true;
                                 additionalDetailsAddress_ = 0xD;
@@ -16501,8 +16504,60 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 additionalChip8Details_ = true;
                                 Word rd = p_Computer->getScratchpadRegister(0xD);
                                 additionalDetailsAddress_ = (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1);
-                                additionalDetailsPrintStr_ = "[%04X]=%02X";
-                                additionalChip8DetailsType_ = PSEUDO_DETAILS_MTOS;
+                                if (commandText == "LD24")
+                                {
+                                    additionalDetailsPrintStr_ = "[%04X]=%02X%02X%02X";
+                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_MNOS;
+                                }
+                                else
+                                {
+                                    additionalDetailsPrintStr_ = "[%04X]=%02X";
+                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_MTOS;
+                                }
+                            }
+                            if (firstParameter == "[NOS]")
+                            {
+                                additionalChip8Details_ = true;
+                                Word rd = p_Computer->getScratchpadRegister(0xD);
+                                additionalDetailsAddress_ = (p_Computer->readMemDebug(rd + 2) << 8) + p_Computer->readMemDebug(rd + 3);
+                                additionalDetailsPrintStr_ = "[%04X]=%02X%02X%02X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_MNOS;
+                            }
+                            if (firstParameter == "mem=6000-60FF")
+                            {
+                                secondParameter = extractWord(&pseudoLineCopy); // read ,
+                                secondParameter = extractWord(&pseudoLineCopy); // read second parameter
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = 0x6000 + chip8_opcode2;
+                                if (secondParameter == "TOS")
+                                {
+                                    additionalDetailsPrintStr_.Printf("[%04X]=", 0x6000 + chip8_opcode2);
+                                    additionalDetailsPrintStr_ += "%04X";
+                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_R;
+                                }
+                                if (secondParameter == "TOS.0")
+                                {
+                                    additionalDetailsPrintStr_.Printf("[%04X]=", 0x6000 + chip8_opcode2);
+                                    additionalDetailsPrintStr_ += "%02X";
+                                }
+                            }
+                            if (firstParameter == "mem=0000-FFFF")
+                            {
+                                secondParameter = extractWord(&pseudoLineCopy); // read ,
+                                secondParameter = extractWord(&pseudoLineCopy); // read second parameter
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = (chip8_opcode2 << 8) + chip8_opcode3;
+                                if (secondParameter == "TOS")
+                                {
+                                    additionalDetailsPrintStr_.Printf("[%04X]=", (chip8_opcode2 << 8) + chip8_opcode3);
+                                    additionalDetailsPrintStr_ += "%04X";
+                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_R;
+                                }
+                                if (secondParameter == "TOS.0")
+                                {
+                                    additionalDetailsPrintStr_.Printf("[%04X]=", (chip8_opcode2 << 8) + chip8_opcode3);
+                                    additionalDetailsPrintStr_ += "%02X";
+                                }
                             }
                             if (!additionalChip8Details_)
                             {
@@ -16590,6 +16645,15 @@ wxString DebugWindow::addDetails()
         case PSEUDO_DETAILS_MTOS:
         {
             buffer.Printf(" " + additionalDetailsPrintStr_, additionalDetailsAddress_, p_Computer->readMemDebug(additionalDetailsAddress_));
+        }
+        break;
+
+        case PSEUDO_DETAILS_MNOS:
+        {
+            buffer.Printf(" " + additionalDetailsPrintStr_, additionalDetailsAddress_,
+                p_Computer->readMemDebug(additionalDetailsAddress_),
+                p_Computer->readMemDebug(additionalDetailsAddress_ + 1),
+                p_Computer->readMemDebug(additionalDetailsAddress_ + 2));
         }
         break;
     }

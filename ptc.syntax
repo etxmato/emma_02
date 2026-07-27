@@ -121,10 +121,10 @@ TOS , VD det code=60
 TOS , VA det code=62
 TOS , VB det code=64
 TOS , [RP] det code=6A
-TOS.0 , [RP] code=2A
+TOS.0 , [RP] det code=2A
 VE , [RP] det code=67
 TOS , [TOS] det code=15
-TOS.0 , [TOS] code=17
+TOS.0 , [TOS] det code=17
 [TOS] , NOS det code=16
 [TOS] , NOS.0 det code=19
 [TOS] , const=0 det code=2E
@@ -134,14 +134,14 @@ VD , TOS det code=5F
 VA , TOS det code=61
 VB , TOS det code=63
 TOS , mem=6000-60FF det code=3Eaa
-mem=6000-60FF , TOS code=3Faa
-TOS.0 , mem=6000-60FF code=40aa
-mem=6000-60FF , TOS.0 code=41aa
+mem=6000-60FF , TOS det code=3Faa
+TOS.0 , mem=6000-60FF det code=40aa
+mem=6000-60FF , TOS.0 det code=41aa
 [60BD] , kk code=42kk
 TOS , mem=0000-FFFF det code=3Aaaaa
-mem=0000-FFFF , TOS code=3Baaaa
-TOS.0 , mem=0000-FFFF code=3Caaaa
-mem=0000-FFFF , TOS.0 code=3Daaaa
+mem=0000-FFFF , TOS det code=3Baaaa
+TOS.0 , mem=0000-FFFF det code=3Caaaa
+mem=0000-FFFF , TOS.0 det code=3Daaaa
 /LD
 DISP
 code=43
@@ -199,13 +199,13 @@ SETBK
 code=6B
 /SETBK
 SUB24
-[NOS] , [TOS] code=6E
-[NOS] , TOS code=70
+[NOS] , [TOS] det code=6E
+[NOS] , TOS det code=70
 /SUB24
 ADD24
-[NOS] , [TOS] code=32
+[NOS] , [TOS] det code=32
 [wwtt] , [kkvv] code=59kkvvwwtt
-[NOS] , TOS code=6F
+[NOS] , TOS det code=6F
 /ADD24
 NOOP
 code=7F
