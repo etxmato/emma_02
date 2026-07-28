@@ -34,7 +34,7 @@
 /Helpfiles/images/old_images/*
 /IsTool/vccrt.msi
 *.pjd.bak
-xcuserdata/
+/Emma\ 02.xcodeproj/xcuserdata/
 .DS_Store
 /Helpfiles/.DS_Store
 emma_02
