@@ -6710,7 +6710,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
         {
             if (currentComputerConfiguration.hd44780Configuration.commandPort.addressMode)
             {
-                if (address == currentComputerConfiguration.hd44780Configuration.commandPort.portNumber[0] || address == 0x3f4f)
+                if (address == currentComputerConfiguration.hd44780Configuration.commandPort.portNumber[0] || address == currentComputerConfiguration.hd44780Configuration.commandPort.portNumber[1])
                 {
                     hd44780Pointer->writeCommand(value);
                     hd44780DataCount = 0;  // reset counter on any command write

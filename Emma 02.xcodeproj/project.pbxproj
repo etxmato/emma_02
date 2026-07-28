@@ -196,9 +196,11 @@
 		99C567BC24CC4DFC00F11A84 /* am4kbas.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99C567BB24CC4DFB00F11A84 /* am4kbas.syntax */; };
 		99C597802A66BBE500A4F97D /* keypadfred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C5977E2A66BBD400A4F97D /* keypadfred.cpp */; };
 		99C597812A66BBE600A4F97D /* keypadfred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C5977E2A66BBD400A4F97D /* keypadfred.cpp */; };
+		99C75D37301913D1000F92FA /* PTC701_R2.0.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99C75D36301913D1000F92FA /* PTC701_R2.0.syntax */; };
+		99C75D38301913D1000F92FA /* PTC701_R2.0.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99C75D36301913D1000F92FA /* PTC701_R2.0.syntax */; };
 		99C9EABB2145C1FC00C1EA03 /* Test_Word.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99C9EABA2145C1FC00C1EA03 /* Test_Word.syntax */; };
-		99CD83DC2FFEEB83007F7746 /* ptc.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99CD83DB2FFEEB69007F7746 /* ptc.syntax */; };
-		99CD83DD2FFEEB83007F7746 /* ptc.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99CD83DB2FFEEB69007F7746 /* ptc.syntax */; };
+		99CD83DC2FFEEB83007F7746 /* PTC701_R1.7.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99CD83DB2FFEEB69007F7746 /* PTC701_R1.7.syntax */; };
+		99CD83DD2FFEEB83007F7746 /* PTC701_R1.7.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99CD83DB2FFEEB69007F7746 /* PTC701_R1.7.syntax */; };
 		99CFB4232E99830200D20E8E /* tms9918_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99CFB4222E99830200D20E8E /* tms9918_config.cpp */; };
 		99CFB4242E99830200D20E8E /* tms9918_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99CFB4222E99830200D20E8E /* tms9918_config.cpp */; };
 		99CFF2972ABA400E005E4CBC /* libcurl.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 99E940F81FF1746900E69E8B /* libcurl.4.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -680,9 +682,10 @@
 		99C567BB24CC4DFB00F11A84 /* am4kbas.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = am4kbas.syntax; sourceTree = "<group>"; };
 		99C5977E2A66BBD400A4F97D /* keypadfred.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = keypadfred.cpp; path = src/keypadfred.cpp; sourceTree = "<group>"; };
 		99C5977F2A66BBD400A4F97D /* keypadfred.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = keypadfred.h; path = src/keypadfred.h; sourceTree = "<group>"; };
+		99C75D36301913D1000F92FA /* PTC701_R2.0.syntax */ = {isa = PBXFileReference; lastKnownFileType = text; path = PTC701_R2.0.syntax; sourceTree = "<group>"; };
 		99C9EABA2145C1FC00C1EA03 /* Test_Word.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Test_Word.syntax; sourceTree = "<group>"; };
 		99CC30B721DBA0F800B04C7F /* Emma 02 mac.pjd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Emma 02 mac.pjd"; sourceTree = "<group>"; };
-		99CD83DB2FFEEB69007F7746 /* ptc.syntax */ = {isa = PBXFileReference; lastKnownFileType = text; path = ptc.syntax; sourceTree = "<group>"; };
+		99CD83DB2FFEEB69007F7746 /* PTC701_R1.7.syntax */ = {isa = PBXFileReference; lastKnownFileType = text; path = PTC701_R1.7.syntax; sourceTree = "<group>"; };
 		99CFB4212E99830200D20E8E /* tms9918_config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = tms9918_config.h; path = src/tms9918_config.h; sourceTree = "<group>"; };
 		99CFB4222E99830200D20E8E /* tms9918_config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = tms9918_config.cpp; path = src/tms9918_config.cpp; sourceTree = "<group>"; };
 		99D5FCD3211C938E001F4391 /* Chip8X.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8X.syntax; sourceTree = "<group>"; };
@@ -786,7 +789,8 @@
 				9997F7BC212494FA0036A1FC /* GPL-3.syntax */,
 				99F8CF02211A1567002F02C6 /* GPL-4.syntax */,
 				99F8CF00211A155E002F02C6 /* FEL-1.syntax */,
-				99CD83DB2FFEEB69007F7746 /* ptc.syntax */,
+				99CD83DB2FFEEB69007F7746 /* PTC701_R1.7.syntax */,
+				99C75D36301913D1000F92FA /* PTC701_R2.0.syntax */,
 				996FCAE721430C240051F294 /* STK-1.syntax */,
 				9935652A21446B7000A329C6 /* STK-2.syntax */,
 				995FE8902516136300F96DB8 /* SuperChip.syntax */,
@@ -1239,7 +1243,7 @@
 				99B2AB8827863D8000C73EB9 /* about_14.xrc in Resources */,
 				994CC7DA2FCCD19E004A6655 /* GPL-2b.syntax in Resources */,
 				99B2AC1F27863EEC00C73EB9 /* vt_11.xrc in Resources */,
-				99CD83DC2FFEEB83007F7746 /* ptc.syntax in Resources */,
+				99CD83DC2FFEEB83007F7746 /* PTC701_R1.7.syntax in Resources */,
 				99034D172130AFDC007F1BF3 /* FPL-4.syntax in Resources */,
 				99D92E73211AA0AD007D868E /* CARDTRAN.syntax in Resources */,
 				99F8CF01211A155E002F02C6 /* FEL-1.syntax in Resources */,
@@ -1281,6 +1285,7 @@
 				99B2AC2027863EEC00C73EB9 /* vt_14.xrc in Resources */,
 				99B2AB9F27863DE300C73EB9 /* datadir_11.xrc in Resources */,
 				99B2AB8D27863DB900C73EB9 /* cassette_11.xrc in Resources */,
+				99C75D38301913D1000F92FA /* PTC701_R2.0.syntax in Resources */,
 				99B2ABB127863E1200C73EB9 /* functionkey_11.xrc in Resources */,
 				996C1615212F3F130061C30B /* pseudo.def in Resources */,
 				99575CBF278795EA00ED912A /* osx_11.ini in Resources */,
@@ -1306,7 +1311,7 @@
 				99F37EDF285D1D9200C57417 /* about_14.xrc in Resources */,
 				994CC7DB2FCCD19E004A6655 /* GPL-2b.syntax in Resources */,
 				99F37EE1285D1D9200C57417 /* vt_11.xrc in Resources */,
-				99CD83DD2FFEEB83007F7746 /* ptc.syntax in Resources */,
+				99CD83DD2FFEEB83007F7746 /* PTC701_R1.7.syntax in Resources */,
 				99F37EE2285D1D9200C57417 /* FPL-4.syntax in Resources */,
 				99F37EE3285D1D9200C57417 /* CARDTRAN.syntax in Resources */,
 				99F37EE8285D1D9200C57417 /* FEL-1.syntax in Resources */,
@@ -1348,6 +1353,7 @@
 				99F37F17285D1D9200C57417 /* vt_14.xrc in Resources */,
 				99F37F18285D1D9200C57417 /* datadir_11.xrc in Resources */,
 				99F37F1B285D1D9200C57417 /* cassette_11.xrc in Resources */,
+				99C75D37301913D1000F92FA /* PTC701_R2.0.syntax in Resources */,
 				99F37F1E285D1D9200C57417 /* functionkey_11.xrc in Resources */,
 				99F37F22285D1D9200C57417 /* pseudo.def in Resources */,
 				99F37F24285D1D9200C57417 /* osx_11.ini in Resources */,
