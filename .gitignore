@@ -34,8 +34,13 @@
 /Helpfiles/images/old_images/*
 /IsTool/vccrt.msi
 *.pjd.bak
-/Emma 02.xcodeproj/xcuserdata/etxmato.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
-/Emma 02.xcodeproj/project.xcworkspace/xcuserdata/etxmato.xcuserdatad/UserInterfaceState.xcuserstate
+**/Breakpoints_v2.xcbkptlist
+xcuserdata/
+Emma\ 02.xcodeproj/xcuserdata/etxmato.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+/Emma\ 02.xcodeproj/xcuserdata/etxmato.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+Breakpoints_v2.xcbkptlist
+/Emma\ 02.xcodeproj/project.xcworkspace/xcuserdata/etxmato.xcuserdatad/UserInterfaceState.xcuserstate
+UserInterfaceState.xcuserstate
 .DS_Store
 /Helpfiles/.DS_Store
 emma_02
