@@ -2,23 +2,14 @@ ADD
 TOS , NOS det code=00
 TOS , const=1 det code=03
 TOS , const=2 det code=04
-TOS , [TOS] det code=35
-[TOS] , NOS det code=05
-[TOS] , NOS.0 det code=30
 /ADD
 SHL
 TOS det code=01
 /SHL
 SUB
 TOS , NOS det code=02
-TOS , const=1 det code=27
+TOS , const=1 det code=21
 /SUB
-MUL
-TOS , NOS det code=06
-/MUL
-DIV
-TOS , NOS det code=07
-/DIV
 JZ
 brf code=08kk
 brb code=09kk
@@ -29,13 +20,9 @@ brb code=0Bkk
 /JP
 LOOP
 FRAME det code=0E
-CLR code=0F
 brb code=0Ckk
 TOS , brb code=0Dkk
 /LOOP
-EXEC
-TOS det code=10
-/EXEC
 RET
 code=11
 /RET
@@ -44,14 +31,13 @@ TOS , NOS det code=12
 /AND
 ISZ
 TOS det code=13
+[TOS] det code=38
 /ISZ
 ISNEG
 TOS det code=14
 /ISNEG
 MCOPY
-[kkvv] , [wwtt] code=58kkvvwwtt
-const=3 code=31
-[NOS] code=38
+const=3 code=1B
 code=1A
 /MCOPY
 DROP
@@ -69,147 +55,74 @@ code=1F
 SWAP
 det code=20
 /SWAP
-ROT
-code=21
-/ROT
 PUSH
 CS det code=24
-VE , kk det code=52kk
-[VE].0 , kk det code=53kk
-[VE] , kk det code=55kk
-const=0000 det code=72
-const=0001 det code=73
-const=0002 det code=74
-const=0003 det code=75
-const=FFFF det code=76
+const=78B7 det code=3A
+const=7C06 det code=3B
+const=7C09 det code=3C
+const=7C0C det code=3D
+const=7C0E det code=3E
+const=7C11 det code=3F
+const=7C2C det code=40
+const=7C4E det code=41
+const=7C70 det code=42
+const=7C92 det code=43
+const=7CB4 det code=44
+const=7CD6 det code=45
+const=7D08 det code=46
+const=FFFF det code=47
+const=0020 det code=48
+const=0000 det code=49
+const=0001 det code=4A
+const=0002 det code=4B
+const=0004 det code=4C
+const=0007 det code=4D
+const=000D det code=4E
+const=002B det code=4F
+const=002D det code=50
 kk det code=23kk
 hex=0000-FFFF det code=22aaaa
 /PUSH
 POPCS
-code=25
+code=0F
 /POPCS
 PUSHCS
-code=26
+code=10
 /PUSHCS
-NAVBK
-code=29
-/NAVBK
-STRCP
-code=2B
-/STRCP
-NUMCP
-code=2C
-/NUMCP
-NUMCZ
-code=2D
-/NUMCZ
 OR
-TOS , NOS det code=33
+TOS , NOS det code=27
 /OR
-COMP
-code=34
-/COMP
 LD24
 [TOS] , NOS det code=28
 /LD24
-LDVCD
-[TOS] det code=37
-/LDVCD
 LD
-TOS , VC det code=5E
-TOS , VD det code=60
-TOS , VA det code=62
-TOS , VB det code=64
-TOS , [RP] det code=6A
-TOS.0 , [RP] det code=2A
-VE , [RP] det code=67
 TOS , [TOS] det code=15
 TOS.0 , [TOS] det code=17
 [TOS] , NOS det code=16
 [TOS] , NOS.0 det code=19
-[TOS] , const=0 det code=2E
-[TOS] , const=1 det code=2F
-VC , TOS det code=5D
-VD , TOS det code=5F
-VA , TOS det code=61
-VB , TOS det code=63
-TOS , mem=6000-60FF det code=3Eaa
-mem=6000-60FF , TOS det code=3Faa
-TOS.0 , mem=6000-60FF det code=40aa
-mem=6000-60FF , TOS.0 det code=41aa
-[60BD] , kk code=42kk
-TOS , mem=0000-FFFF det code=3Aaaaa
-mem=0000-FFFF , TOS det code=3Baaaa
-TOS.0 , mem=0000-FFFF det code=3Caaaa
-mem=0000-FFFF , TOS.0 det code=3Daaaa
+[TOS] , const=0 det code=25
+[TOS] , const=1 det code=2B
+mem=7800-78FF , TOS.0 det code=2Faa
+TOS , mem=0000-FFFF det code=2Aaaaa
+mem=0000-FFFF , TOS det code=2Baaaa
+TOS.0 , mem=0000-FFFF det code=2Caaaa
+mem=0000-FFFF , TOS.0 det code=2Daaaa
 /LD
-DISP
-code=43
-/DISP
-LCD
-code=44
-/LCD
-DELAY
-code=45
-/DELAY
 FILL
-code=46
+code=30
 /FILL
-CKSUM
-code=47
-/CKSUM
-TOBCD
-code=48
-/TOBCD
-FMBCD
-code=49
-/FMBCD
-FMHEX
-code=4B
-/FMHEX
-TOHEX
-code=4C
-/TOHEX
-ISLT
-code=4D
-/ISLT
 ISGT
-code=4E
+code=06
 /ISGT
 ISEQ
-code=4F
+code=07
 /ISEQ
-POP
-[VE] , kk code=56kk
-/POP
 LDAND
-kk vv , ww code=57kkvvww
+kk vv , ww code=34kkvvww
 /LDAND
-STBNK
-[kkvv] , wwtt code=5Akkvvwwtt
-/STBNK
-LDBNK
-[TOS] det code=39
-kkvv , [wwtt] code=5Bkkvvwwtt
-/LDBNK
-CALLI
-hex=0000-FFFF code=66aaaa
-/CALLI
-SETBK
-code=6B
-/SETBK
-SUB24
-[NOS] , [TOS] det code=6E
-[NOS] , TOS det code=70
-/SUB24
 ADD24
-[NOS] , [TOS] det code=32
-[wwtt] , [kkvv] code=59kkvvwwtt
-[NOS] , TOS det code=6F
+[NOS] , [TOS] det code=26
 /ADD24
-NOOP
-code=7F
-/NOOP
 SYS
 sys code=8gkk
 sys code=9gkk

@@ -16565,6 +16565,24 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                     additionalDetailsPrintStr_ += "%02X";
                                 }
                             }
+                            if (firstParameter == "mem=7800-78FF")
+                            {
+                                secondParameter = extractWord(&pseudoLineCopy); // read ,
+                                secondParameter = extractWord(&pseudoLineCopy); // read second parameter
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = 0x7800 + chip8_opcode2;
+                                if (secondParameter == "TOS")
+                                {
+                                    additionalDetailsPrintStr_.Printf("[%04X]=", 0x7800 + chip8_opcode2);
+                                    additionalDetailsPrintStr_ += "%04X";
+                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_R;
+                                }
+                                if (secondParameter == "TOS.0")
+                                {
+                                    additionalDetailsPrintStr_.Printf("[%04X]=", 0x7800 + chip8_opcode2);
+                                    additionalDetailsPrintStr_ += "%02X";
+                                }
+                            }
                             if (firstParameter == "mem=0000-FFFF")
                             {
                                 secondParameter = extractWord(&pseudoLineCopy); // read ,
