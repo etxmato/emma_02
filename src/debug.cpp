@@ -15823,7 +15823,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
     bool commandFound, parameterFound;
     wxString parameterStr, parameter, firstParameter, secondParameter;
     
-    buffer = " Illegal instruction";
+    buffer.Printf(" Illegal instruction %02X", chip8_opcode1);
 
     if (showOpcode)
     {
