@@ -40,6 +40,7 @@ MCOPY
 const=3 code=1B
 const=6 code=53
 const=6 , 78B7 code=58
+[NOS] code=52
 code=1A
 /MCOPY
 DROP
@@ -144,9 +145,6 @@ STBNK
 IDX24
 TOS , const=7AC8 det code=57
 /IDX24
-CALLI
-const=1C1F code=52
-/CALLI
 SYS
 sys code=8gkk
 sys code=9gkk
