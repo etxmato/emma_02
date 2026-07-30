@@ -29,6 +29,9 @@ code=11
 AND
 TOS , NOS det code=12
 /AND
+XOR
+TOS , NOS det code=18
+/XOR
 ISZ
 TOS det code=13
 [TOS] det code=38
@@ -50,7 +53,7 @@ OVER
 det code=1D
 /OVER
 DUP
-det det code=1E
+det code=1E
 /DUP
 DUPNZ
 det code=1F
@@ -60,6 +63,8 @@ det code=20
 /SWAP
 PUSH
 CS det code=24
+VE , kk det code=31kk
+[VE].0 , kk det code=32kk
 const=78B7 det code=3A
 const=7C06 det code=3B
 const=7C09 det code=3C
@@ -83,6 +88,11 @@ const=0007 det code=4D
 const=000D det code=4E
 const=002B det code=4F
 const=002D det code=50
+const=3CDE det code=5B
+const=FFFF det code=5C
+const=0007 det code=5D
+const=8000 det code=5E
+const=1A11 det code=63
 kk det code=23kk
 hex=0000-FFFF det code=22aaaa
 /PUSH
@@ -107,7 +117,7 @@ TOS.0 , [TOS] det code=17
 [TOS] , const=1 det code=2B
 TOS.0 , mem=7800-78FF det code=2Eaa
 mem=7800-78FF , TOS.0 det code=2Faa
-TOS , mem=7C16 det code=56
+TOS , mem=7C16-7C16 det code=56
 TOS , mem=0000-FFFF det code=2Aaaaa
 mem=0000-FFFF , TOS det code=2Baaaa
 TOS.0 , mem=0000-FFFF det code=2Caaaa
@@ -119,11 +129,15 @@ code=30
 ISGT
 code=06
 /ISGT
+ISLT
+code=05
+/ISLT
 ISEQ
 code=07
 /ISEQ
 CMP24
 [TOS] , [NOS] det code=55
+[TOS] , [NOS] det code=61
 /CMP24
 LDAND
 kk vv , ww code=34kkvvww
@@ -135,6 +149,7 @@ ADD24
 SUB24
 [NOS] , TOS det code=36
 [TOS] , const=1 det code=54
+[TOS] , const=1 det code=60
 /SUB24
 EXEC
 TOS det code=39
@@ -145,6 +160,12 @@ STBNK
 IDX24
 TOS , const=7AC8 det code=57
 /IDX24
+POP
+[VE].0 , kk code=33kk
+/POP
+NOOP
+code=37
+/NOOP
 SYS
 sys code=8gkk
 sys code=9gkk
