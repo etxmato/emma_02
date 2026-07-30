@@ -47,13 +47,13 @@ DROP
 code=1C
 /DROP
 OVER
-code=1D
+det code=1D
 /OVER
 DUP
-det code=1E
+det det code=1E
 /DUP
 DUPNZ
-code=1F
+det code=1F
 /DUPNZ
 SWAP
 det code=20

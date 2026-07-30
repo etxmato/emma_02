@@ -1013,6 +1013,12 @@ void DebugWindow::cyclePseudoDebug()
     
     if (p_Computer->isChip8MainLoop(programCounterAddress))
     {
+        if (!topOfStackSet_)
+        {
+            topOfDataStack_ = p_Computer->getScratchpadRegister(0xD);
+            topOfReturnStack_ = p_Computer->getScratchpadRegister(2);
+            topOfStackSet_ = true;
+        }
         p_Computer->writeMemDataType(chip8PC, MEM_TYPE_PSEUDO_1);
 
         Byte command = p_Computer->readMemDebug(chip8PC);
@@ -15362,12 +15368,6 @@ void DebugWindow::onChip8Clear(wxCommandEvent& WXUNUSED(event))
 
 void DebugWindow::pseudoTrace(Word address)
 {
-    if (!topOfStackSet_)
-    {
-        topOfDataStack_ = p_Computer->getScratchpadRegister(0xD);
-        topOfReturnStack_ = p_Computer->getScratchpadRegister(2);
-        topOfStackSet_ = true;
-    }
     chip8DebugTrace(pseudoDisassemble(address, true, false));
 }
 
@@ -16499,7 +16499,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 additionalDetailsPrintStr_ = firstParameter + "=%04X";
                                 additionalChip8DetailsType_ = PSEUDO_DETAILS_R;
                             }
-                            if (commandText == "PUSH" || commandText == "DUP" || commandText == "SWAP" || firstParameter == "TOS" || firstParameter == "TOS.0")
+                            if (commandText == "PUSH" || commandText == "DUP"  || commandText == "DUPNZ" || commandText == "SWAP" || commandText == "OVER" || firstParameter == "TOS" || firstParameter == "TOS.0")
                             {
                                 additionalChip8Details_ = true;
                                 additionalDetailsAddress_ = 0xD;
