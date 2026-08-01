@@ -50,10 +50,12 @@ TOS det code=14
 /ISNEG
 MCOPY
 [kkvv] , [wwtt] code=58kkvvwwtt
-const=3 code=31
 [NOS] code=38
 code=1A
 /MCOPY
+MCPY3
+code=31
+/MCPY3
 DROP
 code=1C
 /DROP

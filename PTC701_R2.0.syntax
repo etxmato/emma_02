@@ -41,11 +41,14 @@ TOS det code=14
 /ISNEG
 MCOPY
 const=3 code=1B
-const=6 code=53
-const=6 , 78B7 code=58
 [NOS] code=52
 code=1A
 /MCOPY
+MCPY6
+code=53
+78B7 , [TOS] code=58
+[TOS] , 78B7 code=59
+/MCPY6
 DROP
 code=1C
 /DROP
@@ -123,6 +126,9 @@ mem=0000-FFFF , TOS det code=2Baaaa
 TOS.0 , mem=0000-FFFF det code=2Caaaa
 mem=0000-FFFF , TOS.0 det code=2Daaaa
 /LD
+LDBNK
+[TOS] det code=29
+/LDBNK
 FILL
 code=30
 /FILL
