@@ -39,11 +39,13 @@ TOS det code=13
 ISNEG
 TOS det code=14
 /ISNEG
-MCOPY
-const=3 code=1B
+MCPY
 [NOS] code=52
 code=1A
-/MCOPY
+/MCPY
+MCPY3
+code=1B
+/MCPY3
 MCPY6
 code=53
 78B7 , [TOS] code=58
