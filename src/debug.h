@@ -449,6 +449,8 @@ public:
     void setChip8PauseState();
     void onChip8StepButton(wxCommandEvent&event);
     void pseudoTrace(Word address);
+    int  chip8PtcTracePhase(Word chip8PC);
+    bool hideTraceCommand(Byte command);
     wxString getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainLoop, size_t* pseudoMainLoopCount, bool* chip8register12bit, bool* pseudoLoaded);
     void forcePseudoDefinition(wxString pseudoType, wxString filename, wxString pseudoName);
     void definePseudoCommands();
@@ -524,6 +526,8 @@ protected:
     Word topOfDataStack_;
     Word topOfReturnStack_;
     bool topOfStackSet_;
+    int  chip8HideReturnStack_;    // PTC: R2 value to unhide at; -1 = not hiding
+    bool chip8StepOver_;           // PTC: currently stepping over a compound opcode
 
     double percentageClock_;
     bool saveDebugFile_;
@@ -657,6 +661,9 @@ private:
 
     size_t singleByteCommandNumber_;
     vector<Byte> singleByteCommand_;
+
+    size_t hideTraceCommandNumber_;     // opcodes flagged "hide_trace" in the .syntax file
+    vector<Byte> hideTraceCommand_;     //  -> their internal bytecode trace is hidden
 
     size_t trippleByteCommandNumber_;
     vector<Byte> trippleByteCommand_;

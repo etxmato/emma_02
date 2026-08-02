@@ -40,16 +40,16 @@ ISNEG
 TOS det code=14
 /ISNEG
 MCPY
-[NOS] code=52
+[NOS] hide_trace code=52
 code=1A
 /MCPY
 MCPY3
 code=1B
 /MCPY3
 MCPY6
-code=53
-78B7 , [TOS] code=58
-[TOS] , 78B7 code=59
+hide_trace code=53
+78B7 , [TOS] hide_trace code=58
+[TOS] , 78B7 hide_trace code=59
 /MCPY6
 DROP
 code=1C
@@ -122,7 +122,7 @@ TOS.0 , [TOS] det code=17
 [TOS] , const=1 det code=2B
 TOS.0 , mem=7800-78FF det code=2Eaa
 mem=7800-78FF , TOS.0 det code=2Faa
-TOS , mem=7C16-7C16 det code=56
+TOS , mem=7C16-7C16 det hide_trace code=56
 TOS , mem=0000-FFFF det code=2Aaaaa
 mem=0000-FFFF , TOS det code=2Baaaa
 TOS.0 , mem=0000-FFFF det code=2Caaaa
@@ -144,8 +144,8 @@ ISEQ
 code=07
 /ISEQ
 CMP24
-[TOS] , [NOS] det code=55
-[TOS] , [NOS] det code=61
+[TOS] , [NOS] det hide_trace code=55
+[TOS] , [NOS] det hide_trace code=61
 /CMP24
 LDAND
 kk vv , ww code=34kkvvww
@@ -156,17 +156,17 @@ ADD24
 /ADD24
 SUB24
 [NOS] , TOS det code=36
-[TOS] , const=1 det code=54
-[TOS] , const=1 det code=60
+[TOS] , const=1 det hide_trace code=54
+[TOS] , const=1 det hide_trace code=60
 /SUB24
 EXEC
 TOS det code=39
 /EXEC
 STBNK
-[TOS] , const=0 det code=51
+[TOS] , const=0 det hide_trace code=51
 /STBNK
 IDX24
-TOS , const=7AC8 det code=57
+TOS , const=7AC8 det hide_trace code=57
 /IDX24
 POP
 [VE].0 , kk code=33kk

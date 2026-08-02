@@ -4175,6 +4175,8 @@ void Main::onStart()
     slotLedUpdate_ = false;
     chip8Steps_ = -1;
     performChip8Step_ = false;
+    chip8HideReturnStack_ = -1;
+    chip8StepOver_ = false;
     additionalChip8Details_ = false;
 
     for (int video=0; video<VIDEOXMLMAX; video++)

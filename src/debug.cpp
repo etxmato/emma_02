@@ -1051,34 +1051,79 @@ void DebugWindow::cyclePseudoDebug()
         {
             if (p_Computer->isChip8MainLoop(programCounterAddress))
             {
-                if (additionalChip8Details_)
-                    chip8DebugTrace(addDetails());
-                if (chip8Steps_ == 1)
+                // Pseudo trace hiding: phase 0=show, 1=hide (inside),
+                // 2=enter (compound opcode), 3=land (returned).
+                int phase = chip8PtcTracePhase(chip8PC);
+
+                if (chip8StepOver_)
                 {
-                    p_Computer->setSteps(0);
-                    chip8Steps_--;
-                    setChip8PauseState();
-                }
-                if (chip8Steps_ != 0)
-                {
+                    // Mid step-over: run through hidden internals without
+                    // counting and without tracing. Pause only on the landing.
                     p_Computer->setSteps(-1);
-//                    if (chip8BreakPointCheck())  return;
-                    if (chip8Trace_)
-                        pseudoTrace(chip8PC);
-                    chip8Steps_--;
+                    if (phase == 3)         // landed on the instruction after the compound
+                    {
+                        chip8StepOver_ = false;
+                        chip8Steps_ = 0;
+                        p_Computer->setSteps(0);
+                        setChip8PauseState();
+                        // Do NOT trace the landing; it is the next step's position.
+                    }
                 }
-                if (chip8Steps_ == 0)
-                    p_Computer->setSteps(0);
+                else if (phase == 2 && chip8Steps_ > 1)
+                {
+                    // Compound opcode is the current instruction of this tap:
+                    // step OVER it (show it, run hidden internals, stop on landing).
+                    chip8StepOver_ = true;
+                    p_Computer->setSteps(-1);
+                    if (additionalChip8Details_)
+                        chip8DebugTrace(addDetails());
+                    if (chip8Trace_)
+                        pseudoTrace(chip8PC);   // show the instruction being stepped over
+                }
+                else if (phase == 1)
+                {
+                    // Inside a hidden procedure but not yet flagged: keep running.
+                    chip8StepOver_ = true;
+                    p_Computer->setSteps(-1);
+                }
+                else
+                {
+                    // phase 0 (or a compound hit at the pause entry, chip8Steps_==1)
+                    // -> normal stepping: trace this instruction, pause at the next.
+                    if (additionalChip8Details_)
+                        chip8DebugTrace(addDetails());
+                    if (chip8Steps_ == 1)
+                    {
+                        p_Computer->setSteps(0);
+                        chip8Steps_--;
+                        setChip8PauseState();
+                    }
+                    if (chip8Steps_ != 0)
+                    {
+                        p_Computer->setSteps(-1);
+//                        if (chip8BreakPointCheck())  return;
+                        if (chip8Trace_)
+                            pseudoTrace(chip8PC);
+                        chip8Steps_--;
+                    }
+                    if (chip8Steps_ == 0)
+                        p_Computer->setSteps(0);
+                }
             }
         }
         else
         {
             if (p_Computer->isChip8MainLoop(programCounterAddress))
             {
-                if (additionalChip8Details_)
+                // Pseudo trace hiding: phase 0=show, 1=hide (inside),
+                // 2=enter (compound opcode), 3=land (returned).
+                int phase = chip8PtcTracePhase(chip8PC);
+                bool showThis = (phase == 0 || phase == 3);  // show normal + landing
+
+                if (additionalChip8Details_ && showThis)
                     chip8DebugTrace(addDetails());
                 if (chip8BreakPointCheck())  return;
-                if (chip8Trace_)
+                if (chip8Trace_ && showThis)
                     pseudoTrace(chip8PC);
             }
         }
@@ -1208,6 +1253,8 @@ void DebugWindow::cycleDebug()
 void DebugWindow::resetDisplay()
 {
     topOfStackSet_ = false;
+    chip8HideReturnStack_ = -1;
+    chip8StepOver_ = false;
     for (int i=0; i<16; i++) lastR_[i] = p_Computer->getScratchpadRegister(i)+1;
     for (int i=1; i<8; i++) lastOut_[i] = p_Computer->getOutValue(i) + 1;
     for (int i=1; i<8; i++) lastIn_[i] = p_Computer->getInValue(i) + 1;
@@ -15320,6 +15367,8 @@ void DebugWindow::onChip8PauseButton(wxCommandEvent&WXUNUSED(event))
     else
     {
         chip8Steps_ = -1;
+        chip8StepOver_ = false;        // leave run mode with a clean step state
+        chip8HideReturnStack_ = -1;
         p_Computer->setSteps(-1);
     }
     updateChip8DebugMenu(true);
@@ -15356,6 +15405,8 @@ void DebugWindow::onChip8StepButton(wxCommandEvent&WXUNUSED(event))
         chip8Steps_ = 1;
 
     chip8Steps_++;
+    chip8StepOver_ = false;            // each press is a fresh step
+    chip8HideReturnStack_ = -1;
     setChip8PauseState();
 //    p_Computer->setSteps(-1);
     performChip8Step_ = true;
@@ -15369,6 +15420,52 @@ void DebugWindow::onChip8Clear(wxCommandEvent& WXUNUSED(event))
 void DebugWindow::pseudoTrace(Word address)
 {
     chip8DebugTrace(pseudoDisassemble(address, true, false));
+}
+
+// True when the .syntax file marks this opcode with "hide_trace" - meaning
+// its internal bytecode execution should be hidden from the pseudo trace
+// until the instruction returns. Populated by definePseudoCommands().
+bool DebugWindow::hideTraceCommand(Byte command)
+{
+    for (size_t i = 0; i < hideTraceCommandNumber_; i++)
+    {
+        if (hideTraceCommand_[i] == command)
+            return true;
+    }
+    return false;
+}
+
+// Returns the PTC trace phase for the bytecode instruction at chip8PC:
+//   0 = SHOW   normal instruction (not involved in a hidden compound opcode)
+//   1 = HIDE   still inside a hidden compound opcode's procedure
+//   2 = ENTER  this instruction is a compound opcode that just began hiding
+//   3 = LAND   the compound opcode's final RET has completed; this is the
+//              first instruction after it
+// Hiding state is tracked on the PTC return stack (register R2). The final
+// RET that returns from the compound opcode is detected when R2 returns to
+// the depth recorded at ENTER (this happens only on that final RET, since the
+// hidden procedure runs at R2 <= depth and its internal RETs restore R2 to the
+// procedure's own level, which is below depth).
+int DebugWindow::chip8PtcTracePhase(Word chip8PC)
+{
+    int returnStack = p_Computer->getScratchpadRegister(2);
+
+    if (chip8HideReturnStack_ >= 0)
+    {
+        // Inside (or returned from) a hidden compound opcode.
+        if (returnStack == chip8HideReturnStack_)
+        {
+            chip8HideReturnStack_ = -1;   // final RET completed -> landing
+            return 3;                     // LAND
+        }
+        return 1;                         // HIDE
+    }
+    if (hideTraceCommand(p_Computer->readMemDebug(chip8PC)))
+    {
+        chip8HideReturnStack_ = returnStack;   // record entry depth
+        return 2;                              // ENTER
+    }
+    return 0;                                  // SHOW
 }
 
 wxString DebugWindow::getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainLoop, size_t* pseudoMainLoopCount, bool* chip8register12bit, bool* pseudoLoaded)
@@ -15489,6 +15586,8 @@ void DebugWindow::definePseudoCommands()
     quintupleByteCommandNumber_ = 0;
     jumpCommandNumber_ = 0;
     branchCommandNumber_ = 0;
+    hideTraceCommandNumber_ = 0;
+    hideTraceCommand_.clear();
 
     if (inFile.Open(commandSyntaxFile_))
     {
@@ -15511,7 +15610,55 @@ void DebugWindow::definePseudoCommands()
                     pseudoCodeDetails_.resize(psuedoNumber_);
                     
                     pseudoCodeDetails_[psuedoNumber_-1].commandText = commandText;
-                    
+
+                    // Detect a "hide_trace" marker (e.g. "[TOS] , 78B7 hide_trace code=59").
+                    // When present, record the opcode so the debugger hides that
+                    // instruction's internal bytecode trace, then strip the marker
+                    // so the rest of the parser (parameterText etc.) is unaffected.
+                    bool hideTraceCmd = false;
+                    int hidePos = pseudoLine.Find("hide_trace");
+                    if (hidePos != wxNOT_FOUND)
+                    {
+                        hideTraceCmd = true;
+                        pseudoLine = pseudoLine.Left(hidePos).Trim(true) + " " +
+                                     pseudoLine.Mid(hidePos + 10).Trim(true);
+                    }
+                    if (hideTraceCmd)
+                    {
+                        int codePos2 = pseudoLine.Find("code=");
+                        if (codePos2 != wxNOT_FOUND)
+                        {
+                            wxString hexPart;
+                            wxString codeVal = pseudoLine.Mid(codePos2 + 5);
+                            for (size_t hc = 0; hc < codeVal.Len(); hc++)
+                            {
+                                wxUniChar ch = codeVal.GetChar(hc);
+                                if ((ch >= wxT('0') && ch <= wxT('9')) ||
+                                    (ch >= wxT('a') && ch <= wxT('f')) ||
+                                    (ch >= wxT('A') && ch <= wxT('F')))
+                                    hexPart += ch;
+                                else
+                                    break;
+                            }
+                            long hideLong = 0;
+                            if (hexPart.ToLong(&hideLong, 16))
+                            {
+                                bool foundHt = false;
+                                for (size_t i = 0; i < hideTraceCommandNumber_; i++)
+                                {
+                                    if (hideTraceCommand_[i] == (Byte)hideLong)
+                                        foundHt = true;
+                                }
+                                if (!foundHt)
+                                {
+                                    hideTraceCommandNumber_++;
+                                    hideTraceCommand_.resize(hideTraceCommandNumber_);
+                                    hideTraceCommand_[hideTraceCommandNumber_-1] = (Byte)hideLong;
+                                }
+                            }
+                        }
+                    }
+
                     command_offset = 0;
                     pseudoCodeDetails_[psuedoNumber_-1].length = 2;
                     if (pseudoLine.Mid(pseudoLine.Len()-7,1) == "=")
