@@ -24,7 +24,7 @@ brb code=0Ckk
 TOS , brb code=0Dkk
 /LOOP
 RET
-code=11
+det code=11
 /RET
 AND
 TOS , NOS det code=12
@@ -175,12 +175,12 @@ NOOP
 code=37
 /NOOP
 SYS
-sys code=8gkk
-sys code=9gkk
-sys code=Agkk
-sys code=Bgkk
-sys code=Cgkk
-sys code=Dgkk
-sys code=Egkk
-sys code=Fgkk
+sys det code=8gkk
+sys det code=9gkk
+sys det code=Agkk
+sys det code=Bgkk
+sys det code=Cgkk
+sys det code=Dgkk
+sys det code=Egkk
+sys det code=Fgkk
 /SYS

@@ -37,7 +37,7 @@ EXEC
 TOS det code=10
 /EXEC
 RET
-code=11
+det code=11
 /RET
 AND
 TOS , NOS det code=12
@@ -195,7 +195,7 @@ LDBNK
 kkvv , [wwtt] code=5Bkkvvwwtt
 /LDBNK
 CALLI
-hex=0000-FFFF code=66aaaa
+hex=0000-FFFF det code=66aaaa
 /CALLI
 SETBK
 code=6B
@@ -213,12 +213,12 @@ NOOP
 code=7F
 /NOOP
 SYS
-sys code=8gkk
-sys code=9gkk
-sys code=Agkk
-sys code=Bgkk
-sys code=Cgkk
-sys code=Dgkk
-sys code=Egkk
-sys code=Fgkk
+sys det code=8gkk
+sys det code=9gkk
+sys det code=Agkk
+sys det code=Bgkk
+sys det code=Cgkk
+sys det code=Dgkk
+sys det code=Egkk
+sys det code=Fgkk
 /SYS

@@ -16653,7 +16653,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 additionalDetailsPrintStr_ = "DS: %04X, %04X, %04X";
                                 additionalChip8DetailsType_ = PSEUDO_DETAILS_DATA_STACK;
                             }
-                            if (commandText == "LOOP" && firstParameter == "FRAME")
+                            if (commandText == "LOOP" || commandText == "RET" || commandText == "SYS" || commandText == "CALLI")
                             {
                                 additionalChip8Details_ = true;
                                 additionalDetailsAddress_ = 0x2;
@@ -16786,7 +16786,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
 
 wxString DebugWindow::addDetails()
 {
-    wxString buffer, v2String;
+    wxString buffer, leadStr, v2String;
     Word valueI;
     int stackDepth;
     
@@ -16830,21 +16830,28 @@ wxString DebugWindow::addDetails()
         {
             Word rd = p_Computer->getScratchpadRegister(additionalDetailsAddress_);
             if (additionalChip8DetailsType_ == PSEUDO_DETAILS_DATA_STACK)
+            {
                 stackDepth = (topOfStackSet_) ? (topOfDataStack_ - rd) / 2 : 3;
+                leadStr = " DS: ";
+            }
             else
+            {
                 stackDepth = (topOfStackSet_) ? (topOfReturnStack_ - rd) / 2 : 3;
+                leadStr = " RS: ";
+           }
             if (stackDepth >= 3)
-                buffer.Printf(" DS: %04X, %04X, %04X",
+                buffer.Printf("%04X, %04X, %04X",
                     (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1),
                     (p_Computer->readMemDebug(rd + 2) << 8) + p_Computer->readMemDebug(rd + 3),
                     (p_Computer->readMemDebug(rd + 4) << 8) + p_Computer->readMemDebug(rd + 5));
             else if (stackDepth == 2)
-                buffer.Printf(" DS: %04X, %04X",
+                buffer.Printf("%04X, %04X",
                     (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1),
                     (p_Computer->readMemDebug(rd + 2) << 8) + p_Computer->readMemDebug(rd + 3));
             else if (stackDepth == 1)
-                buffer.Printf(" DS: %04X",
+                buffer.Printf("%04X",
                     (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1));
+            buffer = leadStr + buffer;
         }
         break;
 
