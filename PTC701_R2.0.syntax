@@ -20,8 +20,8 @@ brb code=0Bkk
 /JP
 LOOP
 FRAME det code=0E
-brb code=0Ckk
-TOS , brb code=0Dkk
+brb det code=0Ckk
+TOS , brb det code=0Dkk
 /LOOP
 RET
 det code=11
@@ -40,19 +40,19 @@ ISNEG
 TOS det code=14
 /ISNEG
 MCPY
-[NOS] hide_trace code=52
-code=1A
+[TOS] , [NOS] hide_trace code=52
+[NOS] , [3OS] code=1A
 /MCPY
 MCPY3
-code=1B
+[TOS] , [NOS] code=1B
 /MCPY3
 MCPY6
-hide_trace code=53
+[TOS] , [NOS] hide_trace code=53
 78B7 , [TOS] hide_trace code=58
 [TOS] , 78B7 hide_trace code=59
 /MCPY6
 DROP
-code=1C
+det code=1C
 /DROP
 OVER
 det code=1D
@@ -135,13 +135,13 @@ FILL
 code=30
 /FILL
 ISGT
-code=06
+det code=06
 /ISGT
 ISLT
-code=05
+det code=05
 /ISLT
 ISEQ
-code=07
+det code=07
 /ISEQ
 CMP24
 [TOS] , [NOS] det hide_trace code=55

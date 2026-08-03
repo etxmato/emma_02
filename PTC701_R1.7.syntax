@@ -20,8 +20,8 @@ DIV
 TOS , NOS det code=07
 /DIV
 JZ
-brf code=08kk
-brb code=09kk
+brf det code=08kk
+brb det code=09kk
 /JZ
 JP
 brf code=0Akk
@@ -29,9 +29,9 @@ brb code=0Bkk
 /JP
 LOOP
 FRAME det code=0E
-CLR code=0F
-brb code=0Ckk
-TOS , brb code=0Dkk
+CLR det code=0F
+brb det code=0Ckk
+TOS , brb det code=0Dkk
 /LOOP
 EXEC
 TOS det code=10
@@ -49,15 +49,15 @@ ISNEG
 TOS det code=14
 /ISNEG
 MCPY
-[kkvv] , [wwtt] code=58kkvvwwtt
-[NOS] code=38
-code=1A
+[TOS] , [NOS] code=38
+[NOS] , [3OS] code=1A
 /MCPY
 MCPY3
-code=31
+[kkvv] , [wwtt] code=58kkvvwwtt
+[TOS] , [NOS] code=31
 /MCPY3
 DROP
-code=1C
+det code=1C
 /DROP
 OVER
 det code=1D
@@ -173,13 +173,13 @@ TOHEX
 code=4C
 /TOHEX
 ISLT
-code=4D
+det code=4D
 /ISLT
 ISGT
-code=4E
+det code=4E
 /ISGT
 ISEQ
-code=4F
+det code=4F
 /ISEQ
 POP
 [VE] , kk code=56kk

@@ -5739,7 +5739,7 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
         buffer.Left(6)== "SWITCH" || buffer.Left(4)== "SWAP" || buffer.Left(2)== "ST" || buffer.Left(4)== "READ" ||
         buffer.Left(2)== "DR" || buffer.Left(3)== "RAM" || buffer.Left(6)== "SETCOL" || buffer.Left(4)== "SKSP" || buffer.Left(4)== "SYNC" ||
         buffer.Left(3)== "TOS" || buffer.Left(3)== "NOS" ||
-        buffer.Left(5)== "[TOS]" || buffer.Left(5)== "[NOS]" ||
+        buffer.Left(5)== "[TOS]" || buffer.Left(5)== "[NOS]" || buffer.Left(5)== "[3OS]" ||
         buffer.Left(4)== "[RP]" ||
         buffer.Left(5)== "FRAME" || buffer.Left(3)== "CLR" ||
         buffer.Left(2)== "CS" ||
@@ -15961,7 +15961,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
     Word addressRZ = p_Computer->getChip8baseVar() + rZ*2;
 //    Byte valueX = p_Computer->readMemDebug(addressX);
     Byte valueY = p_Computer->readMemDebug(addressY);
-
+    Word sysAddr = 0;
 
     //Calculation variables
     size_t hexValueDigits;
@@ -16208,7 +16208,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                     }
                     if (parameter == "sys")
                     {
-                        Word sysAddr = (chip8_opcode2 << 8) | ((chip8_opcode1 & 0x7F) << 1);
+                        sysAddr = (chip8_opcode2 << 8) | ((chip8_opcode1 & 0x7F) << 1);
                         parameterStr.Printf("%04X", sysAddr);
                         parameterFound = true;
                     }
@@ -16646,19 +16646,39 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 additionalDetailsPrintStr_ = firstParameter + "=%04X";
                                 additionalChip8DetailsType_ = PSEUDO_DETAILS_R;
                             }
-                            if (commandText == "PUSH" || commandText == "DUP"  || commandText == "DUPNZ" || commandText == "SWAP" || commandText == "OVER" || firstParameter == "TOS" || firstParameter == "TOS.0")
+                            if (commandText == "PUSH" || commandText == "DUP"  || commandText == "DUPNZ" || commandText == "SWAP" || commandText == "OVER" || commandText == "ISEQ" || commandText == "ISLT" || commandText == "ISGT" || commandText == "JZ" || commandText == "ISGT" || firstParameter == "TOS" || firstParameter == "TOS.0")
                             {
                                 additionalChip8Details_ = true;
                                 additionalDetailsAddress_ = 0xD;
-                                additionalDetailsPrintStr_ = "DS: %04X, %04X, %04X";
+                                additionalDetailsPrintStr_ = "DS: ";
                                 additionalChip8DetailsType_ = PSEUDO_DETAILS_DATA_STACK;
                             }
-                            if (commandText == "LOOP" || commandText == "RET" || commandText == "SYS" || commandText == "CALLI")
+                            if (commandText == "SYS")
+                            {
+                                additionalChip8Details_ = true;
+                                if (p_Computer->readMemDebug(sysAddr) == 0x15)
+                                {
+                                    additionalDetailsAddress_ = 0x2;
+                                    additionalDetailsPrintStr_ = "RS: ";
+                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_RETURN_STACK;
+                                }
+                                else
+                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_NONE;
+                            }
+                            if (commandText == "LOOP" || commandText == "CALLI")
                             {
                                 additionalChip8Details_ = true;
                                 additionalDetailsAddress_ = 0x2;
-                                additionalDetailsPrintStr_ = "RS: %04X, %04X, %04X";
+                                additionalDetailsPrintStr_ = "RS: ";
                                 additionalChip8DetailsType_ = PSEUDO_DETAILS_RETURN_STACK;
+                            }
+                            if (commandText == "RET")
+                            {
+                                additionalChip8Details_ = true;
+                                Word r2 = p_Computer->getScratchpadRegister(2);
+                                additionalDetailsAddress_ = (p_Computer->readMemDebug(r2) << 8) + p_Computer->readMemDebug(r2 + 1);
+                                additionalDetailsPrintStr_ = "->%04X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_RETURN;
                             }
                             if (firstParameter == "[TOS]")
                             {
@@ -16786,7 +16806,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
 
 wxString DebugWindow::addDetails()
 {
-    wxString buffer, leadStr, v2String;
+    wxString buffer, v2String;
     Word valueI;
     int stackDepth;
     
@@ -16830,29 +16850,26 @@ wxString DebugWindow::addDetails()
         {
             Word rd = p_Computer->getScratchpadRegister(additionalDetailsAddress_);
             if (additionalChip8DetailsType_ == PSEUDO_DETAILS_DATA_STACK)
-            {
                 stackDepth = (topOfStackSet_) ? (topOfDataStack_ - rd) / 2 : 3;
-                leadStr = " DS: ";
-            }
             else
-            {
                 stackDepth = (topOfStackSet_) ? (topOfReturnStack_ - rd) / 2 : 3;
-                leadStr = " RS: ";
-           }
             if (stackDepth >= 3)
-                buffer.Printf("%04X, %04X, %04X",
+                buffer.Printf(" " + additionalDetailsPrintStr_ + "%04X, %04X, %04X",
                     (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1),
                     (p_Computer->readMemDebug(rd + 2) << 8) + p_Computer->readMemDebug(rd + 3),
                     (p_Computer->readMemDebug(rd + 4) << 8) + p_Computer->readMemDebug(rd + 5));
             else if (stackDepth == 2)
-                buffer.Printf("%04X, %04X",
+                buffer.Printf(" " + additionalDetailsPrintStr_ + "%04X, %04X",
                     (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1),
                     (p_Computer->readMemDebug(rd + 2) << 8) + p_Computer->readMemDebug(rd + 3));
             else if (stackDepth == 1)
-                buffer.Printf("%04X",
+                buffer.Printf(" " + additionalDetailsPrintStr_ + "%04X",
                     (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1));
-            buffer = leadStr + buffer;
         }
+        break;
+
+        case PSEUDO_DETAILS_RETURN:
+            buffer.Printf(" " + additionalDetailsPrintStr_, additionalDetailsAddress_);
         break;
 
         case PSEUDO_DETAILS_MTOS_8:
