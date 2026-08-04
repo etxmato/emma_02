@@ -1,23 +1,23 @@
 ADD
-TOS , NOS stack code=00
-TOS , const=1 stack code=03
-TOS , const=2 stack code=04
-TOS , [TOS] stack code=35
-[TOS] , NOS det code=05
-[TOS] , NOS.0 det code=30
+TOS , NOS force_ds code=00
+TOS , const=1 force_ds code=03
+TOS , const=2 force_ds code=04
+TOS , [TOS] force_ds code=35
+[TOS] , NOS det stack code=05
+[TOS] , NOS.0 det stack code=30
 /ADD
 SHL
-TOS stack code=01
+TOS force_ds code=01
 /SHL
 SUB
-TOS , NOS stack code=02
-TOS , const=1 stack code=27
+TOS , NOS force_ds code=02
+TOS , const=1 force_ds code=27
 /SUB
 MUL
-TOS , NOS stack code=06
+TOS , NOS force_ds code=06
 /MUL
 DIV
-TOS , NOS stack code=07
+TOS , NOS force_ds code=07
 /DIV
 JZ
 brf stack code=08kk
@@ -30,31 +30,31 @@ brb code=0Bkk
 LOOP
 FRAME stack code=0E
 CLR stack code=0F
-brb stack code=0Ckk
-TOS , brb stack code=0Dkk
+brb force_ds force_rs code=0Ckk
+TOS , brb force_ds force_rs code=0Dkk
 /LOOP
 EXEC
 TOS stack code=10
 /EXEC
 RET
-det code=11
+det stack code=11
 /RET
 AND
-TOS , NOS stack code=12
+TOS , NOS force_ds code=12
 /AND
 ISZ
-TOS stack code=13
+TOS force_ds code=13
 /ISZ
 ISNEG
-TOS stack code=14
+TOS force_ds code=14
 /ISNEG
 MCPY
-[TOS] , [NOS] code=38
-[NOS] , [3OS] code=1A
+[TOS] , [NOS] det stack code=38
+[NOS] , [3OS] det stack code=1A
 /MCPY
 MCPY3
-[kkvv] , [wwtt] code=58kkvvwwtt
-[TOS] , [NOS] code=31
+[kkvv] , [wwtt] stack code=58kkvvwwtt
+[TOS] , [NOS] det stack code=31
 /MCPY3
 DROP
 stack code=1C
@@ -69,14 +69,14 @@ DUPNZ
 stack code=1F
 /DUPNZ
 SWAP
-stack code=20
+force_ds code=20
 /SWAP
 ROT
-code=21
+force_ds code=21
 /ROT
 PUSH
 CS stack code=24
-VE , kk det stack code=52kk
+VE , kk stack code=52kk
 [VE].0 , kk stack code=53kk
 [VE] , kk stack code=55kk
 const=0000 stack code=72
@@ -88,10 +88,10 @@ kk stack code=23kk
 hex=0000-FFFF stack code=22aaaa
 /PUSH
 POPCS
-code=25
+stack code=25
 /POPCS
 PUSHCS
-code=26
+stack code=26
 /PUSHCS
 NAVBK
 code=29
@@ -106,71 +106,71 @@ NUMCZ
 code=2D
 /NUMCZ
 OR
-TOS , NOS stack code=33
+TOS , NOS force_ds code=33
 /OR
 COMP
-code=34
+stack code=34
 /COMP
 LD24
-[TOS] , NOS det code=36
+[TOS] , NOS det stack code=36
 /LD24
 LDVCD
-[TOS] det code=37
+[TOS] det stack code=37
 /LDVCD
 LD
-TOS , VC stack code=5E
-TOS , VD stack code=60
-TOS , VA stack code=62
-TOS , VB stack code=64
-TOS , [RP] stack code=6A
-TOS.0 , [RP] stack code=2A
+TOS , VC force_ds code=5E
+TOS , VD force_ds code=60
+TOS , VA force_ds code=62
+TOS , VB force_ds code=64
+TOS , [RP] force_ds code=6A
+TOS.0 , [RP] force_ds code=2A
 VE , [RP] det code=67
-TOS , [TOS] stack code=15
-TOS.0 , [TOS] stack code=17
-[TOS] , NOS det code=16
-[TOS] , NOS.0 det code=19
-[TOS] , const=0 det code=2E
-[TOS] , const=1 det code=2F
-VC , TOS det code=5D
-VD , TOS det code=5F
-VA , TOS det code=61
-VB , TOS det code=63
-TOS , mem=6000-60FF stack code=3Eaa
-mem=6000-60FF , TOS det code=3Faa
-TOS.0 , mem=6000-60FF stack code=40aa
-mem=6000-60FF , TOS.0 det code=41aa
+TOS , [TOS] force_ds code=15
+TOS.0 , [TOS] force_ds code=17
+[TOS] , NOS det stack code=16
+[TOS] , NOS.0 det stack code=19
+[TOS] , const=0 det stack code=2E
+[TOS] , const=1 det stack code=2F
+VC , TOS det stack code=5D
+VD , TOS det stack code=5F
+VA , TOS det stack code=61
+VB , TOS det stack code=63
+TOS , mem=6000-60FF force_ds code=3Eaa
+mem=6000-60FF , TOS det stack code=3Faa
+TOS.0 , mem=6000-60FF force_ds code=40aa
+mem=6000-60FF , TOS.0 det stack code=41aa
 [60BD] , kk code=42kk
-TOS , mem=0000-FFFF stack code=3Aaaaa
-mem=0000-FFFF , TOS det code=3Baaaa
-TOS.0 , mem=0000-FFFF stack code=3Caaaa
-mem=0000-FFFF , TOS.0 det code=3Daaaa
+TOS , mem=0000-FFFF force_ds code=3Aaaaa
+mem=0000-FFFF , TOS det stack code=3Baaaa
+TOS.0 , mem=0000-FFFF force_ds code=3Caaaa
+mem=0000-FFFF , TOS.0 det stack code=3Daaaa
 /LD
 DISP
-code=43
+stack code=43
 /DISP
 LCD
-code=44
+stack code=44
 /LCD
 DELAY
 code=45
 /DELAY
 FILL
-code=46
+stack code=46
 /FILL
 CKSUM
-code=47
+stack code=47
 /CKSUM
 TOBCD
-code=48
+stack code=48
 /TOBCD
 FMBCD
-code=49
+stack code=49
 /FMBCD
 FMHEX
-code=4B
+stack code=4B
 /FMHEX
 TOHEX
-code=4C
+stack code=4C
 /TOHEX
 ISLT
 stack code=4D
@@ -182,32 +182,32 @@ ISEQ
 stack code=4F
 /ISEQ
 POP
-[VE] , kk code=56kk
+[VE] , kk stack code=56kk
 /POP
 LDAND
-kk vv , ww code=57kkvvww
+kk vv , ww stack code=57kkvvww
 /LDAND
 STBNK
 [kkvv] , wwtt code=5Akkvvwwtt
 /STBNK
 LDBNK
-[TOS] det code=39
-kkvv , [wwtt] code=5Bkkvvwwtt
+[TOS] det stack code=39
+kkvv , [wwtt] stack code=5Bkkvvwwtt
 /LDBNK
 CALLI
 hex=0000-FFFF stack code=66aaaa
 /CALLI
 SETBK
-code=6B
+stack code=6B
 /SETBK
 SUB24
-[NOS] , [TOS] det code=6E
-[NOS] , TOS det code=70
+[NOS] , [TOS] det stack code=6E
+[NOS] , TOS det stack code=70
 /SUB24
 ADD24
-[NOS] , [TOS] det code=32
-[wwtt] , [kkvv] code=59kkvvwwtt
-[NOS] , TOS det code=6F
+[NOS] , [TOS] det stack code=32
+[wwtt] , [kkvv] stack code=59kkvvwwtt
+[NOS] , TOS det stack code=6F
 /ADD24
 NOOP
 code=7F

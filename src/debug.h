@@ -76,16 +76,16 @@ public:
 #define PSEUDO_DETAILS_MI 3
 #define PSEUDO_DETAILS_R 4
 #define PSEUDO_DETAILS_MR 5
-#define PSEUDO_DETAILS_DATA_STACK 6
-#define PSEUDO_DETAILS_RETURN_STACK 7
-#define PSEUDO_DETAILS_RETURN_AND_DATA_STACK 8
-#define PSEUDO_DETAILS_RETURN 9
-#define PSEUDO_DETAILS_MTOS_8 10
-#define PSEUDO_DETAILS_MTOS_16 11
-#define PSEUDO_DETAILS_MTOS_24 12
+#define PSEUDO_DETAILS_RETURN 6
+#define PSEUDO_DETAILS_MTOS_8 7
+#define PSEUDO_DETAILS_MTOS_16 8
+#define PSEUDO_DETAILS_MTOS_24 9
 
 #define PSEUDO_DATA_STACK 0
 #define PSEUDO_RETURN_STACK 1
+
+#define PSEUDO_DATA_STACK_REGISTER 0xD
+#define PSEUDO_RETURN_STACK_REGISTER 0x2
 
 class PseudoCodeDetails
 {
@@ -525,6 +525,8 @@ protected:
     bool performChip8Step_;
     bool additionalChip8Details_;
     bool additionalChip8StackDetails_;
+    bool additionalChip8ForceDsDetails_;
+    bool additionalChip8ForceRsDetails_;
     int additionalChip8DetailsType_;
     Word additionalDetailsAddress_;
     Word additionalDetailsAddressV2_;
