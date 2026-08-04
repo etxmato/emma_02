@@ -692,6 +692,7 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
     trace_ = false;
     chip8Trace_ = false;
     additionalChip8Details_ = false;
+    additionalChip8StackDetails_ = false;
     performStep_ = false;
     steps_ = 1;
     memoryDisplay_ = CPU_MEMORY;
@@ -1018,6 +1019,8 @@ void DebugWindow::cyclePseudoDebug()
             topOfDataStack_ = p_Computer->getScratchpadRegister(0xD);
             topOfReturnStack_ = p_Computer->getScratchpadRegister(2);
             topOfStackSet_ = true;
+            currentStackValue_[PSEUDO_RETURN_STACK] = 0;
+            currentStackValue_[PSEUDO_DATA_STACK] = 0;
         }
         p_Computer->writeMemDataType(chip8PC, MEM_TYPE_PSEUDO_1);
 
@@ -1075,7 +1078,7 @@ void DebugWindow::cyclePseudoDebug()
                     // step OVER it (show it, run hidden internals, stop on landing).
                     chip8StepOver_ = true;
                     p_Computer->setSteps(-1);
-                    if (additionalChip8Details_)
+                    if (additionalChip8Details_ || additionalChip8StackDetails_)
                         chip8DebugTrace(addDetails());
                     if (chip8Trace_)
                         pseudoTrace(chip8PC);   // show the instruction being stepped over
@@ -1090,7 +1093,7 @@ void DebugWindow::cyclePseudoDebug()
                 {
                     // phase 0 (or a compound hit at the pause entry, chip8Steps_==1)
                     // -> normal stepping: trace this instruction, pause at the next.
-                    if (additionalChip8Details_)
+                    if (additionalChip8Details_ || additionalChip8StackDetails_)
                         chip8DebugTrace(addDetails());
                     if (chip8Steps_ == 1)
                     {
@@ -1120,13 +1123,18 @@ void DebugWindow::cyclePseudoDebug()
                 int phase = chip8PtcTracePhase(chip8PC);
                 bool showThis = (phase == 0 || phase == 3);  // show normal + landing
 
-                if (additionalChip8Details_ && showThis)
+                if ((additionalChip8Details_ || additionalChip8StackDetails_) && showThis)
                     chip8DebugTrace(addDetails());
                 if (chip8BreakPointCheck())  return;
                 if (chip8Trace_ && showThis)
                     pseudoTrace(chip8PC);
             }
         }
+    }
+    if (p_Computer->isChip8MainLoop(programCounterAddress))
+    {
+        currentStackValue_[PSEUDO_RETURN_STACK] = p_Computer->getScratchpadRegister(2);
+        currentStackValue_[PSEUDO_DATA_STACK] = p_Computer->getScratchpadRegister(0xd);
     }
 }
 
@@ -1522,11 +1530,11 @@ void DebugWindow::chip8DebugTrace(wxString buffer)
     if (!chip8DebugMode_)  return;
 #if defined(__WXMAC__) || defined(__linux__)
     chipTraceString_ = chipTraceString_ + buffer;
-    if (!additionalChip8Details_)
+    if (!additionalChip8Details_ && !additionalChip8StackDetails_)
         chipTraceString_ = chipTraceString_ + "\n";
 #else
     chip8TraceWindowPointer->AppendText(buffer);
-    if (!additionalChip8Details_)
+    if (!additionalChip8Details_ && !additionalChip8StackDetails_)
         chip8TraceWindowPointer->AppendText("\n");
 #endif
 }
@@ -16460,6 +16468,12 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                         if (includeDetails)
                             additionalDetailsPrintStr_ = parameter.Right(parameter.Len()-4);
                     }
+                    if (parameter.Left(5) == "stack")
+                    {
+                        parameterFound = true;
+                        parameterStr = "";
+                        additionalChip8StackDetails_ = true;
+                    }
                     if (parameter.Left(3) == "det")
                     {
                         parameterFound = true;
@@ -16635,7 +16649,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 additionalDetailsPrintStr_ += "%02X";
                                 additionalChip8DetailsType_ = PSEUDO_DETAILS_MI;
                             }
-                            if (firstParameter == "VA" || firstParameter == "VB" || firstParameter == "VC" || firstParameter == "VD")
+                            if (firstParameter == "VA" || firstParameter == "VB" || firstParameter == "VC" || firstParameter == "VD" || firstParameter == "VE")
                             {
                                 additionalChip8Details_ = true;
                                 int varIndex = 0;
@@ -16646,32 +16660,13 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 additionalDetailsPrintStr_ = firstParameter + "=%04X";
                                 additionalChip8DetailsType_ = PSEUDO_DETAILS_R;
                             }
-                            if (commandText == "PUSH" || commandText == "DUP"  || commandText == "DUPNZ" || commandText == "SWAP" || commandText == "OVER" || commandText == "ISEQ" || commandText == "ISLT" || commandText == "ISGT" || commandText == "JZ" || commandText == "ISGT" || firstParameter == "TOS" || firstParameter == "TOS.0")
+/*                            if ( firstParameter == "TOS" || firstParameter == "TOS.0")
                             {
                                 additionalChip8Details_ = true;
                                 additionalDetailsAddress_ = 0xD;
                                 additionalDetailsPrintStr_ = "DS: ";
                                 additionalChip8DetailsType_ = PSEUDO_DETAILS_DATA_STACK;
-                            }
-                            if (commandText == "SYS")
-                            {
-                                additionalChip8Details_ = true;
-                                if (p_Computer->readMemDebug(sysAddr) == 0x15)
-                                {
-                                    additionalDetailsAddress_ = 0x2;
-                                    additionalDetailsPrintStr_ = "RS: ";
-                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_RETURN_STACK;
-                                }
-                                else
-                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_NONE;
-                            }
-                            if (commandText == "LOOP" || commandText == "CALLI")
-                            {
-                                additionalChip8Details_ = true;
-                                additionalDetailsAddress_ = 0x2;
-                                additionalDetailsPrintStr_ = "RS: ";
-                                additionalChip8DetailsType_ = PSEUDO_DETAILS_RETURN_STACK;
-                            }
+                            }*/
                             if (commandText == "RET")
                             {
                                 additionalChip8Details_ = true;
@@ -16806,94 +16801,164 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
 
 wxString DebugWindow::addDetails()
 {
-    wxString buffer, v2String;
+    wxString buffer = "", bufferLine2 = "",  v2String;
     Word valueI;
-    int stackDepth;
     
-    switch (additionalChip8DetailsType_)
+    if (additionalChip8Details_)
     {
-        case PSEUDO_DETAILS_X:
-            buffer.Printf(" " + additionalDetailsPrintStr_, p_Computer->readMemDebug(additionalDetailsAddress_));
-            if (additionalDetailsAddressV2_ != 0)
+        switch (additionalChip8DetailsType_)
+        {
+            case PSEUDO_DETAILS_X:
+                buffer.Printf(" " + additionalDetailsPrintStr_, p_Computer->readMemDebug(additionalDetailsAddress_));
+                if (additionalDetailsAddressV2_ != 0)
+                {
+                    v2String.Printf(additionalDetailsPrintStrV2_, p_Computer->readMemDebug(additionalDetailsAddressV2_));
+                    buffer += v2String;
+                }
+                break;
+                
+            case PSEUDO_DETAILS_R:
+                buffer.Printf(" " + additionalDetailsPrintStr_, (p_Computer->readMemDebug(additionalDetailsAddress_) << 8) + p_Computer->readMemDebug(additionalDetailsAddress_+1));
+                break;
+                
+            case PSEUDO_DETAILS_MR:
+                buffer.Printf(" " + additionalDetailsPrintStr_, p_Computer->readMemDebug((p_Computer->readMemDebug(additionalDetailsAddress_) << 8) + p_Computer->readMemDebug(additionalDetailsAddress_+1)));
+                break;
+                
+            case PSEUDO_DETAILS_I:
+                if (pseudoType_ == "STIV")
+                    valueI = (p_Computer->readMemDebug(0x27f6)<<8)+p_Computer->readMemDebug(0x27f7);
+                else
+                    valueI = p_Computer->getScratchpadRegister(CHIP8_I) & 0xfff;
+                buffer.Printf(" " + additionalDetailsPrintStr_, valueI);
+                break;
+                
+            case PSEUDO_DETAILS_MI:
+                if (pseudoType_ == "STIV")
+                    valueI = (p_Computer->readMemDebug(0x27f6)<<8)+p_Computer->readMemDebug(0x27f7);
+                else
+                    valueI = p_Computer->getScratchpadRegister(CHIP8_I) & 0xfff;
+                buffer.Printf(" " + additionalDetailsPrintStr_, p_Computer->readMemDebug(additionalDetailsAddress_));
+                break;
+                
+                /*        case PSEUDO_DETAILS_DATA_STACK:
+                 case PSEUDO_DETAILS_RETURN_STACK:
+                 case PSEUDO_DETAILS_RETURN_AND_DATA_STACK:
+                 {
+                 Word rd = p_Computer->getScratchpadRegister(additionalDetailsAddress_);
+                 if (additionalChip8DetailsType_ == PSEUDO_DETAILS_DATA_STACK || additionalChip8DetailsType_ == PSEUDO_DETAILS_RETURN_AND_DATA_STACK)
+                 stackDepth = (topOfStackSet_) ? (topOfDataStack_ - rd) / 2 : 3;
+                 else
+                 stackDepth = (topOfStackSet_) ? (topOfReturnStack_ - rd) / 2 : 3;
+                 if (stackDepth >= 3)
+                 buffer.Printf(" " + additionalDetailsPrintStr_ + "%04X, %04X, %04X",
+                 (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1),
+                 (p_Computer->readMemDebug(rd + 2) << 8) + p_Computer->readMemDebug(rd + 3),
+                 (p_Computer->readMemDebug(rd + 4) << 8) + p_Computer->readMemDebug(rd + 5));
+                 else if (stackDepth == 2)
+                 buffer.Printf(" " + additionalDetailsPrintStr_ + "%04X, %04X",
+                 (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1),
+                 (p_Computer->readMemDebug(rd + 2) << 8) + p_Computer->readMemDebug(rd + 3));
+                 else if (stackDepth == 1)
+                 buffer.Printf(" " + additionalDetailsPrintStr_ + "%04X",
+                 (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1));
+                 
+                 if (additionalChip8DetailsType_ == PSEUDO_DETAILS_RETURN_AND_DATA_STACK)
+                 {
+                 Word rd = p_Computer->getScratchpadRegister(0x2);
+                 stackDepth = (topOfStackSet_) ? (topOfReturnStack_ - rd) / 2 : 3;
+                 if (stackDepth >= 3)
+                 bufferLine2.Printf("RS: %04X, %04X, %04X",
+                 (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1),
+                 (p_Computer->readMemDebug(rd + 2) << 8) + p_Computer->readMemDebug(rd + 3),
+                 (p_Computer->readMemDebug(rd + 4) << 8) + p_Computer->readMemDebug(rd + 5));
+                 else if (stackDepth == 2)
+                 bufferLine2.Printf("RS: %04X, %04X",
+                 (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1),
+                 (p_Computer->readMemDebug(rd + 2) << 8) + p_Computer->readMemDebug(rd + 3));
+                 else if (stackDepth == 1)
+                 bufferLine2.Printf("RS: %04X",
+                 (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1));
+                 if (stackDepth >= 0)
+                 buffer = buffer + "\n                          " + bufferLine2;
+                 }
+                 }
+                 break;*/
+                
+            case PSEUDO_DETAILS_RETURN:
+                buffer.Printf(" " + additionalDetailsPrintStr_, additionalDetailsAddress_);
+                break;
+                
+            case PSEUDO_DETAILS_MTOS_8:
             {
-                v2String.Printf(additionalDetailsPrintStrV2_, p_Computer->readMemDebug(additionalDetailsAddressV2_));
-                buffer += v2String;
+                buffer.Printf(" " + additionalDetailsPrintStr_, additionalDetailsAddress_, p_Computer->readMemDebug(additionalDetailsAddress_));
             }
-        break;
-      
-        case PSEUDO_DETAILS_R:
-            buffer.Printf(" " + additionalDetailsPrintStr_, (p_Computer->readMemDebug(additionalDetailsAddress_) << 8) + p_Computer->readMemDebug(additionalDetailsAddress_+1));
-        break;
-            
-        case PSEUDO_DETAILS_MR:
-            buffer.Printf(" " + additionalDetailsPrintStr_, p_Computer->readMemDebug((p_Computer->readMemDebug(additionalDetailsAddress_) << 8) + p_Computer->readMemDebug(additionalDetailsAddress_+1)));
-        break;
-            
-        case PSEUDO_DETAILS_I:
-            if (pseudoType_ == "STIV")
-                valueI = (p_Computer->readMemDebug(0x27f6)<<8)+p_Computer->readMemDebug(0x27f7);
-            else
-                valueI = p_Computer->getScratchpadRegister(CHIP8_I) & 0xfff;
-            buffer.Printf(" " + additionalDetailsPrintStr_, valueI);
-        break;
-
-        case PSEUDO_DETAILS_MI:
-            if (pseudoType_ == "STIV")
-                valueI = (p_Computer->readMemDebug(0x27f6)<<8)+p_Computer->readMemDebug(0x27f7);
-            else
-                valueI = p_Computer->getScratchpadRegister(CHIP8_I) & 0xfff;
-            buffer.Printf(" " + additionalDetailsPrintStr_, p_Computer->readMemDebug(additionalDetailsAddress_));
-        break;
-
-        case PSEUDO_DETAILS_DATA_STACK:
-        case PSEUDO_DETAILS_RETURN_STACK:
-        {
-            Word rd = p_Computer->getScratchpadRegister(additionalDetailsAddress_);
-            if (additionalChip8DetailsType_ == PSEUDO_DETAILS_DATA_STACK)
-                stackDepth = (topOfStackSet_) ? (topOfDataStack_ - rd) / 2 : 3;
-            else
-                stackDepth = (topOfStackSet_) ? (topOfReturnStack_ - rd) / 2 : 3;
-            if (stackDepth >= 3)
-                buffer.Printf(" " + additionalDetailsPrintStr_ + "%04X, %04X, %04X",
-                    (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1),
-                    (p_Computer->readMemDebug(rd + 2) << 8) + p_Computer->readMemDebug(rd + 3),
-                    (p_Computer->readMemDebug(rd + 4) << 8) + p_Computer->readMemDebug(rd + 5));
-            else if (stackDepth == 2)
-                buffer.Printf(" " + additionalDetailsPrintStr_ + "%04X, %04X",
-                    (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1),
-                    (p_Computer->readMemDebug(rd + 2) << 8) + p_Computer->readMemDebug(rd + 3));
-            else if (stackDepth == 1)
-                buffer.Printf(" " + additionalDetailsPrintStr_ + "%04X",
-                    (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1));
+                break;
+                
+            case PSEUDO_DETAILS_MTOS_16:
+            {
+                buffer.Printf(" " + additionalDetailsPrintStr_, additionalDetailsAddress_, (p_Computer->readMemDebug(additionalDetailsAddress_) << 8) + p_Computer->readMemDebug(additionalDetailsAddress_ + 1));
+            }
+                break;
+                
+            case PSEUDO_DETAILS_MTOS_24:
+            {
+                buffer.Printf(" " + additionalDetailsPrintStr_, additionalDetailsAddress_,
+                              p_Computer->readMemDebug(additionalDetailsAddress_),
+                              p_Computer->readMemDebug(additionalDetailsAddress_ + 1),
+                              p_Computer->readMemDebug(additionalDetailsAddress_ + 2));
+            }
+                break;
         }
-        break;
-
-        case PSEUDO_DETAILS_RETURN:
-            buffer.Printf(" " + additionalDetailsPrintStr_, additionalDetailsAddress_);
-        break;
-
-        case PSEUDO_DETAILS_MTOS_8:
-        {
-            buffer.Printf(" " + additionalDetailsPrintStr_, additionalDetailsAddress_, p_Computer->readMemDebug(additionalDetailsAddress_));
-        }
-        break;
-
-        case PSEUDO_DETAILS_MTOS_16:
-        {
-            buffer.Printf(" " + additionalDetailsPrintStr_, additionalDetailsAddress_, (p_Computer->readMemDebug(additionalDetailsAddress_) << 8) + p_Computer->readMemDebug(additionalDetailsAddress_ + 1));
-        }
-        break;
-
-        case PSEUDO_DETAILS_MTOS_24:
-        {
-            buffer.Printf(" " + additionalDetailsPrintStr_, additionalDetailsAddress_,
-                p_Computer->readMemDebug(additionalDetailsAddress_),
-                p_Computer->readMemDebug(additionalDetailsAddress_ + 1),
-                p_Computer->readMemDebug(additionalDetailsAddress_ + 2));
-        }
-        break;
     }
+
+    if (additionalChip8StackDetails_)
+    {
+        bufferLine2 = getStackDetails(0xd, PSEUDO_DATA_STACK);
+        if (bufferLine2 != "" && buffer != "")
+            bufferLine2 = "\n                          " + bufferLine2;
+        buffer += bufferLine2;
+        
+        bufferLine2 = getStackDetails(0x2, PSEUDO_RETURN_STACK);
+        if (bufferLine2 != "" && buffer != "")
+            bufferLine2 = "\n                          " + bufferLine2;
+        buffer += bufferLine2;
+    }
+
     additionalChip8Details_ = false;
+    additionalChip8StackDetails_ = false;
+    return buffer;
+}
+
+wxString DebugWindow::getStackDetails(Byte registerValue, int stackSelector)
+{
+    wxString leadValue[] =
+    {
+        " DS: ", " RS: "
+    };
+    Word stackRegisterValue = p_Computer->getScratchpadRegister(registerValue);
+    if (stackRegisterValue == currentStackValue_[stackSelector])
+        return "";
+        
+    wxString buffer = "";
+    int stackDepth;
+    if (stackSelector == PSEUDO_DATA_STACK)
+        stackDepth = (topOfStackSet_) ? (topOfDataStack_ - stackRegisterValue) / 2 : 3;
+    else
+        stackDepth = (topOfStackSet_) ? (topOfReturnStack_ - stackRegisterValue) / 2 : 3;
+    if (stackDepth >= 3)
+        buffer.Printf(leadValue[stackSelector] + "%04X, %04X, %04X",
+            (p_Computer->readMemDebug(stackRegisterValue) << 8) + p_Computer->readMemDebug(stackRegisterValue + 1),
+            (p_Computer->readMemDebug(stackRegisterValue + 2) << 8) + p_Computer->readMemDebug(stackRegisterValue + 3),
+            (p_Computer->readMemDebug(stackRegisterValue + 4) << 8) + p_Computer->readMemDebug(stackRegisterValue + 5));
+    else if (stackDepth == 2)
+        buffer.Printf(leadValue[stackSelector] + "%04X, %04X",
+            (p_Computer->readMemDebug(stackRegisterValue) << 8) + p_Computer->readMemDebug(stackRegisterValue + 1),
+            (p_Computer->readMemDebug(stackRegisterValue + 2) << 8) + p_Computer->readMemDebug(stackRegisterValue + 3));
+    else if (stackDepth == 1)
+        buffer.Printf(leadValue[stackSelector] + "%04X",
+            (p_Computer->readMemDebug(stackRegisterValue) << 8) + p_Computer->readMemDebug(stackRegisterValue + 1));
+    
     return buffer;
 }
 

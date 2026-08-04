@@ -1,43 +1,43 @@
 ADD
-TOS , NOS det code=00
-TOS , const=1 det code=03
-TOS , const=2 det code=04
+TOS , NOS stack code=00
+TOS , const=1 stack code=03
+TOS , const=2 stack code=04
 /ADD
 SHL
-TOS det code=01
+TOS stack code=01
 /SHL
 SUB
-TOS , NOS det code=02
-TOS , const=1 det code=21
+TOS , NOS stack code=02
+TOS , const=1 stack code=21
 /SUB
 JZ
-brf code=08kk
-brb code=09kk
+brf stack code=08kk
+brb stack code=09kk
 /JZ
 JP
 brf code=0Akk
 brb code=0Bkk
 /JP
 LOOP
-FRAME det code=0E
-brb det code=0Ckk
-TOS , brb det code=0Dkk
+FRAME stack code=0E
+brb stack code=0Ckk
+TOS , brb stack code=0Dkk
 /LOOP
 RET
 det code=11
 /RET
 AND
-TOS , NOS det code=12
+TOS , NOS stack code=12
 /AND
 XOR
-TOS , NOS det code=18
+TOS , NOS stack code=18
 /XOR
 ISZ
-TOS det code=13
+TOS stack code=13
 [TOS] det code=38
 /ISZ
 ISNEG
-TOS det code=14
+TOS stack code=14
 /ISNEG
 MCPY
 [TOS] , [NOS] hide_trace code=52
@@ -52,54 +52,54 @@ MCPY6
 [TOS] , 78B7 hide_trace code=59
 /MCPY6
 DROP
-det code=1C
+stack code=1C
 /DROP
 OVER
-det code=1D
+stack code=1D
 /OVER
 DUP
-det code=1E
+stack code=1E
 /DUP
 DUPNZ
-det code=1F
+stack code=1F
 /DUPNZ
 SWAP
-det code=20
+stack code=20
 /SWAP
 PUSH
-CS det code=24
-VE , kk det code=31kk
-[VE].0 , kk det code=32kk
-const=78B7 det code=3A
-const=7C06 det code=3B
-const=7C09 det code=3C
-const=7C0C det code=3D
-const=7C0E det code=3E
-const=7C11 det code=3F
-const=7C2C det code=40
-const=7C4E det code=41
-const=7C70 det code=42
-const=7C92 det code=43
-const=7CB4 det code=44
-const=7CD6 det code=45
-const=7D08 det code=46
-const=FFFF det code=47
-const=0020 det code=48
-const=0000 det code=49
-const=0001 det code=4A
-const=0002 det code=4B
-const=0004 det code=4C
-const=0007 det code=4D
-const=000D det code=4E
-const=002B det code=4F
-const=002D det code=50
-const=3CDE det code=5B
-const=FFFF det code=5C
-const=0007 det code=5D
-const=8000 det code=5E
-const=1A11 det code=63
-kk det code=23kk
-hex=0000-FFFF det code=22aaaa
+CS stack code=24
+VE , kk det stack code=31kk
+[VE].0 , kk stack code=32kk
+const=78B7 stack code=3A
+const=7C06 stack code=3B
+const=7C09 stack code=3C
+const=7C0C stack code=3D
+const=7C0E stack code=3E
+const=7C11 stack code=3F
+const=7C2C stack code=40
+const=7C4E stack code=41
+const=7C70 stack code=42
+const=7C92 stack code=43
+const=7CB4 stack code=44
+const=7CD6 stack code=45
+const=7D08 stack code=46
+const=FFFF stack code=47
+const=0020 stack code=48
+const=0000 stack code=49
+const=0001 stack code=4A
+const=0002 stack code=4B
+const=0004 stack code=4C
+const=0007 stack code=4D
+const=000D stack code=4E
+const=002B stack code=4F
+const=002D stack code=50
+const=3CDE stack code=5B
+const=FFFF stack code=5C
+const=0007 stack code=5D
+const=8000 stack code=5E
+const=1A11 stack code=63
+kk stack code=23kk
+hex=0000-FFFF stack code=22aaaa
 /PUSH
 POPCS
 code=0F
@@ -108,24 +108,24 @@ PUSHCS
 code=10
 /PUSHCS
 OR
-TOS , NOS det code=27
+TOS , NOS stack code=27
 /OR
 LD24
 [TOS] , NOS det code=28
 /LD24
 LD
-TOS , [TOS] det code=15
-TOS.0 , [TOS] det code=17
+TOS , [TOS] stack code=15
+TOS.0 , [TOS] stack code=17
 [TOS] , NOS det code=16
 [TOS] , NOS.0 det code=19
 [TOS] , const=0 det code=25
 [TOS] , const=1 det code=2B
-TOS.0 , mem=7800-78FF det code=2Eaa
+TOS.0 , mem=7800-78FF stack code=2Eaa
 mem=7800-78FF , TOS.0 det code=2Faa
-TOS , mem=7C16-7C16 det hide_trace code=56
-TOS , mem=0000-FFFF det code=2Aaaaa
+TOS , mem=7C16-7C16 stack hide_trace code=56
+TOS , mem=0000-FFFF stack code=2Aaaaa
 mem=0000-FFFF , TOS det code=2Baaaa
-TOS.0 , mem=0000-FFFF det code=2Caaaa
+TOS.0 , mem=0000-FFFF stack code=2Caaaa
 mem=0000-FFFF , TOS.0 det code=2Daaaa
 /LD
 LDBNK
@@ -135,13 +135,13 @@ FILL
 code=30
 /FILL
 ISGT
-det code=06
+stack code=06
 /ISGT
 ISLT
-det code=05
+stack code=05
 /ISLT
 ISEQ
-det code=07
+stack code=07
 /ISEQ
 CMP24
 [TOS] , [NOS] det hide_trace code=55
@@ -160,13 +160,13 @@ SUB24
 [TOS] , const=1 det hide_trace code=60
 /SUB24
 EXEC
-TOS det code=39
+TOS stack code=39
 /EXEC
 STBNK
 [TOS] , const=0 det hide_trace code=51
 /STBNK
 IDX24
-TOS , const=7AC8 det hide_trace code=57
+TOS , const=7AC8 stack hide_trace code=57
 /IDX24
 POP
 [VE].0 , kk code=33kk
@@ -175,12 +175,12 @@ NOOP
 code=37
 /NOOP
 SYS
-sys det code=8gkk
-sys det code=9gkk
-sys det code=Agkk
-sys det code=Bgkk
-sys det code=Cgkk
-sys det code=Dgkk
-sys det code=Egkk
-sys det code=Fgkk
+sys stack code=8gkk
+sys stack code=9gkk
+sys stack code=Agkk
+sys stack code=Bgkk
+sys stack code=Cgkk
+sys stack code=Dgkk
+sys stack code=Egkk
+sys stack code=Fgkk
 /SYS

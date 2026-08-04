@@ -78,10 +78,14 @@ public:
 #define PSEUDO_DETAILS_MR 5
 #define PSEUDO_DETAILS_DATA_STACK 6
 #define PSEUDO_DETAILS_RETURN_STACK 7
-#define PSEUDO_DETAILS_RETURN 8
-#define PSEUDO_DETAILS_MTOS_8 9
-#define PSEUDO_DETAILS_MTOS_16 10
-#define PSEUDO_DETAILS_MTOS_24 11
+#define PSEUDO_DETAILS_RETURN_AND_DATA_STACK 8
+#define PSEUDO_DETAILS_RETURN 9
+#define PSEUDO_DETAILS_MTOS_8 10
+#define PSEUDO_DETAILS_MTOS_16 11
+#define PSEUDO_DETAILS_MTOS_24 12
+
+#define PSEUDO_DATA_STACK 0
+#define PSEUDO_RETURN_STACK 1
 
 class PseudoCodeDetails
 {
@@ -458,6 +462,7 @@ public:
     void definePseudoCommands();
     wxString pseudoDisassemble(Word address, bool includeDetails, bool showOpcode);
     wxString addDetails();
+    wxString getStackDetails(Byte registerValue, int stackSelector);
     void onChip8Trace(wxCommandEvent&event);
     void onChip8ProtectedMode(wxCommandEvent&event);
     void onChip8Log(wxCommandEvent&event);
@@ -519,6 +524,7 @@ protected:
     long chip8Steps_;
     bool performChip8Step_;
     bool additionalChip8Details_;
+    bool additionalChip8StackDetails_;
     int additionalChip8DetailsType_;
     Word additionalDetailsAddress_;
     Word additionalDetailsAddressV2_;
@@ -527,6 +533,7 @@ protected:
 
     Word topOfDataStack_;
     Word topOfReturnStack_;
+    Word currentStackValue_[2];
     bool topOfStackSet_;
     int  chip8HideReturnStack_;    // PTC: R2 value to unhide at; -1 = not hiding
     bool chip8StepOver_;           // PTC: currently stepping over a compound opcode

@@ -4178,6 +4178,7 @@ void Main::onStart()
     chip8HideReturnStack_ = -1;
     chip8StepOver_ = false;
     additionalChip8Details_ = false;
+    additionalChip8StackDetails_ = false;
 
     for (int video=0; video<VIDEOXMLMAX; video++)
       p_Video[video] = NULL;
