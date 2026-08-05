@@ -1189,6 +1189,8 @@ void Computer::configureComputer()
         setEfType(&currentComputerConfiguration.hexDisplayConfiguration.ioGroupVector, currentComputerConfiguration.hexDisplayConfiguration.startEf, "0 when start button pressed");
 
         setOutType(&currentComputerConfiguration.hexDisplayConfiguration.ioGroupVector, currentComputerConfiguration.multiSegDisplayConfiguration.segOutput, "7 segment display");
+        setOutType(&currentComputerConfiguration.hexDisplayConfiguration.ioGroupVector, currentComputerConfiguration.multiSegDisplayConfiguration.segOutputHigh, "7 segment display high");
+        setOutType(&currentComputerConfiguration.hexDisplayConfiguration.ioGroupVector, currentComputerConfiguration.multiSegDisplayConfiguration.segDigitOutput, "7 segment display digit");
         setInType(&currentComputerConfiguration.hexDisplayConfiguration.ioGroupVector, currentComputerConfiguration.multiSegDisplayConfiguration.segInput, "reset 7 segment");
         setEfType(&currentComputerConfiguration.hexDisplayConfiguration.ioGroupVector, currentComputerConfiguration.multiSegDisplayConfiguration.segEf, "0 display start");
 
@@ -1394,6 +1396,8 @@ void Computer::initComputer()
     resetTape();
 
     segValue_ = -1;
+    multiSegWait_ = 0;
+    segLowByte_ = 0;
 }
 
 void Computer::resetComputer()
@@ -3113,7 +3117,21 @@ void Computer::outConfiguration(OutputConfiguration outConfiguration, Byte port,
 
         case MULTI_TIL_DISPLAY_OUT:
             segValue_ = value;
-            if (currentComputerConfiguration.multiSegDisplayConfiguration.cycleValue == -1)
+            if (currentComputerConfiguration.multiSegDisplayConfiguration.man2815)
+            {
+                // MAN2815: OUT 1 carries the LOW byte of the 14-segment pattern for the
+                // digit selected by OUT 2 (MULTI_TIL_DISPLAY_DIGIT). The high byte
+                // (diagonal/center segments, bits 8-13) arrives on OUT 4. multiSegWait_
+                // states: 0 = idle, 1 = expecting low byte (after OUT 2), 2 = expecting
+                // the high byte on OUT 4. The leading anti-ghost blank write (value 0,
+                // not preceded by an OUT 2) is ignored.
+                if (multiSegWait_ == 1)
+                {
+                    segLowByte_ = value;
+                    multiSegWait_ = 2;
+                }
+            }
+            else if (currentComputerConfiguration.multiSegDisplayConfiguration.cycleValue == -1)
             {
                 if (value == 0xd)
                     segNumber_ = 0;
@@ -3122,6 +3140,39 @@ void Computer::outConfiguration(OutputConfiguration outConfiguration, Byte port,
                     if (segNumber_ <= currentComputerConfiguration.multiSegDisplayConfiguration.multiTilNumber)
                         for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
                             panelPointer[frontPanel]->showMulti(segNumber_++, value);
+                }
+            }
+        break;
+
+        case MULTI_TIL_DISPLAY_OUT_HIGH:
+            if (currentComputerConfiguration.multiSegDisplayConfiguration.man2815 && multiSegWait_ == 2)
+            {
+                // high byte (bits 8-13 diagonal/center) combined with the low byte held
+                // from OUT 1 forms the complete 14-segment pattern
+                Word combined = segLowByte_ | ((Word)value << 8);
+                multiSegWait_ = 0;
+                if (segNumber_ <= currentComputerConfiguration.multiSegDisplayConfiguration.multiTilNumber)
+                    for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+                        panelPointer[frontPanel]->showMulti(segNumber_, combined);
+            }
+        break;
+
+        case MULTI_TIL_DISPLAY_DIGIT:
+            if (currentComputerConfiguration.multiSegDisplayConfiguration.man2815)
+            {
+                // OUT 2 = 0x43 selects digit 0 (frame start); OUT 2 = 0x42 moves to the
+                // next digit. Only these two values are digit-selects - OUT 2 is also
+                // used for mode/load strobes (e.g. 0x40/0x02/0x00) which must NOT arm
+                // the display capture.
+                if (value == 0x43)
+                {
+                    segNumber_ = 0;
+                    multiSegWait_ = 1;
+                }
+                else if (value == 0x42)
+                {
+                    segNumber_++;
+                    multiSegWait_ = 1;
                 }
             }
         break;
@@ -3576,18 +3627,24 @@ void Computer::cycle(int type)
         break;
 
         case MULTI_TIL_DISPLAY_CYCLE:
+            if (currentComputerConfiguration.multiSegDisplayConfiguration.man2815)
+                break;
             multiTilCycleValue_--;
             if (multiTilCycleValue_ <= 0)
             {
                 if (segValue_ != -1 && segValue_ != 0xd)
                 {
-                    if (segNumber_ <= currentComputerConfiguration.multiSegDisplayConfiguration.multiTilNumber)
-                        for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
-                            panelPointer[frontPanel]->showMulti(segNumber_, segValue_);
-                    segNumber_++;
-                    if (segNumber_ > currentComputerConfiguration.multiSegDisplayConfiguration.multiTilNumber && currentComputerConfiguration.multiSegDisplayConfiguration.segInput.portNumber[0] == -1)
-                        segNumber_ = 0;
-                    segValue_ = -1;
+                    if (!currentComputerConfiguration.multiSegDisplayConfiguration.man2815 || multiSegWait_ == 0)
+                    {
+                        if (segNumber_ <= currentComputerConfiguration.multiSegDisplayConfiguration.multiTilNumber)
+                            for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+                                panelPointer[frontPanel]->showMulti(segNumber_, segValue_);
+                        segNumber_++;
+                        if (segNumber_ > currentComputerConfiguration.multiSegDisplayConfiguration.multiTilNumber && currentComputerConfiguration.multiSegDisplayConfiguration.segInput.portNumber[0] == -1)
+                            segNumber_ = 0;
+                        segValue_ = -1;
+                        multiSegWait_ = 0;
+                    }
                 }
 
                 multiTilCycleValue_ = multiTilCycleSize_;

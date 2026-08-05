@@ -553,6 +553,9 @@ private:
     int multiTilCycleValue_;
     int multiTilCycleSize_;
 
+    int multiSegWait_;
+    int segLowByte_;
+
     int soundTempoCycleValue_;
     int soundTempoCycleSize_;
     int vipIIRunCycleSize_;

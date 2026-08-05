@@ -930,6 +930,7 @@ Panel::~Panel()
             case TIL_311:
             case TIL_313:
             case TIL_313_ITALIC:
+            case TIL_MAN2815:
                 switch (button->function)
                 {
                     case TIL_DATA:
@@ -1358,6 +1359,16 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
                 }
             break;
 
+            case TIL_MAN2815:
+                if (button->function == TIL_MULTI)
+                {
+                    multiPointer[button->value] = new TilMan2815();
+                    multiPointer[button->value]->init(dc, button->position.x, button->position.y);
+                    tilMultiPointerDefined[button->value] = true;
+                    updateMulti_[button->value] = true;
+                }
+            break;
+
             case PANEL_PNG:
                 if (button->useImageDir)
                     button->bitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + p_Main->getPathSep() + button->fileName, wxBITMAP_TYPE_PNG);
@@ -1570,6 +1581,7 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
             case TIL_311:
             case TIL_313:
             case TIL_313_ITALIC:
+            case TIL_MAN2815:
                 switch (button->function)
                 {
                     case TIL_DATA:
@@ -2623,7 +2635,7 @@ void Panel::updateSeg(wxDC& dc, int number)
     }
 }
 
-void Panel::showMulti(int number, Byte value)
+void Panel::showMulti(int number, Word value)
 {
     if (!tilMultiPointerDefined[number])
         return;

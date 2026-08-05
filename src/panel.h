@@ -109,7 +109,7 @@ public:
     void updateDp313Italic(wxDC& dc);
     void showSeg(int number, Byte value);
     void updateSeg(wxDC& dc, int number);
-    void showMulti(int number, Byte value);
+    void showMulti(int number, Word value);
     void updateMulti(wxDC& dc, int number);
     void showAddress(Word address);
     void updateAddress(wxDC& dc);
@@ -259,7 +259,7 @@ protected:
     bool tilAddressPointerDefined[MAX_ADDRESS_TIL];
     Til *addressPointer[MAX_ADDRESS_TIL];
     bool tilMultiPointerDefined[MAX_MULTI_TIL];
-    Tilfull *multiPointer[MAX_MULTI_TIL];
+    TilMultiDisplay *multiPointer[MAX_MULTI_TIL];
     Tilfull *segPointer[MAX_MULTI_TIL];
     bool tilOutPointerDefined[8][2];
     Til *tilOutPointer[8][2];
@@ -269,9 +269,8 @@ protected:
     Word addressStatus;
     Byte dataStatus;
     Byte tilOutStatus[8];
-    Byte multiStatus[MAX_MULTI_TIL];
-    Byte segStatus[MAX_MULTI_TIL];
-    bool dpStatus[MAX_DATA_TIL];
+    Word multiStatus[MAX_MULTI_TIL];
+    Byte segStatus[MAX_MULTI_TIL];    bool dpStatus[MAX_DATA_TIL];
 
     Led *readyLedPointer;
     bool readyLedPointerDefined;
@@ -394,7 +393,7 @@ public:
     void setTilOut(int output, Byte value) {panelPointer->setTilOut(output, value);};
     void showData(Byte value) {panelPointer->showData(value);};
     void showAddress(Word address) {panelPointer->showAddress(address);};
-    void showMulti(int number, Byte value) {panelPointer->showMulti(number, value);};
+    void showMulti(int number, Word value) {panelPointer->showMulti(number, value);};
     void showDp313Italic(bool status, int i) {panelPointer->showDp313Italic(status, i);};
     void turnOff313Italic(bool status) {panelPointer->turnOff313Italic(status);};
 

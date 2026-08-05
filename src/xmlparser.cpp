@@ -486,6 +486,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.multiSegDisplayConfiguration.reversePolarity = false;
     computerConfiguration.multiSegDisplayConfiguration.multitilAddressLineWait = -1;
     computerConfiguration.multiSegDisplayConfiguration.multitilAddressLineHigh = -1;
+    computerConfiguration.multiSegDisplayConfiguration.man2815 = false;
 
     computerConfiguration.flipflopConfiguration.output = init_IoPort();
     computerConfiguration.flipflopConfiguration.ef = init_EfFlag();
@@ -4426,6 +4427,8 @@ void XmlParser::parseXml_FrontPanel(wxXmlNode &node, int frontNumber)
     guiItemConfigNumber_ = 0;
     
     computerConfiguration.multiSegDisplayConfiguration.segOutput = init_IoPort();
+    computerConfiguration.multiSegDisplayConfiguration.segOutputHigh = init_IoPort();
+    computerConfiguration.multiSegDisplayConfiguration.segDigitOutput = init_IoPort();
     computerConfiguration.multiSegDisplayConfiguration.segInput = init_IoPort();
     computerConfiguration.multiSegDisplayConfiguration.segEf = init_EfFlag();
     computerConfiguration.multiSegDisplayConfiguration.cycleValue =  -1;
@@ -4457,6 +4460,10 @@ void XmlParser::parseXml_FrontPanel(wxXmlNode &node, int frontNumber)
             case TAG_OUT:
                 if (child->GetAttribute("type") == "multitil")
                     computerConfiguration.multiSegDisplayConfiguration.segOutput = parseXml_IoPort(*child, MULTI_TIL_DISPLAY_OUT);
+                else if (child->GetAttribute("type") == "multitil_high")
+                    computerConfiguration.multiSegDisplayConfiguration.segOutputHigh = parseXml_IoPort(*child, MULTI_TIL_DISPLAY_OUT_HIGH);
+                else if (child->GetAttribute("type") == "multitil_digit")
+                    computerConfiguration.multiSegDisplayConfiguration.segDigitOutput = parseXml_IoPort(*child, MULTI_TIL_DISPLAY_DIGIT);
                 else
                     computerConfiguration.hexDisplayConfiguration.output = parseXml_IoPort(*child, HEX_DISPLAY_OUT);
             break;
@@ -5022,6 +5029,8 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                         computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = TIL_313;
                     if (child->GetAttribute("font") == "italic")
                         computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = TIL_313_ITALIC;
+                    if (child->GetAttribute("form") == "man2815")
+                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = TIL_MAN2815;
                 }
 
                 if (child->GetNodeContent() == "lcd")
@@ -5448,6 +5457,8 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                                     if (addressLine != -1)
                                         computerConfiguration.multiSegDisplayConfiguration.multitilAddressLine[computerConfiguration.multiSegDisplayConfiguration.multiTilNumber] = addressLine;
                                 }
+                                if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type == TIL_MAN2815)
+                                    computerConfiguration.multiSegDisplayConfiguration.man2815 = true;
                             break;
                         }
                         if (child->HasAttribute("action"))

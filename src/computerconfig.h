@@ -1346,6 +1346,8 @@ class MultiSegDisplayConfiguration : public IoGroupDefineConfiguration
 {
 public:
     IoPort segOutput;
+    IoPort segOutputHigh;
+    IoPort segDigitOutput;
     IoPort segInput;
     EfFlag segEf;
 
@@ -1356,6 +1358,8 @@ public:
 
     int multiTilNumber;
     int cycleValue;
+
+    bool man2815;
 
     wxString tilFontDirectory;
     wxString tilFontFile;
