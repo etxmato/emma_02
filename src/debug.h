@@ -84,12 +84,7 @@ public:
 #define PSEUDO_DATA_STACK 0
 #define PSEUDO_RETURN_STACK 1
 
-#define PSEUDO_DATA_STACK_REGISTER 0xE
 #define PSEUDO_RETURN_STACK_REGISTER 0x2
-
-//PTC values
-//#define PSEUDO_DATA_STACK_REGISTER 0xD
-//#define PSEUDO_RETURN_STACK_REGISTER 0x2
 
 class PseudoCodeDetails
 {
@@ -461,7 +456,7 @@ public:
     void pseudoTrace(Word address);
     int  chip8PtcTracePhase(Word chip8PC);
     bool hideTraceCommand(Byte command);
-    wxString getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainLoop, size_t* pseudoMainLoopCount, bool* chip8register12bit, bool* pseudoLoaded);
+    wxString getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainLoop, size_t* pseudoMainLoopCount, bool* chip8register12bit, Byte* pseudoProgramCounter, Byte* pseudoDataStack, bool* pseudoLoaded);
     void forcePseudoDefinition(wxString pseudoType, wxString filename, wxString pseudoName);
     void definePseudoCommands();
     wxString pseudoDisassemble(Word address, bool includeDetails, bool showOpcode);

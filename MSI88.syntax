@@ -1,19 +1,9 @@
-CALLI
+CALL
 const=0675 stack code=00
 const=03DB stack code=01
 const=067D stack code=02
 const=0683 stack code=03
-const=068F stack code=06
-const=0747 stack code=09
-const=074B stack code=0A
-const=074F stack code=0B
 const=0753 stack code=0C
-const=079B stack code=0E
-const=079F stack code=0F
-const=07A3 stack code=10
-const=07A7 stack code=11
-const=07AB stack code=12
-const=07AF stack code=13
 const=07CF stack code=16
 const=07D5 stack code=17
 const=07DB stack code=18
@@ -38,40 +28,14 @@ const=1EEF stack code=32
 const=1F45 stack code=35
 const=1D71 stack code=36
 const=0D0B stack code=37
-const=0D1B stack code=38
-const=0D1F stack code=39
 const=0D41 stack code=3A
 const=0F35 stack code=40
 const=0F37 stack code=41
-const=0F71 stack code=45
-const=1003 stack code=4E
 const=1007 stack code=4F
-const=103F stack code=51
-const=1091 stack code=52
-const=10B3 stack code=53
-const=10BB stack code=54
-const=10C3 stack code=55
-const=10C9 stack code=56
-const=10CF stack code=57
-const=10D5 stack code=58
-const=10DF stack code=59
-const=10E3 stack code=5A
-const=10E7 stack code=5B
-const=10EB stack code=5C
-const=10EF stack code=5D
 const=10F3 stack code=5E
-const=10FB stack code=5F
-const=10FF stack code=60
-const=1103 stack code=61
-const=1107 stack code=62
-const=110B stack code=63
-const=110F stack code=64
-const=1113 stack code=65
-const=1117 stack code=66
 const=111B stack code=67
 const=11AD stack code=6A
 const=11B1 stack code=6B
-const=11DB stack code=6C
 const=11DF stack code=6D
 const=11E5 stack code=6E
 const=1245 stack code=70
@@ -86,18 +50,6 @@ const=12C5 stack code=78
 const=1C65 stack code=79
 const=1339 stack code=7A
 const=136B stack code=7B
-const=02AF stack code=BD
-const=02B3 stack code=BE
-const=02B7 stack code=BF
-const=02BB stack code=C0
-const=02BF stack code=C1
-const=02C3 stack code=C2
-const=02C7 stack code=C3
-const=02CB stack code=C4
-const=02CF stack code=C5
-const=02E5 stack code=C7
-const=030F stack code=CC
-const=0313 stack code=CD
 const=0317 stack code=CE
 const=031B stack code=CF
 const=031F stack code=D0
@@ -112,7 +64,6 @@ const=0371 stack code=DB
 const=0377 stack code=DC
 const=03B3 stack code=E4
 const=03B7 stack code=E5
-const=1E23 stack code=E8
 const=1E27 stack code=E9
 const=03C1 stack code=EA
 const=03CB stack code=EB
@@ -129,7 +80,7 @@ const=062F stack code=F9
 const=0643 stack code=FA
 const=065F stack code=FE
 const=0671 stack code=FF
-/CALLI
+/CALL
 
 PUSH
 const=0000 stack code=96
@@ -139,6 +90,54 @@ const=0010 stack code=99
 const=0020 stack code=9A
 const=0040 stack code=9B
 const=810B stack code=C6
+const=81D7 stack hide_trace code=0A
+const=81D9 stack hide_trace code=0B
+const=8133 stack hide_trace code=0F
+const=0693 stack hide_trace code=06
+const=0D23 stack hide_trace code=39
+const=1043 stack hide_trace code=51
+const=1095 stack hide_trace code=52
+const=10B7 stack hide_trace code=53
+const=10BF stack hide_trace code=54
+const=10C7 stack hide_trace code=55
+const=10CD stack hide_trace code=56
+const=10D3 stack hide_trace code=57
+const=10D9 stack hide_trace code=58
+const=8026 stack hide_trace code=45
+const=8027 stack hide_trace code=64
+const=8028 stack hide_trace code=65
+const=802A stack hide_trace code=66
+const=80A0 stack hide_trace code=5C
+const=80A2 stack hide_trace code=5D
+const=80A4 stack hide_trace code=5F
+const=80A6 stack hide_trace code=60
+const=80A8 stack hide_trace code=61
+const=80AA stack hide_trace code=62
+const=80AC stack hide_trace code=63
+const=8100 stack hide_trace code=BD
+const=8101 stack hide_trace code=BE
+const=8102 stack hide_trace code=BF
+const=8103 stack hide_trace code=C0
+const=8105 stack hide_trace code=C1
+const=8107 stack hide_trace code=C2
+const=8108 stack hide_trace code=C3
+const=8109 stack hide_trace code=C4
+const=810A stack hide_trace code=C5
+const=810B stack hide_trace code=4E
+const=812D stack hide_trace code=CC
+const=812F stack hide_trace code=CD
+const=8131 stack hide_trace code=0E
+const=8135 stack hide_trace code=10
+const=8140 stack hide_trace code=11
+const=8142 stack hide_trace code=12
+const=8143 stack hide_trace code=13
+const=81D5 stack hide_trace code=6C
+const=81DB stack hide_trace code=C7
+const=81FB stack hide_trace code=09
+const=81FD stack hide_trace code=38
+const=81FD stack hide_trace code=59
+const=81FE stack hide_trace code=5A
+const=81FF stack hide_trace code=5B
 R stack code=A4
 hex=0000-00FF stack code=90aa
 hex=0000-FFFF stack code=8Faaaa
@@ -212,6 +211,7 @@ TOS force_ds code=1D
 
 OUT
 2 , TOS.0 stack code=E1
+2 , const=40 stack hide_trace code=E8
 /OUT
 
 OUTM

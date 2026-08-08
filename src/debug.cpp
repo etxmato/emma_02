@@ -51,10 +51,6 @@
 #include "computerconfig.h"
 
 #define CHIP8_I 10
-#define CHIP8_PC 5
-#define CARDTRAN_PC 0xf
-#define PTC_PC 0xc
-#define MSI88_PC 0xd
 #if defined (__linux__)
 #define EDIT_ROW 16
 #define PROFILER_OFFSET 6
@@ -1008,20 +1004,13 @@ void DebugWindow::cyclePseudoDebug()
     
     Word chip8PC;
     
-    if (pseudoType_ == "CARDTRAN")
-        chip8PC = p_Computer->getScratchpadRegister(CARDTRAN_PC);
-    else if (pseudoType_ == "PTC")
-        chip8PC = p_Computer->getScratchpadRegister(PTC_PC);
-    else if (pseudoType_ == "MSI88")
-        chip8PC = p_Computer->getScratchpadRegister(MSI88_PC);
-    else
-        chip8PC = p_Computer->getScratchpadRegister(CHIP8_PC);
+    chip8PC = p_Computer->getScratchpadRegister(p_Computer->getPseudoProgramCounter());
     
     if (p_Computer->isChip8MainLoop(programCounterAddress))
     {
         if (!topOfStackSet_)
         {
-            topOfDataStack_ = p_Computer->getScratchpadRegister(PSEUDO_DATA_STACK_REGISTER);
+            topOfDataStack_ = p_Computer->getScratchpadRegister(p_Computer->getPseudoDataStack());
             topOfReturnStack_ = p_Computer->getScratchpadRegister(PSEUDO_RETURN_STACK_REGISTER);
             topOfStackSet_ = true;
             currentStackValue_[PSEUDO_RETURN_STACK] = 0;
@@ -1139,7 +1128,7 @@ void DebugWindow::cyclePseudoDebug()
     if (p_Computer->isChip8MainLoop(programCounterAddress))
     {
         currentStackValue_[PSEUDO_RETURN_STACK] = p_Computer->getScratchpadRegister(PSEUDO_RETURN_STACK_REGISTER);
-        currentStackValue_[PSEUDO_DATA_STACK] = p_Computer->getScratchpadRegister(PSEUDO_DATA_STACK_REGISTER);
+        currentStackValue_[PSEUDO_DATA_STACK] = p_Computer->getScratchpadRegister(p_Computer->getPseudoDataStack());
     }
 }
 
@@ -1195,14 +1184,8 @@ bool DebugWindow::chip8BreakPointCheck()
 {
     Word chip8PC;
     wxString printBuffer;
-    if (pseudoType_ == "CARDTRAN")
-        chip8PC = p_Computer->getScratchpadRegister(CARDTRAN_PC);
-    else if (pseudoType_ == "PTC")
-        chip8PC = p_Computer->getScratchpadRegister(PTC_PC);
-    else if (pseudoType_ == "MSI88")
-        chip8PC = p_Computer->getScratchpadRegister(MSI88_PC);
-    else
-        chip8PC = p_Computer->getScratchpadRegister(CHIP8_PC) & 0xfff;
+    Byte pcReg = p_Computer->getPseudoProgramCounter();
+    chip8PC = p_Computer->getScratchpadRegister(pcReg) & (pcReg == 5 ? 0xfff : 0xffff);
     
     if (chip8Steps_ != 0 && numberOfChip8BreakPoints_ > 0 && !performChip8Step_)
     {
@@ -1300,14 +1283,7 @@ void DebugWindow::updateChip8Window()
     if (!wxIsMainThread())
         wxMutexGuiEnter();
 #endif
-    if (pseudoType_ == "CARDTRAN")
-        scratchpadRegister = p_Computer->getScratchpadRegister(CARDTRAN_PC);
-    else if (pseudoType_ == "PTC")
-        scratchpadRegister = p_Computer->getScratchpadRegister(PTC_PC);
-    else if (pseudoType_ == "MSI88")
-        scratchpadRegister = p_Computer->getScratchpadRegister(MSI88_PC);
-    else
-        scratchpadRegister = p_Computer->getScratchpadRegister(CHIP8_PC);
+    scratchpadRegister = p_Computer->getScratchpadRegister(p_Computer->getPseudoProgramCounter());
     if (scratchpadRegister != lastPC_)
     {
         if (pseudoType_ == "STIV" || pseudoType_ == "SUPERCHIP" || pseudoType_ == "PTC" || pseudoType_ == "MSI88")
@@ -7834,117 +7810,136 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
 
     if (debugIn == "")  return;
 
-    typeOpcode = MEM_TYPE_OPCODE;
-    count = assemble(&debugIn, &b1, &b2, &b3, &b4, &b5, &b6, &b7, false);
-    if (count == 21)
-    {
-        count -= 19;
-        typeOpcode = MEM_TYPE_JUMP;
-        typeOperand1 = MEM_TYPE_DATA;
-    }
-    if (count == 22)
-    {
-        count -= 20;
-        typeOpcode = MEM_TYPE_JUMP_REV;
-        typeOperand1 = MEM_TYPE_DATA;
-    }
-    if (count >= MEM_TYPE_OPCODE_RSHR)
-    {
-        switch (count)
-        {
-            case MEM_TYPE_OPCODE_RSHR:
-                typeOpcode = MEM_TYPE_OPCODE_RSHR;
-                count = 1;
-            break;
-            case MEM_TYPE_OPCODE_RSHL:
-                typeOpcode = MEM_TYPE_OPCODE_RSHL;
-                count = 1;
-            break;
-            case MEM_TYPE_OPCODE_BPZ:
-                typeOpcode = MEM_TYPE_OPCODE_BPZ;
-                count = 2;
-            break;
-            case MEM_TYPE_OPCODE_BGE:
-                typeOpcode = MEM_TYPE_OPCODE_BGE;
-                count = 2;
-            break;
-            case MEM_TYPE_OPCODE_BM:
-                typeOpcode = MEM_TYPE_OPCODE_BM;
-                count = 2;
-            break;
-            case MEM_TYPE_OPCODE_BL:
-                typeOpcode = MEM_TYPE_OPCODE_BL;
-                count = 2;
-            break;
-            case MEM_TYPE_OPCODE_LSKP:
-                typeOpcode = MEM_TYPE_OPCODE_LSKP;
-                count = 1;
-            break;
-            case MEM_TYPE_OPCODE_SKP:
-                typeOpcode = MEM_TYPE_OPCODE_SKP;
-                count = 1;
-            break;
-            case MEM_TYPE_OPCODE_RLDL:
-                typeOpcode = MEM_TYPE_OPCODE_RLDL;
-                count = 4;
-            break;
-            case MEM_TYPE_OPCODE_JUMP_SLOT:
-                typeOpcode = MEM_TYPE_OPCODE_JUMP_SLOT;
-                typeOperand1 = b3;
-                count = 2;
-            break;
-            case MEM_TYPE_OPCODE_LBR_SLOT:
-                typeOpcode = MEM_TYPE_OPCODE_LBR_SLOT;
-                typeOperand1 = b2;
-                typeOperand2 = MEM_TYPE_OPCODE_LBR_SLOT;
-                b2 = b3;
-                b3 = b4;
-                count = 3;
-            break;
-            case MEM_TYPE_OPCODE_LDV:
-                typeOpcode = MEM_TYPE_OPCODE_LDV;
-                typeOperand2 = MEM_TYPE_OPERAND_LD_2;
-                typeOperand3 = MEM_TYPE_OPERAND_LD_3;
-                typeOperand5 = MEM_TYPE_OPERAND_LD_5;
-                count = 6;
-            break;
-            case MEM_TYPE_OPCODE_LDL:
-                typeOpcode = MEM_TYPE_OPCODE_LDL;
-                typeOperand2 = MEM_TYPE_OPERAND_LD_2;
-                typeOperand3 = MEM_TYPE_OPERAND_LD_3;
-                typeOperand5 = MEM_TYPE_OPERAND_LD_5;
-                count = 6;
-            break;
-            case MEM_TYPE_OPCODE_LDL_SLOT:
-                typeOpcode = MEM_TYPE_OPCODE_LDL_SLOT;
-                typeOperand1 = b4;
-                b4 = 0xf8;
-                typeOperand2 = MEM_TYPE_OPERAND_LD_2;
-                typeOperand3 = MEM_TYPE_OPERAND_LD_3;
-                typeOperand5 = MEM_TYPE_OPERAND_LD_5;
-                count = 6;
-            break;
-            case MEM_TYPE_OPCODE_LDRL:
-                typeOpcode = MEM_TYPE_OPCODE_LDRL;
-                typeOperand2 = MEM_TYPE_OPERAND_LDR_2;
-                typeOperand3 = MEM_TYPE_OPERAND_LDR_3;
-                typeOperand5 = MEM_TYPE_OPERAND_LDR_5;
-                count = 6;
-            break;
-            case MEM_TYPE_OPCODE_LDRL_SLOT:
-                typeOpcode = MEM_TYPE_OPCODE_LDRL_SLOT;
-                typeOperand1 = b4;
-                b4 = 0xf8;
-                typeOperand2 = MEM_TYPE_OPERAND_LDR_2;
-                typeOperand3 = MEM_TYPE_OPERAND_LDR_3;
-                typeOperand5 = MEM_TYPE_OPERAND_LDR_5;
-                count = 6;
-            break;
-       }
-    }
+    // The AssType dropdown selects the preferred instruction set for the direct
+    // assembler. When "Pseudo" is selected (the last item) and a pseudo language
+    // is loaded, pseudo mnemonics take priority over 1802 mnemonics that share
+    // the same name (e.g. ADD, SUB, PUSH, RSTOR, NOOP). Any other selection
+    // keeps the original behavior: 1802 first, pseudo as fallback.
+    int assType = XRCCTRL(*this,"AssType",wxChoice)->GetCurrentSelection();
+    bool pseudoPriority = (pseudoLoaded_ && assType == 9);
 
-    if (pseudoLoaded_ && (count == ASS_ERROR_INST || count == ASS_ERROR_TEMP_PAR || count == ASS_ERROR_TEMP_CPU_1801))
+    // Assemble the line as an 1802 instruction and apply the special
+    // return-value handling for multi-byte macros (LDL/LDRL/LDV), jumps, etc.
+    auto assemble1802 = [&]()
     {
+        typeOpcode = MEM_TYPE_OPCODE;
+        typeOperand1 = MEM_TYPE_OPERAND;
+        typeOperand2 = MEM_TYPE_OPERAND;
+        typeOperand3 = MEM_TYPE_OPERAND;
+        typeOperand4 = MEM_TYPE_OPERAND;
+        typeOperand5 = MEM_TYPE_OPERAND;
+        count = assemble(&debugIn, &b1, &b2, &b3, &b4, &b5, &b6, &b7, false);
+        if (count == 21)
+        {
+            count -= 19;
+            typeOpcode = MEM_TYPE_JUMP;
+            typeOperand1 = MEM_TYPE_DATA;
+        }
+        if (count == 22)
+        {
+            count -= 20;
+            typeOpcode = MEM_TYPE_JUMP_REV;
+            typeOperand1 = MEM_TYPE_DATA;
+        }
+        if (count >= MEM_TYPE_OPCODE_RSHR)
+        {
+            switch (count)
+            {
+                case MEM_TYPE_OPCODE_RSHR:
+                    typeOpcode = MEM_TYPE_OPCODE_RSHR;
+                    count = 1;
+                break;
+                case MEM_TYPE_OPCODE_RSHL:
+                    typeOpcode = MEM_TYPE_OPCODE_RSHL;
+                    count = 1;
+                break;
+                case MEM_TYPE_OPCODE_BPZ:
+                    typeOpcode = MEM_TYPE_OPCODE_BPZ;
+                    count = 2;
+                break;
+                case MEM_TYPE_OPCODE_BGE:
+                    typeOpcode = MEM_TYPE_OPCODE_BGE;
+                    count = 2;
+                break;
+                case MEM_TYPE_OPCODE_BM:
+                    typeOpcode = MEM_TYPE_OPCODE_BM;
+                    count = 2;
+                break;
+                case MEM_TYPE_OPCODE_BL:
+                    typeOpcode = MEM_TYPE_OPCODE_BL;
+                    count = 2;
+                break;
+                case MEM_TYPE_OPCODE_LSKP:
+                    typeOpcode = MEM_TYPE_OPCODE_LSKP;
+                    count = 1;
+                break;
+                case MEM_TYPE_OPCODE_SKP:
+                    typeOpcode = MEM_TYPE_OPCODE_SKP;
+                    count = 1;
+                break;
+                case MEM_TYPE_OPCODE_RLDL:
+                    typeOpcode = MEM_TYPE_OPCODE_RLDL;
+                    count = 4;
+                break;
+                case MEM_TYPE_OPCODE_JUMP_SLOT:
+                    typeOpcode = MEM_TYPE_OPCODE_JUMP_SLOT;
+                    typeOperand1 = b3;
+                    count = 2;
+                break;
+                case MEM_TYPE_OPCODE_LBR_SLOT:
+                    typeOpcode = MEM_TYPE_OPCODE_LBR_SLOT;
+                    typeOperand1 = b2;
+                    typeOperand2 = MEM_TYPE_OPCODE_LBR_SLOT;
+                    b2 = b3;
+                    b3 = b4;
+                    count = 3;
+                break;
+                case MEM_TYPE_OPCODE_LDV:
+                    typeOpcode = MEM_TYPE_OPCODE_LDV;
+                    typeOperand2 = MEM_TYPE_OPERAND_LD_2;
+                    typeOperand3 = MEM_TYPE_OPERAND_LD_3;
+                    typeOperand5 = MEM_TYPE_OPERAND_LD_5;
+                    count = 6;
+                break;
+                case MEM_TYPE_OPCODE_LDL:
+                    typeOpcode = MEM_TYPE_OPCODE_LDL;
+                    typeOperand2 = MEM_TYPE_OPERAND_LD_2;
+                    typeOperand3 = MEM_TYPE_OPERAND_LD_3;
+                    typeOperand5 = MEM_TYPE_OPERAND_LD_5;
+                    count = 6;
+                break;
+                case MEM_TYPE_OPCODE_LDL_SLOT:
+                    typeOpcode = MEM_TYPE_OPCODE_LDL_SLOT;
+                    typeOperand1 = b4;
+                    b4 = 0xf8;
+                    typeOperand2 = MEM_TYPE_OPERAND_LD_2;
+                    typeOperand3 = MEM_TYPE_OPERAND_LD_3;
+                    typeOperand5 = MEM_TYPE_OPERAND_LD_5;
+                    count = 6;
+                break;
+                case MEM_TYPE_OPCODE_LDRL:
+                    typeOpcode = MEM_TYPE_OPCODE_LDRL;
+                    typeOperand2 = MEM_TYPE_OPERAND_LDR_2;
+                    typeOperand3 = MEM_TYPE_OPERAND_LDR_3;
+                    typeOperand5 = MEM_TYPE_OPERAND_LDR_5;
+                    count = 6;
+                break;
+                case MEM_TYPE_OPCODE_LDRL_SLOT:
+                    typeOpcode = MEM_TYPE_OPCODE_LDRL_SLOT;
+                    typeOperand1 = b4;
+                    b4 = 0xf8;
+                    typeOperand2 = MEM_TYPE_OPERAND_LDR_2;
+                    typeOperand3 = MEM_TYPE_OPERAND_LDR_3;
+                    typeOperand5 = MEM_TYPE_OPERAND_LDR_5;
+                    count = 6;
+                break;
+           }
+        }
+    };
+
+    if (pseudoPriority)
+    {
+        // Pseudo first: try the pseudo assembler, fall back to 1802 if it fails.
         typeOpcode = MEM_TYPE_PSEUDO_1;
         typeOperand1 = MEM_TYPE_PSEUDO_2;
         typeOperand2 = MEM_TYPE_PSEUDO_2;
@@ -7955,6 +7950,28 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
         {
             typeOperand3 = MEM_TYPE_PSEUDO_3;
             typeOperand4 = MEM_TYPE_PSEUDO_2;
+        }
+        if (count <= 0 || count > 5)
+            assemble1802();
+    }
+    else
+    {
+        // 1802 first (original behavior), pseudo as fallback.
+        assemble1802();
+
+        if (pseudoLoaded_ && (count == ASS_ERROR_INST || count == ASS_ERROR_TEMP_PAR || count == ASS_ERROR_TEMP_CPU_1801))
+        {
+            typeOpcode = MEM_TYPE_PSEUDO_1;
+            typeOperand1 = MEM_TYPE_PSEUDO_2;
+            typeOperand2 = MEM_TYPE_PSEUDO_2;
+            typeOperand3 = MEM_TYPE_PSEUDO_2;
+            typeOperand4 = MEM_TYPE_PSEUDO_2;
+            count = assemblePseudo(&debugIn, &b1, &b2, &b3, &b4, &b5);
+            if (count == 5)
+            {
+                typeOperand3 = MEM_TYPE_PSEUDO_3;
+                typeOperand4 = MEM_TYPE_PSEUDO_2;
+            }
         }
     }
 
@@ -15494,7 +15511,7 @@ int DebugWindow::chip8PtcTracePhase(Word chip8PC)
     return 0;                                  // SHOW
 }
 
-wxString DebugWindow::getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainLoop, size_t* pseudoMainLoopCount, bool* chip8register12bit, bool* pseudoLoaded)
+wxString DebugWindow::getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainLoop, size_t* pseudoMainLoopCount, bool* chip8register12bit, Byte* pseudoProgramCounter, Byte* pseudoDataStack, bool* pseudoLoaded)
 {
     wxTextFile defFile;
 
@@ -15505,6 +15522,8 @@ wxString DebugWindow::getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainL
     *pseudoBaseVar = 0;
     *pseudoMainLoopCount = 0;
     *chip8register12bit = false;
+    *pseudoProgramCounter = 5;
+    *pseudoDataStack = 0xD;
     commandSyntaxFile_ = applicationDirectory_ + "Chip8.syntax";
 
     if (defFile.Open(applicationDirectory_ + "pseudo.def"))
@@ -15553,6 +15572,18 @@ wxString DebugWindow::getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainL
                         if (addressStr.ToLong(&loop, 16))
                             pseudoMainLoop[(*pseudoMainLoopCount)++] = loop;
                     }
+                }
+                if (definition == "PC" && *pseudoLoaded)
+                {
+                    addressStr = extractWord(&pseudoLine);
+                    if (addressStr.ToLong(&value, 16))
+                        *pseudoProgramCounter = (Byte)value;
+                }
+                if (definition == "DS" && *pseudoLoaded)
+                {
+                    addressStr = extractWord(&pseudoLine);
+                    if (addressStr.ToLong(&value, 16))
+                        *pseudoDataStack = (Byte)value;
                 }
                 if (definition == "FILE" && *pseudoLoaded)
                 {
@@ -16703,7 +16734,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                             if (firstParameter == "[TOS]")
                             {
                                 additionalChip8Details_ = true;
-                                Word rd = p_Computer->getScratchpadRegister(PSEUDO_DATA_STACK_REGISTER);
+                                Word rd = p_Computer->getScratchpadRegister(p_Computer->getPseudoDataStack());
                                 additionalDetailsAddress_ = (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1);
                                 if (commandText == "LD24")
                                 {
@@ -16729,7 +16760,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                             if (firstParameter == "[NOS]")
                             {
                                 additionalChip8Details_ = true;
-                                Word rd = p_Computer->getScratchpadRegister(PSEUDO_DATA_STACK_REGISTER);
+                                Word rd = p_Computer->getScratchpadRegister(p_Computer->getPseudoDataStack());
                                 additionalDetailsAddress_ = (p_Computer->readMemDebug(rd + 2) << 8) + p_Computer->readMemDebug(rd + 3);
                                 additionalDetailsPrintStr_ = "[%04X]=%02X%02X%02X";
                                 additionalChip8DetailsType_ = PSEUDO_DETAILS_MTOS_24;
@@ -16895,7 +16926,7 @@ wxString DebugWindow::addDetails()
 
     if (additionalChip8StackDetails_)
     {
-        bufferLine2 = getStackDetails(PSEUDO_DATA_STACK_REGISTER, PSEUDO_DATA_STACK);
+        bufferLine2 = getStackDetails(p_Computer->getPseudoDataStack(), PSEUDO_DATA_STACK);
         if (bufferLine2 != "" && buffer != "")
             bufferLine2 = "\n                         " + bufferLine2;
         buffer += bufferLine2;

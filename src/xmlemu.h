@@ -385,6 +385,8 @@ public:
     bool isChip8MainLoop(Word address) {for (size_t i=0; i<chip8mainLoopCount_; i++) if (chip8mainLoop_[i]==address) return true; return false;};
     Word getChip8MainLoop() {return chip8mainLoopCount_>0 ? chip8mainLoop_[0] : 0;};
     wxString getPseudoType() {return pseudoType_;};
+    Byte getPseudoProgramCounter() {return pseudoProgramCounter_;};
+    Byte getPseudoDataStack() {return pseudoDataStack_;};
     void showChip8Registers();
     void showPtcRegisters();
 
@@ -659,6 +661,8 @@ private:
     int chip8Register[16];
     bool chip8register12bit_;
     wxString pseudoType_;
+    Byte pseudoProgramCounter_;
+    Byte pseudoDataStack_;
 
     wxString ctrlvTextStr_;
     size_t ctrlvTextCharNum_;

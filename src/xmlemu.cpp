@@ -517,6 +517,8 @@ Computer::Computer(const wxString& title, double clock, int tempo, ComputerConfi
     for (int i = 0; i<16; i++)
         chip8Register[i] = -1;
     pseudoLoaded_ = false;
+    pseudoProgramCounter_ = 5;
+    pseudoDataStack_ = 0xD;
 
     ctrlvTextCharNum_ = 0;
     memoryStart_ = 0;
@@ -4412,7 +4414,7 @@ void Computer::onRun()
     }
 
     stopTape();
-    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, chip8mainLoop_, &chip8mainLoopCount_, &chip8register12bit_, &pseudoLoaded_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, chip8mainLoop_, &chip8mainLoopCount_, &chip8register12bit_, &pseudoProgramCounter_, &pseudoDataStack_, &pseudoLoaded_);
 
     switch (currentComputerConfiguration.runPressType)
     {
@@ -5295,7 +5297,7 @@ void Computer::startComputer()
     goCycleSize_ = (((computerClockSpeed_ * 1000000) / 8) / 1000) * 500;
     goCycleValue_ = -1;
 
-    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, chip8mainLoop_, &chip8mainLoopCount_, &chip8register12bit_, &pseudoLoaded_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, chip8mainLoop_, &chip8mainLoopCount_, &chip8register12bit_, &pseudoProgramCounter_, &pseudoDataStack_, &pseudoLoaded_);
 
     setForceUpperCase(currentComputerConfiguration.forceUpperCase);
 
@@ -10410,7 +10412,7 @@ void Computer::resetV1870VideoModeEf()
 
 void Computer::activateElfOsChip8()
 {
-    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, chip8mainLoop_, &chip8mainLoopCount_, &chip8register12bit_, &pseudoLoaded_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, chip8mainLoop_, &chip8mainLoopCount_, &chip8register12bit_, &pseudoProgramCounter_, &pseudoDataStack_, &pseudoLoaded_);
     
     Word address = scratchpadRegister_[0xA];
     
