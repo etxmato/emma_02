@@ -54,6 +54,7 @@
 #define CHIP8_PC 5
 #define CARDTRAN_PC 0xf
 #define PTC_PC 0xc
+#define MSI88_PC 0xd
 #if defined (__linux__)
 #define EDIT_ROW 16
 #define PROFILER_OFFSET 6
@@ -1011,6 +1012,8 @@ void DebugWindow::cyclePseudoDebug()
         chip8PC = p_Computer->getScratchpadRegister(CARDTRAN_PC);
     else if (pseudoType_ == "PTC")
         chip8PC = p_Computer->getScratchpadRegister(PTC_PC);
+    else if (pseudoType_ == "MSI88")
+        chip8PC = p_Computer->getScratchpadRegister(MSI88_PC);
     else
         chip8PC = p_Computer->getScratchpadRegister(CHIP8_PC);
     
@@ -1196,6 +1199,8 @@ bool DebugWindow::chip8BreakPointCheck()
         chip8PC = p_Computer->getScratchpadRegister(CARDTRAN_PC);
     else if (pseudoType_ == "PTC")
         chip8PC = p_Computer->getScratchpadRegister(PTC_PC);
+    else if (pseudoType_ == "MSI88")
+        chip8PC = p_Computer->getScratchpadRegister(MSI88_PC);
     else
         chip8PC = p_Computer->getScratchpadRegister(CHIP8_PC) & 0xfff;
     
@@ -1299,11 +1304,13 @@ void DebugWindow::updateChip8Window()
         scratchpadRegister = p_Computer->getScratchpadRegister(CARDTRAN_PC);
     else if (pseudoType_ == "PTC")
         scratchpadRegister = p_Computer->getScratchpadRegister(PTC_PC);
+    else if (pseudoType_ == "MSI88")
+        scratchpadRegister = p_Computer->getScratchpadRegister(MSI88_PC);
     else
         scratchpadRegister = p_Computer->getScratchpadRegister(CHIP8_PC);
     if (scratchpadRegister != lastPC_)
     {
-        if (pseudoType_ == "STIV" || pseudoType_ == "SUPERCHIP" || pseudoType_ == "PTC")
+        if (pseudoType_ == "STIV" || pseudoType_ == "SUPERCHIP" || pseudoType_ == "PTC" || pseudoType_ == "MSI88")
             buffer.Printf("%04X", scratchpadRegister&0xffff);
         else
             buffer.Printf("%03X", scratchpadRegister&0xfff);
@@ -4162,6 +4169,14 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int64_t* pseudoCode)
             }
             if (parameter.Left(3) == "det")
                 parameterFound = true;
+            if (parameter.Left(5) == "stack")
+                parameterFound = true;
+            if (parameter.Left(8) == "force_ds")
+                parameterFound = true;
+            if (parameter.Left(8) == "force_rs")
+                parameterFound = true;
+            if (parameter.Left(10) == "hide_trace")
+                parameterFound = true;
             if (parameter.Left(4) == "code" && sysFound)
             {
                 if (parameterNumber == assInput.numberOfParameters)
@@ -4191,7 +4206,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int64_t* pseudoCode)
                     {
                         if (commandStr.GetChar(i) == 'a' || commandStr.GetChar(i) == 'j' || commandStr.GetChar(i) == 'b')
                         {
-                            if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020" || pseudoType_ == "PTC")
+                            if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020" || pseudoType_ == "PTC" || pseudoType_ == "MSI88")
                             {
                                 if (i == 1)
                                 {
@@ -4222,7 +4237,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int64_t* pseudoCode)
                         }
                         if (commandStr.GetChar(i) == 'k')
                         {
-                            if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020" || pseudoType_ == "PTC")
+                            if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020" || pseudoType_ == "PTC" || pseudoType_ == "MSI88")
                             {
                                 i++;
                                 *pseudoCode |= ( (kkValue & 0xff) << ((pseudoLength-2)*8) );
@@ -5749,8 +5764,9 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
         buffer.Left(6)== "SWITCH" || buffer.Left(4)== "SWAP" || buffer.Left(2)== "ST" || buffer.Left(4)== "READ" ||
         buffer.Left(2)== "DR" || buffer.Left(3)== "RAM" || buffer.Left(6)== "SETCOL" || buffer.Left(4)== "SKSP" || buffer.Left(4)== "SYNC" ||
         buffer.Left(3)== "TOS" || buffer.Left(3)== "NOS" ||
+        buffer.Left(3)== "EF1" || buffer.Left(3)== "EF2" || buffer.Left(3)== "EF3" || buffer.Left(4)== "DROP" ||
         buffer.Left(5)== "[TOS]" || buffer.Left(5)== "[NOS]" || buffer.Left(5)== "[3OS]" ||
-        buffer.Left(4)== "[RP]" ||
+        buffer.Left(4)== "[RP]" || buffer.Left(4)== "DROP" ||  buffer.Left(2)== "SW" || buffer.Left(2)== "R"|| buffer.Left(2)== "RE" || buffer.Left(2)== "RC" || buffer.Left(2)== "R2" ||
         buffer.Left(5)== "FRAME" || buffer.Left(3)== "CLR" ||
         buffer.Left(2)== "CS" ||
         buffer.Left(2)== "VA" || buffer.Left(2)== "VB" || buffer.Left(2)== "VC" || buffer.Left(2)== "VD" || buffer.Left(2)== "VE" ||
@@ -15926,7 +15942,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
 
     Word valueI, RegisterA, RegisterB;
     
-    if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020" || pseudoType_ == "PTC")
+    if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020" || pseudoType_ == "PTC" || pseudoType_ == "MSI88")
     {
         chip8_opcode3 = p_Computer->readMemDebug(dis_address + 2);
         chip8_opcode4 = p_Computer->readMemDebug(dis_address + 3);
@@ -15984,14 +16000,14 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
 
     if (showOpcode)
     {
-        if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020" || pseudoType_ == "PTC")
+        if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020" || pseudoType_ == "PTC" || pseudoType_ == "MSI88")
             addressStr.Printf("%04X: %02X%02X    ", dis_address, chip8_opcode1, chip8_opcode2);
         else
             addressStr.Printf("%04X: %02X%02X", dis_address, chip8_opcode1, chip8_opcode2);
     }
     else
     {
-        if (pseudoType_ == "STIV" || pseudoType_ == "SUPERCHIP" || pseudoType_ == "PTC")
+        if (pseudoType_ == "STIV" || pseudoType_ == "SUPERCHIP" || pseudoType_ == "PTC" || pseudoType_ == "MSI88")
             addressStr.Printf("%04X", dis_address);
         else
             addressStr.Printf("%03X", dis_address&0xfff);
@@ -16119,7 +16135,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                     switch (pseudoCodeDetails_[pseudoNr].length)
                     {
                         case 1:
-                            if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020" || pseudoType_ == "PTC")
+                            if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020" || pseudoType_ == "PTC" || pseudoType_ == "MSI88")
                                 addressStr.Printf("%04X: %02X      ", dis_address, chip8_opcode1);
                             else
                                 addressStr.Printf("%04X: %02X  ", dis_address, chip8_opcode1);
@@ -16687,7 +16703,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                             if (firstParameter == "[TOS]")
                             {
                                 additionalChip8Details_ = true;
-                                Word rd = p_Computer->getScratchpadRegister(0xD);
+                                Word rd = p_Computer->getScratchpadRegister(PSEUDO_DATA_STACK_REGISTER);
                                 additionalDetailsAddress_ = (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1);
                                 if (commandText == "LD24")
                                 {
@@ -16713,7 +16729,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                             if (firstParameter == "[NOS]")
                             {
                                 additionalChip8Details_ = true;
-                                Word rd = p_Computer->getScratchpadRegister(0xD);
+                                Word rd = p_Computer->getScratchpadRegister(PSEUDO_DATA_STACK_REGISTER);
                                 additionalDetailsAddress_ = (p_Computer->readMemDebug(rd + 2) << 8) + p_Computer->readMemDebug(rd + 3);
                                 additionalDetailsPrintStr_ = "[%04X]=%02X%02X%02X";
                                 additionalChip8DetailsType_ = PSEUDO_DETAILS_MTOS_24;
@@ -16910,23 +16926,51 @@ wxString DebugWindow::getStackDetails(Byte registerValue, int stackSelector)
     wxString buffer = "";
     int stackDepth;
     if (stackSelector == PSEUDO_DATA_STACK)
-        stackDepth = (topOfStackSet_) ? (topOfDataStack_ - stackRegisterValue) / 2 : 3;
+        stackDepth = (topOfStackSet_) ? (topOfDataStack_ - stackRegisterValue) : 6;
     else
-        stackDepth = (topOfStackSet_) ? (topOfReturnStack_ - stackRegisterValue) / 2 : 3;
-    if (stackDepth >= 3)
-        buffer.Printf(leadValue[stackSelector] + "%04X, %04X, %04X",
-            (p_Computer->readMemDebug(stackRegisterValue) << 8) + p_Computer->readMemDebug(stackRegisterValue + 1),
-            (p_Computer->readMemDebug(stackRegisterValue + 2) << 8) + p_Computer->readMemDebug(stackRegisterValue + 3),
-            (p_Computer->readMemDebug(stackRegisterValue + 4) << 8) + p_Computer->readMemDebug(stackRegisterValue + 5));
-    else if (stackDepth == 2)
-        buffer.Printf(leadValue[stackSelector] + "%04X, %04X",
-            (p_Computer->readMemDebug(stackRegisterValue) << 8) + p_Computer->readMemDebug(stackRegisterValue + 1),
-            (p_Computer->readMemDebug(stackRegisterValue + 2) << 8) + p_Computer->readMemDebug(stackRegisterValue + 3));
-    else if (stackDepth == 1)
-        buffer.Printf(leadValue[stackSelector] + "%04X",
-            (p_Computer->readMemDebug(stackRegisterValue) << 8) + p_Computer->readMemDebug(stackRegisterValue + 1));
-    else if (stackDepth == 0)
-        buffer = leadValue[stackSelector] + "-";
+        stackDepth = (topOfStackSet_) ? (topOfReturnStack_ - stackRegisterValue) : 6;
+    switch (stackDepth)
+    {
+        case 0:
+            buffer = leadValue[stackSelector] + "-";
+        break;
+
+        case 1:
+            buffer.Printf(leadValue[stackSelector] + "  %02X",
+                          p_Computer->readMemDebug(stackRegisterValue) << 8);
+        break;
+
+        case 2:
+            buffer.Printf(leadValue[stackSelector] + "%04X",
+                          (p_Computer->readMemDebug(stackRegisterValue) << 8) + p_Computer->readMemDebug(stackRegisterValue + 1));
+        break;
+
+        case 3:
+            buffer.Printf(leadValue[stackSelector] + "  %02X, %04X",
+                          p_Computer->readMemDebug(stackRegisterValue) << 8,
+                          (p_Computer->readMemDebug(stackRegisterValue + 1) << 8) + p_Computer->readMemDebug(stackRegisterValue + 2));
+        break;
+
+        case 4:
+            buffer.Printf(leadValue[stackSelector] + "%04X, %04X",
+                          (p_Computer->readMemDebug(stackRegisterValue) << 8) + p_Computer->readMemDebug(stackRegisterValue + 1),
+                          (p_Computer->readMemDebug(stackRegisterValue + 2) << 8) + p_Computer->readMemDebug(stackRegisterValue + 3));
+        break;
+
+        case 5:
+            buffer.Printf(leadValue[stackSelector] + "  %02X, %04X, %04X",
+                          p_Computer->readMemDebug(stackRegisterValue) << 8,
+                          (p_Computer->readMemDebug(stackRegisterValue + 1) << 8) + p_Computer->readMemDebug(stackRegisterValue + 2),
+                          (p_Computer->readMemDebug(stackRegisterValue + 3) << 8) + p_Computer->readMemDebug(stackRegisterValue + 4));
+        break;
+
+        default:
+            buffer.Printf(leadValue[stackSelector] + "%04X, %04X, %04X",
+                          (p_Computer->readMemDebug(stackRegisterValue) << 8) + p_Computer->readMemDebug(stackRegisterValue + 1),
+                          (p_Computer->readMemDebug(stackRegisterValue + 2) << 8) + p_Computer->readMemDebug(stackRegisterValue + 3),
+                          (p_Computer->readMemDebug(stackRegisterValue + 4) << 8) + p_Computer->readMemDebug(stackRegisterValue + 5));
+        break;
+    }
     
     return buffer;
 }
@@ -17014,7 +17058,7 @@ void DebugWindow::editChip8BreakPoint(wxListEvent&event)
         return;
     }
 
-    if (pseudoType_ == "PTC")
+    if (pseudoType_ == "PTC" || pseudoType_ == "MSI88")
     {
         if (value > 0xffff)
         {
@@ -17042,7 +17086,7 @@ void DebugWindow::addChip8BreakPoint()
 {
     wxString printBuffer;
 
-    if (pseudoType_ == "PTC")
+    if (pseudoType_ == "PTC" || pseudoType_ == "MSI88")
         printBuffer.Printf("%04X", chip8BreakPoints_[numberOfChip8BreakPoints_]);
     else
         printBuffer.Printf("%03X", chip8BreakPoints_[numberOfChip8BreakPoints_]);
@@ -17052,7 +17096,7 @@ void DebugWindow::addChip8BreakPoint()
 
 void DebugWindow::onChip8BreakPointAddress(wxCommandEvent&WXUNUSED(event))
 {
-    if (pseudoType_ == "PTC")
+    if (pseudoType_ == "PTC" || pseudoType_ == "MSI88")
         get16BitValue("Chip8BreakPointAddress");
     else
         get12BitValue("Chip8BreakPointAddress");

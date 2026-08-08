@@ -1,0 +1,494 @@
+CALLI
+const=0675 stack code=00
+const=03DB stack code=01
+const=067D stack code=02
+const=0683 stack code=03
+const=068F stack code=06
+const=0747 stack code=09
+const=074B stack code=0A
+const=074F stack code=0B
+const=0753 stack code=0C
+const=079B stack code=0E
+const=079F stack code=0F
+const=07A3 stack code=10
+const=07A7 stack code=11
+const=07AB stack code=12
+const=07AF stack code=13
+const=07CF stack code=16
+const=07D5 stack code=17
+const=07DB stack code=18
+const=07FB stack code=19
+const=1DF7 stack code=1A
+const=0805 stack code=1B
+const=094B stack code=1C
+const=1E2B stack code=1F
+const=08F1 stack code=21
+const=0835 stack code=26
+const=083D stack code=27
+const=0841 stack code=28
+const=084D stack code=29
+const=0853 stack code=2A
+const=0CEF stack code=2C
+const=0CF7 stack code=2D
+const=1E91 stack code=2E
+const=1E99 stack code=2F
+const=1ECF stack code=30
+const=1EED stack code=31
+const=1EEF stack code=32
+const=1F45 stack code=35
+const=1D71 stack code=36
+const=0D0B stack code=37
+const=0D1B stack code=38
+const=0D1F stack code=39
+const=0D41 stack code=3A
+const=0F35 stack code=40
+const=0F37 stack code=41
+const=0F71 stack code=45
+const=1003 stack code=4E
+const=1007 stack code=4F
+const=103F stack code=51
+const=1091 stack code=52
+const=10B3 stack code=53
+const=10BB stack code=54
+const=10C3 stack code=55
+const=10C9 stack code=56
+const=10CF stack code=57
+const=10D5 stack code=58
+const=10DF stack code=59
+const=10E3 stack code=5A
+const=10E7 stack code=5B
+const=10EB stack code=5C
+const=10EF stack code=5D
+const=10F3 stack code=5E
+const=10FB stack code=5F
+const=10FF stack code=60
+const=1103 stack code=61
+const=1107 stack code=62
+const=110B stack code=63
+const=110F stack code=64
+const=1113 stack code=65
+const=1117 stack code=66
+const=111B stack code=67
+const=11AD stack code=6A
+const=11B1 stack code=6B
+const=11DB stack code=6C
+const=11DF stack code=6D
+const=11E5 stack code=6E
+const=1245 stack code=70
+const=124B stack code=71
+const=1253 stack code=72
+const=1279 stack code=73
+const=128B stack code=74
+const=1295 stack code=75
+const=129D stack code=76
+const=12A1 stack code=77
+const=12C5 stack code=78
+const=1C65 stack code=79
+const=1339 stack code=7A
+const=136B stack code=7B
+const=02AF stack code=BD
+const=02B3 stack code=BE
+const=02B7 stack code=BF
+const=02BB stack code=C0
+const=02BF stack code=C1
+const=02C3 stack code=C2
+const=02C7 stack code=C3
+const=02CB stack code=C4
+const=02CF stack code=C5
+const=02E5 stack code=C7
+const=030F stack code=CC
+const=0313 stack code=CD
+const=0317 stack code=CE
+const=031B stack code=CF
+const=031F stack code=D0
+const=0323 stack code=D1
+const=0327 stack code=D2
+const=0333 stack code=D5
+const=0341 stack code=D6
+const=0345 stack code=D7
+const=0355 stack code=D8
+const=036B stack code=DA
+const=0371 stack code=DB
+const=0377 stack code=DC
+const=03B3 stack code=E4
+const=03B7 stack code=E5
+const=1E23 stack code=E8
+const=1E27 stack code=E9
+const=03C1 stack code=EA
+const=03CB stack code=EB
+const=05ED stack code=F0
+const=05F3 stack code=F1
+const=05F7 stack code=F2
+const=0605 stack code=F3
+const=060D stack code=F4
+const=0617 stack code=F5
+const=061B stack code=F6
+const=061F stack code=F7
+const=062B stack code=F8
+const=062F stack code=F9
+const=0643 stack code=FA
+const=065F stack code=FE
+const=0671 stack code=FF
+/CALLI
+
+PUSH
+const=0000 stack code=96
+const=0001 stack code=97
+const=0002 stack code=98
+const=0010 stack code=99
+const=0020 stack code=9A
+const=0040 stack code=9B
+const=810B stack code=C6
+R stack code=A4
+hex=0000-00FF stack code=90aa
+hex=0000-FFFF stack code=8Faaaa
+hex=0000-FFFF , RC stack code=91aaaa
+EF1 stack code=24
+EF2 stack code=25
+EF3 stack code=23
+RE stack code=47
+R2 stack code=4B
+SW stack code=50
+R2 , 4 stack code=A5
+/PUSH
+
+PUSHB
+0 stack code=D3
+/PUSHB
+
+INP1
+TOS , TOS.0 stack code=E3
+/INP1
+
+JP
+brf code=9Fkk
+brb code=93kk
+/JP
+
+DROP
+stack code=A7
+/DROP
+
+SWAP
+force_ds code=A9
+/SWAP
+
+SWAPB
+TOS force_ds code=6F
+/SWAPB
+
+DUP
+stack code=A8
+/DUP
+
+OVER
+stack code=AA
+/OVER
+
+ADD
+TOS , NOS stack code=B3
+TOS , const=1 force_ds code=C8
+TOS , const=2 force_ds code=C9
+[TOS] , NOS det stack code=AF
+[TOS] , NOS.0 det stack code=FD
+/ADD
+
+XOR
+TOS , NOS stack code=4C
+/XOR
+
+SHL
+NOS , TOS.0 stack code=4D
+TOS force_ds code=D4
+/SHL
+
+ISEQ
+TOS , NOS stack code=B9
+/ISEQ
+
+CKRAM
+TOS force_ds code=1D
+/CKRAM
+
+OUT
+2 , TOS.0 stack code=E1
+/OUT
+
+OUTM
+2 , TOS.0 stack code=E2
+/OUTM
+
+RET
+det stack code=8C
+DROP , 4 det stack code=8D
+DROP , 8 det stack code=8E
+/RET
+
+JZ
+brf stack code=9Ekk
+brb stack code=92kk
+/JZ
+
+SEQ
+code=04
+/SEQ
+
+REQ
+code=05
+/REQ
+
+ISNEG
+TOS force_ds code=B6
+/ISNEG
+
+SUB
+TOS , NOS stack code=B2
+TOS , const=1 force_ds code=CA
+TOS , const=2 force_ds code=CB
+TOS , const=0 force_ds code=B4
+[TOS] , NOS det stack code=14
+[TOS] , NOS.0 det stack code=15
+/SUB
+
+LD
+TOS , [TOS] force_ds code=AB
+[TOS] , NOS det stack code=AD
+TOS.0 , [TOS] force_ds code=AC
+[TOS] , NOS.0 det stack code=AE
+[TOS] , const=1 det stack code=DE
+[TOS] , const=0001 det stack code=E0
+[TOS] , const=0 det stack code=DD
+/LD
+
+HASH
+TOS stack code=07
+TOS , NOS stack code=48
+/HASH
+
+FILL
+TOS.0 , NOS.0 , [3OS] stack code=49
+/FILL
+
+CLS
+code=D9
+/CLS
+
+NOOP
+code=80
+/NOOP
+
+PUSHR
+stack code=A2
+0 stack code=A1
+TOS , NOS stack code=A0
+/PUSHR
+
+POPR
+stack code=A3
+/POPR
+
+MCPY
+[NOS] , [3OS] stack code=BA
+/MCPY
+
+DIV
+NOS , TOS.0 force_ds code=BC
+/DIV
+
+ISGT
+NOS , TOS stack code=B7
+/ISGT
+
+LOOP
+brb force_ds force_rs code=94kk
+TOS , brb force_ds force_rs code=95kk
+/LOOP
+
+DISPA
+TOS stack code=9D
+TOS , NOS.0 stack code=9C
+/DISPA
+
+TIN
+TOS stack code=0D
+/TIN
+
+TOUT
+TOS stack code=3B
+/TOUT
+
+SEND
+stack code=EF
+/SEND
+
+AND
+TOS , NOS stack code=B0
+/AND
+
+OR
+TOS , NOS stack code=B1
+/OR
+
+ISZ
+TOS stack code=B5
+/ISZ
+
+ISLT
+NOS , TOS stack code=B8
+/ISLT
+
+MUL
+TOS.0 , NOS.0 stack code=BB
+/MUL
+
+ROT
+force_ds code=E7
+/ROT
+
+DUPR
+force_rs code=A6
+/DUPR
+
+INC
+[TOS] det stack code=ED
+/INC
+
+INCB
+[TOS] det stack code=FB
+/INCB
+
+DEC
+[TOS] det stack code=EE
+/DEC
+
+DECB
+[TOS] det stack code=FC
+/DECB
+
+SCAN
+stack code=E6
+/SCAN
+
+KEYWAIT
+stack code=EC
+/KEYWAIT
+
+RSTOR
+force_ds force_rs code=3F
+/RSTOR
+
+NATIVE_072C
+stack code=08
+/NATIVE_072C
+
+NATIVE_08BC
+stack code=1E
+/NATIVE_08BC
+
+NATIVE_1DC0
+stack code=20
+/NATIVE_1DC0
+
+NATIVE_090C
+stack code=22
+/NATIVE_090C
+
+NATIVE_0C00
+stack code=2B
+/NATIVE_0C00
+
+NATIVE_1F0E
+stack code=33
+/NATIVE_1F0E
+
+NATIVE_1F34
+stack code=34
+/NATIVE_1F34
+
+NATIVE_0E40
+stack code=3C
+/NATIVE_0E40
+
+NATIVE_0E92
+stack code=3D
+/NATIVE_0E92
+
+NATIVE_0F0E
+stack code=3E
+/NATIVE_0F0E
+
+NATIVE_0F3A
+stack code=42
+/NATIVE_0F3A
+
+NATIVE_0F3A
+stack code=43
+/NATIVE_0F3A
+
+NATIVE_0F3C
+stack code=44
+/NATIVE_0F3C
+
+NATIVE_0F76
+stack code=46
+/NATIVE_0F76
+
+NATIVE_0FC6
+stack code=4A
+/NATIVE_0FC6
+
+NATIVE_0D4A
+stack code=68
+/NATIVE_0D4A
+
+NATIVE_11A2
+stack code=69
+/NATIVE_11A2
+
+NATIVE_0040
+stack code=81
+/NATIVE_0040
+
+NATIVE_0044
+stack code=82
+/NATIVE_0044
+
+NATIVE_0044
+stack code=83
+/NATIVE_0044
+
+NATIVE_0044
+stack code=84
+/NATIVE_0044
+
+NATIVE_0044
+stack code=85
+/NATIVE_0044
+
+NATIVE_0044
+stack code=86
+/NATIVE_0044
+
+NATIVE_0044
+stack code=87
+/NATIVE_0044
+
+NATIVE_0044
+stack code=88
+/NATIVE_0044
+
+NATIVE_0044
+stack code=89
+/NATIVE_0044
+
+NATIVE_0044
+stack code=8A
+/NATIVE_0044
+
+NATIVE_0050
+stack code=8B
+/NATIVE_0050
+
+NATIVE_1E02
+stack code=DF
+/NATIVE_1E02

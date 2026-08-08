@@ -67,7 +67,7 @@ SWAP
 force_ds code=20
 /SWAP
 PUSH
-CS stack code=24
+R stack code=24
 VE , kk det stack code=31kk
 [VE].0 , kk stack code=32kk
 const=78B7 stack code=3A
@@ -101,12 +101,12 @@ const=1A11 stack code=63
 kk stack code=23kk
 hex=0000-FFFF stack code=22aaaa
 /PUSH
-POPCS
+POPR
 stack code=0F
-/POPCS
-PUSHCS
+/POPR
+PUSHR
 stack code=10
-/PUSHCS
+/PUSHR
 OR
 TOS , NOS force_ds code=27
 /OR

@@ -75,7 +75,7 @@ ROT
 force_ds code=21
 /ROT
 PUSH
-CS stack code=24
+R stack code=24
 VE , kk stack code=52kk
 [VE].0 , kk stack code=53kk
 [VE] , kk stack code=55kk
@@ -87,12 +87,12 @@ const=FFFF stack code=76
 kk stack code=23kk
 hex=0000-FFFF stack code=22aaaa
 /PUSH
-POPCS
+POPR
 stack code=25
-/POPCS
-PUSHCS
+/POPR
+PUSHR
 stack code=26
-/PUSHCS
+/PUSHR
 NAVBK
 code=29
 /NAVBK
