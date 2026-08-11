@@ -24,7 +24,7 @@ To correct an error, move the cursor over the incorrect character and type the t
 
 The characters are generated using the method described in ‘‘Hints for CHIP 8 programmers, part 1” in ETI December 1982, page 110 under the heading of Captions-to-screen movers'. Sixteen consecutive bits of data (two bytes) are moved into view on screen in a 3 x 5 matrix, making up the characters. This is very economical of memory space as it uses the least amount of data storage. Diagram 1 shows the general arrangement of the bytes and how the bits are positioned on screen in the 3 x 5 matrix. Note that the least significant bit (LSB) of byte 2 is not used. The most significant bit (MSB) of byte 1 appears in the top left hand corner of the matrix. 
 
-To display a character on screen, the data is shifted from its location in memory (07C6-7) to locations 07F4-5-6-7-8. Then, using the AMMM and DXYN instructions, this is shifted into position on screen, stacking the five bytes down the screen. Diagram 2 shows how it happens when you enter the code for the letter P. 
+To display a character on screen, the data is shifted from its location in memory (07C6-7) to locations 07F4-5-6-7-8. Then, using the AMMM and DXYN instructions, this is shifted into position on screenstacking the five bytes down the screen. Diagram 2 shows how it happens when you enter the code for the letter P. 
 
 c = cursor d = back space 
 

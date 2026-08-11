@@ -82,7 +82,7 @@ const=065F stack code=FE
 const=0671 stack code=FF
 /CALL
 
-PUSH
+LIT
 const=0000 stack code=96
 const=0001 stack code=97
 const=0002 stack code=98
@@ -138,31 +138,57 @@ const=81FD stack hide_trace code=38
 const=81FD stack hide_trace code=59
 const=81FE stack hide_trace code=5A
 const=81FF stack hide_trace code=5B
-R stack code=A4
 hex=0000-00FF stack code=90aa
 hex=0000-FFFF stack code=8Faaaa
-hex=0000-FFFF , RC stack code=91aaaa
-EF1 stack code=24
-EF2 stack code=25
-EF3 stack code=23
-RE stack code=47
-R2 stack code=4B
-SW stack code=50
-R2 , 4 stack code=A5
-/PUSH
+RC hex=0000-FFFF stack code=91aaaa
+/LIT
 
-PUSHB
+R@
+stack code=A4
+>R force_rs code=A6
+/R@
+
+
+EF1?
+stack code=24
+/EF1?
+
+EF2?
+stack code=25
+/EF2?
+
+EF3?
+stack code=23
+/EF3?
+
+SP@
+stack code=47
+/SP@
+
+RSP@
+stack code=4B
+/RSP@
+
+SW?
+stack code=50
+/SW?
+
+RSP+4
+@ stack code=A5
+/RSP+4
+
+CLIT
 0 stack code=D3
-/PUSHB
+/CLIT
 
 INP1
-TOS , TOS.0 stack code=E3
+stack code=E3
 /INP1
 
-JP
+BRANCH
 brf code=9Fkk
 brb code=93kk
-/JP
+/BRANCH
 
 DROP
 stack code=A7
@@ -172,9 +198,9 @@ SWAP
 force_ds code=A9
 /SWAP
 
-SWAPB
-TOS force_ds code=6F
-/SWAPB
+SWAB
+force_ds code=6F
+/SWAB
 
 DUP
 stack code=A8
@@ -184,89 +210,137 @@ OVER
 stack code=AA
 /OVER
 
-ADD
-TOS , NOS stack code=B3
-TOS , const=1 force_ds code=C8
-TOS , const=2 force_ds code=C9
-[TOS] , NOS det_mtos16 stack code=AF
-[TOS] , NOS.0 det_mtos8 stack code=FD
-/ADD
++
+stack code=B3
+/+
+
+1+
+force_ds code=C8
+/1+
+
+2+
+force_ds code=C9
+/2+
+
++!
+det_mtos16 stack code=AF
+/+!
+
+C+!
+det_mtos8 stack code=FD
+/C+!
 
 XOR
-TOS , NOS stack code=4C
+stack code=4C
 /XOR
 
-SHL
-NOS , TOS.0 stack code=4D
-TOS force_ds code=D4
-/SHL
+LSHIFT
+stack code=4D
+/LSHIFT
 
-ISEQ
-TOS , NOS stack code=B9
-/ISEQ
+2*
+force_ds code=D4
+/2*
 
-CKRAM
-TOS force_ds code=1D
-/CKRAM
+=
+stack code=B9
+/=
 
-OUT
-2 , TOS.0 stack code=E1
-2 , const=40 stack hide_trace code=E8
-/OUT
+PROBE
+force_ds code=1D
+/PROBE
 
-OUTM
-2 , TOS.0 stack code=E2
-/OUTM
+OUT2
+stack code=E1
+const=40 stack hide_trace code=E8
+/OUT2
 
-RET
+OUTM2
+stack code=E2
+/OUTM2
+
+EXIT
 det stack code=8C
-DROP , 4 det stack code=8D
-DROP , 8 det stack code=8E
-/RET
+/EXIT
 
-JZ
+EXIT4
+det stack code=8D
+/EXIT4
+
+EXIT8
+det stack code=8E
+/EXIT8
+
+?BRANCH
 brf stack code=9Ekk
 brb stack code=92kk
-/JZ
+/?BRANCH
 
-SEQ
-code=04
-/SEQ
+Q
+ON code=04
+OFF code=05
+/Q
 
-REQ
-code=05
-/REQ
+0<
+force_ds code=B6
+/0<
 
-ISNEG
-TOS force_ds code=B6
-/ISNEG
+-
+stack code=B2
+/-
 
-SUB
-TOS , NOS stack code=B2
-TOS , const=1 force_ds code=CA
-TOS , const=2 force_ds code=CB
-TOS , const=0 force_ds code=B4
-[TOS] , NOS det_mtos16 stack code=14
-[TOS] , NOS.0 det_mtos8 stack code=15
-/SUB
+1-
+force_ds code=CA
+/1-
 
-LD
-TOS , [TOS] force_ds code=AB
-[TOS] , NOS det_mtos16 stack code=AD
-TOS.0 , [TOS] force_ds code=AC
-[TOS] , NOS.0 det_mtos8 stack code=AE
-[TOS] , const=1 det_mtos8 stack code=DE
-[TOS] , const=0001 det_mtos16 stack code=E0
-[TOS] , const=0 det_mtos8 stack code=DD
-/LD
+2-
+force_ds code=CB
+/2-
 
-HASH
-TOS stack code=07
-TOS , NOS stack code=48
-/HASH
+0
+C! det_mtos8 stack code=DD
+/0
+
+0-
+force_ds code=B4
+/0-
+
+-!
+det_mtos16 stack code=14
+/-!
+
+C-!
+det_mtos8 stack code=15
+/C-!
+
+@
+force_ds code=AB
+/@
+
+!
+det_mtos16 stack code=AD
+/!
+
+C@
+force_ds code=AC
+/C@
+
+C!
+det_mtos8 stack code=AE
+/C!
+
+1
+C! det_mtos8 stack code=DE
+! det_mtos16 stack code=E0
+/1
+
+CHECKSUM
+stack code=07
+stack code=48
+/CHECKSUM
 
 FILL
-TOS.0 , NOS.0 , [3OS] stack code=49
+stack code=49
 /FILL
 
 CLS
@@ -277,105 +351,111 @@ NOOP
 code=80
 /NOOP
 
-PUSHR
+>R
 stack code=A2
-0 stack code=A1
-TOS , NOS stack code=A0
-/PUSHR
+0 , >R stack code=A1
+0>R stack code=A1
+/>R
 
-POPR
+2>R
+stack code=A0
+/2>R
+
+R>
 stack code=A3
-/POPR
+/R>
 
-MCPY
-[NOS] , [3OS] stack code=BA
-/MCPY
+CMOVE
+stack code=BA
+/CMOVE
 
-DIV
-NOS , TOS.0 force_ds code=BC
-/DIV
+/MOD
+force_ds code=BC
+//MOD
 
-ISGT
-NOS , TOS stack code=B7
-/ISGT
+>
+stack code=B7
+/>
 
-LOOP
+(LOOP)
 brb force_ds force_rs code=94kk
-TOS , brb force_ds force_rs code=95kk
-/LOOP
+/(LOOP)
 
-DISPA
-TOS stack code=9D
-TOS , NOS.0 stack code=9C
-/DISPA
+(+LOOP)
+brb force_ds force_rs code=95kk
+/(+LOOP)
 
-TIN
-TOS stack code=0D
-/TIN
+EXECUTE
+stack code=9D
+/EXECUTE
 
-TOUT
-TOS stack code=3B
-/TOUT
+DISPATCH
+stack code=9C
+/DISPATCH
+
+RX
+stack code=0D
+/RX
+
+TX
+stack code=3B
+/TX
 
 SEND
 stack code=EF
 /SEND
 
 AND
-TOS , NOS stack code=B0
+stack code=B0
 /AND
 
 OR
-TOS , NOS stack code=B1
+stack code=B1
 /OR
 
-ISZ
-TOS stack code=B5
-/ISZ
+0=
+stack code=B5
+/0=
 
-ISLT
-NOS , TOS stack code=B8
-/ISLT
+<
+stack code=B8
+/<
 
-MUL
-TOS.0 , NOS.0 stack code=BB
-/MUL
+C*
+stack code=BB
+/C*
 
 ROT
 force_ds code=E7
 /ROT
 
-DUPR
-force_rs code=A6
-/DUPR
+1+!
+det_mtos16 stack code=ED
+/1+!
 
-INC
-[TOS] det_mtos16 stack code=ED
-/INC
+C1+!
+det_mtos8 stack code=FB
+/C1+!
 
-INCB
-[TOS] det_mtos8 stack code=FB
-/INCB
+1-!
+det_mtos16 stack code=EE
+/1-!
 
-DEC
-[TOS] det_mtos16 stack code=EE
-/DEC
-
-DECB
-[TOS] det_mtos8 stack code=FC
-/DECB
+C1-!
+det_mtos8 stack code=FC
+/C1-!
 
 SCAN
 stack code=E6
 /SCAN
 
-KEYWAIT
+KEY
 stack code=EC
-/KEYWAIT
+/KEY
 
-RSTOR
+RESTORE
 force_ds force_rs code=3F
-/RSTOR
+/RESTORE
 
 NATIVE_072C
 stack code=08
@@ -419,9 +499,6 @@ stack code=3E
 
 NATIVE_0F3A
 stack code=42
-/NATIVE_0F3A
-
-NATIVE_0F3A
 stack code=43
 /NATIVE_0F3A
 
@@ -451,37 +528,13 @@ stack code=81
 
 NATIVE_0044
 stack code=82
-/NATIVE_0044
-
-NATIVE_0044
 stack code=83
-/NATIVE_0044
-
-NATIVE_0044
 stack code=84
-/NATIVE_0044
-
-NATIVE_0044
 stack code=85
-/NATIVE_0044
-
-NATIVE_0044
 stack code=86
-/NATIVE_0044
-
-NATIVE_0044
 stack code=87
-/NATIVE_0044
-
-NATIVE_0044
 stack code=88
-/NATIVE_0044
-
-NATIVE_0044
 stack code=89
-/NATIVE_0044
-
-NATIVE_0044
 stack code=8A
 /NATIVE_0044
 

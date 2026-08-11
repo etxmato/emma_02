@@ -1,0 +1,354 @@
++
+force_ds code=00
+/+
+
+1+
+force_ds code=03
+/1+
+
+2+
+force_ds code=04
+/2+
+
++@
+force_ds code=35
+/+@
+
++!
+det_mtos24 stack code=05
+/+!
+
+C+!
+det_mtos8 stack code=30
+/C+!
+
+2*
+force_ds code=01
+/2*
+
+-
+force_ds code=02
+/-
+
+1-
+force_ds code=27
+/1-
+
+*
+force_ds code=06
+/*
+
+/MOD
+force_ds code=07
+//MOD
+
+?BRANCH
+brf stack code=08kk
+brb stack code=09kk
+/?BRANCH
+
+BRANCH
+brf code=0Akk
+brb code=0Bkk
+/BRANCH
+
+(DO)
+stack code=0E
+/(DO)
+
+LEAVE
+stack code=0F
+/LEAVE
+
+(LOOP)
+brb force_ds force_rs code=0Ckk
+/(LOOP)
+
+(+LOOP)
+brb force_ds force_rs code=0Dkk
+/(+LOOP)
+
+EXECUTE
+stack code=10
+hex=0000-FFFF stack code=66aaaa
+/EXECUTE
+
+EXIT
+det stack code=11
+/EXIT
+
+AND
+force_ds code=12
+/AND
+
+0=
+force_ds code=13
+/0=
+
+0<
+force_ds code=14
+/0<
+
+CMOVE
+stack code=1A
+/CMOVE
+
+CMOVEB
+stack code=38
+/CMOVEB
+
+CMOVE3
+[kkvv] , [wwtt] stack code=58kkvvwwtt
+det_mtos24 stack code=31
+/CMOVE3
+
+DROP
+stack code=1C
+/DROP
+
+OVER
+stack code=1D
+/OVER
+
+DUP
+stack code=1E
+/DUP
+
+?DUP
+stack code=1F
+/?DUP
+
+SWAP
+force_ds code=20
+/SWAP
+
+ROT
+force_ds code=21
+/ROT
+
+R@
+stack code=24
+/R@
+
+VE+
+kk stack code=52kk
+/VE+
+
+VE+C@
+kk stack code=53kk
+/VE+C@
+
+VE+@
+kk stack code=55kk
+/VE+@
+
+LIT
+const=0000 stack code=72
+const=0001 stack code=73
+const=0002 stack code=74
+const=0003 stack code=75
+const=FFFF stack code=76
+kk stack code=23kk
+hex=0000-FFFF stack code=22aaaa
+/LIT
+
+R>
+stack code=25
+/R>
+
+>R
+stack code=26
+/>R
+
+NAVBK
+code=29
+/NAVBK
+
+SETBK
+stack code=6B
+/SETBK
+
+STRCP
+code=2B
+/STRCP
+
+NUMCP
+code=2C
+/NUMCP
+
+NUMCZ
+code=2D
+/NUMCZ
+
+OR
+force_ds code=33
+/OR
+
+COMPARE
+stack code=34
+/COMPARE
+
+!24
+det_mtos24 stack code=36
+/!24
+
+LDVCD
+stack code=37
+/LDVCD
+
+VA
+@ force_ds code=62
+! det_VA stack code=61
+/VA
+
+VC
+@ force_ds code=5E
+! det_VC stack code=5D
+/VC
+
+VD
+@ force_ds code=60
+! det_VD stack code=5F
+/VD
+
+VB
+@ force_ds code=64
+! det_VB stack code=63
+/VB
+
+@+
+force_ds code=6A
+/@+
+
+C@+
+force_ds code=2A
+/C@+
+
+@+VE!
+det_VE code=67
+/@+VE!
+
+@
+force_ds code=15
+mem=6000-60FF force_ds code=3Eaa
+mem=0000-FFFF force_ds code=3Aaaaa
+/@
+
+C@
+force_ds code=17
+mem=6000-60FF force_ds code=40aa
+mem=0000-FFFF force_ds code=3Caaaa
+/C@
+
+!
+det_mtos16 stack code=16
+mem=6000-60FF det_60_16 stack code=3Faa
+mem=0000-FFFF det_r_16 stack code=3Baaaa
+/!
+
+C!
+det_mtos8 stack code=19
+mem=6000-60FF det_60_8 stack code=41aa
+mem=0000-FFFF det_r_8 stack code=3Daaaa
+kk code=42kk
+/C!
+
+0
+C! det_mtos8 stack code=2E
+/0
+
+1
+C! det_mtos8 stack code=2F
+/1
+
+
+DISPLAY
+stack code=43
+/DISPLAY
+
+LCD
+stack code=44
+/LCD
+
+DELAY
+code=45
+/DELAY
+
+FILL
+stack code=46
+/FILL
+
+CHECKSUM
+stack code=47
+/CHECKSUM
+
+TOBCD
+stack code=48
+/TOBCD
+
+FMBCD
+stack code=49
+/FMBCD
+
+FMHEX
+stack code=4B
+/FMHEX
+
+TOHEX
+stack code=4C
+/TOHEX
+
+<
+stack code=4D
+/<
+
+>
+stack code=4E
+/>
+
+=
+stack code=4F
+/=
+
+VE+!
+kk stack code=56kk
+/VE+!
+
+LDAND
+kkvv , ww stack code=57kkvvww
+/LDAND
+
+!BK
+[kkvv] , wwtt code=5Akkvvwwtt
+/!BK
+
+C@BK
+stack code=39
+kkvv , [wwtt] stack code=5Bkkvvwwtt
+/C@BK
+
+D-24
+det_mtos24 stack code=6E
+det_mtos24 stack code=70
+/D-24
+
+D+24
+det_mtos24 stack code=32
+[wwtt] , [kkvv] stack code=59kkvvwwtt
+det_mtos24 stack code=6F
+/D+24
+
+NOOP
+code=7F
+/NOOP
+
+SYS
+sys stack code=8gkk
+sys stack code=9gkk
+sys stack code=Agkk
+sys stack code=Bgkk
+sys stack code=Cgkk
+sys stack code=Dgkk
+sys stack code=Egkk
+sys stack code=Fgkk
+/SYS

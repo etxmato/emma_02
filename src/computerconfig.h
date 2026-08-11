@@ -1598,6 +1598,11 @@ public:
     bool videoLog_active;
     bool videoLog_defined;
 
+    // Pseudo language variant: "" (default, auto-detected .syntax file) or
+    // "forth" (use the *_forth.syntax file when one exists for the detected
+    // pseudo language, e.g. PTC701_R1.7_forth.syntax).
+    wxString pseudoVariant;
+
     vector<ReadValueOverride> readValueOverride;
 };
 

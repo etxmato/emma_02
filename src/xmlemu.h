@@ -385,6 +385,7 @@ public:
     bool isChip8MainLoop(Word address) {for (size_t i=0; i<chip8mainLoopCount_; i++) if (chip8mainLoop_[i]==address) return true; return false;};
     Word getChip8MainLoop() {return chip8mainLoopCount_>0 ? chip8mainLoop_[0] : 0;};
     wxString getPseudoType() {return pseudoType_;};
+    wxString getPseudoVariant() {return currentComputerConfiguration.debuggerConfiguration.pseudoVariant;};
     Byte getPseudoProgramCounter() {return pseudoProgramCounter_;};
     Byte getPseudoDataStack() {return pseudoDataStack_;};
     void showChip8Registers();

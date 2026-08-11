@@ -347,6 +347,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.useSplashScreen_ = false;
     computerConfiguration.debuggerConfiguration.videoLog_active = false;
     computerConfiguration.debuggerConfiguration.videoLog_defined = false;
+    computerConfiguration.debuggerConfiguration.pseudoVariant = "";
 
     
     computerConfiguration.locationTriggerConfiguration.resize(65536);
@@ -9460,6 +9461,7 @@ void XmlParser::parseXml_Debugger(wxXmlNode &node)
         "sep",
         "assembler",
         "read_value",
+        "pseudo",
         "comment",
         "undefined"
     };
@@ -9470,6 +9472,7 @@ void XmlParser::parseXml_Debugger(wxXmlNode &node)
         TAG_SEP,
         TAG_ASSEMBLER,
         TAG_READ_VALUE,
+        TAG_PSEUDO,
         TAG_COMMENT,
         TAG_UNDEFINED
     };
@@ -9528,6 +9531,12 @@ void XmlParser::parseXml_Debugger(wxXmlNode &node)
                     computerConfiguration.debuggerConfiguration.readValueOverride.push_back(readValueOverride);
                 }
             }
+            break;
+
+            case TAG_PSEUDO:
+                computerConfiguration.debuggerConfiguration.pseudoVariant = child->GetNodeContent();
+                computerConfiguration.debuggerConfiguration.pseudoVariant.Trim(false);
+                computerConfiguration.debuggerConfiguration.pseudoVariant.Trim(true);
             break;
 
             case TAG_COMMENT:

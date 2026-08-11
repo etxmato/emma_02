@@ -1044,6 +1044,17 @@ void DebugWindow::cyclePseudoDebug()
     
     if (chip8DebugMode_)
     {
+        // When the CPU is fully paused (pseudo debugger paused AND CPU stopped),
+        // do NOT run the phase machine. cyclePseudoDebug() is still called on
+        // every emulation-loop iteration at STATE_FETCH_1 even while the CPU is
+        // stopped (cpuCycleStep skips machineCycle but still reaches the
+        // STATE_FETCH_1 block). Running chip8PtcTracePhase() on a stationary
+        // hide_trace compound makes it ping-pong ENTER/LAND (R2 never changes
+        // because nothing executes), corrupting the hide state and producing a
+        // bogus false LAND the moment the user resumes.
+        if (chip8Steps_ == 0 && p_Computer->getSteps() == 0)
+            return;
+
         if (chip8Steps_ >= 0)
         {
             if (p_Computer->isChip8MainLoop(programCounterAddress))
@@ -1064,6 +1075,33 @@ void DebugWindow::cyclePseudoDebug()
                         p_Computer->setSteps(0);
                         setChip8PauseState();
                         // Do NOT trace the landing; it is the next step's position.
+                        // The compound was traced at ENTER without a trailing newline
+                        // (its detail flags are still set). Emit the compound's net
+                        // DS:RS effect now, using the pre-compound stack pointers as
+                        // the reference — currentStackValue_ has caught up to the
+                        // hidden internals and would otherwise suppress the change.
+                        if (additionalChip8Details_ || additionalChip8StackDetails_)
+                        {
+                            Word saveDs = currentStackValue_[PSEUDO_DATA_STACK];
+                            Word saveRs = currentStackValue_[PSEUDO_RETURN_STACK];
+                            currentStackValue_[PSEUDO_DATA_STACK] = stepOverDsBefore_;
+                            currentStackValue_[PSEUDO_RETURN_STACK] = stepOverRsBefore_;
+                            wxString details = addDetails();   // also resets the flags
+                            currentStackValue_[PSEUDO_DATA_STACK] = saveDs;
+                            currentStackValue_[PSEUDO_RETURN_STACK] = saveRs;
+                            if (details != "")
+                                chip8DebugTrace(details);
+                            else
+                            {
+                                // No net stack change to report: close the compound's
+                                // line so the next instruction does not merge onto it.
+#if defined(__WXMAC__) || defined(__linux__)
+                                chipTraceString_ = chipTraceString_ + "\n";
+#else
+                                chip8TraceWindowPointer->AppendText("\n");
+#endif
+                            }
+                        }
                     }
                 }
                 else if (phase == 2 && chip8Steps_ > 1)
@@ -1076,6 +1114,12 @@ void DebugWindow::cyclePseudoDebug()
                         chip8DebugTrace(addDetails());
                     if (chip8Trace_)
                         pseudoTrace(chip8PC);   // show the instruction being stepped over
+                    // Capture the pre-compound stack pointers so the compound's
+                    // net DS:RS effect can be reported on its own line at the LAND
+                    // (by then currentStackValue_ has caught up to the hidden
+                    // internals and would suppress the change).
+                    stepOverDsBefore_ = currentStackValue_[PSEUDO_DATA_STACK];
+                    stepOverRsBefore_ = currentStackValue_[PSEUDO_RETURN_STACK];
                 }
                 else if (phase == 1)
                 {
@@ -1094,6 +1138,12 @@ void DebugWindow::cyclePseudoDebug()
                         p_Computer->setSteps(0);
                         chip8Steps_--;
                         setChip8PauseState();
+                        // The compound became the next step's position: the ENTER
+                        // phase check above already recorded the hide depth, but the
+                        // hide must NOT stay armed while paused here (it would be a
+                        // stale false-LAND when the user resumes). Disarm it.
+                        if (phase == 2)
+                            chip8HideReturnStack_ = -1;
                     }
                     if (chip8Steps_ != 0)
                     {
@@ -1117,11 +1167,36 @@ void DebugWindow::cyclePseudoDebug()
                 int phase = chip8PtcTracePhase(chip8PC);
                 bool showThis = (phase == 0 || phase == 3);  // show normal + landing
 
-                if ((additionalChip8Details_ || additionalChip8StackDetails_) && showThis)
-                    chip8DebugTrace(addDetails());
-                if (chip8BreakPointCheck())  return;
-                if (chip8Trace_ && showThis)
-                    pseudoTrace(chip8PC);
+                if (showThis)
+                {
+                    if ((additionalChip8Details_ || additionalChip8StackDetails_))
+                        chip8DebugTrace(addDetails());
+                    if (chip8BreakPointCheck())  return;
+                    if (chip8Trace_)
+                        pseudoTrace(chip8PC);
+                }
+                else
+                {
+                    // Phase 1 (HIDE) or 2 (ENTER): the previous instruction's
+                    // deferred detail flags must not survive into the LAND, where
+                    // they would be consumed with post-compound stack values. At
+                    // ENTER the stack is still pre-compound, so flushing produces
+                    // the correct post-previous-instruction values; at HIDE the
+                    // state is mid-compound, so leftover flags are just cleared.
+                    if (phase == 2)
+                    {
+                        if ((additionalChip8Details_ || additionalChip8StackDetails_))
+                            chip8DebugTrace(addDetails());
+                    }
+                    else
+                    {
+                        additionalChip8Details_ = false;
+                        additionalChip8StackDetails_ = false;
+                        additionalChip8ForceDsDetails_ = false;
+                        additionalChip8ForceRsDetails_ = false;
+                    }
+                    if (chip8BreakPointCheck())  return;
+                }
             }
         }
     }
@@ -1645,6 +1720,44 @@ wxString DebugWindow::extractNextWord(wxString *buffer, wxString *seperator)
     buffer->Trim(false);
     
     if (buffer->Left(1) != "/" && buffer->Left(1) != "," && buffer->Left(1) != "+" && buffer->Left(1) != "-" && buffer->Left(1) != "=")
+        *seperator = " ";
+    else
+    {
+        *seperator = buffer->Left(1);
+        *buffer = buffer->Right(buffer->Len()-1);
+    }
+    return ret;
+}
+
+// Pseudo-assembler command extraction. Only spaces and commas separate tokens;
+// + - = / may appear inside a mnemonic (e.g. Forth "1+", "0=", "/MOD",
+// "(+LOOP)", "-!"). Parameters are still split by extractNextWord(), which
+// keeps the / , + - = separators for parameter lists.
+wxString DebugWindow::extractNextWordPseudo(wxString *buffer, wxString *seperator)
+{
+    size_t end;
+    wxString ret;
+
+    buffer->Trim(false);
+    buffer->Trim(true);
+
+    end = 0;
+    while (buffer->Mid(end, 1) != " " && buffer->Mid(end, 1) != "," && end != buffer->Len())
+        end++;
+
+    if (end == buffer->Len())
+    {
+        ret = *buffer;
+        *buffer = "";
+        *seperator = " ";
+        return ret;
+    }
+
+    ret = buffer->Mid(0, end);
+    *buffer = buffer->Mid(end, buffer->Len()-end);
+    buffer->Trim(false);
+    
+    if (buffer->Left(1) != ",")
         *seperator = " ";
     else
     {
@@ -3212,7 +3325,10 @@ AssInput DebugWindow::getAssInput(wxString buffer)
     if (buffer.Left(1) == ':')
         buffer.Replace(":",": ", false);
 
-    result.command = extractNextWord(&buffer, &result.commandSeperator);
+    // Mnemonic may contain + - = / , (e.g. Forth "1+", "0=", "/MOD"); only a
+    // space or comma terminates it. Parameters are split by extractNextWord()
+    // below, which keeps / , + - = as parameter separators.
+    result.command = extractNextWordPseudo(&buffer, &result.commandSeperator);
 
     while (buffer != "" && result.numberOfParameters <= 8)
     {
@@ -4088,7 +4204,9 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int64_t* pseudoCode)
                 else
                     errorValue = ASS_ERROR_SYNTAX;
             }
-            if (parameter == assInput.parameterString[parameterNumber] && assInput.parameterType[parameterNumber] == ASS_STRING)
+            if (parameter == assInput.parameterString[parameterNumber] &&
+                (assInput.parameterType[parameterNumber] == ASS_STRING ||
+                 assInput.parameterType[parameterNumber] == ASS_HEX_VALUE))
             {
                 parameterFound = true;
                 parameterNumber++;
@@ -4103,7 +4221,13 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int64_t* pseudoCode)
             }
             if (parameter == ',')
             {
-                if (assInput.seperator[parameterNumber-1] == ",")
+                // Forth pseudo variant (*_forth.syntax): accept a single space
+                // as well as a comma between parameters, so the comma-free
+                // disassembly display ("LDAND 6007 40") can be assembled
+                // directly. Other pseudo languages still require the comma.
+                if (assInput.seperator[parameterNumber-1] == "," ||
+                    (commandSyntaxFile_.Find("_forth.syntax") != wxNOT_FOUND &&
+                     assInput.seperator[parameterNumber-1] == " "))
                     parameterFound = true;
                 else
                     errorValue = ASS_ERROR_COMMA;
@@ -5746,7 +5870,8 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
         buffer.Left(5)== "FRAME" || buffer.Left(3)== "CLR" ||
         buffer.Left(2)== "CS" ||
         buffer.Left(2)== "VA" || buffer.Left(2)== "VB" || buffer.Left(2)== "VC" || buffer.Left(2)== "VD" || buffer.Left(2)== "VE" ||
-        buffer.Left(4)== "[VE]")
+        buffer.Left(4)== "[VE]" ||
+        buffer.Left(2)== ">R" || buffer.Left(1)== "@"  || buffer.Left(1)== "!" || buffer.Left(2)== "C!" || buffer.Left(2)== "ON" || buffer.Left(2)== "OFF")
     {
         *type = ASS_STRING;
         return 0;
@@ -15610,6 +15735,30 @@ wxString DebugWindow::getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainL
     }
     defFile.Close();
 
+    // Optional pseudo language variant: when the XML debugger config requests
+    // "forth" (e.g. <debugger><pseudo>forth</pseudo></debugger>) and the
+    // detected syntax file has a *_forth.syntax counterpart, switch to it
+    // (e.g. PTC701_R1.7.syntax -> PTC701_R1.7_forth.syntax). pseudoType_ stays
+    // unchanged so all pseudoType_ == "PTC"/"MSI88" handling still applies.
+    if (*pseudoLoaded && p_Computer->getPseudoVariant() == "forth")
+    {
+        wxString forthFileName = commandSyntaxFile_;
+        if (forthFileName.Right(7) == ".syntax")
+        {
+            forthFileName = forthFileName.Left(forthFileName.Len() - 7) + "_forth.syntax";
+            if (wxFile::Exists(forthFileName))
+            {
+                commandSyntaxFile_ = forthFileName;
+                if (mode_.gui)
+                {
+                    wxString label = XRCCTRL(*this, "Chip8Type", wxStaticText)->GetLabel();
+                    if (label.Find(" (Forth)") == wxNOT_FOUND)
+                        XRCCTRL(*this, "Chip8Type", wxStaticText)->SetLabel(label + " (Forth)");
+                }
+            }
+        }
+    }
+
     if (*pseudoLoaded)
         p_Main->definePseudoCommands();
     else
@@ -15657,8 +15806,15 @@ void DebugWindow::definePseudoCommands()
             if (pseudoLine.Len() > 0)
             {
                 commandText = " " + pseudoLine;
-                while (commandText.Len() <= 6)
+                // Forth pseudo variant (*_forth.syntax): display mnemonics with
+                // exactly one space before the parameter field (e.g. "LIT 81D7",
+                // "?BRANCH 1E40"). Other pseudo languages keep the original
+                // fixed-width padding to at least 6 characters.
+                if (commandSyntaxFile_.Find("_forth.syntax") != wxNOT_FOUND)
                     commandText = commandText + " ";
+                else
+                    while (commandText.Len() <= 6)
+                        commandText = commandText + " ";
                 
                 pseudoLine=inFile.GetNextLine();
                 while (pseudoLine.Left(1) != "/")
@@ -16482,7 +16638,15 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                     }
                     if (parameter == ',')
                     {
-                        parameterStr = ", ";
+                        // Forth pseudo variant (*_forth.syntax): separate
+                        // parameters with a single space instead of a comma,
+                        // e.g. "LDAND 6007 40" instead of "LDAND 6007, 40".
+                        // The assembler accepts both forms (see the ',' case in
+                        // checkParameterPseudo), so the display round-trips.
+                        if (commandSyntaxFile_.Find("_forth.syntax") != wxNOT_FOUND)
+                            parameterStr = " ";
+                        else
+                            parameterStr = ", ";
                         parameterFound = true;
                     }
                     if (parameter == '+')
@@ -16556,7 +16720,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 additionalDetailsAddress_ = addressRX;
                                 additionalDetailsPrintStr_.Printf("R%01X=", rX);
                                 additionalDetailsPrintStr_ += "%04X";
-                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R;
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R_16;
                             }
                             if (firstParameter == "Ry")
                             {
@@ -16564,7 +16728,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 additionalDetailsAddress_ = addressRY;
                                 additionalDetailsPrintStr_.Printf("R%01X=", rY);
                                 additionalDetailsPrintStr_ += "%04X";
-                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R;
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R_16;
                             }
                             if (firstParameter == "Rz")
                             {
@@ -16572,7 +16736,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 additionalDetailsAddress_ = addressRZ;
                                 additionalDetailsPrintStr_.Printf("R%01X=", rZ);
                                 additionalDetailsPrintStr_ += "%04X";
-                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R;
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R_16;
                             }
                             if (firstParameter == "[Rx]")
                             {
@@ -16712,18 +16876,21 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 additionalDetailsPrintStr_ += "%02X";
                                 additionalChip8DetailsType_ = PSEUDO_DETAILS_MI;
                             }
-                            if (firstParameter == "VA" || firstParameter == "VB" || firstParameter == "VC" || firstParameter == "VD" || firstParameter == "VE")
+                            if (firstParameter == "VA" || firstParameter == "VB" || firstParameter == "VC" || firstParameter == "VD" || firstParameter == "VE" | commandText == "@+VE!")
                             {
                                 additionalChip8Details_ = true;
                                 int varIndex = 0;
                                 if (firstParameter == "VB") varIndex = 1;
                                 else if (firstParameter == "VC") varIndex = 2;
                                 else if (firstParameter == "VD") varIndex = 3;
+                                else if (firstParameter == "VE") varIndex = 4;
                                 additionalDetailsAddress_ = p_Computer->getChip8baseVar() + (varIndex * 2);
                                 additionalDetailsPrintStr_ = firstParameter + "=%04X";
-                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R;
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R_16;
                             }
-                            if (commandText == "RET")
+                            // "RET" (standard syntax) or "EXIT" (Forth variant syntax):
+                            // show the return address from the R2 return stack.
+                            if (commandText == "RET" || commandText == "EXIT" || commandText == "EXIT4" || commandText == "EXIT8")
                             {
                                 additionalChip8Details_ = true;
                                 Word r2 = p_Computer->getScratchpadRegister(2);
@@ -16731,12 +16898,14 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 additionalDetailsPrintStr_ = "->%04X";
                                 additionalChip8DetailsType_ = PSEUDO_DETAILS_RETURN;
                             }
-                            if (firstParameter == "[TOS]")
+/*                            if (firstParameter == "[TOS]" || firstParameter == "!" || commandText.Find('!') != wxNOT_FOUND)
                             {
                                 additionalChip8Details_ = true;
                                 Word rd = p_Computer->getScratchpadRegister(p_Computer->getPseudoDataStack());
                                 additionalDetailsAddress_ = (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1);
-                                if (commandText == "LD24")
+                                // "LD24" (standard syntax) or "! (24-bit)" (Forth variant):
+                                // 24-bit zero-extended store of NOS at [TOS].
+                                if (commandText == "LD24" || commandText == "!24")
                                 {
                                     additionalDetailsPrintStr_ = "[%04X]=%02X%02X%02X";
                                     additionalChip8DetailsType_ = PSEUDO_DETAILS_MTOS_24;
@@ -16745,7 +16914,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 {
                                     secondParameter = extractWord(&pseudoLineCopy); // read ,
                                     secondParameter = extractWord(&pseudoLineCopy); // read second parameter
-                                    if (secondParameter == "NOS")
+                                    if (secondParameter == "NOS" || commandText.Find('C') == wxNOT_FOUND)
                                     {
                                         additionalDetailsPrintStr_ = "[%04X]=%04X";
                                         additionalChip8DetailsType_ = PSEUDO_DETAILS_MTOS_16;
@@ -16775,12 +16944,13 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 {
                                     additionalDetailsPrintStr_.Printf("[%04X]=", 0x6000 + chip8_opcode2);
                                     additionalDetailsPrintStr_ += "%04X";
-                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_R;
+                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_R_16;
                                 }
                                 if (secondParameter == "TOS.0")
                                 {
                                     additionalDetailsPrintStr_.Printf("[%04X]=", 0x6000 + chip8_opcode2);
                                     additionalDetailsPrintStr_ += "%02X";
+                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_R_8;
                                 }
                             }
                             if (firstParameter == "mem=7800-78FF")
@@ -16793,12 +16963,13 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 {
                                     additionalDetailsPrintStr_.Printf("[%04X]=", 0x7800 + chip8_opcode2);
                                     additionalDetailsPrintStr_ += "%04X";
-                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_R;
+                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_R_16;
                                 }
                                 if (secondParameter == "TOS.0")
                                 {
                                     additionalDetailsPrintStr_.Printf("[%04X]=", 0x7800 + chip8_opcode2);
                                     additionalDetailsPrintStr_ += "%02X";
+                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_R_8;
                                 }
                             }
                             if (firstParameter == "mem=0000-FFFF")
@@ -16811,13 +16982,133 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 {
                                     additionalDetailsPrintStr_.Printf("[%04X]=", (chip8_opcode2 << 8) + chip8_opcode3);
                                     additionalDetailsPrintStr_ += "%04X";
-                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_R;
+                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_R_16;
                                 }
                                 if (secondParameter == "TOS.0")
                                 {
                                     additionalDetailsPrintStr_.Printf("[%04X]=", (chip8_opcode2 << 8) + chip8_opcode3);
                                     additionalDetailsPrintStr_ += "%02X";
+                                    additionalChip8DetailsType_ = PSEUDO_DETAILS_R_8;
                                 }
+                            }*/
+                            if (parameter.Left(9) == "det_mtos8")
+                            {
+                                additionalChip8Details_ = true;
+                                Word rd = p_Computer->getScratchpadRegister(p_Computer->getPseudoDataStack());
+                                additionalDetailsAddress_ = (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1);
+                                additionalDetailsPrintStr_ = "[%04X]=%02X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_MTOS_8;
+                            }
+                            if (parameter.Left(10) == "det_mtos16")
+                            {
+                                additionalChip8Details_ = true;
+                                Word rd = p_Computer->getScratchpadRegister(p_Computer->getPseudoDataStack());
+                                additionalDetailsAddress_ = (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1);
+                                additionalDetailsPrintStr_ = "[%04X]=%04X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_MTOS_16;
+                            }
+                            if (parameter.Left(10) == "det_mtos24")
+                            {
+                                additionalChip8Details_ = true;
+                                Word rd = p_Computer->getScratchpadRegister(p_Computer->getPseudoDataStack());
+                                additionalDetailsAddress_ = (p_Computer->readMemDebug(rd) << 8) + p_Computer->readMemDebug(rd + 1);
+                                additionalDetailsPrintStr_ = "[%04X]=%02X%02X%02X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_MTOS_24;
+                            }
+                            if (parameter.Left(8) == "det_r_16")
+                            {
+                                secondParameter = extractWord(&pseudoLineCopy); // read ,
+                                secondParameter = extractWord(&pseudoLineCopy); // read second parameter
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = (chip8_opcode2 << 8) + chip8_opcode3;
+                                additionalDetailsPrintStr_.Printf("[%04X]=", (chip8_opcode2 << 8) + chip8_opcode3);
+                                additionalDetailsPrintStr_ += "%04X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R_16;
+                            }
+                            if (parameter.Left(7) == "det_r_8")
+                            {
+                                secondParameter = extractWord(&pseudoLineCopy); // read ,
+                                secondParameter = extractWord(&pseudoLineCopy); // read second parameter
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = (chip8_opcode2 << 8) + chip8_opcode3;
+                                additionalDetailsPrintStr_.Printf("[%04X]=", (chip8_opcode2 << 8) + chip8_opcode3);
+                                additionalDetailsPrintStr_ += "%02X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R_8;
+                            }
+                            if (parameter.Left(9) == "det_60_16")
+                            {
+                                secondParameter = extractWord(&pseudoLineCopy); // read ,
+                                secondParameter = extractWord(&pseudoLineCopy); // read second parameter
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = 0x6000 + chip8_opcode2;
+                                additionalDetailsPrintStr_.Printf("[%04X]=", 0x6000 + chip8_opcode2);
+                                additionalDetailsPrintStr_ += "%04X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R_16;
+                            }
+                            if (parameter.Left(8) == "det_60_8")
+                            {
+                                secondParameter = extractWord(&pseudoLineCopy); // read ,
+                                secondParameter = extractWord(&pseudoLineCopy); // read second parameter
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = 0x6000 + chip8_opcode2;
+                                additionalDetailsPrintStr_.Printf("[%04X]=", 0x6000 + chip8_opcode2);
+                                additionalDetailsPrintStr_ += "%02X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R_8;
+                            }
+                            if (parameter.Left(9) == "det_70_16")
+                            {
+                                secondParameter = extractWord(&pseudoLineCopy); // read ,
+                                secondParameter = extractWord(&pseudoLineCopy); // read second parameter
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = 0x7800 + chip8_opcode2;
+                                additionalDetailsPrintStr_.Printf("[%04X]=", 0x7800 + chip8_opcode2);
+                                additionalDetailsPrintStr_ += "%04X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R_16;
+                            }
+                            if (parameter.Left(8) == "det_70_8")
+                            {
+                                secondParameter = extractWord(&pseudoLineCopy); // read ,
+                                secondParameter = extractWord(&pseudoLineCopy); // read second parameter
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = 0x7800 + chip8_opcode2;
+                                additionalDetailsPrintStr_.Printf("[%04X]=", 0x7800 + chip8_opcode2);
+                                additionalDetailsPrintStr_ += "%02X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R_8;
+                            }
+                            if (parameter.Left(6) == "det_VA")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = p_Computer->getChip8baseVar();
+                                additionalDetailsPrintStr_ = firstParameter + "=%04X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R_16;
+                            }
+                            if (parameter.Left(6) == "det_VB")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = p_Computer->getChip8baseVar() + 2;
+                                additionalDetailsPrintStr_ = firstParameter + "=%04X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R_16;
+                            }
+                            if (parameter.Left(6) == "det_VC")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = p_Computer->getChip8baseVar() + 4;
+                                additionalDetailsPrintStr_ = firstParameter + "=%04X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R_16;
+                            }
+                            if (parameter.Left(6) == "det_VD")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = p_Computer->getChip8baseVar() + 6;
+                                additionalDetailsPrintStr_ = firstParameter + "=%04X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R_16;
+                            }
+                            if (parameter.Left(6) == "det_VE")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = p_Computer->getChip8baseVar() + 6;
+                                additionalDetailsPrintStr_ = firstParameter + "=%04X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_R_16;
                             }
                             if (!additionalChip8Details_)
                             {
@@ -16873,7 +17164,11 @@ wxString DebugWindow::addDetails()
                 }
                 break;
                 
-            case PSEUDO_DETAILS_R:
+            case PSEUDO_DETAILS_R_8:
+                buffer.Printf(" " + additionalDetailsPrintStr_, p_Computer->readMemDebug(additionalDetailsAddress_));
+                break;
+                
+            case PSEUDO_DETAILS_R_16:
                 buffer.Printf(" " + additionalDetailsPrintStr_, (p_Computer->readMemDebug(additionalDetailsAddress_) << 8) + p_Computer->readMemDebug(additionalDetailsAddress_+1));
                 break;
                 

@@ -1,0 +1,272 @@
++
+force_ds code=00
+/+
+
+1+
+force_ds code=03
+/1+
+
+2+
+force_ds code=04
+/2+
+
+2*
+force_ds code=01
+/2*
+
+-
+force_ds code=02
+/-
+
+1-
+force_ds code=21
+/1-
+
+?BRANCH
+brf stack code=08kk
+brb stack code=09kk
+/?BRANCH
+
+BRANCH
+brf code=0Akk
+brb code=0Bkk
+/BRANCH
+
+(DO)
+stack code=0E
+/(DO)
+
+(LOOP)
+brb force_ds force_rs code=0Ckk
+/(LOOP)
+
+(+LOOP)
+brb force_ds force_rs code=0Dkk
+/(+LOOP)
+
+EXIT
+det stack code=11
+/EXIT
+
+AND
+force_ds code=12
+/AND
+
+XOR
+force_ds code=18
+/XOR
+
+0=
+force_ds code=13
+/0=
+
+C@0=
+stack code=38
+/C@0=
+
+0<
+force_ds code=14
+/0<
+
+CMOVE
+stack hide_trace code=52
+stack code=1A
+/CMOVE
+
+CMOVE3
+stack code=1B
+/CMOVE3
+
+CMOVE6
+stack hide_trace code=53
+78B7 stack hide_trace code=58
+78B7 stack hide_trace code=59
+/CMOVE6
+
+DROP
+stack code=1C
+/DROP
+
+OVER
+stack code=1D
+/OVER
+
+DUP
+stack code=1E
+/DUP
+
+?DUP
+stack code=1F
+/?DUP
+
+SWAP
+force_ds code=20
+/SWAP
+
+R@
+stack code=24
+/R@
+
+VE+
+kk det_VE stack code=31kk
+/VE+
+
+VE+C@
+kk stack code=32kk
+/VE+C@
+
+LIT
+const=78B7 stack code=3A
+const=7C06 stack code=3B
+const=7C09 stack code=3C
+const=7C0C stack code=3D
+const=7C0E stack code=3E
+const=7C11 stack code=3F
+const=7C2C stack code=40
+const=7C4E stack code=41
+const=7C70 stack code=42
+const=7C92 stack code=43
+const=7CB4 stack code=44
+const=7CD6 stack code=45
+const=7D08 stack code=46
+const=FFFF stack code=47
+const=0020 stack code=48
+const=0000 stack code=49
+const=0001 stack code=4A
+const=0002 stack code=4B
+const=0004 stack code=4C
+const=0007 stack code=4D
+const=000D stack code=4E
+const=002B stack code=4F
+const=002D stack code=50
+const=3CDE stack code=5B
+const=FFFF stack code=5C
+const=0007 stack code=5D
+const=8000 stack code=5E
+const=1A11 stack code=63
+kk stack code=23kk
+hex=0000-FFFF stack code=22aaaa
+/LIT
+
+R>
+stack code=0F
+/R>
+
+>R
+stack code=10
+/>R
+
+OR
+force_ds code=27
+/OR
+
+!24
+det_mtos24 stack code=28
+/!24
+
+@
+force_ds code=15
+mem=7C16-7C16 force_ds hide_trace code=56
+mem=0000-FFFF force_ds code=2Aaaaa
+/@
+
+C@
+force_ds code=17
+mem=7800-78FF force_ds code=2Eaa
+mem=0000-FFFF force_ds code=2Caaaa
+/C@
+
+!
+det_mtos16 stack code=16
+mem=0000-FFFF det_r_16 stack code=2Baaaa
+/!
+
+C!
+det_mtos8 stack code=19
+mem=7800-78FF det_60_8 stack code=2Faa
+mem=0000-FFFF det_r_8 stack code=2Daaaa
+/C!
+
+0
+C! det_mtos8 stack code=25
+/0
+
+
+1
+C! det_mtos8 stack code=2B
+/1
+
+
+C@BK
+stack code=29
+/C@BK
+
+FILL
+stack code=30
+/FILL
+
+>
+stack code=06
+/>
+
+<
+stack code=05
+/<
+
+=
+stack code=07
+/=
+
+COMPARE24
+stack hide_trace code=55
+stack hide_trace code=61
+/COMPARE24
+
+LDAND
+kkvv , ww stack code=34kkvvww
+/LDAND
+
+D+24
+det_mtos24 stack code=26
+det_mtos24 stack code=35
+/D+24
+
+D-24
+det_mtos24 stack code=36
+/D-24
+
+DEC24
+det_mtos24 stack hide_trace code=54
+det_mtos24 stack hide_trace code=60
+/DEC24
+
+EXECUTE
+stack code=39
+/EXECUTE
+
+!BK
+stack hide_trace code=51
+/!BK
+
+INDEX
+const=7AC8 force_ds hide_trace code=57
+/INDEX
+
+VE+C!
+kk stack code=33kk
+/VE+C!
+
+NOOP
+code=37
+/NOOP
+
+SYS
+sys stack code=8gkk
+sys stack code=9gkk
+sys stack code=Agkk
+sys stack code=Bgkk
+sys stack code=Cgkk
+sys stack code=Dgkk
+sys stack code=Egkk
+sys stack code=Fgkk
+/SYS

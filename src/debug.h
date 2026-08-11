@@ -74,12 +74,13 @@ public:
 #define PSEUDO_DETAILS_X 1
 #define PSEUDO_DETAILS_I 2
 #define PSEUDO_DETAILS_MI 3
-#define PSEUDO_DETAILS_R 4
-#define PSEUDO_DETAILS_MR 5
-#define PSEUDO_DETAILS_RETURN 6
-#define PSEUDO_DETAILS_MTOS_8 7
-#define PSEUDO_DETAILS_MTOS_16 8
-#define PSEUDO_DETAILS_MTOS_24 9
+#define PSEUDO_DETAILS_R_8 4
+#define PSEUDO_DETAILS_R_16 5
+#define PSEUDO_DETAILS_MR 6
+#define PSEUDO_DETAILS_RETURN 7
+#define PSEUDO_DETAILS_MTOS_8 8
+#define PSEUDO_DETAILS_MTOS_16 9
+#define PSEUDO_DETAILS_MTOS_24 10
 
 #define PSEUDO_DATA_STACK 0
 #define PSEUDO_RETURN_STACK 1
@@ -487,6 +488,9 @@ public:
     wxString extractWordMemTrap(wxString *buffer);
     wxString extractWord(wxString *buffer);
     wxString extractNextWord(wxString *buffer, wxString *seperator);
+    // Pseudo-assembler command extraction: splits on space and comma only, so
+    // mnemonics may contain + - = / (e.g. Forth "1+", "0=", "/MOD", "(+LOOP)").
+    wxString extractNextWordPseudo(wxString *buffer, wxString *seperator);
 
 protected:
     void trace();
@@ -538,6 +542,8 @@ protected:
     bool topOfStackSet_;
     int  chip8HideReturnStack_;    // PTC: R2 value to unhide at; -1 = not hiding
     bool chip8StepOver_;           // PTC: currently stepping over a compound opcode
+    Word stepOverDsBefore_;        // data-stack pointer before the step-over's compound
+    Word stepOverRsBefore_;        // return-stack pointer before the step-over's compound
 
     double percentageClock_;
     bool saveDebugFile_;

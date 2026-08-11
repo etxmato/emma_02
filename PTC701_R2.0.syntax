@@ -34,7 +34,7 @@ TOS , NOS force_ds code=18
 /XOR
 ISZ
 TOS force_ds code=13
-[TOS] det stack code=38
+[TOS] stack code=38
 /ISZ
 ISNEG
 TOS force_ds code=14
@@ -68,7 +68,7 @@ force_ds code=20
 /SWAP
 PUSH
 R stack code=24
-VE , kk det stack code=31kk
+VE , kk det_VE stack code=31kk
 [VE].0 , kk stack code=32kk
 const=78B7 stack code=3A
 const=7C06 stack code=3B
@@ -111,25 +111,25 @@ OR
 TOS , NOS force_ds code=27
 /OR
 LD24
-[TOS] , NOS det stack code=28
+[TOS] , NOS det_mtos24 stack code=28
 /LD24
 LD
 TOS , [TOS] force_ds code=15
 TOS.0 , [TOS] force_ds code=17
-[TOS] , NOS det stack code=16
-[TOS] , NOS.0 det stack code=19
-[TOS] , const=0 det stack code=25
-[TOS] , const=1 det stack code=2B
+[TOS] , NOS det_mtos16 stack code=16
+[TOS] , NOS.0 det_mtos8 stack code=19
+[TOS] , const=0 det_mtos8 stack code=25
+[TOS] , const=1 det_mtos8 stack code=2B
 TOS.0 , mem=7800-78FF force_ds code=2Eaa
-mem=7800-78FF , TOS.0 det stack code=2Faa
+mem=7800-78FF , TOS.0 det_60_8 stack code=2Faa
 TOS , mem=7C16-7C16 force_ds hide_trace code=56
 TOS , mem=0000-FFFF force_ds code=2Aaaaa
-mem=0000-FFFF , TOS det stack code=2Baaaa
+mem=0000-FFFF , TOS det_r_16 stack code=2Baaaa
 TOS.0 , mem=0000-FFFF force_ds code=2Caaaa
-mem=0000-FFFF , TOS.0 det stack code=2Daaaa
+mem=0000-FFFF , TOS.0 det_r_8 stack code=2Daaaa
 /LD
 LDBNK
-[TOS] det stack code=29
+[TOS] stack code=29
 /LDBNK
 FILL
 stack code=30
@@ -144,26 +144,26 @@ ISEQ
 stack code=07
 /ISEQ
 CMP24
-[TOS] , [NOS] det stack hide_trace code=55
-[TOS] , [NOS] det stack hide_trace code=61
+[TOS] , [NOS] stack hide_trace code=55
+[TOS] , [NOS] stack hide_trace code=61
 /CMP24
 LDAND
-kk vv , ww stack code=34kkvvww
+kkvv , ww stack code=34kkvvww
 /LDAND
 ADD24
-[NOS] , [TOS] det stack code=26
-[NOS] , TOS det stack code=35
+[NOS] , [TOS] det_mtos24 stack code=26
+[NOS] , TOS det_mtos24 stack code=35
 /ADD24
 SUB24
-[NOS] , TOS det stack code=36
-[TOS] , const=1 det stack hide_trace code=54
-[TOS] , const=1 det stack hide_trace code=60
+[NOS] , TOS det_mtos24 stack code=36
+[TOS] , const=1 det_mtos24 stack hide_trace code=54
+[TOS] , const=1 det_mtos24 stack hide_trace code=60
 /SUB24
 EXEC
 TOS stack code=39
 /EXEC
 STBNK
-[TOS] , const=0 det stack hide_trace code=51
+[TOS] , const=0 stack hide_trace code=51
 /STBNK
 IDX24
 TOS , const=7AC8 force_ds hide_trace code=57

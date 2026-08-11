@@ -58,6 +58,12 @@
 		99575CC0278795EA00ED912A /* osx_14.ini in Resources */ = {isa = PBXBuildFile; fileRef = 99575CBE278795EA00ED912A /* osx_14.ini */; };
 		995D247C2D56A8C70007542C /* tu58.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 995D247B2D56A8C70007542C /* tu58.cpp */; };
 		995D247D2D56A8C70007542C /* tu58.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 995D247B2D56A8C70007542C /* tu58.cpp */; };
+		995D4F2E30287C860044AE23 /* PTC701_R1.7_forth.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995D4F2C30287C860044AE23 /* PTC701_R1.7_forth.syntax */; };
+		995D4F2F30287C860044AE23 /* MSI88_forth.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995D4F2B30287C860044AE23 /* MSI88_forth.syntax */; };
+		995D4F3030287C860044AE23 /* PTC701_R2.0_forth.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995D4F2D30287C860044AE23 /* PTC701_R2.0_forth.syntax */; };
+		995D4F3130287C860044AE23 /* PTC701_R1.7_forth.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995D4F2C30287C860044AE23 /* PTC701_R1.7_forth.syntax */; };
+		995D4F3230287C860044AE23 /* MSI88_forth.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995D4F2B30287C860044AE23 /* MSI88_forth.syntax */; };
+		995D4F3330287C860044AE23 /* PTC701_R2.0_forth.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995D4F2D30287C860044AE23 /* PTC701_R2.0_forth.syntax */; };
 		995E0CE3254E1378001BA0F8 /* am2020bas.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995E0CE2254E1378001BA0F8 /* am2020bas.syntax */; };
 		995E76F022B2E5D300817B08 /* Chip8Elf.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995E76EF22B2E5D200817B08 /* Chip8Elf.syntax */; };
 		995ED6422BD439DB000FA9E5 /* statusbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 995ED6402BD439CF000FA9E5 /* statusbar.cpp */; };
@@ -480,6 +486,9 @@
 		995B7E9328FAA8F300BBF917 /* definition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = definition.h; path = src/definition.h; sourceTree = "<group>"; };
 		995D247A2D56A8C70007542C /* tu58.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tu58.h; path = src/tu58.h; sourceTree = "<group>"; };
 		995D247B2D56A8C70007542C /* tu58.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tu58.cpp; path = src/tu58.cpp; sourceTree = "<group>"; };
+		995D4F2B30287C860044AE23 /* MSI88_forth.syntax */ = {isa = PBXFileReference; lastKnownFileType = text; path = MSI88_forth.syntax; sourceTree = "<group>"; };
+		995D4F2C30287C860044AE23 /* PTC701_R1.7_forth.syntax */ = {isa = PBXFileReference; lastKnownFileType = text; path = PTC701_R1.7_forth.syntax; sourceTree = "<group>"; };
+		995D4F2D30287C860044AE23 /* PTC701_R2.0_forth.syntax */ = {isa = PBXFileReference; lastKnownFileType = text; path = PTC701_R2.0_forth.syntax; sourceTree = "<group>"; };
 		995E0CE2254E1378001BA0F8 /* am2020bas.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = am2020bas.syntax; sourceTree = "<group>"; };
 		995E76EF22B2E5D200817B08 /* Chip8Elf.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8Elf.syntax; sourceTree = "<group>"; };
 		995ED6402BD439CF000FA9E5 /* statusbar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = statusbar.cpp; path = src/statusbar.cpp; sourceTree = "<group>"; };
@@ -792,8 +801,11 @@
 				9997F7BC212494FA0036A1FC /* GPL-3.syntax */,
 				99F8CF02211A1567002F02C6 /* GPL-4.syntax */,
 				99F8CF00211A155E002F02C6 /* FEL-1.syntax */,
+				995D4F2B30287C860044AE23 /* MSI88_forth.syntax */,
 				99D37C34302474BA00A23BCD /* MSI88.syntax */,
+				995D4F2C30287C860044AE23 /* PTC701_R1.7_forth.syntax */,
 				99CD83DB2FFEEB69007F7746 /* PTC701_R1.7.syntax */,
+				995D4F2D30287C860044AE23 /* PTC701_R2.0_forth.syntax */,
 				99C75D36301913D1000F92FA /* PTC701_R2.0.syntax */,
 				996FCAE721430C240051F294 /* STK-1.syntax */,
 				9935652A21446B7000A329C6 /* STK-2.syntax */,
@@ -1293,6 +1305,9 @@
 				99C75D38301913D1000F92FA /* PTC701_R2.0.syntax in Resources */,
 				99B2ABB127863E1200C73EB9 /* functionkey_11.xrc in Resources */,
 				996C1615212F3F130061C30B /* pseudo.def in Resources */,
+				995D4F2E30287C860044AE23 /* PTC701_R1.7_forth.syntax in Resources */,
+				995D4F2F30287C860044AE23 /* MSI88_forth.syntax in Resources */,
+				995D4F3030287C860044AE23 /* PTC701_R2.0_forth.syntax in Resources */,
 				99575CBF278795EA00ED912A /* osx_11.ini in Resources */,
 				99B2ABA027863DE300C73EB9 /* datadir_14.xrc in Resources */,
 				99F374711CADBBC2000DA615 /* Quest_CC_Lic.jpg in Resources */,
@@ -1362,6 +1377,9 @@
 				99C75D37301913D1000F92FA /* PTC701_R2.0.syntax in Resources */,
 				99F37F1E285D1D9200C57417 /* functionkey_11.xrc in Resources */,
 				99F37F22285D1D9200C57417 /* pseudo.def in Resources */,
+				995D4F3130287C860044AE23 /* PTC701_R1.7_forth.syntax in Resources */,
+				995D4F3230287C860044AE23 /* MSI88_forth.syntax in Resources */,
+				995D4F3330287C860044AE23 /* PTC701_R2.0_forth.syntax in Resources */,
 				99F37F24285D1D9200C57417 /* osx_11.ini in Resources */,
 				99F37F29285D1D9200C57417 /* datadir_14.xrc in Resources */,
 				99F37F2A285D1D9200C57417 /* Quest_CC_Lic.jpg in Resources */,
