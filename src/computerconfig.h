@@ -644,6 +644,7 @@ public:
     EfFlag efInterrupt;
 
     bool threUnchangedAtControl;
+    bool busyPolarity;
     Byte qOutputBitMask;
     
     wxString zoom;
@@ -981,6 +982,7 @@ public:
     
     bool interrupt;
     bool threUnchangedAtControl;
+    bool busyPolarity;
     int picInterrupt;
     
     int baudR;

@@ -107,6 +107,8 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     uartEf_ = false;
     uartControl_ = 0;
     uartStatus_ = 0x10;
+    if (currentComputerConfiguration.videoTerminalConfiguration.busyPolarity)
+        uartStatus_[7] = 1;                 // THRE=1 (bit 7) -> idle-ready (firmware sees bit 7 = 0 = not busy)
 
     colourIndex_ = COL_VT_FORE;
     
@@ -3380,7 +3382,10 @@ Byte Vt100::uart16450In()
 Byte Vt100::uartStatus()
 {
     clearUartInterrupt();
-    return uartStatus_.to_ulong();
+    Byte status = uartStatus_.to_ulong();
+    if (currentComputerConfiguration.videoTerminalConfiguration.busyPolarity)
+        status ^= 0x80;         // present THRE inverted as a BUSY flag (1 = transmitting)
+    return status;
 }
 
 Byte Vt100::uartThreStatus()

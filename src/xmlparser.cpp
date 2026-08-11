@@ -6112,6 +6112,7 @@ void XmlParser::parseXml_Cdp1854(wxXmlNode &node, int connection)
     cdp1854.connection = connection;
     cdp1854.picInterrupt = 0;
     cdp1854.threUnchangedAtControl = true;
+    cdp1854.busyPolarity = false;
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -6128,7 +6129,11 @@ void XmlParser::parseXml_Cdp1854(wxXmlNode &node, int connection)
                 if (child->GetAttribute("type") == "register")
                     cdp1854.in = parseXml_IoPort(*child, UART1854_READ_RECEIVER_IN);
                 if (child->GetAttribute("type") == "status")
+                {
                     cdp1854.status = parseXml_IoPort(*child, UART1854_READ_STATUS_IN);
+                    if (child->GetAttribute("busy") == "rev")
+                        cdp1854.busyPolarity = true;
+                }
             break;
 
             case TAG_OUT:
@@ -7512,6 +7517,7 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
     computerConfiguration.videoTerminalConfiguration.uartStatus = init_IoPort();
     computerConfiguration.videoTerminalConfiguration.backSpaceCharacter = 8;
     computerConfiguration.videoTerminalConfiguration.threUnchangedAtControl = false;
+    computerConfiguration.videoTerminalConfiguration.busyPolarity = false;
     
     computerConfiguration.videoTerminalConfiguration.picInterrupt = 0;
 
@@ -7561,7 +7567,11 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
                 if (child->GetAttribute("type") == "register")
                     computerConfiguration.videoTerminalConfiguration.uartIn = parseXml_IoPort(*child);
                 if (child->GetAttribute("type") == "status")
+                {
                     computerConfiguration.videoTerminalConfiguration.uartStatus = parseXml_IoPort(*child);
+                    if (child->GetAttribute("busy") == "rev")
+                        computerConfiguration.videoTerminalConfiguration.busyPolarity = true;
+                }
             break;
 
             case TAG_OUT:
@@ -7971,6 +7981,7 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
     computerConfiguration.videoTerminalConfiguration.uartStatus = init_IoPort();
     computerConfiguration.videoTerminalConfiguration.backSpaceCharacter = 8;
     computerConfiguration.videoTerminalConfiguration.threUnchangedAtControl = false;
+    computerConfiguration.videoTerminalConfiguration.busyPolarity = false;
 #if defined(__ARM64__)
     computerConfiguration.videoTerminalConfiguration.externalBlockingWrite = true;
 #else
@@ -8035,7 +8046,11 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                     if (child->GetAttribute("type") == "register")
                         computerConfiguration.videoTerminalConfiguration.uartIn = parseXml_IoPort(*child);
                     if (child->GetAttribute("type") == "status")
+                    {
                         computerConfiguration.videoTerminalConfiguration.uartStatus = parseXml_IoPort(*child);
+                        if (child->GetAttribute("busy") == "rev")
+                            computerConfiguration.videoTerminalConfiguration.busyPolarity = true;
+                    }
                 }
             break;
 

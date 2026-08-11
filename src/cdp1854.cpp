@@ -185,7 +185,10 @@ void Cdp1854Instance::writeControlRegister(Byte value)
 Byte Cdp1854Instance::readStatusRegister()
 {
     clearInterrupt();
-    return statusRegister_.to_ulong();
+    Byte status = statusRegister_.to_ulong();
+    if (cdp1854Configuration_.busyPolarity)
+        status ^= 0x80;         // present THRE inverted as a BUSY flag (1 = transmitting)
+    return status;
 }
 
 void Cdp1854Instance::writeTransmitterHoldingRegister(Byte value)
