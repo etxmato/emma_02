@@ -369,9 +369,9 @@ SCAN
 stack code=E6
 /SCAN
 
-KEYWAIT
+IDLE
 stack code=EC
-/KEYWAIT
+/IDLE
 
 RSTOR
 force_ds force_rs code=3F
