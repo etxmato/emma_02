@@ -57,14 +57,11 @@ const=0323 stack code=D1
 const=0327 stack code=D2
 const=0333 stack code=D5
 const=0341 stack code=D6
-const=0345 stack code=D7
 const=0355 stack code=D8
 const=036B stack code=DA
 const=0371 stack code=DB
-const=0377 stack code=DC
 const=03B3 stack code=E4
 const=03B7 stack code=E5
-const=1E27 stack code=E9
 const=03C1 stack code=EA
 const=03CB stack code=EB
 const=05ED stack code=F0
@@ -216,6 +213,7 @@ OUT
 
 OUTM
 2 , TOS.0 stack code=E2
+2 , const=40 stack hide_trace code=E9
 /OUTM
 
 RET
@@ -294,6 +292,14 @@ MCPY
 DIV
 NOS , TOS.0 force_ds code=BC
 /DIV
+
+DIVR
+NOS , TOS.0 force_ds hide_trace code=D7
+/DIVR
+
+LDMSG
+TOS stack hide_trace code=DC
+/LDMSG
 
 ISGT
 NOS , TOS stack code=B7

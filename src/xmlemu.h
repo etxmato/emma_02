@@ -308,6 +308,8 @@ public:
     int getRunState() {return elfRunState_;};
     bool isComputerRunning();
     bool isFAndMBasicRunning();
+    void setCt2425ResetOnRun(bool status) {ct2425ResetOnRun_ = status;};
+    bool consumeCt2425ResetOnRun() {bool ct2425ResetOnRun = ct2425ResetOnRun_; ct2425ResetOnRun_ = false; return ct2425ResetOnRun;};
     wxString getRunningGame(){return runningGame_;};
 
     void terminalSave(wxString fileName, int protocol);
@@ -654,6 +656,7 @@ private:
     int addressLatchCounter_;
 
     bool fAndMBasicRunning_;
+    bool ct2425ResetOnRun_;
     
     Byte efKeyValue[5];
     Word chip8baseVar_;

@@ -413,8 +413,12 @@ void Ct2425::setControl(Byte value, int showTrace)
             gateStatus_[gate].state = GATE_INACTIVE;
             gateStatus_[gate].cycleValue_ = -1;
         }
-        p_Computer->resetCpu();
-        p_Computer->resetComputer();
+        p_Computer->setSteps(0);
+        p_Main->eventPauseState();
+        wxString printBuffer;
+        printBuffer.Printf("      Power break at %04X", p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()));
+        p_Main->debugTrace(printBuffer, true);
+        p_Computer->setCt2425ResetOnRun(true);
     }
     if ((value & 0x40) == 0)
     {

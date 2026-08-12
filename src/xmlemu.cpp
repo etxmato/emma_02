@@ -1406,6 +1406,7 @@ void Computer::resetComputer()
 {
     inPressed_ = false;
     amPressed_ = false;
+    ct2425ResetOnRun_ = false;
     cassetteEf_ = 0;
     oldCassetteEf_ = 1;
 

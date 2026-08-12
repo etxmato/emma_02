@@ -1573,9 +1573,9 @@ void DebugWindow::updateWindow()
 #endif
 }
 
-void DebugWindow::debugTrace(wxString buffer)
+void DebugWindow::debugTrace(wxString buffer, bool overRideDebugMode)
 {
-    if (!debugMode_)  return;
+    if (!debugMode_ && !overRideDebugMode)  return;
 //    if (buffer.Len() < 17)
   //      return;
 #if defined(__WXMAC__) || defined(__linux__)
@@ -5871,7 +5871,8 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
         buffer.Left(2)== "CS" ||
         buffer.Left(2)== "VA" || buffer.Left(2)== "VB" || buffer.Left(2)== "VC" || buffer.Left(2)== "VD" || buffer.Left(2)== "VE" ||
         buffer.Left(4)== "[VE]" ||
-        buffer.Left(2)== ">R" || buffer.Left(1)== "@"  || buffer.Left(1)== "!" || buffer.Left(2)== "C!" || buffer.Left(2)== "ON" || buffer.Left(2)== "OFF")
+        buffer.Left(2)== ">R" || buffer.Left(1)== "@"  || buffer.Left(1)== "!" || buffer.Left(2)== "C!" ||
+        buffer.Left(2)== "ON" || buffer.Left(3)== "OFF" || buffer.Left(4)== "SWAP")
     {
         *type = ASS_STRING;
         return 0;
@@ -6248,6 +6249,12 @@ void DebugWindow::onDegugStepButton(wxCommandEvent&WXUNUSED(event))
 
 void DebugWindow::onDebugRunButton(wxCommandEvent&WXUNUSED(event))
 {
+    if (p_Computer->consumeCt2425ResetOnRun())
+    {
+        p_Computer->resetCpu();
+        p_Computer->resetComputer();
+    }
+
     p_Computer->setSteps(-1);
     setPauseState();
 

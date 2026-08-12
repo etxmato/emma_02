@@ -57,14 +57,11 @@ const=0323 stack code=D1
 const=0327 stack code=D2
 const=0333 stack code=D5
 const=0341 stack code=D6
-const=0345 stack code=D7
 const=0355 stack code=D8
 const=036B stack code=DA
 const=0371 stack code=DB
-const=0377 stack code=DC
 const=03B3 stack code=E4
 const=03B7 stack code=E5
-const=1E27 stack code=E9
 const=03C1 stack code=EA
 const=03CB stack code=EB
 const=05ED stack code=F0
@@ -257,6 +254,7 @@ const=40 stack hide_trace code=E8
 
 OUTM2
 stack code=E2
+const=40 stack hide_trace code=E9
 /OUTM2
 
 EXIT
@@ -371,7 +369,12 @@ stack code=BA
 
 /MOD
 force_ds code=BC
+SWAP force_ds hide_trace code=D7
 //MOD
+
+LDMSG
+stack hide_trace code=DC
+/LDMSG
 
 >
 stack code=B7

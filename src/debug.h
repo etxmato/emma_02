@@ -213,7 +213,7 @@ public:
     void updateWindow(); 
     void resetDisplay();
     void assemblerDisplay(wxString buffer);
-    void debugTrace(wxString buffer);
+    void debugTrace(wxString buffer, bool overRideDebugMode = false);
     void chip8DebugTrace(wxString buffer);
     void setPauseState();
     void SetDebugMode();
