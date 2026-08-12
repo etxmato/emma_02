@@ -587,6 +587,7 @@ private:
     int getWordPar2(AssInput assInput, Byte* b2, Byte* b3, bool allowX);
     int getRegisterNumber(AssInput assInput, long* registerNumber, Byte* b4, bool allowX);
     int translateChipParameter(wxString buffer, long* registerNumber, int* type);
+    void assemble1802Line(wxString& debugIn, Byte& b1, Byte& b2, Byte& b3, Byte& b4, Byte& b5, Byte& b6, Byte& b7, int& count, Byte& typeOpcode, Byte& typeOperand1, Byte& typeOperand2, Byte& typeOperand3, Byte& typeOperand4, Byte& typeOperand5);
 
     Word chip8BreakPoints_[64];
     bool chip8BreakPointsSelected_[64];

@@ -185,27 +185,9 @@ void TilMan2815::drawSegments(Word segMask)
     dcMemory.SetBackground(wxBrush(wxColour(0, 0, 0)));
     dcMemory.Clear();
 
-    wxColour onColor(255, 35, 35);
-    wxColour offColor(40, 10, 10);
-
-    auto getBrush = [&](int bit) -> wxBrush {
-        return wxBrush((segMask & (1 << bit)) ? onColor : offColor);
-    };
-    auto getPen = [&](int bit) -> wxPen {
-        return wxPen((segMask & (1 << bit)) ? onColor : offColor);
-    };
-
-    auto drawRectSeg = [&](int bit, int x, int y, int w, int h) {
-        dcMemory.SetBrush(getBrush(bit));
-        dcMemory.SetPen(getPen(bit));
-        dcMemory.DrawRectangle(x, y, w, h);
-    };
-
-    auto drawQuadSeg = [&](int bit, wxPoint pts[4]) {
-        dcMemory.SetBrush(getBrush(bit));
-        dcMemory.SetPen(getPen(bit));
-        dcMemory.DrawPolygon(4, pts);
-    };
+    segMask_ = segMask;
+    onColor_ = wxColour(255, 35, 35);
+    offColor_ = wxColour(40, 10, 10);
 
     // MAN2815 14-segment + DP. On this machine G1 and G2 are driven from a SINGLE
     // combined middle bit (bit 7), and the whole character is mirror-imaged (the
@@ -250,6 +232,30 @@ void TilMan2815::drawSegments(Word segMask)
     // Bit 13: p -> lower-LEFT diag (mirrored)
     wxPoint pPts[4] = { wxPoint(12, 19), wxPoint(10, 19), wxPoint(7, 28), wxPoint(9, 28) };
     drawQuadSeg(13, pPts);
+}
+
+wxBrush TilMan2815::getBrush(int bit)
+{
+    return wxBrush((segMask_ & (1 << bit)) ? onColor_ : offColor_);
+}
+
+wxPen TilMan2815::getPen(int bit)
+{
+    return wxPen((segMask_ & (1 << bit)) ? onColor_ : offColor_);
+}
+
+void TilMan2815::drawRectSeg(int bit, int x, int y, int w, int h)
+{
+    dcMemory.SetBrush(getBrush(bit));
+    dcMemory.SetPen(getPen(bit));
+    dcMemory.DrawRectangle(x, y, w, h);
+}
+
+void TilMan2815::drawQuadSeg(int bit, wxPoint pts[4])
+{
+    dcMemory.SetBrush(getBrush(bit));
+    dcMemory.SetPen(getPen(bit));
+    dcMemory.DrawPolygon(4, pts);
 }
 
 void TilMan2815::update(wxDC& dc, Word NewNumber, int segNumber)

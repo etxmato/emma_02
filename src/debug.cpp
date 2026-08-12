@@ -7803,6 +7803,123 @@ void DebugWindow::drawAssCharacter(Word address, int line, int count)
 
 }
 
+void DebugWindow::assemble1802Line(wxString& debugIn, Byte& b1, Byte& b2, Byte& b3, Byte& b4, Byte& b5, Byte& b6, Byte& b7, int& count, Byte& typeOpcode, Byte& typeOperand1, Byte& typeOperand2, Byte& typeOperand3, Byte& typeOperand4, Byte& typeOperand5)
+{
+    typeOpcode = MEM_TYPE_OPCODE;
+    typeOperand1 = MEM_TYPE_OPERAND;
+    typeOperand2 = MEM_TYPE_OPERAND;
+    typeOperand3 = MEM_TYPE_OPERAND;
+    typeOperand4 = MEM_TYPE_OPERAND;
+    typeOperand5 = MEM_TYPE_OPERAND;
+    count = assemble(&debugIn, &b1, &b2, &b3, &b4, &b5, &b6, &b7, false);
+    if (count == 21)
+    {
+        count -= 19;
+        typeOpcode = MEM_TYPE_JUMP;
+        typeOperand1 = MEM_TYPE_DATA;
+    }
+    if (count == 22)
+    {
+        count -= 20;
+        typeOpcode = MEM_TYPE_JUMP_REV;
+        typeOperand1 = MEM_TYPE_DATA;
+    }
+    if (count >= MEM_TYPE_OPCODE_RSHR)
+    {
+        switch (count)
+        {
+            case MEM_TYPE_OPCODE_RSHR:
+                typeOpcode = MEM_TYPE_OPCODE_RSHR;
+                count = 1;
+            break;
+            case MEM_TYPE_OPCODE_RSHL:
+                typeOpcode = MEM_TYPE_OPCODE_RSHL;
+                count = 1;
+            break;
+            case MEM_TYPE_OPCODE_BPZ:
+                typeOpcode = MEM_TYPE_OPCODE_BPZ;
+                count = 2;
+            break;
+            case MEM_TYPE_OPCODE_BGE:
+                typeOpcode = MEM_TYPE_OPCODE_BGE;
+                count = 2;
+            break;
+            case MEM_TYPE_OPCODE_BM:
+                typeOpcode = MEM_TYPE_OPCODE_BM;
+                count = 2;
+            break;
+            case MEM_TYPE_OPCODE_BL:
+                typeOpcode = MEM_TYPE_OPCODE_BL;
+                count = 2;
+            break;
+            case MEM_TYPE_OPCODE_LSKP:
+                typeOpcode = MEM_TYPE_OPCODE_LSKP;
+                count = 1;
+            break;
+            case MEM_TYPE_OPCODE_SKP:
+                typeOpcode = MEM_TYPE_OPCODE_SKP;
+                count = 1;
+            break;
+            case MEM_TYPE_OPCODE_RLDL:
+                typeOpcode = MEM_TYPE_OPCODE_RLDL;
+                count = 4;
+            break;
+            case MEM_TYPE_OPCODE_JUMP_SLOT:
+                typeOpcode = MEM_TYPE_OPCODE_JUMP_SLOT;
+                typeOperand1 = b3;
+                count = 2;
+            break;
+            case MEM_TYPE_OPCODE_LBR_SLOT:
+                typeOpcode = MEM_TYPE_OPCODE_LBR_SLOT;
+                typeOperand1 = b2;
+                typeOperand2 = MEM_TYPE_OPCODE_LBR_SLOT;
+                b2 = b3;
+                b3 = b4;
+                count = 3;
+            break;
+            case MEM_TYPE_OPCODE_LDV:
+                typeOpcode = MEM_TYPE_OPCODE_LDV;
+                typeOperand2 = MEM_TYPE_OPERAND_LD_2;
+                typeOperand3 = MEM_TYPE_OPERAND_LD_3;
+                typeOperand5 = MEM_TYPE_OPERAND_LD_5;
+                count = 6;
+            break;
+            case MEM_TYPE_OPCODE_LDL:
+                typeOpcode = MEM_TYPE_OPCODE_LDL;
+                typeOperand2 = MEM_TYPE_OPERAND_LD_2;
+                typeOperand3 = MEM_TYPE_OPERAND_LD_3;
+                typeOperand5 = MEM_TYPE_OPERAND_LD_5;
+                count = 6;
+            break;
+            case MEM_TYPE_OPCODE_LDL_SLOT:
+                typeOpcode = MEM_TYPE_OPCODE_LDL_SLOT;
+                typeOperand1 = b4;
+                b4 = 0xf8;
+                typeOperand2 = MEM_TYPE_OPERAND_LD_2;
+                typeOperand3 = MEM_TYPE_OPERAND_LD_3;
+                typeOperand5 = MEM_TYPE_OPERAND_LD_5;
+                count = 6;
+            break;
+            case MEM_TYPE_OPCODE_LDRL:
+                typeOpcode = MEM_TYPE_OPCODE_LDRL;
+                typeOperand2 = MEM_TYPE_OPERAND_LDR_2;
+                typeOperand3 = MEM_TYPE_OPERAND_LDR_3;
+                typeOperand5 = MEM_TYPE_OPERAND_LDR_5;
+                count = 6;
+            break;
+            case MEM_TYPE_OPCODE_LDRL_SLOT:
+                typeOpcode = MEM_TYPE_OPCODE_LDRL_SLOT;
+                typeOperand1 = b4;
+                b4 = 0xf8;
+                typeOperand2 = MEM_TYPE_OPERAND_LDR_2;
+                typeOperand3 = MEM_TYPE_OPERAND_LDR_3;
+                typeOperand5 = MEM_TYPE_OPERAND_LDR_5;
+                count = 6;
+            break;
+       }
+    }
+}
+
 void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
@@ -7952,122 +8069,8 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
 
     // Assemble the line as an 1802 instruction and apply the special
     // return-value handling for multi-byte macros (LDL/LDRL/LDV), jumps, etc.
-    auto assemble1802 = [&]()
-    {
-        typeOpcode = MEM_TYPE_OPCODE;
-        typeOperand1 = MEM_TYPE_OPERAND;
-        typeOperand2 = MEM_TYPE_OPERAND;
-        typeOperand3 = MEM_TYPE_OPERAND;
-        typeOperand4 = MEM_TYPE_OPERAND;
-        typeOperand5 = MEM_TYPE_OPERAND;
-        count = assemble(&debugIn, &b1, &b2, &b3, &b4, &b5, &b6, &b7, false);
-        if (count == 21)
-        {
-            count -= 19;
-            typeOpcode = MEM_TYPE_JUMP;
-            typeOperand1 = MEM_TYPE_DATA;
-        }
-        if (count == 22)
-        {
-            count -= 20;
-            typeOpcode = MEM_TYPE_JUMP_REV;
-            typeOperand1 = MEM_TYPE_DATA;
-        }
-        if (count >= MEM_TYPE_OPCODE_RSHR)
-        {
-            switch (count)
-            {
-                case MEM_TYPE_OPCODE_RSHR:
-                    typeOpcode = MEM_TYPE_OPCODE_RSHR;
-                    count = 1;
-                break;
-                case MEM_TYPE_OPCODE_RSHL:
-                    typeOpcode = MEM_TYPE_OPCODE_RSHL;
-                    count = 1;
-                break;
-                case MEM_TYPE_OPCODE_BPZ:
-                    typeOpcode = MEM_TYPE_OPCODE_BPZ;
-                    count = 2;
-                break;
-                case MEM_TYPE_OPCODE_BGE:
-                    typeOpcode = MEM_TYPE_OPCODE_BGE;
-                    count = 2;
-                break;
-                case MEM_TYPE_OPCODE_BM:
-                    typeOpcode = MEM_TYPE_OPCODE_BM;
-                    count = 2;
-                break;
-                case MEM_TYPE_OPCODE_BL:
-                    typeOpcode = MEM_TYPE_OPCODE_BL;
-                    count = 2;
-                break;
-                case MEM_TYPE_OPCODE_LSKP:
-                    typeOpcode = MEM_TYPE_OPCODE_LSKP;
-                    count = 1;
-                break;
-                case MEM_TYPE_OPCODE_SKP:
-                    typeOpcode = MEM_TYPE_OPCODE_SKP;
-                    count = 1;
-                break;
-                case MEM_TYPE_OPCODE_RLDL:
-                    typeOpcode = MEM_TYPE_OPCODE_RLDL;
-                    count = 4;
-                break;
-                case MEM_TYPE_OPCODE_JUMP_SLOT:
-                    typeOpcode = MEM_TYPE_OPCODE_JUMP_SLOT;
-                    typeOperand1 = b3;
-                    count = 2;
-                break;
-                case MEM_TYPE_OPCODE_LBR_SLOT:
-                    typeOpcode = MEM_TYPE_OPCODE_LBR_SLOT;
-                    typeOperand1 = b2;
-                    typeOperand2 = MEM_TYPE_OPCODE_LBR_SLOT;
-                    b2 = b3;
-                    b3 = b4;
-                    count = 3;
-                break;
-                case MEM_TYPE_OPCODE_LDV:
-                    typeOpcode = MEM_TYPE_OPCODE_LDV;
-                    typeOperand2 = MEM_TYPE_OPERAND_LD_2;
-                    typeOperand3 = MEM_TYPE_OPERAND_LD_3;
-                    typeOperand5 = MEM_TYPE_OPERAND_LD_5;
-                    count = 6;
-                break;
-                case MEM_TYPE_OPCODE_LDL:
-                    typeOpcode = MEM_TYPE_OPCODE_LDL;
-                    typeOperand2 = MEM_TYPE_OPERAND_LD_2;
-                    typeOperand3 = MEM_TYPE_OPERAND_LD_3;
-                    typeOperand5 = MEM_TYPE_OPERAND_LD_5;
-                    count = 6;
-                break;
-                case MEM_TYPE_OPCODE_LDL_SLOT:
-                    typeOpcode = MEM_TYPE_OPCODE_LDL_SLOT;
-                    typeOperand1 = b4;
-                    b4 = 0xf8;
-                    typeOperand2 = MEM_TYPE_OPERAND_LD_2;
-                    typeOperand3 = MEM_TYPE_OPERAND_LD_3;
-                    typeOperand5 = MEM_TYPE_OPERAND_LD_5;
-                    count = 6;
-                break;
-                case MEM_TYPE_OPCODE_LDRL:
-                    typeOpcode = MEM_TYPE_OPCODE_LDRL;
-                    typeOperand2 = MEM_TYPE_OPERAND_LDR_2;
-                    typeOperand3 = MEM_TYPE_OPERAND_LDR_3;
-                    typeOperand5 = MEM_TYPE_OPERAND_LDR_5;
-                    count = 6;
-                break;
-                case MEM_TYPE_OPCODE_LDRL_SLOT:
-                    typeOpcode = MEM_TYPE_OPCODE_LDRL_SLOT;
-                    typeOperand1 = b4;
-                    b4 = 0xf8;
-                    typeOperand2 = MEM_TYPE_OPERAND_LDR_2;
-                    typeOperand3 = MEM_TYPE_OPERAND_LDR_3;
-                    typeOperand5 = MEM_TYPE_OPERAND_LDR_5;
-                    count = 6;
-                break;
-           }
-        }
-    };
+    // Performed by assemble1802Line() so the code also compiles as C++98
+    // (the former local lambda was a C++11 construct).
 
     if (pseudoPriority)
     {
@@ -8084,12 +8087,12 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
             typeOperand4 = MEM_TYPE_PSEUDO_2;
         }
         if (count <= 0 || count > 5)
-            assemble1802();
+            assemble1802Line(debugIn, b1, b2, b3, b4, b5, b6, b7, count, typeOpcode, typeOperand1, typeOperand2, typeOperand3, typeOperand4, typeOperand5);
     }
     else
     {
         // 1802 first (original behavior), pseudo as fallback.
-        assemble1802();
+        assemble1802Line(debugIn, b1, b2, b3, b4, b5, b6, b7, count, typeOpcode, typeOperand1, typeOperand2, typeOperand3, typeOperand4, typeOperand5);
 
         if (pseudoLoaded_ && (count == ASS_ERROR_INST || count == ASS_ERROR_TEMP_PAR || count == ASS_ERROR_TEMP_CPU_1801))
         {

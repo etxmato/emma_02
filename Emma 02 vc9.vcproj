@@ -458,6 +458,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ami_int_controller.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\audioin_windib.c"
 				>
 			</File>
@@ -587,6 +591,10 @@
 			</File>
 			<File
 				RelativePath=".\src\guixml.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\hd44780.cpp"
 				>
 			</File>
 			<File
@@ -886,6 +894,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ami_int_controller.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\audio_detect.h"
 				>
 			</File>
@@ -1023,6 +1035,18 @@
 			</File>
 			<File
 				RelativePath=".\src\guixml.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\hd44780.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\hd44780_config.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\hd44780_config.h"
 				>
 			</File>
 			<File

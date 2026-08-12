@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+
+    <system>
+        <name>PTC-701</name>
+        <config>PTC-701 R2.0 EM Terminal - Forth code</config>
+        <clock>2.4576</clock>
+        <boot>0</boot>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
+        <dirname>PTC</dirname>
+        <int>2000</int>
+    </system>
+
+    <memory>
+        <!-- System ROM: 16K at 0x0000-0x3FFF -->
+        <rom type="gui">
+            <start>0x0000</start>
+            <end>0x3F00</end>
+            <pulldown mask="ptc701*.bin">PTC</pulldown>
+            <filename verify="true">ptc701_r2.0.bin</filename>
+        </rom>
+        
+        <ram>
+            <start>0x3F00</start>
+            <end>0x3FFF</end>
+        </ram>
+        
+        <!-- Application ROM: 32K mapped at 0x4000-0x77FF (ME) -->
+        <ems type="ROM">
+            <out mask="0x3">0x3FA2</out>
+            <range>0x4000-0x77FF</range>
+            <dirname>PTC</dirname>
+            <filename>ptc734C.bin</filename>
+        </ems>
+        
+        <!-- RAM: 8K at 0x7800-0x7FFF -->
+        <nvram type="gui">
+            <start>0x7800</start>
+            <end>0x7FFF</end>
+            <dump>ramdump-ptc701_em.bin</dump>
+        </nvram>
+        
+        <!-- Expansion RAM: Daughter card (4 slots x 8K, bank-switched via AMI 9217MLB)
+             Memory-mapped registers at 0x3FC0-0x3FC3 each control one 8K slot.
+             Firmware writes counter*4+0/1/2/3 to the 4 registers.
+             Slot numbers 4-7 = address >> 13 for 0x8000-0xFFFF range.
+             mask="7" on <out> = 3-bit page value, wraps at 8 pages (8 x 8K = 64K daughter card). -->
+        <mapper mask="0x1FFF" type="nvram">
+            <start>0x8000</start>
+            <end>0xFFFF</end>
+            <out slot="4" mask="7">0x3FC0</out>
+            <out slot="5" mask="7">0x3FC1</out>
+            <out slot="6" mask="7">0x3FC2</out>
+            <out slot="7" mask="7">0x3FC3</out>
+            <dump>daughter_ramdump-ptc701_em.bin</dump>
+        </mapper>
+        
+    </memory>
+
+    <video type="hd44780">
+        <!-- HD44780-compatible 2x16 character LCD display
+        Interface via AMI 9217MLB custom gate array (memory-mapped I/O):
+        - 0x3F80: command register (RS=0) — HD44780 instruction writes
+        - 0x3F81: data register (RS=1) — character data writes
+        - 0x3FA0: status register — bit 0 = busy flag
+
+        Character ROM: hd44780u_a00.bin (4096 bytes, standard HD44780 CGROM)
+        Must be obtained from MAME romset or generated from datasheet.
+        -->
+
+        <font>hd44780u_a00.bin</font>
+        <dirname>PTC</dirname>
+        <out type="command">0x3F4F, 0x3F80</out>
+        <out type="data">0x3F50</out>
+        <in type="status">0x3FA0</in>
+        <ef>1</ef>
+        <screen>16x2</screen>
+        <char>5x8</char>
+        <zoom>4.00</zoom>
+        <border>4x4</border>
+        <color type="fore">0, 0, 0</color>
+        <color type="back">0x9E, 0xB5, 0x5B</color>
+    </video>
+
+    <keyboard type="matrix">
+        <!-- PTC-701 keyboard: 35 keys, scanned by AMI 9217MLB gate array
+        Memory-mapped keyboard scan buffer at 0x3F20-0x3F25 (6 columns, 8 bits each)
+        Bit = 1: key pressed (active high)
+        addressmask 0x07: matches 0x3F20-0x3F27, indexes keyValue_[0..5]
+
+        CORRECTED 2026-07-06: Derived from firmware scan logic at 0x18AC-0x18D0
+        with empirical +1 column shift (verified by testing digits).
+        The scan uses row-major matrix with reversed column indexing.
+        Effective formula: rev_col = 6 - emu_col (empirically confirmed).
+
+        All PC keycodes are lowercase (no shift required for testing).
+        -->
+
+        <in addressmask="0x07">0x3F20</in>
+        <int>1</int>
+
+        <!-- Column 0 (0x3F20): -->
+        <keydef address="0" bit="7">65</keydef>     <!-- TEMP, PC: A -->
+        <keydef address="0" bit="6">66</keydef>     <!-- TEMP, PC: B -->
+        <keydef address="0" bit="5">67</keydef>     <!-- TEMP, PC: C -->
+        <keydef type="text" address="0" bit="4">esc</keydef>    <!-- CLEAR -->
+        <keydef type="text" address="0" bit="3">back</keydef>   <!-- BACK -->
+        <keydef type="enter" address="0" bit="2">enter</keydef> <!-- ENTER -->
+        <keydef type="text" address="0" bit="1">right</keydef>  <!-- → RIGHT arrow -->
+        <keydef address="0" bit="0">68</keydef>                 <!-- TEMP, PC: D -->
+
+        <!-- Column 1 (0x3F21): -->
+        <keydef address="1" bit="7">99</keydef>     <!-- C (INVENT) → PC: c -->
+        <keydef address="1" bit="6">104</keydef>    <!-- H (EXIT) → PC: h -->
+        <keydef address="1" bit="5">110</keydef>    <!-- N (NO) → PC: n -->
+        <keydef address="1" bit="4">32</keydef>     <!-- SPACE → PC: space -->
+        <keydef address="1" bit="3">57</keydef>     <!-- 9 → PC: 9 -->
+        <keydef address="1" bit="2">54</keydef>     <!-- 6 → PC: 6 -->
+        <keydef address="1" bit="1">51</keydef>     <!-- 3 → PC: 3 -->
+        <keydef address="1" bit="0">69</keydef>     <!-- TEMP, PC: E -->
+
+        <!-- Column 2 (0x3F22): -->
+        <keydef address="2" bit="7">98</keydef>     <!-- B (SET UP) → PC: b -->
+        <keydef address="2" bit="6">102</keydef>    <!-- F (SEND) → PC: f -->
+        <keydef address="2" bit="5">109</keydef>    <!-- M (MODIFY) → PC: m -->
+        <keydef address="2" bit="4">113</keydef>    <!-- SHIFT → PC: q -->
+        <keydef address="2" bit="3">56</keydef>     <!-- 8 → PC: 8 -->
+        <keydef address="2" bit="2">53</keydef>     <!-- 5 → PC: 5 -->
+        <keydef address="2" bit="1">50</keydef>     <!-- 2 → PC: 2 -->
+        <keydef address="2" bit="0">48</keydef>     <!-- 0 → PC: 0 -->
+
+        <!-- Column 3 (0x3F23): -->
+        <keydef address="3" bit="7">97</keydef>                 <!-- A (UPDATE) → PC: a -->
+        <keydef address="3" bit="6">101</keydef>                <!-- E (EDIT) → PC: e -->
+        <keydef address="3" bit="5">108</keydef>                <!-- L (DELETE) → PC: l -->
+        <keydef address="3" bit="4">79</keydef>                 <!-- TEMP, PC: O -->
+        <keydef address="3" bit="3">55</keydef>                 <!-- 7 → PC: 7 -->
+        <keydef address="3" bit="2">52</keydef>                 <!-- 4 → PC: 4 -->
+        <keydef address="3" bit="1">49</keydef>                 <!-- 1 → PC: 1 -->
+        <keydef type="text" address="3" bit="0">left</keydef>   <!-- ← LEFT arrow -->
+
+        <!-- Column 4 (0x3F24): -->
+        <keydef address="4" bit="7">105</keydef>    <!-- I (SEARCH) → PC: i -->
+        <keydef address="4" bit="6">100</keydef>    <!-- D (REVIEW) → PC: d -->
+        <keydef address="4" bit="5">107</keydef>    <!-- K (BCKSP) → PC: k -->
+        <keydef address="4" bit="4">112</keydef>    <!-- P (YES) → PC: p -->
+        <keydef address="4" bit="3">70</keydef>     <!-- TEMP, PC: F -->
+        <keydef address="4" bit="2">71</keydef>     <!-- TEMP, PC: G -->
+        <keydef address="4" bit="1">72</keydef>     <!-- TEMP, PC: H -->
+        <keydef address="4" bit="0">73</keydef>     <!-- TEMP, PC: I -->
+        
+        <!-- Column 5 (0x3F25): -->
+        <keydef address="5" bit="7">74</keydef>     <!-- TEMP, PC: J -->
+        <keydef address="5" bit="6">103</keydef>    <!-- G (ADD ON) → PC: g -->
+        <keydef address="5" bit="5">106</keydef>    <!-- J (INSERT) → PC: j -->
+        <keydef address="5" bit="4">111</keydef>    <!-- O (LOOK UP) → PC: o -->
+        <keydef address="5" bit="3">75</keydef>     <!-- TEMP, PC: K -->
+        <keydef address="5" bit="2">76</keydef>     <!-- TEMP, PC: L -->
+        <keydef address="5" bit="1">77</keydef>     <!-- TEMP, PC: M -->
+        <keydef address="5" bit="0">78</keydef>     <!-- TEMP, PC: N -->
+
+    </keyboard>
+
+ <!--   <vt type="loop_back" connection="serial">-->
+        <!-- Bit-banged RS-232 serial communication
+        TX: Q line (SEQ = mark/1, REQ = space/0)
+        RX: EF4 (B4/BN4 for bit sampling)
+        Handshake: EF2 for CTS/DSR
+
+        Baud rate determined by firmware timing loops.
+        Common rates for POS terminals: 1200, 2400, 4800 baud
+        -->
+
+   <!--     <font>vt100.bin</font>
+        <q pol="rev"></q>
+        <ef pol="rev">4</ef>
+        <baud type="receive">1200</baud>
+        <baud type="transmit">1200</baud>
+    </vt>-->
+
+    <ami_int_controller>
+        <!-- AMI 9217MLB interrupt controller emulation
+             Cause/ACK register at 0x3F81:
+               Read  = cause byte (source * multiplier)
+               Write = ACK (bit mask clears source)
+             
+             Sources (priority low to high):
+               0: Timer      cause=0x00, ACK=0x01
+               1: Keyboard   cause=0x04, ACK=0x02
+               2: Unknown    cause=0x08, ACK=0x04
+               3: Serial/EF  cause=0x0C, ACK=0x08
+               4: Serial RX  cause=0x10, ACK=0x10
+             
+             Source numbers are assigned via <int> tags in each peripheral:
+               <int>0</int> in <system> = timer (picNumber 0)
+               <int>1</int> in <keyboard> = keyboard (picNumber 1)
+        -->
+        <register addressmask="0xFFFF">0x3F81</register>
+        <cause_multiplier>4</cause_multiplier>
+        <sources>6</sources>
+    </ami_int_controller>
+
+    <rtc type="mm58174">
+        <!-- MM58174AN Real-Time Clock (National Semiconductor)
+             Memory-mapped at 0x3F00-0x3F0F via AMI 9217MLB gate array decode.
+             16 nibble registers (4-bit bus, only low nibble significant).
+             Firmware stops clock (reg E=0), writes time, then starts (reg E=1).
+             Read handler exists in system ROM but is never called by McDonald's app.
+        -->
+        <base>0x3F00</base>
+    </rtc>
+
+    <debugger>
+        <scrt mode="on">
+            <!-- Standard SCRT: R4=call, R5=return
+            Based on ROM analysis, R2 is used for SEP-based subroutines,
+            but standard SCRT also appears in the code -->
+            <call reg="4">0x04E2</call>
+            <return reg="5">0x04E4</return>
+        </scrt>
+
+        <assembler>
+            <filename>ptc701</filename>
+            <code_start>0x0000</code_start>
+            <code_end>0x3F00</code_end>
+        </assembler>
+
+        <pseudo>forth</pseudo>
+        
+        <!-- Force counter addresses to return 0 (no hardware counter present in emulation) -->
+        <!--<read_value value="0x00">0x780A, 0x780B</read_value> -->
+    </debugger>
+
+</emmaconfig>

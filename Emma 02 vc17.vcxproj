@@ -459,6 +459,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\about.cpp" />
+    <ClCompile Include="src\ami_int_controller.cpp" />
     <ClCompile Include="src\audioin_windib.c" />
     <ClCompile Include="src\ay-3-8912.cpp" />
     <ClCompile Include="src\Blip_Buffer.cpp" />
@@ -567,6 +568,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\about.h" />
+    <ClInclude Include="src\ami_int_controller.h" />
     <ClInclude Include="src\audio_detect.h" />
     <ClInclude Include="src\ay-3-8912.h" />
     <ClInclude Include="src\Blip_Buffer.h" />

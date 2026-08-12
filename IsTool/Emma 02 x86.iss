@@ -178,6 +178,7 @@ Source: ..\data\NetronicsElfII\*.*; DestDir: {app}\data\NetronicsElfII; Componen
 Source: ..\data\Payphone\*.*; DestDir: {app}\data\Payphone; Components: MAIN
 Source: ..\data\Pecom\*.*; DestDir: {app}\data\Pecom; Components: MAIN
 Source: ..\data\Pico\*.*; DestDir: {app}\data\Pico; Components: MAIN
+Source: ..\data\PTC\*.*; DestDir: {app}\data\PTC; Components: MAIN
 Source: ..\data\SBC1802\*.*; DestDir: {app}\data\SBC1802; Components: MAIN
 Source: ..\data\St2\Conic_StudioIII-Cartridges\*.*; DestDir: {app}\data\St2\Conic_StudioIII-Cartridges; Components: MAIN
 Source: ..\data\St2\Conic_StudioIII-Homebrew\*.*; DestDir: {app}\data\St2\Conic_StudioIII-Homebrew; Components: MAIN
@@ -239,6 +240,7 @@ Source: ..\data\Xml\Payphone\*.*; DestDir: {app}\data\Xml\Payphone; Components: 
 Source: ..\data\Xml\Pecom32\*.*; DestDir: {app}\data\Xml\Pecom32; Components: MAIN
 Source: ..\data\Xml\Pecom64\*.*; DestDir: {app}\data\Xml\Pecom64; Components: MAIN
 Source: ..\data\Xml\PicoElfV2\*.*; DestDir: {app}\data\Xml\PicoElfV2; Components: MAIN
+Source: ..\data\Xml\PTC\*.*; DestDir: {app}\data\Xml\PTC; Components: MAIN
 Source: ..\data\Xml\QuestSuperElf\*.*; DestDir: {app}\data\Xml\QuestSuperElf; Components: MAIN
 Source: ..\data\Xml\Studio2020\*.*; DestDir: {app}\data\Xml\Studio2020; Components: MAIN
 Source: ..\data\Xml\SBC1802\*.*; DestDir: {app}\data\Xml\SBC1802; Components: MAIN

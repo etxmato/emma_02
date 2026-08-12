@@ -1027,7 +1027,15 @@ public:
 class AmiIntControllerConfiguration
 {
 public:
-    bool defined = false;
+    AmiIntControllerConfiguration() :
+        defined(false),
+        causeRegister(0),
+        causeRegisterMask(0xFFFF),
+        causeMultiplier(4),
+        numberOfSources(6)
+    {}
+    
+    bool defined;
     
     Word causeRegister;         // Address for read (cause) and write (ACK)
     Word causeRegisterMask;     // Address mask for register matching

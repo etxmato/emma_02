@@ -6720,11 +6720,12 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
     if (currentComputerConfiguration.memoryMapperConfiguration.defined && pagerDefined_ &&
         !currentComputerConfiguration.memoryMapperConfiguration.addressOutputs.empty())
     {
-        for (const auto& addrOut : currentComputerConfiguration.memoryMapperConfiguration.addressOutputs)
+        for (std::vector<AddressOutput>::iterator addrOut = currentComputerConfiguration.memoryMapperConfiguration.addressOutputs.begin ();
+             addrOut != currentComputerConfiguration.memoryMapperConfiguration.addressOutputs.end (); ++addrOut)
         {
-            if (address == addrOut.address)
+            if (address == addrOut->address)
             {
-                setPager(addrOut.slot, value & addrOut.mask);
+                setPager(addrOut->slot, value & addrOut->mask);
             }
         }
     }

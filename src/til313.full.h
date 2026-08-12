@@ -16,9 +16,9 @@ public:
     Tilfull(int type);
     virtual ~Tilfull();
 
-    void init(wxDC& dc, int x, int p) override;
-    void onPaint(wxDC& dc) override;
-    void update(wxDC& dc, Word NewNumber, int segNumber) override;
+    void init(wxDC& dc, int x, int p);
+    void onPaint(wxDC& dc);
+    void update(wxDC& dc, Word NewNumber, int segNumber);
 
 private:
     Word displayedNumber_;
@@ -38,12 +38,21 @@ public:
     TilMan2815();
     virtual ~TilMan2815();
 
-    void init(wxDC& dc, int x, int p) override;
-    void onPaint(wxDC& dc) override;
-    void update(wxDC& dc, Word NewNumber, int segNumber) override;
+    void init(wxDC& dc, int x, int p);
+    void onPaint(wxDC& dc);
+    void update(wxDC& dc, Word NewNumber, int segNumber);
 
 private:
     void drawSegments(Word segMask);
+
+    wxBrush getBrush(int bit);
+    wxPen getPen(int bit);
+    void drawRectSeg(int bit, int x, int y, int w, int h);
+    void drawQuadSeg(int bit, wxPoint pts[4]);
+
+    Word segMask_;
+    wxColour onColor_;
+    wxColour offColor_;
 
     Word displayedNumber_;
     int x_;
