@@ -215,7 +215,7 @@
     </video>
     
     <sound type="cdp1863">
-        <out>5</out>
+        <out>4</out>
         <out type="switch">3</out>
         <out type="switch">6</out>
     </sound>

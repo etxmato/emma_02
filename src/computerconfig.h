@@ -709,6 +709,7 @@ public:
     IoPort toneSwitch2;
     
     int toneFactor;
+    bool toneReversed;
 };
 
 class AY_3_8912Configuration : public IoGroupDefineConfiguration

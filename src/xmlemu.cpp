@@ -3205,6 +3205,9 @@ void Computer::outConfiguration(OutputConfiguration outConfiguration, Byte port,
 
 void Computer::setCdp1863ColorToneLatch(Byte value)
 {
+    if (currentComputerConfiguration.cdp1863Configuration.toneReversed)
+        value = value ^ 0xff;
+ 
     if (value == 0)  value = 128;
 
     setTonePeriod(0, currentComputerConfiguration.cdp1863Configuration.toneFactor *(value + 1), false);

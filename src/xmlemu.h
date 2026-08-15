@@ -682,7 +682,7 @@ private:
     int secondLastReadAddress_;
     int lastReadAddress_;
     int lastWriteAddress_;
-
+    
     DECLARE_EVENT_TABLE()
 };
 
