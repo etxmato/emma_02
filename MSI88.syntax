@@ -3,7 +3,6 @@ const=0675 stack code=00
 const=03DB stack code=01
 const=067D stack code=02
 const=0683 stack code=03
-const=0753 stack code=0C
 const=07CF stack code=16
 const=07D5 stack code=17
 const=07DB stack code=18
@@ -50,16 +49,8 @@ const=12C5 stack code=78
 const=1C65 stack code=79
 const=1339 stack code=7A
 const=136B stack code=7B
-const=0317 stack code=CE
-const=031B stack code=CF
-const=031F stack code=D0
-const=0323 stack code=D1
-const=0327 stack code=D2
 const=0333 stack code=D5
 const=0341 stack code=D6
-const=0355 stack code=D8
-const=036B stack code=DA
-const=0371 stack code=DB
 const=03B3 stack code=E4
 const=03B7 stack code=E5
 const=03C1 stack code=EA
@@ -120,7 +111,10 @@ const=8107 stack hide_trace code=C2
 const=8108 stack hide_trace code=C3
 const=8109 stack hide_trace code=C4
 const=810A stack hide_trace code=C5
+mem=810A-810A stack hide_trace code=CE
 const=810B stack hide_trace code=4E
+810B + mem=810A-810A stack hide_trace code=CF
+mem=8107-8107 stack hide_trace code=D2
 const=812D stack hide_trace code=CC
 const=812F stack hide_trace code=CD
 const=8131 stack hide_trace code=0E
@@ -252,11 +246,25 @@ LD
 TOS , [TOS] force_ds code=AB
 [TOS] , NOS det_mtos16 stack code=AD
 TOS.0 , [TOS] force_ds code=AC
+TOS.0 , 810B+[810A] stack hide_trace code=D0
+810B+[810A] , NOS.0 det stack hide_trace code=D1
 [TOS] , NOS.0 det_mtos8 stack code=AE
 [TOS] , const=1 det_mtos8 stack code=DE
 [TOS] , const=0001 det_mtos16 stack code=E0
 [TOS] , const=0 det_mtos8 stack code=DD
 /LD
+
+MOD
+NOS , TOS.0 force_ds stack hide_trace code=D8
+/MOD
+
+SVM
+stack hide_trace code=DA
+/SVM
+
+LDM
+stack hide_trace code=DB
+/LDM
 
 HASH
 TOS stack code=07
@@ -314,6 +322,10 @@ DISPA
 TOS stack code=9D
 TOS , NOS.0 stack code=9C
 /DISPA
+
+LDVAL
+TOS stack hide_trace code=0C
+/LDVAL
 
 TIN
 TOS stack code=0D

@@ -190,13 +190,27 @@ void TilMan2815::drawSegments(Word segMask)
     offColor_ = wxColour(40, 10, 10);
 
     // MAN2815 14-segment + DP. On this machine G1 and G2 are driven from a SINGLE
-    // combined middle bit (bit 7), and the whole character is mirror-imaged (the
+    // combined middle bit (bit 1), and the whole character is mirror-imaged (the
     // firmware's font is horizontally mirrored), so the geometry below swaps the
     // left/right verticals & diagonals so letters render the correct way round.
+    //
+    // NOTE: the segment-bit assignment below is matched to the MSI-88 ROM font
+    // (table at 0x04AC). Verified against the font patterns the firmware emits:
+    //   - bit 7 = A (top bar), bit 1 = G (middle bar)   [previously swapped, which
+    //     made 'H' (6E 80) render as 'n' and 'O' (FC 00) lose its top bar]
+    //   - bit 13 = k (upper-center vert), bit 10 = p (lower-left diag) [swapped:
+    //     'T' (80 60) = A + k + m, 'I' (90 60) = A + D + k + m]
+    //   - bit 8 = m (lower-center vert), bit 11 = h (upper-right diag) [swapped:
+    //     'M' (6C 18) = B,C,E,F,h,n; 'X' (00 1E) = h,j,n,p; 'Y' (00 38) = h,n,k]
+    //   - bit 13 = m (lower-center vert), bit 8/14 = k (upper-center vert) [swapped]
+    //     with the second 'k' encoding on high-byte bit 6 for 'D'/'T'/'I'/'B' stem.
+    //   - bit 15 = G (middle bar), font high-byte bit 7 - distinguishes 'B' (F0 E0)
+    //     from 'D' (F0 60); also set redundantly on A,H,P,R,S,2-9 which already
+    //     carry G on bit 1.
     // Bit 0: dp (Decimal Point) - lower left after mirror
     drawRectSeg(0, 2, 29, 3, 3);
-    // Bit 1: A (Top)
-    drawRectSeg(1, 7, 3, 13, 2);
+    // Bit 1: G (Middle) - single combined bar (G1 & G2 driven together)
+    drawRectSeg(1, 7, 16, 13, 2);
     // Bit 2: B -> drawn upper-LEFT (mirrored)
     drawRectSeg(2, 5, 5, 2, 10);
     // Bit 3: C -> drawn lower-LEFT (mirrored)
@@ -207,31 +221,41 @@ void TilMan2815::drawSegments(Word segMask)
     drawRectSeg(5, 20, 19, 2, 10);
     // Bit 6: F -> drawn upper-RIGHT (mirrored)
     drawRectSeg(6, 20, 5, 2, 10);
-    // Bit 7: G (Middle) - single combined bar (G1 & G2 driven together)
-    drawRectSeg(7, 7, 16, 13, 2);
+    // Bit 7: A (Top)
+    drawRectSeg(7, 7, 3, 13, 2);
 
     // High byte 14-segment additions (mirrored left/right):
-    // Bit 8: h -> upper-RIGHT diag (mirrored)
-    wxPoint hPts[4] = { wxPoint(20, 5), wxPoint(18, 5), wxPoint(15, 14), wxPoint(17, 14) };
-    drawQuadSeg(8, hPts);
+    // Bit 8: k (Upper Center Vert)   (k/m swapped vs font)
+    drawRectSeg(8, 13, 5, 1, 10);
 
     // Bit 9: j -> lower-RIGHT diag (mirrored)
     wxPoint jPts[4] = { wxPoint(17, 19), wxPoint(15, 19), wxPoint(18, 28), wxPoint(20, 28) };
     drawQuadSeg(9, jPts);
 
-    // Bit 10: k (Upper Center Vert)
-    drawRectSeg(10, 13, 5, 1, 10);
+    // Bit 10: p -> lower-LEFT diag (mirrored)   (k/p swapped vs font)
+    wxPoint pPts[4] = { wxPoint(12, 19), wxPoint(10, 19), wxPoint(7, 28), wxPoint(9, 28) };
+    drawQuadSeg(10, pPts);
 
-    // Bit 11: m (Lower Center Vert)
-    drawRectSeg(11, 13, 19, 1, 10);
+    // Bit 11: h -> upper-RIGHT diag (mirrored)   (m/h swapped vs font)
+    wxPoint hPts[4] = { wxPoint(20, 5), wxPoint(18, 5), wxPoint(15, 14), wxPoint(17, 14) };
+    drawQuadSeg(11, hPts);
 
     // Bit 12: n -> upper-LEFT diag (mirrored)
     wxPoint nPts[4] = { wxPoint(9, 5), wxPoint(7, 5), wxPoint(10, 14), wxPoint(12, 14) };
     drawQuadSeg(12, nPts);
 
-    // Bit 13: p -> lower-LEFT diag (mirrored)
-    wxPoint pPts[4] = { wxPoint(12, 19), wxPoint(10, 19), wxPoint(7, 28), wxPoint(9, 28) };
-    drawQuadSeg(13, pPts);
+    // Bit 13: m (Lower Center Vert)   (k/m swapped vs font)
+    drawRectSeg(13, 13, 19, 1, 10);
+
+    // Bit 14: k (Upper Center Vert) - second font encoding of the upper-center
+    // vertical (font high-byte bit 6 -> combined bit 14). Completes the center
+    // stem of 'D' (F0 60), 'T' (80 60), 'I' (90 60), 'B' (F0 E0).
+    drawRectSeg(14, 13, 5, 1, 10);
+
+    // Bit 15: G (Middle) - the font also encodes the middle bar on high-byte bit 7
+    // (= combined bit 15). This is the distinguishing segment between 'B' (F0 E0,
+    // has G) and 'D' (F0 60, no G) - B and D otherwise share the same bytes.
+    drawRectSeg(15, 7, 16, 13, 2);
 }
 
 wxBrush TilMan2815::getBrush(int bit)
@@ -260,9 +284,19 @@ void TilMan2815::drawQuadSeg(int bit, wxPoint pts[4])
 
 void TilMan2815::update(wxDC& dc, Word NewNumber, int segNumber)
 {
-    // Raw 14-segment + DP pattern (bits 0-13). Do NOT pass through getTilHexFont,
+    // Raw 14-segment + DP pattern (bits 0-15). Do NOT pass through getTilHexFont,
     // which truncates to a Byte and would discard the diagonal/center segments (8+).
-    NewNumber &= 0x3FFF;
+    // Bits 14/15 are kept: the MSI-88 font stores the upper-center 'k' on high-byte
+    // bit 6 (= combined bit 14) and the middle bar 'G' on high-byte bit 7
+    // (= combined bit 15 - the distinguishing segment between 'B' (F0E0) and 'D' (F060)).
+    NewNumber &= 0xFFFF;
+
+    // The MSI-88 font encodes the middle bar (G) on BOTH font-byte-0 bit 1
+    // (= combined bit 1) and font-high-byte bit 7 (= combined bit 15). Normalize
+    // bit 1 -> bit 15 so the middle bar always renders: characters E (9E 00),
+    // F (8E 00) and K (0E 0A) carry G ONLY on bit 1.
+    if (NewNumber & 0x0002)
+        NewNumber |= 0x8000;
     if (displayedNumber_ == NewNumber)  return;
 
     displayedNumber_ = NewNumber;

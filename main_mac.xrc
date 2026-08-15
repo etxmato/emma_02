@@ -22745,7 +22745,7 @@
                                                                                                     <size>-1</size>
                                                                                                     <family>roman</family>
                                                                                                 </font>
-                                                                                                <label>P</label>
+                                                                                                <label>Address</label>
                                                                                             </object>
                                                                                         </object>
                                                                                         <object class="sizeritem">
@@ -22757,7 +22757,7 @@
                                                                                                     <size>-1</size>
                                                                                                     <family>roman</family>
                                                                                                 </font>
-                                                                                                <label>Q</label>
+                                                                                                <label></label>
                                                                                             </object>
                                                                                         </object>
                                                                                         <object class="sizeritem">
@@ -22814,13 +22814,71 @@
                                                                                                     <size>-1</size>
                                                                                                     <family>roman</family>
                                                                                                 </font>
-                                                                                                <label>-</label>
+                                                                                                <label></label>
                                                                                             </object>
                                                                                         </object>
                                                                                         <object class="sizeritem">
                                                                                             <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                             <border>0</border>
                                                                                             <object class="wxTextCtrl" name="Hd44780Command" subclass="HexEdit">
+                                                                                                <size>20,14</size>
+                                                                                                <font>
+                                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                    <size>-1</size>
+                                                                                                    <family>roman</family>
+                                                                                                </font>
+                                                                                                <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                                <maxlength>2</maxlength>
+                                                                                            </object>
+                                                                                        </object>
+                                                                                        <object class="sizeritem">
+                                                                                            <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                            <border>0</border>
+                                                                                            <object class="wxCheckBox" name="Hd44780DataTrace">
+                                                                                                <label>Data</label>
+                                                                                                <checked>1</checked>
+                                                                                            </object>
+                                                                                        </object>
+                                                                                        <object class="sizeritem">
+                                                                                            <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+                                                                                            <border>4</border>
+                                                                                            <object class="wxStaticText" name="Hd44780DataDirection">
+                                                                                                <font>
+                                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                    <size>-1</size>
+                                                                                                    <family>roman</family>
+                                                                                                </font>
+                                                                                                <label>O</label>
+                                                                                            </object>
+                                                                                        </object>
+                                                                                        <object class="sizeritem">
+                                                                                            <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+                                                                                            <border>4</border>
+                                                                                            <object class="wxStaticText" name="Hd44780DataPort">
+                                                                                                <font>
+                                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                    <size>-1</size>
+                                                                                                    <family>roman</family>
+                                                                                                </font>
+                                                                                                <label>-</label>
+                                                                                            </object>
+                                                                                        </object>
+                                                                                        <object class="sizeritem">
+                                                                                            <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+                                                                                            <border>4</border>
+                                                                                            <object class="wxStaticText" name="Hd44780DataQ">
+                                                                                                <font>
+                                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                    <size>-1</size>
+                                                                                                    <family>roman</family>
+                                                                                                </font>
+                                                                                                <label></label>
+                                                                                            </object>
+                                                                                        </object>
+                                                                                        <object class="sizeritem">
+                                                                                            <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                            <border>0</border>
+                                                                                            <object class="wxTextCtrl" name="Hd44780Data" subclass="HexEdit">
                                                                                                 <size>20,14</size>
                                                                                                 <font>
                                                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -22884,7 +22942,7 @@
                                                                                         <object class="spacer">
                                                                                             <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                             <border>0</border>
-                                                                                            <size>180,1</size>
+                                                                                            <size>140,1</size>
                                                                                         </object>
                                                                                     </object>
                                                                                 </object>
@@ -22937,7 +22995,7 @@
                                                                                                     <size>-1</size>
                                                                                                     <family>roman</family>
                                                                                                 </font>
-                                                                                                <label></label>
+                                                                                                <label>Address</label>
                                                                                             </object>
                                                                                         </object>
                                                                                         <object class="sizeritem">
@@ -22963,6 +23021,122 @@
                                                                                                     <family>roman</family>
                                                                                                 </font>
                                                                                                 <label>Value</label>
+                                                                                            </object>
+                                                                                        </object>
+                                                                                        <object class="sizeritem">
+                                                                                            <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                            <border>0</border>
+                                                                                            <object class="wxCheckBox" name="Hd44780BusyFlagTrace">
+                                                                                                <label>Status</label>
+                                                                                                <checked>1</checked>
+                                                                                            </object>
+                                                                                        </object>
+                                                                                        <object class="sizeritem">
+                                                                                            <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+                                                                                            <border>4</border>
+                                                                                            <object class="wxStaticText" name="Hd44780BusyFlagDirection">
+                                                                                                <font>
+                                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                    <size>-1</size>
+                                                                                                    <family>roman</family>
+                                                                                                </font>
+                                                                                                <label>I</label>
+                                                                                            </object>
+                                                                                        </object>
+                                                                                        <object class="sizeritem">
+                                                                                            <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+                                                                                            <border>4</border>
+                                                                                            <object class="wxStaticText" name="Hd44780BusyFlagPort">
+                                                                                                <font>
+                                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                    <size>-1</size>
+                                                                                                    <family>roman</family>
+                                                                                                </font>
+                                                                                                <label>-</label>
+                                                                                            </object>
+                                                                                        </object>
+                                                                                        <object class="sizeritem">
+                                                                                            <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+                                                                                            <border>4</border>
+                                                                                            <object class="wxStaticText" name="Hd44780BusyFlagQ">
+                                                                                                <font>
+                                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                    <size>-1</size>
+                                                                                                    <family>roman</family>
+                                                                                                </font>
+                                                                                                <label></label>
+                                                                                            </object>
+                                                                                        </object>
+                                                                                        <object class="sizeritem">
+                                                                                            <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                            <border>0</border>
+                                                                                            <object class="wxTextCtrl" name="Hd44780BusyFlag" subclass="HexEdit">
+                                                                                                <size>20,14</size>
+                                                                                                <font>
+                                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                    <size>-1</size>
+                                                                                                    <family>roman</family>
+                                                                                                </font>
+                                                                                                <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                                <maxlength>2</maxlength>
+                                                                                            </object>
+                                                                                        </object>
+                                                                                        <object class="sizeritem">
+                                                                                            <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                            <border>0</border>
+                                                                                            <object class="wxCheckBox" name="Hd44780AddressTrace">
+                                                                                                <label>Data</label>
+                                                                                                <checked>1</checked>
+                                                                                            </object>
+                                                                                        </object>
+                                                                                        <object class="sizeritem">
+                                                                                            <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+                                                                                            <border>4</border>
+                                                                                            <object class="wxStaticText" name="Hd44780AddressDirection">
+                                                                                                <font>
+                                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                    <size>-1</size>
+                                                                                                    <family>roman</family>
+                                                                                                </font>
+                                                                                                <label>I</label>
+                                                                                            </object>
+                                                                                        </object>
+                                                                                        <object class="sizeritem">
+                                                                                            <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+                                                                                            <border>4</border>
+                                                                                            <object class="wxStaticText" name="Hd44780AddressPort">
+                                                                                                <font>
+                                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                    <size>-1</size>
+                                                                                                    <family>roman</family>
+                                                                                                </font>
+                                                                                                <label>-</label>
+                                                                                            </object>
+                                                                                        </object>
+                                                                                        <object class="sizeritem">
+                                                                                            <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+                                                                                            <border>4</border>
+                                                                                            <object class="wxStaticText" name="Hd44780AddressQ">
+                                                                                                <font>
+                                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                    <size>-1</size>
+                                                                                                    <family>roman</family>
+                                                                                                </font>
+                                                                                                <label></label>
+                                                                                            </object>
+                                                                                        </object>
+                                                                                        <object class="sizeritem">
+                                                                                            <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                            <border>0</border>
+                                                                                            <object class="wxTextCtrl" name="Hd44780Address" subclass="HexEdit">
+                                                                                                <size>20,14</size>
+                                                                                                <font>
+                                                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                    <size>-1</size>
+                                                                                                    <family>roman</family>
+                                                                                                </font>
+                                                                                                <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                                <maxlength>2</maxlength>
                                                                                             </object>
                                                                                         </object>
                                                                                     </object>

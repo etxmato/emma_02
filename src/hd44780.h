@@ -18,8 +18,8 @@ public:
 
     void setClock(double clock);
     void setCycle();
-    void writeCommand(Byte value);
-    void writeData(Byte value);
+    void writeCommand(Byte value, int showTrace);
+    void writeData(Byte value, int showTrace);
     Byte readStatus();
     Byte readData();
     void copyScreen();

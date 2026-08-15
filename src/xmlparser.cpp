@@ -10120,6 +10120,7 @@ void XmlParser::parseXml_Cdp1863Sound(wxXmlNode &node)
     computerConfiguration.cdp1863Configuration.toneLatch = init_IoPort();
     computerConfiguration.cdp1863Configuration.toneSwitch1 = init_IoPort();
     computerConfiguration.cdp1863Configuration.toneSwitch2 = init_IoPort();
+    computerConfiguration.cdp1863Configuration.toneFactor = 32;
 
     wxXmlNode *child = node.GetChildren();
     while (child)
@@ -10150,6 +10151,9 @@ void XmlParser::parseXml_Cdp1863Sound(wxXmlNode &node)
                 }
                 else
                     computerConfiguration.cdp1863Configuration.toneLatch = parseXml_IoPort(*child, CDP1863_TONE_LATCH_OUT);
+
+                if (child->HasAttribute("factor"))
+                    computerConfiguration.cdp1863Configuration.toneFactor = (int)parseXml_Number(*child, "factor");
             break;
 
             case TAG_IOGROUP:

@@ -69,9 +69,9 @@ void Hd44780Config::hd44780ConfigInit()
         hd44780ConfigRegisterValueString[registerNumber] = "";
         lastHd44780ConfigRegisterValueString[registerNumber] = "x";
     }
-
+    
     computerConfiguration.hd44780Configuration.defined = false;
-
+    
     computerConfiguration.hd44780Configuration.defaultX = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
     computerConfiguration.hd44780Configuration.defaultY = mainWindowY_;
     computerConfiguration.hd44780Configuration.commandPort = init_IoPort();
@@ -84,13 +84,19 @@ void Hd44780Config::hd44780ConfigInit()
     computerConfiguration.hd44780Configuration.screenSize.x = 16;
     computerConfiguration.hd44780Configuration.screenSize.y = 2;
     computerConfiguration.hd44780Configuration.ioGroupVector.clear();
-
+    
     if (!mode_.gui)
         return;
-
+    
     XRCCTRL(*this, THIS_PANEL_NAME, wxPanel)->Hide();
-
+    
     XRCCTRL(*this, "Hd44780IoGroupText", wxStaticText)->SetLabel("");
+    XRCCTRL(*this, "Hd44780EfDisplayText", wxStaticText)->SetLabel("");
+
+    disableIoPortConfig(registerIdHd44780[HD44780_COMMAND]);
+    disableIoPortConfig(registerIdHd44780[HD44780_DATA]);
+    disableIoPortConfig(registerIdHd44780[HD44780_ADDRESS]);
+    disableIoPortConfig(registerIdHd44780[HD44780_BUSYFLAG]);
 }
 
 void Hd44780Config::parseXml_HD44780Video(wxXmlNode &node)
@@ -165,10 +171,12 @@ void Hd44780Config::parseXml_HD44780Video(wxXmlNode &node)
                 if (child->GetAttribute("type") == "command")
                 {
                     computerConfiguration.hd44780Configuration.commandPort = parseXml_IoPort(*child, HD44780_COMMAND_OUT);
-                }
+                    setIoPortConfig(computerConfiguration.hd44780Configuration.commandPort, registerIdHd44780[HD44780_COMMAND], registerFunctionHd44780[HD44780_COMMAND], "O", false, "");
+               }
                 if (child->GetAttribute("type") == "data")
                 {
                     computerConfiguration.hd44780Configuration.dataPort = parseXml_IoPort(*child, HD44780_DATA_OUT);
+                    setIoPortConfig(computerConfiguration.hd44780Configuration.commandPort, registerIdHd44780[HD44780_DATA], registerFunctionHd44780[HD44780_DATA], "O", false, "");
                 }
             break;
 
@@ -176,10 +184,12 @@ void Hd44780Config::parseXml_HD44780Video(wxXmlNode &node)
                 if (child->GetAttribute("type") == "status")
                 {
                     computerConfiguration.hd44780Configuration.statusPort = parseXml_IoPort(*child, HD44780_STATUS_IN);
+                    setIoPortConfig(computerConfiguration.hd44780Configuration.commandPort, registerIdHd44780[HD44780_BUSYFLAG], registerFunctionHd44780[HD44780_BUSYFLAG], "I", false, "");
                 }
                 if (child->GetAttribute("type") == "data")
                 {
                     computerConfiguration.hd44780Configuration.dataReadPort = parseXml_IoPort(*child, HD44780_DATA_IN);
+                    setIoPortConfig(computerConfiguration.hd44780Configuration.commandPort, registerIdHd44780[HD44780_ADDRESS], registerFunctionHd44780[HD44780_ADDRESS], "I", false, "");
                 }
             break;
 
@@ -344,7 +354,7 @@ void Hd44780Config::Hd44780Command(wxCommandEvent& WXUNUSED(event))
     long value = get8BitValue("Hd44780Command");
     if (value == -1)  return;
 
-    hd44780Pointer->writeCommand(value);
+    hd44780Pointer->writeCommand(value, DO_NOT_SHOW_ADDRESS_TRACE);
 }
 
 void Hd44780Config::Hd44780Data(wxCommandEvent& WXUNUSED(event))
@@ -358,5 +368,5 @@ void Hd44780Config::Hd44780Data(wxCommandEvent& WXUNUSED(event))
     long value = get8BitValue("Hd44780Data");
     if (value == -1)  return;
 
-    hd44780Pointer->writeData(value);
+    hd44780Pointer->writeData(value, DO_NOT_SHOW_ADDRESS_TRACE);
 }

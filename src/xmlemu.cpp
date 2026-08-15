@@ -3006,11 +3006,11 @@ void Computer::outConfiguration(OutputConfiguration outConfiguration, Byte port,
         break;
 
         case HD44780_COMMAND_OUT:
-            hd44780Pointer->writeCommand(value);
+            hd44780Pointer->writeCommand(value, SHOW_ADDRESS_TRACE);
         break;
 
         case HD44780_DATA_OUT:
-            hd44780Pointer->writeData(value);
+            hd44780Pointer->writeData(value, SHOW_ADDRESS_TRACE);
         break;
 
             // Folowing I/O is not adapted to ioGroups
@@ -3207,8 +3207,8 @@ void Computer::setCdp1863ColorToneLatch(Byte value)
 {
     if (value == 0)  value = 128;
 
-    setTonePeriod(0, 32 *(value + 1), false);
-    setTonePeriod(1, 32 *(value + 1), false);
+    setTonePeriod(0, currentComputerConfiguration.cdp1863Configuration.toneFactor *(value + 1), false);
+    setTonePeriod(1, currentComputerConfiguration.cdp1863Configuration.toneFactor *(value + 1), false);
 }
 
 void Computer::setCdp1864ColorToneLatch(Byte value, int showTrace)
@@ -6773,7 +6773,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
             {
                 if (address == currentComputerConfiguration.hd44780Configuration.commandPort.portNumber[0] || address == currentComputerConfiguration.hd44780Configuration.commandPort.portNumber[1])
                 {
-                    hd44780Pointer->writeCommand(value);
+                    hd44780Pointer->writeCommand(value, SHOW_ADDRESS_TRACE);
                     hd44780DataCount = 0;  // reset counter on any command write
                     return;
                 }
@@ -6790,7 +6790,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
 //                        wxString dbg;
 //                        dbg.Printf("HD44780 data write: PC=%04X value=0x%02X '%c'", scratchpadRegister_[programCounter_], value, (value >= 0x20 && value <= 0x7E) ? value : '.');
 //                        p_Main->eventShowTextMessage(dbg);
-                        hd44780Pointer->writeData(value);
+                        hd44780Pointer->writeData(value, SHOW_ADDRESS_TRACE);
                     }
                     hd44780DataCount++;
                     return;

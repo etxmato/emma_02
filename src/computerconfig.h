@@ -707,6 +707,8 @@ public:
     IoPort toneLatch;
     IoPort toneSwitch1;
     IoPort toneSwitch2;
+    
+    int toneFactor;
 };
 
 class AY_3_8912Configuration : public IoGroupDefineConfiguration

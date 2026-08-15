@@ -16524,7 +16524,29 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                     }
                     if (parameter.Left(3) == "mem")
                     {
-                        if (hexValueDigits == 4)
+                        if (pseudoCodeDetails_[pseudoNr].length == 1)
+                        {
+                            // 1-byte combined opcode (e.g. MSI-88 "PUSH [810A]"
+                            // / "PUSH 810B+[810A]"): the address is fixed in the
+                            // .syntax parameter ("mem=810A"), not in operand
+                            // bytes (opcode2/3 belong to the next instruction),
+                            // so display the parameter's address directly.
+                            Word memAddr = 0;
+                            wxString addrPart = parameter.Mid(4);
+                            int dashPos = addrPart.Find('-');
+                            if (dashPos != wxNOT_FOUND)
+                                addrPart = addrPart.Left(dashPos);
+                            long memAddrLong = 0;
+                            if (addrPart.ToLong(&memAddrLong, 16))
+                            {
+                                memAddr = (Word)memAddrLong;
+                                parameterStr.Printf("[%04X]", memAddr);
+                            }
+                            else
+                                parameterStr = "[" + addrPart + "]";
+                            parameterFound = true;
+                        }
+                        else if (hexValueDigits == 4)
                         {
                             address = (chip8_opcode2 << 8) + chip8_opcode3;
                             parameterStr.Printf("%04X", address);

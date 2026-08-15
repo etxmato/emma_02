@@ -163,8 +163,10 @@ Byte HD44780::efHd44780()
     return (busyFlag_ ? 1 : 0) ^ hd44780Configuration_.ef.reverse;
 }
 
-void HD44780::writeCommand(Byte value)
+void HD44780::writeCommand(Byte value, int showTrace)
 {
+    showTrace = p_Main->setHd44780Register(HD44780_COMMAND, value, showTrace);
+
     // HD44780 instruction register write (RS=0, R/W=0)
     if (value & 0x80)
     {
@@ -248,8 +250,9 @@ void HD44780::writeCommand(Byte value)
     busyFlag_ = true;
 }
 
-void HD44780::writeData(Byte value)
+void HD44780::writeData(Byte value, int showTrace)
 {
+    showTrace = p_Main->setHd44780Register(HD44780_DATA, value, showTrace);
     // HD44780 data register write (RS=1, R/W=0)
     if (activeRamIsDdram_)
     {
@@ -281,6 +284,7 @@ void HD44780::writeData(Byte value)
 
 Byte HD44780::readStatus()
 {
+    p_Main->setHd44780Register(HD44780_BUSYFLAG, (Byte)0, SHOW_ADDRESS_TRACE);
     // RS=0, R/W=1: returns busy flag + address counter
     // Memory-mapped mode: busy flag in bit 0 (as used by AMI gate array in PTC-701)
     if (hd44780Configuration_.statusPort.addressMode)
@@ -291,6 +295,7 @@ Byte HD44780::readStatus()
 
 Byte HD44780::readData()
 {
+    p_Main->setHd44780Register(HD44780_ADDRESS, (Byte)0, SHOW_ADDRESS_TRACE);
     // RS=1, R/W=1: read data from DDRAM or CGRAM
     Byte data;
     if (activeRamIsDdram_)

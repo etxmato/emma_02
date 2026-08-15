@@ -3,7 +3,6 @@ const=0675 stack code=00
 const=03DB stack code=01
 const=067D stack code=02
 const=0683 stack code=03
-const=0753 stack code=0C
 const=07CF stack code=16
 const=07D5 stack code=17
 const=07DB stack code=18
@@ -50,16 +49,8 @@ const=12C5 stack code=78
 const=1C65 stack code=79
 const=1339 stack code=7A
 const=136B stack code=7B
-const=0317 stack code=CE
-const=031B stack code=CF
-const=031F stack code=D0
-const=0323 stack code=D1
-const=0327 stack code=D2
 const=0333 stack code=D5
 const=0341 stack code=D6
-const=0355 stack code=D8
-const=036B stack code=DA
-const=0371 stack code=DB
 const=03B3 stack code=E4
 const=03B7 stack code=E5
 const=03C1 stack code=EA
@@ -321,10 +312,15 @@ det_mtos16 stack code=AD
 
 C@
 force_ds code=AC
+const=810A stack hide_trace code=CE
+810A , 810B + stack hide_trace code=CF
+810A , 810B , + , C@ stack hide_trace code=D0
+const=8107 stack hide_trace code=D2
 /C@
 
 C!
 det_mtos8 stack code=AE
+810A , 810B + stack hide_trace code=D1
 /C!
 
 1
@@ -372,9 +368,21 @@ force_ds code=BC
 SWAP force_ds hide_trace code=D7
 //MOD
 
+MOD
+force_ds stack hide_trace code=D8
+/MOD
+
 LDMSG
 stack hide_trace code=DC
 /LDMSG
+
+SAVEMSG
+stack hide_trace code=DA
+/SAVEMSG
+
+LOADMSG
+stack hide_trace code=DB
+/LOADMSG
 
 >
 stack code=B7
@@ -395,6 +403,10 @@ stack code=9D
 DISPATCH
 stack code=9C
 /DISPATCH
+
+LDVAL
+stack hide_trace code=0C
+/LDVAL
 
 RX
 stack code=0D
