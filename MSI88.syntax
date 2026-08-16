@@ -1,7 +1,4 @@
 CALL
-const=0675 stack code=00
-const=067D stack code=02
-const=0683 stack code=03
 const=07CF stack code=16
 const=07D5 stack code=17
 const=07DB stack code=18
@@ -209,6 +206,10 @@ OUTM
 2 , const=20 stack hide_trace code=EB
 /OUTM
 
+PULSE
+2 , const=08 stack hide_trace code=03
+/PULSE
+
 RET
 det stack code=8C
 DROP , 4 det stack code=8D
@@ -231,6 +232,10 @@ code=05
 ISNEG
 TOS force_ds code=B6
 /ISNEG
+
+ABS
+TOS force_ds hide_trace code=02
+/ABS
 
 SUB
 TOS , NOS stack code=B2
@@ -354,6 +359,10 @@ ISLT
 NOS , TOS stack code=B8
 /ISLT
 
+MAX
+NOS , TOS stack hide_trace code=00
+/MAX
+
 MUL
 TOS.0 , NOS.0 stack code=BB
 /MUL
@@ -395,118 +404,34 @@ RSTOR
 force_ds force_rs code=3F
 /RSTOR
 
-NATIVE_072C
-stack code=08
-/NATIVE_072C
-
-NATIVE_08BC
-stack code=1E
-/NATIVE_08BC
-
-NATIVE_1DC0
-stack code=20
-/NATIVE_1DC0
-
-NATIVE_090C
-stack code=22
-/NATIVE_090C
-
-NATIVE_0C00
-stack code=2B
-/NATIVE_0C00
-
-NATIVE_1F0E
-stack code=33
-/NATIVE_1F0E
-
-NATIVE_1F34
-stack code=34
-/NATIVE_1F34
-
-NATIVE_0E40
-stack code=3C
-/NATIVE_0E40
-
-NATIVE_0E92
-stack code=3D
-/NATIVE_0E92
-
-NATIVE_0F0E
-stack code=3E
-/NATIVE_0F0E
-
-NATIVE_0F3A
-stack code=42
-/NATIVE_0F3A
-
-NATIVE_0F3A
-stack code=43
-/NATIVE_0F3A
-
-NATIVE_0F3C
-stack code=44
-/NATIVE_0F3C
-
-NATIVE_0F76
-stack code=46
-/NATIVE_0F76
-
-NATIVE_0FC6
-stack code=4A
-/NATIVE_0FC6
-
-NATIVE_0D4A
-stack code=68
-/NATIVE_0D4A
-
-NATIVE_11A2
-stack code=69
-/NATIVE_11A2
-
-NATIVE_0040
-stack code=81
-/NATIVE_0040
-
-NATIVE_0044
-stack code=82
-/NATIVE_0044
-
-NATIVE_0044
-stack code=83
-/NATIVE_0044
-
-NATIVE_0044
-stack code=84
-/NATIVE_0044
-
-NATIVE_0044
-stack code=85
-/NATIVE_0044
-
-NATIVE_0044
-stack code=86
-/NATIVE_0044
-
-NATIVE_0044
-stack code=87
-/NATIVE_0044
-
-NATIVE_0044
-stack code=88
-/NATIVE_0044
-
-NATIVE_0044
-stack code=89
-/NATIVE_0044
-
-NATIVE_0044
-stack code=8A
-/NATIVE_0044
-
-NATIVE_0050
-stack code=8B
-/NATIVE_0050
-
-NATIVE_1E02
-stack code=DF
-/NATIVE_1E02
+SYS
+const=072C stack code=08
+const=08BC stack code=1E
+const=1DC0 stack code=20
+const=090C stack code=22
+const=0C00 stack code=2B
+const=1F0E stack code=33
+const=1F34 stack code=34
+const=0E40 stack code=3C
+const=0E92 stack code=3D
+const=0F0E stack code=3E
+const=0F3A stack code=42
+const=0F3A stack code=43
+const=0F3C stack code=44
+const=0F76 stack code=46
+const=0FC6 stack code=4A
+const=0D4A stack code=68
+const=11A2 stack code=69
+const=0040 stack code=81
+const=0044 stack code=82
+const=0044 stack code=83
+const=0044 stack code=84
+const=0044 stack code=85
+const=0044 stack code=86
+const=0044 stack code=87
+const=0044 stack code=88
+const=0044 stack code=89
+const=0044 stack code=8A
+const=0050 stack code=8B
+const=1E02 stack code=DF
+/SYS
