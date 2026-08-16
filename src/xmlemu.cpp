@@ -2863,15 +2863,9 @@ void Computer::outConfiguration(OutputConfiguration outConfiguration, Byte port,
         case COIN_TONE_SWITCH_OUT1:
         case COIN_TONE_SWITCH_OUT2:
             if (value != 0)
-            {
-                startTone(0, true);
-                startTone(1, true);
-            }
+                toneCoinOn();
             else
-            {
-                startTone(0, false);
-                startTone(1, false);
-            }
+                toneCoinOff();
         break;
 
         case VIP2K_VIDEO_ENABLE_IN:

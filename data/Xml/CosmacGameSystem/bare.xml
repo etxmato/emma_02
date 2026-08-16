@@ -38,8 +38,8 @@
         <color type="back">0, 0, 0</color>
     </video>
     
-    <sound type="cdp1863">
-        <out>4</out>
+    <sound type="coin">
+        <out>5</out>
         <out type="switch">3</out>
         <out type="switch">6</out>
     </sound>
