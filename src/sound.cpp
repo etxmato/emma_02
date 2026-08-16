@@ -317,6 +317,24 @@ void Sound::initSound(double percentageClock, int bass, int treble, int toneChan
     }
 }
 
+void Sound::toneCoinOn()
+{
+    tonePeriod_[0] = tonePeriod_[1] = (32 *(audioLatchCoin_ + 1));
+    if (!toneOn_[0])
+    {
+        toneTime_[0] = toneTime_[1] = tonePeriod_[0];
+        toneSynthPointer[0]->update(soundTime_, toneAmplitude_[0]);
+        toneSynthPointer[1]->update(soundTime_, toneAmplitude_[1]);
+    }
+    toneOn_[0] = toneOn_[1] = true;
+}
+
+void Sound::toneCoinOff()
+{
+    for (int i=0; i<toneChannels_; i++)
+        toneOn_[i] = false;
+}
+
 void Sound::setTonePeriod(int channel, int period, bool toneOn)
 {
     tonePeriod_[channel] = period;

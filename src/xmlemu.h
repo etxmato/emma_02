@@ -119,6 +119,7 @@ public:
     void cycleInt();
     void picInterruptRequest(int type, bool state, int picNumber);
     void cycleLed();
+    void setCoinToneLatch(Byte value);
     void setCdp1863ColorToneLatch(Byte value);
     void setCdp1864ColorToneLatch(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
     void setClockRate(double clock);

@@ -49,8 +49,8 @@ wxString registerFunctionHd44780[] =
 {
     "Command",
     "Data",
-    "Address Counter",
-    "Busy Flag",
+    "Data",
+    "Status",
 };
 
 Hd44780Config::Hd44780Config(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)

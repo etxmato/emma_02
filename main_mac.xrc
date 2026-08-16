@@ -22942,7 +22942,7 @@
                                                                                         <object class="spacer">
                                                                                             <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                             <border>0</border>
-                                                                                            <size>140,1</size>
+                                                                                            <size>160,1</size>
                                                                                         </object>
                                                                                     </object>
                                                                                 </object>
@@ -23138,6 +23138,11 @@
                                                                                                 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                                                 <maxlength>2</maxlength>
                                                                                             </object>
+                                                                                        </object>
+                                                                                        <object class="spacer">
+                                                                                            <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                            <border>0</border>
+                                                                                            <size>70,1</size>
                                                                                         </object>
                                                                                     </object>
                                                                                 </object>

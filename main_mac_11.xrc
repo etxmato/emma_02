@@ -21556,7 +21556,7 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>140,1</size>
+<size>160,1</size>
 </object>
 </object>
 </object>
@@ -21635,8 +21635,62 @@
 <object class="sizeritem">
 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
+<object class="wxCheckBox" name="Hd44780BusyFlagTrace">
+<label>Status</label>
+<checked>1</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Hd44780BusyFlagDirection">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>I </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Hd44780BusyFlagPort">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label>- </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+<border>4</border>
+<object class="wxStaticText" name="Hd44780BusyFlagQ">
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<label> </label>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxTextCtrl" name="Hd44780BusyFlag" subclass="HexEdit">
+<size>20,14</size>
+<font>
+<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+<size>-1</size>
+</font>
+<style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+<maxlength>2</maxlength>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
 <object class="wxCheckBox" name="Hd44780AddressTrace">
-<label>Address</label>
+<label>Data</label>
 <checked>1</checked>
 </object>
 </object>
@@ -21648,7 +21702,7 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>O </label>
+<label>I </label>
 </object>
 </object>
 <object class="sizeritem">
@@ -21686,59 +21740,10 @@
 <maxlength>2</maxlength>
 </object>
 </object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<object class="spacer">
+<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<object class="wxCheckBox" name="Hd44780BusyFlagTrace">
-<label>Busy Flag</label>
-<checked>1</checked>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxStaticText" name="Hd44780BusyFlagDirection">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>O </label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxStaticText" name="Hd44780BusyFlagPort">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label>- </label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-<border>4</border>
-<object class="wxStaticText" name="Hd44780BusyFlagQ">
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<label> </label>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<object class="wxTextCtrl" name="Hd44780BusyFlag" subclass="HexEdit">
-<size>20,14</size>
-<font>
-<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-<size>-1</size>
-</font>
-<style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<maxlength>2</maxlength>
-</object>
+<size>70,1</size>
 </object>
 </object>
 </object>

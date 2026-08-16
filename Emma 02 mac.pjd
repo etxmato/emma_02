@@ -127131,7 +127131,7 @@
                                     <long name="proxy-Height">1</long>
                                     <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
                                     <long name="proxy-Stretch factor">0</long>
-                                    <long name="proxy-Width">140</long>
+                                    <long name="proxy-Width">160</long>
                                     <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                                     <bool name="proxy-wxBOTTOM">1</bool>
                                     <bool name="proxy-wxFIXED_MINSIZE">0</bool>
@@ -128273,6 +128273,32 @@
                                     <long name="proxy-X">-1</long>
                                     <long name="proxy-Y">-1</long>
                                     <string name="title">"HexEdit: Hd44780Address"</string>
+                                    <long name="title-mode">0</long>
+                                    <string name="type">"dialog-control-document"</string>
+                                  </document>
+                                  <document>
+                                    <string name="proxy-type">"wbSpacerProxy"</string>
+                                    <string name="filename">""</string>
+                                    <string name="icon-name">"spacer"</string>
+                                    <long name="is-transient">0</long>
+                                    <long name="locked">0</long>
+                                    <long name="owns-file">1</long>
+                                    <string name="proxy-AlignH">"Centre"</string>
+                                    <string name="proxy-AlignV">"Centre"</string>
+                                    <long name="proxy-Border">0</long>
+                                    <long name="proxy-Height">1</long>
+                                    <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
+                                    <long name="proxy-Stretch factor">0</long>
+                                    <long name="proxy-Width">70</long>
+                                    <bool name="proxy-wxADJUST_MINSIZE">0</bool>
+                                    <bool name="proxy-wxBOTTOM">1</bool>
+                                    <bool name="proxy-wxFIXED_MINSIZE">0</bool>
+                                    <bool name="proxy-wxLEFT">1</bool>
+                                    <bool name="proxy-wxRESERVE_SPACE_EVEN_IF_HIDDEN">0</bool>
+                                    <bool name="proxy-wxRIGHT">1</bool>
+                                    <bool name="proxy-wxSHAPED">0</bool>
+                                    <bool name="proxy-wxTOP">1</bool>
+                                    <string name="title">"Spacer"</string>
                                     <long name="title-mode">0</long>
                                     <string name="type">"dialog-control-document"</string>
                                   </document>

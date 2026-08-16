@@ -1075,6 +1075,8 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
                     parseXml_StudioSound (*child);
                 if (child->GetAttribute("type") == "bit")
                     parseXml_OutBitSound (*child);
+                if (child->GetAttribute("type") == "coin")
+                    parseXml_CoinSound (*child);
                 if (child->GetAttribute("type") == "cdp1863" || child->GetAttribute("type") == "1863")
                     parseXml_Cdp1863Sound (*child);
                 if (child->GetAttribute("type") == "8912")
@@ -10077,6 +10079,96 @@ void XmlParser::parseXml_OutBitSound(wxXmlNode &node)
                 {
                     computerConfiguration.bitSoundConfiguration.ioGroupVector.resize(ioGroupNumber+1);
                     computerConfiguration.bitSoundConfiguration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
+                }
+            break;
+
+            case TAG_COMMENT:
+            break;
+
+            default:
+                warningText_ += "Unkown tag: ";
+                warningText_ += childName;
+                warningText_ += "\n";
+            break;
+        }
+        
+        child = child->GetNext();
+    }
+}
+
+void XmlParser::parseXml_CoinSound(wxXmlNode &node)
+{
+    wxString tagList[]=
+    {
+        "out",
+        "iogroup",
+        "comment",
+        "undefined"
+    };
+
+    enum
+    {
+        TAG_OUT,
+        TAG_IOGROUP,
+        TAG_COMMENT,
+        TAG_UNDEFINED
+    };
+    
+    int tagTypeInt;
+    wxString iogroup;
+    size_t ioGroupNumber = 0;
+
+    computerConfiguration.cdp1863Configuration.ioGroupVector.clear();
+    computerConfiguration.cdp1863Configuration.toneLatch = init_IoPort();
+    computerConfiguration.cdp1863Configuration.toneSwitch1 = init_IoPort();
+    computerConfiguration.cdp1863Configuration.toneSwitch2 = init_IoPort();
+    computerConfiguration.cdp1863Configuration.toneFactor = 32;
+    computerConfiguration.cdp1863Configuration.toneReversed = false;
+
+    wxXmlNode *child = node.GetChildren();
+    while (child)
+    {
+        wxString childName = child->GetName();
+
+        tagTypeInt = 0;
+        while (tagTypeInt != TAG_UNDEFINED && tagList[tagTypeInt] != childName)
+            tagTypeInt++;
+        
+        switch (tagTypeInt)
+        {
+            case TAG_OUT:
+                computerConfiguration.soundConfiguration.type = SOUND_1863_1864;
+
+                if (child->GetAttribute("type") == "switch")
+                {
+                    if (computerConfiguration.cdp1863Configuration.toneSwitch1.portNumber[0] != -1)
+                    {
+                        computerConfiguration.soundConfiguration.type = SOUND_1863_NOQ;
+                        computerConfiguration.cdp1863Configuration.toneSwitch2 = parseXml_IoPort(*child, COIN_TONE_SWITCH_OUT2);
+                    }
+                    else
+                    {
+                        computerConfiguration.soundConfiguration.type = SOUND_1863_NOQ;
+                        computerConfiguration.cdp1863Configuration.toneSwitch1 = parseXml_IoPort(*child, COIN_TONE_SWITCH_OUT1);
+                    }
+                }
+                else
+                    computerConfiguration.cdp1863Configuration.toneLatch = parseXml_IoPort(*child, COIN_TONE_LATCH_OUT);
+
+                if (child->HasAttribute("factor"))
+                    computerConfiguration.cdp1863Configuration.toneFactor = (int)parseXml_Number(*child, "factor");
+
+                if (child->GetAttribute("pol") == "rev")
+                    computerConfiguration.cdp1863Configuration.toneReversed = true;
+
+            break;
+
+            case TAG_IOGROUP:
+                iogroup = child->GetNodeContent();
+                while (iogroup != "")
+                {
+                    computerConfiguration.cdp1863Configuration.ioGroupVector.resize(ioGroupNumber+1);
+                    computerConfiguration.cdp1863Configuration.ioGroupVector[ioGroupNumber++] = (int)getNextHexDec(&iogroup) & 0xff;
                 }
             break;
 

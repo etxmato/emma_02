@@ -40,6 +40,8 @@ public:
 
     void initSound(double percentageClock, int bass, int treble, int toneChannels, int noiseChannels, int stereo, ComputerConfiguration computerConfiguration);
 
+    void toneCoinOn();
+    void toneCoinOff();
     void setTonePeriod(int channel, int period, bool toneOn);
     void setToneFrequency(int channel, int frequency, bool toneOn);
     void setToneAmplitude(int channel, int amplitude, bool toneOn);
@@ -136,6 +138,7 @@ protected:
     wxString tapeNumber_;
 
     int activeSoundType_;
+    Byte audioLatchCoin_;
 
 private:
     ComputerConfiguration computerConfiguration_;

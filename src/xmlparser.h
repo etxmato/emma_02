@@ -76,6 +76,7 @@ private:
     void parseXml_QSound(wxXmlNode &node);
     void parseXml_StudioSound(wxXmlNode &node);
     void parseXml_OutBitSound(wxXmlNode &node);
+    void parseXml_CoinSound(wxXmlNode &node);
     void parseXml_Cdp1863Sound(wxXmlNode &node);
     void parseXml_AY_3_8912Sound(wxXmlNode &node);
     void getChannels(wxString channel, wxString side, int *one, int *two);

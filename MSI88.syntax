@@ -1,6 +1,5 @@
 CALL
 const=0675 stack code=00
-const=03DB stack code=01
 const=067D stack code=02
 const=0683 stack code=03
 const=07CF stack code=16
@@ -51,10 +50,6 @@ const=1339 stack code=7A
 const=136B stack code=7B
 const=0333 stack code=D5
 const=0341 stack code=D6
-const=03B3 stack code=E4
-const=03B7 stack code=E5
-const=03C1 stack code=EA
-const=03CB stack code=EB
 const=05ED stack code=F0
 const=05F3 stack code=F1
 const=05F7 stack code=F2
@@ -148,6 +143,8 @@ PUSHB
 
 INP1
 TOS , TOS.0 stack code=E3
+const=08 stack hide_trace code=E4
+const=20 stack hide_trace code=E5
 /INP1
 
 JP
@@ -203,11 +200,13 @@ TOS force_ds code=1D
 OUT
 2 , TOS.0 stack code=E1
 2 , const=40 stack hide_trace code=E8
+2 , const=20 stack hide_trace code=EA
 /OUT
 
 OUTM
 2 , TOS.0 stack code=E2
 2 , const=40 stack hide_trace code=E9
+2 , const=20 stack hide_trace code=EB
 /OUTM
 
 RET
@@ -389,6 +388,7 @@ stack code=E6
 
 IDLE
 stack code=EC
+stack hide_trace code=01
 /IDLE
 
 RSTOR

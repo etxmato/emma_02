@@ -2856,6 +2856,24 @@ void Computer::outConfiguration(OutputConfiguration outConfiguration, Byte port,
             }
         break;
 
+        case COIN_TONE_LATCH_OUT:
+            setCoinToneLatch(value);
+        break;
+
+        case COIN_TONE_SWITCH_OUT1:
+        case COIN_TONE_SWITCH_OUT2:
+            if (value != 0)
+            {
+                startTone(0, true);
+                startTone(1, true);
+            }
+            else
+            {
+                startTone(0, false);
+                startTone(1, false);
+            }
+        break;
+
         case VIP2K_VIDEO_ENABLE_IN:
             vip2KVideoPointer->inPixie();
             p_Main->setVip2KVideoRegister(VIP2K_VIDEO_ENABLE, true, SHOW_ADDRESS_TRACE);
@@ -3201,6 +3219,15 @@ void Computer::outConfiguration(OutputConfiguration outConfiguration, Byte port,
             }
         break;
     }
+}
+
+void Computer::setCoinToneLatch(Byte value)
+{
+    if (currentComputerConfiguration.cdp1863Configuration.toneReversed)
+        value = value ^ 0xff;
+ 
+    if (value == 0)  value = 128;
+    audioLatchCoin_ = value;
 }
 
 void Computer::setCdp1863ColorToneLatch(Byte value)
