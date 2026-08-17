@@ -29,9 +29,7 @@ const=0F37 stack code=41
 const=1007 stack code=4F
 const=10F3 stack code=5E
 const=111B stack code=67
-const=11AD stack code=6A
 const=11B1 stack code=6B
-const=11DF stack code=6D
 const=11E5 stack code=6E
 const=1245 stack code=70
 const=124B stack code=71
@@ -186,6 +184,7 @@ force_ds code=6F
 
 DUP
 stack code=A8
+81D5 , ! , 80A8 , ! stack hide_trace code=6D
 /DUP
 
 OVER
@@ -308,6 +307,7 @@ det_mtos8 stack code=15
 
 @
 force_ds code=AB
+80AC , @ stack hide_trace code=6A
 /@
 
 !
