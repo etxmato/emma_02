@@ -145,6 +145,10 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     plotListPointer = NULL;
     colourType_ = cdp1861Configuration_.colorType;
     bgChanged = false;
+#if defined(__WXMAC__)
+    macFrameImage_ = NULL;
+    macCurrentColour_ = *wxBLACK;
+#endif
 }
 
 Pixie::~Pixie()
@@ -156,6 +160,7 @@ Pixie::~Pixie()
     delete videoScreenPointer;
 #if defined(__WXMAC__)
     delete gc;
+    delete macFrameImage_;
 #endif
     if (updatePlot_ > 0)
     {
@@ -169,6 +174,143 @@ Pixie::~Pixie()
     if (cdp1861Configuration_.statusBarType == STATUSBAR_VIP2)
         delete vipIIStatusBarPointer;
 }
+
+// ---------------------------------------------------------------------
+// macOS software-framebuffer rendering  (2026-08-19)
+//
+// WHY THIS EXISTS
+//   On macOS the base Video::drawPoint/drawRectangle draw through
+//   wxGraphicsContext (gc->DrawRectangle), i.e. ~3 CoreGraphics calls per
+//   pixel (SetBrush, SetPen, DrawRectangle). The pixie displays (ELF, VIP,
+//   Coin Arcade / RCA Game System, Studio IV, ...) plot up to ~8K pixels per
+//   video frame, roughly 1M CoreGraphics calls per second. That dragged the
+//   emulation below real-time (measured ~102K machine cycles/sec vs the
+//   200K required for the 1.6 MHz coin systems). The audio ring then starved
+//   and Sync_Audio::Play_fill_buffer inserted memset(0) silence, chopping
+//   the low-frequency coin tones (104-208 Hz) into ~23 ms fragments - the
+//   "water in the speakers". Windows was unaffected (fast GDI memory-DC
+//   DrawPoint + PlotList batching) and Linux was unaffected (fast wxGTK
+//   memory-DC draws + CLOCK_FACTOR=2).
+//
+// WHAT THIS DOES
+//   All pixie drawing (plot, drawScreen, drawBackgroundLine, and the
+//   PixieFred / PixieVip2K / PixieStudioIV overrides) funnels through the
+//   virtual setColour / drawPoint / drawRectangle. On macOS these now write
+//   into a plain wxImage software framebuffer with simple memory writes
+//   instead of touching the CoreGraphics context. Once per video frame,
+//   copyScreen() calls drawFullFrameMac(), which converts the framebuffer to
+//   a wxBitmap and blits it into dcMemory with a SINGLE gc->DrawBitmap -
+//   one CoreGraphics operation instead of tens of thousands.
+//
+//   The dcMemory content is therefore identical to before (same pixels, same
+//   colours), so the GUI-thread refresh path (eventRefreshVideo -> reBlit
+//   -> dc.Blit from dcMemory) and the zoom/window machinery are untouched.
+//
+//   Windows/Linux override implementations below simply delegate to the base
+//   Video methods, keeping those rendering paths byte-for-byte identical to
+//   the pre-change code.
+// ---------------------------------------------------------------------
+
+#if defined(__WXMAC__)
+
+void Pixie::setColour(int clr)
+{
+    // Deferred rendering: remember the colour only, do NOT touch gc here.
+    // The colour_[]/brushColour_[]/penColour_[] arrays are already up to
+    // date (defineColours / reColour_).
+    macCurrentColour_ = colour_[clr];
+}
+
+void Pixie::drawPoint(wxCoord x, wxCoord y)
+{
+    ensureFramebufferMac();
+    int w = macFrameImage_->GetWidth();
+    int h = macFrameImage_->GetHeight();
+    if (x < 0 || x >= w || y < 0 || y >= h)
+        return;
+    unsigned char* data = macFrameImage_->GetData();
+    int offset = ((int)y * w + (int)x) * 3;
+    data[offset]     = macCurrentColour_.Red();
+    data[offset + 1] = macCurrentColour_.Green();
+    data[offset + 2] = macCurrentColour_.Blue();
+}
+
+void Pixie::drawRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
+{
+    ensureFramebufferMac();
+    int w = macFrameImage_->GetWidth();
+    int h = macFrameImage_->GetHeight();
+    // Match the base macOS gc->DrawRectangle(x, y, width-1, height-1)
+    // semantics so the framebuffer produces the identical image.
+    int x2 = (int)x + (int)width  - 1;   // exclusive x limit
+    int y2 = (int)y + (int)height - 1;   // exclusive y limit
+    int cx0 = wxMax((int)x, 0);
+    int cy0 = wxMax((int)y, 0);
+    int cx1 = wxMin(x2, w);
+    int cy1 = wxMin(y2, h);
+    if (cx1 <= cx0 || cy1 <= cy0)
+        return;
+    unsigned char r = macCurrentColour_.Red();
+    unsigned char g = macCurrentColour_.Green();
+    unsigned char b = macCurrentColour_.Blue();
+    unsigned char* data = macFrameImage_->GetData();
+    for (int iy = cy0; iy < cy1; iy++)
+    {
+        int row = iy * w;
+        for (int ix = cx0; ix < cx1; ix++)
+        {
+            int offset = (row + ix) * 3;
+            data[offset]     = r;
+            data[offset + 1] = g;
+            data[offset + 2] = b;
+        }
+    }
+}
+
+void Pixie::ensureFramebufferMac()
+{
+    int w = 2 * offsetX_ + videoWidth_;
+    int h = 2 * offsetY_ + videoHeight_;
+    if (macFrameImage_ != NULL && macFrameImage_->GetWidth() == w && macFrameImage_->GetHeight() == h)
+        return;
+    // Framebuffer must match the dcMemory/screenCopyPointer size, which is
+    // recreated on window size / zoom changes (Video::changeScreenSize).
+    delete macFrameImage_;
+    macFrameImage_ = new wxImage(w, h);
+    macFrameImage_->SetRGB(wxRect(0, 0, w, h), 0, 0, 0);   // clear to black
+}
+
+void Pixie::drawFullFrameMac()
+{
+    if (gc == NULL)
+        return;
+    ensureFramebufferMac();
+    int w = macFrameImage_->GetWidth();
+    int h = macFrameImage_->GetHeight();
+    // ONE CoreGraphics image draw replaces the previous ~24K per-pixel calls.
+    wxBitmap bitmap(*macFrameImage_);
+    gc->DrawBitmap(bitmap, 0, 0, w, h);
+    gc->Flush();
+}
+
+#else  // !__WXMAC__ : delegate to the base Video rendering (unchanged behaviour)
+
+void Pixie::setColour(int clr)
+{
+    Video::setColour(clr);
+}
+
+void Pixie::drawPoint(wxCoord x, wxCoord y)
+{
+    Video::drawPoint(x, y);
+}
+
+void Pixie::drawRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
+{
+    Video::drawRectangle(x, y, width, height);
+}
+
+#endif
 
 void Pixie::reset()
 {
@@ -687,6 +829,10 @@ void Pixie::copyScreen()
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
+        // macOS: flush the software framebuffer into dcMemory with a single
+        // gc->DrawBitmap (all per-pixel draws during the frame went into the
+        // wxImage framebuffer instead of CoreGraphics).
+        drawFullFrameMac();
         p_Main->eventRefreshVideo(false, videoNumber_);
         reBlit_ = false;
         reDraw_ = false;

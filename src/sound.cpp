@@ -319,7 +319,7 @@ void Sound::initSound(double percentageClock, int bass, int treble, int toneChan
 
 void Sound::toneCoinOn()
 {
-    tonePeriod_[0] = tonePeriod_[1] = (32 *(audioLatchCoin_ + 1));
+    tonePeriod_[0] = tonePeriod_[1] = (computerConfiguration_.cdp1863Configuration.toneFactor *(audioLatchCoin_ + 1));
     if (!toneOn_[0])
     {
         toneTime_[0] = toneTime_[1] = tonePeriod_[0];

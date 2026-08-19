@@ -49,6 +49,19 @@ public:
     void plot(int x, int y, int c, int color);
     void plot(int x, int y, int width, int height, int c, int color);
 
+    // Software-framebuffer rendering overrides (see pixie.cpp for details).
+    // On macOS these write into a wxImage framebuffer instead of issuing
+    // per-pixel wxGraphicsContext (CoreGraphics) calls; on Windows/Linux
+    // they simply delegate to the base Video implementation so those
+    // rendering paths are unchanged.
+    virtual void setColour(int clr);
+    virtual void drawPoint(wxCoord x, wxCoord y);
+    virtual void drawRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height);
+
+#if defined(__WXMAC__)
+    void drawFullFrameMac();
+#endif
+
     void setFullScreen(bool fullScreenSet);
     void onF3();
     void pixieBarSize();
@@ -92,6 +105,15 @@ private:
     VipIIStatusBar *vipIIStatusBarPointer;
 
     Byte vidCycle_;
+
+#if defined(__WXMAC__)
+    // macOS software framebuffer: all pixie drawing writes here first,
+    // then the finished frame is blitted to dcMemory with a single
+    // gc->DrawBitmap in drawFullFrameMac() (called from copyScreen()).
+    void ensureFramebufferMac();
+    wxImage *macFrameImage_;
+    wxColour macCurrentColour_;
+#endif
 
 };
 

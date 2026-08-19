@@ -116,10 +116,10 @@ public:
     virtual void setClock(double clock);
     void activateMainWindow();
 
-    void setColour(int clr);
+    virtual void setColour(int clr);
     void setColour(wxColour clr);
-    void drawRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height);
-    void drawPoint(wxCoord x, wxCoord y);
+    virtual void drawRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height);
+    virtual void drawPoint(wxCoord x, wxCoord y);
     void setColourMutex(int clr);
     void drawRectangleMutex(wxCoord x, wxCoord y, wxCoord width, wxCoord height);
     void drawPointMutex(wxCoord x, wxCoord y);
