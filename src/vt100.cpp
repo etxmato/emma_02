@@ -698,10 +698,18 @@ void Vt100::uartVtIn()
         uartStatus_[uart_thre_bit_] = 1;
         
         if (terminalSave_ && uart1854_)
+        {
             vtCount_ = baudRateR_ * 4;
+            // Re-assert the UART interrupt now that THRE is set.  The firmware
+            // drains its TX buffer one byte per SLU interrupt; without this the
+            // interrupt stays cleared and an XMODEM/terminal SAVE (firmware ->
+            // emulator) stalls once the firmware's 32-byte TXBUF fills up, while
+            // LOAD (emulator -> firmware) is unaffected.  Restricted to the
+            // uart1854 save case so LOAD and other machines are untouched.
+            uartInterrupt();
+        }
         else
             vtCount_ = baudRateR_ * 9;
- //       uartInterrupt(); *** needed on Microboard or others?
     }
 }
 

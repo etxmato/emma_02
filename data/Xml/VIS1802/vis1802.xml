@@ -47,6 +47,7 @@
         <maxscreenlines>24</maxscreenlines>
         <mode>ntsc</mode>
         <int_mode>2</int_mode>
+        <renderondisplayoff />
         <out type="int_reset">2</out>
         <ef type="display" iogroup="no">2</ef>
         <clock>5.670</clock>
@@ -103,8 +104,8 @@
     </vt>
 
     <locations>
-        <start_xmodem_load>0x3d, 0x4c3</start_xmodem_load>
-        <start_xmodem_save>0x3a, 0x4e7</start_xmodem_save>
+        <start_xmodem_load>0x3d, 0x4eb</start_xmodem_load>
+        <start_xmodem_save>0x3a, 0x50f</start_xmodem_save>
     </locations>
     
     <basic>

@@ -5283,6 +5283,16 @@ void Computer::startComputer()
     {
         scratchpadRegister_[0] = currentComputerConfiguration.autoBootConfiguration.address;
         autoBoot();
+        // The startup setMode() above (line ~5280) sees the CPU's initial RESET
+        // state (clear_=0, wait_=1) and sets clearResetPressed_, so the first
+        // cpuInstruction() would call resetCpu() - and resetCpu() zeroes R0,
+        // wiping the boot address just set here (fix for "boots at 0" instead of
+        // the configured <boot> address). autoBoot() has now switched the CPU to
+        // RUN from the boot address, so cancel the pending startup reset in this
+        // autoBoot path only. clearResetPressed_ is still set normally by real
+        // CLEAR/RESET button presses (onClearResetButtonPress), and configs with
+        // no autoBoot / giantBoard keep the original startup-reset behaviour.
+        clearResetPressed_ = false;
     }
     else
     {
@@ -5290,6 +5300,7 @@ void Computer::startComputer()
         {
             setScratchpadRegister(0, currentComputerConfiguration.giantBoardConfiguration.base);
             autoBoot();
+            clearResetPressed_ = false;
         }
     }
     if (currentComputerConfiguration.autoBootConfiguration.dmaOutOnBootIfMem0is0 && readMemDebug(0) == 0 && cpuMode_ != LOAD)
@@ -6492,7 +6503,15 @@ Byte Computer::readMemDebug(Word address, int function)
                         groupFound = true;
                 }
             }
-            if (groupFound)
+            // Match the write side: when the page memory is declared iogroup="no"
+            // (pageMemExcludeIoGroup), reads must also always go to the VIS page
+            // memory, regardless of the current I/O group.  Without this, a read
+            // executed while the firmware is in the "other" I/O group (e.g. the
+            // serial/keyboard group) falls through to mainMemory_[address],
+            // returning 0x00 instead of the real page byte - which then gets
+            // saved into CURSCHR and restored over a valid character (the
+            // VIS1802 "space over first char" bug).
+            if (groupFound || currentComputerConfiguration.vis1870Configuration.pageMemExcludeIoGroup)
                 return vis1870Pointer->readPram(address);
             else
                 return mainMemory_[address];
@@ -6511,7 +6530,9 @@ Byte Computer::readMemDebug(Word address, int function)
                         groupFound = true;
                 }
             }
-            if (groupFound)
+            // Match the write side (charMemExcludeIoGroup / iogroup="no") so
+            // character-memory reads work in both I/O groups as well.
+            if (groupFound || currentComputerConfiguration.vis1870Configuration.charMemExcludeIoGroup)
                 return vis1870Pointer->readCram(address);
             else
                 return mainMemory_[address];

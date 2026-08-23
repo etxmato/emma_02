@@ -411,6 +411,13 @@ public:
     bool rotateScreen;
     bool useBlockWrite;
     bool cursorBlink;
+    // When true, the register-3 "display off" bit does NOT suppress rendering.
+    // Real VIS blanking is momentary (page RAM is always scanned) so content
+    // written while the display is off appears when it comes back on. COMX
+    // software relies on the default (rendering suppressed while display off);
+    // the VIS1802 firmware toggles display off before every page-memory write,
+    // so it needs this set to keep text visible (see renderondisplayoff XML).
+    bool renderWhenDisplayOff;
     int qGroup;
     
     int videoMode;

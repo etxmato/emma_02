@@ -66,7 +66,7 @@ class Video : public wxFrame
 {
 public:
     Video(const wxString& title, const wxPoint& pos, const wxSize& size);
-    ~Video() {};
+    virtual ~Video();
 
     virtual void onClose(wxCloseEvent&event );
     void onSize(wxSizeEvent&event);
@@ -237,6 +237,40 @@ protected:
     int videoNumber_;
 
     bool graphicsOn_;
+    
+#if defined(__WXMAC__)
+    // macOS software framebuffer (see video.cpp). All per-pixel drawing
+    // funnels through the virtual setColour / drawPoint / drawRectangle
+    // (and the setColourMutex / drawPointMutex / drawRectangleMutex
+    // variants, which delegate to them). On macOS, when
+    // macFramebufferEnabled_ is true, these write into a plain wxImage
+    // software framebuffer instead of issuing per-pixel CoreGraphics
+    // (gc->DrawRectangle) calls, which is what kept the pixie-family
+    // displays below real-time and starved the audio ring. Once per video
+    // frame, copyScreen() calls flushFramebufferMac() to push the touched
+    // planes into their graphics context with one gc->DrawBitmap each.
+    //
+    // There is one framebuffer per rendering plane, matching the base
+    // Video DC/gc pairs: [0]=dcMemory/gc, [1]=dcMemoryMainPlane/gcMainPlane,
+    // [2]=dcMemorySpritePlane/gcSpritePlane. Single-plane video types (Pixie,
+    // MC6847, VIS1870, ...) only ever use plane 0.
+    //
+    // The flag is opt-in (default off) so only video types that enable it
+    // (enableFramebufferMac()) change rendering path on macOS; everything
+    // else keeps the original gc-based path byte-for-byte.
+    void enableFramebufferMac();
+    void flushFramebufferMac();
+    void setMacPlane(int plane);
+    void ensureFramebufferMac(int plane = 0);
+    void drawPointFramebufferMac(wxCoord x, wxCoord y);
+    void drawRectangleFramebufferMac(wxCoord x, wxCoord y, wxCoord width, wxCoord height);
+
+    wxImage *macFrameImage_[3];
+    wxColour macCurrentColour_[3];
+    int  macPlaneId_;
+    bool macFramebufferEnabled_;
+    bool macPlaneDirty_[3];
+#endif
     
 private:
     SplashScreen *splashScreen_;

@@ -106,6 +106,7 @@ void Vis1870Config::visConfigInit()
     computerConfiguration.vis1870Configuration.defined = false;
     computerConfiguration.vis1870Configuration.useVideoModeEf = false;
     computerConfiguration.vis1870Configuration.useBlockWrite = true;
+    computerConfiguration.vis1870Configuration.renderWhenDisplayOff = false;
     computerConfiguration.vis1870Configuration.pageMemSize = 0x3ff;
     computerConfiguration.vis1870Configuration.pageMemIsRom =false;
     computerConfiguration.vis1870Configuration.graphicMemSize = 0;
@@ -212,6 +213,7 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
         "color",
         "ctone",
         "cursorblink",
+        "renderondisplayoff",
         "iogroup",
         "log",
         "comment",
@@ -245,6 +247,7 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
         TAG_COLOR,
         TAG_CTONE,
         TAG_CURSORBLINK,
+        TAG_RENDER_DISPLAY_OFF,
         TAG_IOGROUP,
         TAG_LOG,
         TAG_COMMENT,
@@ -509,6 +512,13 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
 
             case TAG_CURSORBLINK:
                 computerConfiguration.vis1870Configuration.cursorBlink = true;
+            break;
+
+            case TAG_RENDER_DISPLAY_OFF:
+                // VIS1802: keep rendering while the register-3 "display off"
+                // bit is set (the firmware toggles display off before every
+                // page-memory write). COMX keeps the default (suppress).
+                computerConfiguration.vis1870Configuration.renderWhenDisplayOff = true;
             break;
 
             case TAG_LOG:

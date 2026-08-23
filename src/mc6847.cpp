@@ -146,6 +146,9 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
 #if defined(__WXMAC__)
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
+    // Render per-pixel drawing through the base software framebuffer on
+    // macOS (one gc->DrawBitmap per frame instead of per-pixel CoreGraphics).
+    enableFramebufferMac();
 #endif
 
     videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_);
@@ -499,6 +502,7 @@ void mc6847::copyScreen()
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
+        flushFramebufferMac();
         p_Main->eventRefreshVideo(false, videoNumber_);
         reBlit_ = false;
         reDraw_ = false;

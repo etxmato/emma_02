@@ -163,6 +163,11 @@ VIS1870::VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, 
 #if defined(__WXMAC__)
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
+    // Render per-pixel drawing through the base software framebuffer on
+    // macOS (one gc->DrawBitmap per frame instead of per-pixel CoreGraphics).
+    // VIS1870 draws via the setColour/drawPoint/drawRectangle Mutex variants,
+    // which delegate to the framebuffer-aware virtuals (see video.cpp).
+    enableFramebufferMac();
 #endif
 
     this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
@@ -426,7 +431,7 @@ void VIS1870::out2_1870(Byte value)
 
 void VIS1870::out3_1870(Byte value)
 {
-    Byte old;
+        Byte old;
 
     old = register3_;
     register3_ = value;
@@ -581,18 +586,31 @@ void VIS1870::out7_1870(Word address)
         {
             if ((register7_ == (old+40)) || ((register7_ == 0) && (old == 920)))
             {
+#if defined(__WXMAC__)
+                // Framebuffer path: dcMemory is rebuilt from the software
+                // framebuffer on every flush, so a dcMemory scroll blit would be
+                // lost. Instead request a full redraw - drawTextScreen() starts
+                // at the new register7_, regenerating the scrolled screen into
+                // the framebuffer (fast memory writes, no per-pixel CG calls).
+                reDraw_ = true;
+#else
                 dcScroll.Blit(0, 0, videoWidth_, videoHeight_-linesPerCharacters_, &dcMemory, offsetX_, linesPerCharacters_+offsetY_);
                 dcScroll.Blit(0, videoHeight_-linesPerCharacters_, videoWidth_, linesPerCharacters_, &dcMemory, offsetX_, 0);
                 dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcScroll, 0, 0);
                 reBlit_ = true;
+#endif
                 return;
             }
             if ((register7_ == (old-40)) || ((register7_ == 920) && (old == 0)))
             {
+#if defined(__WXMAC__)
+                reDraw_ = true;
+#else
                 dcScroll.Blit(0, linesPerCharacters_, videoWidth_, videoHeight_-linesPerCharacters_, &dcMemory, offsetX_, offsetY_);
                 dcScroll.Blit(0, 0, videoWidth_, linesPerCharacters_, &dcMemory, offsetX_, videoHeight_-linesPerCharacters_+offsetY_);
                 dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcScroll, 0, 0);
                 reBlit_ = true;
+#endif
                 return;
             }
         }
@@ -637,7 +655,7 @@ void VIS1870::cycle1870()
         videoSyncCount_++;
         if (!displayOff_)
         {
-            if (vis1870Configuration_.interruptMode == INT_MODE2)
+                        if (vis1870Configuration_.interruptMode == INT_MODE2)
                 p_Computer->requestInterrupt(INTERRUPT_TYPE_VIS, true, vis1870Configuration_.picInterrupt);
             if (interruptEnabled_ && vis1870Configuration_.interruptMode == INT_MODE4)
                 p_Computer->requestInterrupt(INTERRUPT_TYPE_VIS, true, vis1870Configuration_.picInterrupt);
@@ -721,6 +739,7 @@ int VIS1870::writeCramText(Word address, Byte v)
     address &= CmaMask_;
     address += ((pageMemory_[ac]&pcbMask_) * maxLinesPerCharacters_);
 
+    
     if (charMemoryIsRom_ && address >= romAddress_)
         return -1;
     
@@ -987,6 +1006,7 @@ void VIS1870::copyScreen()
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
+        flushFramebufferMac();
         p_Main->eventRefreshVideo(false, videoNumber_);
         reBlit_ = false;
         reDraw_ = false;
@@ -1045,7 +1065,7 @@ void VIS1870::drawScreen()
     setColour(colourIndex_+backGround_);
     drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
 
-    if (displayOff_)
+    if (displayOff_ && !vis1870Configuration_.renderWhenDisplayOff)
     {
         return;
     }
@@ -1119,7 +1139,7 @@ void VIS1870::drawCharacter(wxCoord x, wxCoord y, Byte v, int address)
 void VIS1870::drawCharacterAndBackground(wxCoord x, wxCoord y, Byte v, int address)
 {
     Byte pcb = (v & 0x80) ? 1 : 0;
-    if (displayOff_)
+        if (displayOff_ && !vis1870Configuration_.renderWhenDisplayOff)
         return;
     v &= pcbMask_;
     int a = v * maxLinesPerCharacters_;

@@ -64,6 +64,8 @@ void Ps2gpio::configurePs2gpio(bool forceUpperCase, GpioPs2KeyboardConfiguration
     forceUpperCase_ = forceUpperCase;
     keyboardEf_ = 1;
     keyboardValue_ = 0;
+    keyCycles_ = 600000;
+    lastKeyCode_ = 0;
     
     startUp_ = true;
 
@@ -182,7 +184,7 @@ void Ps2gpio::cyclePs2gpio()
             addKeyToBuffer(-1, rawKeyCode);
         return;
     }
-    if (elfKeyFileOpen_ && keyboardEf_ == 1)
+    if (elfKeyFileOpen_ && keyboardEf_ == 1 && keyCycles_ == 0)
     {
         int rawKeyCode = 0;
         if (elfKeyFile_.Read(&rawKeyCode, 1) == 0)
@@ -192,12 +194,26 @@ void Ps2gpio::cyclePs2gpio()
         }
         else
         {
+            // Pace keyfile delivery like a fast typist.  The VIS/VT1802
+            // firmware keeps received keys in a fixed 16-byte buffer (KEYBUF);
+            // if bytes arrive faster than the foreground code drains it, the
+            // ISR silently drops the overflow.  Especially at boot, the splash
+            // screen and BASIC cold start consume nothing, so the first chunk
+            // of the file must not be dumped in a burst.  keyCycles_ is an
+            // initial delay (600000 in configure/reset) plus a short gap
+            // between keys and a long pause after each <CR> so the firmware
+            // can finish processing the completed line.
+            keyCycles_ = 2000;
             if (rawKeyCode == 10) rawKeyCode = 13;
             if (rawKeyCode == 13 && lastKeyCode_ == 13) rawKeyCode = 0;
             lastKeyCode_ = rawKeyCode;
-            addKeyToBuffer(-1, rawKeyCode);
+            if (rawKeyCode == 13) keyCycles_ = 200000;
+            if (rawKeyCode != 0)
+                addKeyToBuffer(-1, rawKeyCode);
         }
     }
+    if (keyCycles_ > 0 && keyboardEf_ == 1)
+        keyCycles_--;
     if (ps2KeyStart_ != ps2KeyEnd_ && keyboardEf_ == 1)
     {
         keyboardValue_ = ps2Buffer_[ps2KeyStart_++];
@@ -249,6 +265,8 @@ void Ps2gpio::resetPs2gpio()
     startUp_ = true;
     keyboardEf_ = 1;
     keyboardValue_ = 0;
+    keyCycles_ = 600000;
+    lastKeyCode_ = 0;
 }
 
 void Ps2gpio::writeGpioControlRegister(Byte value)
