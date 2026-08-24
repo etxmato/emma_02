@@ -6,7 +6,7 @@
     <system>
         <name>VIS1802</name>
         <config>NTSC</config>
-        <clock>2.835</clock>
+        <clock>3.579</clock>
         <boot>0</boot>
         <init ef="1">1</init>
         <init ef="2">1</init>
@@ -47,7 +47,6 @@
         <maxscreenlines>24</maxscreenlines>
         <mode>ntsc</mode>
         <int_mode>2</int_mode>
-        <renderondisplayoff />
         <out type="int_reset">2</out>
         <ef type="display" iogroup="no">2</ef>
         <clock>5.670</clock>
@@ -120,8 +119,8 @@
 
     <debugger>
         <scrt mode="on">
-            <call reg="4">0x2301</call>
-            <return reg="5">0x2313</return>
+            <call reg="4">0x5fe8</call>
+            <return reg="5">0x55f2</return>
         </scrt>
         
         <assembler>
