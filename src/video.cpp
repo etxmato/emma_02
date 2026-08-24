@@ -310,6 +310,8 @@ Video::Video(const wxString& title, const wxPoint& pos, const wxSize& size)
 //    memoryDCvalid_ = true;
     memoryDCvalid_ = false;
     colourIndex_ = 0;
+    offsetX_ = 0;
+    offsetY_ = 0;
 
     // Graphics contexts are created by the subclasses (and by
     // changeScreenSize / resetScreenCopyPointer). NULL-init here so the

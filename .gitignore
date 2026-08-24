@@ -36,6 +36,9 @@
 *.pjd.bak
 /Emma\ 02.xcodeproj/xcuserdata/*
 .DS_Store
+.clangd
 /Helpfiles/.DS_Store
 emma_02
 Makefile
+.clangd
+Emma 02.xcodeproj/project.xcworkspace/xcuserdata/etxmato.xcuserdatad/UserInterfaceState.xcuserstate

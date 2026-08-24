@@ -197,6 +197,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 #if defined(__WXMAC__)
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
+    enableFramebufferMac();
 #endif
 
     pressedKey_ = 0;
@@ -219,6 +220,8 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     ctrlQpressed_ = false;
     smoothScroll_ = false;
     scrolling_ = 10;
+    offsetX_ = 0;
+    offsetY_ = 0;
     ShowCursor();
 
     highlight_ = false;
@@ -248,8 +251,6 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
         this->SetBackgroundColour(colour_[colourIndex_+1]);
     }
     characterListPointer = NULL;
-    offsetX_ = 0;
-    offsetY_ = 0;
     reDraw_ = true;
     reBlit_ = false;
     reBlink_ = false;
@@ -1186,6 +1187,7 @@ void Vt100::copyScreen()
         blinkScreen();
 
 #if defined(__WXMAC__)
+    flushFramebufferMac();
     if (reBlit_ || reDraw_ || reBlink_)
     {
         p_Main->eventRefreshVideo(true, uartNumber_);
@@ -4342,7 +4344,6 @@ bool Vt100::charPressed(wxKeyEvent& event)
     {
         if (setUpModeB_ && answerBack_)
         {
-            RemoveCursor();
             if (key == answerBackDelimiter_)
             {
                 answerBack_ = false;
@@ -4361,13 +4362,12 @@ bool Vt100::charPressed(wxKeyEvent& event)
                         answerBackMessage_.SetChar(cursorPosition_-3, key);
                     if (key < 32)  key = 1;
                     writeMem(23, cursorPosition_, key);
-                    drawCharacter(cursorPosition_ , 23, key, false);
                     cursorPosition_++;
                     if (cursorPosition_ == 23) 
                         cursorPosition_ = 22;
                 }
             }
-            ShowCursor();
+            reDraw_ = true;
             pressedKey_ = 0;
             return true;
         }
