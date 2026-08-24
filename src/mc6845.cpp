@@ -98,6 +98,7 @@ MC6845::MC6845(const wxString& title, const wxPoint& pos, const wxSize& size, do
 #if defined(__WXMAC__)
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
+    enableFramebufferMac();
 #endif
 
     videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_);
@@ -540,6 +541,7 @@ void MC6845::copyScreen()
     if (reBlit_ || reDraw_)
     {
 //        gc->Flush();
+        flushFramebufferMac();
         p_Main->eventRefreshVideo(false, videoNumber_);
         reBlit_ = false;
         reDraw_ = false;

@@ -1,0 +1,39 @@
+# clangd configuration for the Emma 02 emulator project.
+#
+# The Xcode build supplies the real include paths and defines via the
+# wx*.xcconfig / wxWidgets build; the editor's language server (clangd) needs
+# them explicitly so it can resolve the wxWidgets / SDL2 headers instead of
+# reporting false "file not found" / "unknown type" errors.
+#
+# Flags below mirror the output of wx-config (build-debug-12.0):
+#   -I<build>/lib/wx/include/osx_cocoa-unicode-static-3.2 -I<source>/include
+#   -D_FILE_OFFSET_BITS=64 -D__WXMAC__ -D__WXOSX__ -D__WXOSX_COCOA__
+#
+# wxWidgets -> /Users/etxmato/workspace/wxWidgets-3.2.10
+# SDL2      -> /Users/etxmato/workspace/emma_02/SDL2.framework
+
+CompileFlags:
+  Add:
+    - -std=gnu++17
+    - -D_FILE_OFFSET_BITS=64
+    - -D__WXMAC__
+    - -D__WXOSX__
+    - -D__WXOSX_COCOA__
+    # Force a wxWidgets preamble so headers (e.g. video.h -> splash.h) parse
+    # correctly when opened standalone, without relying on a .cpp file having
+    # included wx first. Guard macros prevent any double-inclusion.
+    - -include/Users/etxmato/workspace/wxWidgets-3.2.10/include/wx/wx.h
+    # Force the project's main.h as well: it defines Byte/Word and includes
+    # definition.h (the *Configuration types), which the emulator headers rely
+    # on being set up before they are parsed. Every .cpp already includes
+    # main.h first, so this matches the real include order.
+    - -include/Users/etxmato/workspace/emma_02/src/main.h
+    - -I/Users/etxmato/workspace/emma_02
+    - -I/Users/etxmato/workspace/wxWidgets-3.2.10/build-debug-12.0/lib/wx/include/osx_cocoa-unicode-static-3.2
+    - -I/Users/etxmato/workspace/wxWidgets-3.2.10/include
+    - -I/Users/etxmato/workspace/emma_02/SDL2.framework/Versions/A/Headers
+
+Diagnostics:
+  Suppress:
+    # wxWidgets deprecation noise is not actionable for the emulator.
+    - deprecated-declarations

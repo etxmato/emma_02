@@ -92,6 +92,8 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
 
     gcSpritePlane = wxGraphicsContext::Create(dcMemorySpritePlane);
     gcSpritePlane->SetAntialiasMode(wxANTIALIAS_NONE);
+
+    enableFramebufferMac();   // macOS software framebuffer (plane 1 + 2)
 #endif
     
     mode_ = TMS_GRAPHICS_I;
@@ -749,6 +751,7 @@ void Tms9918::copyScreen()
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_ || reDrawSprites_)
     {
+        flushFramebufferMac();
         dcMemoryMainAndSpritePlane.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemoryMainPlane, 0, 0);
         if (mode_ != TMS_TEXT)
             dcMemoryMainAndSpritePlane.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemorySpritePlane, offsetX_, offsetY_);
@@ -821,19 +824,33 @@ void Tms9918::drawSprites()
     }
 
 #if defined(__WXMAC__)
-    dcMemorySpritePlane.SelectObject(wxNullBitmap);
-    delete spritePlanePointer;
-    delete gcSpritePlane;
-    
-    spritePlanePointer = new wxBitmap(320, 240);
-    dcMemorySpritePlane.SelectObject(*spritePlanePointer);
+    if (macFramebufferEnabled_)
+    {
+        // Seed the sprite plane framebuffer (plane 2) with the current
+        // main-plane content (memory-to-memory). This replaces the per-frame
+        // bitmap recreate + blit below, which can only read flushed
+        // (previous-frame) DC content mid-frame.
+        copyFramebufferMac(1, 2);
+    }
+    else
+    {
+        dcMemorySpritePlane.SelectObject(wxNullBitmap);
+        delete spritePlanePointer;
+        delete gcSpritePlane;
+        
+        spritePlanePointer = new wxBitmap(320, 240);
+        dcMemorySpritePlane.SelectObject(*spritePlanePointer);
 
-    gcSpritePlane = wxGraphicsContext::Create(dcMemorySpritePlane);
-    gcSpritePlane->SetAntialiasMode(wxANTIALIAS_NONE);
-#endif
-//#else
+        gcSpritePlane = wxGraphicsContext::Create(dcMemorySpritePlane);
+        gcSpritePlane->SetAntialiasMode(wxANTIALIAS_NONE);
+
+        dcMemorySpritePlane.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemoryMainPlane, offsetX_, offsetY_);
+    }
+#else
+    // Startup sprite plane with the main-plane content so sprites render on
+    // top of the background.
     dcMemorySpritePlane.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemoryMainPlane, offsetX_, offsetY_);
-//#endif
+#endif
 
     while (tmsMemory_[spriteAttributeTableAddress] != 0xD0 && spriteAttributeTableAddress < (spriteAttributeTableAddress_+128))
     {
@@ -846,8 +863,17 @@ void Tms9918::drawSprites()
         spritePatternTableAddress = spritePatternTableAddress_ + namePointer * 8;
 
 #if defined(__WXMAC__)
-        gcSpritePlane->SetBrush(brushColour_[colourIndex_+color+16]);
-        gcSpritePlane->SetPen(penColour_[color+16]);
+        if (macFramebufferEnabled_)
+        {
+            setMacPlane(2);
+            Video::setColour(brushColour_[colourIndex_+color+16].GetColour());
+            setMacPlane(0);
+        }
+        else
+        {
+            gcSpritePlane->SetBrush(brushColour_[colourIndex_+color+16]);
+            gcSpritePlane->SetPen(penColour_[color+16]);
+        }
 #else
         dcMemorySpritePlane.SetBrush(brushColour_[colourIndex_+color+16]);
         dcMemorySpritePlane.SetPen(penColour_[color+16]);
@@ -1222,6 +1248,13 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
 void Tms9918::drawPointMainPlane(wxCoord x, wxCoord y)
 {
 #if defined(__WXMAC__)
+    if (macFramebufferEnabled_)
+    {
+        setMacPlane(1);
+        Video::drawPoint(x, y);
+        setMacPlane(0);
+        return;
+    }
     gcMainPlane->DrawRectangle(x, y, 0, 0);
 #else
     dcMemoryMainPlane.DrawPoint(x, y);
@@ -1231,6 +1264,13 @@ void Tms9918::drawPointMainPlane(wxCoord x, wxCoord y)
 void Tms9918::drawPointSpritePlane(wxCoord x, wxCoord y)
 {
 #if defined(__WXMAC__)
+    if (macFramebufferEnabled_)
+    {
+        setMacPlane(2);
+        Video::drawPoint(x, y);
+        setMacPlane(0);
+        return;
+    }
     gcSpritePlane->DrawRectangle(x, y, 0, 0);
 #else
     dcMemorySpritePlane.DrawPoint(x, y);
@@ -1240,6 +1280,13 @@ void Tms9918::drawPointSpritePlane(wxCoord x, wxCoord y)
 void Tms9918::drawRectangleMainPlane(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
 {
 #if defined(__WXMAC__)
+    if (macFramebufferEnabled_)
+    {
+        setMacPlane(1);
+        Video::drawRectangle(x, y, width, height);
+        setMacPlane(0);
+        return;
+    }
     gcMainPlane->DrawRectangle(x, y, width-1, height-1);
 #else
     dcMemoryMainPlane.DrawRectangle(x, y, width, height);
@@ -1249,6 +1296,13 @@ void Tms9918::drawRectangleMainPlane(wxCoord x, wxCoord y, wxCoord width, wxCoor
 void Tms9918::setColourMutexMainPlane(int clr)
 {
 #if defined(__WXMAC__)
+    if (macFramebufferEnabled_)
+    {
+        setMacPlane(1);
+        Video::setColour(clr);
+        setMacPlane(0);
+        return;
+    }
     gcMainPlane->SetBrush(brushColour_[clr]);
     gcMainPlane->SetPen(penColour_[clr]);
 #else

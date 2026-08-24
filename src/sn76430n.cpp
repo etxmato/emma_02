@@ -56,6 +56,7 @@ SN76430N::SN76430N(const wxString& title, const wxPoint& pos, const wxSize& size
     videoClock_ = videoClock;
     videoType_ = VIDEOXMLSN76430N;
     sn76430NConfiguration_ = sn76430NConfiguration;
+    videoNumber_ = sn76430NConfiguration.videoNumber;
  
     colourIndex_ = COL_SN76430N_WHITE;
 
@@ -86,6 +87,7 @@ SN76430N::SN76430N(const wxString& title, const wxPoint& pos, const wxSize& size
 #if defined(__WXMAC__)
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
+    enableFramebufferMac();
 #endif
 
     this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
@@ -192,6 +194,7 @@ void SN76430N::copyScreen()
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
+        flushFramebufferMac();
         p_Main->eventRefreshVideo(false, sn76430NConfiguration_.videoNumber);
         reBlit_ = false;
         reDraw_ = false;

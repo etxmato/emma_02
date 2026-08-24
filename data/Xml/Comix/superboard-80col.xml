@@ -246,6 +246,7 @@
         <ef>4</ef>
         <screen>80x24</screen>
         <char>8x8</char>
+        <border>6x6</border>
         <zoom>1.00</zoom>
         <pos>0,489</pos>
         <interlace />

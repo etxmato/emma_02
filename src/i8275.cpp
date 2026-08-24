@@ -90,6 +90,7 @@ i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 #if defined(__WXMAC__)
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
+    enableFramebufferMac();
 #endif
 
     setColour(colourIndex_+backGround_);
@@ -749,6 +750,7 @@ void i8275::copyScreen()
 #if defined(__WXMAC__)
     if (reBlit_ || reBlitAfterReDraw || reBlink_)
     {
+        flushFramebufferMac();
         p_Main->eventRefreshVideo(false, videoNumber_);
         reBlit_ = false;
         reBlink_ = false;

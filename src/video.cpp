@@ -960,6 +960,22 @@ void Video::flushFramebufferMac()
     }
 }
 
+void Video::copyFramebufferMac(int fromPlane, int toPlane)
+{
+    ensureFramebufferMac(fromPlane);
+    ensureFramebufferMac(toPlane);
+    wxImage *src = macFrameImage_[fromPlane];
+    wxImage *dst = macFrameImage_[toPlane];
+    // Both planes use the same size (2*offsetX_+videoWidth_ x
+    // 2*offsetY_+videoHeight_), so a straight memcpy seeds the target plane
+    // with the source plane's content (e.g. the TMS9918 sprite plane gets the
+    // full main-plane image before sprites are drawn on top). fromPlane keeps
+    // its own dirty state; only the target is marked dirty.
+    memcpy(dst->GetData(), src->GetData(),
+           (size_t)dst->GetWidth() * dst->GetHeight() * 3);
+    macPlaneDirty_[toPlane] = true;
+}
+
 #endif
 
 void Video::splashScreen()

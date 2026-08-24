@@ -249,6 +249,7 @@
         <screen>80x24</screen>
         <char>8x8</char>
         <zoom>1.00</zoom>
+        <border>6x6</border>
         <pos>0,489</pos>
         <interlace />
     </video>

@@ -33,6 +33,7 @@
         <ram>0xE000-0xE7FF</ram>
         <font>super.video.bin</font>
         <screen>64x16</screen>
+        <border>6x6</border>
         <char>7x8</char>
         <interlace />
     </video>

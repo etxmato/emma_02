@@ -228,7 +228,7 @@
         <char>8x8</char>
         <zoom>1.00</zoom>
         <interlace />
-        <border>0x0</border>
+        <border>6x6</border>
         <pos>0,489</pos>
         <color type="fore">0, 255, 0</color>
         <color type="back">0, 0x40, 0</color>

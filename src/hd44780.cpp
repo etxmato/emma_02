@@ -75,6 +75,7 @@ HD44780::HD44780(const wxString& title, const wxPoint& pos, const wxSize& size, 
 #if defined(__WXMAC__)
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
+    enableFramebufferMac();
 #endif
 
     videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_);
@@ -411,6 +412,7 @@ void HD44780::copyScreen()
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
+        flushFramebufferMac();
         p_Main->eventRefreshVideo(false, videoNumber_);
         reBlit_ = false;
         reDraw_ = false;

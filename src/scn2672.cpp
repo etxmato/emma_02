@@ -159,6 +159,7 @@ Scn2672::Scn2672(const wxString& title, const wxPoint& pos, const wxSize& size, 
 #if defined(__WXMAC__)
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
+    enableFramebufferMac();
 #endif
 
     videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_, xZoomFactor_);
@@ -1275,6 +1276,7 @@ void Scn2672::copyScreen()
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
+        flushFramebufferMac();
         p_Main->eventRefreshVideo(false, videoNumber_);
         reBlit_ = false;
     }

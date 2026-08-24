@@ -260,6 +260,7 @@ protected:
     // else keeps the original gc-based path byte-for-byte.
     void enableFramebufferMac();
     void flushFramebufferMac();
+    void copyFramebufferMac(int fromPlane, int toPlane);
     void setMacPlane(int plane);
     void ensureFramebufferMac(int plane = 0);
     void drawPointFramebufferMac(wxCoord x, wxCoord y);
