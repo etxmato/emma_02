@@ -34,11 +34,11 @@
 /Helpfiles/images/old_images/*
 /IsTool/vccrt.msi
 *.pjd.bak
-/Emma\ 02.xcodeproj/xcuserdata/*
 .DS_Store
 .clangd
+**/xcuserdata/
 /Helpfiles/.DS_Store
 emma_02
 Makefile
-.clangd
-Emma 02.xcodeproj/project.xcworkspace/xcuserdata/etxmato.xcuserdatad/UserInterfaceState.xcuserstate
+
+
