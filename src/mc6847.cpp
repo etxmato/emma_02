@@ -31,6 +31,8 @@
     #include "wx/wx.h"
 #endif
 
+#include "wx/graphics.h"
+
 #if defined(__linux__)
 #include "app_icon.xpm"
 #endif
