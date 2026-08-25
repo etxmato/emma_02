@@ -238,17 +238,16 @@ protected:
 
     bool graphicsOn_;
     
-#if defined(__WXMAC__)
-    // macOS software framebuffer (see video.cpp). All per-pixel drawing
+// Software framebuffer (see video.cpp). All per-pixel drawing
     // funnels through the virtual setColour / drawPoint / drawRectangle
     // (and the setColourMutex / drawPointMutex / drawRectangleMutex
-    // variants, which delegate to them). On macOS, when
-    // macFramebufferEnabled_ is true, these write into a plain wxImage
-    // software framebuffer instead of issuing per-pixel CoreGraphics
-    // (gc->DrawRectangle) calls, which is what kept the pixie-family
-    // displays below real-time and starved the audio ring. Once per video
-    // frame, copyScreen() calls flushFramebufferMac() to push the touched
-    // planes into their graphics context with one gc->DrawBitmap each.
+    // variants, which delegate to them). When macFramebufferEnabled_ is
+    // true, these write into a plain wxImage software framebuffer instead
+    // of issuing per-pixel CoreGraphics (gc->DrawRectangle) calls, which is
+    // what kept the pixie-family displays below real-time and starved the
+    // audio ring. Once per video frame, copyScreen() calls
+    // flushFramebufferMac() to push the touched planes into their graphics
+    // context with one gc->DrawBitmap each.
     //
     // There is one framebuffer per rendering plane, matching the base
     // Video DC/gc pairs: [0]=dcMemory/gc, [1]=dcMemoryMainPlane/gcMainPlane,
@@ -256,8 +255,13 @@ protected:
     // MC6847, VIS1870, ...) only ever use plane 0.
     //
     // The flag is opt-in (default off) so only video types that enable it
-    // (enableFramebufferMac()) change rendering path on macOS; everything
-    // else keeps the original gc-based path byte-for-byte.
+    // (enableFramebufferMac()) change rendering path; everything else keeps
+    // the original gc-based (macOS) / dcMemory-based (Win/Linux) path
+    // byte-for-byte.
+    //
+    // NOTE (2026-08-25): the members/methods are no longer guarded by
+    // __WXMAC__ — the framebuffer is exercised cross-platform (starting with
+    // MC6847) so the render path is identical on macOS/Windows/Linux.
     void enableFramebufferMac();
     void flushFramebufferMac();
     void copyFramebufferMac(int fromPlane, int toPlane);
@@ -271,7 +275,6 @@ protected:
     int  macPlaneId_;
     bool macFramebufferEnabled_;
     bool macPlaneDirty_[3];
-#endif
     
 private:
     SplashScreen *splashScreen_;

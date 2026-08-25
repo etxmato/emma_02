@@ -322,24 +322,21 @@ Video::Video(const wxString& title, const wxPoint& pos, const wxSize& size)
     gcMainPlane = NULL;
     gcSpritePlane = NULL;
 
-#if defined(__WXMAC__)
-    // Software framebuffer is off by default; video types that need it
+// Software framebuffer is off by default; video types that need it
     // (pixie family first, others in later phases) call enableFramebufferMac().
+    // NOTE: framebuffer state is now cross-platform (see video.h).
     macFramebufferEnabled_ = false;
     macPlaneId_ = 0;
     macFrameImage_[0] = macFrameImage_[1] = macFrameImage_[2] = NULL;
     macCurrentColour_[0] = macCurrentColour_[1] = macCurrentColour_[2] = *wxBLACK;
     macPlaneDirty_[0] = macPlaneDirty_[1] = macPlaneDirty_[2] = false;
-#endif
 }
 
 Video::~Video()
 {
-#if defined(__WXMAC__)
     delete macFrameImage_[0];
     delete macFrameImage_[1];
     delete macFrameImage_[2];
-#endif
 }
 
 void Video::onClose(wxCloseEvent&WXUNUSED(event) )
@@ -594,11 +591,13 @@ void Video::changeScreenSize()
     
     dcMemory.SelectObject(*screenCopyPointer);
     
-#ifdef __WXMAC__
+    // gc is now created on all platforms so that the software framebuffer
+    // flush (flushFramebufferMac) can push the wxImage into dcMemory with one
+    // DrawBitmap. wxGraphicsContext::Create(wxMemoryDC) is portable: GDI+ on
+    // Windows, Cairo on Linux/GTK, CoreGraphics on macOS.
     delete gc;
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
-#endif
 
     double intPart;
     zoomFraction_ = (modf(zoom_, &intPart) != 0);
@@ -767,7 +766,6 @@ void Video::setColour(int clr)
 {
 //    if (p_Main->isZoomEventOngoingButNotFullScreen())
 //        return;
-#if defined(__WXMAC__)
     if (macFramebufferEnabled_)
     {
         // Deferred rendering: remember the colour only, do NOT touch gc.
@@ -776,6 +774,7 @@ void Video::setColour(int clr)
         macCurrentColour_[macPlaneId_] = brushColour_[clr].GetColour();
         return;
     }
+#if defined(__WXMAC__)
     gc->SetBrush(brushColour_[clr]);
     gc->SetPen(penColour_[clr]);
 #else
@@ -788,12 +787,12 @@ void Video::setColour(wxColour clr)
 {
     //    if (p_Main->isZoomEventOngoingButNotFullScreen())
     //        return;
-#if defined(__WXMAC__)
     if (macFramebufferEnabled_)
     {
         macCurrentColour_[macPlaneId_] = clr;
         return;
     }
+#if defined(__WXMAC__)
     gc->SetBrush(wxBrush(clr));
     gc->SetPen(wxPen(clr));
 #else
@@ -804,12 +803,12 @@ void Video::setColour(wxColour clr)
 
 void Video::drawRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
 {
-#if defined(__WXMAC__)
     if (macFramebufferEnabled_)
     {
         drawRectangleFramebufferMac(x, y, width, height);
         return;
     }
+#if defined(__WXMAC__)
     gc->DrawRectangle(x, y, width-1, height-1);
 #else
     dcMemory.DrawRectangle(x, y, width, height);
@@ -818,12 +817,12 @@ void Video::drawRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
 
 void Video::drawPoint(wxCoord x, wxCoord y)
 {
-#if defined(__WXMAC__)
     if (macFramebufferEnabled_)
     {
         drawPointFramebufferMac(x, y);
         return;
     }
+#if defined(__WXMAC__)
     gc->DrawRectangle(x, y, 0, 0);
 #else
     dcMemory.DrawPoint(x, y);
@@ -854,8 +853,6 @@ void Video::drawPointMutex(wxCoord x, wxCoord y)
 {
     Video::drawPoint(x, y);
 }
-
-#if defined(__WXMAC__)
 
 void Video::enableFramebufferMac()
 {
@@ -977,8 +974,6 @@ void Video::copyFramebufferMac(int fromPlane, int toPlane)
            (size_t)dst->GetWidth() * dst->GetHeight() * 3);
     macPlaneDirty_[toPlane] = true;
 }
-
-#endif
 
 void Video::splashScreen()
 {
