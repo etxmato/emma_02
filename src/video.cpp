@@ -591,13 +591,15 @@ void Video::changeScreenSize()
     
     dcMemory.SelectObject(*screenCopyPointer);
     
-    // gc is now created on all platforms so that the software framebuffer
-    // flush (flushFramebufferMac) can push the wxImage into dcMemory with one
-    // DrawBitmap. wxGraphicsContext::Create(wxMemoryDC) is portable: GDI+ on
-    // Windows, Cairo on Linux/GTK, CoreGraphics on macOS.
+#ifdef __WXMAC__
+    // Native graphics context, used by the non-framebuffer fallback draw path
+    // on macOS (setColour / drawPoint / drawRectangle). The software-framebuffer
+    // flush (flushFramebufferMac) composites through dcMemory.DrawBitmap and
+    // does NOT use gc, so no graphics context is needed on Windows/Linux.
     delete gc;
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
+#endif
 
     double intPart;
     zoomFraction_ = (modf(zoom_, &intPart) != 0);
@@ -936,25 +938,33 @@ void Video::ensureFramebufferMac(int plane)
 
 void Video::flushFramebufferMac()
 {
-    if (gc == NULL)
-        return;
     for (int plane = 0; plane < 3; plane++)
     {
         if (!macPlaneDirty_[plane] || macFrameImage_[plane] == NULL)
             continue;
-        wxGraphicsContext *gcPlane = gc;
+        wxMemoryDC *dcPlane = &dcMemory;
         if (plane == 1)
-            gcPlane = gcMainPlane;
+            dcPlane = &dcMemoryMainPlane;
         else if (plane == 2)
-            gcPlane = gcSpritePlane;
-        if (gcPlane == NULL)
+            dcPlane = &dcMemorySpritePlane;
+        // Planes 1/2 belong to the multi-plane types (TMS9918) and are only
+        // ever dirty when their backing bitmaps exist.
+        if (plane == 1 && mainPlanePointer == NULL)
             continue;
-        int w = macFrameImage_[plane]->GetWidth();
-        int h = macFrameImage_[plane]->GetHeight();
-        // ONE CoreGraphics image draw replaces the previous per-pixel calls.
+        if (plane == 2 && spritePlanePointer == NULL)
+            continue;
+        // ONE bitmap draw into the plane's memory DC replaces the per-pixel
+        // writes. Previously this went through the graphics context
+        // (gcPlane->DrawBitmap + Flush), but a Cairo-backed memory-DC graphics
+        // context (Linux wxGTK) does not reliably propagate back to the
+        // underlying bitmap -- see wxCairoContext::wxCairoContext(const
+        // wxMemoryDC&), whose GTK branch reuses GetCairoContext()/
+        // gdk_cairo_create() instead of mapping the bitmap data directly (as
+        // the MSW branch does with cairo_image_surface_create_for_data).
+        // wxMemoryDC::DrawBitmap is deterministic on every platform and needs
+        // no graphics context.
         wxBitmap bitmap(*macFrameImage_[plane]);
-        gcPlane->DrawBitmap(bitmap, 0, 0, w, h);
-        gcPlane->Flush();
+        dcPlane->DrawBitmap(bitmap, 0, 0);
         macPlaneDirty_[plane] = false;
     }
 }

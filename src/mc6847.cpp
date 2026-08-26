@@ -145,13 +145,17 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
     screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
     dcMemory.SelectObject(*screenCopyPointer);
 
-    // gc + software framebuffer are now enabled on ALL platforms (see video.h/
-    // video.cpp) so MC6847 rendering follows the same path on macOS, Windows
-    // and Linux. Previously this was macOS-only.
+    // The software framebuffer is enabled on ALL platforms (see video.h/
+    // video.cpp); render per-pixel drawing through it (one DrawBitmap per
+    // frame instead of per-pixel draws). The graphics context is only created
+    // on macOS, where the non-framebuffer fallback draw path needs it.
+    // On Linux wxGraphicsContext::Create(dcMemory) creates a Cairo context
+    // bound to the screenCopyPointer Pixmap; leaving it unguarded caused a
+    // BadDrawable X error on exit when that Pixmap was freed out of order.
+#if defined(__WXMAC__)
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
-    // Render per-pixel drawing through the base software framebuffer
-    // (one gc->DrawBitmap per frame instead of per-pixel CoreGraphics).
+#endif
     enableFramebufferMac();
 
     videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_);
@@ -180,7 +184,9 @@ mc6847::~mc6847()
     dcMemory.SelectObject(wxNullBitmap);
     delete screenCopyPointer;
     delete videoScreenPointer;
+#if defined(__WXMAC__)
     delete gc;
+#endif
     if (updateCharacter_ > 0)
     {
         while(characterListPointer6847 != NULL)
