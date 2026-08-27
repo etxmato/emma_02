@@ -1324,7 +1324,9 @@ void GuiXml::onMainXmlTextXml(wxCommandEvent& WXUNUSED(event))
         return;
 
     computerConfiguration.xmlFileConfiguration.fileName = XRCCTRL(*this, "MainXmlXml", wxComboBox)->GetValue();
-    
+    if (dirNameListDefaultFile_.GetCount() > 0)
+        dirNameListDefaultFile_[xmlDirComboSelection] = computerConfiguration.xmlFileConfiguration.fileName;
+
     setXmlDirFileGui();
     setRomRamDropDown(romRamButton0_, "0");
     setRomRamDropDown(romRamButton1_, "1");
@@ -1758,8 +1760,10 @@ void GuiXml::setXmlGui()
     XRCCTRL(*this,"RomRam0Xml", wxComboBox)->Enable(romButtonEnable);
     XRCCTRL(*this,"RomRamButton0Xml", wxButton)->Enable(romButtonEnable);
 
+    dropdownUpdateOngoing_ = true;
     XRCCTRL(*this, "RomRam1Xml", wxComboBox)->SetValue(computerConfiguration.memoryConfiguration[romRamButton1_].filename);
     XRCCTRL(*this, "RomRam0Xml", wxComboBox)->SetValue(computerConfiguration.memoryConfiguration[romRamButton0_].filename);
+    dropdownUpdateOngoing_ = false;
     
     XRCCTRL(*this, "WavFileXml", wxTextCtrl)->SetValue(computerConfiguration.wavConfiguration[0].fileName);
     XRCCTRL(*this, "WavFile1Xml", wxTextCtrl)->SetValue(computerConfiguration.wavConfiguration[1].fileName);
