@@ -1165,10 +1165,57 @@ void DebugWindow::cyclePseudoDebug()
                 // Pseudo trace hiding: phase 0=show, 1=hide (inside),
                 // 2=enter (compound opcode), 3=land (returned).
                 int phase = chip8PtcTracePhase(chip8PC);
-                bool showThis = (phase == 0 || phase == 3);  // show normal + landing
 
-                if (showThis)
+                if (phase == 2)
                 {
+                    // Compound opcode entry: flush the previous instruction's
+                    // deferred details, show the compound mnemonic, and capture
+                    // the pre-compound stack pointers so the compound's own net
+                    // DS:RS effect can be reported on its line at the LAND. The
+                    // internal tokens are hidden during the following phase 1.
+                    if ((additionalChip8Details_ || additionalChip8StackDetails_))
+                        chip8DebugTrace(addDetails());
+                    if (chip8BreakPointCheck())  return;
+                    if (chip8Trace_)
+                        pseudoTrace(chip8PC);
+                    stepOverDsBefore_ = p_Computer->getScratchpadRegister(p_Computer->getPseudoDataStack());
+                    stepOverRsBefore_ = p_Computer->getScratchpadRegister(PSEUDO_RETURN_STACK_REGISTER);
+                }
+                else if (phase == 3)
+                {
+                    // LAND: first instruction after the compound. Flush the
+                    // compound's net DS:RS effect (relative to the pre-compound
+                    // stack pointers captured at ENTER), then trace the landing.
+                    if ((additionalChip8Details_ || additionalChip8StackDetails_))
+                    {
+                        Word saveDs = currentStackValue_[PSEUDO_DATA_STACK];
+                        Word saveRs = currentStackValue_[PSEUDO_RETURN_STACK];
+                        currentStackValue_[PSEUDO_DATA_STACK] = stepOverDsBefore_;
+                        currentStackValue_[PSEUDO_RETURN_STACK] = stepOverRsBefore_;
+                        wxString details = addDetails();   // also resets the flags
+                        currentStackValue_[PSEUDO_DATA_STACK] = saveDs;
+                        currentStackValue_[PSEUDO_RETURN_STACK] = saveRs;
+                        if (details != "")
+                            chip8DebugTrace(details);
+                        else
+                        {
+                            // No net stack change: close the compound's line so
+                            // the landing instruction does not merge onto it.
+#if defined(__WXMAC__) || defined(__linux__)
+                            chipTraceString_ = chipTraceString_ + "\n";
+#else
+                            chip8TraceWindowPointer->AppendText("\n");
+#endif
+                        }
+                    }
+                    if (chip8BreakPointCheck())  return;
+                    if (chip8Trace_)
+                        pseudoTrace(chip8PC);
+                }
+                else if (phase == 0)
+                {
+                    // Normal instruction: flush the previous instruction's
+                    // deferred details, then trace this one.
                     if ((additionalChip8Details_ || additionalChip8StackDetails_))
                         chip8DebugTrace(addDetails());
                     if (chip8BreakPointCheck())  return;
@@ -1177,24 +1224,9 @@ void DebugWindow::cyclePseudoDebug()
                 }
                 else
                 {
-                    // Phase 1 (HIDE) or 2 (ENTER): the previous instruction's
-                    // deferred detail flags must not survive into the LAND, where
-                    // they would be consumed with post-compound stack values. At
-                    // ENTER the stack is still pre-compound, so flushing produces
-                    // the correct post-previous-instruction values; at HIDE the
-                    // state is mid-compound, so leftover flags are just cleared.
-                    if (phase == 2)
-                    {
-                        if ((additionalChip8Details_ || additionalChip8StackDetails_))
-                            chip8DebugTrace(addDetails());
-                    }
-                    else
-                    {
-                        additionalChip8Details_ = false;
-                        additionalChip8StackDetails_ = false;
-                        additionalChip8ForceDsDetails_ = false;
-                        additionalChip8ForceRsDetails_ = false;
-                    }
+                    // Phase 1 (HIDE): inside the compound's internals. Keep the
+                    // compound's deferred detail flags set (they are flushed at
+                    // the LAND) and do not trace. Breakpoints still fire here.
                     if (chip8BreakPointCheck())  return;
                 }
             }
