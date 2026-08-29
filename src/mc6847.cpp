@@ -140,7 +140,6 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
     reDraw_ = true;
     reBlit_ = false;
     newBackGround_ = false;
-    updateCharacter_ = 0;
 
     screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
     dcMemory.SelectObject(*screenCopyPointer);
@@ -171,7 +170,6 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
     double intPart;
     zoomFraction_ = (modf(zoom_, &intPart) != 0);
 
-    characterListPointer6847 = NULL;
     outLatch_ = 0;
 
     this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
@@ -179,23 +177,12 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
 
 mc6847::~mc6847()
 {
-    CharacterList6847 *temp;
-
     dcMemory.SelectObject(wxNullBitmap);
     delete screenCopyPointer;
     delete videoScreenPointer;
 #if defined(__WXMAC__)
     delete gc;
 #endif
-    if (updateCharacter_ > 0)
-    {
-        while(characterListPointer6847 != NULL)
-        {
-            temp = characterListPointer6847;
-            characterListPointer6847 = temp->nextCharacter;
-            delete temp;
-        }
-    }
 }
 
 void mc6847::drawScreen()
@@ -251,7 +238,6 @@ void mc6847::init6847()
     reDraw_ = true;
     reBlit_ = false;
     newBackGround_ = false;
-    updateCharacter_ = 0;
 }
 
 void mc6847::setMCBit(int bit, int selection)
@@ -506,6 +492,11 @@ void mc6847::copyScreen()
     if (reDraw_)
         drawScreen();
 
+    // The software framebuffer is flushed into dcMemory identically on every
+    // platform; only how dcMemory reaches the window differs. macOS posts an
+    // async refresh (onPaint -> reBlit(dc), which also paints the extra
+    // background); Windows/Linux draw the extra background and blit the client
+    // DC directly from the emulation thread here.
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
@@ -520,51 +511,11 @@ void mc6847::copyScreen()
 
     if (reBlit_ || reDraw_)
     {
-        // Framebuffer flush is SHARED with macOS: push the touched wxImage
-        // plane into dcMemory with a single gc->DrawBitmap. The only
-        // platform difference is how dcMemory reaches the window (macOS posts
-        // an async refresh -> onPaint -> reBlit(dc); Windows/Linux blit the
-        // client DC directly from the emulation thread here).
         flushFramebufferMac();
         videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
         reBlit_ = false;
         reDraw_ = false;
     }
-
-    // === old Windows/Linux character-list partial blit (commented out) ===
-    // Kept for rollback: this accumulated per-character dirty rects and blitted
-    // them individually. It is incompatible with the full-frame software
-    // framebuffer (which flushes the whole plane each frame). The draw helpers
-    // now set reBlit_ = true unconditionally, so updateCharacter_ stays 0 and
-    // this list is never populated.
-    // CharacterList6847 *temp;
-    // if (reBlit_ || reDraw_)
-    // {
-    //     videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
-    //     reBlit_ = false;
-    //     reDraw_ = false;
-    //     if (updateCharacter_ > 0)
-    //     {
-    //         updateCharacter_ = 0;
-    //         while(characterListPointer6847 != NULL)
-    //         {
-    //             temp = characterListPointer6847;
-    //             characterListPointer6847 = temp->nextCharacter;
-    //             delete temp;
-    //         }
-    //     }
-    // }
-    // if (updateCharacter_ > 0)
-    // {
-    //     updateCharacter_ = 0;
-    //     while(characterListPointer6847 != NULL)
-    //     {
-    //         videoScreenPointer->blit(offsetX_+(characterListPointer6847->x), offsetY_+(characterListPointer6847->y), charWidth_, charHeight_*addLine_, &dcMemory, offsetX_+characterListPointer6847->x, offsetY_+characterListPointer6847->y);
-    //         temp = characterListPointer6847;
-    //         characterListPointer6847 = temp->nextCharacter;
-    //         delete temp;
-    //     }
-    // }
 #endif
 }
 
@@ -759,26 +710,9 @@ void mc6847::drawCharacter(wxCoord x, wxCoord y, int v)
         }
     }
 
-// Full-frame refresh on ALL platforms: the software framebuffer flushes
-    // the whole plane each frame, so the Windows-only character-list partial
-    // blit is disabled. The old accumulation is commented out below for
-    // rollback.
+    // Full-frame refresh on all platforms: the software framebuffer flushes
+    // the whole plane each frame.
     reBlit_ = true;
-    //
-    // === old Windows partial-blit accumulation — commented out for rollback ===
-    // if (zoomFraction_)
-    //     reBlit_ = true;
-    // else
-    // {
-    //     CharacterList6847 *temp = new CharacterList6847;
-    //     temp->x = x;
-    //     temp->y = y;
-    //     temp->nextCharacter = characterListPointer6847;
-    //     characterListPointer6847 = temp;
-    //     updateCharacter_++;
-    //     if (updateCharacter_ > 40)
-    //         reBlit_ = true;
-    // }
 }
 
 void mc6847::drawGraphic(wxCoord x, wxCoord y, int v)
@@ -815,18 +749,8 @@ void mc6847::drawGraphic(wxCoord x, wxCoord y, int v)
         }
     }
 
-// Full-frame refresh on ALL platforms (see drawCharacter).
+    // Full-frame refresh on all platforms (see drawCharacter).
     reBlit_ = true;
-    //
-    // === old Windows partial-blit accumulation — commented out for rollback ===
-    // CharacterList6847 *temp = new CharacterList6847;
-    // temp->x = x;
-    // temp->y = y;
-    // temp->nextCharacter = characterListPointer6847;
-    // characterListPointer6847 = temp;
-    // updateCharacter_++;
-    // if (updateCharacter_ > 40)
-    //     reBlit_ = true;
 }
 
 bool mc6847::readCharRomFile(wxString romDir, wxString romFile)

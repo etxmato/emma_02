@@ -3,14 +3,6 @@
 
 #include "video.h"
 
-class CharacterList6847
-{
-public:
-    wxCoord x;
-    wxCoord y;
-    CharacterList6847 *nextCharacter;
-};
-
 class mc6847 : public Video
 {
 public:
@@ -51,7 +43,6 @@ public:
     int getGraphicModeBit(int number) {return gmBit[number];};
 
 private:
-    CharacterList6847 *characterListPointer6847;
     Mc6847Configuration mc6847Configuration_;
 
     wxString elfTypeStr_;
@@ -72,7 +63,6 @@ private:
     int cycleValue_;
     int cycleSize_;
     int nonDisplay_;
-    int updateCharacter_;
     Byte graphicMode_;
     int outLatch_;
 
