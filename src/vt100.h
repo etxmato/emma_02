@@ -115,6 +115,9 @@ public:
     void bell();
     void click();
 
+    void eventRefreshScreen();
+    wxColour copyScreenBackgroundColour();
+
     Byte getVtMemory(int address) {return videoRam_[address / charactersPerRow_][address % charactersPerRow_];};
     void setVtMemory(int address, Byte value) {videoRam_[address / charactersPerRow_][address % charactersPerRow_] = value;reDraw_ = true;};
     void activateMainWindow();
@@ -212,7 +215,6 @@ private:
     bool blink_;
     bool reverse_;
     bool blinkOn_;
-    bool reBlink_;
 
     Byte charRom_[4096];
     Byte vt100Ef_;

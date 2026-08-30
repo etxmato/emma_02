@@ -309,6 +309,7 @@ Video::Video(const wxString& title, const wxPoint& pos, const wxSize& size)
     videoSyncCount_ = 0;
 //    memoryDCvalid_ = true;
     memoryDCvalid_ = false;
+    reBlink_ = false;
     colourIndex_ = 0;
     offsetX_ = 0;
     offsetY_ = 0;
@@ -767,25 +768,32 @@ void Video::updateReColour()
 void Video::finishCopyScreen()
 {
 #if defined(__WXMAC__)
-    if (reBlit_ || reDraw_)
+    flushFramebufferMac();
+    if (reBlit_ || reDraw_ || reBlink_)
     {
-        flushFramebufferMac();
-        p_Main->eventRefreshVideo(false, videoNumber_);
+        eventRefreshScreen();
         reBlit_ = false;
         reDraw_ = false;
+        reBlink_ = false;
     }
 #else
     if (extraBackGround_ && newBackGround_)
         drawExtraBackground(copyScreenBackgroundColour());
 
-    if (reBlit_ || reDraw_)
+    if (reBlit_ || reDraw_ || reBlink_)
     {
         flushFramebufferMac();
         videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, copyScreenHeight(), &dcMemory, 0, 0);
         reBlit_ = false;
         reDraw_ = false;
+        reBlink_ = false;
     }
 #endif
+}
+
+void Video::eventRefreshScreen()
+{
+    p_Main->eventRefreshVideo(false, videoNumber_);
 }
 
 void Video::copyScreen()

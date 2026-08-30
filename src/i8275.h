@@ -76,8 +76,6 @@ private:
     int verticalRetraceCycleSize8275_;
     int fullCycleSize8275_;
 
-    bool reBlink_;
-
     bool interlace_;
     int videoM_;
 

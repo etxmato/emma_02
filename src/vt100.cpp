@@ -259,7 +259,6 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     }
     reDraw_ = true;
     reBlit_ = false;
-    reBlink_ = false;
     newBackGround_ = false;
     tab_char = currentComputerConfiguration.videoTerminalConfiguration.backSpaceCharacter;
     if (serialLog_)
@@ -1166,28 +1165,17 @@ void Vt100::copyScreen()
     // async refresh (onPaint -> reBlit(dc), which also paints the extra
     // background); Windows/Linux draw the extra background and blit the client
     // DC directly from the emulation thread here.
-#if defined(__WXMAC__)
-    flushFramebufferMac();
-    if (reBlit_ || reDraw_ || reBlink_)
-    {
-        p_Main->eventRefreshVideo(true, uartNumber_);
-        reBlit_ = false;
-        reDraw_ = false;
-        reBlink_ = false;
-    }
-#else
-    if (extraBackGround_ && newBackGround_)
-        drawExtraBackground(colour_[colourIndex_+1]);
+    finishCopyScreen();
+}
 
-    if (reBlit_ || reDraw_ || reBlink_)
-    {
-        flushFramebufferMac();
-        videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
-        reBlit_ = false;
-        reDraw_ = false;
-        reBlink_ = false;
-    }
-#endif
+void Vt100::eventRefreshScreen()
+{
+    p_Main->eventRefreshVideo(true, uartNumber_);
+}
+
+wxColour Vt100::copyScreenBackgroundColour()
+{
+    return colour_[colourIndex_+1];
 }
 
 void Vt100::startXmlRun(bool load, wxString command)

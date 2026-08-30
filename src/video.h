@@ -146,10 +146,17 @@ protected:
     // Shared pieces of the per-video-type copyScreen() implementations.
     // updateReColour() applies any pending colour/border changes (set via
     // reColour()) and marks the screen for a full redraw; finishCopyScreen()
-    // is the standard flush/blit tail for single-plane displays. The virtual
-    // hooks let individual video types vary the few per-chip differences.
+    // is the standard flush/blit tail for single-plane displays, including
+    // the reBlink_ (attribute blink) handling. The virtual hooks let
+    // individual video types vary the few per-chip differences:
+    // eventRefreshScreen() posts the async refresh event (vt100 posts it
+    // with isVt=true and uartNumber_, the other video types with
+    // isVt=false and videoNumber_); copyScreenHeight() and
+    // copyScreenBackgroundColour() define the blit geometry and the
+    // extra-background colour.
     void updateReColour();
     void finishCopyScreen();
+    virtual void eventRefreshScreen();
     virtual void applyScaleFactor();
     virtual int copyScreenHeight() {return videoHeight_+2*offsetY_;};
     virtual wxColour copyScreenBackgroundColour() {return colour_[colourIndex_+backGround_];};
@@ -195,6 +202,7 @@ protected:
     int backGround_;
     bool reBlit_;
     bool reDraw_;
+    bool reBlink_;
     bool reDrawMultiColor_;
     bool reColour_;
     bool reCycle_;
