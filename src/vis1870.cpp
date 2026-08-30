@@ -156,48 +156,35 @@ VIS1870::VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, 
     videoScreenPointer = new VideoScreen(this, wxSize(videoWidth_, videoHeight_), zoom, videoNumber_);
     
     screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
-    screenScrollCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
     dcMemory.SelectObject(*screenCopyPointer);
-    dcScroll.SelectObject(*screenScrollCopyPointer);
-    
+
+    // The software framebuffer is enabled on ALL platforms (see video.h/
+    // video.cpp); render per-pixel drawing through it (one DrawBitmap per
+    // frame instead of per-pixel draws). The graphics context is only created
+    // on macOS, where the non-framebuffer fallback draw path needs it.
+    // On Linux wxGraphicsContext::Create(dcMemory) creates a Cairo context
+    // bound to the screenCopyPointer Pixmap; leaving it unguarded caused a
+    // BadDrawable X error on exit when that Pixmap was freed out of order.
 #if defined(__WXMAC__)
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
-    // Render per-pixel drawing through the base software framebuffer on
-    // macOS (one gc->DrawBitmap per frame instead of per-pixel CoreGraphics).
-    // VIS1870 draws via the setColour/drawPoint/drawRectangle Mutex variants,
-    // which delegate to the framebuffer-aware virtuals (see video.cpp).
-    enableFramebufferMac();
 #endif
+    enableFramebufferMac();
 
     this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
     this->SetBackgroundColour(wxColour(0, 0, 0));
-    characterListPointer = NULL;
 }
 
 VIS1870::~VIS1870()
 {
-    CharacterList *temp;
-
     dcMemory.SelectObject(wxNullBitmap);
-    dcScroll.SelectObject(wxNullBitmap);
     delete videoScreenPointer;
     if (!v1870Configured_)
         return;
     delete screenCopyPointer;
-    delete screenScrollCopyPointer;
 #if defined(__WXMAC__)
     delete gc;
 #endif
-    if (updateCharacter_)
-    {
-        while(characterListPointer != NULL)
-        {
-            temp = characterListPointer;
-            characterListPointer = temp->nextCharacter;
-            delete temp;
-        }
-    }
 
     if (vis1870Configuration_.statusBarType != STATUSBAR_NONE)
         delete statusBarPointer;
@@ -360,7 +347,6 @@ void VIS1870::init1870()
     reBlit_ = false;
     newBackGround_ = false;
     extraBackGround_ = false;
-    updateCharacter_ = false;
     vismacBlink_ = false;
     graphicMode_ = false;
     pcbBit_ = 0;
@@ -511,9 +497,7 @@ void VIS1870::out5_1870(Word address)
         else
         {
             dcMemory.SelectObject(wxNullBitmap);
-            dcScroll.SelectObject(wxNullBitmap);
             delete screenCopyPointer;
-            delete screenScrollCopyPointer;
             
             int height;
             if (linesPerCharacters_ != 16)
@@ -527,9 +511,7 @@ void VIS1870::out5_1870(Word address)
                 videoHeight_ = height;
             
             screenCopyPointer = new wxBitmap(2*offsetX_+videoWidth_, 2*offsetY_+videoHeight_);
-            screenScrollCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
             dcMemory.SelectObject(*screenCopyPointer);
-            dcScroll.SelectObject(*screenScrollCopyPointer);
 
 #ifdef __WXMAC__
             delete gc;
@@ -586,31 +568,18 @@ void VIS1870::out7_1870(Word address)
         {
             if ((register7_ == (old+40)) || ((register7_ == 0) && (old == 920)))
             {
-#if defined(__WXMAC__)
                 // Framebuffer path: dcMemory is rebuilt from the software
-                // framebuffer on every flush, so a dcMemory scroll blit would be
-                // lost. Instead request a full redraw - drawTextScreen() starts
-                // at the new register7_, regenerating the scrolled screen into
-                // the framebuffer (fast memory writes, no per-pixel CG calls).
+                // framebuffer on every flush on all platforms, so a dcMemory
+                // scroll blit would be lost. Instead request a full redraw -
+                // drawTextScreen() starts at the new register7_, regenerating
+                // the scrolled screen into the framebuffer (fast memory
+                // writes, no per-pixel draws).
                 reDraw_ = true;
-#else
-                dcScroll.Blit(0, 0, videoWidth_, videoHeight_-linesPerCharacters_, &dcMemory, offsetX_, linesPerCharacters_+offsetY_);
-                dcScroll.Blit(0, videoHeight_-linesPerCharacters_, videoWidth_, linesPerCharacters_, &dcMemory, offsetX_, 0);
-                dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcScroll, 0, 0);
-                reBlit_ = true;
-#endif
                 return;
             }
             if ((register7_ == (old-40)) || ((register7_ == 920) && (old == 0)))
             {
-#if defined(__WXMAC__)
                 reDraw_ = true;
-#else
-                dcScroll.Blit(0, linesPerCharacters_, videoWidth_, videoHeight_-linesPerCharacters_, &dcMemory, offsetX_, offsetY_);
-                dcScroll.Blit(0, 0, videoWidth_, linesPerCharacters_, &dcMemory, offsetX_, videoHeight_-linesPerCharacters_+offsetY_);
-                dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcScroll, 0, 0);
-                reBlit_ = true;
-#endif
                 return;
             }
         }
@@ -1003,6 +972,11 @@ void VIS1870::copyScreen()
     if (reDraw_)
         drawScreen();
 
+    // The software framebuffer is flushed into dcMemory identically on every
+    // platform; only how dcMemory reaches the window differs. macOS posts an
+    // async refresh (onPaint -> reBlit(dc), which also paints the extra
+    // background); Windows/Linux draw the extra background and blit the client
+    // DC directly from the emulation thread here.
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
@@ -1015,47 +989,12 @@ void VIS1870::copyScreen()
     if (extraBackGround_ && newBackGround_)
         drawExtraBackground(colour_[colourIndex_+backGround_]);
 
-    CharacterList *temp;
-
     if (reBlit_ || reDraw_)
     {
+        flushFramebufferMac();
         videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
         reBlit_ = false;
         reDraw_ = false;
-        if (updateCharacter_)
-        {
-            updateCharacter_ = false;
-            while(characterListPointer != NULL)
-            {
-                temp = characterListPointer;
-                characterListPointer = temp->nextCharacter;
-                delete temp;
-            }
-        }
-    }
-    if (updateCharacter_)
-    {
-        updateCharacter_ = false;
-        if (vis1870Configuration_.rotateScreen)
-        {
-            while(characterListPointer != NULL)
-            {
-                videoScreenPointer->blit(offsetX_+videoWidth_-linesPerCharacters_-characterListPointer->y, offsetY_+characterListPointer->x, linesPerCharacters_, 6, &dcMemory, offsetX_+videoWidth_-linesPerCharacters_-characterListPointer->y, offsetY_+characterListPointer->x);
-                temp = characterListPointer;
-                characterListPointer = temp->nextCharacter;
-                delete temp;
-            }
-        }
-        else
-        {
-            while(characterListPointer != NULL)
-            {
-                videoScreenPointer->blit(offsetX_+(characterListPointer->x*pixelWidth_), offsetY_+ (characterListPointer->y*pixelHeight_), 6*pixelWidth_, linesPerCharacters_*pixelHeight_, &dcMemory, offsetX_+characterListPointer->x*pixelWidth_, offsetY_+characterListPointer->y*pixelHeight_);
-                temp = characterListPointer;
-                characterListPointer = temp->nextCharacter;
-                delete temp;
-            }
-        }
     }
 #endif
 }
@@ -1158,22 +1097,9 @@ void VIS1870::drawCharacterAndBackground(wxCoord x, wxCoord y, Byte v, int addre
             drawLine(x*pixelWidth_, i*pixelHeight_, characterMemory_[a&charMemorySize_], pcb, address);
         a++;
     }
-#if defined(__WXMAC__) || defined(__linux__)
+    // Full-frame refresh on all platforms: the software framebuffer flushes
+    // the whole plane each frame.
     reBlit_ = true;
-#else
-    if (reBlit_)  return;
-    if (zoomFraction_)
-        reBlit_ = true;
-    else
-    {
-        updateCharacter_ = true;
-        CharacterList *temp = new CharacterList;
-        temp->x = x;
-        temp->y = y;
-        temp->nextCharacter = characterListPointer;
-        characterListPointer = temp;
-    }
-#endif
 }
 
 void VIS1870::drawLine(wxCoord x,wxCoord y,Byte v,Byte pcb, int address)

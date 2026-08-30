@@ -7,14 +7,6 @@
 #define SCN2672_FIRST_ROM_LINE 0
 #define SCN267_ROM_MASK 0xfff
 
-class CharacterListScn2672
-{
-public:
-    wxCoord x;
-    wxCoord y;
-    CharacterListScn2672 *nextCharacter;    
-};
-
 class Scn2672 : public Video
 {
 public:
@@ -113,8 +105,6 @@ private:
     bool cursorOn_;
     bool displayOn_;
 
-    CharacterListScn2672 *characterListPointerScn2672;
-
     int lineCycleValueScn2672_; 
     int lineCycleSizeScn2672_;
     int characterLineCycleValueScn2672_; 
@@ -165,9 +155,7 @@ private:
     bool characterBlinkOn_;
     int characterBlinkTimeValue_;
     int characterBlinkTimeSize_;
-    
-    int updateCharacterScn2672_;
-    
+
     bool interruptReady_;
     bool interruptSplitScreen_;
     bool interruptLineZero_;

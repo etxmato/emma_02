@@ -3,14 +3,6 @@
 
 #include "video.h"
 
-class CharacterList8275
-{
-public:
-    wxCoord x;
-    wxCoord y;
-    CharacterList8275 *nextCharacter;
-};
-
 class i8275 : public Video
 {
 public:
@@ -68,7 +60,6 @@ private:
     bool graphicLineScr_[0x2000];
     Byte i8275CharRom_[0x2000];
 
-    CharacterList8275 *characterListPointer8275;
     I8275Configuration i8275Configuration_;
 
     int cycleValue8275_;
@@ -89,7 +80,6 @@ private:
 
     bool interlace_;
     int videoM_;
-    int updateCharacter8275_;
 
     int screenLocation_;
     int bufferLocation_;

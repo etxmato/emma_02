@@ -80,21 +80,19 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
     spritePlanePointer = new wxBitmap(320, 240, 32);
     dcMemorySpritePlane.SelectObject(*spritePlanePointer);
 
+    // The software framebuffer is enabled on ALL platforms (see video.h/
+    // video.cpp); render per-pixel drawing through it (one DrawBitmap per
+    // frame instead of per-pixel draws). Plane 0 (dcMemory) is only composited
+    // via Blit, so the single plane-0 graphics context below is all the macOS
+    // non-framebuffer fallback draw path needs. On Linux
+    // wxGraphicsContext::Create(dcMemory) creates a Cairo context bound to the
+    // screenCopyPointer Pixmap; leaving it unguarded caused a BadDrawable X
+    // error on exit when that Pixmap was freed out of order.
 #if defined(__WXMAC__)
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
-    
-    gcMainAndSpritePlane = wxGraphicsContext::Create(dcMemoryMainAndSpritePlane);
-    gcMainAndSpritePlane->SetAntialiasMode(wxANTIALIAS_NONE);
-
-    gcMainPlane = wxGraphicsContext::Create(dcMemoryMainPlane);
-    gcMainPlane->SetAntialiasMode(wxANTIALIAS_NONE);
-
-    gcSpritePlane = wxGraphicsContext::Create(dcMemorySpritePlane);
-    gcSpritePlane->SetAntialiasMode(wxANTIALIAS_NONE);
-
-    enableFramebufferMac();   // macOS software framebuffer (plane 1 + 2)
 #endif
+    enableFramebufferMac();   // software framebuffer (planes 1 + 2)
     
     mode_ = TMS_GRAPHICS_I;
     nameAddress_ = 0;
@@ -163,58 +161,38 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
     
     offsetX_ = 0;
     offsetY_ = 0;
-    backGroundX_ = 0;
-    backGroundY_ = 0;
 
     setCycle();
 
     cycleValue_ = cycleSize_;
     newBackGround_ = false;
     fullScreenSet_ = false;
-    updateTile_ = 0;
-    tileListPointer = NULL;
     reDrawSprites_ = false;
 
     videoWidth_ = 256;
     videoHeight_ = 192;
 
     this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
-    
-#if defined(__linux__) || defined (__WXMSW__)
-    setColourMutex(colourIndex_+backgroundColor_+16);
-    drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
-#endif
-    
+
     setColourMutexMainPlane(colourIndex_+backgroundColor_+16);
     drawRectangleMainPlane(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
 }
 
 Tms9918::~Tms9918()
 {
-    TileList *temp;
-
     dcMemory.SelectObject(wxNullBitmap);
+    dcMemoryMainAndSpritePlane.SelectObject(wxNullBitmap);
     dcMemoryMainPlane.SelectObject(wxNullBitmap);
+    dcMemorySpritePlane.SelectObject(wxNullBitmap);
 
     delete screenCopyPointer;
+    delete mainAndSpritePlanePointer;
     delete mainPlanePointer;
     delete spritePlanePointer;
     delete videoScreenPointer;
 #if defined(__WXMAC__)
     delete gc;
-    delete gcMainPlane;
-    delete gcSpritePlane;
 #endif
-    
-    if (updateTile_ > 0)
-    {
-        while(tileListPointer != NULL)
-        {
-            temp = tileListPointer;
-            tileListPointer = temp->nextTile;
-            delete temp;
-        }
-    }
 }
 
 void Tms9918::configure()
@@ -748,7 +726,11 @@ void Tms9918::copyScreen()
     if (reDrawSprites_ && mode_ != TMS_TEXT)
         drawSprites();
 
-#if defined(__WXMAC__)
+    // The software framebuffer is flushed into the plane DCs identically on
+    // every platform; only how dcMemory reaches the window differs. macOS
+    // posts an async refresh (onPaint -> reBlit(dc), which also paints the
+    // extra background); Windows/Linux draw the extra background and blit the
+    // client DC directly from the emulation thread here.
     if (reBlit_ || reDraw_ || reDrawSprites_)
     {
         flushFramebufferMac();
@@ -756,52 +738,16 @@ void Tms9918::copyScreen()
         if (mode_ != TMS_TEXT)
             dcMemoryMainAndSpritePlane.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemorySpritePlane, offsetX_, offsetY_);
         dcMemory.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemoryMainAndSpritePlane, 0, 0);
-
+#if defined(__WXMAC__)
         p_Main->eventRefreshVideo(false, videoNumber_);
-        reBlit_ = false;
-        reDraw_ = false;
-    }
 #else
-    if (extraBackGround_ && newBackGround_)
-        drawExtraBackground(colour_[colourIndex_+backgroundColor_+16]);
-
-    TileList *temp;
-
-    if (reBlit_ || reDraw_ || reDrawSprites_)
-    {
-        if (mode_ != TMS_TEXT)
-            dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemorySpritePlane, offsetX_, offsetY_);
-
+        if (extraBackGround_ && newBackGround_)
+            drawExtraBackground(colour_[colourIndex_+backgroundColor_+16]);
         videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
-
+#endif
         reBlit_ = false;
         reDraw_ = false;
-        if (updateTile_ > 0)
-        {
-            updateTile_ = 0;
-            while(tileListPointer != NULL)
-            {
-                temp = tileListPointer;
-                tileListPointer = temp->nextTile;
-                delete temp;
-            }
-        }
     }
-    if (updateTile_ > 0)
-    {
-        if (mode_ != TMS_TEXT)
-            dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemorySpritePlane, offsetX_, offsetY_);
-
-        updateTile_ = 0;
-        while(tileListPointer != NULL)
-        {
-            videoScreenPointer->blit(offsetX_+ tileListPointer->x-backGroundX_, offsetY_+tileListPointer->y-backGroundY_, tileListPointer->size, 8, &dcMemory, offsetX_+tileListPointer->x, offsetY_+tileListPointer->y);
-            temp = tileListPointer;
-            tileListPointer = temp->nextTile;
-            delete temp;
-        }
-    }
-#endif
 }
 
 void Tms9918::drawSprites()
@@ -823,34 +769,11 @@ void Tms9918::drawSprites()
         scanLineMap_[i].reset();
     }
 
-#if defined(__WXMAC__)
-    if (macFramebufferEnabled_)
-    {
-        // Seed the sprite plane framebuffer (plane 2) with the current
-        // main-plane content (memory-to-memory). This replaces the per-frame
-        // bitmap recreate + blit below, which can only read flushed
-        // (previous-frame) DC content mid-frame.
-        copyFramebufferMac(1, 2);
-    }
-    else
-    {
-        dcMemorySpritePlane.SelectObject(wxNullBitmap);
-        delete spritePlanePointer;
-        delete gcSpritePlane;
-        
-        spritePlanePointer = new wxBitmap(320, 240);
-        dcMemorySpritePlane.SelectObject(*spritePlanePointer);
-
-        gcSpritePlane = wxGraphicsContext::Create(dcMemorySpritePlane);
-        gcSpritePlane->SetAntialiasMode(wxANTIALIAS_NONE);
-
-        dcMemorySpritePlane.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemoryMainPlane, offsetX_, offsetY_);
-    }
-#else
-    // Startup sprite plane with the main-plane content so sprites render on
-    // top of the background.
-    dcMemorySpritePlane.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemoryMainPlane, offsetX_, offsetY_);
-#endif
+    // Seed the sprite plane framebuffer (plane 2) with the current main-plane
+    // content (memory-to-memory). This replaces the per-frame bitmap recreate
+    // + blit, which can only read flushed (previous-frame) DC content
+    // mid-frame.
+    copyFramebufferMac(1, 2);
 
     while (tmsMemory_[spriteAttributeTableAddress] != 0xD0 && spriteAttributeTableAddress < (spriteAttributeTableAddress_+128))
     {
@@ -862,22 +785,9 @@ void Tms9918::drawSprites()
         
         spritePatternTableAddress = spritePatternTableAddress_ + namePointer * 8;
 
-#if defined(__WXMAC__)
-        if (macFramebufferEnabled_)
-        {
-            setMacPlane(2);
-            Video::setColour(brushColour_[colourIndex_+color+16].GetColour());
-            setMacPlane(0);
-        }
-        else
-        {
-            gcSpritePlane->SetBrush(brushColour_[colourIndex_+color+16]);
-            gcSpritePlane->SetPen(penColour_[color+16]);
-        }
-#else
-        dcMemorySpritePlane.SetBrush(brushColour_[colourIndex_+color+16]);
-        dcMemorySpritePlane.SetPen(penColour_[color+16]);
-#endif
+        setMacPlane(2);
+        Video::setColour(brushColour_[colourIndex_+color+16].GetColour());
+        setMacPlane(0);
         int numberOfLines = 8;
         
         if ((spriteSize_ == 16 && !spriteMagnify_) || (spriteSize_ == 32 && spriteMagnify_))
@@ -1247,68 +1157,30 @@ void Tms9918::drawSpriteMagnify(Byte namePointer, Word spritePatternTableAddress
 
 void Tms9918::drawPointMainPlane(wxCoord x, wxCoord y)
 {
-#if defined(__WXMAC__)
-    if (macFramebufferEnabled_)
-    {
-        setMacPlane(1);
-        Video::drawPoint(x, y);
-        setMacPlane(0);
-        return;
-    }
-    gcMainPlane->DrawRectangle(x, y, 0, 0);
-#else
-    dcMemoryMainPlane.DrawPoint(x, y);
-#endif
+    setMacPlane(1);
+    Video::drawPoint(x, y);
+    setMacPlane(0);
 }
 
 void Tms9918::drawPointSpritePlane(wxCoord x, wxCoord y)
 {
-#if defined(__WXMAC__)
-    if (macFramebufferEnabled_)
-    {
-        setMacPlane(2);
-        Video::drawPoint(x, y);
-        setMacPlane(0);
-        return;
-    }
-    gcSpritePlane->DrawRectangle(x, y, 0, 0);
-#else
-    dcMemorySpritePlane.DrawPoint(x, y);
-#endif
+    setMacPlane(2);
+    Video::drawPoint(x, y);
+    setMacPlane(0);
 }
 
 void Tms9918::drawRectangleMainPlane(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
 {
-#if defined(__WXMAC__)
-    if (macFramebufferEnabled_)
-    {
-        setMacPlane(1);
-        Video::drawRectangle(x, y, width, height);
-        setMacPlane(0);
-        return;
-    }
-    gcMainPlane->DrawRectangle(x, y, width-1, height-1);
-#else
-    dcMemoryMainPlane.DrawRectangle(x, y, width, height);
-#endif
+    setMacPlane(1);
+    Video::drawRectangle(x, y, width, height);
+    setMacPlane(0);
 }
 
 void Tms9918::setColourMutexMainPlane(int clr)
 {
-#if defined(__WXMAC__)
-    if (macFramebufferEnabled_)
-    {
-        setMacPlane(1);
-        Video::setColour(clr);
-        setMacPlane(0);
-        return;
-    }
-    gcMainPlane->SetBrush(brushColour_[clr]);
-    gcMainPlane->SetPen(penColour_[clr]);
-#else
-    dcMemoryMainPlane.SetBrush(brushColour_[clr]);
-    dcMemoryMainPlane.SetPen(penColour_[clr]);
-#endif
+    setMacPlane(1);
+    Video::setColour(clr);
+    setMacPlane(0);
 }
 
 void Tms9918::drawTile(Word tile)
@@ -1318,9 +1190,6 @@ void Tms9918::drawTile(Word tile)
     int b;
     int cl;
     int x=0, y=0;
-#if defined (__WXMSW__)
-    int size=0;
-#endif
     Word ofs;
 
     p = tmsMemory_[nameAddress_+tile];
@@ -1330,9 +1199,6 @@ void Tms9918::drawTile(Word tile)
             c = tmsMemory_[colorAddress_ +(p >> 3)];
             x = (tile % 32)*8;
             y = (tile / 32)*8;
-#if defined (__WXMSW__)
-            size = 8;
-#endif
 
             for (int py=0; py<8; py++)
             {
@@ -1342,10 +1208,6 @@ void Tms9918::drawTile(Word tile)
                     cl = (b & 128) ? c>>4 : c & 0xf;
                     if (cl == 0) cl = backgroundColor_;
                     if (cl == 0) cl = 1;
-#if defined(__linux__) || defined (__WXMSW__)
-                    setColourMutex(colourIndex_+cl+16);
-                    drawPoint(x+px+offsetX_, y+py+offsetY_);
-#endif
                     setColourMutexMainPlane(colourIndex_+cl+16);
                     drawPointMainPlane(x+px+offsetX_, y+py+offsetY_);
                     b = (b << 1) & 0xff;
@@ -1356,9 +1218,6 @@ void Tms9918::drawTile(Word tile)
         case TMS_GRAPHICS_II:
             x = tile % 32;
             y = tile / 32;
-#if defined (__WXMSW__)
-            size = 8;
-#endif
 
             ofs = 0;
             if (y>7) ofs = 2048;
@@ -1376,10 +1235,6 @@ void Tms9918::drawTile(Word tile)
                     cl = (b & 128) ? c>>4 : c & 0xf;
                     if (cl == 0) cl = backgroundColor_;
                     if (cl == 0) cl = 1;
-#if defined(__linux__) || defined (__WXMSW__)
-                     setColourMutex(colourIndex_+cl+16);
-                    drawPoint(x+px+offsetX_, y+py+offsetY_);
-#endif
                     setColourMutexMainPlane(colourIndex_+cl+16);
                     drawPointMainPlane(x+px+offsetX_, y+py+offsetY_);
                     b = (b << 1) & 0xff;
@@ -1390,9 +1245,6 @@ void Tms9918::drawTile(Word tile)
         case TMS_TEXT:
             x = (tile % 40)*6+8;
             y = (tile / 40)*8;
-#if defined (__WXMSW__)
-            size = 6;
-#endif
 
             setColourMutexMainPlane(colourIndex_+backgroundColor_+16);
             drawRectangleMainPlane(x+offsetX_, y+offsetY_, 6, 8);
@@ -1408,10 +1260,6 @@ void Tms9918::drawTile(Word tile)
                         cl = backgroundColor_;
                     
                     if (cl == 0) cl = backgroundColor_;
-#if defined(__linux__) || defined (__WXMSW__)
-                    setColourMutex(colourIndex_+cl+16);
-                    drawPoint(x+px+offsetX_, y+py+offsetY_);
-#endif
                     setColourMutexMainPlane(colourIndex_+cl+16);
                     drawPointMainPlane(x+px+offsetX_, y+py+offsetY_);
                     b = (b << 1) & 0xff;
@@ -1429,20 +1277,12 @@ void Tms9918::drawTile(Word tile)
             cl = (tmsMemory_[patternAddress_+b] & 0xf0) >> 4;
             
             multiColour_[x][y] = cl;
-#if defined(__linux__) || defined (__WXMSW__)
-            setColourMutex(colourIndex_+cl+16);
-            drawRectangle(x+offsetX_, y+offsetY_, 4 ,4);
-#endif
             setColourMutexMainPlane(colourIndex_+cl+16);
             drawRectangleMainPlane(x+offsetX_, y+offsetY_, 4 ,4);
             
             cl = tmsMemory_[patternAddress_+b] & 0xf;
             
             multiColour_[x+1][y] = cl;
-#if defined(__linux__) || defined (__WXMSW__)
-            setColourMutex(colourIndex_+cl+16);
-            drawRectangle(x+offsetX_ + 4, y+offsetY_, 4 ,4);
-#endif
             setColourMutexMainPlane(colourIndex_+cl+16);
             drawRectangleMainPlane(x+offsetX_ + 4, y+offsetY_, 4 ,4);
 
@@ -1451,19 +1291,11 @@ void Tms9918::drawTile(Word tile)
             cl = (tmsMemory_[patternAddress_+b] & 0xf0) >> 4;
 
             multiColour_[x][y+1] = cl;
-#if defined(__linux__) || defined (__WXMSW__)
-            setColourMutex(colourIndex_+cl+16);
-            drawRectangle(x+offsetX_, y+offsetY_ + 4, 4 ,4);
-#endif
             setColourMutexMainPlane(colourIndex_+cl+16);
             drawRectangleMainPlane(x+offsetX_, y+offsetY_ + 4, 4 ,4);
             cl = tmsMemory_[patternAddress_+b] & 0xf;
             
             multiColour_[x+1][y+1] = cl;
-#if defined(__linux__) || defined (__WXMSW__)
-            setColourMutex(colourIndex_+cl+16);
-            drawRectangle(x+offsetX_ + 4, y+offsetY_ + 4, 4 ,4);
-#endif
             setColourMutexMainPlane(colourIndex_+cl+16);
             drawRectangleMainPlane(x+offsetX_ + 4, y+offsetY_ + 4, 4 ,4);
         break;
@@ -1471,30 +1303,11 @@ void Tms9918::drawTile(Word tile)
         default:
             x = 0;
             y = 0;
-#if defined (__WXMSW__)
-            size = 0;
-#endif
         break;
     }
-#if defined(__WXMAC__) || defined(__linux__)
+    // Full-frame refresh on all platforms: the software framebuffer flushes
+    // the whole plane each frame.
     reBlit_ = true;
-#else
-    if (reBlit_)  return;
-    if (zoomFraction_)
-        reBlit_ = true;
-    else
-    {
-        TileList *temp = new TileList;
-        temp->x = x;
-        temp->y = y;
-        temp->size = size;
-        temp->nextTile = tileListPointer;
-        tileListPointer = temp;
-        updateTile_++;
-        if (updateTile_ > 40)
-            reBlit_ = true;
-    }
-#endif
 }
 
 void Tms9918::drawTileMultiColor(Word tile)
@@ -1517,10 +1330,6 @@ void Tms9918::drawTileMultiColor(Word tile)
     if (multiColour_[x][y] != cl)
     {
         multiColour_[x][y] = cl;
-#if defined(__linux__) || defined (__WXMSW__)
-        setColourMutex(colourIndex_+cl+16);
-        drawRectangle(x+offsetX_, y+offsetY_, 4 ,4);
-#endif
         setColourMutexMainPlane(colourIndex_+cl+16);
         drawRectangleMainPlane(x+offsetX_, y+offsetY_, 4 ,4);
     }
@@ -1530,10 +1339,6 @@ void Tms9918::drawTileMultiColor(Word tile)
     if (multiColour_[x+1][y] != cl)
     {
         multiColour_[x+1][y] = cl;
-#if defined(__linux__) || defined (__WXMSW__)
-        setColourMutex(colourIndex_+cl+16);
-        drawRectangle(x+offsetX_ + 4, y+offsetY_, 4 ,4);
-#endif
         setColourMutexMainPlane(colourIndex_+cl+16);
         drawRectangleMainPlane(x+offsetX_ + 4, y+offsetY_, 4 ,4);
     }
@@ -1544,10 +1349,6 @@ void Tms9918::drawTileMultiColor(Word tile)
     if (multiColour_[x][y+1] != cl)
     {
         multiColour_[x][y+1] = cl;
-#if defined(__linux__) || defined (__WXMSW__)
-        setColourMutex(colourIndex_+cl+16);
-        drawRectangle(x+offsetX_, y+offsetY_ + 4, 4 ,4);
-#endif
         setColourMutexMainPlane(colourIndex_+cl+16);
         drawRectangleMainPlane(x+offsetX_, y+offsetY_ + 4, 4 ,4);
     }
@@ -1556,10 +1357,6 @@ void Tms9918::drawTileMultiColor(Word tile)
     if (multiColour_[x+1][y+1] != cl)
     {
         multiColour_[x+1][y+1] = cl;
-#if defined(__linux__) || defined (__WXMSW__)
-        setColourMutex(colourIndex_+cl+16);
-        drawRectangle(x+offsetX_ + 4, y+offsetY_ + 4, 4 ,4);
-#endif
         setColourMutexMainPlane(colourIndex_+cl+16);
         drawRectangleMainPlane(x+offsetX_ + 4, y+offsetY_ + 4, 4 ,4);
     }
@@ -1574,9 +1371,6 @@ void Tms9918::drawTilePatternUpdate(Word tile, Word address)
     int cl;
     int pytemp;
     int x=0, y=0;
-#if defined (__WXMSW__)
-    int size=0;
-#endif
     Word ofs;
 
     p = tmsMemory_[nameAddress_+tile];
@@ -1588,9 +1382,6 @@ void Tms9918::drawTilePatternUpdate(Word tile, Word address)
             c = tmsMemory_[colorAddress_ +(p >> 3)];
             x = (tile % 32)*8;
             y = (tile / 32)*8;
-#if defined (__WXMSW__)
-            size = 8;
-#endif
 
             b = tmsMemory_[address];
             for (int px=0; px<8; px++)
@@ -1598,10 +1389,6 @@ void Tms9918::drawTilePatternUpdate(Word tile, Word address)
                 cl = (b & 128) ? c>>4 : c & 0xf;
                 if (cl == 0) cl = backgroundColor_;
                 if (cl == 0) cl = 1;
-#if defined(__linux__) || defined (__WXMSW__)
-                setColourMutex(colourIndex_+cl+16);
-                drawPoint(x+px+offsetX_, y+pytemp+offsetY_);
-#endif
                 setColourMutexMainPlane(colourIndex_+cl+16);
                 drawPointMainPlane(x+px+offsetX_, y+pytemp+offsetY_);
                 b = (b << 1) & 0xff;
@@ -1611,9 +1398,6 @@ void Tms9918::drawTilePatternUpdate(Word tile, Word address)
         case TMS_GRAPHICS_II:
             x = tile % 32;
             y = tile / 32;
-#if defined (__WXMSW__)
-            size = 8;
-#endif
 
             ofs = 0;
             if (y>7) ofs = 2048;
@@ -1629,10 +1413,6 @@ void Tms9918::drawTilePatternUpdate(Word tile, Word address)
                 cl = (b & 128) ? c>>4 : c & 0xf;
                 if (cl == 0) cl = backgroundColor_;
                 if (cl == 0) cl = 1;
-#if defined(__linux__) || defined (__WXMSW__)
-                setColourMutex(colourIndex_+cl+16);
-                drawPoint(x+px+offsetX_, y+pytemp+offsetY_);
-#endif
                 setColourMutexMainPlane(colourIndex_+cl+16);
                 drawPointMainPlane(x+px+offsetX_, y+pytemp+offsetY_);
                 b = (b << 1) & 0xff;
@@ -1649,19 +1429,11 @@ void Tms9918::drawTilePatternUpdate(Word tile, Word address)
             {
                 cl = (tmsMemory_[patternAddress_+b] & 0xf0) >> 4;
                 
-#if defined(__linux__) || defined (__WXMSW__)
-                setColourMutex(colourIndex_+cl+16);
-                drawRectangle(x * 8 + offsetX_, y * 8 + offsetY_, 4 ,4);
-#endif
                 setColourMutexMainPlane(colourIndex_+cl+16);
                 drawRectangleMainPlane(x * 8 + offsetX_, y * 8 + offsetY_, 4 ,4);
                 
                 cl = tmsMemory_[patternAddress_+b] & 0xf;
                 
-#if defined(__linux__) || defined (__WXMSW__)
-                setColourMutex(colourIndex_+cl+16);
-                drawRectangle(x * 8 + 4 + offsetX_, y * 8 + offsetY_, 4 ,4);
-#endif
                 setColourMutexMainPlane(colourIndex_+cl+16);
                 drawRectangleMainPlane(x * 8 + 4 + offsetX_, y * 8 + offsetY_, 4 ,4);
             }
@@ -1671,19 +1443,11 @@ void Tms9918::drawTilePatternUpdate(Word tile, Word address)
       
                 cl = (tmsMemory_[patternAddress_+b] & 0xf0) >> 4;
 
-#if defined(__linux__) || defined (__WXMSW__)
-                setColourMutex(colourIndex_+cl+16);
-                drawRectangle(x * 8 + offsetX_, y * 8 + 4 + offsetY_, 4 ,4);
-#endif
                 setColourMutexMainPlane(colourIndex_+cl+16);
                 drawRectangleMainPlane(x * 8 + offsetX_, y * 8 + 4 + offsetY_, 4 ,4);
                 
                 cl = tmsMemory_[patternAddress_+b] & 0xf;
                 
-#if defined(__linux__) || defined (__WXMSW__)
-                setColourMutex(colourIndex_+cl+16);
-                drawRectangle(x * 8 + 4 + offsetX_, y * 8 + 4 + offsetY_, 4 ,4);
-#endif
                 setColourMutexMainPlane(colourIndex_+cl+16);
                 drawRectangleMainPlane(x * 8 + 4 + offsetX_, y * 8 + 4 + offsetY_, 4 ,4);
             }
@@ -1692,41 +1456,17 @@ void Tms9918::drawTilePatternUpdate(Word tile, Word address)
         default:
             x = 0;
             y = 0;
-#if defined (__WXMSW__)
-           size = 0;
-#endif
         break;
     }
-#if defined(__WXMAC__) || defined(__linux__)
+    // Full-frame refresh on all platforms: the software framebuffer flushes
+    // the whole plane each frame.
     reBlit_ = true;
-#else
-    if (reBlit_)  return;
-    if (zoomFraction_)
-        reBlit_ = true;
-    else
-    {
-        TileList *temp = new TileList;
-        temp->x = x;
-        temp->y = y;
-        temp->size = size;
-        temp->nextTile = tileListPointer;
-        tileListPointer = temp;
-        updateTile_++;
-        if (updateTile_ > 40)
-            reBlit_ = true;
-    }
-#endif
 }
 
 void Tms9918::drawScreen()
 {
-#if defined(__WXMAC__)
     setColourMutexMainPlane(colourIndex_+backgroundColor_+16);
     drawRectangleMainPlane(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
-#else
-    setColourMutex(colourIndex_+backgroundColor_+16);
-    drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
-#endif
     if (mode_ == TMS_GRAPHICS_I)
     {
         for (int x=0; x<768; x++)

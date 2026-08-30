@@ -313,14 +313,11 @@ Video::Video(const wxString& title, const wxPoint& pos, const wxSize& size)
     offsetX_ = 0;
     offsetY_ = 0;
 
-    // Graphics contexts are created by the subclasses (and by
+    // The graphics context is created by the subclasses (and by
     // changeScreenSize / resetScreenCopyPointer). NULL-init here so the
     // framebuffer flush guards (flushFramebufferMac) are well-defined for
-    // the main/sprite plane contexts before their first assignment.
+    // the plane-0 context before its first assignment.
     gc = NULL;
-    gcMainAndSpritePlane = NULL;
-    gcMainPlane = NULL;
-    gcSpritePlane = NULL;
 
 // Software framebuffer is off by default; video types that need it
     // (pixie family first, others in later phases) call enableFramebufferMac().

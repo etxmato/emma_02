@@ -52,7 +52,6 @@ MC6845::MC6845(const wxString& title, const wxPoint& pos, const wxSize& size, do
     int regVal [16] = {94, mc6845Configuration.screenSize.x, 77, 8, 28, 2, mc6845Configuration.screenSize.y, 22, 0, mc6845Configuration.charSize.y, 20, 8, 0, 0, 3, 0xc0};
 
     windowSize_ = size;
-    characterListPointer6845 = NULL;
     colourIndex_ = 0;
 
     videoType_ = VIDEOXML6845;
@@ -95,11 +94,18 @@ MC6845::MC6845(const wxString& title, const wxPoint& pos, const wxSize& size, do
     screenCopyPointer = new wxBitmap(size.x, size.y);
     dcMemory.SelectObject(*screenCopyPointer);
 
+    // The software framebuffer is enabled on ALL platforms (see video.h/
+    // video.cpp); render per-pixel drawing through it (one DrawBitmap per
+    // frame instead of per-pixel draws). The graphics context is only created
+    // on macOS, where the non-framebuffer fallback draw path needs it.
+    // On Linux wxGraphicsContext::Create(dcMemory) creates a Cairo context
+    // bound to the screenCopyPointer Pixmap; leaving it unguarded caused a
+    // BadDrawable X error on exit when that Pixmap was freed out of order.
 #if defined(__WXMAC__)
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
-    enableFramebufferMac();
 #endif
+    enableFramebufferMac();
 
     videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_);
     cursorAddress_ = 0;
@@ -132,23 +138,12 @@ MC6845::MC6845(const wxString& title, const wxPoint& pos, const wxSize& size, do
 
 MC6845::~MC6845()
 {
-    CharacterList6845 *temp;
-
     dcMemory.SelectObject(wxNullBitmap);
     delete screenCopyPointer;
     delete videoScreenPointer;
 #if defined(__WXMAC__)
     delete gc;
 #endif
-    if (updateCharacter6845_ > 0)
-    {
-        while(characterListPointer6845 != NULL)
-        {
-            temp = characterListPointer6845;
-            characterListPointer6845 = temp->nextCharacter;
-            delete temp;
-        }
-    }
 }
 
 void MC6845::configure6845()
@@ -178,7 +173,6 @@ void MC6845::init6845()
     reDraw_ = true;
     reBlit_ = false;
     newBackGround_ = false;
-    updateCharacter6845_ = 0;
 }
 
 Byte MC6845::ef6845()
@@ -537,6 +531,11 @@ void MC6845::copyScreen()
     if (reDraw_)
         drawScreen();
 
+    // The software framebuffer is flushed into dcMemory identically on every
+    // platform; only how dcMemory reaches the window differs. macOS posts an
+    // async refresh (onPaint -> reBlit(dc), which also paints the extra
+    // background); Windows/Linux draw the extra background and blit the client
+    // DC directly from the emulation thread here.
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
@@ -550,34 +549,12 @@ void MC6845::copyScreen()
     if (extraBackGround_ && newBackGround_)
         drawExtraBackground(colour_[colourIndex_+backGround_]);
 
-    CharacterList6845 *temp;
-
     if (reBlit_ || reDraw_)
     {
+        flushFramebufferMac();
         videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, rows_*scanLine_*videoM_+2*offsetY_, &dcMemory, 0, 0);
         reBlit_ = false;
         reDraw_ = false;
-        if (updateCharacter6845_ > 0)
-        {
-            updateCharacter6845_ = 0;
-            while(characterListPointer6845 != NULL)
-            {
-                temp = characterListPointer6845;
-                characterListPointer6845 = temp->nextCharacter;
-                delete temp;
-            }
-        }
-    }
-    if (updateCharacter6845_ > 0)
-    {
-        updateCharacter6845_ = 0;
-        while(characterListPointer6845 != NULL)
-        {
-            videoScreenPointer->blit(offsetX_+(characterListPointer6845->x), offsetY_+(characterListPointer6845->y), charW_, scanLine_*videoM_, &dcMemory, offsetX_+characterListPointer6845->x, offsetY_+characterListPointer6845->y);
-            temp = characterListPointer6845;
-            characterListPointer6845 = temp->nextCharacter;
-            delete temp;
-        }
     }
 #endif
 }
@@ -624,23 +601,9 @@ void MC6845::drawCharacter6845(wxCoord x, wxCoord y, Byte v)
             drawRectangle(x+offsetX_, y+offsetY_+(scanLine_-1)*videoM_, charW_, 1);
     }
 
-#if defined(__WXMAC__) || defined(__linux__)
+    // Full-frame refresh on all platforms: the software framebuffer flushes
+    // the whole plane each frame.
     reBlit_ = true;
-#else
-    if (zoomFraction_)
-        reBlit_ = true;
-    else
-    {
-        CharacterList6845 *temp = new CharacterList6845;
-        temp->x = x;
-        temp->y = y;
-        temp->nextCharacter = characterListPointer6845;
-        characterListPointer6845 = temp;
-        updateCharacter6845_++;
-        if (updateCharacter6845_++ > 40)
-            reBlit_ = true;
-    }
-#endif
 
     line = 0;
     for (wxCoord j=y; j<y+(scanLine_-1)*videoM_; j+=videoM_)

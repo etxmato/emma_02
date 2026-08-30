@@ -83,37 +83,32 @@ SN76430N::SN76430N(const wxString& title, const wxPoint& pos, const wxSize& size
 
     screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
     dcMemory.SelectObject(*screenCopyPointer);
-    
+
+    // The software framebuffer is enabled on ALL platforms (see video.h/
+    // video.cpp); render per-pixel drawing through it (one DrawBitmap per
+    // frame instead of per-pixel draws). The graphics context is only created
+    // on macOS, where the non-framebuffer fallback draw path needs it.
+    // On Linux wxGraphicsContext::Create(dcMemory) creates a Cairo context
+    // bound to the screenCopyPointer Pixmap; leaving it unguarded caused a
+    // BadDrawable X error on exit when that Pixmap was freed out of order.
 #if defined(__WXMAC__)
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
-    enableFramebufferMac();
 #endif
+    enableFramebufferMac();
 
     this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
     this->SetBackgroundColour(COL_SN76430N_BLACK);
-    characterListPointer = NULL;
 }
 
 SN76430N::~SN76430N()
 {
-    CharacterList *temp;
-
     dcMemory.SelectObject(wxNullBitmap);
     delete videoScreenPointer;
     delete screenCopyPointer;
 #if defined(__WXMAC__)
     delete gc;
 #endif
-    if (updateCharacter_)
-    {
-        while(characterListPointer != NULL)
-        {
-            temp = characterListPointer;
-            characterListPointer = temp->nextCharacter;
-            delete temp;
-        }
-    }
 }
 
 void SN76430N::focus()
@@ -137,7 +132,6 @@ void SN76430N::init()
     reBlit_ = false;
     newBackGround_ = false;
     extraBackGround_ = false;
-    updateCharacter_ = false;
 }
 
 void SN76430N::cycle()
@@ -191,6 +185,11 @@ void SN76430N::copyScreen()
     if (reDraw_)
         drawScreen();
 
+    // The software framebuffer is flushed into dcMemory identically on every
+    // platform; only how dcMemory reaches the window differs. macOS posts an
+    // async refresh (onPaint -> reBlit(dc), which also paints the extra
+    // background); Windows/Linux draw the extra background and blit the client
+    // DC directly from the emulation thread here.
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
@@ -203,23 +202,12 @@ void SN76430N::copyScreen()
     if (extraBackGround_ && newBackGround_)
         drawExtraBackground(colour_[COL_SN76430N_BLACK]);
 
-    CharacterList *temp;
-
     if (reBlit_ || reDraw_)
     {
+        flushFramebufferMac();
         videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
         reBlit_ = false;
         reDraw_ = false;
-        if (updateCharacter_)
-        {
-            updateCharacter_ = false;
-            while(characterListPointer != NULL)
-            {
-                temp = characterListPointer;
-                characterListPointer = temp->nextCharacter;
-                delete temp;
-            }
-        }
     }
 #endif
 }

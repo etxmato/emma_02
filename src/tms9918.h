@@ -4,15 +4,6 @@
 #include "video.h"
 #include "wx/overlay.h"
 
-class TileList
-{
-public:
-    wxCoord x;
-    wxCoord y;
-    int size;
-    TileList *nextTile;
-};
-
 class Tms9918 : public Video
 {
 public:
@@ -63,10 +54,7 @@ public:
     void reBlit(wxDC &dc);
 
 private:
-    TileList *tileListPointer;
     TmsConfiguration tmsConfiguration_;
-    
-    wxOverlay spriteOverlay;
     
     Byte tmsMemory_[16384];
     Byte numberOfSpritesOnline_[192];
@@ -101,11 +89,6 @@ private:
 
     bool toggle_;
     Byte value_;
-
-    wxCoord backGroundX_;
-    wxCoord backGroundY_;
-    int updateTile_;
-
 
     int cycleValue_;
     int cycleSize_;

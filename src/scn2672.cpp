@@ -73,7 +73,6 @@ Scn2672::Scn2672(const wxString& title, const wxPoint& pos, const wxSize& size, 
         xZoomFactor_ = (int) xZoomFactor_;
 
     windowSize_ = size;
-    characterListPointerScn2672 = NULL;
     colourIndex_ = 0;
     registerIndex_ = 0;
     displayStart_ = 0;
@@ -156,11 +155,18 @@ Scn2672::Scn2672(const wxString& title, const wxPoint& pos, const wxSize& size, 
     screenCopyPointer = new wxBitmap(2*offsetX_+size.x, 2*offsetY_+size.y);
     dcMemory.SelectObject(*screenCopyPointer);
 
+    // The software framebuffer is enabled on ALL platforms (see video.h/
+    // video.cpp); render per-pixel drawing through it (one DrawBitmap per
+    // frame instead of per-pixel draws). The graphics context is only created
+    // on macOS, where the non-framebuffer fallback draw path needs it.
+    // On Linux wxGraphicsContext::Create(dcMemory) creates a Cairo context
+    // bound to the screenCopyPointer Pixmap; leaving it unguarded caused a
+    // BadDrawable X error on exit when that Pixmap was freed out of order.
 #if defined(__WXMAC__)
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
-    enableFramebufferMac();
 #endif
+    enableFramebufferMac();
 
     videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_, xZoomFactor_);
     cursorBlink_ = true;
@@ -200,23 +206,12 @@ Scn2672::Scn2672(const wxString& title, const wxPoint& pos, const wxSize& size, 
 
 Scn2672::~Scn2672()
 {
-    CharacterListScn2672 *temp;
-
     dcMemory.SelectObject(wxNullBitmap);
     delete screenCopyPointer;
     delete videoScreenPointer;
 #if defined(__WXMAC__)
     delete gc;
 #endif
-    if (updateCharacterScn2672_ > 0)
-    {
-        while(characterListPointerScn2672 != NULL)
-        {
-            temp = characterListPointerScn2672;
-            characterListPointerScn2672 = temp->nextCharacter;
-            delete temp;
-        }
-    }
 }
 
 void Scn2672::configureScn2672()
@@ -329,7 +324,6 @@ void Scn2672::initScn2672()
     reBlit_ = false;
     extraBackGround_ = true;
     newBackGround_ = true;
-    updateCharacterScn2672_ = 0;
     attributeType_ = 0;
     lastAttributeType_ = 0;
 }
@@ -1273,6 +1267,11 @@ void Scn2672::copyScreen()
     if (reDraw_)
         drawOffsetBackground();
     
+    // The software framebuffer is flushed into dcMemory identically on every
+    // platform; only how dcMemory reaches the window differs. macOS posts an
+    // async refresh (onPaint -> reBlit(dc), which also paints the extra
+    // background); Windows/Linux draw the extra background and blit the client
+    // DC directly from the emulation thread here.
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
@@ -1284,33 +1283,11 @@ void Scn2672::copyScreen()
     if (extraBackGround_ && newBackGround_)
         drawExtraBackground(colour_[colourIndex_+backGround_]);
 
-    CharacterListScn2672 *temp;
-
     if (reBlit_ || reDraw_)
     {
+        flushFramebufferMac();
         videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
         reBlit_ = false;
-        if (updateCharacterScn2672_ > 0)
-        {
-            updateCharacterScn2672_ = 0;
-            while(characterListPointerScn2672 != NULL)
-            {
-                temp = characterListPointerScn2672;
-                characterListPointerScn2672 = temp->nextCharacter;
-                delete temp;
-            }
-        }
-    }
-    if (updateCharacterScn2672_ > 0)
-    {
-        updateCharacterScn2672_ = 0;
-        while(characterListPointerScn2672 != NULL)
-        {
-            videoScreenPointer->blit(offsetX_+(characterListPointerScn2672->x), offsetY_+(characterListPointerScn2672->y), scn2672Configuration_.charSize.x, scanLinesPerCharacterRow_, &dcMemory, offsetX_+characterListPointerScn2672->x, offsetY_+characterListPointerScn2672->y);
-            temp = characterListPointerScn2672;
-            characterListPointerScn2672 = temp->nextCharacter;
-            delete temp;
-        }
     }
 #endif
 }
@@ -1380,23 +1357,9 @@ void Scn2672::drawCharacterScn2672(wxCoord x, wxCoord y, Byte character)
     
     setColour(foreGround);
 
-#if defined(__WXMAC__) || defined(__linux__)
+    // Full-frame refresh on all platforms: the software framebuffer flushes
+    // the whole plane each frame.
     reBlit_ = true;
-#else
-    if (zoomFraction_)
-        reBlit_ = true;
-    else
-    {
-        CharacterListScn2672 *temp = new CharacterListScn2672;
-        temp->x = x;
-        temp->y = y;
-        temp->nextCharacter = characterListPointerScn2672;
-        characterListPointerScn2672 = temp;
-        updateCharacterScn2672_++;
-        if (updateCharacterScn2672_++ > 40)
-            reBlit_ = true;
-    }
-#endif
 
     Byte graphic[16];
     Byte graphicCode = character;

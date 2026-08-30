@@ -3,14 +3,6 @@
 
 #include "video.h"
 
-class CharacterList6845
-{
-public:
-    wxCoord x;
-    wxCoord y;
-    CharacterList6845 *nextCharacter;    
-};
-
 class MC6845 : public Video
 {
 public:
@@ -53,7 +45,6 @@ private:
     Byte mc6845ram_[16384];
     Byte mc6845CharRom_[2048];
 
-    CharacterList6845 *characterListPointer6845;
     Word mc6845RamStart_;
     Word mc6845RamEnd_;
     Word mc6845AddressRegister_;
@@ -87,7 +78,6 @@ private:
     bool cursorBlinkOn_;
     int blink_;
     int cursorBlinkTime_;
-    int updateCharacter6845_;
 
     int charW_;
 };

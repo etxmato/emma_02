@@ -87,11 +87,18 @@ i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     screenCopyPointer = new wxBitmap(videoWidth_*zoom_, videoHeight_*zoom_);
     dcMemory.SelectObject(*screenCopyPointer);
 
+    // The software framebuffer is enabled on ALL platforms (see video.h/
+    // video.cpp); render per-pixel drawing through it (one DrawBitmap per
+    // frame instead of per-pixel draws). The graphics context is only created
+    // on macOS, where the non-framebuffer fallback draw path needs it.
+    // On Linux wxGraphicsContext::Create(dcMemory) creates a Cairo context
+    // bound to the screenCopyPointer Pixmap; leaving it unguarded caused a
+    // BadDrawable X error on exit when that Pixmap was freed out of order.
 #if defined(__WXMAC__)
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
-    enableFramebufferMac();
 #endif
+    enableFramebufferMac();
 
     setColour(colourIndex_+backGround_);
     drawRectangle(0, 0, videoWidth_, videoHeight_);
@@ -161,28 +168,16 @@ i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 
     this->SetBackgroundColour(colour_[colourIndex_+backGround_]);
     this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
-    characterListPointer8275 = NULL;
 }
 
 i8275::~i8275()
 {
-    CharacterList8275 *temp;
-
     dcMemory.SelectObject(wxNullBitmap);
     delete screenCopyPointer;
     delete videoScreenPointer;
 #if defined(__WXMAC__)
     delete gc;
 #endif
-    if (updateCharacter8275_ > 0)
-    {
-        while(characterListPointer8275 != NULL)
-        {
-            temp = characterListPointer8275;
-            characterListPointer8275 = temp->nextCharacter;
-            delete temp;
-        }
-    }
 }
 
 void i8275::configure8275()
@@ -205,7 +200,6 @@ void i8275::init8275()
     reBlit_ = false;
     reBlink_ = false;
     newBackGround_ = false;
-    updateCharacter8275_ = 0;
 }
 
 Byte i8275::frameEf8275()
@@ -747,6 +741,11 @@ void i8275::copyScreen()
     if (reBlink_)
         blinkScreen8275();
 
+    // The software framebuffer is flushed into dcMemory identically on every
+    // platform; only how dcMemory reaches the window differs. macOS posts an
+    // async refresh (onPaint -> reBlit(dc), which also paints the extra
+    // background); Windows/Linux draw the extra background and blit the client
+    // DC directly from the emulation thread here.
 #if defined(__WXMAC__)
     if (reBlit_ || reBlitAfterReDraw || reBlink_)
     {
@@ -759,34 +758,12 @@ void i8275::copyScreen()
     if (extraBackGround_ && newBackGround_)
         drawExtraBackground(colour_[colourIndex_+backGround_]);
 
-    CharacterList8275 *temp;
-
     if (reBlit_ || reBlitAfterReDraw || reBlink_)
     {
+        flushFramebufferMac();
         videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, i8275Configuration_.screenSize.y*i8275Configuration_.charSize.y*videoM_+2*offsetY_, &dcMemory, 0, 0);
         reBlit_ = false;
         reBlink_ = false;
-        if (updateCharacter8275_ > 0)
-        {
-            updateCharacter8275_ = 0;
-            while(characterListPointer8275 != NULL)
-            {
-                temp = characterListPointer8275;
-                characterListPointer8275 = temp->nextCharacter;
-                delete temp;
-            }
-        }
-    }
-    if (updateCharacter8275_ > 0)
-    {
-        updateCharacter8275_ = 0;
-        while(characterListPointer8275 != NULL)
-        {
-            videoScreenPointer->blit(offsetX_+(characterListPointer8275->x), offsetY_+(characterListPointer8275->y), i8275Configuration_.charSize.x, i8275Configuration_.charSize.y*videoM_, &dcMemory, offsetX_+characterListPointer8275->x, offsetY_+characterListPointer8275->y);
-            temp = characterListPointer8275;
-            characterListPointer8275 = temp->nextCharacter;
-            delete temp;
-        }
     }
 #endif
 }
@@ -841,23 +818,9 @@ void i8275::drawCharacter8275(wxCoord x, wxCoord y, Byte v, bool cursor, Word ad
         0x3, 0x6, 0x9, 0xc, 0x7, 0xe, 0xb, 0xd, 0x5, 0xa, 0xf, 0xf
     };
 
-#if defined(__WXMAC__) || defined(__linux__)
+    // Full-frame refresh on all platforms: the software framebuffer flushes
+    // the whole plane each frame.
     reBlit_ = true;
-#else
-    if (zoomFraction_)
-        reBlit_ = true;
-    else
-    {
-        CharacterList8275 *temp = new CharacterList8275;
-        temp->x = x;
-        temp->y = y;
-        temp->nextCharacter = characterListPointer8275;
-        characterListPointer8275 = temp;
-        updateCharacter8275_++;
-        if (updateCharacter8275_ > 40)
-            reBlit_ = true;
-    }
-#endif
 
     if ((v & 0xc0) == 0x80)
     {

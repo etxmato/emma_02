@@ -4,15 +4,6 @@
 #include "splash.h"
 #include "definition.h"
 
-class CharacterList
-{
-public:
-    wxCoord x;
-    wxCoord y;
-    CharacterList *nextCharacter;
-    int doubleWidth;
-};
-
 class VideoScreen : public wxWindow
 {
 public:
@@ -181,13 +172,10 @@ protected:
     wxImage *screenImage;
 
     wxMemoryDC dcMemoryMainAndSpritePlane;
-    wxGraphicsContext *gcMainAndSpritePlane;
     
     wxMemoryDC dcMemoryMainPlane;
-    wxGraphicsContext *gcMainPlane;
     
     wxMemoryDC dcMemorySpritePlane;
-    wxGraphicsContext *gcSpritePlane;
         
     double clock_;
 
@@ -250,8 +238,8 @@ protected:
     // context with one gc->DrawBitmap each.
     //
     // There is one framebuffer per rendering plane, matching the base
-    // Video DC/gc pairs: [0]=dcMemory/gc, [1]=dcMemoryMainPlane/gcMainPlane,
-    // [2]=dcMemorySpritePlane/gcSpritePlane. Single-plane video types (Pixie,
+    // Video memory DCs: [0]=dcMemory, [1]=dcMemoryMainPlane,
+    // [2]=dcMemorySpritePlane. Single-plane video types (Pixie,
     // MC6847, VIS1870, ...) only ever use plane 0.
     //
     // The flag is opt-in (default off) so only video types that enable it

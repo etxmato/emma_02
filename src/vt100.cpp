@@ -194,11 +194,18 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
     dcMemory.SelectObject(*screenCopyPointer);
 
+    // The software framebuffer is enabled on ALL platforms (see video.h/
+    // video.cpp); render per-pixel drawing through it (one DrawBitmap per
+    // frame instead of per-pixel draws). The graphics context is only created
+    // on macOS, where the non-framebuffer fallback draw path needs it.
+    // On Linux wxGraphicsContext::Create(dcMemory) creates a Cairo context
+    // bound to the screenCopyPointer Pixmap; leaving it unguarded caused a
+    // BadDrawable X error on exit when that Pixmap was freed out of order.
 #if defined(__WXMAC__)
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
-    enableFramebufferMac();
 #endif
+    enableFramebufferMac();
 
     pressedKey_ = 0;
     displayStart_ = 0;
@@ -250,14 +257,11 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
         this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
         this->SetBackgroundColour(colour_[colourIndex_+1]);
     }
-    characterListPointer = NULL;
     reDraw_ = true;
     reBlit_ = false;
     reBlink_ = false;
     newBackGround_ = false;
-    updateCharacter_ = false;
     tab_char = currentComputerConfiguration.videoTerminalConfiguration.backSpaceCharacter;
-
     if (serialLog_)
     {
         int num = 0;
@@ -287,23 +291,12 @@ Vt100::~Vt100()
             logFile_.AddLine(line_);
         logFile_.Write();
     }
-    CharacterList *temp;
     dcMemory.SelectObject(wxNullBitmap);
-    dcScroll.SelectObject(wxNullBitmap);
     delete screenCopyPointer;
     delete videoScreenPointer;
 #if defined(__WXMAC__)
     delete gc;
 #endif
-    if (updateCharacter_)
-    {
-        while(characterListPointer != NULL)
-        {
-            temp = characterListPointer;
-            characterListPointer = temp->nextCharacter;
-            delete temp;
-        }
-    }
 }
 
 void Vt100::configure(VideoTerminalConfiguration videoTerminalConfiguration, AddressLocationConfiguration addressLocationConfiguration, wxString saveCommand)
@@ -1186,6 +1179,11 @@ void Vt100::copyScreen()
     if (reBlink_)
         blinkScreen();
 
+    // The software framebuffer is flushed into dcMemory identically on every
+    // platform; only how dcMemory reaches the window differs. macOS posts an
+    // async refresh (onPaint -> reBlit(dc), which also paints the extra
+    // background); Windows/Linux draw the extra background and blit the client
+    // DC directly from the emulation thread here.
 #if defined(__WXMAC__)
     flushFramebufferMac();
     if (reBlit_ || reDraw_ || reBlink_)
@@ -1196,38 +1194,16 @@ void Vt100::copyScreen()
         reBlink_ = false;
     }
 #else
-    if (extraBackGround_ && newBackGround_) 
+    if (extraBackGround_ && newBackGround_)
         drawExtraBackground(colour_[colourIndex_+1]);
-
-    CharacterList *temp;
 
     if (reBlit_ || reDraw_ || reBlink_)
     {
+        flushFramebufferMac();
         videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
         reBlit_ = false;
         reDraw_ = false;
         reBlink_ = false;
-        if (updateCharacter_)
-        {
-            updateCharacter_ = false;
-            while(characterListPointer != NULL)
-            {
-                temp = characterListPointer;
-                characterListPointer = temp->nextCharacter;
-                delete temp;
-            }
-        }
-    }
-    if (updateCharacter_)
-    {
-        updateCharacter_ = false;
-        while(characterListPointer != NULL)
-        {
-            videoScreenPointer->blit(offsetX_+(characterListPointer->x), offsetY_+(characterListPointer->y), charWidth_*(characterListPointer->doubleWidth), linesPerCharacter_*heightFactor, &dcMemory, offsetX_+characterListPointer->x, offsetY_+characterListPointer->y);
-            temp = characterListPointer;
-            characterListPointer = temp->nextCharacter;
-            delete temp;
-        }
     }
 #endif
 }
@@ -1359,25 +1335,9 @@ void Vt100::drawCharacter(int pos, int line, Byte v, bool cursor)
 
     int x = pos * charWidth_ * doubleWidth_[line];
     int y = line * linesPerCharacter_ * heightFactor;
-#if defined(__WXMAC__) || defined(__linux__)
+    // Full-frame refresh on all platforms: the software framebuffer flushes
+    // the whole plane each frame.
     reBlit_ = true;
-#else
-    if (!(reDraw_ || reBlit_))
-    {
-        if (zoomFraction_)
-            reBlit_ = true;
-        else
-        {
-            CharacterList *temp = new CharacterList;
-            temp->x = x;
-            temp->y = y;
-            temp->doubleWidth = doubleWidth_[line];
-            temp->nextCharacter = characterListPointer;
-            characterListPointer = temp;
-            updateCharacter_ = true;
-        }
-    }
-#endif
 
     if (reverseScr_[line][pos] ^ SetUpFeature_[VTREVERSESCREEN])
     {

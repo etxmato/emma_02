@@ -1,7 +1,6 @@
 #ifndef SN76430N_H
 #define SN76430N_H
 
-#include "sn76430n.h"
 #include "video.h"
 
 class SN76430N : public Video
@@ -31,15 +30,12 @@ public:
 private:
     void drawScreen();
     void drawCharacter(wxCoord x, wxCoord y, Byte value);
-    
-    CharacterList *characterListPointer;
 
     int cycleValue_;
     int cycleSize_;
 
     double videoClock_;
 
-    bool updateCharacter_;
     wxSize saveWindowSize_;
         
     DECLARE_EVENT_TABLE()

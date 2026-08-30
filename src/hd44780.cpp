@@ -72,11 +72,18 @@ HD44780::HD44780(const wxString& title, const wxPoint& pos, const wxSize& size, 
     screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
     dcMemory.SelectObject(*screenCopyPointer);
 
+    // The software framebuffer is enabled on ALL platforms (see video.h/
+    // video.cpp); render per-pixel drawing through it (one DrawBitmap per
+    // frame instead of per-pixel draws). The graphics context is only created
+    // on macOS, where the non-framebuffer fallback draw path needs it.
+    // On Linux wxGraphicsContext::Create(dcMemory) creates a Cairo context
+    // bound to the screenCopyPointer Pixmap; leaving it unguarded caused a
+    // BadDrawable X error on exit when that Pixmap was freed out of order.
 #if defined(__WXMAC__)
     gc = wxGraphicsContext::Create(dcMemory);
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
-    enableFramebufferMac();
 #endif
+    enableFramebufferMac();
 
     videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_);
 
@@ -409,6 +416,11 @@ void HD44780::copyScreen()
     if (reDraw_)
         drawScreen();
 
+    // The software framebuffer is flushed into dcMemory identically on every
+    // platform; only how dcMemory reaches the window differs. macOS posts an
+    // async refresh (onPaint -> reBlit(dc), which also paints the extra
+    // background); Windows/Linux draw the extra background and blit the client
+    // DC directly from the emulation thread here.
 #if defined(__WXMAC__)
     if (reBlit_ || reDraw_)
     {
@@ -423,6 +435,7 @@ void HD44780::copyScreen()
 
     if (reBlit_ || reDraw_)
     {
+        flushFramebufferMac();
         videoScreenPointer->blit(0, 0, videoWidth_ + 2 * offsetX_, videoHeight_ + 2 * offsetY_, &dcMemory, 0, 0);
         reBlit_ = false;
         reDraw_ = false;
@@ -494,14 +507,9 @@ void HD44780::drawCharacter(int col, int row, Byte value)
         }
     }
 
-#if defined(__WXMAC__) || defined(__linux__)
+    // Full-frame refresh on all platforms: the software framebuffer flushes
+    // the whole plane each frame.
     reBlit_ = true;
-#else
-    if (zoomFraction_)
-        reBlit_ = true;
-    else
-        reBlit_ = true;  // Always full blit for LCD — simple enough
-#endif
 }
 
 void HD44780::drawCursor(int col, int row, bool status)

@@ -96,11 +96,6 @@ private:
     ComxStatusBar *comxStatusBarPointer;
     DiagStatusBar *diagStatusBarPointer;
 
-    wxBitmap *screenScrollCopyPointer;
-    CharacterList *characterListPointer;
-
-    wxMemoryDC dcScroll;
-
     int save_v1870X_;
     int save_v1870Y_;
 
@@ -148,7 +143,6 @@ private:
     bool nonDisplay_;
     Byte efNonDisplay_;
     Byte efDisplay_;
-    bool updateCharacter_;
     wxSize windowSize_;
     wxSize saveWindowSize_;
 

@@ -123,7 +123,6 @@ public:
 private:
     ComputerConfiguration currentComputerConfiguration;
 
-    CharacterList *characterListPointer;
     wxString line_;
     wxString terminalLine_;
     wxTextFile logFile_;
@@ -136,8 +135,6 @@ private:
     unsigned char redBack_;
     unsigned char greenBack_;
     unsigned char blueBack_;
-    
-    wxMemoryDC dcScroll;
 
     int cycleValue_;
     int cycleSize_;
@@ -147,7 +144,6 @@ private:
     int cycleSizeClick_;
 
     bool stretchDot_;
-    bool updateCharacter_;
     bool graphicsMode_;
     bool scsMode_;
     Byte g0mode_;
