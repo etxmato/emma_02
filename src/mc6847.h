@@ -23,6 +23,7 @@ public:
     void gmBits(Byte value, int showTrace = SHOW_ADDRESS_TRACE);
     void setGraphicMode();
     void copyScreen();
+    wxColour copyScreenBackgroundColour();
     void drawScreen();
 
     void setClock(double clock);

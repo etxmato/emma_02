@@ -142,43 +142,29 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     offsetX_ = 0;
     offsetY_ = 0;
     
-    plotListPointer = NULL;
     colourType_ = cdp1861Configuration_.colorType;
     bgChanged = false;
-#if defined(__WXMAC__)
     enableFramebufferMac();
-#endif
 }
 
 Pixie::~Pixie()
 {
-    PlotList *temp;
-
     dcMemory.SelectObject(wxNullBitmap);
     delete screenCopyPointer;
     delete videoScreenPointer;
 #if defined(__WXMAC__)
     delete gc;
 #endif
-    if (updatePlot_ > 0)
-    {
-        while(plotListPointer != NULL)
-        {
-            temp = plotListPointer;
-            plotListPointer = temp->nextPlot;
-            delete temp;
-        }
-    }
     if (cdp1861Configuration_.statusBarType == STATUSBAR_VIP2)
         delete vipIIStatusBarPointer;
 }
 
-// macOS software-framebuffer rendering now lives in the Video base class
+// Software-framebuffer rendering now lives in the Video base class
 // (Video::setColour / drawPoint / drawRectangle + flushFramebufferMac, opt-in
-// via enableFramebufferMac()). Pixie enables it in its constructor, so all
-// pixie-family drawing funnels through the base framebuffer path on macOS.
-// See video.cpp for the full rationale (per-pixel CoreGraphics calls were
-// keeping the pixie displays below real-time and starving the audio ring).
+// via enableFramebufferMac()). Pixie enables it in its constructor on ALL
+// platforms, so all pixie-family drawing funnels through the base framebuffer
+// path (per-pixel CoreGraphics calls kept the pixie displays below real-time
+// and starved the audio ring - see video.cpp for the full rationale).
 
 void Pixie::reset()
 {
@@ -377,7 +363,6 @@ void Pixie::initPixie()
     newBackGround_ = false;
     reBlit_ = true;
     reDraw_ = false;
-    updatePlot_ = 0;
     backGround_ = backGroundInit_;
 
     changeScreenSize();
@@ -661,6 +646,12 @@ void Pixie::cyclePixieCdp1864()
         graphicsNext_ = 0;
 }
 
+void Pixie::applyScaleFactor()
+{
+    xZoomFactor_ = xZoomFactorNew_/highRes_;
+    videoScreenPointer->setScale(xZoomFactor_);
+}
+
 void Pixie::copyScreen()
 {
     if (p_Main->isZoomEventOngoing())
@@ -669,76 +660,12 @@ void Pixie::copyScreen()
 //    if (!graphicsOn_) // TO BE CHECKED - for ETI
 //        return;
 
-    if (reColour_)
-    {
-        for (int i=0; i<numberOfColours_; i++)
-        {
-            colour_[i] = colourNew_[i];
-            brushColour_[i] = brushColourNew_[i];
-            penColour_[i] = penColourNew_[i];
-        }
-        for (int i=0; i<VIDEOXMLMAX; i++)
-        {
-            borderX_[i] = borderXNew_[i];
-            borderY_[i] = borderYNew_[i];
-        }
-        xZoomFactor_ = xZoomFactorNew_/highRes_;
-        videoScreenPointer->setScale(xZoomFactor_);
-        setScreenSize();
-        reDraw_ = true;
-        reBlit_ = true;
-        newBackGround_ = true;
-        reColour_ = false;
-    }
+    updateReColour();
 
     if (reDraw_)
         drawScreen();
 
-#if defined(__WXMAC__)
-    if (reBlit_ || reDraw_)
-    {
-        // macOS: flush the software framebuffer into dcMemory with a single
-        // gc->DrawBitmap (all per-pixel draws during the frame went into the
-        // wxImage framebuffer instead of CoreGraphics).
-        flushFramebufferMac();
-        p_Main->eventRefreshVideo(false, videoNumber_);
-        reBlit_ = false;
-        reDraw_ = false;
-    }
-#else
-    if (extraBackGround_ && newBackGround_)
-        drawExtraBackground(colour_[colourIndex_+backGround_]);
-
-    PlotList *temp;
-
-    if (reBlit_ || reDraw_ )
-    {
-        videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
-        reBlit_ = false;
-        reDraw_ = false;
-        if (updatePlot_ > 0)
-        {
-            updatePlot_ = 0;
-            while(plotListPointer != NULL)
-            {
-                temp = plotListPointer;
-                plotListPointer = temp->nextPlot;
-                delete temp;
-            }
-        }
-    }
-    if (updatePlot_ > 0)
-    {
-        updatePlot_ = 0;
-        while(plotListPointer != NULL)
-        {
-            videoScreenPointer->blit(offsetX_+ plotListPointer->x, offsetY_+plotListPointer->y, plotListPointer->width, plotListPointer->height, &dcMemory, offsetX_+plotListPointer->x, offsetY_+plotListPointer->y);
-            temp = plotListPointer;
-            plotListPointer = temp->nextPlot;
-            delete temp;
-        }
-    }
-#endif
+    finishCopyScreen();
 }
 
 void Pixie::drawScreen()
@@ -795,8 +722,6 @@ void Pixie::drawBackgroundLine()
 
 void Pixie::plot(int x, int y, int c, int color)
 {
-    wxPen penClr;
-
     if (!bgChanged)
         if (pbacking_[x][y] == c)
             if (!c || (color_[x][y] == color))  
@@ -806,48 +731,16 @@ void Pixie::plot(int x, int y, int c, int color)
     pbacking_[x][y] = c;
 
     if (c)
-    {
         setColour(colourIndex_+color);
-#if defined(__WXMAC__) || defined(__linux__)
-        penClr = penColour_[color];
-#endif
-    }
     else
-    {
         setColour(colourIndex_+backGround_);
-#if defined(__WXMAC__) || defined(__linux__)
-        penClr = penColour_[backGround_+colourIndex_];
-#endif
-    }
     drawPoint(x+offsetX_, y+offsetY_);
 
-#if defined(__WXMAC__) || defined(__linux__)
     reBlit_ = true;
-#else
-    if (reBlit_)  return;
-    if (zoomFraction_)
-        reBlit_ = true;
-    else
-    {
-        PlotList *temp = new PlotList;
-        temp->x = x;
-        temp->y = y;
-        temp->width = 1;
-        temp->height = 1;
-        temp->penClr = penClr;
-        temp->nextPlot = plotListPointer;
-        plotListPointer = temp;
-        updatePlot_++;
-        if (updatePlot_ > 40)
-            reBlit_ = true;
-    }
-#endif
 }
 
 void Pixie::plot(int x, int y, int width, int height, int c, int color)
 {
-    wxPen penClr;
-   
     if (pbacking_[x][y] == c)
         if (!c || (color_[x][y] == color))  return;
     
@@ -855,38 +748,12 @@ void Pixie::plot(int x, int y, int width, int height, int c, int color)
     pbacking_[x][y] = c;
 
     if (c)
-    {
         setColour(colourIndex_+color);
-        penClr = penColour_[color];
-    }
     else
-    {
         setColour(colourIndex_+backGround_);
-        penClr = penColour_[backGround_+colourIndex_];
-    }
     drawRectangle(x+offsetX_, y+offsetY_, width, height);
     
-#if defined(__WXMAC__) || defined(__linux__)
     reBlit_ = true;
-#else
-    if (reBlit_)  return;
-    if (zoomFraction_)
-        reBlit_ = true;
-    else
-    {
-        PlotList *temp = new PlotList;
-        temp->x = x;
-        temp->y = y;
-        temp->width = width;
-        temp->height = height;
-        temp->penClr = penClr;
-        temp->nextPlot = plotListPointer;
-        plotListPointer = temp;
-        updatePlot_++;
-        if (updatePlot_ > 40)
-            reBlit_ = true;
-    }
-#endif
 }
 
 void Pixie::setFullScreen(bool fullScreenSet)

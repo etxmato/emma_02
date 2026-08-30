@@ -707,25 +707,7 @@ void i8275::copyScreen()
     if (p_Main->isZoomEventOngoing())
         return;
 
-    if (reColour_)
-    {
-        for (int i=0; i<numberOfColours_; i++)
-        {
-            colour_[i] = colourNew_[i];
-            brushColour_[i] = brushColourNew_[i];
-            penColour_[i] = penColourNew_[i];
-        }
-        for (int i=0; i<VIDEOXMLMAX; i++)
-        {
-            borderX_[i] = borderXNew_[i];
-            borderY_[i] = borderYNew_[i];
-        }
-        setScreenSize();
-        reDraw_ = true;
-        reBlit_ = true;
-        newBackGround_ = true;
-        reColour_ = false;
-    }
+    updateReColour();
 
     if (reCycle_)
         setCycle();

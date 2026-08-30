@@ -4,17 +4,6 @@
 #include "video.h"
 #include "statusbar.h"
 
-class PlotList
-{
-public: 
-    wxCoord x;
-    wxCoord y;
-    int width;
-    int height;
-    wxPen penClr;
-    PlotList *nextPlot;
-};
-
 class Pixie : public Video
 {
 public:
@@ -62,7 +51,8 @@ protected:
     CDP1862Configuration cdp1862Configuration_;
     CDP1864Configuration cdp1864Configuration_;
 
-    PlotList *plotListPointer;
+    void applyScaleFactor();
+
     Byte pbacking_[384][208];
     Byte color_[384][208];
     Byte bgColor_[312]; 
@@ -85,7 +75,6 @@ protected:
     int highRes_;
     int graphicsX_;
 
-    int updatePlot_;
     int colourType_;
 
 private:

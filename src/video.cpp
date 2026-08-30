@@ -736,6 +736,58 @@ void Video::drawExtraBackground(wxColour clr)
     newBackGround_ = false;
 }
 
+void Video::applyScaleFactor()
+{
+}
+
+void Video::updateReColour()
+{
+    if (!reColour_)
+        return;
+
+    for (int i=0; i<numberOfColours_; i++)
+    {
+        colour_[i] = colourNew_[i];
+        brushColour_[i] = brushColourNew_[i];
+        penColour_[i] = penColourNew_[i];
+    }
+    for (int i=0; i<VIDEOXMLMAX; i++)
+    {
+        borderX_[i] = borderXNew_[i];
+        borderY_[i] = borderYNew_[i];
+    }
+    applyScaleFactor();
+    setScreenSize();
+    reDraw_ = true;
+    reBlit_ = true;
+    newBackGround_ = true;
+    reColour_ = false;
+}
+
+void Video::finishCopyScreen()
+{
+#if defined(__WXMAC__)
+    if (reBlit_ || reDraw_)
+    {
+        flushFramebufferMac();
+        p_Main->eventRefreshVideo(false, videoNumber_);
+        reBlit_ = false;
+        reDraw_ = false;
+    }
+#else
+    if (extraBackGround_ && newBackGround_)
+        drawExtraBackground(copyScreenBackgroundColour());
+
+    if (reBlit_ || reDraw_)
+    {
+        flushFramebufferMac();
+        videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, copyScreenHeight(), &dcMemory, 0, 0);
+        reBlit_ = false;
+        reDraw_ = false;
+    }
+#endif
+}
+
 void Video::copyScreen()
 {
 }

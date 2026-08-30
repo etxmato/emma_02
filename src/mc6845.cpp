@@ -505,25 +505,7 @@ void MC6845::copyScreen()
     if (p_Main->isZoomEventOngoing())
         return;
 
-    if (reColour_)
-    {
-        for (int i=0; i<numberOfColours_; i++)
-        {
-            colour_[i] = colourNew_[i];
-            brushColour_[i] = brushColourNew_[i];
-            penColour_[i] = penColourNew_[i];
-        }
-        for (int i=0; i<VIDEOXMLMAX; i++)
-        {
-            borderX_[i] = borderXNew_[i];
-            borderY_[i] = borderYNew_[i];
-        }
-        setScreenSize();
-        reDraw_ = true;
-        reBlit_ = true;
-        newBackGround_ = true;
-        reColour_ = false;
-    }
+    updateReColour();
 
     if (reCycle_)
         setCycle();
@@ -531,32 +513,12 @@ void MC6845::copyScreen()
     if (reDraw_)
         drawScreen();
 
-    // The software framebuffer is flushed into dcMemory identically on every
-    // platform; only how dcMemory reaches the window differs. macOS posts an
-    // async refresh (onPaint -> reBlit(dc), which also paints the extra
-    // background); Windows/Linux draw the extra background and blit the client
-    // DC directly from the emulation thread here.
-#if defined(__WXMAC__)
-    if (reBlit_ || reDraw_)
-    {
-//        gc->Flush();
-        flushFramebufferMac();
-        p_Main->eventRefreshVideo(false, videoNumber_);
-        reBlit_ = false;
-        reDraw_ = false;
-    }
-#else
-    if (extraBackGround_ && newBackGround_)
-        drawExtraBackground(colour_[colourIndex_+backGround_]);
+    finishCopyScreen();
+}
 
-    if (reBlit_ || reDraw_)
-    {
-        flushFramebufferMac();
-        videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, rows_*scanLine_*videoM_+2*offsetY_, &dcMemory, 0, 0);
-        reBlit_ = false;
-        reDraw_ = false;
-    }
-#endif
+int MC6845::copyScreenHeight()
+{
+    return rows_*scanLine_*videoM_+2*offsetY_;
 }
 
 void MC6845::drawScreen()

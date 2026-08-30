@@ -142,6 +142,17 @@ public:
 
 protected:
     Sn76430NConfiguration sn76430NConfiguration_;
+
+    // Shared pieces of the per-video-type copyScreen() implementations.
+    // updateReColour() applies any pending colour/border changes (set via
+    // reColour()) and marks the screen for a full redraw; finishCopyScreen()
+    // is the standard flush/blit tail for single-plane displays. The virtual
+    // hooks let individual video types vary the few per-chip differences.
+    void updateReColour();
+    void finishCopyScreen();
+    virtual void applyScaleFactor();
+    virtual int copyScreenHeight() {return videoHeight_+2*offsetY_;};
+    virtual wxColour copyScreenBackgroundColour() {return colour_[colourIndex_+backGround_];};
     
     Byte pageMemory_[4096];
     Byte characterMemory_[4096];
