@@ -32,7 +32,6 @@ public:
     void cyclePixieCoinArcade();
     void cyclePixieCdp1864();
     
-    virtual void copyScreen();
     void drawBackgroundLine();
     virtual void drawScreen();
     void plot(int x, int y, int c, int color);

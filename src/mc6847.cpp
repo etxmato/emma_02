@@ -167,8 +167,6 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
     cycleValue_ = cycleSize_;
     zoom_ = zoom;
 
-    double intPart;
-
     outLatch_ = 0;
 
     this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
@@ -458,22 +456,6 @@ void mc6847::cycle6847()
     {
         cycleValue_ = cycleSize_;
     }
-}
-
-void mc6847::copyScreen()
-{
-    if (p_Main->isZoomEventOngoing())
-        return;
-
-    updateReColour();
-
-    if (reCycle_)
-        setCycle();
-
-    if (reDraw_)
-        drawScreen();
-
-    finishCopyScreen();
 }
 
 wxColour mc6847::copyScreenBackgroundColour()

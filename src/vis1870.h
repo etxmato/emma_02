@@ -61,7 +61,6 @@ public:
     Byte readColourRamDirect(Word address);
     Byte readGraphicRamDirect(Word address);
 
-    void copyScreen();
     void reDrawBar();
     void updateComxExpansionLed(bool status);
     void updateComxStatusLed(bool status);

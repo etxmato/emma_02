@@ -439,7 +439,6 @@ Byte RtcMM58174::readRtcMm58174(Word address, wxDateTime systemTime, wxDateTime 
     now.Add(timeDiff);
 
     Byte value = 0;
-    int ms;
     switch (reg)
     {
         case 0x1:   // tenths of seconds

@@ -612,8 +612,6 @@ void Video::changeScreenSize()
     gc->SetAntialiasMode(wxANTIALIAS_NONE);
 #endif
 
-    double intPart;
-
 #ifndef __linux__ // Looks like reDrawing on zooming will (sometimes) crash on linux
     reDraw_ = true;
     newBackGround_ = true;
@@ -698,8 +696,6 @@ void Video::onF5()
 void Video::setZoom(double zoom)
 {
     zoom_ = zoom;
-
-    double intPart;
 
     if (fullScreenSet_)
     {
@@ -809,6 +805,26 @@ void Video::eventRefreshScreen()
 
 void Video::copyScreen()
 {
+    if (p_Main->isZoomEventOngoing())
+        return;
+
+    updateReColour();
+
+    if (reCycle_)
+        setCycle();
+
+    if (reDraw_)
+        drawScreen();
+
+    if (reBlink_)
+        blinkScreen();
+
+    // The software framebuffer is flushed into dcMemory identically on every
+    // platform; only how dcMemory reaches the window differs. macOS posts an
+    // async refresh (onPaint -> reBlit(dc), which also paints the extra
+    // background); Windows/Linux draw the extra background and blit the client
+    // DC directly from the emulation thread here.
+    finishCopyScreen();
 }
 
 void Video::reDrawBar()

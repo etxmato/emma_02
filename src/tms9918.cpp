@@ -57,8 +57,6 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
     videoType_ = VIDEOXMLTMS;
     colourIndex_ = COL_TMS_TRANSPARANT-16;
 
-    double intPart;
-
     defineColours();
 
     videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_);

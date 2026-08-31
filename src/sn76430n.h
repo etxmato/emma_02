@@ -18,7 +18,6 @@ public:
 
     void writeRam(Word address, Byte value);
 
-    void copyScreen();
     wxColour copyScreenBackgroundColour();
 
     void setClock(double clock);

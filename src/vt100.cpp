@@ -123,8 +123,6 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     fullScreenSet_ = false;
     zoom_ = zoom;
 
-    double intPart;
-
     intensity_ = 1;
     
     defineColours();
@@ -1140,30 +1138,6 @@ void Vt100::setCycle()
     cycleValue_ = cycleSize_;
 
     reCycle_ = false;
-}
-
-void Vt100::copyScreen()
-{
-    if (p_Main->isZoomEventOngoing())
-        return;
-
-    updateReColour();
-
-    if (reCycle_)
-        setCycle();
-
-    if (reDraw_)
-        drawScreen();
-
-    if (reBlink_)
-        blinkScreen();
-
-    // The software framebuffer is flushed into dcMemory identically on every
-    // platform; only how dcMemory reaches the window differs. macOS posts an
-    // async refresh (onPaint -> reBlit(dc), which also paints the extra
-    // background); Windows/Linux draw the extra background and blit the client
-    // DC directly from the emulation thread here.
-    finishCopyScreen();
 }
 
 void Vt100::eventRefreshScreen()

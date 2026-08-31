@@ -140,8 +140,6 @@ Scn2672::Scn2672(const wxString& title, const wxPoint& pos, const wxSize& size, 
     fullScreenSet_ = false;
     zoom_ = zoom;
 
-    double intPart;
-
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
 #endif

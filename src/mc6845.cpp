@@ -84,8 +84,6 @@ MC6845::MC6845(const wxString& title, const wxPoint& pos, const wxSize& size, do
     fullScreenSet_ = false;
     zoom_ = zoom;
 
-    double intPart;
-
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
 #endif
@@ -497,22 +495,6 @@ void MC6845::write6845CharRom(Word addr, Byte value)
 {
     mc6845CharRom_[addr&0x7ff] = value;
     reDraw_ = true;
-}
-
-void MC6845::copyScreen()
-{
-    if (p_Main->isZoomEventOngoing())
-        return;
-
-    updateReColour();
-
-    if (reCycle_)
-        setCycle();
-
-    if (reDraw_)
-        drawScreen();
-
-    finishCopyScreen();
 }
 
 int MC6845::copyScreenHeight()

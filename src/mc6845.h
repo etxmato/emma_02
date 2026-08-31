@@ -26,7 +26,6 @@ public:
     void write6845(Word addr, Byte value);
     Byte read6845CharRom(Word addr);
     void write6845CharRom(Word addr, Byte value);
-    void copyScreen();
     int copyScreenHeight();
     void drawScreen();
     void draw6845(Word addr, Byte value);

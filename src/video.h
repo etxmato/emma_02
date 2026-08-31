@@ -102,6 +102,9 @@ public:
     virtual void setZoom(double zoom);
     virtual void drawExtraBackground(wxColour clr);
     virtual void copyScreen();
+    virtual void setCycle() {};
+    virtual void drawScreen() {};
+    virtual void blinkScreen() {};
     virtual void reDrawBar();
     virtual void updateStatusLed(bool status, int card, int i = 0);
     virtual void setClock(double clock);

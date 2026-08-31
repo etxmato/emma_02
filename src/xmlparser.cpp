@@ -4785,7 +4785,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
     int rangeLow, rangeHigh;
     int addressLine = -1;
     bool dpQvalue = false;
-    wxString position, size, range, itemFunctionText, temp;
+    wxString position, size, range, itemFunctionText;
 
     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration.resize(guiItemConfigNumber_+1);
     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = -1;

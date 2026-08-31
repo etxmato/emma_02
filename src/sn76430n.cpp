@@ -65,9 +65,7 @@ SN76430N::SN76430N(const wxString& title, const wxPoint& pos, const wxSize& size
 
     videoWidth_ = 128;
     videoHeight_ = 96;
-    
-    double intPart;
-    
+        
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
 #endif
@@ -151,22 +149,6 @@ void SN76430N::writeRam(Word address, Byte value)
     int x = (address & 0x3f)*2;
     int y = ((address & 0x7c0) >> 6)*3;
     drawCharacter(x, y, value);
-}
-
-void SN76430N::copyScreen()
-{
-    if (p_Main->isZoomEventOngoing())
-        return;
-
-    updateReColour();
-
-    if (reCycle_)
-        setCycle();
-
-    if (reDraw_)
-        drawScreen();
-
-    finishCopyScreen();
 }
 
 wxColour SN76430N::copyScreenBackgroundColour()

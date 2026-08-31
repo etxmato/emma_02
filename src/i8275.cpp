@@ -74,8 +74,6 @@ i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     fullScreenSet_ = false;
     zoom_ = zoom;
 
-    double intPart;
-
     burstCountCode_ = 8;
     burstSpaceCode_ = 0;
     lineCounterMode_ = 1;
@@ -701,52 +699,9 @@ void i8275::write8275VideoRam(Word addr, Byte value)
     reDraw_ = true;
 }
 
-void i8275::copyScreen()
+int i8275::copyScreenHeight()
 {
-    if (p_Main->isZoomEventOngoing())
-        return;
-
-    updateReColour();
-
-    if (reCycle_)
-        setCycle();
-
-    bool reBlitAfterReDraw = false;
-    if (reDraw_)
-    {
-        drawScreen();
-        reDraw_ = false;
-        reBlitAfterReDraw = true;
-    }
-
-    if (reBlink_)
-        blinkScreen8275();
-
-    // The software framebuffer is flushed into dcMemory identically on every
-    // platform; only how dcMemory reaches the window differs. macOS posts an
-    // async refresh (onPaint -> reBlit(dc), which also paints the extra
-    // background); Windows/Linux draw the extra background and blit the client
-    // DC directly from the emulation thread here.
-#if defined(__WXMAC__)
-    if (reBlit_ || reBlitAfterReDraw || reBlink_)
-    {
-        flushFramebufferMac();
-        p_Main->eventRefreshVideo(false, videoNumber_);
-        reBlit_ = false;
-        reBlink_ = false;
-    }
-#else
-    if (extraBackGround_ && newBackGround_)
-        drawExtraBackground(colour_[colourIndex_+backGround_]);
-
-    if (reBlit_ || reBlitAfterReDraw || reBlink_)
-    {
-        flushFramebufferMac();
-        videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, i8275Configuration_.screenSize.y*i8275Configuration_.charSize.y*videoM_+2*offsetY_, &dcMemory, 0, 0);
-        reBlit_ = false;
-        reBlink_ = false;
-    }
-#endif
+    return i8275Configuration_.screenSize.y*i8275Configuration_.charSize.y*videoM_+2*offsetY_;
 }
 
 void i8275::drawScreen()
@@ -765,7 +720,7 @@ void i8275::drawScreen()
     }
 }
 
-void i8275::blinkScreen8275()
+void i8275::blinkScreen()
 {
     int addr = 0;
     for (int i=0; i<(i8275Configuration_.screenSize.x*i8275Configuration_.screenSize.y); i++)

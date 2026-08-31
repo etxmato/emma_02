@@ -136,8 +136,6 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     fullScreenSet_ = false;
     zoom_ = zoom;
 
-    double intPart;
-
     offsetX_ = 0;
     offsetY_ = 0;
     
@@ -649,22 +647,6 @@ void Pixie::applyScaleFactor()
 {
     xZoomFactor_ = xZoomFactorNew_/highRes_;
     videoScreenPointer->setScale(xZoomFactor_);
-}
-
-void Pixie::copyScreen()
-{
-    if (p_Main->isZoomEventOngoing())
-        return;
-
-//    if (!graphicsOn_) // TO BE CHECKED - for ETI
-//        return;
-
-    updateReColour();
-
-    if (reDraw_)
-        drawScreen();
-
-    finishCopyScreen();
 }
 
 void Pixie::drawScreen()

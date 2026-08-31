@@ -75,8 +75,6 @@ VIS1870::VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, 
     fullScreenSet_ = false;
     zoom_ = zoom;
 
-    double intPart;
-
     videoType_ = VIDEOXML1870;
 
     if (vis1870Configuration_.ef.reverse == 1)
@@ -938,22 +936,6 @@ void VIS1870::writeCramDirect(Word address, Byte value)
         break;
     }
     reDraw_ = true;
-}
-
-void VIS1870::copyScreen()
-{
-    if (p_Main->isZoomEventOngoing())
-        return;
-
-    updateReColour();
-
-    if (reCycle_)
-        setCycle();
-
-    if (reDraw_)
-        drawScreen();
-
-    finishCopyScreen();
 }
 
 void VIS1870::drawScreen()

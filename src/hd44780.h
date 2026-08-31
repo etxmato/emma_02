@@ -22,7 +22,6 @@ public:
     void writeData(Byte value, int showTrace);
     Byte readStatus();
     Byte readData();
-    void copyScreen();
     void drawScreen();
     void drawCharacter(int col, int row, Byte value);
     void drawCursor(int col, int row, bool status);

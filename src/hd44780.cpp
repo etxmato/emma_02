@@ -52,8 +52,6 @@ HD44780::HD44780(const wxString& title, const wxPoint& pos, const wxSize& size, 
     fullScreenSet_ = false;
     zoom_ = zoom;
 
-    double intPart;
-
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
 #endif
@@ -382,22 +380,6 @@ void HD44780::setCycle()
     cycleValue_ = cycleSize_;
     blinkValue_ = blinkSize_;
     reCycle_ = false;
-}
-
-void HD44780::copyScreen()
-{
-    if (p_Main->isZoomEventOngoing())
-        return;
-
-    updateReColour();
-
-    if (reCycle_)
-        setCycle();
-
-    if (reDraw_)
-        drawScreen();
-
-    finishCopyScreen();
 }
 
 void HD44780::drawScreen()

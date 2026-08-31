@@ -42,7 +42,6 @@ public:
     void switchQ(int value);
     void setClock(double clock);
     void setCycle();
-    void copyScreen();
     int Parity(int value); 
     void ScrollUp(); 
     void ScrollDown(); 

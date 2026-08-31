@@ -39,9 +39,9 @@ public:
     void write8275CharRom(Word addr, Byte value);
     Byte read8275VideoRam(Word addr);
     void write8275VideoRam(Word addr, Byte value);
-    void copyScreen();
     void drawScreen();
-    void blinkScreen8275();
+    void blinkScreen();
+    int copyScreenHeight();
     void draw8275(Word addr, Byte value);
     void drawCharacter8275(int x, int y, Byte value, bool cursor, Word addr);
     void setInterlace(bool status);
