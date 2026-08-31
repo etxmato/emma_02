@@ -93,16 +93,7 @@ MC6845::MC6845(const wxString& title, const wxPoint& pos, const wxSize& size, do
 
     // The software framebuffer is enabled on ALL platforms (see video.h/
     // video.cpp); render per-pixel drawing through it (one DrawBitmap per
-    // frame instead of per-pixel draws). The graphics context is only created
-    // on macOS, where the non-framebuffer fallback draw path needs it.
-    // On Linux wxGraphicsContext::Create(dcMemory) creates a Cairo context
-    // bound to the screenCopyPointer Pixmap; leaving it unguarded caused a
-    // BadDrawable X error on exit when that Pixmap was freed out of order.
-#if defined(__WXMAC__)
-    gc = wxGraphicsContext::Create(dcMemory);
-    gc->SetAntialiasMode(wxANTIALIAS_NONE);
-#endif
-    enableFramebufferMac();
+    // frame instead of per-pixel draws).
 
     videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_);
     cursorAddress_ = 0;
@@ -138,9 +129,6 @@ MC6845::~MC6845()
     dcMemory.SelectObject(wxNullBitmap);
     delete screenCopyPointer;
     delete videoScreenPointer;
-#if defined(__WXMAC__)
-    delete gc;
-#endif
 }
 
 void MC6845::configure6845()
@@ -805,10 +793,5 @@ void MC6845::resetScreenCopyPointer()
 //    screenCopyPointer = new wxBitmap(videoWidth_, rows_*scanLine_*videoM_);
     dcMemory.SelectObject(*screenCopyPointer);
 
-#ifdef __WXMAC__
-    delete gc;
-    gc = wxGraphicsContext::Create(dcMemory);
-    gc->SetAntialiasMode(wxANTIALIAS_NONE);
-#endif
 }
 

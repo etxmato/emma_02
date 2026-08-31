@@ -327,16 +327,9 @@ Video::Video(const wxString& title, const wxPoint& pos, const wxSize& size)
     offsetX_ = 0;
     offsetY_ = 0;
 
-    // The graphics context is created by the subclasses (and by
-    // changeScreenSize / resetScreenCopyPointer). NULL-init here so the
-    // framebuffer flush guards (flushFramebufferMac) are well-defined for
-    // the plane-0 context before its first assignment.
-    gc = NULL;
-
-// Software framebuffer is off by default; video types that need it
-    // (pixie family first, others in later phases) call enableFramebufferMac().
-    // NOTE: framebuffer state is now cross-platform (see video.h).
-    macFramebufferEnabled_ = false;
+// Software framebuffer state (see video.h). All per-pixel drawing
+    // funnels through it; there is no fallback draw path and no graphics
+    // context on any platform.
     macPlaneId_ = 0;
     macFrameImage_[0] = macFrameImage_[1] = macFrameImage_[2] = NULL;
     macCurrentColour_[0] = macCurrentColour_[1] = macCurrentColour_[2] = *wxBLACK;
@@ -602,16 +595,6 @@ void Video::changeScreenSize()
     
     dcMemory.SelectObject(*screenCopyPointer);
     
-#ifdef __WXMAC__
-    // Native graphics context, used by the non-framebuffer fallback draw path
-    // on macOS (setColour / drawPoint / drawRectangle). The software-framebuffer
-    // flush (flushFramebufferMac) composites through dcMemory.DrawBitmap and
-    // does NOT use gc, so no graphics context is needed on Windows/Linux.
-    delete gc;
-    gc = wxGraphicsContext::Create(dcMemory);
-    gc->SetAntialiasMode(wxANTIALIAS_NONE);
-#endif
-
 #ifndef __linux__ // Looks like reDrawing on zooming will (sometimes) crash on linux
     reDraw_ = true;
     newBackGround_ = true;
@@ -772,32 +755,6 @@ void Video::updateReColour()
     reColour_ = false;
 }
 
-void Video::finishCopyScreen()
-{
-#if defined(__WXMAC__)
-    flushFramebufferMac();
-    if (reBlit_ || reDraw_ || reBlink_)
-    {
-        eventRefreshScreen();
-        reBlit_ = false;
-        reDraw_ = false;
-        reBlink_ = false;
-    }
-#else
-    if (extraBackGround_ && newBackGround_)
-        drawExtraBackground(copyScreenBackgroundColour());
-
-    if (reBlit_ || reDraw_ || reBlink_)
-    {
-        flushFramebufferMac();
-        videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, copyScreenHeight(), &dcMemory, 0, 0);
-        reBlit_ = false;
-        reDraw_ = false;
-        reBlink_ = false;
-    }
-#endif
-}
-
 void Video::eventRefreshScreen()
 {
     p_Main->eventRefreshVideo(false, videoNumber_);
@@ -824,7 +781,28 @@ void Video::copyScreen()
     // async refresh (onPaint -> reBlit(dc), which also paints the extra
     // background); Windows/Linux draw the extra background and blit the client
     // DC directly from the emulation thread here.
-    finishCopyScreen();
+#if defined(__WXMAC__)
+    flushFramebuffer();
+    if (reBlit_ || reDraw_ || reBlink_)
+    {
+        eventRefreshScreen();
+        reBlit_ = false;
+        reDraw_ = false;
+        reBlink_ = false;
+    }
+#else
+    if (extraBackGround_ && newBackGround_)
+        drawExtraBackground(copyScreenBackgroundColour());
+
+    if (reBlit_ || reDraw_ || reBlink_)
+    {
+        flushFramebuffer();
+        videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, copyScreenHeight(), &dcMemory, 0, 0);
+        reBlit_ = false;
+        reDraw_ = false;
+        reBlink_ = false;
+    }
+#endif
 }
 
 void Video::reDrawBar()
@@ -852,75 +830,35 @@ void Video::setColour(int clr)
 {
 //    if (p_Main->isZoomEventOngoingButNotFullScreen())
 //        return;
-    if (macFramebufferEnabled_)
-    {
-        // Deferred rendering: remember the colour only, do NOT touch gc.
-        // The colour_[]/brushColour_[]/penColour_[] arrays are already up
-        // to date (defineColours / reColour_).
-        macCurrentColour_[macPlaneId_] = brushColour_[clr].GetColour();
-        return;
-    }
-#if defined(__WXMAC__)
-    gc->SetBrush(brushColour_[clr]);
-    gc->SetPen(penColour_[clr]);
-#else
-    dcMemory.SetBrush(brushColour_[clr]);
-    dcMemory.SetPen(penColour_[clr]);
-#endif
+    // Deferred rendering: remember the colour only. The framebuffer is
+    // flushed to the backing memory DC once per frame in copyScreen().
+    // The colour_[]/brushColour_[]/penColour_[] arrays are already up to
+    // date (defineColours / reColour_).
+    macCurrentColour_[macPlaneId_] = brushColour_[clr].GetColour();
 }
 
 void Video::setColour(wxColour clr)
 {
     //    if (p_Main->isZoomEventOngoingButNotFullScreen())
     //        return;
-    if (macFramebufferEnabled_)
-    {
-        macCurrentColour_[macPlaneId_] = clr;
-        return;
-    }
-#if defined(__WXMAC__)
-    gc->SetBrush(wxBrush(clr));
-    gc->SetPen(wxPen(clr));
-#else
-    dcMemory.SetBrush(wxBrush(clr));
-    dcMemory.SetPen(wxPen(clr));
-#endif
+    macCurrentColour_[macPlaneId_] = clr;
 }
 
 void Video::drawRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
 {
-    if (macFramebufferEnabled_)
-    {
-        drawRectangleFramebufferMac(x, y, width, height);
-        return;
-    }
-#if defined(__WXMAC__)
-    gc->DrawRectangle(x, y, width-1, height-1);
-#else
-    dcMemory.DrawRectangle(x, y, width, height);
-#endif
+    drawRectangleFramebuffer(x, y, width, height);
 }
 
 void Video::drawPoint(wxCoord x, wxCoord y)
 {
-    if (macFramebufferEnabled_)
-    {
-        drawPointFramebufferMac(x, y);
-        return;
-    }
-#if defined(__WXMAC__)
-    gc->DrawRectangle(x, y, 0, 0);
-#else
-    dcMemory.DrawPoint(x, y);
-#endif
+    drawPointFramebuffer(x, y);
 }
 
 void Video::setColourMutex(int clr)
 {
-    // Delegates to the base Video::setColour so the macOS software framebuffer
-    // (when enabled) is used here too - VIS1870 / TMS9918 / SN76430N draw
-    // through these variants. With the framebuffer disabled (default) this
-    // is byte-for-byte identical to the old direct gc/dcMemory code.
+    // Delegates to the base Video::setColour so the software framebuffer is
+    // used here too - VIS1870 / TMS9918 / SN76430N draw through these
+    // variants.
     //
     // IMPORTANT: the call must be QUALIFIED (Video::setColour), not an
     // unqualified virtual call. VIS1870 overrides drawPoint() (same signature,
@@ -940,19 +878,14 @@ void Video::drawPointMutex(wxCoord x, wxCoord y)
     Video::drawPoint(x, y);
 }
 
-void Video::enableFramebufferMac()
-{
-    macFramebufferEnabled_ = true;
-}
-
 void Video::setMacPlane(int plane)
 {
     macPlaneId_ = plane;
 }
 
-void Video::drawPointFramebufferMac(wxCoord x, wxCoord y)
+void Video::drawPointFramebuffer(wxCoord x, wxCoord y)
 {
-    ensureFramebufferMac(macPlaneId_);
+    ensureFramebuffer(macPlaneId_);
     int w = macFrameImage_[macPlaneId_]->GetWidth();
     int h = macFrameImage_[macPlaneId_]->GetHeight();
     if (x < 0 || x >= w || y < 0 || y >= h)
@@ -965,9 +898,9 @@ void Video::drawPointFramebufferMac(wxCoord x, wxCoord y)
     macPlaneDirty_[macPlaneId_] = true;
 }
 
-void Video::drawRectangleFramebufferMac(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
+void Video::drawRectangleFramebuffer(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
 {
-    ensureFramebufferMac(macPlaneId_);
+    ensureFramebuffer(macPlaneId_);
     int w = macFrameImage_[macPlaneId_]->GetWidth();
     int h = macFrameImage_[macPlaneId_]->GetHeight();
     // Match the base macOS gc->DrawRectangle(x, y, width-1, height-1)
@@ -1006,7 +939,7 @@ void Video::drawRectangleFramebufferMac(wxCoord x, wxCoord y, wxCoord width, wxC
     macPlaneDirty_[macPlaneId_] = true;
 }
 
-void Video::ensureFramebufferMac(int plane)
+void Video::ensureFramebuffer(int plane)
 {
     int w = 2 * offsetX_ + videoWidth_;
     int h = 2 * offsetY_ + videoHeight_;
@@ -1020,7 +953,7 @@ void Video::ensureFramebufferMac(int plane)
     macPlaneDirty_[plane] = true;
 }
 
-void Video::flushFramebufferMac()
+void Video::flushFramebuffer()
 {
     for (int plane = 0; plane < 3; plane++)
     {
@@ -1053,10 +986,10 @@ void Video::flushFramebufferMac()
     }
 }
 
-void Video::copyFramebufferMac(int fromPlane, int toPlane)
+void Video::copyFramebuffer(int fromPlane, int toPlane)
 {
-    ensureFramebufferMac(fromPlane);
-    ensureFramebufferMac(toPlane);
+    ensureFramebuffer(fromPlane);
+    ensureFramebuffer(toPlane);
     wxImage *src = macFrameImage_[fromPlane];
     wxImage *dst = macFrameImage_[toPlane];
     // Both planes use the same size (2*offsetX_+videoWidth_ x

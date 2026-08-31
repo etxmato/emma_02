@@ -65,8 +65,7 @@ public:
     void writeScn2672Ram(Word addr, Byte value);
     Byte readScn2672CharRom(Word addr);
     void writeScn2672CharRom(Word addr, Byte value);
-    void copyScreen();
-    void drawOffsetBackground();
+    void drawScreen();
     void drawNextLine();
 	void drawLine();
 	bool isEndScreen();

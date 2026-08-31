@@ -5172,7 +5172,6 @@ void Main::setSysColours()
     guiBackGround_ = wxSystemSettings::GetColour(wxSYS_COLOUR_FRAMEBK);
     guiTextColour[GUI_COL_BLACK] = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
     guiTextColour[GUI_COL_WHITE] = wxSystemSettings::GetColour(wxSYS_COLOUR_APPWORKSPACE);
-   
 #else
     darkMode_ = false;
     guiBackGround_ = wxColour(windowInfo.red, windowInfo.green, windowInfo.blue);
@@ -5183,6 +5182,9 @@ void Main::setSysColours()
     
     if (darkMode_)
     {
+#if defined (__linux__)
+       guiTextColour[GUI_COL_WHITE] = guiBackGround_;
+#endif
         guiTextColour[GUI_COL_BLUE] = wxColour(0xdc, 0xcc, 0x8b);
         guiTextColour[GUI_COL_PINK] = wxColour(0xfe, 0x8a, 0xb6);
         guiTextColour[GUI_COL_RED] = wxColour(0xc6, 0x28, 0x28);

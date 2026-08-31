@@ -154,16 +154,7 @@ Scn2672::Scn2672(const wxString& title, const wxPoint& pos, const wxSize& size, 
 
     // The software framebuffer is enabled on ALL platforms (see video.h/
     // video.cpp); render per-pixel drawing through it (one DrawBitmap per
-    // frame instead of per-pixel draws). The graphics context is only created
-    // on macOS, where the non-framebuffer fallback draw path needs it.
-    // On Linux wxGraphicsContext::Create(dcMemory) creates a Cairo context
-    // bound to the screenCopyPointer Pixmap; leaving it unguarded caused a
-    // BadDrawable X error on exit when that Pixmap was freed out of order.
-#if defined(__WXMAC__)
-    gc = wxGraphicsContext::Create(dcMemory);
-    gc->SetAntialiasMode(wxANTIALIAS_NONE);
-#endif
-    enableFramebufferMac();
+    // frame instead of per-pixel draws).
 
     videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_, xZoomFactor_);
     cursorBlink_ = true;
@@ -206,9 +197,6 @@ Scn2672::~Scn2672()
     dcMemory.SelectObject(wxNullBitmap);
     delete screenCopyPointer;
     delete videoScreenPointer;
-#if defined(__WXMAC__)
-    delete gc;
-#endif
 }
 
 void Scn2672::configureScn2672()
@@ -1132,8 +1120,8 @@ void Scn2672::setStartScreen()
     reDrawOnNextCycle_ = false;
     currentY_ = 0;
     // Apply any pending colour change before the reDraw_ check: copyScreen()
-    // ends with finishCopyScreen(), which clears reDraw_ once the redraw has
-    // been flushed, so a reColour-triggered redraw must be captured here.
+    // clears reDraw_ once the redraw has been flushed, so a reColour-triggered
+    // redraw must be captured here.
     updateReColour();
     if (reDraw_)
         reDrawOnNextCycle_ = true;
@@ -1239,25 +1227,10 @@ void Scn2672::writeScn2672CharRom(Word addr, Byte value)
     reDraw_ = true;
 }
 
-void Scn2672::copyScreen()
-{
-    if (p_Main->isZoomEventOngoing())
-        return;
-
-    updateReColour();
-
-    if (reDraw_)
-        drawOffsetBackground();
-
-    // The software framebuffer is flushed into dcMemory identically on every
-    // platform; only how dcMemory reaches the window differs. macOS posts an
-    // async refresh (onPaint -> reBlit(dc), which also paints the extra
-    // background); Windows/Linux draw the extra background and blit the client
-    // DC directly from the emulation thread here.
-    finishCopyScreen();
-}
-
-void Scn2672::drawOffsetBackground()
+void Scn2672::drawScreen()
+// Draws the offset background around the character area (videoWidth_/videoHeight_
+// plus offsetX_/offsetY_ borders); called by the common Video::copyScreen() when
+// reDraw_ is set.
 {
     setColour(colourIndex_+backGround_);
     drawRectangle(0, 0, videoWidth_ + 2*offsetX_, offsetY_);
@@ -1469,11 +1442,6 @@ void Scn2672::resetScreenCopyPointer()
     screenCopyPointer = new wxBitmap(2*offsetX_+videoWidth_, 2*offsetY_+videoHeight_);
     dcMemory.SelectObject(*screenCopyPointer);
 
-#ifdef __WXMAC__
-    delete gc;
-    gc = wxGraphicsContext::Create(dcMemory);
-    gc->SetAntialiasMode(wxANTIALIAS_NONE);
-#endif
     memoryDCvalid_ = true;
 }
 

@@ -79,18 +79,8 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
 
     // The software framebuffer is enabled on ALL platforms (see video.h/
     // video.cpp); render per-pixel drawing through it (one DrawBitmap per
-    // frame instead of per-pixel draws). Plane 0 (dcMemory) is only composited
-    // via Blit, so the single plane-0 graphics context below is all the macOS
-    // non-framebuffer fallback draw path needs. On Linux
-    // wxGraphicsContext::Create(dcMemory) creates a Cairo context bound to the
-    // screenCopyPointer Pixmap; leaving it unguarded caused a BadDrawable X
-    // error on exit when that Pixmap was freed out of order.
-#if defined(__WXMAC__)
-    gc = wxGraphicsContext::Create(dcMemory);
-    gc->SetAntialiasMode(wxANTIALIAS_NONE);
-#endif
-    enableFramebufferMac();   // software framebuffer (planes 1 + 2)
-    
+    // frame instead of per-pixel draws).
+
     mode_ = TMS_GRAPHICS_I;
     nameAddress_ = 0;
     colorAddress_ = 0;
@@ -187,9 +177,6 @@ Tms9918::~Tms9918()
     delete mainPlanePointer;
     delete spritePlanePointer;
     delete videoScreenPointer;
-#if defined(__WXMAC__)
-    delete gc;
-#endif
 }
 
 void Tms9918::configure()
@@ -712,7 +699,7 @@ void Tms9918::copyScreen()
     // client DC directly from the emulation thread here.
     if (reBlit_ || reDraw_ || reDrawSprites_)
     {
-        flushFramebufferMac();
+        flushFramebuffer();
         dcMemoryMainAndSpritePlane.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemoryMainPlane, 0, 0);
         if (mode_ != TMS_TEXT)
             dcMemoryMainAndSpritePlane.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemorySpritePlane, offsetX_, offsetY_);
@@ -752,7 +739,7 @@ void Tms9918::drawSprites()
     // content (memory-to-memory). This replaces the per-frame bitmap recreate
     // + blit, which can only read flushed (previous-frame) DC content
     // mid-frame.
-    copyFramebufferMac(1, 2);
+    copyFramebuffer(1, 2);
 
     while (tmsMemory_[spriteAttributeTableAddress] != 0xD0 && spriteAttributeTableAddress < (spriteAttributeTableAddress_+128))
     {

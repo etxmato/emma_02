@@ -83,16 +83,7 @@ SN76430N::SN76430N(const wxString& title, const wxPoint& pos, const wxSize& size
 
     // The software framebuffer is enabled on ALL platforms (see video.h/
     // video.cpp); render per-pixel drawing through it (one DrawBitmap per
-    // frame instead of per-pixel draws). The graphics context is only created
-    // on macOS, where the non-framebuffer fallback draw path needs it.
-    // On Linux wxGraphicsContext::Create(dcMemory) creates a Cairo context
-    // bound to the screenCopyPointer Pixmap; leaving it unguarded caused a
-    // BadDrawable X error on exit when that Pixmap was freed out of order.
-#if defined(__WXMAC__)
-    gc = wxGraphicsContext::Create(dcMemory);
-    gc->SetAntialiasMode(wxANTIALIAS_NONE);
-#endif
-    enableFramebufferMac();
+    // frame instead of per-pixel draws).
 
     this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
     this->SetBackgroundColour(COL_SN76430N_BLACK);
@@ -103,9 +94,6 @@ SN76430N::~SN76430N()
     dcMemory.SelectObject(wxNullBitmap);
     delete videoScreenPointer;
     delete screenCopyPointer;
-#if defined(__WXMAC__)
-    delete gc;
-#endif
 }
 
 void SN76430N::focus()

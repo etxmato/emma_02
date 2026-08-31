@@ -86,16 +86,7 @@ i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 
     // The software framebuffer is enabled on ALL platforms (see video.h/
     // video.cpp); render per-pixel drawing through it (one DrawBitmap per
-    // frame instead of per-pixel draws). The graphics context is only created
-    // on macOS, where the non-framebuffer fallback draw path needs it.
-    // On Linux wxGraphicsContext::Create(dcMemory) creates a Cairo context
-    // bound to the screenCopyPointer Pixmap; leaving it unguarded caused a
-    // BadDrawable X error on exit when that Pixmap was freed out of order.
-#if defined(__WXMAC__)
-    gc = wxGraphicsContext::Create(dcMemory);
-    gc->SetAntialiasMode(wxANTIALIAS_NONE);
-#endif
-    enableFramebufferMac();
+    // frame instead of per-pixel draws).
 
     setColour(colourIndex_+backGround_);
     drawRectangle(0, 0, videoWidth_, videoHeight_);
@@ -172,9 +163,6 @@ i8275::~i8275()
     dcMemory.SelectObject(wxNullBitmap);
     delete screenCopyPointer;
     delete videoScreenPointer;
-#if defined(__WXMAC__)
-    delete gc;
-#endif
 }
 
 void i8275::configure8275()

@@ -146,19 +146,15 @@ public:
 protected:
     Sn76430NConfiguration sn76430NConfiguration_;
 
-    // Shared pieces of the per-video-type copyScreen() implementations.
-    // updateReColour() applies any pending colour/border changes (set via
-    // reColour()) and marks the screen for a full redraw; finishCopyScreen()
-    // is the standard flush/blit tail for single-plane displays, including
-    // the reBlink_ (attribute blink) handling. The virtual hooks let
-    // individual video types vary the few per-chip differences:
-    // eventRefreshScreen() posts the async refresh event (vt100 posts it
-    // with isVt=true and uartNumber_, the other video types with
-    // isVt=false and videoNumber_); copyScreenHeight() and
-    // copyScreenBackgroundColour() define the blit geometry and the
-    // extra-background colour.
+    // Shared pieces of Video::copyScreen(). updateReColour() applies any
+    // pending colour/border changes (set via reColour()) and marks the
+    // screen for a full redraw. The virtual hooks let individual video
+    // types vary the few per-chip differences: eventRefreshScreen() posts
+    // the async refresh event (vt100 posts it with isVt=true and
+    // uartNumber_, the other video types with isVt=false and videoNumber_);
+    // copyScreenHeight() and copyScreenBackgroundColour() define the blit
+    // geometry and the extra-background colour.
     void updateReColour();
-    void finishCopyScreen();
     virtual void eventRefreshScreen();
     virtual void applyScaleFactor();
     virtual int copyScreenHeight() {return videoHeight_+2*offsetY_;};
@@ -189,7 +185,6 @@ protected:
     int borderYNew_[VIDEOXMLMAX];
 
     wxMemoryDC dcMemory;
-    wxGraphicsContext *gc;
     wxImage *screenImage;
 
     wxMemoryDC dcMemoryMainAndSpritePlane;
@@ -250,39 +245,31 @@ protected:
 // Software framebuffer (see video.cpp). All per-pixel drawing
     // funnels through the virtual setColour / drawPoint / drawRectangle
     // (and the setColourMutex / drawPointMutex / drawRectangleMutex
-    // variants, which delegate to them). When macFramebufferEnabled_ is
-    // true, these write into a plain wxImage software framebuffer instead
-    // of issuing per-pixel CoreGraphics (gc->DrawRectangle) calls, which is
-    // what kept the pixie-family displays below real-time and starved the
-    // audio ring. Once per video frame, copyScreen() calls
-    // flushFramebufferMac() to push the touched planes into their graphics
-    // context with one gc->DrawBitmap each.
+    // variants, which delegate to them). They write into a plain wxImage
+    // software framebuffer instead of issuing per-pixel drawing calls,
+    // which is what kept the pixie-family displays below real-time and
+    // starved the audio ring. Once per video frame, copyScreen() calls
+    // flushFramebuffer() to push the touched planes into their backing
+    // memory DCs with one DrawBitmap each.
     //
     // There is one framebuffer per rendering plane, matching the base
     // Video memory DCs: [0]=dcMemory, [1]=dcMemoryMainPlane,
     // [2]=dcMemorySpritePlane. Single-plane video types (Pixie,
     // MC6847, VIS1870, ...) only ever use plane 0.
     //
-    // The flag is opt-in (default off) so only video types that enable it
-    // (enableFramebufferMac()) change rendering path; everything else keeps
-    // the original gc-based (macOS) / dcMemory-based (Win/Linux) path
-    // byte-for-byte.
-    //
-    // NOTE (2026-08-25): the members/methods are no longer guarded by
-    // __WXMAC__ — the framebuffer is exercised cross-platform (starting with
-    // MC6847) so the render path is identical on macOS/Windows/Linux.
-    void enableFramebufferMac();
-    void flushFramebufferMac();
-    void copyFramebufferMac(int fromPlane, int toPlane);
+    // Every Video subclass uses this path (each enables it at construction);
+    // there is no non-framebuffer fallback draw path left, and no graphics
+    // context is created on any platform.
+    void flushFramebuffer();
+    void copyFramebuffer(int fromPlane, int toPlane);
     void setMacPlane(int plane);
-    void ensureFramebufferMac(int plane = 0);
-    void drawPointFramebufferMac(wxCoord x, wxCoord y);
-    void drawRectangleFramebufferMac(wxCoord x, wxCoord y, wxCoord width, wxCoord height);
+    void ensureFramebuffer(int plane = 0);
+    void drawPointFramebuffer(wxCoord x, wxCoord y);
+    void drawRectangleFramebuffer(wxCoord x, wxCoord y, wxCoord width, wxCoord height);
 
     wxImage *macFrameImage_[3];
     wxColour macCurrentColour_[3];
     int  macPlaneId_;
-    bool macFramebufferEnabled_;
     bool macPlaneDirty_[3];
     
 private:

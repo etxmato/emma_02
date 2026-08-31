@@ -128,11 +128,6 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
     dcMemory.SelectObject(*screenCopyPointer);
     
-#if defined(__WXMAC__)
-    gc = wxGraphicsContext::Create(dcMemory);
-    gc->SetAntialiasMode(wxANTIALIAS_NONE);
-#endif
-
     fullScreenSet_ = false;
     zoom_ = zoom;
 
@@ -141,7 +136,6 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     
     colourType_ = cdp1861Configuration_.colorType;
     bgChanged = false;
-    enableFramebufferMac();
 }
 
 Pixie::~Pixie()
@@ -149,18 +143,14 @@ Pixie::~Pixie()
     dcMemory.SelectObject(wxNullBitmap);
     delete screenCopyPointer;
     delete videoScreenPointer;
-#if defined(__WXMAC__)
-    delete gc;
-#endif
     if (cdp1861Configuration_.statusBarType == STATUSBAR_VIP2)
         delete vipIIStatusBarPointer;
 }
 
 // Software-framebuffer rendering now lives in the Video base class
-// (Video::setColour / drawPoint / drawRectangle + flushFramebufferMac, opt-in
-// via enableFramebufferMac()). Pixie enables it in its constructor on ALL
-// platforms, so all pixie-family drawing funnels through the base framebuffer
-// path (per-pixel CoreGraphics calls kept the pixie displays below real-time
+// (Video::setColour / drawPoint / drawRectangle + flushFramebuffer).
+// All pixie-family drawing funnels through the base framebuffer path
+// (per-pixel CoreGraphics calls kept the pixie displays below real-time
 // and starved the audio ring - see video.cpp for the full rationale).
 
 void Pixie::reset()
