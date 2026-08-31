@@ -53,7 +53,6 @@ HD44780::HD44780(const wxString& title, const wxPoint& pos, const wxSize& size, 
     zoom_ = zoom;
 
     double intPart;
-    zoomFraction_ = (modf(zoom_, &intPart) != 0);
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));

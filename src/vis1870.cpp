@@ -76,7 +76,6 @@ VIS1870::VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, 
     zoom_ = zoom;
 
     double intPart;
-    zoomFraction_ = (modf(zoom_, &intPart) != 0);
 
     videoType_ = VIDEOXML1870;
 

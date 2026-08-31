@@ -67,7 +67,6 @@ SN76430N::SN76430N(const wxString& title, const wxPoint& pos, const wxSize& size
     videoHeight_ = 96;
     
     double intPart;
-    zoomFraction_ = (modf(zoom_, &intPart) != 0);
     
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));

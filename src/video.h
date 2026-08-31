@@ -221,7 +221,6 @@ protected:
     bool memoryDCBeingUsed_;
 
     double zoom_;
-    bool zoomFraction_;
     double xZoomFactor_;
     double xZoomFactorNew_;
 

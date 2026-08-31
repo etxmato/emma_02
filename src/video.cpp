@@ -320,7 +320,6 @@ Video::Video(const wxString& title, const wxPoint& pos, const wxSize& size)
     fullScreenSet_ = false;
     changeScreenSize_ = false;
     memoryDCBeingUsed_ = false;
-    zoomFraction_ = false;
     v1870Configured_ = false;
     graphicsOn_ = false;
     interruptEnabled_ = false;
@@ -614,7 +613,6 @@ void Video::changeScreenSize()
 #endif
 
     double intPart;
-    zoomFraction_ = (modf(zoom_, &intPart) != 0);
 
 #ifndef __linux__ // Looks like reDrawing on zooming will (sometimes) crash on linux
     reDraw_ = true;
@@ -702,7 +700,6 @@ void Video::setZoom(double zoom)
     zoom_ = zoom;
 
     double intPart;
-    zoomFraction_ = (modf(zoom_, &intPart) != 0);
 
     if (fullScreenSet_)
     {

@@ -168,7 +168,6 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
     zoom_ = zoom;
 
     double intPart;
-    zoomFraction_ = (modf(zoom_, &intPart) != 0);
 
     outLatch_ = 0;
 

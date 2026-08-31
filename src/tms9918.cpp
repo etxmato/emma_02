@@ -58,7 +58,6 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
     colourIndex_ = COL_TMS_TRANSPARANT-16;
 
     double intPart;
-    zoomFraction_ = (modf(zoom_, &intPart) != 0);
 
     defineColours();
 

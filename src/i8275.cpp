@@ -75,7 +75,6 @@ i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     zoom_ = zoom;
 
     double intPart;
-    zoomFraction_ = (modf(zoom_, &intPart) != 0);
 
     burstCountCode_ = 8;
     burstSpaceCode_ = 0;

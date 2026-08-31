@@ -137,7 +137,6 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     zoom_ = zoom;
 
     double intPart;
-    zoomFraction_ = (modf(zoom_, &intPart) != 0);
 
     offsetX_ = 0;
     offsetY_ = 0;

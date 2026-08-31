@@ -124,7 +124,6 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     zoom_ = zoom;
 
     double intPart;
-    zoomFraction_ = (modf(zoom_, &intPart) != 0);
 
     intensity_ = 1;
     
@@ -497,7 +496,6 @@ void Vt100::cycleVt()
 //        {
 //            zoom_ = zoomChanged_;
 //            double intPart;
-//            zoomFraction_ = (modf(zoom_, &intPart) != 0);
 //            this->SetClientSize((videoWidth_+2*borderX_)*zoom_, (videoHeight_+2*borderY_)*zoom_);
 //            videoScreenPointer->SetClientSize((videoWidth_+2*borderX_)*zoom_, (videoHeight_+2*borderY_)*zoom_);
 //
