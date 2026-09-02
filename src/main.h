@@ -1073,6 +1073,7 @@ public:
 #if defined (__WXMSW__)
     virtual WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
     void onSystemDarkModeChange();
+    void applyWindowsThemeColours(wxWindow* parent, bool dark);
 #endif
 
     void zoomEvent(double zoom, int videoNumber);

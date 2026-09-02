@@ -5232,6 +5232,51 @@ void Main::onSystemDarkModeChange()
     setSysColours();                // rebuilds guiBackGround_ + guiTextColour[]
     refreshSysColourDependents();
 }
+
+void Main::applyWindowsThemeColours(wxWindow* parent, bool dark)
+{
+    wxColour back, text;
+    if (dark)
+    {
+        back  = wxColour(0x1E, 0x1E, 0x1E);   // = guiBackGround_
+        text  = wxColour(0xF0, 0xF0, 0xF0);   // = guiTextColour[GUI_COL_BLACK]
+    }
+    else
+    {
+        back  = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
+        text  = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
+    }
+
+    // The chrome controls do not read guiBackGround_/guiTextColour[]; force
+    // the theme into them. Custom-painted Emma 02 areas are skipped because
+    // they draw themselves from the palette or from emulation data.
+    parent->SetBackgroundColour(back);
+    parent->SetForegroundColour(text);
+
+    wxWindowList& children = parent->GetChildren();
+    for (size_t i = 0; i < children.GetCount(); ++i)
+    {
+        wxWindow* child = children.Item(i)->GetData();
+        if (child == NULL)
+            continue;
+
+        wxString name = child->GetName();
+
+        // Emma 02 custom-painted areas: skip them entirely.
+        bool skip = (name.Left(4) == "CHAR")                 // memory-dump glyph cells
+                 || (name == "AssBitmap" || name == "ProfilerBitmap")
+                 || child->IsKindOf(CLASSINFO(wxStaticBitmap))
+                 || child->IsKindOf(CLASSINFO(wxBitmapButton));
+        if (!skip)
+        {
+            child->SetBackgroundColour(back);
+            child->SetForegroundColour(text);
+        }
+        child->Refresh();
+        applyWindowsThemeColours(child, dark);       // recurse
+    }
+    parent->Refresh();
+}
 #endif
 
 void Main::setSysColours()
@@ -5313,6 +5358,10 @@ void Main::setSysColours()
         guiTextColour[GUI_COL_GREY] = wxColour(0x9e, 0xa5, 0xad);
         guiTextColour[GUI_COL_GREEN] = wxColour(0, 0x89, 0x7B);
     }
+#if defined (__WXMSW__)
+    if (mode_.gui)
+        applyWindowsThemeColours(this, darkMode_);
+#endif
     setMemDumpColours();
 }
 

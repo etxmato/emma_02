@@ -6936,6 +6936,10 @@ void DebugWindow::directAss()
     exactFont = new wxFont(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
     exactFontBold = new wxFont(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD );
 #endif
+#if defined(__WXMSW__)
+    exactFont->SetNoAntiAliasing();
+    exactFontBold->SetNoAntiAliasing();
+#endif
     
     int numberOfDebugLines = numberOfDebugLines_;
     
@@ -13381,6 +13385,9 @@ void DebugWindow::ShowStandardCharacter(Word address)
     wxFont exactFont(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #else
     wxFont exactFont(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+#endif
+#if defined(__WXMSW__)
+    exactFont.SetNoAntiAliasing();
 #endif
 
     for (int j=0; j<16; j++)
