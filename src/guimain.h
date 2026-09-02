@@ -331,6 +331,8 @@ public:
 
     int getMessageBoxAnswer() {return messageBoxAnswer_;};
     wxColour getGuiTextColour(int colour) {return guiTextColour[colour];};
+    wxColour getGuiBackGround() {return guiBackGround_;};
+    bool isDarkMode() {return darkMode_;};
 
     bool isDiagOn();
 

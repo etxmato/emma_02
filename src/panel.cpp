@@ -1428,8 +1428,9 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
     rePaintLeds(dc);
 #endif
 
-    dc.SetPen(p_Main->getGuiTextColour(GUI_COL_WHITE));
-    dc.SetBrush(p_Main->getGuiTextColour(GUI_COL_WHITE));
+    wxColour panelBg = p_Main->isDarkMode() ? p_Main->getGuiBackGround() : p_Main->getGuiTextColour(GUI_COL_WHITE);
+    dc.SetPen(panelBg);
+    dc.SetBrush(panelBg);
     dc.DrawRectangle(0, 0, panelSize_.x, panelSize_.y);
 
     for (std::vector<GuiItemConfiguration>::iterator button = guiItemConfiguration.begin (); button != guiItemConfiguration.end (); ++button)
