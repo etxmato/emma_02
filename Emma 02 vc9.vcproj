@@ -154,7 +154,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/EHsc /bigobj"
+				AdditionalOptions="/EHsc /bigobj /MP"
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories=".;.\images;&quot;$(SDL)\include&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswu&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\include\msvc&quot;;&quot;$(CURL)\include\&quot;;&quot;$(SERIALPORT)\Win64\include\&quot;"

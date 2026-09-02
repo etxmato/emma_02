@@ -264,6 +264,7 @@
       <ShowIncludes>false</ShowIncludes>
       <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
       <DebugInformationFormat>None</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>__WXMSW__;_WINDOWS;NOPCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -490,6 +491,8 @@
     <ClCompile Include="src\guisb.cpp" />
     <ClCompile Include="src\guivip2.cpp" />
     <ClCompile Include="src\guixml.cpp" />
+    <ClCompile Include="src\hd44780.cpp" />
+    <ClCompile Include="src\hd44780_config.cpp" />
     <ClCompile Include="src\i8275.cpp" />
     <ClCompile Include="src\i8275_config.cpp" />
     <ClCompile Include="src\ide.cpp" />
@@ -600,6 +603,8 @@
     <ClInclude Include="src\guisb.h" />
     <ClInclude Include="src\guivip2.h" />
     <ClInclude Include="src\guixml.h" />
+    <ClInclude Include="src\hd44780.h" />
+    <ClInclude Include="src\hd44780_config.h" />
     <ClInclude Include="src\i8275.h" />
     <ClInclude Include="src\i8275_config.h" />
     <ClInclude Include="src\ide.h" />
