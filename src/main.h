@@ -1069,6 +1069,11 @@ public:
     void sysColourChangeEvent(wxSysColourChangedEvent& event);
     void setSysColours();
     void setMemDumpColours();
+    void refreshSysColourDependents();
+#if defined (__WXMSW__)
+    virtual WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
+    void onSystemDarkModeChange();
+#endif
 
     void zoomEvent(double zoom, int videoNumber);
     void zoomEventVt(double zoom);

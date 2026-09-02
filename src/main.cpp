@@ -53,6 +53,28 @@
 
 #include "wx/html/winpars.h"
 
+#if defined (__WXMSW__)
+static bool windowsAppsUseLightTheme()
+{
+    HKEY themeKey;
+    // Registry path is Unicode-only on every Win32/x64/ARM target,
+    // so always use the explicit ExW API with wide literals.
+    if (RegOpenKeyExW(HKEY_CURRENT_USER,
+        L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+        0, KEY_READ, &themeKey) != ERROR_SUCCESS)
+        return true;    // key absent (Win8.1 or older, or pre-1809): light
+
+    bool useLight = true;
+    DWORD value = 1;                    // fallback: light if the read fails
+    DWORD valueSize = sizeof(value);
+    if (RegQueryValueExW(themeKey, L"AppsUseLightTheme", NULL, NULL,
+                         (LPBYTE)&value, &valueSize) == ERROR_SUCCESS)
+        useLight = (value != 0);
+    RegCloseKey(themeKey);
+    return useLight;
+}
+#endif
+
 class CodeTagHandler : public wxHtmlWinTagHandler
 {
 public:
@@ -5141,27 +5163,76 @@ void Main::vuSet(wxString item, int gaugeValue)
 void Main::sysColourChangeEvent(wxSysColourChangedEvent& event)
 {
     setSysColours();
-    
+    refreshSysColourDependents();
+    event.Skip();
+}
+
+void Main::refreshSysColourDependents()
+{
     if (mode_.gui)
         paintDebugBackground();
 
     if (computerRunning_)
     {
-       switch (selectedTab_)
-       {
-          case DIRECTASSTAB:
-          case PROFILERTAB:
-             directAss();
-          break;
+        switch (selectedTab_)
+        {
+            case DIRECTASSTAB:
+            case PROFILERTAB:
+                directAss();
+            break;
 
-          case MEMORYTAB:
-            memoryDisplay();
-          break;
-       }
+            case MEMORYTAB:
+                memoryDisplay();
+            break;
+        }
+    }
+}
+
+#if defined (__WXMSW__)
+WXLRESULT Main::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam)
+{
+    // WM_SETTINGCHANGE (0x001A) is broadcast when the colour mode toggle
+    // flips. lParam carries a pointer-sized string; check before dereferencing.
+    if (message == WM_SETTINGCHANGE)
+    {
+        if (lParam != 0)
+        {
+            const wchar_t *settingName = (const wchar_t *) lParam;  // C-style cast, C++98
+            if (wcscmp(settingName, L"ImmersiveColorSet") == 0)
+                onSystemDarkModeChange();       // theme flip detected
+        }
     }
 
-    event.Skip();
+    // Always hand control back to wxWidgets.
+    return wxFrame::MSWWindowProc(message, wParam, lParam);
 }
+
+void Main::onSystemDarkModeChange()
+{
+    int majorVersion = 0, minorVersion = 0;
+    wxGetOsVersion(&majorVersion, &minorVersion);
+
+    // Windows 8.1 and older never have the Personalize key; keep the
+    // classic light theme exactly as Emma 02 renders it today.
+    if (majorVersion < 10)
+        return;
+
+    bool newDarkMode;
+    switch ((int)configPointer->Read("/Main/DarkMode", (long)GUI_THEME_AUTO))
+    {
+        case GUI_THEME_DARK:  newDarkMode = true;               break;
+        case GUI_THEME_LIGHT: newDarkMode = false;              break;
+        default:              newDarkMode = !windowsAppsUseLightTheme();
+    }
+
+    if (newDarkMode == darkMode_)
+        return;     // nothing changed (e.g. registry only, no visual flip)
+
+    darkMode_ = newDarkMode;
+    setSysColours();                // rebuilds guiBackGround_ + guiTextColour[]
+    refreshSysColourDependents();
+}
+#endif
 
 void Main::setSysColours()
 {
@@ -5172,6 +5243,43 @@ void Main::setSysColours()
     guiBackGround_ = wxSystemSettings::GetColour(wxSYS_COLOUR_FRAMEBK);
     guiTextColour[GUI_COL_BLACK] = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
     guiTextColour[GUI_COL_WHITE] = wxSystemSettings::GetColour(wxSYS_COLOUR_APPWORKSPACE);
+#elif defined (__WXMSW__)
+    int majorVersion = 0, minorVersion = 0;
+    wxGetOsVersion(&majorVersion, &minorVersion);
+
+    if (majorVersion >= 10)
+    {
+        switch ((int)configPointer->Read("/Main/DarkMode", (long)GUI_THEME_AUTO))
+        {
+            case GUI_THEME_DARK:  darkMode_ = true;               break;
+            case GUI_THEME_LIGHT: darkMode_ = false;              break;
+            default:              darkMode_ = !windowsAppsUseLightTheme();
+        }
+
+        if (darkMode_)
+        {
+            // Mirror the wxWidgets values the macOS dark branch resolves to,
+            // so every existing darkMode_ consumer behaves identically.
+            guiBackGround_                = wxColour(0x1E, 0x1E, 0x1E);   // frame background
+            guiTextColour[GUI_COL_BLACK]  = wxColour(0xF0, 0xF0, 0xF0);   // = WINDOWTEXT
+            guiTextColour[GUI_COL_WHITE]  = wxColour(0x80, 0x80, 0x80);   // = APPWORKSPACE
+        }
+        else
+        {
+            guiBackGround_ = wxColour(windowInfo.red, windowInfo.green, windowInfo.blue);
+            wxColourDatabase colour;
+            guiTextColour[GUI_COL_BLACK] = wxColour(colour.Find("BLACK"));
+            guiTextColour[GUI_COL_WHITE] = wxColour(colour.Find("WHITE"));
+        }
+    }
+    else    // Windows XP/2000/Vista/7/8/8.1: classic light, unchanged
+    {
+        darkMode_ = false;
+        guiBackGround_ = wxColour(windowInfo.red, windowInfo.green, windowInfo.blue);
+        wxColourDatabase colour;
+        guiTextColour[GUI_COL_BLACK] = wxColour(colour.Find("BLACK"));
+        guiTextColour[GUI_COL_WHITE] = wxColour(colour.Find("WHITE"));
+    }
 #else
     darkMode_ = false;
     guiBackGround_ = wxColour(windowInfo.red, windowInfo.green, windowInfo.blue);

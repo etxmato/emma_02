@@ -60,6 +60,11 @@
 #define GUI_COL_WHITE 9
 #define GUI_COL_MAX 10
 
+// Windows dark mode override, stored in /Main/DarkMode (configPointer)
+#define GUI_THEME_AUTO   0   // follow the OS setting (default)
+#define GUI_THEME_DARK   1   // always use the dark palette
+#define GUI_THEME_LIGHT  2   // always use the light palette
+
 DECLARE_EVENT_TYPE(OPEN_PRINTER_WINDOW, 800) 
 
 class ComputerInfo
