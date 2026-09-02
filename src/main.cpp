@@ -73,6 +73,45 @@ static bool windowsAppsUseLightTheme()
     RegCloseKey(themeKey);
     return useLight;
 }
+
+void Main::applyWindowsDarkChrome(bool dark)
+{
+    // Native dark title-bar / scrollbar APIs are private (undocumented) in
+    // uxtheme.dll and dwmapi.dll. Resolve them at run time so the VS2008
+    // build has no import-lib dependency and older Windows binaries still
+    // load cleanly (calls simply do nothing there).
+    HMODULE uxtheme = LoadLibraryW(L"uxtheme.dll");
+    if (uxtheme != NULL)
+    {
+        // SetPreferredAppMode: 2 = AllowDark, 1 = AllowLight (Win10 2004+).
+        typedef int (WINAPI *SetPreferredAppMode_t)(int);
+        SetPreferredAppMode_t setMode = (SetPreferredAppMode_t)GetProcAddress(uxtheme, (LPCSTR)135);
+        if (setMode != NULL)
+            setMode(dark ? 2 : 1);
+        FreeLibrary(uxtheme);
+    }
+
+    // DWMWA_USE_IMMERSIVE_DARK_MODE: 20 on 20H1+, 19 on 1809/1903/1909.
+    // Try both; the unsupported value is ignored.
+    HWND hwnd = (HWND)GetHWND();
+    if (hwnd != NULL)
+    {
+        HMODULE dwmapi = LoadLibraryW(L"dwmapi.dll");
+        if (dwmapi != NULL)
+        {
+            typedef HRESULT (WINAPI *DwmSetWindowAttribute_t)(HWND, DWORD, LPCVOID, DWORD);
+            DwmSetWindowAttribute_t setAttribute =
+                (DwmSetWindowAttribute_t)GetProcAddress(dwmapi, "DwmSetWindowAttribute");
+            if (setAttribute != NULL)
+            {
+                BOOL useDark = dark ? TRUE : FALSE;
+                setAttribute(hwnd, 20, &useDark, sizeof(useDark));
+                setAttribute(hwnd, 19, &useDark, sizeof(useDark));
+            }
+            FreeLibrary(dwmapi);
+        }
+    }
+}
 #endif
 
 class CodeTagHandler : public wxHtmlWinTagHandler
@@ -762,6 +801,10 @@ bool Emu1802::OnInit()
     p_Main = new Main("Emma 02", wxPoint(mainWindowX, mainWindowY), wxSize(-1, -1), mode_, dataDir_, iniDirectory_);
 
     p_Main->Show(mode_.gui);
+#if defined (__WXMSW__)
+    if (mode_.gui)
+        p_Main->applyWindowsDarkChrome(p_Main->isDarkMode());
+#endif
 
     if (startComputer_ != -1)
         p_Main->onStart();
@@ -5202,6 +5245,28 @@ WXLRESULT Main::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam)
                 onSystemDarkModeChange();       // theme flip detected
         }
     }
+    else if (darkMode_)
+    {
+        // wxWidgets 3.2 on wxMSW does not fully propagate dark mode into
+        // native controls. Force the standard Win32 control colour messages
+        // ourselves so edit fields, static text, buttons, list boxes and
+        // scrollbars paint with the dark palette.
+        switch (message)
+        {
+            case WM_CTLCOLOREDIT:
+            case WM_CTLCOLORSTATIC:
+            case WM_CTLCOLORBTN:
+            case WM_CTLCOLORLISTBOX:
+            case WM_CTLCOLORSCROLLBAR:
+            {
+                HDC hdc = (HDC)wParam;
+                SetTextColor(hdc, RGB(0xF0, 0xF0, 0xF0));
+                SetBkColor(hdc, RGB(0x1E, 0x1E, 0x1E));
+                SetDCBrushColor(hdc, RGB(0x1E, 0x1E, 0x1E));
+                return (WXLRESULT)GetStockObject(DC_BRUSH);
+            }
+        }
+    }
 
     // Always hand control back to wxWidgets.
     return wxFrame::MSWWindowProc(message, wParam, lParam);
@@ -5361,6 +5426,7 @@ void Main::setSysColours()
 #if defined (__WXMSW__)
     if (mode_.gui)
         applyWindowsThemeColours(this, darkMode_);
+    applyWindowsDarkChrome(darkMode_);
 #endif
     setMemDumpColours();
 }
