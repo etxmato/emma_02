@@ -6964,7 +6964,6 @@ void DebugWindow::directAss()
     dcAss.SetPen(wxPen(guiBackGround_));
     dcAss.SetBrush(wxBrush(guiBackGround_));
     dcAss.SetTextBackground(guiBackGround_);
-    dcAss.SetBackgroundMode(wxSOLID);
     dcAss.DrawRectangle(0, 0, bitmapWidth, numberOfDebugLines*lineSpace_+4);
 
     if (selectedTab_ == DIRECTASSTAB)
@@ -13343,7 +13342,6 @@ void DebugWindow::ShowCharacters(Word address, int y)
 
     dcLine.SetTextForeground(guiTextColour[GUI_COL_BLACK]);
     dcLine.SetTextBackground(guiBackGround_);
-    dcLine.SetBackgroundMode(wxSOLID);
 
     if (computerConfiguration.vis1870Configuration.defined)
     {
@@ -13384,8 +13382,6 @@ void DebugWindow::ShowStandardCharacter(Word address)
 #else
     wxFont exactFont(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #endif
-    dcLine.SetTextBackground(guiBackGround_);
-    dcLine.SetBackgroundMode(wxSOLID);
 
     for (int j=0; j<16; j++)
     {
