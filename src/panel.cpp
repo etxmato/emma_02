@@ -1409,13 +1409,9 @@ void Panel::connectKeyEvent(wxWindow* pclComponent)
                           (wxObject*) NULL,
                           this);
 
-    wxWindowListNode* pclNode = pclComponent->GetChildren().GetFirst();
-    while(pclNode)
+    for (wxWindow* pclChild : pclComponent->GetChildren())
     {
-      wxWindow* pclChild = pclNode->GetData();
       this->connectKeyEvent(pclChild);
-     
-      pclNode = pclNode->GetNext();
     }
   }
 }

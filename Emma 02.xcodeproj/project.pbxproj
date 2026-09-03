@@ -1803,8 +1803,8 @@
 				USER_HEADER_SEARCH_PATHS = "\"$(WXROOT)/include\" \"$(WXROOT)/src/zlib\" \"$(WXROOT)/src/jpeg\" \"$(WXROOT)/src/png\" \"$(WXROOT)/src/regex\" \"$(WXROOT)/src/expat/lib\" \"$(WXROOT)/src/tiff/libtiff\" \"$(WXROOT)/src/stc/scintilla/src\" \"$(WXROOT)/src/stc/scintilla/include\" \"$(WXROOT)/src/stc/scintilla/lexlib\"";
 				VALID_ARCHS = "arm64 arm64e x86_64";
 				WARNING_LDFLAGS = "";
-				WXROOT = "../wxWidgets-$(WXVER).9";
-				WXVER = 3.2;
+				WXROOT = "../wxWidgets-$(WXVER).3";
+				WXVER = 3.3;
 			};
 			name = Release;
 		};
@@ -1989,8 +1989,8 @@
 				USER_HEADER_SEARCH_PATHS = "\"$(WXROOT)/include\" \"$(WXROOT)/src/zlib\" \"$(WXROOT)/src/jpeg\" \"$(WXROOT)/src/png\" \"$(WXROOT)/src/regex\" \"$(WXROOT)/src/expat/lib\" \"$(WXROOT)/src/tiff/libtiff\" \"$(WXROOT)/src/stc/scintilla/src\" \"$(WXROOT)/src/stc/scintilla/include\" \"$(WXROOT)/src/stc/scintilla/lexlib\"";
 				VALID_ARCHS = arm64;
 				WARNING_LDFLAGS = "";
-				WXROOT = "../wxWidgets-$(WXVER).9";
-				WXVER = 3.2;
+				WXROOT = "../wxWidgets-$(WXVER).3";
+				WXVER = 3.3;
 			};
 			name = Debug;
 		};

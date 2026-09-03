@@ -4292,7 +4292,7 @@ void Cdp1802::readSt2Program(wxString fileNameFull, int memoryType)
     {
         if (wxFile::Exists(fileNameFull))
         {
-            if (inFile.Open(fileNameFull, _(_("rb"))))
+            if (inFile.Open(fileNameFull, _("rb")))
             {
                 inFile.Read(&st2Header, 256);
                 if (st2Header.offsets[0] == 0 && st2Header.offsets[4] == 0x24)
