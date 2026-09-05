@@ -168,7 +168,7 @@ IMPLEMENT_DYNAMIC_CLASS(CodeTagModule, wxHtmlTagsModule)
 #include "splash.h"
 #include "definition.h"
 
-#if defined(__WXMSW__) && (_DEBUG) //** only run vld in debug version
+#if defined(__WXMSW__) && (_DEBUG) && !defined(_M_ARM64) //** only run vld in debug version
 #include <vld.h>
 #endif
 
