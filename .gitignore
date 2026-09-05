@@ -43,3 +43,10 @@ Makefile
 
 
 *.deb
+*.log
+*.tlog
+*.recipe
+*.res
+*.xcscheme
+*.xcscheme
+Emma 02.xcodeproj/xcshareddata/xcschemes/Emma 02.xcscheme
