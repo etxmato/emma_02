@@ -1,0 +1,212 @@
+<?xml version="1.0"?>
+<!DOCTYPE emmaconfig SYSTEM "emma02.dtd">
+
+<emmaconfig>
+
+    <system>
+        <name>System 00</name>
+        <config>Bare</config>
+        <clock>1.00</clock>
+        <cpu>system</cpu>
+        <boot dma="out" start="no">0</boot>
+        <dma_in>reset</dma_in>
+        <init ef="1">1</init>
+        <init ef="2">1</init>
+        <init ef="3">1</init>
+        <init ef="4">1</init>
+        <dirname>System00</dirname>
+    </system>
+
+    <gui>
+        <auto>on</auto>
+        <turbo>off</turbo>
+    </gui>
+
+    <iogroup>
+        <out>1</out>
+    </iogroup>
+
+    <frontpanel init="on">
+        <size>518, 249</size>
+
+        <!-- Title -->
+
+        <!-- LEFT SECTION: Primary Controls & System Indicators -->
+
+        <!-- Column 1: ST / RS / READ / LED1 -->
+        <item><type>push</type><label>ST</label><function>run</function><pos>15, 6</pos><size>25, 25</size></item>
+        <item><type>push</type><label>Run</label><function>run</function><pos>15, 60</pos><size>25, 25</size></item>
+        <item><type>text</type><label size="8">READ</label><pos>12,108</pos></item>
+        <item><type>switch</type><function>read</function><pos>17, 122</pos></item>
+        <item><type form="largegreen">led</type><function>runled</function><pos>17, 156</pos></item>
+
+        <!-- Column 2: SP / CL / LOAD / LED2 -->
+        <item><type>push</type><label>SP</label><function>pause</function><pos>58, 6</pos><size>25, 25</size></item>
+        <item><type>push</type><label></label><function>clear</function><pos>58, 60</pos><size>25, 25</size></item>
+        <item><type>text</type><label size="8">LOAD</label><pos>58,108</pos></item>
+        <item><type>switch</type><function>load</function><init>down</init><pos>62, 122</pos></item>
+        <item><type form="large">led</type><function>errorled</function><pos>62, 156</pos></item>
+
+        <!-- Row 1: 8-Bit Data Register -->
+        <item><type>text</type><label size="8">7</label><pos>115,32</pos></item>
+        <item><type form="large">led</type><function>bitled</function><value>7</value><pos>107,4</pos></item>
+        <item><type>switch</type><function>clear</function><pos>106,42</pos><size>20, 15</size></item>
+        <item><type>text</type><label size="8">6</label><pos>142,32</pos></item>
+        <item><type form="large">led</type><function>bitled</function><value>6</value><pos>134,4</pos></item>
+        <item><type>switch</type><function>clear</function><pos>133,42</pos><size>20, 15</size></item>
+        <item><type>text</type><label size="8">5</label><pos>169,32</pos></item>
+        <item><type form="large">led</type><function>bitled</function><value>5</value><pos>161,4</pos></item>
+        <item><type>switch</type><function>clear</function><pos>160,42</pos><size>20, 15</size></item>
+        <item><type>text</type><label size="8">4</label><pos>196,32</pos></item>
+        <item><type form="large">led</type><function>bitled</function><value>4</value><pos>188,4</pos></item>
+        <item><type>switch</type><function>clear</function><pos>187,42</pos><size>20, 15</size></item>
+        <item><type>text</type><label size="8">3</label><pos>223,32</pos></item>
+        <item><type form="large">led</type><function>bitled</function><value>3</value><pos>215,4</pos></item>
+        <item><type>switch</type><function>clear</function><pos>214,42</pos><size>20, 15</size></item>
+        <item><type>text</type><label size="8">2</label><pos>250,32</pos></item>
+        <item><type form="large">led</type><function>bitled</function><value>2</value><pos>242,4</pos></item>
+        <item><type>switch</type><function>clear</function><pos>241,42</pos><size>20, 15</size></item>
+        <item><type>text</type><label size="8">1</label><pos>277,32</pos></item>
+        <item><type form="large">led</type><function>bitled</function><value>1</value><pos>269,4</pos></item>
+        <item><type>switch</type><function>clear</function><pos>268,42</pos><size>20, 15</size></item>
+        <item><type>text</type><label size="8">0</label><pos>304,32</pos></item>
+        <item><type form="large">led</type><function>bitled</function><value>0</value><pos>296,4</pos></item>
+        <item><type>switch</type><function>clear</function><pos>295,42</pos><size>20, 15</size></item>
+
+        <!-- Row 2: Condition Flags & Working Modes -->
+        <item><type>text</type><label size="8">R1</label><pos>110,77</pos></item>
+        <item><type>switch</type><function>clear</function><pos>105,87</pos></item>
+        <item><type>text</type><label size="8">R0</label><pos>137,77</pos></item>
+        <item><type>switch</type><function>clear</function><pos>132,87</pos></item>
+        <item><type>text</type><label size="8">PX</label><pos>164,77</pos></item>
+        <item><type>switch</type><function>clear</function><pos>159,87</pos></item>
+        <item><type>text</type><label size="8"></label><pos>188,77</pos></item>
+        <item><type>switch</type><function>clear</function><pos>186,87</pos></item>
+
+        <!-- Mode Selectors: WIN, WP, WR, WM -->
+        <item><type>text</type><label size="8">WIN</label><pos>213,77</pos></item>
+        <item><type form="round" color="red">push</type><init>up</init><function>clear</function><pos>213,87</pos></item>
+        <item><type>text</type><label size="8">WP</label><pos>243,77</pos></item>
+        <item><type form="round" color="red">push</type><init>up</init><function>clear</function><pos>240,87</pos></item>
+        <item><type>text</type><label size="8">WR</label><pos>269,77</pos></item>
+        <item><type form="round" color="red">push</type><init>up</init><function>clear</function><pos>267,87</pos></item>
+        <item><type>text</type><label size="8">WM</label><pos>296,77</pos></item>
+        <item><type form="round" color="red">push</type><init>up</init><function>clear</function><pos>294,87</pos></item>
+
+        <!-- Row 3: Bus & Register Selection Arrays -->
+        <item><type>text</type><label size="8">MN</label><pos>108,122</pos></item>
+        <item><type>switch</type><function>clear</function><pos>105,132</pos></item>
+        <item><type>text</type><label size="8">BUS SEL</label><pos>148,122</pos></item>
+        <item><type>switch</type><function>clear</function><pos>132,132</pos></item>
+        <item><type>switch</type><function>clear</function><pos>159,132</pos></item>
+        <item><type>switch</type><function>clear</function><pos>186,132</pos></item>
+        <item><type>text</type><label size="8">R SELECT</label><pos>238,122</pos></item>
+        <item><type>switch</type><function>clear</function><pos>213,132</pos></item>
+        <item><type>switch</type><function>clear</function><pos>240,132</pos></item>
+        <item><type>switch</type><function>clear</function><pos>267,132</pos></item>
+        <item><type>switch</type><function>clear</function><pos>294,132</pos></item>
+
+        <!-- Row 4: System States & Status Monitoring -->
+        <item><type>text</type><label size="8">RPT</label><pos>105,167</pos></item>
+        <item><type>switch</type><function>run</function><pos>105,177</pos></item>
+        <item><type>text</type><label size="8">MC</label><pos>138,167</pos></item>
+        <item><type>switch</type><function>step</function><pos>134,177</pos></item>
+        <item><type>text</type><label size="8">TD</label><pos>165,167</pos></item>
+        <item><type>switch</type><function>clear</function><pos>161,177</pos></item>
+        <item><type>text</type><label size="8">CM</label><pos>190,167</pos></item>
+        <item><type>switch</type><function>clear</function><pos>188,177</pos></item>
+
+        <!-- Status Lamps: SP, ID, MN, NB -->
+        <item><type>text</type><label size="8">SP</label><pos>219,167</pos></item>
+        <item><type form="large">led</type><function>waitled</function><pos>215,178</pos></item>
+        <item><type>text</type><label size="8">ID</label><pos>248,167</pos></item>
+        <item><type form="large">led</type><function>clearled</function><pos>242,178</pos></item>
+        <item><type>text</type><label size="8">MN</label><pos>271,167</pos></item>
+        <item><type form="large">led</type><function>pauseled</function><pos>269,178</pos></item>
+        <item><type>text</type><label size="8">NB</label><pos>300,167</pos></item>
+        <item><type form="large">led</type><function>readyled</function><pos>296,178</pos></item>
+
+        <!-- RIGHT SECTION: Entry Interface & Main Power -->
+
+        <!-- Hex Keypad Matrix -->
+        <item><type>push</type><function>hex</function><value>0x7</value><label>7</label><pos>340,17</pos><size>30, 30</size></item>
+        <item><type>push</type><function>hex</function><value>0x8</value><label>8</label><pos>385,17</pos><size>30, 30</size></item>
+        <item><type>push</type><function>hex</function><value>0x9</value><label>9</label><pos>430,17</pos><size>30, 30</size></item>
+        <item><type>push</type><function>hex</function><value>0xf</value><label>F</label><pos>475,17</pos><size>30, 30</size></item>
+
+        <item><type>push</type><function>hex</function><value>0x4</value><label>4</label><pos>340,60</pos><size>30, 30</size></item>
+        <item><type>push</type><function>hex</function><value>0x5</value><label>5</label><pos>385,60</pos><size>30, 30</size></item>
+        <item><type>push</type><function>hex</function><value>0x6</value><label>6</label><pos>430,60</pos><size>30, 30</size></item>
+        <item><type>push</type><function>hex</function><value>0xe</value><label>E</label><pos>475,60</pos><size>30, 30</size></item>
+
+        <item><type>push</type><function>hex</function><value>0x1</value><label>1</label><pos>340,103</pos><size>30, 30</size></item>
+        <item><type>push</type><function>hex</function><value>0x2</value><label>2</label><pos>385,103</pos><size>30, 30</size></item>
+        <item><type>push</type><function>hex</function><value>0x3</value><label>3</label><pos>430,103</pos><size>30, 30</size></item>
+        <item><type>push</type><function>hex</function><value>0xd</value><label>D</label><pos>475,103</pos><size>30, 30</size></item>
+
+        <item><type>push</type><function>hex</function><value>0x0</value><label>0</label><pos>340,142</pos><size>30, 30</size></item>
+        <item><type>push</type><function>hex</function><value>0xa</value><label>A</label><pos>385,146</pos><size>30, 30</size></item>
+        <item><type>push</type><function>hex</function><value>0xb</value><label>B</label><pos>430,146</pos><size>30, 30</size></item>
+        <item><type>push</type><function>hex</function><value>0xc</value><label>C</label><pos>475,146</pos><size>30, 30</size></item>
+
+        <!-- Power -->
+        <item><type>push</type><label>Pwr</label><function>stop</function><pos>450,205</pos><size>40, 30</size></item>
+
+    </frontpanel>
+
+    <memory>
+        <ram type="gui" mask="0x3ff">
+            <start>0x0000</start>
+            <end>0x03FF</end>
+            <pulldown mask="*.bin">System00</pulldown>
+        </ram>
+    </memory>
+
+    <keypad type="fred">
+        <iogroup>1</iogroup>
+        <out>2</out>
+        <in type="key" mode="1">0</in>
+        <ef type="key" mode="1">1</ef>
+        <mode>hex</mode>
+    </keypad>
+
+    <video type="fred">
+        <iogroup>2</iogroup>
+        <out>2</out>
+        <border>33x33</border>
+        <color type="fore">255, 255, 255</color>
+        <color type="back">0, 0, 0</color>
+    </video>
+
+    <cassette type="fred">
+        <iogroup>3</iogroup>
+        <stoptone />
+        <bootstart />
+        <ef type="in" mode="2">1</ef>
+        <ef type="run">2</ef>
+        <ef type="error">4</ef>
+        <in mode="2">0</in>
+        <out type="mode">2</out>
+        <out type="sound">3</out>
+        <freq type="0">5200</freq>
+        <freq type="1">6200</freq>
+        <databits>8</databits>
+        <threshold type="8bit">10</threshold>
+        <threshold type="16bit">500</threshold>
+        <threshold type="24bit">1000</threshold>
+    </cassette>
+
+    <debugger>
+        <scrt mode="off">
+            <call reg="4">-1</call>
+            <return reg="5">-1</return>
+        </scrt>
+
+        <assembler>
+            <filename>fred.bin</filename>
+            <code_start>0</code_start>
+            <code_end>0x3FF</code_end>
+        </assembler>
+    </debugger>
+
+</emmaconfig>
