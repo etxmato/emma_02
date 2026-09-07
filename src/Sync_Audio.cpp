@@ -198,9 +198,9 @@ void Sync_Audio::play_write( const play_sample_t* in, int remain )
         if ( gain != (1L << gain_bits) )
         {
 //            register long gain = this->gain;
-            long gain = this->gain;
+            long gain_val = this->gain;
             for ( int n = count; n--; )
-                *out++ = (play_sample_t) ((*in++ * gain) >> gain_bits);
+                *out++ = (play_sample_t) ((*in++ * gain_val) >> gain_bits);
         }
         else
         {
@@ -313,17 +313,17 @@ void Sync_Audio::play_fill_buffer_( void* user_data, Uint8* out, int byte_count 
     ((Sync_Audio*) user_data)->Play_fill_buffer( out, byte_count );
 }
 
-void Sync_Audio::setAudioInGain( double gain)
+void Sync_Audio::setAudioInGain( double theGain)
 {
-    audioInGain_ = gain;
+    audioInGain_ = theGain;
 }
 
-const char* Sync_Audio::record_start( int sample_rate , double gain, bool inputChannel)
+const char* Sync_Audio::record_start( int sample_rate , double theGain, bool inputChannel)
 {
 #if defined (__WXMSW__)
 
     SDL_AudioSpec expected;
-    audioInGain_ = gain;
+    audioInGain_ = theGain;
     inputChannel_ = inputChannel;
     sampleRate_ = sample_rate;
 

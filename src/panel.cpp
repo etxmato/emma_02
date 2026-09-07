@@ -280,6 +280,7 @@ void HexButtonCdp1852::OnTimer(wxTimerEvent& WXUNUSED(event))
 
 SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxCoord x, wxCoord y, wxString label)
 {
+    (void)bkgrClr;
     wxBitmap *upBitmap;
     wxBitmap *downBitmap;
 

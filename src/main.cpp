@@ -3183,7 +3183,7 @@ void Main::removeOldXml(wxString dirName, wxString pathSep)
          {
             if (filename.Left(dirList[number+1].Len()) == dirList[number+1])
             {
-               wxString folder = dirName + dirList[number] + pathSeparator_;
+               wxString folder = dirName + dirList[number] + pathSep;
                wxString newFileName = filename.Right(filename.Len() - dirList[number+1].Len() - 1);
                wxString newFileName2 = filename.Right(filename.Len() - dirList[number+1].Len() - 3);
                newFileName2.Replace(" + ", "+");
@@ -3205,8 +3205,8 @@ void Main::removeOldXml(wxString dirName, wxString pathSep)
    number=0;
    while (fileDeleteList[number] != "")
    {
-      if (wxFile::Exists(dirName + fileDeleteList[number] + pathSeparator_ + fileDeleteList[number+1]))
-         wxRemoveFile(dirName + fileDeleteList[number] + pathSeparator_ + fileDeleteList[number+1]);
+      if (wxFile::Exists(dirName + fileDeleteList[number] + pathSep + fileDeleteList[number+1]))
+         wxRemoveFile(dirName + fileDeleteList[number] + pathSep + fileDeleteList[number+1]);
       number += 2;
    }
 
@@ -3228,7 +3228,7 @@ void Main::removeOldXml(wxString dirName, wxString pathSep)
          cont = dir.GetFirst(&filename);
          while (cont)
          {
-            wxRemoveFile(fullDirPath + pathSeparator_ + filename);
+            wxRemoveFile(fullDirPath + pathSep + filename);
             cont = dir.GetNext(&filename);
          }
       }

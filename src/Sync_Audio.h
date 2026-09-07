@@ -14,9 +14,9 @@ public:
     // Initialize with specified sample rate, channel count, and latency.
     // Returns NULL on success, otherwise error string.
     const char* play_start( int sample_rate, int latency_msec = 200 );
-    const char* record_start( int sample_rate, double gain, bool inputChannel);
+     const char* record_start( int sample_rate, double theGain, bool inputChannel);
     void setTapeConfig(bool inputChannel, bool playback);
-    void setAudioInGain( double gain);
+     void setAudioInGain( double theGain);
     void record_pause( bool status );
 
     // Set gain, where 1.0 leaves sound unaltered

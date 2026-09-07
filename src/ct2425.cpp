@@ -307,7 +307,7 @@ void Ct2425::insertCoin(Byte value, int showTrace)
     if (value >= 0xa && value <= 0xf)
     {
         value -= 0xa;
-        coinStatus_ = 1 << value;
+        coinStatus_ = 1ULL << value;
         coinStatus_[COIN_DAV] = 1;
     }
     

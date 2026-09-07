@@ -240,7 +240,7 @@ void Blip_Synth_::adjust_impulse()
         }
         if ( p == p2 )
             error /= 2; // phase = 0.5 impulse uses same half for both sides
-        impulses [size - blip_res + p] += error;
+        impulses [size - blip_res + p] += (short) error;
         //printf( "error: %ld\n", error );
     }
     
@@ -348,7 +348,7 @@ long Blip_Buffer::read_samples( blip_sample_t* out, long max_samples, int stereo
     if ( count )
     {
         int const sample_shift = blip_sample_bits - 16;
-        int const bass_shift = this->bass_shift;
+        int const bass_shift_val = this->bass_shift;
         long accum = reader_accum;
         buf_t_* in = buffer_;
         
@@ -357,7 +357,7 @@ long Blip_Buffer::read_samples( blip_sample_t* out, long max_samples, int stereo
             for ( long n = count; n--; )
             {
                 long s = accum >> sample_shift;
-                accum -= accum >> bass_shift;
+                accum -= accum >> bass_shift_val;
                 accum += *in++;
                 *out++ = (blip_sample_t) s;
                 
@@ -371,7 +371,7 @@ long Blip_Buffer::read_samples( blip_sample_t* out, long max_samples, int stereo
             for ( long n = count; n--; )
             {
                 long s = accum >> sample_shift;
-                accum -= accum >> bass_shift;
+                accum -= accum >> bass_shift_val;
                 accum += *in++;
                 *out = (blip_sample_t) s;
                 out += 2;

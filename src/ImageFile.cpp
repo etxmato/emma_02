@@ -131,8 +131,9 @@ bool CImageFile::Error (const char *pszMsg, int nError) const
   // always return false?  So we can say something like
   //
   //    if ... return Error("fail", errno);
-  //--
-  if (nError > 0) {
+   //--
+   (void)pszMsg;
+   if (nError > 0) {
 //    LOGS(ERROR_LVL, "error (" << nError << ") " << pszMsg << " " << m_sFileName);
 //***    strerror_s(sz, sizeof(sz), nError);
 //    LOGS(ERROR_LVL, sz);
@@ -334,7 +335,7 @@ uint32_t CDiskImageFile::CHStoLBA (uint16_t nCylinder, uint16_t nHead, uint16_t 
   if (IsValidCHS(nCylinder, nHead, nSector))
     return ((nCylinder * GetHeads()) + nHead) * GetSectors() + nSector-1;
   else
-    return INVALID_SECTOR;
+     return static_cast<uint32_t>(INVALID_SECTOR);
 }
 
 bool CDiskImageFile::SeekSector (uint32_t lLBA)

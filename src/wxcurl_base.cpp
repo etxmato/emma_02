@@ -67,6 +67,7 @@ extern "C"
     int wxcurl_verbose_stream_write(CURL * crlptr, curl_infotype info,
                                     char * cStrMessage, size_t msgSize, void * buffer)
     {
+        (void)crlptr;
         wxString szMessage((const char*)cStrMessage, wxConvLibc, msgSize);
         wxStringOutputStream* pBuf = (wxStringOutputStream*)buffer;
         wxString szVerboseMessage;

@@ -284,6 +284,7 @@ void TilMan2815::drawQuadSeg(int bit, wxPoint pts[4])
 
 void TilMan2815::update(wxDC& dc, Word NewNumber, int segNumber)
 {
+    (void)segNumber;
     // Raw 14-segment + DP pattern (bits 0-15). Do NOT pass through getTilHexFont,
     // which truncates to a Byte and would discard the diagonal/center segments (8+).
     // Bits 14/15 are kept: the MSI-88 font stores the upper-center 'k' on high-byte

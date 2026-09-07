@@ -137,16 +137,16 @@ void wxCurlConnectionSettingsPanel::CreateControls(const wxString &msg)
         m_pProxyCheckBox->SetValue(false);
         proxy->Add(m_pProxyCheckBox, 0, wxLEFT|wxTOP, BORDER);
 
-        wxFlexGridSizer *gs = new wxFlexGridSizer(0 /* calc automatically the # of rows */, 2, 0, 0);
-        m_pProxyHost = AddSizerRow(gs, _("Proxy host:"));
-        m_pProxyUsername = AddSizerRow(gs, _("Proxy username:"));
-        m_pProxyPassword = AddSizerRow(gs, _("Proxy password:"));
-        m_pProxyPort = AddSizerRow(gs, _("Proxy port:"), false);
+        wxFlexGridSizer *gsProxy = new wxFlexGridSizer(0 /* calc automatically the # of rows */, 2, 0, 0);
+        m_pProxyHost = AddSizerRow(gsProxy, _("Proxy host:"));
+        m_pProxyUsername = AddSizerRow(gsProxy, _("Proxy username:"));
+        m_pProxyPassword = AddSizerRow(gsProxy, _("Proxy password:"));
+        m_pProxyPort = AddSizerRow(gsProxy, _("Proxy port:"), false);
         m_pProxyPort->SetValue(wxS("-1"));
-        proxy->Add(gs, 0, wxGROW|wxALL, BORDER);
+        proxy->Add(gsProxy, 0, wxGROW|wxALL, BORDER);
 
         // column 1 contains the text controls:
-        gs->AddGrowableCol(1);
+        gsProxy->AddGrowableCol(1);
 
         main->AddSpacer(10);
         main->Add(proxy, 0, wxGROW|wxLEFT|wxRIGHT, BORDER);
