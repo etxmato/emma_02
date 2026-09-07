@@ -5221,7 +5221,7 @@ void Main::setSysColours()
 
     if (majorVersion >= 10)
     {
-        switch ((int)configPointer->Read("/Main/DarkMode", (long)GUI_THEME_LIGHT))
+        switch ((int)configPointer->Read("/Main/DarkMode", (long)GUI_THEME_AUTO))
         {
             case GUI_THEME_DARK:  darkMode_ = true;               break;
             case GUI_THEME_LIGHT: darkMode_ = false;              break;
