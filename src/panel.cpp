@@ -1085,6 +1085,12 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
                         waitButtonDefined = true;
                     break;
 
+                    case BUTTON_FUNC_WAIT_SET:
+                        p_Computer->setWaitButtonState(1);
+                        waitButton = button;
+                        waitButtonDefined = true;
+                    break;
+
                     case BUTTON_FUNC_CLEAR:
                         clearButton = button;
                         clearButtonDefined = true;
@@ -2007,6 +2013,10 @@ void Panel::executeMouseLeftFunction(std::vector<GuiItemConfiguration>::iterator
 
         case BUTTON_FUNC_WAIT:
             p_Computer->onWaitButton();
+        break;
+
+        case BUTTON_FUNC_WAIT_SET:
+            p_Computer->setWaitButtonState(0);
         break;
 
         case BUTTON_FUNC_RESET:

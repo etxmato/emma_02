@@ -4645,6 +4645,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         "cardswitch",
         "power",
         "wait",
+        "wait_set",
         "clear",
         "clear_run",
         "clear_reset",
@@ -4721,6 +4722,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         BUTTON_FUNC_CARDSWITCH,
         BUTTON_FUNC_POWER,
         BUTTON_FUNC_WAIT,           // 14
+        BUTTON_FUNC_WAIT_SET,
         BUTTON_FUNC_CLEAR,
         BUTTON_FUNC_CLEAR_RUN,
         BUTTON_FUNC_CLEAR_RESET,    // 17
@@ -5238,6 +5240,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                             break;
                                 
                             case BUTTON_FUNC_WAIT:
+                            case BUTTON_FUNC_WAIT_SET:
                                 computerConfiguration.mainFrontPanelConfiguration.waitButtonDefined = true;
                             break;
                                 
