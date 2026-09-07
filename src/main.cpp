@@ -5216,37 +5216,15 @@ void Main::setSysColours()
     guiTextColour[GUI_COL_BLACK] = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
     guiTextColour[GUI_COL_WHITE] = wxSystemSettings::GetColour(wxSYS_COLOUR_APPWORKSPACE);
 #elif defined (__WXMSW__)
-    int majorVersion = 0, minorVersion = 0;
-    wxGetOsVersion(&majorVersion, &minorVersion);
-
-    if (majorVersion >= 10)
+    darkMode_ = wxSystemSettings::GetAppearance().IsDark();
+    if (darkMode_)
     {
-        switch ((int)configPointer->Read("/Main/DarkMode", (long)GUI_THEME_AUTO))
-        {
-            case GUI_THEME_DARK:  darkMode_ = true;               break;
-            case GUI_THEME_LIGHT: darkMode_ = false;              break;
-            default:              darkMode_ = wxSystemSettings::GetAppearance().IsDark();
-        }
-
-        if (darkMode_)
-        {
-            // Mirror the wxWidgets values the macOS dark branch resolves to,
-            // so every existing darkMode_ consumer behaves identically.
-            guiBackGround_                = wxColour(0x1E, 0x1E, 0x1E);   // frame background
-            guiTextColour[GUI_COL_BLACK]  = wxColour(0xF0, 0xF0, 0xF0);   // = WINDOWTEXT
-            guiTextColour[GUI_COL_WHITE]  = wxColour(0x80, 0x80, 0x80);   // = APPWORKSPACE
-        }
-        else
-        {
-            guiBackGround_ = wxColour(windowInfo.red, windowInfo.green, windowInfo.blue);
-            wxColourDatabase colour;
-            guiTextColour[GUI_COL_BLACK] = wxColour(colour.Find("BLACK"));
-            guiTextColour[GUI_COL_WHITE] = wxColour(colour.Find("WHITE"));
-        }
+        guiBackGround_                = wxColour(0x1E, 0x1E, 0x1E);   // frame background
+        guiTextColour[GUI_COL_BLACK]  = wxColour(0xF0, 0xF0, 0xF0);   // = WINDOWTEXT
+        guiTextColour[GUI_COL_WHITE]  = wxColour(0x80, 0x80, 0x80);   // = APPWORKSPACE
     }
-    else    // Windows XP/2000/Vista/7/8/8.1: classic light, unchanged
+    else
     {
-        darkMode_ = false;
         guiBackGround_ = wxColour(windowInfo.red, windowInfo.green, windowInfo.blue);
         wxColourDatabase colour;
         guiTextColour[GUI_COL_BLACK] = wxColour(colour.Find("BLACK"));
