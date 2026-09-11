@@ -11,4 +11,5 @@ cidelsa_icon ICON "images/cidelsa.ico"
 studio_icon ICON "images/studio.ico"
 victory_icon ICON "images/victory.ico"
 visicom_icon ICON "images/visicom.ico"*/
+1 RT_MANIFEST "Emma02.manifest"
 #include "wx/msw/wx.rc"

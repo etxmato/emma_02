@@ -686,6 +686,14 @@ bool Emu1802::OnInit()
     if (!wxApp::OnInit())
         return false;
     
+    // Opt in to native wxMSW dark mode before any window is created. Without
+    // this wxSystemSettings::GetAppearance().IsDark() stays false and the
+    // native control chrome (menu, wxChoice, notebook, scrollbars, panels) is
+    // created in light mode. DarkMode_Auto follows the Windows app mode.
+#if defined (__WXMSW__)
+    MSWEnableDarkMode(wxApp::DarkMode_Auto);
+#endif
+    
     wxSystemOptions::SetOption("msw.window.no-clip-children", 1);
     
     int offsetX = 0, offsetY = 0;
@@ -1677,6 +1685,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     }
 
     initConfig();
+    
     if (windowInfo.errorMessage != "")
         message(windowInfo.errorMessage);
 
@@ -5135,6 +5144,7 @@ void Main::sysColourChangeEvent(wxSysColourChangedEvent& event)
 {
     setSysColours();
     refreshSysColourDependents();
+
     event.Skip();
 }
 
@@ -5159,77 +5169,15 @@ void Main::refreshSysColourDependents()
     }
 }
 
-#if defined (__WXMSW__)
-void Main::applyWindowsThemeColours(wxWindow* parent, bool dark)
-{
-    wxColour back, text;
-    if (dark)
-    {
-        back  = wxColour(0x1E, 0x1E, 0x1E);   // = guiBackGround_
-        text  = wxColour(0xF0, 0xF0, 0xF0);   // = guiTextColour[GUI_COL_BLACK]
-    }
-    else
-    {
-        back  = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
-        text  = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
-    }
-
-    // The chrome controls do not read guiBackGround_/guiTextColour[]; force
-    // the theme into them. Custom-painted Emma 02 areas are skipped because
-    // they draw themselves from the palette or from emulation data.
-    parent->SetBackgroundColour(back);
-    parent->SetForegroundColour(text);
-
-    wxWindowList& children = parent->GetChildren();
-    for (size_t i = 0; i < children.GetCount(); ++i)
-    {
-        wxWindow* child = children.Item(i)->GetData();
-        if (child == NULL)
-            continue;
-
-        wxString name = child->GetName();
-
-        // Emma 02 custom-painted areas: skip them entirely.
-        bool skip = (name.Left(4) == "CHAR")                 // memory-dump glyph cells
-                 || (name == "AssBitmap" || name == "ProfilerBitmap")
-                 || child->IsKindOf(CLASSINFO(wxStaticBitmap))
-                 || child->IsKindOf(CLASSINFO(wxBitmapButton));
-        if (!skip)
-        {
-            child->SetBackgroundColour(back);
-            child->SetForegroundColour(text);
-        }
-        child->Refresh();
-        applyWindowsThemeColours(child, dark);       // recurse
-    }
-    parent->Refresh();
-}
-#endif
-
 void Main::setSysColours()
 {
-#if defined (__WXMAC__) || (__linux__)
+#if defined (__WXMAC__) || defined (__WXMSW__) || defined (__linux__)
     wxSystemAppearance system = wxSystemSettings::GetAppearance();
-    
+
     darkMode_ = system.IsDark();
     guiBackGround_ = wxSystemSettings::GetColour(wxSYS_COLOUR_FRAMEBK);
     guiTextColour[GUI_COL_BLACK] = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
     guiTextColour[GUI_COL_WHITE] = wxSystemSettings::GetColour(wxSYS_COLOUR_APPWORKSPACE);
-#elif defined (__WXMSW__)
-    darkMode_ = wxSystemSettings::GetAppearance().IsDark();
-    if (darkMode_)
-    {
-        guiBackGround_                = wxColour(0x1E, 0x1E, 0x1E);   // frame background
-        guiTextColour[GUI_COL_BLACK]  = wxColour(0xF0, 0xF0, 0xF0);   // = WINDOWTEXT
-        guiTextColour[GUI_COL_WHITE]  = wxColour(0x80, 0x80, 0x80);   // = APPWORKSPACE
-    }
-    else
-    {
-        guiBackGround_ = wxColour(windowInfo.red, windowInfo.green, windowInfo.blue);
-        wxColourDatabase colour;
-        guiTextColour[GUI_COL_BLACK] = wxColour(colour.Find("BLACK"));
-        guiTextColour[GUI_COL_WHITE] = wxColour(colour.Find("WHITE"));
-    }
 #else
     darkMode_ = false;
     guiBackGround_ = wxColour(windowInfo.red, windowInfo.green, windowInfo.blue);
@@ -5263,10 +5211,6 @@ void Main::setSysColours()
         guiTextColour[GUI_COL_GREY] = wxColour(0x9e, 0xa5, 0xad);
         guiTextColour[GUI_COL_GREEN] = wxColour(0, 0x89, 0x7B);
     }
-#if defined (__WXMSW__)
-    if (mode_.gui)
-        applyWindowsThemeColours(this, darkMode_);
-#endif
     setMemDumpColours();
 }
 

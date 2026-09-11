@@ -1070,9 +1070,6 @@ public:
     void setSysColours();
     void setMemDumpColours();
     void refreshSysColourDependents();
-#if defined (__WXMSW__)
-    void applyWindowsThemeColours(wxWindow* parent, bool dark);
-#endif
 
     void zoomEvent(double zoom, int videoNumber);
     void zoomEventVt(double zoom);

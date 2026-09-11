@@ -4,6 +4,7 @@
 /Win32/
 /x64/
 /vc9/
+/Emma 02 vc17/
 /Release/src/*.o
 /Release/src/*.d
 /Release_x86/src/*.o
@@ -46,3 +47,4 @@ Makefile
 *.recipe
 *.res
 *.xcscheme
+Emma 02.xcodeproj/xcshareddata/xcschemes/Emma 02.xcscheme

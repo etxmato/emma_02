@@ -11214,7 +11214,7 @@
                       <long name="owns-file">1</long>
                       <string name="proxy-AlignH">"Centre"</string>
                       <string name="proxy-AlignV">"Top"</string>
-                      <string name="proxy-Background colour">"000000"</string>
+                      <string name="proxy-Background colour">""</string>
                       <string name="proxy-Base class">"wxStaticBitmap"</string>
                       <string name="proxy-Bitmap">""</string>
                       <long name="proxy-Border">0</long>
@@ -17306,7 +17306,7 @@
                         <long name="owns-file">1</long>
                         <string name="proxy-AlignH">"Centre"</string>
                         <string name="proxy-AlignV">"Top"</string>
-                        <string name="proxy-Background colour">"000000"</string>
+                        <string name="proxy-Background colour">""</string>
                         <string name="proxy-Base class">"wxStaticBitmap"</string>
                         <string name="proxy-Bitmap">""</string>
                         <long name="proxy-Border">0</long>
@@ -18796,7 +18796,7 @@
                         <long name="owns-file">1</long>
                         <string name="proxy-AlignH">"Left"</string>
                         <string name="proxy-AlignV">"Centre"</string>
-                        <string name="proxy-Background colour">"E5E5E5"</string>
+                        <string name="proxy-Background colour">""</string>
                         <string name="proxy-Base class">"wxTextCtrl"</string>
                         <long name="proxy-Border">1</long>
                         <string name="proxy-Class">"HexEdit"</string>
@@ -20285,7 +20285,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">1</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -20368,7 +20368,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">1</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -20451,7 +20451,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">1</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -20534,7 +20534,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">1</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -20617,7 +20617,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">1</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -20700,7 +20700,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">1</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -20783,7 +20783,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">1</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -20866,7 +20866,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">1</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -20949,7 +20949,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">1</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -21032,7 +21032,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -21115,7 +21115,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -21198,7 +21198,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -21281,7 +21281,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -21364,7 +21364,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -21447,7 +21447,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -21530,7 +21530,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -21776,7 +21776,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -21859,7 +21859,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -21942,7 +21942,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -22025,7 +22025,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -22108,7 +22108,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -22191,7 +22191,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -22274,7 +22274,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -22357,7 +22357,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -22440,7 +22440,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -22523,7 +22523,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -22606,7 +22606,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -22689,7 +22689,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -22772,7 +22772,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -22855,7 +22855,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -22938,7 +22938,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -23021,7 +23021,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -23267,7 +23267,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -23350,7 +23350,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -23433,7 +23433,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -23516,7 +23516,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -23599,7 +23599,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -23682,7 +23682,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -23765,7 +23765,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -23848,7 +23848,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -23931,7 +23931,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -24014,7 +24014,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -24097,7 +24097,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -24180,7 +24180,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -24263,7 +24263,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -24346,7 +24346,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -24429,7 +24429,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -24512,7 +24512,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -24758,7 +24758,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -24841,7 +24841,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -24924,7 +24924,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -25007,7 +25007,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -25090,7 +25090,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -25173,7 +25173,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -25256,7 +25256,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -25339,7 +25339,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -25422,7 +25422,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -25505,7 +25505,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -25588,7 +25588,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -25671,7 +25671,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -25754,7 +25754,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -25837,7 +25837,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -25920,7 +25920,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -26003,7 +26003,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -26249,7 +26249,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -26332,7 +26332,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -26415,7 +26415,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -26498,7 +26498,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -26581,7 +26581,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -26664,7 +26664,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -26747,7 +26747,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -26830,7 +26830,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -26913,7 +26913,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -26996,7 +26996,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -27079,7 +27079,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -27162,7 +27162,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -27245,7 +27245,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -27328,7 +27328,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -27411,7 +27411,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -27494,7 +27494,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -27740,7 +27740,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -27823,7 +27823,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -27906,7 +27906,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -27989,7 +27989,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -28072,7 +28072,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -28155,7 +28155,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -28238,7 +28238,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -28321,7 +28321,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -28404,7 +28404,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -28487,7 +28487,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -28570,7 +28570,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -28653,7 +28653,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -28736,7 +28736,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -28819,7 +28819,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -28902,7 +28902,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -28985,7 +28985,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -29231,7 +29231,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -29314,7 +29314,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -29397,7 +29397,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -29480,7 +29480,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -29563,7 +29563,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -29646,7 +29646,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -29729,7 +29729,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -29812,7 +29812,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -29895,7 +29895,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -29978,7 +29978,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -30061,7 +30061,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -30144,7 +30144,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -30227,7 +30227,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -30310,7 +30310,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -30393,7 +30393,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -30476,7 +30476,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -30722,7 +30722,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -30805,7 +30805,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -30888,7 +30888,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -30971,7 +30971,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -31054,7 +31054,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -31137,7 +31137,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -31220,7 +31220,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -31303,7 +31303,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -31386,7 +31386,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -31469,7 +31469,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -31552,7 +31552,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -31635,7 +31635,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -31718,7 +31718,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -31801,7 +31801,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -31884,7 +31884,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -31967,7 +31967,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -32213,7 +32213,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -32296,7 +32296,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -32379,7 +32379,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -32462,7 +32462,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -32545,7 +32545,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -32628,7 +32628,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -32711,7 +32711,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -32794,7 +32794,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -32877,7 +32877,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -32960,7 +32960,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -33043,7 +33043,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -33126,7 +33126,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -33209,7 +33209,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -33292,7 +33292,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -33375,7 +33375,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -33458,7 +33458,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -33704,7 +33704,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -33787,7 +33787,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -33870,7 +33870,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -33953,7 +33953,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -34036,7 +34036,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -34119,7 +34119,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -34202,7 +34202,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -34285,7 +34285,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -34368,7 +34368,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -34451,7 +34451,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -34534,7 +34534,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -34617,7 +34617,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -34700,7 +34700,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -34783,7 +34783,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -34866,7 +34866,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -34949,7 +34949,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -35195,7 +35195,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -35278,7 +35278,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -35361,7 +35361,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -35444,7 +35444,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -35527,7 +35527,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -35610,7 +35610,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -35693,7 +35693,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -35776,7 +35776,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -35859,7 +35859,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -35942,7 +35942,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -36025,7 +36025,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -36108,7 +36108,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -36191,7 +36191,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -36274,7 +36274,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -36357,7 +36357,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -36440,7 +36440,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -36686,7 +36686,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -36769,7 +36769,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -36852,7 +36852,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -36935,7 +36935,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -37018,7 +37018,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -37101,7 +37101,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -37184,7 +37184,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -37267,7 +37267,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -37350,7 +37350,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -37433,7 +37433,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -37516,7 +37516,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -37599,7 +37599,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -37682,7 +37682,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -37765,7 +37765,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -37848,7 +37848,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -37931,7 +37931,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -38177,7 +38177,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -38260,7 +38260,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -38343,7 +38343,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -38426,7 +38426,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -38509,7 +38509,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -38592,7 +38592,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -38675,7 +38675,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -38758,7 +38758,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -38841,7 +38841,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -38924,7 +38924,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -39007,7 +39007,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -39090,7 +39090,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -39173,7 +39173,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -39256,7 +39256,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -39339,7 +39339,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -39422,7 +39422,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -39668,7 +39668,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -39751,7 +39751,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -39834,7 +39834,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -39917,7 +39917,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -40000,7 +40000,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -40083,7 +40083,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -40166,7 +40166,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -40249,7 +40249,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -40332,7 +40332,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -40415,7 +40415,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -40498,7 +40498,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -40581,7 +40581,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -40664,7 +40664,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -40747,7 +40747,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -40830,7 +40830,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -40913,7 +40913,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -41159,7 +41159,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -41242,7 +41242,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -41325,7 +41325,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -41408,7 +41408,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -41491,7 +41491,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -41574,7 +41574,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -41657,7 +41657,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -41740,7 +41740,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -41823,7 +41823,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -41906,7 +41906,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -41989,7 +41989,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -42072,7 +42072,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -42155,7 +42155,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -42238,7 +42238,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -42321,7 +42321,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -42404,7 +42404,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -42650,7 +42650,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -42733,7 +42733,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -42816,7 +42816,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -42899,7 +42899,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -42982,7 +42982,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -43065,7 +43065,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -43148,7 +43148,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -43231,7 +43231,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -43314,7 +43314,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -43397,7 +43397,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -43480,7 +43480,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -43563,7 +43563,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -43646,7 +43646,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -43729,7 +43729,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -43812,7 +43812,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -43895,7 +43895,7 @@
                           <long name="owns-file">1</long>
                           <string name="proxy-AlignH">"Left"</string>
                           <string name="proxy-AlignV">"Centre"</string>
-                          <string name="proxy-Background colour">"E5E5E5"</string>
+                          <string name="proxy-Background colour">""</string>
                           <string name="proxy-Base class">"wxTextCtrl"</string>
                           <long name="proxy-Border">0</long>
                           <string name="proxy-Class">"MemEdit"</string>
@@ -46375,7 +46375,7 @@
                               <long name="owns-file">1</long>
                               <string name="proxy-AlignH">"Left"</string>
                               <string name="proxy-AlignV">"Centre"</string>
-                              <string name="proxy-Background colour">"E5E5E5"</string>
+                              <string name="proxy-Background colour">""</string>
                               <string name="proxy-Base class">"wxTextCtrl"</string>
                               <long name="proxy-Border">17</long>
                               <string name="proxy-Class">"HexEdit"</string>
@@ -46555,7 +46555,7 @@
                               <long name="owns-file">1</long>
                               <string name="proxy-AlignH">"Left"</string>
                               <string name="proxy-AlignV">"Centre"</string>
-                              <string name="proxy-Background colour">"E5E5E5"</string>
+                              <string name="proxy-Background colour">""</string>
                               <string name="proxy-Base class">"wxTextCtrl"</string>
                               <long name="proxy-Border">17</long>
                               <string name="proxy-Class">"HexEdit"</string>
@@ -46735,7 +46735,7 @@
                               <long name="owns-file">1</long>
                               <string name="proxy-AlignH">"Left"</string>
                               <string name="proxy-AlignV">"Centre"</string>
-                              <string name="proxy-Background colour">"E5E5E5"</string>
+                              <string name="proxy-Background colour">""</string>
                               <string name="proxy-Base class">"wxTextCtrl"</string>
                               <long name="proxy-Border">17</long>
                               <string name="proxy-Class">"HexEdit"</string>
@@ -46915,7 +46915,7 @@
                               <long name="owns-file">1</long>
                               <string name="proxy-AlignH">"Left"</string>
                               <string name="proxy-AlignV">"Centre"</string>
-                              <string name="proxy-Background colour">"E5E5E5"</string>
+                              <string name="proxy-Background colour">""</string>
                               <string name="proxy-Base class">"wxTextCtrl"</string>
                               <long name="proxy-Border">17</long>
                               <string name="proxy-Class">"HexEdit"</string>
@@ -47095,7 +47095,7 @@
                               <long name="owns-file">1</long>
                               <string name="proxy-AlignH">"Left"</string>
                               <string name="proxy-AlignV">"Centre"</string>
-                              <string name="proxy-Background colour">"E5E5E5"</string>
+                              <string name="proxy-Background colour">""</string>
                               <string name="proxy-Base class">"wxTextCtrl"</string>
                               <long name="proxy-Border">17</long>
                               <string name="proxy-Class">"HexEdit"</string>
@@ -47275,7 +47275,7 @@
                               <long name="owns-file">1</long>
                               <string name="proxy-AlignH">"Left"</string>
                               <string name="proxy-AlignV">"Centre"</string>
-                              <string name="proxy-Background colour">"E5E5E5"</string>
+                              <string name="proxy-Background colour">""</string>
                               <string name="proxy-Base class">"wxTextCtrl"</string>
                               <long name="proxy-Border">17</long>
                               <string name="proxy-Class">"HexEdit"</string>
@@ -47455,7 +47455,7 @@
                               <long name="owns-file">1</long>
                               <string name="proxy-AlignH">"Left"</string>
                               <string name="proxy-AlignV">"Centre"</string>
-                              <string name="proxy-Background colour">"E5E5E5"</string>
+                              <string name="proxy-Background colour">""</string>
                               <string name="proxy-Base class">"wxTextCtrl"</string>
                               <long name="proxy-Border">17</long>
                               <string name="proxy-Class">"HexEdit"</string>
@@ -47635,7 +47635,7 @@
                               <long name="owns-file">1</long>
                               <string name="proxy-AlignH">"Left"</string>
                               <string name="proxy-AlignV">"Centre"</string>
-                              <string name="proxy-Background colour">"E5E5E5"</string>
+                              <string name="proxy-Background colour">""</string>
                               <string name="proxy-Base class">"wxTextCtrl"</string>
                               <long name="proxy-Border">17</long>
                               <string name="proxy-Class">"HexEdit"</string>
@@ -47955,7 +47955,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Left"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">0</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -48109,7 +48109,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Right"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">0</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -48263,7 +48263,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Left"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">0</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -48417,7 +48417,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Right"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">0</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -48571,7 +48571,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Left"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">0</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -48725,7 +48725,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Right"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">0</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -48879,7 +48879,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Left"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">0</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -49033,7 +49033,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Left"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">0</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -49187,7 +49187,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Left"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">0</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -49341,7 +49341,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Left"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">0</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -49495,7 +49495,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Left"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">0</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -49649,7 +49649,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Left"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">0</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -49803,7 +49803,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Left"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">0</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -49957,7 +49957,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Left"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">0</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -50178,7 +50178,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Left"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">17</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -50332,7 +50332,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Left"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">17</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -50486,7 +50486,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Left"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">17</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -50640,7 +50640,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Left"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">17</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -50794,7 +50794,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Left"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">17</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -50948,7 +50948,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Left"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">17</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -51102,7 +51102,7 @@
                                         <long name="owns-file">1</long>
                                         <string name="proxy-AlignH">"Left"</string>
                                         <string name="proxy-AlignV">"Centre"</string>
-                                        <string name="proxy-Background colour">"E5E5E5"</string>
+                                        <string name="proxy-Background colour">""</string>
                                         <string name="proxy-Base class">"wxTextCtrl"</string>
                                         <long name="proxy-Border">17</long>
                                         <string name="proxy-Class">"HexEdit"</string>
@@ -51316,7 +51316,7 @@
                                   <long name="owns-file">1</long>
                                   <string name="proxy-AlignH">"Left"</string>
                                   <string name="proxy-AlignV">"Centre"</string>
-                                  <string name="proxy-Background colour">"E5E5E5"</string>
+                                  <string name="proxy-Background colour">""</string>
                                   <string name="proxy-Base class">"wxTextCtrl"</string>
                                   <long name="proxy-Border">17</long>
                                   <string name="proxy-Class">"HexEdit"</string>
@@ -51470,7 +51470,7 @@
                                   <long name="owns-file">1</long>
                                   <string name="proxy-AlignH">"Left"</string>
                                   <string name="proxy-AlignV">"Centre"</string>
-                                  <string name="proxy-Background colour">"E5E5E5"</string>
+                                  <string name="proxy-Background colour">""</string>
                                   <string name="proxy-Base class">"wxTextCtrl"</string>
                                   <long name="proxy-Border">0</long>
                                   <string name="proxy-Class">"HexEdit"</string>
@@ -51624,7 +51624,7 @@
                                   <long name="owns-file">1</long>
                                   <string name="proxy-AlignH">"Left"</string>
                                   <string name="proxy-AlignV">"Centre"</string>
-                                  <string name="proxy-Background colour">"E5E5E5"</string>
+                                  <string name="proxy-Background colour">""</string>
                                   <string name="proxy-Base class">"wxTextCtrl"</string>
                                   <long name="proxy-Border">0</long>
                                   <string name="proxy-Class">"HexEdit"</string>
@@ -51778,7 +51778,7 @@
                                   <long name="owns-file">1</long>
                                   <string name="proxy-AlignH">"Left"</string>
                                   <string name="proxy-AlignV">"Centre"</string>
-                                  <string name="proxy-Background colour">"E5E5E5"</string>
+                                  <string name="proxy-Background colour">""</string>
                                   <string name="proxy-Base class">"wxTextCtrl"</string>
                                   <long name="proxy-Border">0</long>
                                   <string name="proxy-Class">"HexEdit"</string>
@@ -51932,7 +51932,7 @@
                                   <long name="owns-file">1</long>
                                   <string name="proxy-AlignH">"Left"</string>
                                   <string name="proxy-AlignV">"Centre"</string>
-                                  <string name="proxy-Background colour">"E5E5E5"</string>
+                                  <string name="proxy-Background colour">""</string>
                                   <string name="proxy-Base class">"wxTextCtrl"</string>
                                   <long name="proxy-Border">0</long>
                                   <string name="proxy-Class">"HexEdit"</string>
@@ -52086,7 +52086,7 @@
                                   <long name="owns-file">1</long>
                                   <string name="proxy-AlignH">"Left"</string>
                                   <string name="proxy-AlignV">"Centre"</string>
-                                  <string name="proxy-Background colour">"E5E5E5"</string>
+                                  <string name="proxy-Background colour">""</string>
                                   <string name="proxy-Base class">"wxTextCtrl"</string>
                                   <long name="proxy-Border">0</long>
                                   <string name="proxy-Class">"HexEdit"</string>
@@ -52240,7 +52240,7 @@
                                   <long name="owns-file">1</long>
                                   <string name="proxy-AlignH">"Left"</string>
                                   <string name="proxy-AlignV">"Centre"</string>
-                                  <string name="proxy-Background colour">"E5E5E5"</string>
+                                  <string name="proxy-Background colour">""</string>
                                   <string name="proxy-Base class">"wxTextCtrl"</string>
                                   <long name="proxy-Border">0</long>
                                   <string name="proxy-Class">"HexEdit"</string>
@@ -52394,7 +52394,7 @@
                                   <long name="owns-file">1</long>
                                   <string name="proxy-AlignH">"Left"</string>
                                   <string name="proxy-AlignV">"Centre"</string>
-                                  <string name="proxy-Background colour">"E5E5E5"</string>
+                                  <string name="proxy-Background colour">""</string>
                                   <string name="proxy-Base class">"wxTextCtrl"</string>
                                   <long name="proxy-Border">0</long>
                                   <string name="proxy-Class">"HexEdit"</string>
@@ -52548,7 +52548,7 @@
                                   <long name="owns-file">1</long>
                                   <string name="proxy-AlignH">"Left"</string>
                                   <string name="proxy-AlignV">"Centre"</string>
-                                  <string name="proxy-Background colour">"E5E5E5"</string>
+                                  <string name="proxy-Background colour">""</string>
                                   <string name="proxy-Base class">"wxTextCtrl"</string>
                                   <long name="proxy-Border">0</long>
                                   <string name="proxy-Class">"HexEdit"</string>
@@ -52702,7 +52702,7 @@
                                   <long name="owns-file">1</long>
                                   <string name="proxy-AlignH">"Left"</string>
                                   <string name="proxy-AlignV">"Centre"</string>
-                                  <string name="proxy-Background colour">"E5E5E5"</string>
+                                  <string name="proxy-Background colour">""</string>
                                   <string name="proxy-Base class">"wxTextCtrl"</string>
                                   <long name="proxy-Border">0</long>
                                   <string name="proxy-Class">"HexEdit"</string>
@@ -52856,7 +52856,7 @@
                                   <long name="owns-file">1</long>
                                   <string name="proxy-AlignH">"Left"</string>
                                   <string name="proxy-AlignV">"Centre"</string>
-                                  <string name="proxy-Background colour">"E5E5E5"</string>
+                                  <string name="proxy-Background colour">""</string>
                                   <string name="proxy-Base class">"wxTextCtrl"</string>
                                   <long name="proxy-Border">0</long>
                                   <string name="proxy-Class">"HexEdit"</string>
@@ -53010,7 +53010,7 @@
                                   <long name="owns-file">1</long>
                                   <string name="proxy-AlignH">"Left"</string>
                                   <string name="proxy-AlignV">"Centre"</string>
-                                  <string name="proxy-Background colour">"E5E5E5"</string>
+                                  <string name="proxy-Background colour">""</string>
                                   <string name="proxy-Base class">"wxTextCtrl"</string>
                                   <long name="proxy-Border">0</long>
                                   <string name="proxy-Class">"HexEdit"</string>
@@ -53164,7 +53164,7 @@
                                   <long name="owns-file">1</long>
                                   <string name="proxy-AlignH">"Left"</string>
                                   <string name="proxy-AlignV">"Centre"</string>
-                                  <string name="proxy-Background colour">"E5E5E5"</string>
+                                  <string name="proxy-Background colour">""</string>
                                   <string name="proxy-Base class">"wxTextCtrl"</string>
                                   <long name="proxy-Border">0</long>
                                   <string name="proxy-Class">"HexEdit"</string>
@@ -53318,7 +53318,7 @@
                                   <long name="owns-file">1</long>
                                   <string name="proxy-AlignH">"Left"</string>
                                   <string name="proxy-AlignV">"Centre"</string>
-                                  <string name="proxy-Background colour">"E5E5E5"</string>
+                                  <string name="proxy-Background colour">""</string>
                                   <string name="proxy-Base class">"wxTextCtrl"</string>
                                   <long name="proxy-Border">0</long>
                                   <string name="proxy-Class">"HexEdit"</string>
@@ -53472,7 +53472,7 @@
                                   <long name="owns-file">1</long>
                                   <string name="proxy-AlignH">"Left"</string>
                                   <string name="proxy-AlignV">"Centre"</string>
-                                  <string name="proxy-Background colour">"E5E5E5"</string>
+                                  <string name="proxy-Background colour">""</string>
                                   <string name="proxy-Base class">"wxTextCtrl"</string>
                                   <long name="proxy-Border">0</long>
                                   <string name="proxy-Class">"HexEdit"</string>
@@ -53626,7 +53626,7 @@
                                   <long name="owns-file">1</long>
                                   <string name="proxy-AlignH">"Left"</string>
                                   <string name="proxy-AlignV">"Centre"</string>
-                                  <string name="proxy-Background colour">"E5E5E5"</string>
+                                  <string name="proxy-Background colour">""</string>
                                   <string name="proxy-Base class">"wxTextCtrl"</string>
                                   <long name="proxy-Border">0</long>
                                   <string name="proxy-Class">"HexEdit"</string>
@@ -57856,7 +57856,7 @@
                                     <long name="owns-file">1</long>
                                     <string name="proxy-AlignH">"Left"</string>
                                     <string name="proxy-AlignV">"Centre"</string>
-                                    <string name="proxy-Background colour">"E5E5E5"</string>
+                                    <string name="proxy-Background colour">""</string>
                                     <string name="proxy-Base class">"wxTextCtrl"</string>
                                     <long name="proxy-Border">0</long>
                                     <string name="proxy-Class">"HexEdit"</string>
@@ -58010,7 +58010,7 @@
                                     <long name="owns-file">1</long>
                                     <string name="proxy-AlignH">"Left"</string>
                                     <string name="proxy-AlignV">"Centre"</string>
-                                    <string name="proxy-Background colour">"E5E5E5"</string>
+                                    <string name="proxy-Background colour">""</string>
                                     <string name="proxy-Base class">"wxTextCtrl"</string>
                                     <long name="proxy-Border">0</long>
                                     <string name="proxy-Class">"HexEdit"</string>
@@ -58257,7 +58257,7 @@
                                     <long name="owns-file">1</long>
                                     <string name="proxy-AlignH">"Left"</string>
                                     <string name="proxy-AlignV">"Centre"</string>
-                                    <string name="proxy-Background colour">"E5E5E5"</string>
+                                    <string name="proxy-Background colour">""</string>
                                     <string name="proxy-Base class">"wxTextCtrl"</string>
                                     <long name="proxy-Border">17</long>
                                     <string name="proxy-Class">"HexEdit"</string>
@@ -58411,7 +58411,7 @@
                                     <long name="owns-file">1</long>
                                     <string name="proxy-AlignH">"Left"</string>
                                     <string name="proxy-AlignV">"Centre"</string>
-                                    <string name="proxy-Background colour">"E5E5E5"</string>
+                                    <string name="proxy-Background colour">""</string>
                                     <string name="proxy-Base class">"wxTextCtrl"</string>
                                     <long name="proxy-Border">0</long>
                                     <string name="proxy-Class">"HexEdit"</string>
@@ -58565,7 +58565,7 @@
                                     <long name="owns-file">1</long>
                                     <string name="proxy-AlignH">"Left"</string>
                                     <string name="proxy-AlignV">"Centre"</string>
-                                    <string name="proxy-Background colour">"E5E5E5"</string>
+                                    <string name="proxy-Background colour">""</string>
                                     <string name="proxy-Base class">"wxTextCtrl"</string>
                                     <long name="proxy-Border">0</long>
                                     <string name="proxy-Class">"HexEdit"</string>
@@ -58719,7 +58719,7 @@
                                     <long name="owns-file">1</long>
                                     <string name="proxy-AlignH">"Left"</string>
                                     <string name="proxy-AlignV">"Centre"</string>
-                                    <string name="proxy-Background colour">"E5E5E5"</string>
+                                    <string name="proxy-Background colour">""</string>
                                     <string name="proxy-Base class">"wxTextCtrl"</string>
                                     <long name="proxy-Border">0</long>
                                     <string name="proxy-Class">"HexEdit"</string>
@@ -58873,7 +58873,7 @@
                                     <long name="owns-file">1</long>
                                     <string name="proxy-AlignH">"Left"</string>
                                     <string name="proxy-AlignV">"Centre"</string>
-                                    <string name="proxy-Background colour">"E5E5E5"</string>
+                                    <string name="proxy-Background colour">""</string>
                                     <string name="proxy-Base class">"wxTextCtrl"</string>
                                     <long name="proxy-Border">0</long>
                                     <string name="proxy-Class">"HexEdit"</string>
@@ -59027,7 +59027,7 @@
                                     <long name="owns-file">1</long>
                                     <string name="proxy-AlignH">"Left"</string>
                                     <string name="proxy-AlignV">"Centre"</string>
-                                    <string name="proxy-Background colour">"E5E5E5"</string>
+                                    <string name="proxy-Background colour">""</string>
                                     <string name="proxy-Base class">"wxTextCtrl"</string>
                                     <long name="proxy-Border">0</long>
                                     <string name="proxy-Class">"HexEdit"</string>
@@ -59181,7 +59181,7 @@
                                     <long name="owns-file">1</long>
                                     <string name="proxy-AlignH">"Left"</string>
                                     <string name="proxy-AlignV">"Centre"</string>
-                                    <string name="proxy-Background colour">"E5E5E5"</string>
+                                    <string name="proxy-Background colour">""</string>
                                     <string name="proxy-Base class">"wxTextCtrl"</string>
                                     <long name="proxy-Border">0</long>
                                     <string name="proxy-Class">"HexEdit"</string>
@@ -59335,7 +59335,7 @@
                                     <long name="owns-file">1</long>
                                     <string name="proxy-AlignH">"Left"</string>
                                     <string name="proxy-AlignV">"Centre"</string>
-                                    <string name="proxy-Background colour">"E5E5E5"</string>
+                                    <string name="proxy-Background colour">""</string>
                                     <string name="proxy-Base class">"wxTextCtrl"</string>
                                     <long name="proxy-Border">0</long>
                                     <string name="proxy-Class">"HexEdit"</string>
@@ -59520,7 +59520,7 @@
                                     <long name="owns-file">1</long>
                                     <string name="proxy-AlignH">"Left"</string>
                                     <string name="proxy-AlignV">"Centre"</string>
-                                    <string name="proxy-Background colour">"E5E5E5"</string>
+                                    <string name="proxy-Background colour">""</string>
                                     <string name="proxy-Base class">"wxTextCtrl"</string>
                                     <long name="proxy-Border">0</long>
                                     <string name="proxy-Class">"HexEdit"</string>
@@ -59674,7 +59674,7 @@
                                     <long name="owns-file">1</long>
                                     <string name="proxy-AlignH">"Left"</string>
                                     <string name="proxy-AlignV">"Centre"</string>
-                                    <string name="proxy-Background colour">"E5E5E5"</string>
+                                    <string name="proxy-Background colour">""</string>
                                     <string name="proxy-Base class">"wxTextCtrl"</string>
                                     <long name="proxy-Border">0</long>
                                     <string name="proxy-Class">"HexEdit"</string>
@@ -59828,7 +59828,7 @@
                                     <long name="owns-file">1</long>
                                     <string name="proxy-AlignH">"Left"</string>
                                     <string name="proxy-AlignV">"Centre"</string>
-                                    <string name="proxy-Background colour">"E5E5E5"</string>
+                                    <string name="proxy-Background colour">""</string>
                                     <string name="proxy-Base class">"wxTextCtrl"</string>
                                     <long name="proxy-Border">0</long>
                                     <string name="proxy-Class">"HexEdit"</string>
@@ -59982,7 +59982,7 @@
                                     <long name="owns-file">1</long>
                                     <string name="proxy-AlignH">"Left"</string>
                                     <string name="proxy-AlignV">"Centre"</string>
-                                    <string name="proxy-Background colour">"E5E5E5"</string>
+                                    <string name="proxy-Background colour">""</string>
                                     <string name="proxy-Base class">"wxTextCtrl"</string>
                                     <long name="proxy-Border">0</long>
                                     <string name="proxy-Class">"HexEdit"</string>
@@ -60136,7 +60136,7 @@
                                     <long name="owns-file">1</long>
                                     <string name="proxy-AlignH">"Left"</string>
                                     <string name="proxy-AlignV">"Centre"</string>
-                                    <string name="proxy-Background colour">"E5E5E5"</string>
+                                    <string name="proxy-Background colour">""</string>
                                     <string name="proxy-Base class">"wxTextCtrl"</string>
                                     <long name="proxy-Border">0</long>
                                     <string name="proxy-Class">"HexEdit"</string>
@@ -60290,7 +60290,7 @@
                                     <long name="owns-file">1</long>
                                     <string name="proxy-AlignH">"Left"</string>
                                     <string name="proxy-AlignV">"Centre"</string>
-                                    <string name="proxy-Background colour">"E5E5E5"</string>
+                                    <string name="proxy-Background colour">""</string>
                                     <string name="proxy-Base class">"wxTextCtrl"</string>
                                     <long name="proxy-Border">0</long>
                                     <string name="proxy-Class">"HexEdit"</string>
@@ -60444,7 +60444,7 @@
                                     <long name="owns-file">1</long>
                                     <string name="proxy-AlignH">"Left"</string>
                                     <string name="proxy-AlignV">"Centre"</string>
-                                    <string name="proxy-Background colour">"E5E5E5"</string>
+                                    <string name="proxy-Background colour">""</string>
                                     <string name="proxy-Base class">"wxTextCtrl"</string>
                                     <long name="proxy-Border">0</long>
                                     <string name="proxy-Class">"HexEdit"</string>
@@ -60598,7 +60598,7 @@
                                     <long name="owns-file">1</long>
                                     <string name="proxy-AlignH">"Left"</string>
                                     <string name="proxy-AlignV">"Centre"</string>
-                                    <string name="proxy-Background colour">"E5E5E5"</string>
+                                    <string name="proxy-Background colour">""</string>
                                     <string name="proxy-Base class">"wxTextCtrl"</string>
                                     <long name="proxy-Border">0</long>
                                     <string name="proxy-Class">"HexEdit"</string>

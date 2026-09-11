@@ -1797,7 +1797,6 @@
 <border>0</border>
 <object class="wxStaticBitmap" name="AssBitmap">
 <size>162,-1d</size>
-<bg>#000000</bg>
 </object>
 </object>
 <object class="sizeritem">
@@ -2837,7 +2836,6 @@
 <border>0</border>
 <object class="wxStaticBitmap" name="ProfilerBitmap">
 <size>262,-1d</size>
-<bg>#000000</bg>
 </object>
 </object>
 <object class="sizeritem">
@@ -3120,7 +3118,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <value>0000</value>
 <maxlength>4</maxlength>
 </object>
@@ -3357,7 +3354,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -3370,7 +3366,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3383,7 +3378,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3396,7 +3390,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3409,7 +3402,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3422,7 +3414,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3435,7 +3426,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3448,7 +3438,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3461,7 +3450,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3474,7 +3462,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3487,7 +3474,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3500,7 +3486,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3513,7 +3498,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3526,7 +3510,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3539,7 +3522,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3552,7 +3534,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3590,7 +3571,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3603,7 +3583,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3616,7 +3595,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3629,7 +3607,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3643,7 +3620,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <fg>#000000</fg>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3656,7 +3632,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3669,7 +3644,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3682,7 +3656,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3695,7 +3668,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3708,7 +3680,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3721,7 +3692,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3734,7 +3704,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3747,7 +3716,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3760,7 +3728,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3773,7 +3740,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3786,7 +3752,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3824,7 +3789,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3837,7 +3801,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3850,7 +3813,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3863,7 +3825,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3876,7 +3837,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3889,7 +3849,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3902,7 +3861,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3915,7 +3873,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3928,7 +3885,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3941,7 +3897,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3954,7 +3909,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3967,7 +3921,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3980,7 +3933,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -3993,7 +3945,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4006,7 +3957,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4019,7 +3969,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4057,7 +4006,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4070,7 +4018,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4083,7 +4030,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4096,7 +4042,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4109,7 +4054,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4122,7 +4066,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4135,7 +4078,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4148,7 +4090,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4161,7 +4102,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4174,7 +4114,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4187,7 +4126,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4200,7 +4138,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4213,7 +4150,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4226,7 +4162,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4239,7 +4174,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4252,7 +4186,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4290,7 +4223,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4303,7 +4235,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4316,7 +4247,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4329,7 +4259,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4342,7 +4271,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4355,7 +4283,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4368,7 +4295,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4381,7 +4307,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4394,7 +4319,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4407,7 +4331,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4420,7 +4343,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4433,7 +4355,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4446,7 +4367,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4459,7 +4379,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4472,7 +4391,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4485,7 +4403,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4523,7 +4440,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4536,7 +4452,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4549,7 +4464,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4562,7 +4476,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4575,7 +4488,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4588,7 +4500,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4601,7 +4512,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4614,7 +4524,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4627,7 +4536,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4640,7 +4548,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4653,7 +4560,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4666,7 +4572,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4679,7 +4584,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4692,7 +4596,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4705,7 +4608,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4718,7 +4620,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4756,7 +4657,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4769,7 +4669,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4782,7 +4681,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4795,7 +4693,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4808,7 +4705,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4821,7 +4717,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4834,7 +4729,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4847,7 +4741,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4860,7 +4753,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4873,7 +4765,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4886,7 +4777,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4899,7 +4789,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4912,7 +4801,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4925,7 +4813,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4938,7 +4825,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4951,7 +4837,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -4989,7 +4874,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5002,7 +4886,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5015,7 +4898,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5028,7 +4910,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5041,7 +4922,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5054,7 +4934,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5067,7 +4946,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5080,7 +4958,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5093,7 +4970,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5106,7 +4982,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5119,7 +4994,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5132,7 +5006,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5145,7 +5018,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5158,7 +5030,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5171,7 +5042,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5184,7 +5054,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5222,7 +5091,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5235,7 +5103,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5248,7 +5115,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5261,7 +5127,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5274,7 +5139,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5287,7 +5151,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5300,7 +5163,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5313,7 +5175,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5326,7 +5187,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5339,7 +5199,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5352,7 +5211,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5365,7 +5223,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5378,7 +5235,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5391,7 +5247,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5404,7 +5259,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5417,7 +5271,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5455,7 +5308,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5468,7 +5320,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5481,7 +5332,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5494,7 +5344,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5507,7 +5356,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5520,7 +5368,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5533,7 +5380,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5546,7 +5392,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5559,7 +5404,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5572,7 +5416,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5585,7 +5428,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5598,7 +5440,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5611,7 +5452,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5624,7 +5464,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5637,7 +5476,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5650,7 +5488,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5688,7 +5525,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5701,7 +5537,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5714,7 +5549,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5727,7 +5561,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5740,7 +5573,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5753,7 +5585,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5766,7 +5597,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5779,7 +5609,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5792,7 +5621,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5805,7 +5633,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5818,7 +5645,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5831,7 +5657,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5844,7 +5669,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5857,7 +5681,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5870,7 +5693,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5883,7 +5705,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5921,7 +5742,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5934,7 +5754,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5947,7 +5766,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5960,7 +5778,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5973,7 +5790,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5986,7 +5802,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -5999,7 +5814,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6012,7 +5826,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6025,7 +5838,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6038,7 +5850,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6051,7 +5862,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6064,7 +5874,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6077,7 +5886,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6090,7 +5898,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6103,7 +5910,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6116,7 +5922,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6154,7 +5959,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6167,7 +5971,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6180,7 +5983,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6193,7 +5995,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6206,7 +6007,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6219,7 +6019,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6232,7 +6031,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6245,7 +6043,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6258,7 +6055,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6271,7 +6067,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6284,7 +6079,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6297,7 +6091,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6310,7 +6103,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6323,7 +6115,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6336,7 +6127,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6349,7 +6139,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6387,7 +6176,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6400,7 +6188,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6413,7 +6200,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6426,7 +6212,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6439,7 +6224,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6452,7 +6236,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6465,7 +6248,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6478,7 +6260,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6491,7 +6272,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6504,7 +6284,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6517,7 +6296,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6530,7 +6308,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6543,7 +6320,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6556,7 +6332,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6569,7 +6344,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6582,7 +6356,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6620,7 +6393,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6633,7 +6405,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6646,7 +6417,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6659,7 +6429,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6672,7 +6441,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6685,7 +6453,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6698,7 +6465,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6711,7 +6477,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6724,7 +6489,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6737,7 +6501,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6750,7 +6513,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6763,7 +6525,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6776,7 +6537,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6789,7 +6549,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6802,7 +6561,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6815,7 +6573,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6853,7 +6610,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6866,7 +6622,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6879,7 +6634,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6892,7 +6646,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6905,7 +6658,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6918,7 +6670,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6931,7 +6682,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6944,7 +6694,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6957,7 +6706,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6970,7 +6718,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6983,7 +6730,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -6996,7 +6742,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -7009,7 +6754,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -7022,7 +6766,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -7035,7 +6778,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -7048,7 +6790,6 @@
 <size>12</size>
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -7469,7 +7210,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -7499,7 +7239,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -7529,7 +7268,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -7559,7 +7297,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -7589,7 +7326,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -7619,7 +7355,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -7649,7 +7384,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -7679,7 +7413,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -7741,7 +7474,6 @@
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -7767,7 +7499,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -7793,7 +7524,6 @@
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -7819,7 +7549,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -7845,7 +7574,6 @@
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -7871,7 +7599,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -7897,7 +7624,6 @@
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -7923,7 +7649,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -7949,7 +7674,6 @@
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -7975,7 +7699,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -8001,7 +7724,6 @@
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -8027,7 +7749,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -8053,7 +7774,6 @@
 </font>
 <style>wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>2</maxlength>
 </object>
 </object>
@@ -8079,7 +7799,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -8123,7 +7842,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -8149,7 +7867,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -8175,7 +7892,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -8201,7 +7917,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -8227,7 +7942,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -8253,7 +7967,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -8279,7 +7992,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>1</maxlength>
 </object>
 </object>
@@ -8328,7 +8040,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -8354,7 +8065,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -8380,7 +8090,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -8406,7 +8115,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -8432,7 +8140,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -8458,7 +8165,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -8484,7 +8190,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -8510,7 +8215,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -8536,7 +8240,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -8562,7 +8265,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -8588,7 +8290,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -8614,7 +8315,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -8640,7 +8340,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -8666,7 +8365,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -8692,7 +8390,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -8718,7 +8415,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -9621,7 +9317,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -9647,7 +9342,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>4</maxlength>
 </object>
 </object>
@@ -9698,7 +9392,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -9724,7 +9417,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -9750,7 +9442,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -9776,7 +9467,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -9802,7 +9492,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -9828,7 +9517,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -9854,7 +9542,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -9880,7 +9567,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -9916,7 +9602,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -9942,7 +9627,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -9968,7 +9652,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -9994,7 +9677,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -10020,7 +9702,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -10046,7 +9727,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -10072,7 +9752,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
@@ -10098,7 +9777,6 @@
 </font>
 <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
 <enabled>0</enabled>
-<bg>#E5E5E5</bg>
 <maxlength>3</maxlength>
 </object>
 </object>
