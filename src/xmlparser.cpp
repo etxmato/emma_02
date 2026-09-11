@@ -4688,6 +4688,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         "executeled",
         "waitled",
         "clearled",
+        "idleled",
         "dmaled",
         "interruptled",
         "diskled",
@@ -4765,6 +4766,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         LED_FUNC_EXECUTE,
         LED_FUNC_WAIT,
         LED_FUNC_CLEAR,
+        LED_FUNC_IDLE,
         LED_FUNC_DMA,
         LED_FUNC_INTERRUPT,
         LED_FUNC_DISK,
@@ -5352,6 +5354,11 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                             break;
 
                             case LED_FUNC_CLEAR:
+                                computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value = CLEARLED;
+                                computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function = LED_FUNC_CPUSTATE;
+                            break;
+
+                            case LED_FUNC_IDLE:
                                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value = CLEARLED;
                                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function = LED_FUNC_CPUSTATE;
                             break;

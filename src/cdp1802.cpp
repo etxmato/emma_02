@@ -183,6 +183,7 @@ void Cdp1802::resetCpu()
     ctrRunning_ = 0;
     ctrMode_ = 0;
     idle_ = 0;
+    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
     address_ = 0;
     colourMask_ = 0;
     bus_ = 0;
@@ -288,6 +289,7 @@ Byte Cdp1802::dmaIn(Byte value)
     dmaInValue = readMem(scratchpadRegister_[0]);
     address_ = scratchpadRegister_[0]++;
     idle_=0;
+    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
     cpuState_ = STATE_FETCH_1;
     cpuCycles_++;
     instructionCounter_++;
@@ -314,6 +316,7 @@ Byte Cdp1802::dmaOut()
     ret=readMem(scratchpadRegister_[0], DMA_READ_WRITE);
     address_ = scratchpadRegister_[0]++;
     idle_=0;
+    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
     cpuState_ = STATE_FETCH_1;
     cpuCycles_++;
     instructionCounter_++;
@@ -399,6 +402,7 @@ Byte Cdp1802::pixieDmaOut(int *color, int colourType)
 
     address_ = scratchpadRegister_[0]++;
     idle_=0;
+    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
     cpuState_ = STATE_FETCH_1;
     cpuCycles_++;
     instructionCounter_++;
@@ -427,6 +431,7 @@ void Cdp1802::visicomDmaOut(Byte *vram1, Byte *vram2)
 
     scratchpadRegister_[0]++;
     idle_=0;
+    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
     cpuState_ = STATE_FETCH_1;
     cpuCycles_++;
     instructionCounter_++;
@@ -447,6 +452,7 @@ Byte Cdp1802::pixieDmaOut()
     ret=readMem(scratchpadRegister_[0], DMA_READ_WRITE);
     address_ = scratchpadRegister_[0]++;
     idle_=0;
+    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
     cpuState_ = STATE_FETCH_1;
     cpuCycles_++;
     instructionCounter_++;
@@ -593,9 +599,11 @@ bool Cdp1802::interrupt()
             singleStateStep();
         }
         idle_=0;
+        p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
         return true;
     }
     idle_=0;
+    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
     return false;
 }
 
@@ -649,6 +657,7 @@ void Cdp1802::pixieInterrupt()
             singleStateStep();
     }
     idle_=0;
+    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
 }
 
 void Cdp1802::cpuCycleExecute1_1805()
@@ -1850,6 +1859,7 @@ void Cdp1802::cpuCycleExecute1()
                 if (idle_)
                     traceBuffer_ = ".";
                 idle_=1;
+                p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
             }
             else
             {
@@ -1864,6 +1874,7 @@ void Cdp1802::cpuCycleExecute1()
                     if (idle_)
                         traceBuffer_ = ".";
                     idle_=1;
+                    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
                 }
                 else
                 {
