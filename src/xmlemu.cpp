@@ -1320,6 +1320,9 @@ void Computer::initComputer()
     for (int i=0; i<4; i++)
         mpButtonState[i] = false;
     loadButtonState_ = 1;
+    sys00DirectLoad_ = false;
+    sys00NybbleValid_ = false;
+    sys00Nybble_ = 0;
     runButtonState_ = 0;
     nvRamDisable_ = currentComputerConfiguration.nvRamConfiguration.disable;
     endSave_ = currentComputerConfiguration.addressLocationConfiguration.code_start;
@@ -4986,6 +4989,23 @@ void Computer::onNumberKeyDown(int id)
             switches_ = ((switches_ << 4) & 0xf0) | id;
     }
 
+    if (sys00DirectLoad_)
+    {
+        if (!sys00NybbleValid_)
+        {
+            sys00Nybble_ = id & 0x0f;            // LSB digit entered first
+            sys00NybbleValid_ = true;
+        }
+        else
+        {
+            Byte value = (Byte)((id << 4) | sys00Nybble_);
+            dmaIn(value);                        // write M(R(0)); R(0)++
+            holdIdle();                          // stay idle: dmaIn() forces a fetch which would increment R(0) again
+            showData(value);
+            sys00NybbleValid_ = false;
+        }
+    }
+
     if (amPressed_ && cpuMode_ == LOAD)
     {
         writeMem(scratchpadRegister_[0], switches_, false);
@@ -5249,6 +5269,15 @@ void Computer::onRsSys00Button()
         cpuState_ = STATE_FETCH_1;
     }
     p_Main->eventUpdateTitle();
+}
+
+void Computer::onLoadSys00Button()
+{
+    // System 00 front-panel LOAD switch: arm/disable the direct (hex panel)
+    // program load. When armed, each completed byte (LSB digit first) is DMA'd
+    // into M(R(0)) and R(0) is incremented (manual III.A.2, Initial Program Load).
+    sys00DirectLoad_ = !sys00DirectLoad_;
+    sys00NybbleValid_ = false;
 }
 
 void Computer::startComputer()

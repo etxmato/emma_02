@@ -45,7 +45,7 @@
         <item><type>push</type><label>SP</label><function>stop_sys00</function><pos>58, 6</pos><size>25, 25</size></item>
         <item><type>push</type><label></label><function>clear_sys00</function><pos>58, 60</pos><size>25, 25</size></item>
         <item><type>text</type><label size="8">LOAD</label><pos>58,108</pos></item>
-        <item><type>switch</type><function>load</function><init>down</init><pos>62, 122</pos></item>
+        <item><type>switch</type><function>load_sys00</function><init>down</init><pos>62, 122</pos></item>
         <item><type form="large">led</type><function>errorled</function><pos>62, 156</pos></item>
 
         <!-- Row 1: 8-Bit Data Register -->

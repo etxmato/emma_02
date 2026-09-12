@@ -1992,6 +1992,10 @@ void Panel::executeMouseLeftFunction(std::vector<GuiItemConfiguration>::iterator
             p_Computer->onLoadButton(button->type >= PUSH_BUTTON);
         break;
 
+        case BUTTON_FUNC_LOAD_SYS00:
+            p_Computer->onLoadSys00Button();
+        break;
+
         case BUTTON_FUNC_READ:
             p_Computer->onReadButton();
         break;

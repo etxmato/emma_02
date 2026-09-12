@@ -4641,6 +4641,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         "mp",
         "run0",
         "load",
+        "load_sys00",
         "pause",
         "step",
         "reset",
@@ -4722,6 +4723,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         BUTTON_FUNC_MP,             // 2
         BUTTON_FUNC_RUN0,           // 3
         BUTTON_FUNC_LOAD,
+        BUTTON_FUNC_LOAD_SYS00,
         BUTTON_FUNC_PAUSE,          // 5
         BUTTON_FUNC_STEP,
         BUTTON_FUNC_RESET,          // 7
