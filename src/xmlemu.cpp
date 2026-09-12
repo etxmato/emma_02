@@ -4210,7 +4210,7 @@ void Computer::powerOn()
     }
     initComputer();
     setClear(0);
-    setWait(1);
+    setWait(currentComputerConfiguration.waitOnStartup ? 0 : 1);
 }
 
 void Computer::runPressed()
@@ -5208,6 +5208,49 @@ void Computer::onClearSwitch()
     p_Main->eventUpdateTitle();
 }
 
+void Computer::onClearSys00Button()
+{
+    // System 00 'CL' switch: clear to idle state, stop time pulses (SP light on),
+    // clear P, N and R(0), and deactivate all I/O devices. Unlike the 1801/1802
+    // CLEAR/RESET signal, CL also puts the CPU into the idle state (ID light on).
+    resetCpu();
+    holdIdle();
+    setWait(0);
+    setClear(0);
+    p_Main->eventUpdateTitle();
+}
+
+void Computer::onStSys00Button()
+{
+    // System 00 'ST' switch: start time pulses (SP lamp off) and release the
+    // clear left by CL. Unlike RUN this performs no DMA, resets no registers
+    // and leaves the idle state intact (RS terminates the idle).
+    setClear(1);
+    setWait(1);
+    p_Main->eventUpdateTitle();
+}
+
+void Computer::onRsSys00Button()
+{
+    // System 00 'RS' switch: resume execution following idle. RS terminates the
+    // idle state and causes R(0)+1, after which the instruction at M(R(P)) is
+    // fetched and executed. With the READ (or CARD) switch on, RS instead steps
+    // the memory address counter and displays the byte (read memory procedure).
+    if (cardSwitchOn_ || readSwitchOn_)
+    {
+        showData(dmaOut());
+        for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+            panelPointer[frontPanel]->setReadyLed(1);
+    }
+    else
+    {
+        setIdle(false);
+        setScratchpadRegister(0, scratchpadRegister_[0] + 1);
+        cpuState_ = STATE_FETCH_1;
+    }
+    p_Main->eventUpdateTitle();
+}
+
 void Computer::startComputer()
 {
     for (std::vector<AssemblerConfiguration>::iterator assemblerInfo = currentComputerConfiguration.assemblerConfiguration.begin (); assemblerInfo != currentComputerConfiguration.assemblerConfiguration.end (); ++assemblerInfo)
@@ -5276,6 +5319,12 @@ void Computer::startComputer()
         panelPointer[frontPanel]->setQLed(qLedStatus_);
         panelPointer[frontPanel]->showAddress(address_);
     }
+
+    // FRED/System 00: <wait>on</wait> starts with the SP lamp on (clock stopped),
+    // matching the 1971 manual's power-on procedure (SP + CL). Opt-in, so all other
+    // machines keep the default wait_ = 1 (clock running).
+    if (currentComputerConfiguration.waitOnStartup)
+        wait_ = 0;
 
     setMode();
 
@@ -7839,7 +7888,10 @@ void Computer::resetPressed()
         else
         {
             setClear(0);
-            setWait(1);
+            // FRED/System 00: per the 1971 manual the power-on procedure is SP+CL, which
+            // leaves the SP lamp on (clock stopped). Opt-in via <wait>on</wait>; the
+            // default (off) keeps every other machine's startup unchanged.
+            setWait(currentComputerConfiguration.waitOnStartup ? 0 : 1);
         }
     }
     resetPressed_ = false;

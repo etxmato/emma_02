@@ -15,6 +15,7 @@
         <init ef="3">1</init>
         <init ef="4">1</init>
         <dirname>System00</dirname>
+        <wait>on</wait>
     </system>
 
     <gui>
@@ -34,15 +35,15 @@
         <!-- LEFT SECTION: Primary Controls & System Indicators -->
 
         <!-- Column 1: ST / RS / READ / LED1 -->
-        <item><type>push</type><label>ST</label><function>run</function><pos>15, 6</pos><size>25, 25</size></item>
-        <item><type>push</type><label>Run</label><function>run</function><pos>15, 60</pos><size>25, 25</size></item>
+        <item><type>push</type><label>ST</label><function>st_sys00</function><pos>15, 6</pos><size>25, 25</size></item>
+        <item><type>push</type><label>RS</label><function>rs_sys00</function><pos>15, 60</pos><size>25, 25</size></item>
         <item><type>text</type><label size="8">READ</label><pos>12,108</pos></item>
         <item><type>switch</type><function>read</function><pos>17, 122</pos></item>
         <item><type form="largegreen">led</type><function>runled</function><pos>17, 156</pos></item>
 
         <!-- Column 2: SP / CL / LOAD / LED2 -->
-        <item><type>push</type><label>SP</label><function>pause</function><pos>58, 6</pos><size>25, 25</size></item>
-        <item><type>push</type><label></label><function>clear</function><pos>58, 60</pos><size>25, 25</size></item>
+        <item><type>push</type><label>SP</label><function>stop_sys00</function><pos>58, 6</pos><size>25, 25</size></item>
+        <item><type>push</type><label></label><function>clear_sys00</function><pos>58, 60</pos><size>25, 25</size></item>
         <item><type>text</type><label size="8">LOAD</label><pos>58,108</pos></item>
         <item><type>switch</type><function>load</function><init>down</init><pos>62, 122</pos></item>
         <item><type form="large">led</type><function>errorled</function><pos>62, 156</pos></item>
@@ -120,7 +121,7 @@
         <item><type>text</type><label size="8">SP</label><pos>219,167</pos></item>
         <item><type form="large">led</type><function>waitled</function><pos>215,178</pos></item>
         <item><type>text</type><label size="8">ID</label><pos>248,167</pos></item>
-        <item><type form="large">led</type><function>clearled</function><pos>242,178</pos></item>
+        <item><type form="large">led</type><function>idleled</function><pos>242,178</pos></item>
         <item><type>text</type><label size="8">MN</label><pos>271,167</pos></item>
         <item><type form="large">led</type><function>pauseled</function><pos>269,178</pos></item>
         <item><type>text</type><label size="8">NB</label><pos>300,167</pos></item>

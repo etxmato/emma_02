@@ -65,6 +65,8 @@ public:
     int getClear() {return clear_;};
     void setWait(int value);
     int getWait() {return wait_;};
+    void setIdle(bool value);
+    void holdIdle();
     void cpuCycleStep();
     void singleStateStep();
     void cpuCycleFetch();

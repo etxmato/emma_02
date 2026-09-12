@@ -92,6 +92,9 @@ public:
     void onClearButton(wxCommandEvent&event);
     void onClearButton();
     void onClearSwitch();
+    void onClearSys00Button();
+    void onStSys00Button();
+    void onRsSys00Button();
 
     void configureComputer();
     void setPrinterEf();

@@ -268,6 +268,24 @@ void Cdp1802::setWait(int value)
     p_Computer->setMode();
 }
 
+void Cdp1802::setIdle(bool value)
+{
+    idle_= (value)?1:0;
+    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
+}
+
+void Cdp1802::holdIdle()
+{
+    // Enter the CPU idle loop by priming the SYSTEM00 idle instruction (IDL R0).
+    // cpuCycleExecute1() then reads M(R(0)), displays it on the data LEDs and sets
+    // idle_; cpuCycleFinalize() keeps cpuState_ at STATE_EXECUTE_1 so the instruction
+    // is re-executed until the idle state is cleared (e.g. by RS).
+    instructionCode_ = 0;
+    cpuState_ = STATE_EXECUTE_1;
+    idle_ = 1;
+    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
+}
+
 #define DMA_READ_WRITE true
 
 Byte Cdp1802::dmaIn(Byte value)
