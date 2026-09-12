@@ -5145,6 +5145,12 @@ void Main::sysColourChangeEvent(wxSysColourChangedEvent& event)
     setSysColours();
     refreshSysColourDependents();
 
+#if defined (__WXMSW__)
+    // wxChoice::MSWSetDarkOrLightMode() re-themes the native comboboxes after
+    // this handler returns, so normalise their colours/selection afterwards.
+    CallAfter(&Main::refreshComboColours);
+#endif
+
     event.Skip();
 }
 
@@ -5167,6 +5173,50 @@ void Main::refreshSysColourDependents()
             break;
         }
     }
+}
+
+#if defined (__WXMSW__)
+// A system light/dark theme switch makes the native editable combobox repaint
+// its edit field with the system accent (highlight) colour, and the whole edit
+// text is re-selected. The accent colour persists in the disabled state, where
+// Windows draws the text greyed out on top of it, making it unreadable. The
+// native control offers no way to reset this, so re-assert the combo colours
+// explicitly and collapse the selection after each theme change.
+// wxChoice::MSWSetDarkOrLightMode() runs *after* Main::sysColourChangeEvent(),
+// hence this must be deferred (see the CallAfter() call in that handler).
+static void RefreshComboColoursRecursive(wxWindow* parent, bool dark)
+{
+    wxWindowList& children = parent->GetChildren();
+    for (wxWindowList::compatibility_iterator node = children.GetFirst();
+         node; node = node->GetNext())
+    {
+        wxWindow* child = node->GetData();
+
+        if (wxComboBox* combo = wxDynamicCast(child, wxComboBox))
+        {
+            combo->SetBackgroundColour(dark ? *wxBLACK : *wxWHITE);
+            combo->SetForegroundColour(dark ? *wxWHITE : *wxBLACK);
+
+            if (!(combo->GetWindowStyle() & wxCB_READONLY))
+                combo->SetSelection(0, 0);
+        }
+
+        RefreshComboColoursRecursive(child, dark);
+    }
+}
+#endif
+
+void Main::refreshComboColours()
+{
+#if defined (__WXMSW__)
+    // Walk every open top-level window (main window, VtSetup dialog, printer
+    // frame, panel/video frames, ...) so their comboboxes are normalised too.
+    for (wxWindowList::compatibility_iterator node = wxTopLevelWindows.GetFirst();
+         node; node = node->GetNext())
+    {
+        RefreshComboColoursRecursive(node->GetData(), darkMode_);
+    }
+#endif
 }
 
 void Main::setSysColours()

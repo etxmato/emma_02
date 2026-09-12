@@ -102,6 +102,10 @@ public:
     void onClose(wxCloseEvent&event );
 
     void init();
+#if defined (__WXMSW__)
+    void applyTheme();
+    void onSysColourChanged(wxSysColourChangedEvent& event);
+#endif
     Byte inThermal();
     void outThermal(Byte value, Byte Qflag);
     bool cycleThermal(bool ef4);

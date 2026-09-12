@@ -1070,6 +1070,7 @@ public:
     void setSysColours();
     void setMemDumpColours();
     void refreshSysColourDependents();
+    void refreshComboColours();
 
     void zoomEvent(double zoom, int videoNumber);
     void zoomEventVt(double zoom);

@@ -1016,6 +1016,9 @@ BEGIN_EVENT_TABLE(PrinterFrame, wxFrame)
     EVT_COMBOBOX( PLOTTEREXTTEXT, PrinterFrame::onPlotterRomExtensionText)
     EVT_CHOICE( PRINTERFONT, PrinterFrame::onFont)
     EVT_CHOICE( PRINTERROWS, PrinterFrame::onRows)
+#if defined (__WXMSW__)
+    EVT_SYS_COLOUR_CHANGED(PrinterFrame::onSysColourChanged)
+#endif
 END_EVENT_TABLE()
 
 PrinterFrame::PrinterFrame(const wxString& title, const wxPoint& pos, const wxSize& size, int printerType)
@@ -1094,8 +1097,58 @@ void PrinterFrame::onClose(wxCloseEvent&WXUNUSED(event))
 
 void PrinterFrame::init()
 {
+#if defined (__WXMSW__)
+    applyTheme();
+#endif
     printerCanvasPointer->init();
 }
+
+#if defined (__WXMSW__)
+void PrinterFrame::applyTheme()
+{
+    // The printer toolbar background is set explicitly (to light grey) when it
+    // is built, so native dark mode does not theme it. Re-apply it here for the
+    // current mode; called both when the frame is created (PrinterFrame::init)
+    // and on a live theme switch (see onSysColourChanged below).
+    wxToolBar* toolbar = GetToolBar();
+    if (toolbar == NULL)
+        return;
+
+    const bool dark = p_Main->isDarkMode();
+    const wxColour bg = dark ? p_Main->getGuiBackGround() : wxColour(230, 230, 230);
+    const wxColour fg = p_Main->getGuiTextColour(GUI_COL_BLACK);
+
+    toolbar->SetBackgroundColour(bg);
+    toolbar->SetForegroundColour(fg);
+
+    // Embedded controls (static text, choices, buttons; comboboxes are handled
+    // by Main::refreshComboColours) follow the toolbar colour.
+    wxWindowList& children = toolbar->GetChildren();
+    for (wxWindowList::compatibility_iterator node = children.GetFirst();
+         node; node = node->GetNext())
+    {
+        wxWindow* child = node->GetData();
+
+        child->SetBackgroundColour(bg);
+        if (wxDynamicCast(child, wxStaticText) || wxDynamicCast(child, wxChoice))
+        {
+            child->SetForegroundColour(fg);
+            child->Refresh();
+        }
+    }
+
+    toolbar->Refresh();
+}
+
+void PrinterFrame::onSysColourChanged(wxSysColourChangedEvent& event)
+{
+    event.Skip();
+
+    // Deferred: wxChoice::MSWSetDarkOrLightMode() re-themes native controls
+    // after this event has been handled, so apply our colours afterwards.
+    CallAfter(&PrinterFrame::applyTheme);
+}
+#endif
 
 Byte PrinterFrame::inThermal()
 {

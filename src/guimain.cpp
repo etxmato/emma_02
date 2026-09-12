@@ -77,6 +77,7 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
     terminalSave_ = false;
     terminalLoad_ = false;
     zoomPosition_ = 0;
+    printX_ = 0;
 
     configPointer = wxConfigBase::Get();
     dataDir_ = dataDir;
