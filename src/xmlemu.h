@@ -92,6 +92,9 @@ public:
     void onClearButton(wxCommandEvent&event);
     void onClearButton();
     void onClearSwitch();
+    void onClearSys00Button();
+    void onStSys00Button();
+    void onRsSys00Button();
 
     void configureComputer();
     void setPrinterEf();
@@ -175,6 +178,7 @@ public:
     void onNanoMonitor();
     void onLoadButton(wxCommandEvent&event);
     void onLoadButton(bool pushButton);
+    void onLoadSys00Button();
     void onClearResetButtonPress();
     void onClearButtonRelease();
     void onSingleStep(wxCommandEvent&event);
@@ -497,6 +501,9 @@ private:
     bool nvRamDisable_;
     bool configured_;
     int loadButtonState_;
+    bool sys00DirectLoad_;
+    bool sys00NybbleValid_;
+    Byte sys00Nybble_;
     Byte inbuttonEfState_;
     Byte hexEfState_;
     char nextNybble_;

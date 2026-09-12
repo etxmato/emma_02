@@ -1320,6 +1320,9 @@ void Computer::initComputer()
     for (int i=0; i<4; i++)
         mpButtonState[i] = false;
     loadButtonState_ = 1;
+    sys00DirectLoad_ = false;
+    sys00NybbleValid_ = false;
+    sys00Nybble_ = 0;
     runButtonState_ = 0;
     nvRamDisable_ = currentComputerConfiguration.nvRamConfiguration.disable;
     endSave_ = currentComputerConfiguration.addressLocationConfiguration.code_start;
@@ -4210,7 +4213,7 @@ void Computer::powerOn()
     }
     initComputer();
     setClear(0);
-    setWait(1);
+    setWait(currentComputerConfiguration.waitOnStartup ? 0 : 1);
 }
 
 void Computer::runPressed()
@@ -4986,6 +4989,23 @@ void Computer::onNumberKeyDown(int id)
             switches_ = ((switches_ << 4) & 0xf0) | id;
     }
 
+    if (sys00DirectLoad_)
+    {
+        if (!sys00NybbleValid_)
+        {
+            sys00Nybble_ = id & 0x0f;            // LSB digit entered first
+            sys00NybbleValid_ = true;
+        }
+        else
+        {
+            Byte value = (Byte)((id << 4) | sys00Nybble_);
+            dmaIn(value);                        // write M(R(0)); R(0)++
+            holdIdle();                          // stay idle: dmaIn() forces a fetch which would increment R(0) again
+            showData(value);
+            sys00NybbleValid_ = false;
+        }
+    }
+
     if (amPressed_ && cpuMode_ == LOAD)
     {
         writeMem(scratchpadRegister_[0], switches_, false);
@@ -5208,6 +5228,58 @@ void Computer::onClearSwitch()
     p_Main->eventUpdateTitle();
 }
 
+void Computer::onClearSys00Button()
+{
+    // System 00 'CL' switch: clear to idle state, stop time pulses (SP light on),
+    // clear P, N and R(0), and deactivate all I/O devices. Unlike the 1801/1802
+    // CLEAR/RESET signal, CL also puts the CPU into the idle state (ID light on).
+    resetCpu();
+    holdIdle();
+    setWait(0);
+    setClear(0);
+    p_Main->eventUpdateTitle();
+}
+
+void Computer::onStSys00Button()
+{
+    // System 00 'ST' switch: start time pulses (SP lamp off) and release the
+    // clear left by CL. Unlike RUN this performs no DMA, resets no registers
+    // and leaves the idle state intact (RS terminates the idle).
+    setClear(1);
+    setWait(1);
+    p_Main->eventUpdateTitle();
+}
+
+void Computer::onRsSys00Button()
+{
+    // System 00 'RS' switch: resume execution following idle. RS terminates the
+    // idle state and causes R(0)+1, after which the instruction at M(R(P)) is
+    // fetched and executed. With the READ (or CARD) switch on, RS instead steps
+    // the memory address counter and displays the byte (read memory procedure).
+    if (cardSwitchOn_ || readSwitchOn_)
+    {
+        showData(dmaOut());
+        for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+            panelPointer[frontPanel]->setReadyLed(1);
+    }
+    else
+    {
+        setIdle(false);
+        setScratchpadRegister(0, scratchpadRegister_[0] + 1);
+        cpuState_ = STATE_FETCH_1;
+    }
+    p_Main->eventUpdateTitle();
+}
+
+void Computer::onLoadSys00Button()
+{
+    // System 00 front-panel LOAD switch: arm/disable the direct (hex panel)
+    // program load. When armed, each completed byte (LSB digit first) is DMA'd
+    // into M(R(0)) and R(0) is incremented (manual III.A.2, Initial Program Load).
+    sys00DirectLoad_ = !sys00DirectLoad_;
+    sys00NybbleValid_ = false;
+}
+
 void Computer::startComputer()
 {
     for (std::vector<AssemblerConfiguration>::iterator assemblerInfo = currentComputerConfiguration.assemblerConfiguration.begin (); assemblerInfo != currentComputerConfiguration.assemblerConfiguration.end (); ++assemblerInfo)
@@ -5276,6 +5348,12 @@ void Computer::startComputer()
         panelPointer[frontPanel]->setQLed(qLedStatus_);
         panelPointer[frontPanel]->showAddress(address_);
     }
+
+    // FRED/System 00: <wait>on</wait> starts with the SP lamp on (clock stopped),
+    // matching the 1971 manual's power-on procedure (SP + CL). Opt-in, so all other
+    // machines keep the default wait_ = 1 (clock running).
+    if (currentComputerConfiguration.waitOnStartup)
+        wait_ = 0;
 
     setMode();
 
@@ -7839,7 +7917,10 @@ void Computer::resetPressed()
         else
         {
             setClear(0);
-            setWait(1);
+            // FRED/System 00: per the 1971 manual the power-on procedure is SP+CL, which
+            // leaves the SP lamp on (clock stopped). Opt-in via <wait>on</wait>; the
+            // default (off) keeps every other machine's startup unchanged.
+            setWait(currentComputerConfiguration.waitOnStartup ? 0 : 1);
         }
     }
     resetPressed_ = false;

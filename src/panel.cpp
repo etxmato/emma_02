@@ -1086,7 +1086,7 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
                         waitButtonDefined = true;
                     break;
 
-                    case BUTTON_FUNC_WAIT_SET:
+                    case BUTTON_FUNC_STOP_SYS00:
                         p_Computer->setWaitButtonState(1);
                         waitButton = button;
                         waitButtonDefined = true;
@@ -1992,6 +1992,10 @@ void Panel::executeMouseLeftFunction(std::vector<GuiItemConfiguration>::iterator
             p_Computer->onLoadButton(button->type >= PUSH_BUTTON);
         break;
 
+        case BUTTON_FUNC_LOAD_SYS00:
+            p_Computer->onLoadSys00Button();
+        break;
+
         case BUTTON_FUNC_READ:
             p_Computer->onReadButton();
         break;
@@ -2016,7 +2020,7 @@ void Panel::executeMouseLeftFunction(std::vector<GuiItemConfiguration>::iterator
             p_Computer->onWaitButton();
         break;
 
-        case BUTTON_FUNC_WAIT_SET:
+        case BUTTON_FUNC_STOP_SYS00:
             p_Computer->setWaitButtonState(0);
         break;
 
@@ -2034,6 +2038,18 @@ void Panel::executeMouseLeftFunction(std::vector<GuiItemConfiguration>::iterator
 
         case BUTTON_FUNC_CLEAR_RUN:
             p_Computer->onClearSwitch();
+        break;
+
+        case BUTTON_FUNC_CLEAR_SYS00:
+            p_Computer->onClearSys00Button();
+        break;
+
+        case BUTTON_FUNC_ST_SYS00:
+            p_Computer->onStSys00Button();
+        break;
+
+        case BUTTON_FUNC_RS_SYS00:
+            p_Computer->onRsSys00Button();
         break;
 
         case BUTTON_FUNC_STEP:

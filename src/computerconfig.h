@@ -1991,6 +1991,7 @@ public:
     // Boot and Bootstrap configuration:
     BootstrapConfiguration bootstrapConfiguration;
     AutoBootConfiguration autoBootConfiguration;
+    bool waitOnStartup;   // FRED/System 00: SP (wait) lamp ON at startup -> clock stopped (wait_ = 0)
     
     // RTC configurations:
     RtcCdp1879Configuration rtcCdp1879Configuration;

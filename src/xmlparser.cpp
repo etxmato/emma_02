@@ -234,6 +234,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.bootstrapConfiguration.defined = false;
     computerConfiguration.dmaConfiguration.defined = false;
     computerConfiguration.dmaInReset_defined = false;
+    computerConfiguration.waitOnStartup = false;
     computerConfiguration.interruptConfiguration.defined = false;
     
     for (int io=0; io<LAST_IO_DEFINITION; io++)
@@ -1257,6 +1258,7 @@ void XmlParser::parseXml_System(wxXmlNode &node)
         "int",
         "statusbar",
         "comment",
+        "wait",
         "undefined"
     };
 
@@ -1276,6 +1278,7 @@ void XmlParser::parseXml_System(wxXmlNode &node)
         TAG_INT,
         TAG_STATUSBAR,
         TAG_COMMENT,
+        TAG_WAIT,
         TAG_UNDEFINED
     };
     
@@ -1374,6 +1377,10 @@ void XmlParser::parseXml_System(wxXmlNode &node)
             case TAG_INT:
                 computerConfiguration.interruptConfiguration.defined = true;
                 computerConfiguration.interruptConfiguration.cycleValue = (int)parseXml_Number(*child);
+            break;
+
+            case TAG_WAIT:
+                computerConfiguration.waitOnStartup = (child->GetNodeContent() == "on");
             break;
 
             case TAG_STATUSBAR:
@@ -4634,6 +4641,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         "mp",
         "run0",
         "load",
+        "load_sys00",
         "pause",
         "step",
         "reset",
@@ -4645,10 +4653,13 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         "cardswitch",
         "power",
         "wait",
-        "wait_set",
+        "stop_sys00",
         "clear",
         "clear_run",
         "clear_reset",
+        "clear_sys00",
+        "st_sys00",
+        "rs_sys00",
         "nvram",
         "in_int",
         "in_switch",
@@ -4712,6 +4723,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         BUTTON_FUNC_MP,             // 2
         BUTTON_FUNC_RUN0,           // 3
         BUTTON_FUNC_LOAD,
+        BUTTON_FUNC_LOAD_SYS00,
         BUTTON_FUNC_PAUSE,          // 5
         BUTTON_FUNC_STEP,
         BUTTON_FUNC_RESET,          // 7
@@ -4723,10 +4735,13 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         BUTTON_FUNC_CARDSWITCH,
         BUTTON_FUNC_POWER,
         BUTTON_FUNC_WAIT,           // 14
-        BUTTON_FUNC_WAIT_SET,
+        BUTTON_FUNC_STOP_SYS00,
         BUTTON_FUNC_CLEAR,
         BUTTON_FUNC_CLEAR_RUN,
         BUTTON_FUNC_CLEAR_RESET,    // 17
+        BUTTON_FUNC_CLEAR_SYS00,
+        BUTTON_FUNC_ST_SYS00,
+        BUTTON_FUNC_RS_SYS00,
         BUTTON_FUNC_NVRAM_DISABLE,
         BUTTON_FUNC_IN_INTERRUPT,
         BUTTON_FUNC_IN_SWITCH,
@@ -5242,7 +5257,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                             break;
                                 
                             case BUTTON_FUNC_WAIT:
-                            case BUTTON_FUNC_WAIT_SET:
+                            case BUTTON_FUNC_STOP_SYS00:
                                 computerConfiguration.mainFrontPanelConfiguration.waitButtonDefined = true;
                             break;
                                 
