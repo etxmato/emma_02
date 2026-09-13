@@ -87,6 +87,8 @@ public:
     void updateErrorLed(wxDC& dc);
     void setQLed(int status);
     void updateQLed(wxDC& dc);
+    void setMnLed(int status);
+    void updateMnLed(wxDC& dc);
     void setLed(int i, int status);
     void updateLed(wxDC& dc, int i);
     void refreshLed(wxDC& dc, int i);
@@ -282,6 +284,8 @@ protected:
     bool errorLedPointerDefined;
     Led *qLedPointer;
     bool qLedPointerDefined;
+    Led *mnLedPointer;
+    bool mnLedPointerDefined;
     Led *nibbleLedPointer[2];
     bool nibbleLedPointerDefined[2];
     Led *mathLedPointer[2];
@@ -300,6 +304,7 @@ protected:
     int powerLedStatus;
     int errorLedStatus;
     int qLedStatus;
+    int mnLedStatus;
     int nibbleLedStatus[2];
     int mathLedStatus[2];
     int ledStatus[MAX_BIT_LEDS];
@@ -311,6 +316,7 @@ protected:
     bool updatePowerLed_;
     bool updateErrorLed_;
     bool updateQLed_;
+    bool updateMnLed_;
     bool updateNibbleLed_[2];
     bool updateMathLed_[2];
     bool updateLed_[MAX_BIT_LEDS];
@@ -388,7 +394,8 @@ public:
     void setReadyLed(int status) {panelPointer->setReadyLed(status);};
     void setStopLed(int status) {panelPointer->setStopLed(status);};
     void setQLed(int status) {panelPointer->setQLed(status);};
-    void setErrorLed(int status) {panelPointer->setQLed(status);};
+    void setErrorLed(int status) {panelPointer->setErrorLed(status);};
+    void setMnLed(int status) {panelPointer->setMnLed(status);};
 
     void setTilOut(int output, Byte value) {panelPointer->setTilOut(output, value);};
     void showData(Byte value) {panelPointer->showData(value);};

@@ -194,6 +194,23 @@ public:
     void updateCardReadStatus();
     void dataSwitch(int i);
     void inpSwitch(int input, int bit);
+
+    // System 00 manual test/programming panel (MN, R-Select, Bus-Select, 0-7 switches,
+    // R1/R0 byte select, and the WIN/WP/WR/WM write push buttons). All write handlers
+    // are gated behind MN; the bus shown on the O-7 lights is resolved by sys00BusValue().
+    void onMnButton();
+    void onRegSelButton(int i);
+    void onBusSelButton(int i);
+    void onSys00BitSwitch(int i);
+    void onSys00R1Button();
+    void onSys00R0Button();
+    void onWinSys00Button();
+    void onWpSys00Button();
+    void onWrSys00Button();
+    void onWmSys00Button();
+    void showMnLed(int status);
+    void showBusData();
+    Byte sys00BusValue();
     void efSwitch(int i);
 
     void onNumberKeyDown(int i);
@@ -504,6 +521,15 @@ private:
     bool sys00DirectLoad_;
     bool sys00NybbleValid_;
     Byte sys00Nybble_;
+    Byte sys00LoadByte_;           // last byte DMA'd by the direct load (shown on O-7 in LOAD mode)
+    // System 00 manual test/programming panel state (gated behind MN).
+    bool sys00Mn_;
+    Byte sys00BitSwitches_;      // the eight 0-7 bus-set toggle switches
+    Byte sys00RegSel_;           // R-Select bitmask (register 0-F)
+    Byte sys00BusSel_;           // Bus-Select bitmask (position 0-7)
+    bool sys00R1_;               // R1 byte-select (high byte of R(regSel))
+    bool sys00R0_;               // R0 byte-select (low byte of R(regSel))
+    bool mnLedPointerDefined_;
     Byte inbuttonEfState_;
     Byte hexEfState_;
     char nextNybble_;

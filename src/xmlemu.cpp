@@ -1323,6 +1323,15 @@ void Computer::initComputer()
     sys00DirectLoad_ = false;
     sys00NybbleValid_ = false;
     sys00Nybble_ = 0;
+    sys00LoadByte_ = 0;
+    // System 00 manual test/programming panel state.
+    sys00Mn_ = false;
+    sys00BitSwitches_ = 0;
+    sys00RegSel_ = 0;
+    sys00BusSel_ = 0;
+    sys00R1_ = false;
+    sys00R0_ = false;
+    mnLedPointerDefined_ = false;
     runButtonState_ = 0;
     nvRamDisable_ = currentComputerConfiguration.nvRamConfiguration.disable;
     endSave_ = currentComputerConfiguration.addressLocationConfiguration.code_start;
@@ -5001,6 +5010,7 @@ void Computer::onNumberKeyDown(int id)
             Byte value = (Byte)((id << 4) | sys00Nybble_);
             dmaIn(value);                        // write M(R(0)); R(0)++
             holdIdle();                          // stay idle: dmaIn() forces a fetch which would increment R(0) again
+            sys00LoadByte_ = value;
             showData(value);
             sys00NybbleValid_ = false;
         }
@@ -5278,6 +5288,178 @@ void Computer::onLoadSys00Button()
     // into M(R(0)) and R(0) is incremented (manual III.A.2, Initial Program Load).
     sys00DirectLoad_ = !sys00DirectLoad_;
     sys00NybbleValid_ = false;
+    // Clear the stored byte so the O-7 lights revert to the Bus Select position
+    // (the byte lights only show the last entered byte while the load is armed).
+    if (!sys00DirectLoad_)
+        sys00LoadByte_ = 0;
+}
+
+// =====================================================================
+// System 00 manual test/programming panel (MN, R-Select, Bus-Select,
+// 0-7 switches, R1/R0 byte select, and the WIN/WP/WR/WM write push
+// buttons). All write handlers are gated behind MN. The O-7 lights
+// follow the Bus Select position via showBusData()/sys00BusValue().
+// =====================================================================
+
+void Computer::showBusData()
+{
+    // The O-7 lights must follow the Bus Select position. Panel::showData() only
+    // updates the two data-digit displays, so the eight bus LEDs are driven here
+    // directly (mirroring Computer::showDataLeds) from the resolved bus value.
+    Byte bus = sys00BusValue();
+    for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+    {
+        panelPointer[frontPanel]->showData(bus);
+        for (int i=0; i<8; i++)
+        {
+            panelPointer[frontPanel]->setLed(i, bus&1);
+            bus = bus>>1;
+        }
+    }
+}
+
+Byte Computer::sys00BusValue()
+{
+    // In direct-load mode (the System 00 LOAD switch on) the O-7 lights show the byte
+    // just entered, not the Bus Select position (manual: "The byte lights O-7 will
+    // display the 8 bits of each byte entered").
+    if (sys00DirectLoad_)
+        return sys00LoadByte_;
+    switch (sys00BusSel_ & 0x7)
+    {
+        case 0: return sys00Mn_ ? sys00BitSwitches_ : 0xff;   // 0-7 switches (MN-gated)
+        case 1: return readMem(scratchpadRegister_[0], true);  // M -> M(R0), byte at address R0
+        case 2: return (Byte)(address_ & 0xff);                // A0 -> address latch, low byte
+        case 3: return getRegisterT();                         // T  -> ALU T register
+        case 4: return (Byte)(address_ >> 8);                  // A1 -> address latch, high byte
+        case 5: return getRegisterN();                         // N  -> nibble register
+        case 6: return getAccumulator();                       // D  -> 8-bit data register
+        case 7: return 0x21;                                   // 111 -> fixed $21 (lamp test)
+    }
+    return 0;
+}
+
+void Computer::showMnLed(int status)
+{
+    for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+        panelPointer[frontPanel]->setMnLed(status);
+}
+
+void Computer::onMnButton()
+{
+    // Manual enable toggle; the MN light mirrors it (manual: "MN light on").
+    sys00Mn_ = !sys00Mn_;
+    showMnLed(sys00Mn_);
+    showBusData();   // Bus Select 000 is MN-gated, so refresh the O-7 lights
+}
+
+void Computer::onRegSelButton(int i)
+{
+    // R-Select: 4 physical toggles, value = bit index 0-3 -> register 0-F.
+    i &= 0x3;
+    sys00RegSel_ ^= (1 << i);
+    if (currentComputerConfiguration.ledDisplayConfiguration.followSwitches ||
+        currentComputerConfiguration.ledDisplayConfiguration.followButton)
+        for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+            panelPointer[frontPanel]->setLed(i, (sys00RegSel_ >> i) & 1);
+}
+
+void Computer::onBusSelButton(int i)
+{
+    // Bus-Select: 3 physical toggles, value = bit index 0-2 -> position 0-7.
+    i &= 0x7;
+    sys00BusSel_ ^= (1 << i);
+    if (currentComputerConfiguration.ledDisplayConfiguration.followSwitches ||
+        currentComputerConfiguration.ledDisplayConfiguration.followButton)
+        for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+            panelPointer[frontPanel]->setLed(i, (sys00BusSel_ >> i) & 1);
+    showBusData();   // O-7 lights now reflect the newly selected bus
+}
+
+void Computer::onSys00BitSwitch(int i)
+{
+    // The eight 0-7 bus-set toggle switches (Bus Select 000, MN-gated).
+    i &= 0x7;
+    if (sys00BitSwitches_ & (1 << i))
+        sys00BitSwitches_ &= ~(1 << i);
+    else
+        sys00BitSwitches_ |= (1 << i);
+    if (currentComputerConfiguration.ledDisplayConfiguration.followSwitches ||
+        currentComputerConfiguration.ledDisplayConfiguration.followButton)
+        for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+            panelPointer[frontPanel]->setLed(i, (sys00BitSwitches_ >> i) & 1);
+    showBusData();   // refresh the O-7 lights with the new switch pattern (Bus Select 000)
+}
+
+void Computer::onSys00R1Button()
+{
+    // R1: panel "Inhibit R0 RD/WR" - low byte disabled, so WR writes the high byte.
+    // R0 and R1 may both be up (both halves inhibited -> WR writes nothing).
+    sys00R1_ = !sys00R1_;
+    if (currentComputerConfiguration.ledDisplayConfiguration.followSwitches ||
+        currentComputerConfiguration.ledDisplayConfiguration.followButton)
+        for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+            panelPointer[frontPanel]->setLed(0, sys00R1_);
+}
+
+void Computer::onSys00R0Button()
+{
+    // R0: panel "Inhibit R1 RD/WR" - high byte disabled, so WR writes the low byte.
+    // R0 and R1 may both be up (both halves inhibited -> WR writes nothing).
+    sys00R0_ = !sys00R0_;
+    if (currentComputerConfiguration.ledDisplayConfiguration.followSwitches ||
+        currentComputerConfiguration.ledDisplayConfiguration.followButton)
+        for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+            panelPointer[frontPanel]->setLed(1, sys00R0_);
+}
+
+// --- manual write push buttons (all gated behind MN) ---
+
+void Computer::onWinSys00Button()
+{
+    if (!sys00Mn_) return;
+    Byte bus = sys00BusValue();            // Bus -> I,N
+    instructionCode_ = (instructionCode_ & 0xf0) | (bus & 0x0f);
+    setRegisterN(bus & 0x0f);
+}
+
+void Computer::onWpSys00Button()
+{
+    if (!sys00Mn_) return;
+    Byte bus = sys00BusValue();            // Bus -> P
+    setScratchpadRegister(programCounter_, (Word)((bus << 8) | getRegisterT()), true);
+}
+
+void Computer::onWrSys00Button()
+{
+    if (!sys00Mn_) return;
+    Byte bus = sys00BusValue();            // Bus -> R(regSel)/R0/R1 of selected R
+    int n = sys00RegSel_ & 0xf;
+    Word r = scratchpadRegister_[n];
+    // The R1/R0 switches are cross-inhibit lines (manual panel legend):
+    //   R1 up = "Inhibit R0 RD/WR" -> low byte inhibited, high byte written
+    //   R0 up = "Inhibit R1 RD/WR" -> high byte inhibited, low byte written
+    //   neither up                 -> neither half inhibited, both bytes written
+    //   both up                    -> both halves inhibited, nothing written
+    if (sys00R1_ && sys00R0_)
+        return;
+    if (sys00R1_)
+        r = (r & 0x00ff) | ((Word)bus << 8);   // R1 up: high byte
+    else if (sys00R0_)
+        r = (r & 0xff00) | bus;                 // R0 up: low byte
+    else
+        r = ((Word)bus << 8) | bus;             // neither up: both bytes
+    setScratchpadRegister(n, r, true);
+    // R-Select routes the selected register into the address latch, so Bus Select
+    // 010/100 (A0/A1) display the register just set (manual III.B.1.g).
+    address_ = scratchpadRegister_[n];
+}
+
+void Computer::onWmSys00Button()
+{
+    if (!sys00Mn_) return;
+    Byte bus = sys00BusValue();            // Bus -> M(A)
+    writeMem(address_, bus, false, true);
 }
 
 void Computer::startComputer()

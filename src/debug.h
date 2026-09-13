@@ -42,6 +42,7 @@ public:
 #define TREG_RE 23
 #define TREG_RF 24
 #define TREG_FAULT 25
+#define TREG_N 26
 
 #define CPU_MEMORY 0
 #define CPU_TYPE 1

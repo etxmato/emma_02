@@ -122,6 +122,8 @@ public:
     void setRegisterT(Byte value, bool noTrace = false);
     Byte getRegisterB() {return registerB_;};
     void setRegisterB(Byte value, bool noTrace = false);
+    Byte getRegisterN() {return registerN_;};
+    void setRegisterN(Byte value, bool noTrace = false);
     Byte getCounterJamValue() {return ch_;};
     void setCounterJamValue(Byte value, bool noTrace = false);
     Byte getCounterTimer() {return counter_;};
@@ -248,6 +250,7 @@ private:
     Byte dataPointer_;
     Byte registerB_;
     Byte registerT_;
+    Byte registerN_;            // N nibble (low nibble of the fetched instruction code)
     Byte efFlags_;
     Byte accumulator_;
 

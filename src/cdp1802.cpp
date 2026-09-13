@@ -119,6 +119,7 @@ void Cdp1802::initCpu()
         accumulator_ = 0;
         registerT_ = 0;
         registerB_ = 0;
+        registerN_ = 0;
         counter_ = 0;
         ch_ = 0;
    }
@@ -1738,6 +1739,7 @@ void Cdp1802::cpuCycleFetch()
     
     instructionAddress_=scratchpadRegister_[programCounter_];
     instructionCode_=readMem(scratchpadRegister_[programCounter_]);
+    registerN_ = instructionCode_ & 0x0f;       // mirror the N nibble for the Bus Select N bus
     p_Computer->showMrdLed(1);
 // ** address log
 //    p_Main->addressLog(scratchpadRegister_[programCounter_]);
@@ -1837,6 +1839,7 @@ void Cdp1802::cpuCycleFetch2()
 {
     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
     instructionCode_ = readMem(scratchpadRegister_[programCounter_]);
+    registerN_ = instructionCode_ & 0x0f;       // mirror the N nibble for the Bus Select N bus
     setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
     p_Computer->showMrdLed(1);
     bus_=instructionCode_;
@@ -1868,7 +1871,8 @@ void Cdp1802::cpuCycleExecute1()
             {
                 bus_=readMem(scratchpadRegister_[n]);
                 p_Computer->showMrdLed(1);
-                p_Computer->showDataLeds(bus_);
+                // O-7 lights follow the Bus Select position rather than M(R(0)).
+                p_Computer->showBusData();
                 if (trace_)
                 {
                     buffer.Printf("IDL  R%X",n);
@@ -4504,6 +4508,12 @@ void Cdp1802::setRegisterT(Byte value, bool noTrace)
 {
     registerT_ = value;
     p_Main->checkRegisterTrap(TREG_T, instructionAddress_, value, noTrace);
+}
+
+void Cdp1802::setRegisterN(Byte value, bool noTrace)
+{
+    registerN_ = value & 0x0f;
+    p_Main->checkRegisterTrap(TREG_N, instructionAddress_, value, noTrace);
 }
 
 void Cdp1802::setProgramCounter(Byte value, bool noTrace)

@@ -70,6 +70,7 @@ wxString registerTypeText[] =
     "RD", "%04X",
     "RE", "%04X",
     "RF", "%04X",
+    "N", "%X",
 };
 
 Word registerSize[] =
@@ -99,6 +100,7 @@ Word registerSize[] =
     0xffff,
     0xffff,
     0xffff,    // RF
+    0xf,        // N
 };
 
 wxString registerBits[] =

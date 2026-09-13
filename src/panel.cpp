@@ -788,6 +788,7 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
     stopLedStatus = 0;
     powerLedStatus = 0;
     errorLedStatus = 0;
+    mnLedStatus = 0;
     addressStatus = 0;
     dataStatus = 0;
     ms_ = 100;
@@ -901,6 +902,9 @@ Panel::~Panel()
                     case LED_FUNC_Q:
                         delete qLedPointer;
                     break;
+                    case LED_FUNC_MN:
+                        delete mnLedPointer;
+                    break;
                     case LED_FUNC_NIBBLE:
                         delete nibbleLedPointer[button->value];
                     break;
@@ -972,6 +976,7 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
     powerLedPointerDefined = false;
     errorLedPointerDefined = false;
     qLedPointerDefined = false;
+    mnLedPointerDefined = false;
     for (int i=0; i<MAX_DATA_TIL; i++)
     {
         tilDataPointerDefined[i] = false;
@@ -1217,6 +1222,10 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
                     case LED_FUNC_Q:
                         qLedPointer = new Led(dc, button->position.x, button->position.y, button->type, button->reversePol);
                         qLedPointerDefined = true;
+                    break;
+                    case LED_FUNC_MN:
+                        mnLedPointer = new Led(dc, button->position.x, button->position.y, button->type, button->reversePol);
+                        mnLedPointerDefined = true;
                     break;
                     case LED_FUNC_NIBBLE:
                         if (button->value >= 2)
@@ -1511,6 +1520,9 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
                     break;
                     case LED_FUNC_Q:
                         qLedPointer->onPaint(dc);
+                    break;
+                    case LED_FUNC_MN:
+                        mnLedPointer->onPaint(dc);
                     break;
                     case LED_FUNC_NIBBLE:
                         nibbleLedPointer[button->value]->onPaint(dc);
@@ -2052,6 +2064,49 @@ void Panel::executeMouseLeftFunction(std::vector<GuiItemConfiguration>::iterator
             p_Computer->onRsSys00Button();
         break;
 
+        // System 00 manual test/programming panel (MN, R-Select, Bus-Select,
+        // 0-7 switches, R1/R0 byte select, and the WIN/WP/WR/WM write push
+        // buttons). All write handlers are gated behind MN in Computer.
+        case BUTTON_FUNC_MN:
+            p_Computer->onMnButton();
+        break;
+
+        case BUTTON_FUNC_REG_SEL:
+            p_Computer->onRegSelButton(button->value & 0x3);
+        break;
+
+        case BUTTON_FUNC_BUS_SEL:
+            p_Computer->onBusSelButton(button->value & 0x7);
+        break;
+
+        case BUTTON_FUNC_BIT_SYS00:
+            p_Computer->onSys00BitSwitch(button->value & 0x7);
+        break;
+
+        case BUTTON_FUNC_R1_SYS00:
+            p_Computer->onSys00R1Button();
+        break;
+
+        case BUTTON_FUNC_R0_SYS00:
+            p_Computer->onSys00R0Button();
+        break;
+
+        case BUTTON_FUNC_WIN_SYS00:
+            p_Computer->onWinSys00Button();
+        break;
+
+        case BUTTON_FUNC_WP_SYS00:
+            p_Computer->onWpSys00Button();
+        break;
+
+        case BUTTON_FUNC_WR_SYS00:
+            p_Computer->onWrSys00Button();
+        break;
+
+        case BUTTON_FUNC_WM_SYS00:
+            p_Computer->onWmSys00Button();
+        break;
+
         case BUTTON_FUNC_STEP:
             p_Computer->onSingleStep();
         break;
@@ -2147,6 +2202,7 @@ void Panel::rePaintLeds(wxDC& dc)
     updatePowerLed(dc);
     updateErrorLed(dc);
     updateQLed(dc);
+    updateMnLed(dc);
     for (int i=0; i<2; i++)
     {
         if (nibbleLedPointerDefined[i])
@@ -2222,7 +2278,7 @@ void Panel::setStopLed(int status)
 {
     if (!stopLedPointerDefined)
         return;
-    
+
     if (stopLedStatus != status)
     {
         stopLedStatus = status;
@@ -2245,6 +2301,36 @@ void Panel::updateStopLed(wxDC& dc)
     {
         stopLedPointer->setStatus(dc, stopLedStatus);
         updateStopLed_ = false;
+    }
+}
+
+void Panel::setMnLed(int status)
+{
+    if (!mnLedPointerDefined)
+        return;
+
+    if (mnLedStatus != status)
+    {
+        mnLedStatus = status;
+        updateMnLed_ = true;
+        if (ms_ == 0)
+        {
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
+            wxClientDC dc(this);
+            updateMnLed(dc);
+#endif
+        }
+    }
+}
+
+void Panel::updateMnLed(wxDC& dc)
+{
+    if (updateMnLed_)
+    {
+        mnLedPointer->setStatus(dc, mnLedStatus);
+        updateMnLed_ = false;
     }
 }
 

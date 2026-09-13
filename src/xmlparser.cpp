@@ -4660,6 +4660,16 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         "clear_sys00",
         "st_sys00",
         "rs_sys00",
+        "mn",
+        "reg_sel",
+        "bus_sel",
+        "bitswitch_sys00",
+        "r1_sys00",
+        "r0_sys00",
+        "win_sys00",
+        "wp_sys00",
+        "wr_sys00",
+        "wm_sys00",
         "nvram",
         "in_int",
         "in_switch",
@@ -4707,6 +4717,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         "mwrled",
         "cpustateled",
         "mathled",
+        "mnled",
         "datatil",
         "out_til",
         "addresstil",
@@ -4742,6 +4753,16 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         BUTTON_FUNC_CLEAR_SYS00,
         BUTTON_FUNC_ST_SYS00,
         BUTTON_FUNC_RS_SYS00,
+        BUTTON_FUNC_MN,
+        BUTTON_FUNC_REG_SEL,
+        BUTTON_FUNC_BUS_SEL,
+        BUTTON_FUNC_BIT_SYS00,
+        BUTTON_FUNC_R1_SYS00,
+        BUTTON_FUNC_R0_SYS00,
+        BUTTON_FUNC_WIN_SYS00,
+        BUTTON_FUNC_WP_SYS00,
+        BUTTON_FUNC_WR_SYS00,
+        BUTTON_FUNC_WM_SYS00,
         BUTTON_FUNC_NVRAM_DISABLE,
         BUTTON_FUNC_IN_INTERRUPT,
         BUTTON_FUNC_IN_SWITCH,
@@ -4789,6 +4810,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         LED_FUNC_MWR,
         LED_FUNC_CPUSTATE,
         LED_FUNC_MATH,
+        LED_FUNC_MN,
         TIL_DATA,
         TIL_FUNC_OUT,
         TIL_ADDRESS,
@@ -5087,7 +5109,17 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
 
             case TAG_VALUE:
                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value = (int)parseXml_Number(*child);
-                if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function >= BUTTON_FUNC_IN && computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function < BUTTON_FUNC_CARD)
+                // Generic buttons use their function id as the value/window id. The
+                // System 00 manual-panel bit selectors instead carry a bit index in
+                // <value> (bus_sel 0-2, reg_sel 0-3, bitswitch_sys00 0-7), so for those
+                // the parsed value must be preserved (see the 0xC0 offset case below).
+                if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function >= BUTTON_FUNC_IN
+                    && computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function < BUTTON_FUNC_CARD
+                    && computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function != BUTTON_FUNC_REG_SEL
+                    && computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function != BUTTON_FUNC_BUS_SEL
+                    && computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function != BUTTON_FUNC_BIT_SYS00
+                    && computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function != BUTTON_FUNC_R1_SYS00
+                    && computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function != BUTTON_FUNC_R0_SYS00)
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value = computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function;
                 
                 if (child->HasAttribute("address"))
@@ -5109,6 +5141,17 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
 
                     case BUTTON_FUNC_BIT:
                         computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value += 0x80;
+                    break;
+
+                    case BUTTON_FUNC_REG_SEL:
+                    case BUTTON_FUNC_BUS_SEL:
+                    case BUTTON_FUNC_BIT_SYS00:
+                    case BUTTON_FUNC_R1_SYS00:
+                    case BUTTON_FUNC_R0_SYS00:
+                        // System 00 manual panel bit-toggle switches: the bit number is
+                        // carried in value and needs a unique window-id base. 0xC0-0xFF
+                        // is free in the EVT_BUTTON table (no collisions with 0x50-0xB0).
+                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value += 0xC0;
                     break;
 
                     case BUTTON_FUNC_EF_SWITCH:
