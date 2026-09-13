@@ -5221,7 +5221,15 @@ void Main::refreshComboColours()
 
 void Main::setSysColours()
 {
-#if defined (__WXMAC__) || defined (__WXMSW__) || defined (__linux__)
+#if defined (__WXMAC__) || defined (__linux__)
+    wxSystemAppearance system = wxSystemSettings::GetAppearance();
+
+    darkMode_ = system.IsDark();
+    guiBackGround_ = wxSystemSettings::GetColour(wxSYS_COLOUR_FRAMEBK);
+    guiTextColour[GUI_COL_BLACK] = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
+    guiTextColour[GUI_COL_WHITE] = wxSystemSettings::GetColour(wxSYS_COLOUR_APPWORKSPACE);
+#else
+#if wxMAJOR_VERSION == 3 && wxMINOR_VERSION == 3
     wxSystemAppearance system = wxSystemSettings::GetAppearance();
 
     darkMode_ = system.IsDark();
@@ -5234,6 +5242,7 @@ void Main::setSysColours()
     wxColourDatabase colour;
     guiTextColour[GUI_COL_BLACK] = wxColour(colour.Find("BLACK"));
     guiTextColour[GUI_COL_WHITE] = wxColour(colour.Find("WHITE"));
+#endif
 #endif
     
     if (darkMode_)

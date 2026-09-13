@@ -1440,7 +1440,8 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
     rePaintLeds(dc);
 #endif
 
-    wxColour panelBg = p_Main->isDarkMode() ? p_Main->getGuiBackGround() : p_Main->getGuiTextColour(GUI_COL_WHITE);
+//    wxColour panelBg = p_Main->isDarkMode() ? p_Main->getGuiBackGround() : p_Main->getGuiTextColour(GUI_COL_WHITE);
+    wxColour panelBg = p_Main->isDarkMode() ? *wxBLACK : *wxWHITE;
     dc.SetPen(panelBg);
     dc.SetBrush(panelBg);
     dc.DrawRectangle(0, 0, panelSize_.x, panelSize_.y);
