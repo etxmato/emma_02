@@ -3590,7 +3590,7 @@ void Cdp1802::cpuCycleFinalize()
         if (trace_ && !skipTrace_ && !skipTraceHb_)
             p_Main->debugTrace(traceBuffer_);
 
-        cpuState_ = STATE_FETCH_1;
+         cpuState_ = STATE_FETCH_1;
     }
     else
     {
@@ -3610,6 +3610,13 @@ void Cdp1802::cpuCycleFinalize()
                 playSaveLoad();
         }
     }
+
+    // SYSTEM00 with showDataOnCycle: update the O-7 data LEDs every machine cycle
+    // so the display tracks the CPU bus (bus_) during normal execution, not just
+    // during the IDL idle instruction. Opt-in via cycle="show" on bitled LEDs in
+    // the front-panel XML (FREDI/bare.xml does not set this, so it is unaffected).
+    if (cpuType_ == SYSTEM00 && !idle_ && currentComputerConfiguration.ledDisplayConfiguration.showDataOnCycle)
+        p_Computer->showBusData();
     if (stopHiddenTrace_)
         skipTrace_ = false;
     if (startHiddenTrace_)

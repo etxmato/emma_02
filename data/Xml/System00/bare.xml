@@ -48,31 +48,31 @@
         <item><type>switch</type><function>load_sys00</function><init>down</init><pos>62, 122</pos></item>
         <item><type form="large">led</type><function>errorled</function><pos>62, 156</pos></item>
 
-        <!-- Row 1: 8-Bit Data Register (0-7 bus-set switches; Bus Select 000, MN-gated) -->
-        <item><type>text</type><label size="8">7</label><pos>115,32</pos></item>
-        <item><type form="large">led</type><function>bitled</function><value>7</value><pos>107,4</pos></item>
-        <item><type>switch</type><function>bitswitch_sys00</function><value>7</value><pos>106,42</pos><size>20, 15</size></item>
-        <item><type>text</type><label size="8">6</label><pos>142,32</pos></item>
-        <item><type form="large">led</type><function>bitled</function><value>6</value><pos>134,4</pos></item>
-        <item><type>switch</type><function>bitswitch_sys00</function><value>6</value><pos>133,42</pos><size>20, 15</size></item>
-        <item><type>text</type><label size="8">5</label><pos>169,32</pos></item>
-        <item><type form="large">led</type><function>bitled</function><value>5</value><pos>161,4</pos></item>
-        <item><type>switch</type><function>bitswitch_sys00</function><value>5</value><pos>160,42</pos><size>20, 15</size></item>
-        <item><type>text</type><label size="8">4</label><pos>196,32</pos></item>
-        <item><type form="large">led</type><function>bitled</function><value>4</value><pos>188,4</pos></item>
-        <item><type>switch</type><function>bitswitch_sys00</function><value>4</value><pos>187,42</pos><size>20, 15</size></item>
-        <item><type>text</type><label size="8">3</label><pos>223,32</pos></item>
-        <item><type form="large">led</type><function>bitled</function><value>3</value><pos>215,4</pos></item>
-        <item><type>switch</type><function>bitswitch_sys00</function><value>3</value><pos>214,42</pos><size>20, 15</size></item>
-        <item><type>text</type><label size="8">2</label><pos>250,32</pos></item>
-        <item><type form="large">led</type><function>bitled</function><value>2</value><pos>242,4</pos></item>
-        <item><type>switch</type><function>bitswitch_sys00</function><value>2</value><pos>241,42</pos><size>20, 15</size></item>
-        <item><type>text</type><label size="8">1</label><pos>277,32</pos></item>
-        <item><type form="large">led</type><function>bitled</function><value>1</value><pos>269,4</pos></item>
-        <item><type>switch</type><function>bitswitch_sys00</function><value>1</value><pos>268,42</pos><size>20, 15</size></item>
-        <item><type>text</type><label size="8">0</label><pos>304,32</pos></item>
-        <item><type form="large">led</type><function>bitled</function><value>0</value><pos>296,4</pos></item>
-        <item><type>switch</type><function>bitswitch_sys00</function><value>0</value><pos>295,42</pos><size>20, 15</size></item>
+         <!-- Row 1: 8-Bit Data Register (0-7 bus-set switches; Bus Select 000, MN-gated) -->
+         <item><type>text</type><label size="8">7</label><pos>115,32</pos></item>
+         <item><type form="large">led</type><function cycle="show">bitled</function><value>7</value><pos>107,4</pos></item>
+         <item><type>switch</type><function>bitswitch_sys00</function><value>7</value><pos>106,42</pos><size>20, 15</size></item>
+         <item><type>text</type><label size="8">6</label><pos>142,32</pos></item>
+         <item><type form="large">led</type><function cycle="show">bitled</function><value>6</value><pos>134,4</pos></item>
+         <item><type>switch</type><function>bitswitch_sys00</function><value>6</value><pos>133,42</pos><size>20, 15</size></item>
+         <item><type>text</type><label size="8">5</label><pos>169,32</pos></item>
+         <item><type form="large">led</type><function cycle="show">bitled</function><value>5</value><pos>161,4</pos></item>
+         <item><type>switch</type><function>bitswitch_sys00</function><value>5</value><pos>160,42</pos><size>20, 15</size></item>
+         <item><type>text</type><label size="8">4</label><pos>196,32</pos></item>
+         <item><type form="large">led</type><function cycle="show">bitled</function><value>4</value><pos>188,4</pos></item>
+         <item><type>switch</type><function>bitswitch_sys00</function><value>4</value><pos>187,42</pos><size>20, 15</size></item>
+         <item><type>text</type><label size="8">3</label><pos>223,32</pos></item>
+         <item><type form="large">led</type><function cycle="show">bitled</function><value>3</value><pos>215,4</pos></item>
+         <item><type>switch</type><function>bitswitch_sys00</function><value>3</value><pos>214,42</pos><size>20, 15</size></item>
+         <item><type>text</type><label size="8">2</label><pos>250,32</pos></item>
+         <item><type form="large">led</type><function cycle="show">bitled</function><value>2</value><pos>242,4</pos></item>
+         <item><type>switch</type><function>bitswitch_sys00</function><value>2</value><pos>241,42</pos><size>20, 15</size></item>
+         <item><type>text</type><label size="8">1</label><pos>277,32</pos></item>
+         <item><type form="large">led</type><function cycle="show">bitled</function><value>1</value><pos>269,4</pos></item>
+         <item><type>switch</type><function>bitswitch_sys00</function><value>1</value><pos>268,42</pos><size>20, 15</size></item>
+         <item><type>text</type><label size="8">0</label><pos>304,32</pos></item>
+         <item><type form="large">led</type><function cycle="show">bitled</function><value>0</value><pos>296,4</pos></item>
+         <item><type>switch</type><function>bitswitch_sys00</function><value>0</value><pos>295,42</pos><size>20, 15</size></item>
 
         <!-- Row 2: Condition Flags & Working Modes -->
         <item><type>text</type><label size="8">R1</label><pos>110,77</pos></item>
@@ -125,7 +125,7 @@
         <item><type>text</type><label size="8">MN</label><pos>271,167</pos></item>
         <item><type form="large">led</type><function>mnled</function><pos>269,178</pos></item>
         <item><type>text</type><label size="8">NB</label><pos>300,167</pos></item>
-        <item><type form="large">led</type><function>readyled</function><pos>296,178</pos></item>
+        <item><type form="large">led</type><function>nbled</function><pos>296,178</pos></item>
 
         <!-- RIGHT SECTION: Entry Interface & Main Power -->
 

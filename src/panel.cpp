@@ -731,6 +731,7 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
     updateQLed_ = false;
     updateReadyLed_ = false;
     updateStopLed_ = false;
+    updateMnLed_ = false;
     updatePowerLed_ = false;
     updateErrorLed_ = false;
     for (int i=0; i<MAX_DATA_TIL; i++)
@@ -789,6 +790,7 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
     powerLedStatus = 0;
     errorLedStatus = 0;
     mnLedStatus = 0;
+    nbLedStatus = 0;
     addressStatus = 0;
     dataStatus = 0;
     ms_ = 100;
@@ -905,6 +907,9 @@ Panel::~Panel()
                     case LED_FUNC_MN:
                         delete mnLedPointer;
                     break;
+                    case LED_FUNC_NB:
+                        delete nbLedPointer;
+                    break;
                     case LED_FUNC_NIBBLE:
                         delete nibbleLedPointer[button->value];
                     break;
@@ -977,6 +982,7 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
     errorLedPointerDefined = false;
     qLedPointerDefined = false;
     mnLedPointerDefined = false;
+    nbLedPointerDefined = false;
     for (int i=0; i<MAX_DATA_TIL; i++)
     {
         tilDataPointerDefined[i] = false;
@@ -1226,6 +1232,10 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
                     case LED_FUNC_MN:
                         mnLedPointer = new Led(dc, button->position.x, button->position.y, button->type, button->reversePol);
                         mnLedPointerDefined = true;
+                    break;
+                    case LED_FUNC_NB:
+                        nbLedPointer = new Led(dc, button->position.x, button->position.y, button->type, button->reversePol);
+                        nbLedPointerDefined = true;
                     break;
                     case LED_FUNC_NIBBLE:
                         if (button->value >= 2)
@@ -1524,6 +1534,10 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
                     break;
                     case LED_FUNC_MN:
                         mnLedPointer->onPaint(dc);
+                    break;
+                    case LED_FUNC_NB:
+                        nbLedPointer->onPaint(dc);
+                    break;
                     break;
                     case LED_FUNC_NIBBLE:
                         nibbleLedPointer[button->value]->onPaint(dc);
@@ -2204,6 +2218,7 @@ void Panel::rePaintLeds(wxDC& dc)
     updateErrorLed(dc);
     updateQLed(dc);
     updateMnLed(dc);
+    updateNbLed(dc);
     for (int i=0; i<2; i++)
     {
         if (nibbleLedPointerDefined[i])
@@ -2332,6 +2347,36 @@ void Panel::updateMnLed(wxDC& dc)
     {
         mnLedPointer->setStatus(dc, mnLedStatus);
         updateMnLed_ = false;
+    }
+}
+
+void Panel::setNbLed(int status)
+{
+    if (!nbLedPointerDefined)
+        return;
+
+    if (nbLedStatus != status)
+    {
+        nbLedStatus = status;
+        updateNbLed_ = true;
+        if (ms_ == 0)
+        {
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
+            wxClientDC dc(this);
+            updateNbLed(dc);
+#endif
+        }
+    }
+}
+
+void Panel::updateNbLed(wxDC& dc)
+{
+    if (updateNbLed_)
+    {
+        nbLedPointer->setStatus(dc, nbLedStatus);
+        updateNbLed_ = false;
     }
 }
 

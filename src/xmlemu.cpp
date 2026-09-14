@@ -5004,6 +5004,7 @@ void Computer::onNumberKeyDown(int id)
         {
             sys00Nybble_ = id & 0x0f;            // LSB digit entered first
             sys00NybbleValid_ = true;
+            showNbLed(0);                        // NB off: first digit entered, awaiting MSB
         }
         else
         {
@@ -5013,6 +5014,7 @@ void Computer::onNumberKeyDown(int id)
             sys00LoadByte_ = value;
             showData(value);
             sys00NybbleValid_ = false;
+            showNbLed(1);                        // NB on: byte stored, ready for next pair
         }
     }
 
@@ -5291,7 +5293,14 @@ void Computer::onLoadSys00Button()
     // Clear the stored byte so the O-7 lights revert to the Bus Select position
     // (the byte lights only show the last entered byte while the load is armed).
     if (!sys00DirectLoad_)
+    {
         sys00LoadByte_ = 0;
+        showNbLed(0);   // NB light off when LOAD switch disarmed
+    }
+    else
+    {
+        showNbLed(1);   // NB light on: ready for next byte from hex panel
+    }
 }
 
 // =====================================================================
@@ -5327,7 +5336,7 @@ Byte Computer::sys00BusValue()
         return sys00LoadByte_;
     switch (sys00BusSel_ & 0x7)
     {
-        case 0: return sys00Mn_ ? sys00BitSwitches_ : 0xff;   // 0-7 switches (MN-gated)
+        case 0: return sys00Mn_ ? sys00BitSwitches_ : bus_;  // 0-7 switches (MN on); CPU bus (idle M(R0)) when MN off
         case 1: return readMem(scratchpadRegister_[0], true);  // M -> M(R0), byte at address R0
         case 2: return (Byte)(address_ & 0xff);                // A0 -> address latch, low byte
         case 3: return getRegisterT();                         // T  -> ALU T register
@@ -5343,6 +5352,12 @@ void Computer::showMnLed(int status)
 {
     for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
         panelPointer[frontPanel]->setMnLed(status);
+}
+
+void Computer::showNbLed(int status)
+{
+    for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+        panelPointer[frontPanel]->setNbLed(status);
 }
 
 void Computer::onMnButton()

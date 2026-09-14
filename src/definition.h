@@ -530,6 +530,7 @@ enum
     LED_FUNC_CPUSTATE,
     LED_FUNC_MATH,
     LED_FUNC_MN,                // MN (Manual operations) light — on when MN enabled
+    LED_FUNC_NB,                // System 00 NB (ready for next byte) light
     TIL_DATA,
     TIL_FUNC_OUT,
     TIL_ADDRESS,

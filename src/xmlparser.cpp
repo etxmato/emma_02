@@ -4718,6 +4718,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         "cpustateled",
         "mathled",
         "mnled",
+        "nbled",
         "datatil",
         "out_til",
         "addresstil",
@@ -4811,6 +4812,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
         LED_FUNC_CPUSTATE,
         LED_FUNC_MATH,
         LED_FUNC_MN,
+        LED_FUNC_NB,
         TIL_DATA,
         TIL_FUNC_OUT,
         TIL_ADDRESS,
@@ -5452,12 +5454,14 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                             break;
 
                             case LED_FUNC_BIT:
+                                // cycle="show" is a global flag; check it before the value
+                                // guard (value is parsed from a later <value> tag)
+                                if (child->GetAttribute("cycle") == "show")
+                                    computerConfiguration.ledDisplayConfiguration.showDataOnCycle = true;
                                 if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value != -1)
                                 {
                                     if (child->GetAttribute("load") == "show")
                                         computerConfiguration.ledDisplayConfiguration.showDataOnLoad = true;
-                                    if (child->GetAttribute("cycle") == "show")
-                                        computerConfiguration.ledDisplayConfiguration.showDataOnCycle = true;
                                 }
                             break;
 

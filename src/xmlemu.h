@@ -209,6 +209,7 @@ public:
     void onWrSys00Button();
     void onWmSys00Button();
     void showMnLed(int status);
+    void showNbLed(int status);
     void showBusData();
     Byte sys00BusValue();
     void efSwitch(int i);
