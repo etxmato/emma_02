@@ -1467,7 +1467,6 @@ void Computer::resetComputer()
         currentComputerConfiguration.videoTerminalConfiguration.hexModem_defined = hexModemOnStart;
         currentComputerConfiguration.videoTerminalConfiguration.xModem_defined = false;
         p_Main->eventSetButtonLabel ("XmodemButtonXml", "HEX");
-
     }
 }
 

@@ -734,6 +734,7 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
     updateMnLed_ = false;
     updatePowerLed_ = false;
     updateErrorLed_ = false;
+    updateMnLed_ = false;
     for (int i=0; i<MAX_DATA_TIL; i++)
     {
         tilDataPointerDefined[i] = false;
@@ -2205,9 +2206,14 @@ void Panel::ledTimeout()
 #if defined(__WXMAC__)
     p_Main->eventRefreshPanel();
 #else
+    CallAfter(&Panel::ledTimeoutGui);
+#endif
+}
+
+void Panel::ledTimeoutGui()
+{
     wxClientDC dc(this);
     rePaintLeds(dc);
-#endif
 }
 
 void Panel::rePaintLeds(wxDC& dc)

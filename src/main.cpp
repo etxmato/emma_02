@@ -5608,13 +5608,14 @@ void Main::eventSetButtonLabel(wxString info, wxString value)
     if (!mode_.gui)
         return;
     
-    guiEvent event(GUI_MSG, SET_BUTTON_LABEL);
-    event.SetEventObject( p_Main );
-    
-    event.SetString(info);
-    event.SetStringValue2(value);
-    
-    GetEventHandler()->AddPendingEvent(event);
+    CallAfter([this, info, value]() {
+        setButtonLabel(info, value);
+    });
+}
+
+void Main::setButtonLabel(wxString info, wxString value)
+{
+   XRCCTRL(*this, info, wxButton)->SetLabel(value);
 }
 
 void Main::setCheckBoxEvent(guiEvent&event)

@@ -1113,7 +1113,8 @@ public:
     
     void setButtonLabelEvent(guiEvent& event);
     void eventSetButtonLabel(wxString info, wxString value);
-    
+    void setButtonLabel(wxString info, wxString value);
+
     void setCheckBoxEvent(guiEvent& event);
     void eventSetCheckBox(wxString info, bool state);
 

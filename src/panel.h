@@ -74,6 +74,7 @@ public:
     void executeMouseLeftFunction(std::vector<GuiItemConfiguration>::iterator button);
     void executeMouseRightReleaseFunction(std::vector<GuiItemConfiguration>::iterator button);
     void ledTimeout();
+    void ledTimeoutGui();
     void rePaintLeds(wxDC& dc);
     void setLedMs(long ms);
 
