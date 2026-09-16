@@ -37,6 +37,7 @@ CPP_SRCS += \
 ../src/guimain.cpp \
 ../src/guipopup.cpp \
 ../src/guisb.cpp \
+../src/guiupdate.cpp \
 ../src/guivip2.cpp \
 ../src/guixml.cpp \
 ../src/hd44780.cpp \
@@ -155,6 +156,7 @@ OBJS += \
 ./src/guimain.o \
 ./src/guipopup.o \
 ./src/guisb.o \
+./src/guiupdate.o \
 ./src/guivip2.o \
 ./src/guixml.o \
 ./src/hd44780.o \
@@ -265,6 +267,7 @@ CPP_DEPS += \
 ./src/guimain.d \
 ./src/guipopup.d \
 ./src/guisb.d \
+./src/guiupdate.d \
 ./src/guivip2.d \
 ./src/guixml.d \
 ./src/hd44780.d \
