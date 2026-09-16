@@ -693,7 +693,7 @@ bool mc6847::readCharRomFile(wxString romDir, wxString romFile)
 
     if (romFile == "")
     {
-        p_Main->errorMessage("No font filename specified");
+        p_Main->guiErrorMessage("No font filename specified");
         return false;
     }
 
@@ -727,7 +727,7 @@ bool mc6847::readCharRomFile(wxString romDir, wxString romFile)
     }
     else
     {
-        p_Main->errorMessage("Error reading " + fileName);
+        p_Main->guiErrorMessage("Error reading " + fileName);
         return false;
     }
 }
@@ -741,6 +741,6 @@ void mc6847::setFullScreen(bool fullScreenSet)
 void mc6847::onF3()
 {
     fullScreenSet_ = !fullScreenSet_;
-    p_Main->eventVideoSetFullScreen(fullScreenSet_, videoNumber_);
+    p_Main->guiVideoSetFullScreen(fullScreenSet_, videoNumber_);
 }
 

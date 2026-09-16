@@ -208,7 +208,7 @@ void SN76430N::setFullScreen(bool fullScreenSet)
 void SN76430N::onF3()
 {
     fullScreenSet_ = !fullScreenSet_;
-    p_Main->eventVideoSetFullScreen(fullScreenSet_, sn76430NConfiguration_.videoNumber);
+    p_Main->guiVideoSetFullScreen(fullScreenSet_, sn76430NConfiguration_.videoNumber);
 }
 
 void SN76430N::reBlit(wxDC &dc)

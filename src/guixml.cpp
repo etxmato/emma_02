@@ -792,7 +792,7 @@ void GuiXml::startTerminalSave(int protocol)
         
         writeConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Xmodem_File", computerConfiguration.videoTerminalConfiguration.xmodemDirectory);
         configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Xmodem_File", computerConfiguration.videoTerminalConfiguration.xmodemFileName);
-        p_Main->eventSetTextValue("XmodemFileXml", computerConfiguration.videoTerminalConfiguration.xmodemFileName);
+        p_Main->guiSetTextValue("XmodemFileXml", computerConfiguration.videoTerminalConfiguration.xmodemFileName);
         
         filePath = computerConfiguration.videoTerminalConfiguration.xmodemDirectory;
         filePath.operator += (computerConfiguration.videoTerminalConfiguration.xmodemFileName);
@@ -819,7 +819,7 @@ void GuiXml::startTerminalSave(int protocol)
             
             writeConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/Xmodem_File", computerConfiguration.videoTerminalConfiguration.xmodemDirectory);
             configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Xmodem_File", computerConfiguration.videoTerminalConfiguration.xmodemFileName);
-            p_Main->eventSetTextValue("XmodemFileXml", computerConfiguration.videoTerminalConfiguration.xmodemFileName);
+            p_Main->guiSetTextValue("XmodemFileXml", computerConfiguration.videoTerminalConfiguration.xmodemFileName);
             
             filePath = computerConfiguration.videoTerminalConfiguration.xmodemDirectory;
             filePath.operator += (computerConfiguration.videoTerminalConfiguration.xmodemFileName);
@@ -829,7 +829,7 @@ void GuiXml::startTerminalSave(int protocol)
     }
     terminalSave_ = true;
 
-    p_Main->eventSetTapeState(TAPE_RECORD, "");
+    p_Main->guiSetTapeState(TAPE_RECORD, "");
     p_Computer->terminalSave(filePath, protocol);
 }
 

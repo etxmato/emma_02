@@ -157,7 +157,7 @@ void Pixie::reset()
 {
     graphicsOn_ = false;
 #if defined(__WXMAC__)
-    p_Main->eventRefreshVideo(false, videoNumber_);
+    p_Main->guiRefreshVideo(false, videoNumber_);
 #else
     videoScreenPointer->disableScreen(colour_[colourIndex_+backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 #endif
@@ -354,7 +354,7 @@ void Pixie::initPixie()
 
     changeScreenSize();
 #if defined(__WXMAC__)
-    p_Main->eventRefreshVideo(false, videoNumber_);
+    p_Main->guiRefreshVideo(false, videoNumber_);
 #else
     videoScreenPointer->disableScreen(colour_[colourIndex_+backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 #endif
@@ -736,7 +736,7 @@ void Pixie::setFullScreen(bool fullScreenSet)
 void Pixie::onF3()
 {
     fullScreenSet_ = !fullScreenSet_;
-    p_Main->eventVideoSetFullScreen(fullScreenSet_, videoNumber_);
+    p_Main->guiVideoSetFullScreen(fullScreenSet_, videoNumber_);
 }
 
 void Pixie::pixieBarSize()
@@ -1197,7 +1197,7 @@ void PixieVip2K::outPixie()
 {
     graphicsOn_ = false;
 #if defined(__WXMAC__)
-    p_Main->eventRefreshVideo(false, videoNumber_);
+    p_Main->guiRefreshVideo(false, videoNumber_);
 #else
     videoScreenPointer->disableScreen(colour_[colourIndex_+backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 #endif
@@ -1298,7 +1298,7 @@ void PixieStudioIV::outPixie()
 {
     graphicsOn_ = false;
 #if defined(__WXMAC__)
-    p_Main->eventRefreshVideo(false, videoNumber_);
+    p_Main->guiRefreshVideo(false, videoNumber_);
 #else
     videoScreenPointer->disableScreen(colour_[colourIndex_+backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 #endif

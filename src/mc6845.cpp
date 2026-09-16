@@ -433,7 +433,7 @@ void MC6845::blink6845()
         if (cursorOn_)
             drawCursor6845(cursorAddress_, cursorBlinkOn_);
 #else
-        p_Main->eventRefreshVideo(false, videoNumber_);
+        p_Main->guiRefreshVideo(false, videoNumber_);
 #endif
     }
 }
@@ -718,7 +718,7 @@ bool MC6845::readCharRomFile(wxString romDir, wxString romFile)
 
     if (romFile == "")
     {
-        p_Main->errorMessage("No font filename specified");
+        p_Main->guiErrorMessage("No font filename specified");
         return false;
     }
 
@@ -738,7 +738,7 @@ bool MC6845::readCharRomFile(wxString romDir, wxString romFile)
     }
     else
     {
-        p_Main->errorMessage("Error reading " + fileName);
+        p_Main->guiErrorMessage("Error reading " + fileName);
         return false;
     }
 }
@@ -752,7 +752,7 @@ void MC6845::setFullScreen(bool fullScreenSet)
 void MC6845::onF3()
 {
     fullScreenSet_ = !fullScreenSet_;
-    p_Main->eventVideoSetFullScreen(fullScreenSet_, videoNumber_);
+    p_Main->guiVideoSetFullScreen(fullScreenSet_, videoNumber_);
 }
 
 void MC6845::reBlit(wxDC &dc)

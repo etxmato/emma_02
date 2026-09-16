@@ -197,7 +197,7 @@ void Upd765::doRead()
             // Folloing 3 commented lines are for debug purpose showing current data in debug message window
             // wxString textMessage;
             // textMessage.Printf("READ, Cluster %02X, drive %i, image %04X-%04X, size %i", offset, drive_, offset*512, offset * 512+dmaCounter_, dmaCounter_);
-            // p_Main->eventShowTextMessage(textMessage);
+            // p_Main->guiShowTextMessage(textMessage);
             if (!diskCreated_[drive_] || diskName_[drive_] == "")
             {
                 statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;
@@ -230,7 +230,7 @@ void Upd765::doRead()
             // Folloing 3 commented lines are for debug purpose showing current data in debug message window
             // wxString textMessage;
             // textMessage.Printf("READ, Cluster %i, drive %i", offset, drive_);
-            // p_Main->eventShowTextMessage(textMessage);
+            // p_Main->guiShowTextMessage(textMessage);
 
             if (offset == 0)
             {
@@ -482,7 +482,7 @@ void Upd765::doWrite()
         // Folloing 3 commented lines are for debug purpose showing current data in debug message window
         // wxString textMessage;
         // textMessage.Printf("WRITE, Cluster %02X, drive %i", offset_, drive_);
-        // p_Main->eventShowTextMessage(textMessage);
+        // p_Main->guiShowTextMessage(textMessage);
         if (!diskCreated_[drive_] || diskName_[drive_] == "")
         {
             statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;
@@ -514,7 +514,7 @@ void Upd765::doWrite()
         // Folloing 3 commented lines are for debug purpose showing current data in debug message window
         // wxString textMessage;
         // textMessage.Printf("WRITE, Cluster %i, drive %i", offset_, drive_);
-        // p_Main->eventShowTextMessage(textMessage);
+        // p_Main->guiShowTextMessage(textMessage);
         if (offset_ >= 1 && offset_ <= 8)
         {
             bool clusterEmpty=true;
@@ -574,7 +574,7 @@ void Upd765::doWrite()
 
                 // Folloing 2 commented lines are for debug purpose showing current data in debug message window
                 // textMessage.Printf("WRITE SDW, number of clusters %i, start cluster %i", diskBuffer_[drive_][offset_ * 512], diskBuffer_[drive_][offset_ * 512 + 1] * 256 + diskBuffer_[drive_][offset_ * 512 + 2]);
-                // p_Main->eventShowTextMessage(textMessage);
+                // p_Main->guiShowTextMessage(textMessage);
 
                 bool writeInfoFile = false;
                 for (int i = 0x1f5; i < 0x200; i++)
@@ -957,12 +957,12 @@ void Upd765::doCommand()
     switch(commandPacket_[0])
     {
         case SPCMD:                  // specify
-            //p_Main->eventShowTextMessage("specify ");
+            //p_Main->guiShowTextMessage("specify ");
             // Nothing to do
         break;
             
         case RCCMD:                  // recalibrate            
-            //p_Main->eventShowTextMessage("recalibrate ");
+            //p_Main->guiShowTextMessage("recalibrate ");
             if (!diskCreated_[drive_] && !p_Main->getDirectoryMode(FDCTYPE_UPD765, drive_))
             {
                 if (diskName_[drive_] == "")
@@ -1003,7 +1003,7 @@ void Upd765::doCommand()
         break;
             
         case SKCMD:                  // seek
-            //p_Main->eventShowTextMessage("seek ");
+            //p_Main->guiShowTextMessage("seek ");
             // store some values in case this is followed by sense interrupt
             if(diskCreated_[drive_])
             {
@@ -1028,12 +1028,12 @@ void Upd765::doCommand()
         break;
             
         case RDCMD:                  // read
-            //p_Main->eventShowTextMessage("read ");
+            //p_Main->guiShowTextMessage("read ");
             doRead();
         break;
             
         case WTCMD:                  // write
-            //p_Main->eventShowTextMessage("write ");
+            //p_Main->guiShowTextMessage("write ");
             doWrite();
         break;
             
@@ -1044,7 +1044,7 @@ void Upd765::doCommand()
         case SISCMD:                 // sense interrupt status
             if (lastCommand_ != commandPacket_[0])
             {
-                //p_Main->eventShowTextMessage("sense ");
+                //p_Main->guiShowTextMessage("sense ");
                 interrupt_ = 0;
                 masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
                 commandReturnCounter_ = 2;
@@ -1052,7 +1052,7 @@ void Upd765::doCommand()
             }
             else
             {
-                //p_Main->eventShowTextMessage("invalid/second sense ");
+                //p_Main->guiShowTextMessage("invalid/second sense ");
                 statusRegister0_ = SR_INVALID_COMMAND;
                 commandReturnCounter_ = 1;
                 commandReturnValue_ = 0;
@@ -1061,7 +1061,7 @@ void Upd765::doCommand()
         break;
             
         default:                 // Invalid command
-            //p_Main->eventShowTextMessage("invalid ");
+            //p_Main->guiShowTextMessage("invalid ");
             statusRegister0_ = SR_INVALID_COMMAND;
             commandReturnCounter_ = 1;
             commandReturnValue_ = 0;
@@ -1340,7 +1340,7 @@ void Upd765::buildDirectoryClusters(int clusterRequest)
     // Folloing 3 commented lines are for debug purpose showing current data in debug message window
     // wxString textMessage;
     // textMessage.Printf("DIR, Cluster %i, drive %i", firstCluster, drive_);
-    // p_Main->eventShowTextMessage(textMessage);
+    // p_Main->guiShowTextMessage(textMessage);
 
     wxDir dir (diskDir_[drive_]);
     bool cont = dir.GetFirst(&filename);

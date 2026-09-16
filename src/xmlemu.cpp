@@ -1020,7 +1020,7 @@ void Computer::onInButtonPress(bool switchButton)
         {
             setClear(1);
             setWait(1);
-            p_Main->eventUpdateTitle();
+            p_Main->guiUpdateTitle();
         }
     }
     for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
@@ -1466,7 +1466,7 @@ void Computer::resetComputer()
     {
         currentComputerConfiguration.videoTerminalConfiguration.hexModem_defined = hexModemOnStart;
         currentComputerConfiguration.videoTerminalConfiguration.xModem_defined = false;
-        p_Main->eventSetButtonLabel ("XmodemButtonXml", "HEX");
+        p_Main->guiSetButtonLabel ("XmodemButtonXml", "HEX");
     }
 }
 
@@ -2328,7 +2328,7 @@ Byte Computer::inConfiguration(InputConfiguration inConfiguration, Byte port, Wo
             {
                 diagRomActive_ = false;
                 if (currentComputerConfiguration.vis1870Configuration.defined)
-                    p_Main->eventUpdateLedStatus(diagRomActive_, 1);
+                    p_Main->guiUpdateLedStatus(diagRomActive_, 1);
             }
             ret = getDiagInput();
         break;
@@ -2729,16 +2729,16 @@ void Computer::outConfiguration(OutputConfiguration outConfiguration, Byte port,
         break;
 
         case PARALLEL_PRINTER_OUT:
-            p_Main->eventPrintParallel(value);
+            p_Main->guiPrintParallel(value);
         break;
 
         case SERIAL_PRINTER_OUT:
-            p_Main->eventPrintSerial(value);
+            p_Main->guiPrintSerial(value);
         break;
 
         case THERMAL_PRINTER_OUT:
             thermalPrinting_ = true;
-            p_Main->eventPrintThermal(value, flipFlopQ_);
+            p_Main->guiPrintThermal(value, flipFlopQ_);
         break;
 
         case BASIC_PRINTER_OUT:
@@ -3295,7 +3295,7 @@ void Computer::printOutPecom(int q)
                 printValue_ += (1 <<(printBit_));
             if (printBit_ == 8)
             {
-                p_Main->eventPrintPecom(printValue_);
+                p_Main->guiPrintPecom(printValue_);
                 printerStatus_ = PRIDLE;
                 if (currentComputerConfiguration.matrixKeyboardConfiguration.defined)
                     matrixKeyboardPointer->clearReturn();
@@ -3811,7 +3811,7 @@ void Computer::cycleDma()
             {
                 diagDmaLedOn_ = true;
                 if (currentComputerConfiguration.vis1870Configuration.defined)
-                    p_Main->eventUpdateLedStatus(diagDmaLedOn_, 2);
+                    p_Main->guiUpdateLedStatus(diagDmaLedOn_, 2);
             }
         }
     }
@@ -3879,12 +3879,12 @@ void Computer::cycleLed()
                 panelPointer[frontPanel]->ledTimeout();
             if (updateQLed_)
             {
-                p_Main->eventUpdateVipIILedStatus(BAR_LED_Q, qState_ == 1);
+                p_Main->guiUpdateVipIILedStatus(BAR_LED_Q, qState_ == 1);
                 updateQLed_ = false;
             }
             if (updateTapeLed_)
             {
-                p_Main->eventUpdateVipIILedStatus(BAR_LED_TAPE, cassetteEf_ != 0);
+                p_Main->guiUpdateVipIILedStatus(BAR_LED_TAPE, cassetteEf_ != 0);
                 updateTapeLed_ = false;
             }
         }
@@ -3928,7 +3928,7 @@ void Computer::cycleLed()
         flashCycleValue_--;
         if (flashCycleValue_ <= 0)
         {
-            p_Main->eventUpdateVipIILedStatus(BAR_LED_RUN, flashState_);
+            p_Main->guiUpdateVipIILedStatus(BAR_LED_RUN, flashState_);
             flashState_ = !flashState_;
             flashCycleValue_ = vipIIRunCycleSize_/5;
         }
@@ -4073,7 +4073,7 @@ void Computer::switchQ(int value)
         if (currentComputerConfiguration.cdp1861Configuration.statusBarType == STATUSBAR_VIP2)
         {
             if (ledTimeMs_ == 0)
-                p_Main->eventUpdateVipIILedStatus(BAR_LED_Q, value == 1);
+                p_Main->guiUpdateVipIILedStatus(BAR_LED_Q, value == 1);
             else
                 updateQLed_ = true;
         }
@@ -4396,7 +4396,7 @@ void Computer::onRunButtonPress(bool run0)
         if (cpuMode_ != RUN)
             resetEffectiveClock();
 
-        p_Main->eventUpdateTitle();
+        p_Main->guiUpdateTitle();
     }
 }
 
@@ -4423,7 +4423,7 @@ void Computer::onRun()
 {
     if (cycleFlashOn_)
     {
-        p_Main->eventUpdateVipIILedStatus(BAR_LED_RUN, true);
+        p_Main->guiUpdateVipIILedStatus(BAR_LED_RUN, true);
         cycleFlashOn_ = false;
         return;
     }
@@ -4473,7 +4473,7 @@ void Computer::onRun()
             }
             
             setClear(runButtonState_);
-            p_Main->eventUpdateTitle();
+            p_Main->guiUpdateTitle();
             return;
         break;
 
@@ -4488,7 +4488,7 @@ void Computer::onRun()
             {
                 setClear(1);
                 setWait(1);
-                p_Main->eventUpdateTitle();
+                p_Main->guiUpdateTitle();
             }
             return;
         break;
@@ -4498,7 +4498,7 @@ void Computer::onRun()
             {
                 setClear(1);
                 setWait(1);
-                p_Main->eventUpdateTitle();
+                p_Main->guiUpdateTitle();
                 p_Main->startTime();
             }
             else
@@ -4511,7 +4511,7 @@ void Computer::onRun()
         {
             setClear(1);
             setWait(1);
-            p_Main->eventUpdateTitle();
+            p_Main->guiUpdateTitle();
             resetEffectiveClock();
         }
         else
@@ -4524,7 +4524,7 @@ void Computer::onRun()
             if (mpSuperButtonActive_)
                 mpButtonState_ = 0;
             monitor_ = false;
-            p_Main->eventUpdateTitle();
+            p_Main->guiUpdateTitle();
         }
     }
     else
@@ -4579,7 +4579,7 @@ void Computer::onPause()
                 mpButtonState_ = 0;
         break;
     }
-    p_Main->eventUpdateTitle();
+    p_Main->guiUpdateTitle();
 }
 
 void Computer::onMpButton(wxCommandEvent&WXUNUSED(event))
@@ -4685,7 +4685,7 @@ void Computer::setMultiCartGame()
         latchKeyPointer[2]->reDefineHexKeys(keyDefB1_, keyDefB2_, simDefB2_);
 
     p_Main->setSwName(game);
-    p_Main->eventUpdateTitle();
+    p_Main->guiUpdateTitle();
 }
 
 void Computer::onEmsButton(wxCommandEvent&event)
@@ -5214,7 +5214,7 @@ void Computer::onClearResetButtonPress()
 
     for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
         panelPointer[frontPanel]->clearResetSetState(BUTTON_DOWN);
-    p_Main->eventUpdateTitle();
+    p_Main->guiUpdateTitle();
 }
 
 void Computer::onClearButtonRelease()
@@ -5236,7 +5236,7 @@ void Computer::onClearSwitch()
         runButtonState_ = 1;
 
     setClear(runButtonState_);
-    p_Main->eventUpdateTitle();
+    p_Main->guiUpdateTitle();
 }
 
 void Computer::onClearSys00Button()
@@ -5248,7 +5248,7 @@ void Computer::onClearSys00Button()
     holdIdle();
     setWait(0);
     setClear(0);
-    p_Main->eventUpdateTitle();
+    p_Main->guiUpdateTitle();
 }
 
 void Computer::onStSys00Button()
@@ -5258,7 +5258,7 @@ void Computer::onStSys00Button()
     // and leaves the idle state intact (RS terminates the idle).
     setClear(1);
     setWait(1);
-    p_Main->eventUpdateTitle();
+    p_Main->guiUpdateTitle();
 }
 
 void Computer::onRsSys00Button()
@@ -5279,7 +5279,7 @@ void Computer::onRsSys00Button()
         setScratchpadRegister(0, scratchpadRegister_[0] + 1);
         cpuState_ = STATE_FETCH_1;
     }
-    p_Main->eventUpdateTitle();
+    p_Main->guiUpdateTitle();
 }
 
 void Computer::onLoadSys00Button()
@@ -6149,7 +6149,7 @@ Byte Computer::readMemDebug(Word address, int function)
             {
                 case READ_ADDRESS_DEBUG:
                     printBuffer.Printf("Exec address: %04X, read address: %04X", scratchpadRegister_[programCounter_], address);
-                    p_Main->eventShowTextMessage(printBuffer);
+                    p_Main->guiShowTextMessage(printBuffer);
                 break;
             }
         }
@@ -6336,7 +6336,7 @@ Byte Computer::readMemDebug(Word address, int function)
                 secondLastReadAddress_ = lastReadAddress_;
                 lastReadAddress_ = scratchpadRegister_[programCounter_];
                 printBuffer.Printf("Exec address: %04X, read address: %04X", lastReadAddress_, address);
-                p_Main->eventShowTextMessage(printBuffer);
+                p_Main->guiShowTextMessage(printBuffer);
             }*/
         }
     }
@@ -6577,7 +6577,7 @@ Byte Computer::readMemDebug(Word address, int function)
             if (address < 0x8800 || address > 0x887f)
             {
                 printBuffer.Printf("Exec address: %04X, read address: %04X, value: %02X", scratchpadRegister_[programCounter_], address, value);
-                p_Main->eventShowTextMessage(printBuffer);
+                p_Main->guiShowTextMessage(printBuffer);
             }
         }*/
         if (currentComputerConfiguration.videoTerminalConfiguration.uartIn.addressMode)
@@ -6896,7 +6896,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
             {
                 case WRITE_ADDRESS_DEBUG:
                     printBuffer.Printf("Exec address: %04X, write address: %04X, value: %02X", scratchpadRegister_[programCounter_], address, value);
-                    p_Main->eventShowTextMessage(printBuffer);
+                    p_Main->guiShowTextMessage(printBuffer);
                 break;
             }
         }
@@ -7108,7 +7108,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
                     {
 //                        wxString dbg;
 //                        dbg.Printf("HD44780 data write: PC=%04X value=0x%02X '%c'", scratchpadRegister_[programCounter_], value, (value >= 0x20 && value <= 0x7E) ? value : '.');
-//                        p_Main->eventShowTextMessage(dbg);
+//                        p_Main->guiShowTextMessage(dbg);
                         hd44780Pointer->writeData(value, SHOW_ADDRESS_TRACE);
                     }
                     hd44780DataCount++;
@@ -7262,7 +7262,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
             {
                 lastReadAddress_ = scratchpadRegister_[programCounter_];
                 printBuffer.Printf("Exec address: %04X, write address: %04X, value: %02X", lastReadAddress_, address, value);
-                p_Main->eventShowTextMessage(printBuffer);
+                p_Main->guiShowTextMessage(printBuffer);
             }*/
         }
     }
@@ -7403,7 +7403,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
             if (address < 0x8800 || address > 0x887f)
             {
                 printBuffer.Printf("Exec address: %04X, write address: %04X, value: %02X", scratchpadRegister_[programCounter_], address, value);
-                p_Main->eventShowTextMessage(printBuffer);
+                p_Main->guiShowTextMessage(printBuffer);
             }
         }*/
 
@@ -7731,7 +7731,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
                     {
                         case WRITE_ADDRESS_DEBUG:
                             printBuffer.Printf("Exec address: %04X, write address: %04X, value: %02X", scratchpadRegister_[programCounter_], address, value);
-                            p_Main->eventShowTextMessage(printBuffer);
+                            p_Main->guiShowTextMessage(printBuffer);
                         break;
                     }
                 }
@@ -7748,15 +7748,15 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
 //                                keyboardEf3_ = 0;
                             if (currentComputerConfiguration.parallelPrinterConfiguration.defined)
                             {
-                                p_Main->eventPrintParallelFinished();
+                                p_Main->guiPrintParallelFinished();
                             }
                             if (currentComputerConfiguration.serialPrinterConfiguration.defined)
                             {
-                                p_Main->eventPrintSerialFinished();
+                                p_Main->guiPrintSerialFinished();
                             }
          //                   if (currentComputerConfiguration.thermalPrinterConfiguration.defined)
          //                   {
-         //                       p_Main->eventPrintThermalFinished();
+          //                       p_Main->guiPrintThermalFinished();
          //                   }
                         break;
                     }
@@ -7904,9 +7904,9 @@ void Computer::cpuInstruction()
             panelPointer[frontPanel]->setStateLed(cpuMode_, 1);
         }
         if (cpuMode_ == RUN)
-            p_Main->eventUpdateVipIILedStatus(BAR_LED_RUN, true);
+            p_Main->guiUpdateVipIILedStatus(BAR_LED_RUN, true);
         else
-            p_Main->eventUpdateVipIILedStatus(BAR_LED_RUN, false);
+            p_Main->guiUpdateVipIILedStatus(BAR_LED_RUN, false);
         lastMode_ = cpuMode_;
     }
     if (cpuMode_ == RUN)
@@ -7927,7 +7927,7 @@ void Computer::cpuInstruction()
         if (runPressed_)
         {
             setClear(clear_^1);
-            p_Main->eventUpdateTitle();
+            p_Main->guiUpdateTitle();
             runPressed_ = false;
         }
         for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
@@ -7943,7 +7943,7 @@ void Computer::cpuInstruction()
         if (runPressed_)
         {
             setClear(clear_^1);
-            p_Main->eventUpdateTitle();
+            p_Main->guiUpdateTitle();
             if (clear_ == 1)
             {
                 resetEffectiveClock();
@@ -8081,10 +8081,10 @@ void Computer::resetPressed()
         if (currentComputerConfiguration.diagnosticBoardConfiguration.defined)
         {
             diagRomActive_ = currentComputerConfiguration.diagnosticBoardConfiguration.active;
-            p_Main->eventUpdateLedStatus(diagRomActive_, 1);
+            p_Main->guiUpdateLedStatus(diagRomActive_, 1);
             diagDmaLedOn_ = false;
-            p_Main->eventUpdateLedStatus(diagDmaLedOn_, 2);
-            p_Main->eventUpdateLedStatus(false, 5);
+            p_Main->guiUpdateLedStatus(diagDmaLedOn_, 2);
+            p_Main->guiUpdateLedStatus(false, 5);
         }
 
     }
@@ -8126,7 +8126,7 @@ void Computer::resetPressed()
     if (currentComputerConfiguration.multicartEmsNumber_ == -1)
     {
         p_Main->setSwName("");
-        p_Main->eventUpdateTitle();
+        p_Main->guiUpdateTitle();
     }
     
     if (currentComputerConfiguration.asciiKeyboardConfiguration.defined)
@@ -8564,8 +8564,8 @@ void Computer::configureExtensions()
 
         if (currentComputerConfiguration.vis1870Configuration.defined)
         {
-            p_Main->eventUpdateLedStatus(currentComputerConfiguration.diagnosticBoardConfiguration.active, 1);
-            p_Main->eventUpdateLedStatus(diagDmaLedOn_, 2);
+            p_Main->guiUpdateLedStatus(currentComputerConfiguration.diagnosticBoardConfiguration.active, 1);
+            p_Main->guiUpdateLedStatus(diagDmaLedOn_, 2);
         }
     }
     
@@ -9247,7 +9247,7 @@ void Computer::configureTapeExtensions()
             
             p_Main->message("");
 
-            p_Main->eventHwTapeStateChange(HW_TAPE_STATE_PLAY);
+            p_Main->guiHwTapeStateChange(HW_TAPE_STATE_PLAY);
         }
         else
         {
@@ -9412,7 +9412,7 @@ void Computer::onReset()
 {
     if (currentComputerConfiguration.diagnosticBoardConfiguration.defined)
         if (currentComputerConfiguration.vis1870Configuration.defined)
-            p_Main->eventUpdateLedStatus(true, 5);
+            p_Main->guiUpdateLedStatus(true, 5);
     resetPressed_ = true;
 }
 
@@ -10024,15 +10024,15 @@ void Computer::executeFunction(int function, Word additionalAddress)
             {
                 writeMem(currentComputerConfiguration.addressLocationConfiguration.code_start_high, (currentComputerConfiguration.addressLocationConfiguration.code_start>>8)&0xff, false);
                 writeMem(currentComputerConfiguration.addressLocationConfiguration.code_start_low, currentComputerConfiguration.addressLocationConfiguration.code_start&0xff, false);
-                p_Main->eventSaveStart(currentComputerConfiguration.addressLocationConfiguration.code_start);
-                p_Main->eventSetLocation(true);
+                p_Main->guiSaveStart(currentComputerConfiguration.addressLocationConfiguration.code_start);
+                p_Main->guiSetLocationState(true);
             }
             if (currentComputerConfiguration.addressLocationConfiguration.code_end_high != -1 && currentComputerConfiguration.addressLocationConfiguration.code_end_low != -1)
             {
                 writeMem(currentComputerConfiguration.addressLocationConfiguration.code_end_high, (endSave_>>8)&0xff, false);
                 writeMem(currentComputerConfiguration.addressLocationConfiguration.code_end_low, endSave_&0xff, false);
-                p_Main->eventSaveEnd(endSave_);
-                p_Main->eventSetLocation(true);
+                p_Main->guiSaveEnd(endSave_);
+                p_Main->guiSetLocationState(true);
             }
             p_Main->startCassetteSave(0);
         break;
@@ -10042,11 +10042,11 @@ void Computer::executeFunction(int function, Word additionalAddress)
             {
                 writeMem(currentComputerConfiguration.addressLocationConfiguration.code_start_high, (currentComputerConfiguration.addressLocationConfiguration.code_start>>8)&0xff, false);
                 writeMem(currentComputerConfiguration.addressLocationConfiguration.code_start_low, currentComputerConfiguration.addressLocationConfiguration.code_start&0xff, false);
-                p_Main->eventSaveStart(currentComputerConfiguration.addressLocationConfiguration.code_start);
-                p_Main->eventSetLocation(true);
+                p_Main->guiSaveStart(currentComputerConfiguration.addressLocationConfiguration.code_start);
+                p_Main->guiSetLocationState(true);
             }
             p_Main->setSwName ("");
-            p_Main->eventUpdateTitle();
+            p_Main->guiUpdateTitle();
             p_Main->startCassetteLoad(0);
         break;
 
@@ -10066,7 +10066,7 @@ void Computer::executeFunction(int function, Word additionalAddress)
             if (!fAndMBasicRunning_)
             {
                 fAndMBasicRunning_ = true;
-                p_Main->eventSetFandMBasicGui();
+                p_Main->guiSetFandMBasicGui();
             }
         break;
             
@@ -10074,7 +10074,7 @@ void Computer::executeFunction(int function, Word additionalAddress)
             if (fAndMBasicRunning_)
             {
                 fAndMBasicRunning_ = false;
-                p_Main->eventSetFandMBasicGui();
+                p_Main->guiSetFandMBasicGui();
             }
         break;
             
@@ -10145,7 +10145,7 @@ void Computer::executeFunction(int function, Word additionalAddress)
             {
                 currentComputerConfiguration.videoTerminalConfiguration.hexModem_defined = false;
                 currentComputerConfiguration.videoTerminalConfiguration.xModem_defined = true;
-                p_Main->eventSetButtonLabel ("XmodemButtonXml", "XMODEM");
+                p_Main->guiSetButtonLabel ("XmodemButtonXml", "XMODEM");
             }
         break;
             
@@ -10158,21 +10158,21 @@ void Computer::executeFunction(int function, Word additionalAddress)
             if (p_Main->getHwTapeState() == HW_TAPE_STATE_RW)
                 return;
             if (readMem(scratchpadRegister_[programCounter_]) == 0x7b)
-                p_Main->eventHwTapeStateChange(HW_TAPE_STATE_PLAY);
+                p_Main->guiHwTapeStateChange(HW_TAPE_STATE_PLAY);
         break;
             
         case INFO_CV_TAPE_FF:
             if (p_Main->getHwTapeState() == HW_TAPE_STATE_RW)
                 return;
             if (readMem(scratchpadRegister_[programCounter_]) == 0x7b)
-                p_Main->eventHwTapeStateChange(HW_TAPE_STATE_FF);
+                p_Main->guiHwTapeStateChange(HW_TAPE_STATE_FF);
         break;
             
         case INFO_CV_TAPE_REC:
             if (p_Main->getHwTapeState() == HW_TAPE_STATE_RW)
                 return;
             if (readMem(scratchpadRegister_[programCounter_]) == 0x7b)
-                p_Main->eventHwTapeStateChange(HW_TAPE_STATE_REC);
+                p_Main->guiHwTapeStateChange(HW_TAPE_STATE_REC);
         break;
 
         case INFO_FRED_TAPE_REC:
@@ -10521,7 +10521,7 @@ void Computer::loadRtc()
         rtcRam_[0xd] = 0x80;
         currentComputerConfiguration.clearRtc = false;
         p_Main->setConfiguration(currentComputerConfiguration);
-        p_Main->eventSetCheckBox("XmlClearRtc", false);
+        p_Main->guiSetCheckBox("XmlClearRtc", false);
         return;
     }
     
@@ -10567,7 +10567,7 @@ void Computer::setDosFileName()
     if (name[0] == 0 && name[1] == 0)
         return;
 
-    p_Main->eventSetSwName(name);
+    p_Main->guiSetSwName(name);
     p_Main->setPloadFileName(name + p_Main->getRunningComputerPloadExtension());
     if (mainMemory_[0xbc17] == 2)
     {
@@ -10576,10 +10576,10 @@ void Computer::setDosFileName()
         saveStart = mainMemory_[0xbc29] << 8;
         saveEnd = saveStart + (mainMemory_[0xbc25] << 8) + mainMemory_[0xbc26] - 4;
         saveExec = mainMemory_[0xbc29] << 8;
-        p_Main->eventSetLocation(true, saveStart, saveEnd, saveExec);
+        p_Main->guiSetLocation(true, saveStart, saveEnd, saveExec);
     }
     else
-        p_Main->eventSetLocation(false, 0, 0, 0);
+        p_Main->guiSetLocation(false, 0, 0, 0);
 }
 
 void Computer::setSelectedSlot(int slot)
@@ -10659,7 +10659,7 @@ void Computer::setBatchFileNumber(int number)
     batchFileNumber_ = number;
     batchInProgress_ = false;
         
-    p_Main->eventSetConvertState(false);
+    p_Main->guiSetConvertState(false);
 }
 
 void Computer::batchConvert()
@@ -10705,7 +10705,7 @@ bool Computer::getBatchFile(wxString memAccessExtension)
     {
         result = false;
         p_Main->batchConvertStop();
-        p_Main->eventSetConvertState(true);
+        p_Main->guiSetConvertState(true);
     }
 
     return result;
@@ -10759,7 +10759,7 @@ void Computer::fetchFileName(Word address, size_t length)
     fileName.Trim();
     
     reLoadKeyDefinition(fileName);
-    p_Main->eventSetSwName(fileName);
+    p_Main->guiSetSwName(fileName);
 }
 
 void Computer::startLoad(int tapeNumber, bool button)
@@ -10813,7 +10813,7 @@ void Computer::startLoad(int tapeNumber, bool button)
                     tapeActivated_ = p_Main->startCassetteLoad(tapeNumber);
                 
                 if (!tapeActivated_)
-                    p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
+                    p_Main->guiHwTapeStateChange(HW_TAPE_STATE_OFF);
             }
         break;
             
@@ -10884,7 +10884,7 @@ void Computer::cassette(wxInt32 val)
         oldCassetteEf_ = cassetteEf_;
 
         if (ledTimeMs_ == 0)
-            p_Main->eventUpdateVipIILedStatus(BAR_LED_TAPE, cassetteEf_ != 0);
+            p_Main->guiUpdateVipIILedStatus(BAR_LED_TAPE, cassetteEf_ != 0);
         else
             updateTapeLed_ = true;
     }
@@ -10938,7 +10938,7 @@ void Computer::cassette(wxInt16 val)
         oldCassetteEf_ = cassetteEf_;
 
         if (ledTimeMs_ == 0)
-            p_Main->eventUpdateVipIILedStatus(BAR_LED_TAPE, cassetteEf_ != 0);
+            p_Main->guiUpdateVipIILedStatus(BAR_LED_TAPE, cassetteEf_ != 0);
         else
             updateTapeLed_ = true;
     }
@@ -10992,7 +10992,7 @@ void Computer::cassette(char val)
         oldCassetteEf_ = cassetteEf_;
 
         if (ledTimeMs_ == 0)
-            p_Main->eventUpdateVipIILedStatus(BAR_LED_TAPE, cassetteEf_ != 0);
+            p_Main->guiUpdateVipIILedStatus(BAR_LED_TAPE, cassetteEf_ != 0);
         else
             updateTapeLed_ = true;
     }
@@ -11042,7 +11042,7 @@ void Computer::realCassette(short val)
     lastTapeInputInt16_ = val;
 }
 
-void Computer::cassetteXmlHw(wxInt32 val, long size)
+void Computer::cassetteXmlHw(wxInt32 val)
 {
     if ((tapeRunSwitch_&1) != 1 && currentComputerConfiguration.hwTapeConfiguration.format != TAPE_FORMAT_CV)
         return;
@@ -11052,8 +11052,6 @@ void Computer::cassetteXmlHw(wxInt32 val, long size)
         tape_threshold = currentComputerConfiguration.hwTapeConfiguration.threshold24Bit;
     else
         tape_threshold = threshold24_;
-
-    stepCassetteCounter(size);
     
     if (!currentComputerConfiguration.hwTapeConfiguration.defined)
         return;
@@ -11143,9 +11141,9 @@ void Computer::cassetteXmlHw(wxInt32 val, long size)
                     tapeFormatFixed_ = true;
                     tapeFormat56_ = true;
     //                if (computerType_ == FRED1)
-    //                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
+    //                    p_Main->guiSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
     //                else
-    //                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> 5.2/6.2 Tone");
+    //                    p_Main->guiSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> 5.2/6.2 Tone");
                 }
                 if (tapeFormat56_)
                     cassette56();
@@ -11165,7 +11163,7 @@ void Computer::cassetteXmlHw(wxInt32 val, long size)
     lastSampleInt32_ = val;
 }
 
-void Computer::cassetteXmlHw(wxInt16 val, long size)
+void Computer::cassetteXmlHw(wxInt16 val)
 {
     if ((tapeRunSwitch_&1) != 1 && currentComputerConfiguration.hwTapeConfiguration.format != TAPE_FORMAT_CV)
         return;
@@ -11175,8 +11173,6 @@ void Computer::cassetteXmlHw(wxInt16 val, long size)
         tape_threshold = currentComputerConfiguration.hwTapeConfiguration.threshold16Bit;
     else
         tape_threshold = threshold16_;
-
-    stepCassetteCounter(size);
     
     if (!currentComputerConfiguration.hwTapeConfiguration.defined)
         return;
@@ -11266,9 +11262,9 @@ void Computer::cassetteXmlHw(wxInt16 val, long size)
                     tapeFormatFixed_ = true;
                     tapeFormat56_ = true;
     //                if (computerType_ == FRED1)
-    //                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
+    //                    p_Main->guiSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
     //                else
-    //                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> 5.2/6.2 Tone");
+    //                    p_Main->guiSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> 5.2/6.2 Tone");
                 }
                 if (tapeFormat56_)
                     cassette56();
@@ -11288,7 +11284,7 @@ void Computer::cassetteXmlHw(wxInt16 val, long size)
     lastSampleInt16_ = val;
 }
 
-void Computer::cassetteXmlHw(char val, long size)
+void Computer::cassetteXmlHw(char val)
 {
     if ((tapeRunSwitch_&1) != 1 && currentComputerConfiguration.hwTapeConfiguration.format != TAPE_FORMAT_CV)
         return;
@@ -11298,8 +11294,6 @@ void Computer::cassetteXmlHw(char val, long size)
         tape_threshold = currentComputerConfiguration.hwTapeConfiguration.threshold8Bit;
     else
         tape_threshold = threshold8_;
-        
-    stepCassetteCounter(size);
 
     if (!currentComputerConfiguration.hwTapeConfiguration.defined)
         return;
@@ -11389,9 +11383,9 @@ void Computer::cassetteXmlHw(char val, long size)
                     tapeFormatFixed_ = true;
                     tapeFormat56_ = true;
     //                if (computerType_ == FRED1)
-    //                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
+    //                    p_Main->guiSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
     //                else
-    //                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> 5.2/6.2 Tone");
+    //                    p_Main->guiSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> 5.2/6.2 Tone");
                 }
                 if (tapeFormat56_)
                     cassette56();
@@ -11470,7 +11464,7 @@ void Computer::stepCassetteCounter(long step)
                 tapeCounter_.Printf("%02d:%02d:%03d",min,sec,msec);
             break;
         }
-        p_Main->eventSetStaticTextValue("CasCounterXml", tapeCounter_);
+        p_Main->guiSetStaticTextValue("CasCounterXml", tapeCounter_);
     }
 
 }
@@ -11582,12 +11576,12 @@ void Computer::cassette56()
                 if (inpMode_ == INP_MODE_TAPE_DIRECT)
                 {
                     message.Printf("Polarity issue at %04X", scratchpadRegister_[0]);
-                    p_Main->eventShowTextMessage(message);
+                    p_Main->guiShowTextMessage(message);
                 }
                 if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
                 {
                     message.Printf("Polarity issue");
-                    p_Main->eventShowTextMessage(message);
+                    p_Main->guiShowTextMessage(message);
                 }
 
                 if (inpMode_ == INP_MODE_TAPE_DIRECT)
@@ -11640,9 +11634,9 @@ void Computer::cassettePm()
             if (currentComputerConfiguration.hwTapeConfiguration.format == TAPE_FORMAT_AUTO)
             {
 //                if (computerType_ == FRED1)
-//                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> PM System");
+//                    p_Main->guiSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> PM System");
 //                else
-//                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> PM SYSTEM");
+//                    p_Main->guiSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> PM SYSTEM");
             }
             tapeFormatFixed_ = true;
         }
@@ -11657,12 +11651,12 @@ void Computer::cassettePm()
                 if (inpMode_ == INP_MODE_TAPE_DIRECT)
                 {
                     message.Printf("Polarity issue at %04X", scratchpadRegister_[0]);
-                    p_Main->eventShowTextMessage(message);
+                    p_Main->guiShowTextMessage(message);
                 }
                 if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
                 {
                     message.Printf("Polarity issue");
-                    p_Main->eventShowTextMessage(message);
+                    p_Main->guiShowTextMessage(message);
                 }
                 bitNumber_ = 0;
                 polarity_ = 0;
@@ -11719,7 +11713,7 @@ void Computer::finishStopTape(bool loadDelay)
         
         writeMem(currentComputerConfiguration.addressLocationConfiguration.code_end_high, (end>>8)&0xff, false);
         writeMem(currentComputerConfiguration.addressLocationConfiguration.code_end_low, end&0xff, false);
-        p_Main->eventSaveEnd(end);
+        p_Main->guiSaveEnd(end);
         resetPressed_ = true;
     }
     inpMode_ = INP_MODE_NONE;
@@ -11730,7 +11724,7 @@ void Computer::finishStopTape(bool loadDelay)
     cassetteEf_ = 0;
     if (loadDelay)
         tapeFinished_ = (currentComputerConfiguration.swTapeConfiguration.endDelay * sampleRate_) / 1000;
-    p_Main->eventUpdateVipIILedStatus(BAR_LED_TAPE, cassetteEf_ != 0);
+    p_Main->guiUpdateVipIILedStatus(BAR_LED_TAPE, cassetteEf_ != 0);
 }
 
 void Computer::resetTape()
@@ -11747,12 +11741,12 @@ void Computer::resetTape()
 
     if (currentComputerConfiguration.hwTapeConfiguration.defined)
     {
-        p_Main->eventSetStaticTextValue("CasCounterXml", "00:00:000");
+        p_Main->guiSetStaticTextValue("CasCounterXml", "00:00:000");
 
         if (currentComputerConfiguration.hwTapeConfiguration.format == TAPE_FORMAT_CV)
         {
             p_Computer->stopTape();
-            p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
+            p_Main->guiHwTapeStateChange(HW_TAPE_STATE_OFF);
             finishStopTape(false);
         }
     }
@@ -11895,7 +11889,7 @@ void Computer::showPtcRegisters()
         {
             idReference.Printf("V%01X", 0xA + i);
             valueStr.Printf("%04X", newValue & 0xFFFF);
-            p_Main->eventSetTextValue(idReference, valueStr);
+            p_Main->guiSetTextValue(idReference, valueStr);
             chip8Register[0xA + i] = newValue;
         }
     }

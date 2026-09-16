@@ -471,7 +471,7 @@ void Keyb1871::diagOut(Byte value)
     {
         case 0:
             debounceCounter_ = 4000;
-            p_Main->eventDebounceTimer();
+            p_Main->guiDebounceTimer();
         break;
             
         case 0x10:

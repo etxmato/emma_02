@@ -1130,7 +1130,7 @@ void Vt100::setCycle()
 
 void Vt100::eventRefreshScreen()
 {
-    p_Main->eventRefreshVideo(true, uartNumber_);
+    p_Main->guiRefreshVideo(true, uartNumber_);
 }
 
 wxColour Vt100::copyScreenBackgroundColour()
@@ -1392,7 +1392,7 @@ void Vt100::setFullScreen(bool fullScreenSet)
 void Vt100::onF3()
 {
     fullScreenSet_ = !fullScreenSet_;
-    p_Main->eventVtSetFullScreen(fullScreenSet_, uartNumber_);
+    p_Main->guiVtSetFullScreen(fullScreenSet_, uartNumber_);
 }
 
 void Vt100::scrollLine()
@@ -3616,7 +3616,7 @@ bool Vt100::readCharRomFile(wxString romDir, wxString romFile)
 
     if (romFile == "")
     {
-        p_Main->errorMessage("No font filename specified");
+        p_Main->guiErrorMessage("No font filename specified");
         return false;
     }
 
@@ -3635,7 +3635,7 @@ bool Vt100::readCharRomFile(wxString romDir, wxString romFile)
     }
     else
     {
-        p_Main->errorMessage("Error reading " + fileName);
+        p_Main->guiErrorMessage("Error reading " + fileName);
         return false;
     }
 }

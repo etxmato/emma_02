@@ -318,7 +318,7 @@ void GuiDebugger::cycleDebugger()
                 if (breakTrap_)
                 {
                     p_Computer->setSteps(0);
-                    p_Main->eventPauseState();
+                    p_Main->guiPauseState();
                 }
                 else
                 {
@@ -385,7 +385,7 @@ void GuiDebugger::cycleDebugger()
                     p_Computer->setSteps(0);
                     printBuffer.Printf("Instruction Trap at %04X", programCounterAddress);
                     p_Main->debugTrace(printBuffer);
-                    p_Main->eventPauseState();
+                    p_Main->guiPauseState();
                     i = numberOfBreakPointsAndTraps_;
                 }
             }
@@ -398,7 +398,7 @@ void GuiDebugger::cycleDebugger()
             p_Computer->setSteps(p_Computer->getSteps()-1);
 
         if (p_Computer->getSteps() == 0)
-            p_Main->eventPauseState();
+            p_Main->guiPauseState();
     }
 
     if (performStep_)
@@ -455,7 +455,7 @@ void GuiDebugger::cycleDebugger()
         p_Computer->setSteps(steps_);
         performStep_ = false;
         p_Computer->forceLedUpdate();
-        p_Main->eventPauseState();
+        p_Main->guiPauseState();
     }
 }
 
@@ -477,7 +477,7 @@ void GuiDebugger::checkRegisterTrap(Byte registerType, Word execAddress, Word va
                 if (breakTrap_)
                 {
                     p_Computer->setSteps(0);
-                    p_Main->eventPauseState();
+                    p_Main->guiPauseState();
                 }
             }
         }
@@ -521,7 +521,7 @@ void GuiDebugger::checkMemoryTrap(Word execAddress, Word address, Byte value, in
                         if (breakTrap_)
                         {
                             p_Computer->setSteps(0);
-                            p_Main->eventPauseState();
+                            p_Main->guiPauseState();
                         }
                     }
                 }

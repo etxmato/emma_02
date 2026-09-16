@@ -71,4 +71,6 @@ private:
 
 };
 
+extern PopupDialog *popupDialog_;
+
 #endif  // POPUPDLG_H

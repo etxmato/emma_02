@@ -695,9 +695,7 @@ void *RunComputer::Entry()
     {
         p_Computer->cpuInstruction();
     }
-    wxCommandEvent event(KILL_COMPUTER, 809);
-    event.SetEventObject(p_Main);
-    wxPostEvent(p_Main, event);
+    p_Main->guiKillComputer();
     return NULL;
 }
 
@@ -2204,7 +2202,7 @@ void Panel::executeMouseRightReleaseFunction(std::vector<GuiItemConfiguration>::
 void Panel::ledTimeout()
 {
 #if defined(__WXMAC__)
-    p_Main->eventRefreshPanel();
+    p_Main->guiRefreshPanel();
 #else
     CallAfter(&Panel::ledTimeoutGui);
 #endif
@@ -2287,7 +2285,7 @@ void Panel::setReadyLed(int status)
         if (ms_ == 0)
         {
 #if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
+            p_Main->guiRefreshPanel();
 #else
             wxClientDC dc(this);
             updateReadyLed(dc);
@@ -2308,7 +2306,7 @@ void Panel::setStopLed(int status)
         if (ms_ == 0)
         {
 #if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
+            p_Main->guiRefreshPanel();
 #else
             wxClientDC dc(this);
             updateStopLed(dc);
@@ -2338,7 +2336,7 @@ void Panel::setMnLed(int status)
         if (ms_ == 0)
         {
 #if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
+            p_Main->guiRefreshPanel();
 #else
             wxClientDC dc(this);
             updateMnLed(dc);
@@ -2368,7 +2366,7 @@ void Panel::setNbLed(int status)
         if (ms_ == 0)
         {
 #if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
+            p_Main->guiRefreshPanel();
 #else
             wxClientDC dc(this);
             updateNbLed(dc);
@@ -2398,7 +2396,7 @@ void Panel::setPowerLed(int status)
         if (ms_ == 0)
         {
 #if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
+            p_Main->guiRefreshPanel();
 #else
             wxClientDC dc(this);
             updatePowerLed(dc);
@@ -2428,7 +2426,7 @@ void Panel::setErrorLed(int status)
         if (ms_ == 0)
         {
 #if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
+            p_Main->guiRefreshPanel();
 #else
             wxClientDC dc(this);
             updateErrorLed(dc);
@@ -2458,7 +2456,7 @@ void Panel::setQLed(int status)
         if (ms_ == 0)
         {
 #if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
+            p_Main->guiRefreshPanel();
 #else
             wxClientDC dc(this);
             updateQLed(dc);
@@ -2488,7 +2486,7 @@ void Panel::setLed(int i, int status)
         if (ms_ == 0)
         {
 #if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
+            p_Main->guiRefreshPanel();
 #else
             wxClientDC dc(this);
             updateLed(dc, i);
@@ -2528,7 +2526,7 @@ void Panel::setOutLeds(int output, Byte value)
                 if (ms_ == 0)
                 {
 #if defined(__WXMAC__)
-                    p_Main->eventRefreshPanel();
+                    p_Main->guiRefreshPanel();
 #else
                     wxClientDC dc(this);
                     updateOutLed(dc, output, led);
@@ -2582,7 +2580,7 @@ void Panel::setNibbleLed(int i, int status)
         if (ms_ == 0)
         {
 #if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
+            p_Main->guiRefreshPanel();
 #else
             wxClientDC dc(this);
             updateNibbleLed(dc, i);
@@ -2612,7 +2610,7 @@ void Panel::setMathLed(int i, int status)
         if (ms_ == 0)
         {
 #if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
+            p_Main->guiRefreshPanel();
 #else
             wxClientDC dc(this);
             updateMathLed(dc, i);
@@ -2642,7 +2640,7 @@ void Panel::setStateLed(int i, int status)
         if (ms_ == 0)
         {
 #if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
+            p_Main->guiRefreshPanel();
 #else
             wxClientDC dc(this);
             updateStateLed(dc, i);
@@ -2669,7 +2667,7 @@ void Panel::setTilOut(int output, Byte value)
         if (ms_ == 0)
         {
 #if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
+            p_Main->guiRefreshPanel();
 #else
             wxClientDC dc(this);
             updateTilOut(dc, output);
@@ -2699,7 +2697,7 @@ void Panel::showData(Byte value)
         if (ms_ == 0)
         {
 #if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
+            p_Main->guiRefreshPanel();
 #else
             wxClientDC dc(this);
             updateData(dc);
@@ -2732,7 +2730,7 @@ void Panel::showDp313Italic(bool status, int i)
         if (ms_ == 0)
         {
 #if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
+            p_Main->guiRefreshPanel();
 #else
             wxClientDC dc(this);
             updateDp313Italic(dc);
@@ -2779,7 +2777,7 @@ void Panel::showSeg(int number, Byte value)
         if (ms_ == 0)
         {
 #if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
+            p_Main->guiRefreshPanel();
 #else
             wxClientDC dc(this);
             updateSeg(dc, number);
@@ -2809,7 +2807,7 @@ void Panel::showMulti(int number, Word value)
         if (ms_ == 0)
         {
 #if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
+            p_Main->guiRefreshPanel();
 #else
             wxClientDC dc(this);
             updateMulti(dc, number);
@@ -2837,7 +2835,7 @@ void Panel::showAddress(Word address)
         if (ms_ == 0)
         {
 #if defined(__WXMAC__)
-            p_Main->eventRefreshPanel();
+            p_Main->guiRefreshPanel();
 #else
             wxClientDC dc(this);
             updateAddress(dc);
@@ -2909,7 +2907,7 @@ void Panel::clearResetSetState(bool state)
 //void Panel::resetSetState(bool state)
 //{
 //#if defined(__WXMAC__)
-//    p_Main->eventRefreshPanel();
+//    p_Main->guiRefreshPanel();
 //#else
 //    wxClientDC dc(this);
 //    resetSwitchButton->setState(dc, state);

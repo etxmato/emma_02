@@ -188,7 +188,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     
     if (!wxFile::Exists(xmlDir + xmlFile) || xmlFile == "" || xmlDir == "")
     {
-//        p_Main->eventShowTextMessage("XML not found: dir=[" + xmlDir + "] file=[" + xmlFile + "]");
+//        p_Main->guiShowTextMessage("XML not found: dir=[" + xmlDir + "] file=[" + xmlFile + "]");
         memConfigNumber_ = 2;
         computerConfiguration.memoryConfiguration.resize(memConfigNumber_);
         computerConfiguration.memoryConfiguration[0].filename = "";
@@ -206,7 +206,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     {
         if (newDate.IsEqualTo(oldXmlDate_))
         {
- //           p_Main->eventShowTextMessage("XML file not reloaded");
+ //           p_Main->guiShowTextMessage("XML file not reloaded");
             return;
         }
     }
@@ -450,7 +450,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.swTapeConfiguration.twoDecks = false;
     computerConfiguration.hwTapeConfiguration.defined = false;
     computerConfiguration.hwTapeConfiguration.twoDecks = false;
-    computerConfiguration.hwTapeConfiguration.defined = false;
+    computerConfiguration.hwTapeConfiguration.format = TAPE_FORMAT_AUTO;
 
     computerConfiguration.soundConfiguration.type = SOUND_OFF;
     computerConfiguration.soundConfiguration.stereo = 1;
@@ -551,14 +551,14 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     
     if (!doc.Load(xmlDir + xmlFile))
     {
-        p_Main->eventShowTextMessage("Error loading XML file");
+        p_Main->guiShowTextMessage("Error loading XML file");
         return;
     }
     
     // start processing the XML file
     if (doc.GetRoot()->GetName() != "emmaconfig")
     {
-        p_Main->eventShowTextMessage("Invalid XML file");
+        p_Main->guiShowTextMessage("Invalid XML file");
         return;
     }
 

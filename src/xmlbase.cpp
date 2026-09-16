@@ -33,12 +33,12 @@
 #include "main.h"
 #include "xmlbase.h"
 
-BEGIN_EVENT_TABLE(XmlBase, GuiMain)
+BEGIN_EVENT_TABLE(XmlBase, GuiUpdate)
 
 END_EVENT_TABLE()
 
 XmlBase::XmlBase(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
-: GuiMain(title, pos, size, mode, dataDir, iniDir)
+: GuiUpdate(title, pos, size, mode, dataDir, iniDir)
 {
 }
 

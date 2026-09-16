@@ -1,10 +1,10 @@
 #ifndef XMLBASE_H
 #define XMLBASE_H
 
-#include "guimain.h"
+#include "guiupdate.h"
 #include "computerconfig.h"
 
-class XmlBase: public GuiMain
+class XmlBase: public GuiUpdate
 {
 public:
 

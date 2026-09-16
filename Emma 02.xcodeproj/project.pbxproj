@@ -180,6 +180,8 @@
 		99B643152E8B173B004081A0 /* fred_video_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99B643132E8B173B004081A0 /* fred_video_config.cpp */; };
 		99B643182E8B1F29004081A0 /* coin_video_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99B643172E8B1F29004081A0 /* coin_video_config.cpp */; };
 		99B643192E8B1F29004081A0 /* coin_video_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99B643172E8B1F29004081A0 /* coin_video_config.cpp */; };
+		99B8D6523059CA8700D0A4AD /* guiupdate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99B8D6513059CA8700D0A4AD /* guiupdate.cpp */; };
+		99B8D6533059CA8700D0A4AD /* guiupdate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99B8D6513059CA8700D0A4AD /* guiupdate.cpp */; };
 		99BBC9AA281DD37500BD9345 /* guixml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BBC9A9281DD36F00BD9345 /* guixml.cpp */; };
 		99BBC9AE281DD39E00BD9345 /* xmlemu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BBC9AC281DD39B00BD9345 /* xmlemu.cpp */; };
 		99BC74FC1DCFDB5C0000D8A9 /* upd765.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BC74FA1DCFDB5C0000D8A9 /* upd765.cpp */; };
@@ -664,6 +666,8 @@
 		99B643132E8B173B004081A0 /* fred_video_config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = fred_video_config.cpp; path = src/fred_video_config.cpp; sourceTree = "<group>"; };
 		99B643162E8B1F29004081A0 /* coin_video_config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = coin_video_config.h; path = src/coin_video_config.h; sourceTree = "<group>"; };
 		99B643172E8B1F29004081A0 /* coin_video_config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = coin_video_config.cpp; path = src/coin_video_config.cpp; sourceTree = "<group>"; };
+		99B8D6503059CA8700D0A4AD /* guiupdate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = guiupdate.h; path = src/guiupdate.h; sourceTree = "<group>"; };
+		99B8D6513059CA8700D0A4AD /* guiupdate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = guiupdate.cpp; path = src/guiupdate.cpp; sourceTree = "<group>"; };
 		99BBC9A8281DD36F00BD9345 /* guixml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = guixml.h; path = src/guixml.h; sourceTree = "<group>"; };
 		99BBC9A9281DD36F00BD9345 /* guixml.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = guixml.cpp; path = src/guixml.cpp; sourceTree = "<group>"; };
 		99BBC9AC281DD39B00BD9345 /* xmlemu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = xmlemu.cpp; path = src/xmlemu.cpp; sourceTree = "<group>"; };
@@ -1001,6 +1005,8 @@
 				997647871A61D5EE00FB9B33 /* guipopup.h */,
 				9903EB872BDAFBDB001FC910 /* guisb.cpp */,
 				9903EB862BDAFBDB001FC910 /* guisb.h */,
+				99B8D6513059CA8700D0A4AD /* guiupdate.cpp */,
+				99B8D6503059CA8700D0A4AD /* guiupdate.h */,
 				997647181A61D5EE00FB9B33 /* guivip2.cpp */,
 				9976475D1A61D5EE00FB9B33 /* guivip2.h */,
 				99BBC9A9281DD36F00BD9345 /* guixml.cpp */,
@@ -1466,6 +1472,7 @@
 				99DD04722D5A9F9C00E4385F /* ImageFile.cpp in Sources */,
 				995ED6422BD439DB000FA9E5 /* statusbar.cpp in Sources */,
 				99B643102E8B1720004081A0 /* vip2k_video_config.cpp in Sources */,
+				99B8D6523059CA8700D0A4AD /* guiupdate.cpp in Sources */,
 				992B7AF62E6CCF1C00351241 /* video_config.cpp in Sources */,
 				992B7AF12E6CC88900351241 /* xmlbase.cpp in Sources */,
 				99B643142E8B173B004081A0 /* fred_video_config.cpp in Sources */,
@@ -1580,6 +1587,7 @@
 				99DD04732D5A9F9C00E4385F /* ImageFile.cpp in Sources */,
 				995ED6432BD439DC000FA9E5 /* statusbar.cpp in Sources */,
 				99B643112E8B1720004081A0 /* vip2k_video_config.cpp in Sources */,
+				99B8D6533059CA8700D0A4AD /* guiupdate.cpp in Sources */,
 				992B7AF52E6CCF1C00351241 /* video_config.cpp in Sources */,
 				992B7AF22E6CC88900351241 /* xmlbase.cpp in Sources */,
 				99B643152E8B173B004081A0 /* fred_video_config.cpp in Sources */,

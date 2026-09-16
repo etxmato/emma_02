@@ -564,7 +564,7 @@ void i8275::cycle8275()
         return;
 //    if (p_Computer->getProgramCounter() == 0)
 //    {
-//        p_Main->eventShowTextMessage("DMA request while R0 is Program Counter");
+//        p_Main->guiShowTextMessage("DMA request while R0 is Program Counter");
 //        return;
 //    }
     dmaCycleValue8275_--;
@@ -904,7 +904,7 @@ bool i8275::readCharRomFile(wxString romDir, wxString romFile)
 
     if (romFile == "")
     {
-        p_Main->errorMessage("No font filename specified");
+        p_Main->guiErrorMessage("No font filename specified");
         return false;
     }
 
@@ -912,7 +912,7 @@ bool i8275::readCharRomFile(wxString romDir, wxString romFile)
 
     if (!wxFile::Exists(fileName))
     {
-        p_Main->errorMessage("File " + fileName + " not found");
+        p_Main->guiErrorMessage("File " + fileName + " not found");
         return false;
     }
 
@@ -930,7 +930,7 @@ bool i8275::readCharRomFile(wxString romDir, wxString romFile)
     }
     else
     {
-        p_Main->errorMessage("Error reading " + fileName);
+        p_Main->guiErrorMessage("Error reading " + fileName);
         return false;
     }
 }
@@ -944,6 +944,6 @@ void i8275::setFullScreen(bool fullScreenSet)
 void i8275::onF3()
 {
     fullScreenSet_ = !fullScreenSet_;
-    p_Main->eventVideoSetFullScreen(fullScreenSet_, videoNumber_);
+    p_Main->guiVideoSetFullScreen(fullScreenSet_, videoNumber_);
 }
 

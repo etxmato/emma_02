@@ -31,8 +31,9 @@
 
 const int header_size = 0x2C;
 
-WaveReader::WaveReader()
+WaveReader::WaveReader(bool tape)
 {
+    tape_ = tape;
     dataPosition_ = 0x2C;
 }
 
@@ -105,11 +106,11 @@ long WaveReader::readHeader()
             {
                 int compressionCode = chunkData [0] +(chunkData [1]<<8);
                 if (compressionCode != 1)
-                    p_Main->errorMessage("Wave file error: Only PCM files are supported");
+                    p_Main->guiErrorMessage("Wave file error: Only PCM files are supported");
 
                 channelCount_ = chunkData [2] +(chunkData [3]<<8);
                 if (channelCount_ > 2)
-                    p_Main->errorMessage("Wave file error: Only mono and stereo files are supported");
+                    p_Main->guiErrorMessage("Wave file error: Only mono and stereo files are supported");
 
                 sampleRate_ = chunkData [4] +(chunkData [5]<<8) +(chunkData [6]<<16) +(chunkData [7]<<24);
                 frameSize_ = chunkData [12] +(chunkData [13]<<8);
@@ -122,7 +123,7 @@ long WaveReader::readHeader()
 
 //    wxString message;
   //  message.Printf("%d", sampleRate_);
-    //p_Main->eventShowTextMessage(message);
+    //p_Main->guiShowTextMessage(message);
     return sampleRate_;
 }
 
@@ -208,8 +209,11 @@ long WaveReader::read(wxInt16* outBuffer, size_t remaining, float gain)
                 }
                 bufferPointer += frameSize_/2;
             }
-            p_Computer->cassette(data24);
-            p_Computer->cassetteXmlHw(data24, remaining);
+            if (tape_)
+            {
+                p_Computer->cassette(data24);
+                p_Computer->cassetteXmlHw(data24);
+            }
         break;
             
         case 2:
@@ -241,8 +245,11 @@ long WaveReader::read(wxInt16* outBuffer, size_t remaining, float gain)
                 }
                 bufferPointer += frameSize_/2;
             }
-            p_Computer->cassette(dataWord);
-            p_Computer->cassetteXmlHw(dataWord, remaining);
+            if (tape_)
+            {
+                p_Computer->cassette(dataWord);
+                p_Computer->cassetteXmlHw(dataWord);
+            }
         break;
             
         case 1:
@@ -270,8 +277,11 @@ long WaveReader::read(wxInt16* outBuffer, size_t remaining, float gain)
                 }
                 bufferPointer += frameSize_/2;
             }
-            p_Computer->cassette(dataByte);
-            p_Computer->cassetteXmlHw(dataByte, remaining);
+            if (tape_)
+            {
+                p_Computer->cassette(dataByte);
+                p_Computer->cassetteXmlHw(dataByte);
+            }
         break;
     }
     sampleCount_ += remaining;

@@ -372,9 +372,9 @@ public:
     void cassette(wxInt16 val);
     void cassette(char val);
     void realCassette(short val);
-    void cassetteXmlHw(wxInt32 val, long size);
-    void cassetteXmlHw(wxInt16 val, long size);
-    void cassetteXmlHw(char val, long size);
+    void cassetteXmlHw(wxInt32 val);
+    void cassetteXmlHw(wxInt16 val);
+    void cassetteXmlHw(char val);
     void stepCassetteCounter(long step);
     void cassetteCyberVision();
     void cassette56();

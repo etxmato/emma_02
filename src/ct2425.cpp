@@ -414,7 +414,7 @@ void Ct2425::setControl(Byte value, int showTrace)
             gateStatus_[gate].cycleValue_ = -1;
         }
         p_Computer->setSteps(0);
-        p_Main->eventPauseState();
+        p_Main->guiPauseState();
         wxString printBuffer;
         printBuffer.Printf("      Power break at %04X", p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()));
         p_Main->debugTrace(printBuffer, true);

@@ -1143,12 +1143,12 @@ void VIS1870::reDrawBar()
 
 void VIS1870::updateComxExpansionLed(bool status)
 {
-    p_Main->eventUpdateLedStatus(status, p_Computer->getSelectedSlot(), 0);
+    p_Main->guiUpdateLedStatus(status, p_Computer->getSelectedSlot(), 0);
 }
 
 void VIS1870::updateComxStatusLed(bool status)
 {
-    p_Main->eventUpdateLedStatus(status, p_Computer->getSelectedSlot(), 1);
+    p_Main->guiUpdateLedStatus(status, p_Computer->getSelectedSlot(), 1);
 }
 
 void VIS1870::updateStatusLed(bool status, int card, int i)
@@ -1281,7 +1281,7 @@ void VIS1870::setFullScreen(bool fullScreenSet)
 void VIS1870::onF3()
 {
     fullScreenSet_ = !fullScreenSet_;
-    p_Main->eventVideoSetFullScreen(fullScreenSet_, videoNumber_);
+    p_Main->guiVideoSetFullScreen(fullScreenSet_, videoNumber_);
 }
 
 void VIS1870::reBlit(wxDC &dc)

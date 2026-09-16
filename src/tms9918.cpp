@@ -705,7 +705,7 @@ void Tms9918::copyScreen()
             dcMemoryMainAndSpritePlane.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemorySpritePlane, offsetX_, offsetY_);
         dcMemory.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemoryMainAndSpritePlane, 0, 0);
 #if defined(__WXMAC__)
-        p_Main->eventRefreshVideo(false, videoNumber_);
+        p_Main->guiRefreshVideo(false, videoNumber_);
 #else
         if (extraBackGround_ && newBackGround_)
             drawExtraBackground(colour_[colourIndex_+backgroundColor_+16]);
@@ -1470,7 +1470,7 @@ void Tms9918::setFullScreen(bool fullScreenSet)
 void Tms9918::onF3()
 {
     fullScreenSet_ = !fullScreenSet_;
-    p_Main->eventVideoSetFullScreen(fullScreenSet_, videoNumber_);
+    p_Main->guiVideoSetFullScreen(fullScreenSet_, videoNumber_);
 }
 
 void Tms9918::reBlit(wxDC &dc)

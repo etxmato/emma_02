@@ -1802,12 +1802,12 @@ void Printer::outSerial(Byte value)
         if (serialPrinterParity_ == PRINTER_PARITY_EVEN)
         {
             if (((parity_&0x1) == 0) != (value == 0x80))
-                p_Main->eventShowTextMessage("Printer parity error");
+                p_Main->guiShowTextMessage("Printer parity error");
         }
         if (serialPrinterParity_ == PRINTER_PARITY_ODD)
         {
             if (((parity_&0x1) == 0) != (value == 0))
-                p_Main->eventShowTextMessage("Printer parity error");
+                p_Main->guiShowTextMessage("Printer parity error");
         }
     }
     if ((bit_ > 0) &&(bit_ <= dataBits_))

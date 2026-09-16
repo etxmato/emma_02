@@ -44,32 +44,6 @@ private:
 
 // code defining event
 
-class wxErrorMsgEvent: public wxNotifyEvent
-{
-public:
-    wxErrorMsgEvent( wxEventType commandType = wxEVT_NULL, int id = 0 );
-
-    // accessors
-    wxString GetMsg()
-        { return message; }
-    void SetMsg(wxString msg)
-        { message = msg;}
-    // required for sending with wxPostEvent()
-    wxEvent *Clone(void) const { return new wxErrorMsgEvent(*this); }
-
-private:
-    wxString   message;
-};
-
-DECLARE_EVENT_TYPE( wxEVT_ERROR_MSG, -1 )
-
-typedef void (wxEvtHandler::*wxErrorMsgEventFunction)(wxErrorMsgEvent&);
-
-#define EVT_ERROR_MSG(id, fn) \
-    DECLARE_EVENT_TABLE_ENTRY( wxEVT_ERROR_MSG, id, -1, \
-    (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) (wxNotifyEventFunction) \
-    wxStaticCastEvent( wxErrorMsgEventFunction, & fn ), (wxObject *) NULL ),
-
 class guiEvent: public wxThreadEvent
 {
 public:
@@ -216,53 +190,11 @@ protected:
     Main *m_pHandler;
 };
 
-#define SET_LOCATION 1
-#define SET_SW_NAME 2
-#define SET_TAPE_STATE 3
-#define SET_TEXT_VALUE 4
-#define SET_CHECK_BOX 5
-#define PRINT_DEFAULT 6
-#define PRINT_PARALLEL 7
-#define PRINT_PARALLEL_FINISHED 8
-#define PRINT_THERMAL 9
-#define PRINT_THERMAL_FINISHED 10
-#define PRINT_THERMAL_CYCLE 11
-#define PRINT_SERIAL 12
-#define PRINT_SERIAL_FINISHED 13
-#define PRINT_PECOM 14
-#define SET_FM_GUI 16
-#define SET_SAVE_START 17
-#define SET_SAVE_END 18
-//
-#define SET_VIDEO_FULLSCREEN 20
-#define SET_VT_FULLSCREEN 21
-#define CHANGE_NOTEBOOK 22
-#define DISABLE_CONTROLS 23
-#define DEBUG_TRACE 24
-#define UPDATE_TITLE 25
 #define SHOW_MESSAGE_BOX 26
 #define SHOW_FILE_SELECTOR 27
-#define SHOW_MESSAGE 28
 #define SHOW_ADDRESS_POPUP 29
-#define SHOW_TEXT_MESSAGE 30
-#define DEBOUNCE_TIMER 31
-#define SET_STATIC_TEXT_VALUE 32
-#define ZOOM_CHANGE 33
-#define ZOOMVT_CHANGE 34
 #define GET_CLIENT_SIZE 35
 #define SET_CLIENT_SIZE 36
-#define REFRESH_VIDEO 37
-#define REFRESH_PANEL 38
-#define EVENT_ZOOM 39
-#define SET_CONVERT_STATE 40
-#define SET_STATUS_BAR_LED 41
-#define BEEP_TIMER 42
-#define ENABLE_CLOCK 43
-#define PAUSE_STATE 44
-#define SET_BUTTON_LABEL 45
-#define CHANGE_HW_TAPE_STATE 46
-#define SET_LOCATION_STATE 47
-#define SET_VIPIILED 48
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
@@ -1023,7 +955,7 @@ public:
     void onStop(wxCommandEvent& event);
 
     void stopComputer();
-    void killComputer(wxCommandEvent&WXUNUSED(event));
+    void killComputer();
     void enableGui(bool status);
     void configureMessage(int ioGroup, wxString text);
     wxString getGroupMessage(int ioGroup);
@@ -1075,96 +1007,12 @@ public:
     void zoomEvent(double zoom, int videoNumber);
     void zoomEventVt(double zoom);
     void vuSet(wxString Item, int value);
-    void errorMessageEvent(wxErrorMsgEvent& event);
-    void errorMessage(wxString msg);
 
-    void setLocationEvent(guiEvent& event);
-    void eventSetLocation(bool state, Word saveStart, Word saveEnd, Word saveExec);
-
-    void setLocationStateEvent(guiEvent& event);
-    void eventSetLocation(bool state);
-
-    void setEnableClockEvent(guiEvent& event);
-    void eventEnableClock(bool state);
-
-    void setHwTapeStateEvent(guiEvent& event);
-    void eventHwTapeStateChange(int status);
-
-    void setSaveStartEvent(guiEvent& event);
-    void eventSaveStart(Word saveStart);
-
-    void setSaveEndEvent(guiEvent& event);
-    void eventSaveEnd(Word saveEnd);
-
-    void setSwNameEvent(guiEvent& event);
-    void eventSetSwName(wxString swName);
-    
-    void setTapeStateEvent(guiEvent& event);
-    void eventSetTapeState(int status, wxString tapeNumber);
-    
-    void setConvertStateEvent(guiEvent& event);
-    void eventSetConvertState(bool status);
-
-    void setTextValueEvent(guiEvent& event);
-    void eventSetTextValue(wxString info, wxString value);
-    
-    void setStaticTextValueEvent(guiEvent& event);
-    void eventSetStaticTextValue(wxString info, wxString value);
-    
-    void setButtonLabelEvent(guiEvent& event);
-    void eventSetButtonLabel(wxString info, wxString value);
-    void setButtonLabel(wxString info, wxString value);
-
-    void setCheckBoxEvent(guiEvent& event);
-    void eventSetCheckBox(wxString info, bool state);
-
-    void showMessageEvent(guiEvent& event);
-    void eventShowMessage(Word value);
-    
-    void showTextMessageEvent(guiEvent& event);
-    void eventShowTextMessage(wxString messageText);
-    
-    void setZoomChange(guiEvent& event);
-    void eventZoomChange(double zoom, int videoNumber);
     void zoomEventFinished();
     bool isZoomEventOngoing();
     bool isZoomEventOngoingButNotFullScreen();
 
-    void setZoomVtChange(guiEvent& event);
-    void eventZoomVtChange(double zoom, int uartNumber);
     void zoomVtEventFinished();
-
-    void SetZoomEvent(guiEvent& event);
-    void eventZoom(double zoom, int videoNumber, bool isVt);
-
-    void printDefaultEvent(guiEvent& event);
-    void eventPrintDefault(Byte value);
-
-    void printParallelEvent(guiEvent& event);
-    void eventPrintParallel(Byte value);
-    void printParallelFinishedEvent(guiEvent& event);
-    void eventPrintParallelFinished();
-
-    void printThermalEvent(guiEvent& event);
-    void eventPrintThermal(Byte value, Byte Qflag);
-    void printThermalFinishedEvent(guiEvent& event);
-    void eventPrintThermalFinished();
-
-    void printSerialEvent(guiEvent& event);
-    void eventPrintSerial(Byte value);
-
-    void printSerialFinishedEvent(guiEvent& event);
-    void eventPrintSerialFinished();
-
-    void printPecomEvent(guiEvent& event);
-    void eventPrintPecom(Byte value);
-
-    void refreshVideoEvent(guiEvent& event);
-    void eventRefreshVideo(bool isVt, int uart_video_Number);
-//    bool isVideoRefreshOngoing() {return videoRefreshOngoing_;};
-
-    void refreshPanelEvent(guiEvent& event);
-    void eventRefreshPanel();
 
     void ShowMessageBoxEvent(guiEvent& event);
     int eventShowMessageBox(wxString message, wxString caption, int style);
@@ -1191,40 +1039,9 @@ public:
 
     void showChip8Register(int variable, int value, bool chip8register12bit);
 
-    void setFandMBasicGuiEvent(guiEvent& event);
-    void eventSetFandMBasicGui();
-
-    void setVideoFullScreenEvent(guiEvent& event);
-    void eventVideoSetFullScreen(bool state, int videoNumber);
-
-    void setVtFullScreenEvent(guiEvent& event);
-    void eventVtSetFullScreen(bool state, int uartNumber);
- 
-    void setChangeNoteBookEvent(guiEvent& event);
-    void eventChangeNoteBook();
-
-    void setDisableControlsEvent(guiEvent& event);
-    void eventDisableControls();
-
-    void setUpdateTitle(guiEvent& event);
-    void eventUpdateTitle();
-
-    void setPauseStateEvent(guiEvent& event);
-    void eventPauseState();
-
-    void setUpdateLedStatus(guiEvent& event);
-    void eventUpdateLedStatus(bool status, int card, int i = 0);
-
-    void setUpdateVipIILedStatus(guiEvent& event);
-    void eventUpdateVipIILedStatus(int led, bool status);
-
     void debounceTimeout(wxTimerEvent& event);
-    void setDebounceTimer(guiEvent& event);
-    void eventDebounceTimer();
 
     void beepTimeout(wxTimerEvent& event);
-    void setBeepTimer(guiEvent& event);
-    void eventBeepTimer(int frequency, int ms);
 
     void guiSizeTimeout(wxTimerEvent& event);
  
@@ -1243,10 +1060,7 @@ public:
     void storeDefaultCoinArcadeKeys(int *, int *, int coin);
     
     bool emuClosing() { return emuClosing_; };
-    bool getThermalEf() {return thermalEf_;};
-    void setStatusLedUpdate(bool status) {statusLedUpdate_ =  status;};
-    void setSlotLedUpdate(bool status) {slotLedUpdate_ =  status;};
-   
+
     UpdateCheckThread *m_pUpdateCheckThread;
     wxCriticalSection m_pUpdateCheckThreadCS;    // protects the m_pUpdateCheckThread pointer
 
@@ -1260,12 +1074,6 @@ private:
     bool saveOnExit_;
     bool checkForUpdate_;
     bool runPressed_;
-
-    bool thermalEf_;
-    bool statusLedUpdate_;
-
-    bool panelRefreshOngoing_;
-    bool videoRefreshOngoing_[VIDEOXMLMAX];
 
     bool downloadOngoing_;
     bool emuClosing_;

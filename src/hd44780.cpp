@@ -337,7 +337,7 @@ void HD44780::blinkHd44780()
                 drawCursor(col, row, cursorBlinkState_);
         }
 #else
-        p_Main->eventRefreshVideo(false, videoNumber_);
+        p_Main->guiRefreshVideo(false, videoNumber_);
 #endif
     }
 }
@@ -503,7 +503,7 @@ bool HD44780::readCharRomFile(wxString romDir, wxString romFile)
 
     if (romFile == "")
     {
-        p_Main->errorMessage("No HD44780 font filename specified");
+        p_Main->guiErrorMessage("No HD44780 font filename specified");
         return false;
     }
 
@@ -521,7 +521,7 @@ bool HD44780::readCharRomFile(wxString romDir, wxString romFile)
     }
     else
     {
-        p_Main->errorMessage("Error reading " + fileName);
+        p_Main->guiErrorMessage("Error reading " + fileName);
         return false;
     }
 }
@@ -535,7 +535,7 @@ void HD44780::setFullScreen(bool fullScreenSet)
 void HD44780::onF3()
 {
     fullScreenSet_ = !fullScreenSet_;
-    p_Main->eventVideoSetFullScreen(fullScreenSet_, videoNumber_);
+    p_Main->guiVideoSetFullScreen(fullScreenSet_, videoNumber_);
 }
 
 void HD44780::reBlit(wxDC &dc)

@@ -306,10 +306,10 @@ void Scn2671Instance::commandMisc(Byte value)
         keyboardStatusRegister_[KEYBOARD_ENABLED] = 1;
     
     if (miscCommandRegister_[RING_TONE_SHORT])
-        p_Main->eventBeepTimer(toneFrequency_, 25);
+        p_Main->guiBeepTimer(toneFrequency_, 25);
     
     if (miscCommandRegister_[RING_TONE_LONG])
-        p_Main->eventBeepTimer(toneFrequency_, 100);
+        p_Main->guiBeepTimer(toneFrequency_, 100);
 }
 
 void Scn2671Instance::uartCts(Byte value)

@@ -8,7 +8,6 @@ DECLARE_EVENT_TYPE(STATUS_LED_OFF, 802)
 DECLARE_EVENT_TYPE(STATUS_BAR_1870, 803)
 DECLARE_EVENT_TYPE(EXP_LED_ON, 805)
 DECLARE_EVENT_TYPE(EXP_LED_OFF, 806)
-DECLARE_EVENT_TYPE(KILL_COMPUTER, 809)
 
 class GuiComx: public GuiXml
 {
@@ -17,7 +16,6 @@ public:
     GuiComx(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
     ~GuiComx();
 
-    void setLocation(bool state, Word saveStart, Word saveEnd, Word saveExec);
     void onSBDialog(wxCommandEvent& event);
     void readSbConfig();
     void writeSbConfig();

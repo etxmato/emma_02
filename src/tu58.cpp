@@ -964,7 +964,7 @@ void Tu58::LOGF(SEVERITY level, wxString text, int data, wxString extraString)
     text.Printf(text, data);
 
     text = LevelToString(level) + " " + text;
-//    p_Main->eventShowTextMessage(text);
+//    p_Main->guiShowTextMessage(text);
 }
 
 void Tu58::LOGF(SEVERITY level, wxString text, int data1, int data2, int data3, int data4)
@@ -979,7 +979,7 @@ void Tu58::LOGF(SEVERITY level, wxString text, int data1, int data2, int data3, 
         text.Printf(text, data1, data2, data3, data4);
 
     text = LevelToString(level) + " " + text;
-//    p_Main->eventShowTextMessage(text);
+//    p_Main->guiShowTextMessage(text);
 }
 
 

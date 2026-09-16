@@ -98,18 +98,18 @@ Sound::~Sound()
 
         ploadWavePointer->closeFile();
         delete ploadWavePointer;
-        p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
+        p_Main->guiHwTapeStateChange(HW_TAPE_STATE_OFF);
     }
     if (ploadOn_ || ploadPaused_)
     {
         delete ploadWavePointer;
-        p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
+        p_Main->guiSetTapeState(TAPE_STOP, tapeNumber_);
     }
     if (psaveOn_)
     {
         psaveWavePointer->closeFile();
         delete psaveWavePointer;
-        p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
+        p_Main->guiSetTapeState(TAPE_STOP, tapeNumber_);
     }
     if (wavOn_)
         delete wavSoundPointer;
@@ -816,7 +816,7 @@ void Sound::playSaveLoad()
             pauseTape();
             if (somethingSaved_)
                 ploadWavePointer->flush();
-            p_Main->eventHwTapeStateChange(HW_TAPE_STATE_OFF);
+            p_Main->guiHwTapeStateChange(HW_TAPE_STATE_OFF);
             stopTheTape_ = false;
             somethingSaved_ = false;
         }
@@ -882,6 +882,7 @@ void Sound::playSaveLoad()
             else
             {
                 long in = ploadWavePointer->read(ploadSamples_, sample_count*forwardSpeed_, gain_);
+                p_Computer->stepCassetteCounter(in);
                 if (ploadOn_)
                 {
                     soundBufferPointerLeft->mix_samples(ploadSamples_, in);
@@ -916,6 +917,7 @@ void Sound::playSaveLoad()
             else
             {
                 long in = ploadWavePointer->read(ploadSamples_, sample_count, gain_);
+                p_Computer->stepCassetteCounter(in);
                 if (ploadOn_)
                 {
                     soundBufferPointerLeft->mix_samples(ploadSamples_, in);
@@ -962,6 +964,8 @@ void Sound::playSaveLoad()
             }
             else
                 psaveWavePointer->write(samples, sample_count);
+
+            p_Computer->stepCassetteCounter(sample_count);
         }
         
     }
@@ -978,7 +982,7 @@ bool Sound::ploadStartTape(wxString fileName, wxString tapeNumber)
 {
     tapeNumber_ = tapeNumber;
     
-    ploadWavePointer = new WaveReader();
+    ploadWavePointer = new WaveReader(true);
     
     sampleRate_ = ploadWavePointer->openFile(fileName);
     if (sampleRate_ != 0)
@@ -987,7 +991,7 @@ bool Sound::ploadStartTape(wxString fileName, wxString tapeNumber)
         {
             p_Main->message("Cassette sound error: out of memory");
             delete ploadWavePointer;
-            p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
+            p_Main->guiSetTapeState(TAPE_STOP, tapeNumber_);
             return false;
         }
         else
@@ -1000,7 +1004,7 @@ bool Sound::ploadStartTape(wxString fileName, wxString tapeNumber)
     else
     {
         delete ploadWavePointer;
-        p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
+        p_Main->guiSetTapeState(TAPE_STOP, tapeNumber_);
         return false;
     }
 }
@@ -1061,7 +1065,7 @@ void Sound::startSaveTape(wxString fileName, wxString tapeNumber)
     {
         p_Main->message("Cassette sound error: Can't open file");
         delete psaveWavePointer;
-        p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
+        p_Main->guiSetTapeState(TAPE_STOP, tapeNumber_);
     }
 }
 
@@ -1112,7 +1116,7 @@ void Sound::startSaveTapeHw(wxString fileName, wxString tapeNumber)
     
     if (tapeBufferPointer->set_sample_rate(sampleRate_))
         p_Main->message("Cassette sound error: out of memory");
-    ploadWavePointer = new WaveReader();
+    ploadWavePointer = new WaveReader(true);
     
     if (!wxFile::Exists(fileName))
     {
@@ -1125,7 +1129,7 @@ void Sound::startSaveTapeHw(wxString fileName, wxString tapeNumber)
         {
             p_Main->message("Cassette sound error: Can't open file");
             delete ploadWavePointer;
-            p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
+            p_Main->guiSetTapeState(TAPE_STOP, tapeNumber_);
         }
     }
     else
@@ -1137,7 +1141,7 @@ void Sound::startSaveTapeHw(wxString fileName, wxString tapeNumber)
             {
                 p_Main->message("Cassette sound error: out of memory");
                 delete ploadWavePointer;
-                p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
+                p_Main->guiSetTapeState(TAPE_STOP, tapeNumber_);
             }
             else
             {
@@ -1148,7 +1152,7 @@ void Sound::startSaveTapeHw(wxString fileName, wxString tapeNumber)
         else
         {
             delete ploadWavePointer;
-            p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
+            p_Main->guiSetTapeState(TAPE_STOP, tapeNumber_);
         }
     }
 }
@@ -1270,7 +1274,7 @@ void Sound::stopTape()
         delete psaveWavePointer;
         psaveOn_ = false;
     }
-    p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
+    p_Main->guiSetTapeState(TAPE_STOP, tapeNumber_);
     p_Computer->finishStopTape(ploadOn_);
     ploadOn_ = false;
     if (p_Vt100[UART1] != NULL)
@@ -1312,9 +1316,9 @@ void Sound::pauseTape()
     }
 
     if (p_Main->isTapeHwFred())
-        p_Main->eventSetTapeState(TAPE_PAUSE, tapeNumber_);
+        p_Main->guiSetTapeState(TAPE_PAUSE, tapeNumber_);
     else
-        p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
+        p_Main->guiSetTapeState(TAPE_STOP, tapeNumber_);
     p_Computer->resetGaugeValue();
 }
 
@@ -1322,7 +1326,7 @@ void Sound::restartTapeSave(int tapeState)
 {
 //    p_Main->turboOn();
     psaveOn_ = true;
-    p_Main->eventSetTapeState(tapeState, tapeNumber_);
+    p_Main->guiSetTapeState(tapeState, tapeNumber_);
 }
 
 void Sound::restartHwTapeSave(int tapeState)
@@ -1333,7 +1337,7 @@ void Sound::restartHwTapeSave(int tapeState)
     ploadPaused_ = false;
     hwSaveOn_ = true;
     hwSavePaused_ = false;
-    p_Main->eventSetTapeState(tapeState, tapeNumber_);
+    p_Main->guiSetTapeState(tapeState, tapeNumber_);
 }
 
 void Sound::restartTapeLoad(int tapeState)
@@ -1345,7 +1349,7 @@ void Sound::restartTapeLoad(int tapeState)
     ploadPaused_ = false;
     hwSavePaused_ = false;
     hwSaveOn_ = false;
-    p_Main->eventSetTapeState(tapeState, tapeNumber_);
+    p_Main->guiSetTapeState(tapeState, tapeNumber_);
 }
 
 void Sound::stopPausedLoad()
@@ -1371,7 +1375,7 @@ void Sound::forwardTape(int tapeState)
     rewindOn_ = false;
     forwardOn_ = (tapeState == TAPE_FF);
     ploadOn_ = (tapeState == TAPE_FF);
-    p_Main->eventSetTapeState(tapeState, tapeNumber_);
+    p_Main->guiSetTapeState(tapeState, tapeNumber_);
 }
 
 void Sound::rewindTape(int tapeState)
@@ -1379,7 +1383,7 @@ void Sound::rewindTape(int tapeState)
     rewindOn_ = (tapeState == TAPE_RW);
     forwardOn_ = false;
     ploadOn_ = (tapeState == TAPE_RW);
-    p_Main->eventSetTapeState(tapeState, tapeNumber_);
+    p_Main->guiSetTapeState(tapeState, tapeNumber_);
 }
 
 void Sound::setVolume(int volume)

@@ -575,13 +575,13 @@ bool Cdp1802::interrupt()
     {
         if (interruptEnable_ && (clear_ == 1))
         {
-            p_Main->eventUpdateLedStatus(false, 3); //INT
-            p_Main->eventUpdateLedStatus(true, 4); //INTACK
+            p_Main->guiUpdateLedStatus(false, 3); //INT
+            p_Main->guiUpdateLedStatus(true, 4); //INTACK
         }
         else
         {
-            p_Main->eventUpdateLedStatus(true, 3); //INT
-            p_Main->eventUpdateLedStatus(false, 4); //INTACK
+            p_Main->guiUpdateLedStatus(true, 3); //INT
+            p_Main->guiUpdateLedStatus(false, 4); //INTACK
         }
     }
 
@@ -2891,7 +2891,7 @@ void Cdp1802::cpuCycleExecute1()
 //            if ((scratchpadRegister_[programCounter_]&0xff00) != 0xA900 && n == 0)
 //            {
 //                buffer.Printf("%04X: PLO  R%X   R%X=%04X ",scratchpadRegister_[programCounter_], n,n,scratchpadRegister_[n]);
-//                p_Main->eventShowTextMessage(buffer);
+//                p_Main->guiShowTextMessage(buffer);
 //            }
         break;
         case 0xb:
@@ -2906,7 +2906,7 @@ void Cdp1802::cpuCycleExecute1()
 //            if ((scratchpadRegister_[programCounter_]&0xff00) != 0xA900 && n == 0)
 //            {
 //                buffer.Printf("%04X: PHI  R%X   R%X=%04X ",scratchpadRegister_[programCounter_], n,n,scratchpadRegister_[n]);
-//                p_Main->eventShowTextMessage(buffer);
+//                p_Main->guiShowTextMessage(buffer);
 //            }
         break;
         case 0xc:
@@ -3669,7 +3669,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
                     {
                         wxString endStr;
                         endStr.Printf("%04X", (int)end);
-                        p_Main->errorMessage("Attempt to load after address " + endStr);
+                        p_Main->guiErrorMessage("Attempt to load after address " + endStr);
                     }
                     setAddress(showFilename, start, last-1);
                     return true;
@@ -3723,14 +3723,14 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
         {
             wxString endStr;
             endStr.Printf("%04X", (int)end);
-            p_Main->errorMessage("Attempt to load after address " + endStr);
+            p_Main->guiErrorMessage("Attempt to load after address " + endStr);
         }
         setAddress(showFilename, start, last-1);
         return true;
     }
     else
     {
-        p_Main->errorMessage("Error reading " + fileName);
+        p_Main->guiErrorMessage("Error reading " + fileName);
         return false;
     }
 }
@@ -3828,7 +3828,7 @@ bool Cdp1802::readIntelFile(wxString fileName, MemoryDefinition* memoryDefintion
     }
     else
     {
-        p_Main->errorMessage("Error reading " + fileName);
+        p_Main->guiErrorMessage("Error reading " + fileName);
         return false;
     }
 }
@@ -3916,14 +3916,14 @@ bool Cdp1802::readLstFile(wxString fileName, int memoryType, long end, bool show
         {
             wxString endStr;
             endStr.Printf("%04X", (int)end);
-            p_Main->errorMessage("Attempt to load after address " + endStr);
+            p_Main->guiErrorMessage("Attempt to load after address " + endStr);
         }
         setAddress(showFilename, start, last);
         return true;
     }
     else
     {
-        p_Main->errorMessage("Error reading " + fileName);
+        p_Main->guiErrorMessage("Error reading " + fileName);
         return false;
     }
 }
@@ -4001,7 +4001,7 @@ void Cdp1802::saveBinFile(wxString fileName, long start, long end)
         }
         else
         {
-            p_Main->errorMessage("Error writing " + fileName);
+            p_Main->guiErrorMessage("Error writing " + fileName);
             return;
         }
     }
@@ -4052,14 +4052,14 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, long 
         {
             wxString endStr;
             endStr.Printf("%04X", (int)end);
-            p_Main->errorMessage("Attempt to load after address " + endStr);
+            p_Main->guiErrorMessage("Attempt to load after address " + endStr);
         }
         setAddress(showFilename, start, address-1);
         return true;
     }
     else
     {
-        p_Main->errorMessage("Error reading " + fileName);
+        p_Main->guiErrorMessage("Error reading " + fileName);
         return false;
     }
 }
@@ -4112,14 +4112,14 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, long 
         {
             wxString endStr;
             endStr.Printf("%04X", (int)end);
-            p_Main->errorMessage("Attempt to load after address " + endStr);
+            p_Main->guiErrorMessage("Attempt to load after address " + endStr);
         }
         setAddress(showFilename, start, address-1);
         return true;
     }
     else
     {
-        p_Main->errorMessage("Error reading " + fileName);
+        p_Main->guiErrorMessage("Error reading " + fileName);
         return false;
     }
 }
@@ -4131,7 +4131,7 @@ bool Cdp1802::readRomMapperBinFile(size_t emsNumber, wxString fileName)
 
     if (!inFile.Open(fileName, _("rb")))
     {
-        p_Main->errorMessage("Error reading " + fileName);
+        p_Main->guiErrorMessage("Error reading " + fileName);
         return false;
     }
     
@@ -4151,7 +4151,7 @@ bool Cdp1802::readMultiCartBinFile(wxString dirName, wxString fileName)
     
     if (!inFile.Open(dirName + fileName, _("rb")))
     {
-        p_Main->errorMessage("Error reading " + dirName + fileName);
+        p_Main->guiErrorMessage("Error reading " + dirName + fileName);
         return false;
     }
     
@@ -4160,7 +4160,7 @@ bool Cdp1802::readMultiCartBinFile(wxString dirName, wxString fileName)
     
     if (fileName == "" || ext == "st2" || ext == "ch8")
     {
-        p_Main->errorMessage("No multi-cart ROM detected in CART");
+        p_Main->guiErrorMessage("No multi-cart ROM detected in CART");
         return false;
     }
  
@@ -4190,8 +4190,8 @@ void Cdp1802::setAddress(bool showFilename, Word start, Word end)
             writeMem(currentComputerConfiguration.addressLocationConfiguration.code_end_high, (end>>8)&0xff, false);
             writeMem(currentComputerConfiguration.addressLocationConfiguration.code_end_low, end&0xff, false);
         }
-        p_Main->eventSaveStart(start);
-        p_Main->eventSaveEnd(end);
+        p_Main->guiSaveStart(start);
+        p_Main->guiSaveEnd(end);
     }
 }
  
@@ -4396,13 +4396,13 @@ bool Cdp1802::readFile(wxString fileName, int memoryType, Word address, long end
         }
         else
         {
-            p_Main->errorMessage("Error reading " + fileName);
+            p_Main->guiErrorMessage("Error reading " + fileName);
             return false;
         }
     }
     else
     {
-        p_Main->errorMessage("File " + fileName + " not found");
+        p_Main->guiErrorMessage("File " + fileName + " not found");
         return false;
     }
 }
@@ -4443,13 +4443,13 @@ bool Cdp1802::readFile(wxString fileName, int memoryType, Word address, long end
         }
         else
         {
-            p_Main->errorMessage("Error reading " + fileName);
+            p_Main->guiErrorMessage("Error reading " + fileName);
             return false;
         }
     }
     else
     {
-        p_Main->errorMessage("File " + fileName + " not found");
+        p_Main->guiErrorMessage("File " + fileName + " not found");
         return false;
     }
 }
@@ -4482,13 +4482,13 @@ bool Cdp1802::readFile(wxString fileName, int memoryType, Word address, long end
         }
         else
         {
-            p_Main->errorMessage("Error reading " + fileName);
+            p_Main->guiErrorMessage("Error reading " + fileName);
             return false;
         }
     }
     else
     {
-        p_Main->errorMessage("File " + fileName + " not found");
+        p_Main->guiErrorMessage("File " + fileName + " not found");
         return false;
     }
 }

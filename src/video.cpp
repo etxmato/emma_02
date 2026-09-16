@@ -351,6 +351,8 @@ void Video::onClose(wxCloseEvent&WXUNUSED(event) )
 void Video::onSize(wxSizeEvent&event)
 {
     event.Skip();
+    if (p_Main->isZoomEventOngoing())
+        return;
     changeScreenSize_ = true;
 }
 
@@ -610,7 +612,7 @@ void Video::changeScreenSize()
             p_Main->zoomEvent(zoom_, videoNumber_);
     }
     else
-        p_Main->eventZoom(zoom_, videoNumber_, videoScreenPointer->isVt());
+        p_Main->guiZoom(zoom_, videoNumber_, videoScreenPointer->isVt());
 }
 
 void Video::onF3()
@@ -757,7 +759,7 @@ void Video::updateReColour()
 
 void Video::eventRefreshScreen()
 {
-    p_Main->eventRefreshVideo(false, videoNumber_);
+    p_Main->guiRefreshVideo(false, videoNumber_);
 }
 
 void Video::copyScreen()

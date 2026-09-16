@@ -944,7 +944,7 @@ void DebugWindow::enableDebugGui(bool status)
     XRCCTRL(*this,"DebugStepButton", wxBitmapButton)->Enable(false);
 
     if (computerRunning_)
-        p_Main->eventPauseState();
+        p_Main->guiPauseState();
     else
         XRCCTRL(*this, "DebugPauseButton", wxBitmapButton)->SetBitmapLabel(pauseOffBitmap);
 
@@ -1397,7 +1397,7 @@ void DebugWindow::updateChip8Window()
             buffer.Printf("%04X", scratchpadRegister&0xffff);
         else
             buffer.Printf("%03X", scratchpadRegister&0xfff);
-        p_Main->eventSetTextValue("Chip8PC", buffer);
+        p_Main->guiSetTextValue("Chip8PC", buffer);
         lastPC_ = scratchpadRegister;
     }
     if (pseudoType_ == "PTC")
@@ -1421,7 +1421,7 @@ void DebugWindow::updateChip8Window()
                 else
                     buffer.Printf("%03X", scratchpadRegister&0xfff);
             }
-            p_Main->eventSetTextValue("Chip8I", buffer);
+            p_Main->guiSetTextValue("Chip8I", buffer);
             lastI_ = scratchpadRegister;
         }
         p_Computer->showChip8Registers();
@@ -6271,7 +6271,7 @@ void DebugWindow::setPauseState()
             XRCCTRL(*this, "DebugStepButton", wxBitmapButton)->Enable(false);
         }
     }
-    p_Main->eventUpdateTitle();
+    p_Main->guiUpdateTitle();
 }
 
 void DebugWindow::onDegugStepButton(wxCommandEvent&WXUNUSED(event))
@@ -15524,7 +15524,7 @@ void DebugWindow::updateDebugMenu(bool debugMode)
             p_Computer->setPercentageClock(1);
         else
             p_Computer->setPercentageClock(percentageClock_);
-        p_Main->eventUpdateTitle();
+        p_Main->guiUpdateTitle();
     }
     XRCCTRL(*this,"PercentageClock", wxSlider)->Enable(debugMode_);
     XRCCTRL(*this,"PercentageClockText", wxStaticText)->Enable(debugMode_);
@@ -15548,7 +15548,7 @@ void DebugWindow::updateChip8DebugMenu(bool debugMode)
 {
     chip8DebugMode_ = debugMode;
     XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(chip8DebugMode_);
-    p_Main->eventUpdateTitle();
+    p_Main->guiUpdateTitle();
 }
 
 void DebugWindow::onChip8DebugMode(wxCommandEvent&event)
@@ -15561,7 +15561,7 @@ void DebugWindow::onChip8DebugMode(wxCommandEvent&event)
         else
             p_Computer->setPercentageClock(percentageClock_);
     }
-    p_Main->eventUpdateTitle();
+    p_Main->guiUpdateTitle();
     enableChip8DebugGui(true);
 }
 
@@ -15605,7 +15605,7 @@ void DebugWindow::setChip8PauseState()
             XRCCTRL(*this, "Chip8StepButton", wxBitmapButton)->Enable(false);
         }
     }
-    p_Main->eventUpdateTitle();
+    p_Main->guiUpdateTitle();
 }
 
 void DebugWindow::onChip8StepButton(wxCommandEvent&WXUNUSED(event))
@@ -15816,7 +15816,7 @@ void DebugWindow::forcePseudoDefinition(wxString pseudoType, wxString filename, 
     pseudoLoaded_ = true;
     commandSyntaxFile_ = applicationDirectory_ + filename;
 //    XRCCTRL(*this, "Chip8Type", wxStaticText)->SetLabel(pseudoName);
-    p_Main->eventSetStaticTextValue("Chip8Type", pseudoName);
+    p_Main->guiSetStaticTextValue("Chip8Type", pseudoName);
     p_Main->definePseudoCommands();
 }
 

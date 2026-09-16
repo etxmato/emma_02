@@ -558,7 +558,7 @@ void GuiMain::setVtType(int Selection, bool GuiChange)
 void GuiMain::onFullScreenFloat(wxCommandEvent&WXUNUSED(event))
 {
     fullScreenFloat_ = !fullScreenFloat_;
-    correctZoomAndValue(SET_SPIN, VIDEOMAIN);
+    correctZoomAndValue(SET_SPIN, computerConfiguration.videoNumber_);
     correctZoomVtAndValue(SET_SPIN);
 }
 
@@ -580,29 +580,29 @@ void GuiMain::correctZoom(bool setSpin, int videoNumber)
         zoomInt = (int) (zoom + 0.5);
         if (zoomInt == 0)
             zoomInt++;
-        if (setSpin)
-            XRCCTRL(*this, "ZoomSpinXml", wxSpinButton)->SetValue(zoomInt);
 #if defined(__WXMSW__)
         XRCCTRL(*this, "ZoomSpinXml", wxSpinButton)->SetRange(2,9);
 #else
         XRCCTRL(*this, "ZoomSpinXml", wxSpinButton)->SetRange(1,10);
 #endif
+        if (setSpin && videoNumber == computerConfiguration.videoNumber_)
+            XRCCTRL(*this, "ZoomSpinXml", wxSpinButton)->SetValue(zoomInt);
         computerConfiguration.zoom_[videoNumber].Printf("%2.2f", (double)zoomInt);
     }
     else
     {
         zoomInt = (int)(zoom*10+0.4);
-        if (setSpin)
-            XRCCTRL(*this, "ZoomSpinXml", wxSpinButton)->SetValue(zoomInt);
 #if defined(__WXMSW__)
         XRCCTRL(*this, "ZoomSpinXml", wxSpinButton)->SetRange(6,99);
 #else
         XRCCTRL(*this, "ZoomSpinXml", wxSpinButton)->SetRange(5,100);
 #endif
+        if (setSpin && videoNumber == computerConfiguration.videoNumber_)
+            XRCCTRL(*this, "ZoomSpinXml", wxSpinButton)->SetValue(zoomInt);
         computerConfiguration.zoom_[videoNumber].Printf("%2.2f", zoom);
     }
     if (computerRunning_)
-        p_Main->eventZoomChange(zoom, videoNumber);
+        p_Main->guiZoomChange(zoom, videoNumber);
     else
     {
         zoomEventOngoing_ = false;
@@ -676,33 +676,33 @@ void GuiMain::correctZoomVt(bool setSpin)
         zoomInt = (int) (zoom + 0.5);
         if (zoomInt == 0)
             zoomInt++;
-        if (setSpin)
-            XRCCTRL(*this, "ZoomSpinVtXml", wxSpinButton)->SetValue(zoomInt);
 #if defined(__WXMSW__)
         XRCCTRL(*this, "ZoomSpinVtXml", wxSpinButton)->SetRange(2,9);
 #else
         XRCCTRL(*this, "ZoomSpinVtXml", wxSpinButton)->SetRange(1,10);
 #endif
+        if (setSpin)
+            XRCCTRL(*this, "ZoomSpinVtXml", wxSpinButton)->SetValue(zoomInt);
         computerConfiguration.videoTerminalConfiguration.zoom.Printf("%2.2f", (double)zoomInt);
     }
     else
     {
         zoomInt = (int)(zoom*10+0.4);
-        if (setSpin)
-            XRCCTRL(*this, "ZoomSpinVtXml", wxSpinButton)->SetValue(zoomInt);
 #if defined(__WXMSW__)
         XRCCTRL(*this, "ZoomSpinVtXml", wxSpinButton)->SetRange(6,99);
 #else
         XRCCTRL(*this, "ZoomSpinVtXml", wxSpinButton)->SetRange(5,100);
 #endif
+        if (setSpin)
+            XRCCTRL(*this, "ZoomSpinVtXml", wxSpinButton)->SetValue(zoomInt);
         computerConfiguration.videoTerminalConfiguration.zoom.Printf("%2.2f", zoom);
     }
     if (computerRunning_ && p_Vt100[UART1] != NULL)
-        p_Main->eventZoomVtChange(zoom, UART1);
+        p_Main->guiZoomVtChange(zoom, UART1);
     else
     {
         if (computerRunning_ && p_Vt100[UART2] != NULL)
-            p_Main->eventZoomVtChange(zoom, UART2);
+            p_Main->guiZoomVtChange(zoom, UART2);
         else
         {
             zoomEventOngoing_ = false;
@@ -1033,7 +1033,7 @@ void GuiMain::startHwSave()
     
     hwTapeState_ = HW_TAPE_STATE_REC;
     startSaveNew(0);
-    p_Main->eventHwTapeStateChange(HW_TAPE_STATE_REC);
+    p_Main->guiHwTapeStateChange(HW_TAPE_STATE_REC);
 }
 
 void GuiMain::startHwLoad()
@@ -1044,7 +1044,7 @@ void GuiMain::startHwLoad()
     if (p_Computer->getFlipFlopQ() == 1)
         p_Computer->startLoad(0, true);
 
-    p_Main->eventHwTapeStateChange(HW_TAPE_STATE_PLAY);
+    p_Main->guiHwTapeStateChange(HW_TAPE_STATE_PLAY);
 }
 
 void GuiMain::onPsave(wxString fileName)
@@ -1513,13 +1513,13 @@ void GuiMain::onBaudT(wxCommandEvent&event)
 
 void GuiMain::resetClearRamState()
 {
-    p_Main->eventSetCheckBox("XmlClearRam", false);
+    p_Main->guiSetCheckBox("XmlClearRam", false);
     computerConfiguration.clearRam = false;
 }
 
 void GuiMain::resetClearRtcState()
 {
-    p_Main->eventSetCheckBox("XmlClearRtc", false);
+    p_Main->guiSetCheckBox("XmlClearRtc", false);
     computerConfiguration.clearRtc = false;
 }
 
@@ -2290,9 +2290,9 @@ int GuiMain::pload()
 
     if (buffer [0] != 1)
     {
-        p_Main->eventSetTextValue("SaveStartXml", "");
-        p_Main->eventSetTextValue("SaveEndXml", "");
-        p_Main->eventSetTextValue("SaveExecXml", "");
+        p_Main->guiSetTextValue("SaveStartXml", "");
+        p_Main->guiSetTextValue("SaveEndXml", "");
+        p_Main->guiSetTextValue("SaveExecXml", "");
     }
 
     if (inputFile.Open(computerConfiguration.memAccessConfiguration.fullFileName, _("rb")))
@@ -2316,7 +2316,7 @@ int GuiMain::pload()
             {
                 case 1: /* Machine code LOAD */
                     address = (Word)(buffer [5] << 8) + buffer [6];
-                    p_Main->eventSetLocation(true, (buffer [5] << 8) + buffer [6], (buffer [7] << 8) + buffer [8], (buffer [9] << 8) + buffer [10]);
+                    p_Main->guiSetLocation(true, (buffer [5] << 8) + buffer [6], (buffer [7] << 8) + buffer [8], (buffer [9] << 8) + buffer [10]);
                     start = 11;
                 break;
 
@@ -2328,7 +2328,7 @@ int GuiMain::pload()
                         fAndMBasicOffset = 0x23;
                         if (buffer[5] != 0x44)
                         {
-                            p_Main->errorMessage(    "File " + computerConfiguration.memAccessConfiguration.fullFileName + " can only be loaded in COMX Basic");
+                            p_Main->guiErrorMessage(    "File " + computerConfiguration.memAccessConfiguration.fullFileName + " can only be loaded in COMX Basic");
                             return wxNOT_FOUND;
                         }
                         address = 0x6700;
@@ -2343,7 +2343,7 @@ int GuiMain::pload()
                     p_Computer->setMainMemory(computerConfiguration.basicConfiguration.array.value+1, (Byte)buffer[12]);
                     p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eod.value, (Byte)buffer[9]+fAndMBasicOffset);
                     p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eod.value+1, (Byte)buffer[10]);
-                    p_Main->eventSetLocation(false);
+                    p_Main->guiSetLocationState(false);
                     start = 15;
                 break;
 
@@ -2352,7 +2352,7 @@ int GuiMain::pload()
                         address = 0x6700;
                     else
                     {
-                        p_Main->errorMessage( "File " + computerConfiguration.memAccessConfiguration.fullFileName + " can only be loaded in F&M Basic V2.00");
+                        p_Main->guiErrorMessage( "File " + computerConfiguration.memAccessConfiguration.fullFileName + " can only be loaded in F&M Basic V2.00");
                         return wxNOT_FOUND;
                     }
                     p_Computer->setMainMemory(computerConfiguration.basicConfiguration.defus.value, (Byte)buffer[5]);
@@ -2365,7 +2365,7 @@ int GuiMain::pload()
                     p_Computer->setMainMemory(computerConfiguration.basicConfiguration.array.value+1, (Byte)buffer[12]);
                     p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eod.value, (Byte)buffer[9]);
                     p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eod.value+1, (Byte)buffer[10]);
-                    p_Main->eventSetLocation(false);
+                    p_Main->guiSetLocationState(false);
                     start = 15;
                 break;
 
@@ -2401,7 +2401,7 @@ int GuiMain::pload()
                         fAndMBasicOffset = 0x23;
                         if (buffer[5] != 0)
                         {
-                            p_Main->errorMessage("File " + computerConfiguration.memAccessConfiguration.fullFileName + " can only be loaded in COMX Basic");
+                            p_Main->guiErrorMessage("File " + computerConfiguration.memAccessConfiguration.fullFileName + " can only be loaded in COMX Basic");
                             return wxNOT_FOUND;
                         }
                         address = 0x6700;
@@ -2433,7 +2433,7 @@ int GuiMain::pload()
                         p_Computer->setMainMemory(computerConfiguration.basicConfiguration.eop.value+1, (Byte)buffer[8]);
                     }
 
-                    p_Main->eventSetLocation(false);
+                    p_Main->guiSetLocationState(false);
                     start = 15;
                 break;
             }
@@ -2454,7 +2454,7 @@ int GuiMain::pload()
         }
         else
         {
-            p_Main->eventSetLocation(false);
+            p_Main->guiSetLocationState(false);
             address = computerConfiguration.memAccessConfiguration.saveStart;
             if (address != 0)
             {
@@ -2478,13 +2478,13 @@ int GuiMain::pload()
                 address++;
             }
             inputFile.Close();
-            p_Main->eventSetLocation(true, startAddress, address - 1, startAddress);
+            p_Main->guiSetLocation(true, startAddress, address - 1, startAddress);
             return startAddress;
         }
     }
     else
     {
-        p_Main->errorMessage("Error reading " + computerConfiguration.memAccessConfiguration.fullFileName);
+        p_Main->guiErrorMessage("Error reading " + computerConfiguration.memAccessConfiguration.fullFileName);
         return wxNOT_FOUND;
     }
 }
@@ -2673,9 +2673,9 @@ bool GuiMain::startLoad(int tapeNumber)
         if (wxFile::Exists(filePath))
         {
             if (tapeNumber == 0)
-                p_Main->eventSetTapeState(TAPE_PLAY, tapeString);
+                p_Main->guiSetTapeState(TAPE_PLAY, tapeString);
             else
-                p_Main->eventSetTapeState(TAPE_PLAY1, tapeString);
+                p_Main->guiSetTapeState(TAPE_PLAY1, tapeString);
             return p_Computer->ploadStartTape(filePath, tapeString);
         }
     }
@@ -2753,7 +2753,7 @@ bool GuiMain::startSave(int tapeNumber, wxString messageStr, bool cont)
         computerConfiguration.wavConfiguration[tapeNumber].fileName = FullPath.GetFullName();
         computerConfiguration.wavConfiguration[tapeNumber].directory = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 
-        p_Main->eventSetTextValue("WavFile"+tapeString+"Xml", computerConfiguration.wavConfiguration[tapeNumber].fileName);
+        p_Main->guiSetTextValue("WavFile"+tapeString+"Xml", computerConfiguration.wavConfiguration[tapeNumber].fileName);
 
         filePath = computerConfiguration.wavConfiguration[tapeNumber].directory;
         filePath.operator += (computerConfiguration.wavConfiguration[tapeNumber].fileName);
@@ -2796,7 +2796,7 @@ bool GuiMain::startSave(int tapeNumber, wxString messageStr, bool cont)
             computerConfiguration.wavConfiguration[tapeNumber].fileName = FullPath.GetFullName();
             computerConfiguration.wavConfiguration[tapeNumber].directory = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 
-            p_Main->eventSetTextValue("WavFile"+tapeString+"Xml", computerConfiguration.wavConfiguration[tapeNumber].fileName);
+            p_Main->guiSetTextValue("WavFile"+tapeString+"Xml", computerConfiguration.wavConfiguration[tapeNumber].fileName);
 
             filePath = computerConfiguration.wavConfiguration[tapeNumber].directory;
             filePath.operator += (computerConfiguration.wavConfiguration[tapeNumber].fileName);
@@ -2807,9 +2807,9 @@ bool GuiMain::startSave(int tapeNumber, wxString messageStr, bool cont)
     
     tapeString.Printf("%d", tapeNumber);
     if (tapeNumber == 0)
-        p_Main->eventSetTapeState(TAPE_RECORD, tapeString);
+        p_Main->guiSetTapeState(TAPE_RECORD, tapeString);
     else
-        p_Main->eventSetTapeState(TAPE_RECORD1, tapeString);
+        p_Main->guiSetTapeState(TAPE_RECORD1, tapeString);
     
     if (isTapeHwCybervision())
         p_Computer->startSaveTapeHw(filePath, tapeString);
@@ -2857,7 +2857,7 @@ void GuiMain::startTerminalLoad(int protocol)
         {
             terminalLoad_ = true;
             
-            p_Main->eventSetTapeState(TAPE_PLAY, "");
+            p_Main->guiSetTapeState(TAPE_PLAY, "");
             p_Computer->terminalLoad(filePath, protocol);
         }
     }
@@ -2889,7 +2889,7 @@ void GuiMain::stopTerminal()
     terminalSave_ = false;
     terminalLoad_ = false;
     
-    p_Main->eventSetTapeState(TAPE_STOP, "");
+    p_Main->guiSetTapeState(TAPE_STOP, "");
 }
 
 void GuiMain::startYsTerminalSave(int protocol)
@@ -2905,7 +2905,7 @@ void GuiMain::startYsTerminalSave(int protocol)
 
     terminalSave_ = true;
 
-    p_Main->eventSetTapeState(TAPE_RECORD, "");
+    p_Main->guiSetTapeState(TAPE_RECORD, "");
     p_Computer->terminalYsSave(filePath, protocol);
 }
 
@@ -2923,7 +2923,7 @@ void GuiMain::turboOn()
     if (computerConfiguration.turbo_)
     {
         if (mode_.gui)
-            p_Main->eventEnableClock(false);
+            p_Main->guiEnableClock(false);
         savedSpeed_ = computerConfiguration.clockSpeed_;
 
         wxString clock =  computerConfiguration.turboClock_;
@@ -2943,7 +2943,7 @@ void GuiMain::turboOff()
         setClockRate();
 
         if (mode_.gui)
-            p_Main->eventEnableClock(true);
+            p_Main->guiEnableClock(true);
         turboOn_ = false;
     }
 }

@@ -311,6 +311,8 @@ public:
     int getCpuStartupRam() {return cpuStartupRam_;};
     int getCpuStartupVideoRam() {return cpuStartupVideoRam_;};
     bool isComputerRunning() {return computerRunning_;};
+    void setStatusLedUpdate(bool status) {statusLedUpdate_ = status;};
+    void setSlotLedUpdate(bool status) {slotLedUpdate_ = status;};
     bool useNumPad() {return useNumPad_;};
     bool checkWavFile(wxString fileName);
 
@@ -426,6 +428,7 @@ protected:
     bool guiSizeTimerStarted_;
 
     bool slotLedUpdate_;
+    bool statusLedUpdate_;
 
     wxBitmap ejectBitmap;
  

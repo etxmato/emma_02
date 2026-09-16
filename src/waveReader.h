@@ -7,7 +7,7 @@
 
 class WaveReader {
 public:
-    WaveReader();
+    WaveReader(bool tape = false);
     ~WaveReader();
 
     long openFile(wxString fileName);
@@ -51,6 +51,7 @@ private:
     wxFileOffset dataPosition_;
     int bitsPerSample_;
     wxString fileName_;
+    bool tape_;
 };
 
 inline void WaveReader::stereo( int s ) {

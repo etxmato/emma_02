@@ -1363,7 +1363,7 @@ bool Scn2672::readCharRomFile(wxString romDir, wxString romFile)
 
     if (romFile == "")
     {
-        p_Main->errorMessage("No font filename specified");
+        p_Main->guiErrorMessage("No font filename specified");
         return false;
     }
 
@@ -1383,7 +1383,7 @@ bool Scn2672::readCharRomFile(wxString romDir, wxString romFile)
     }
     else
     {
-        p_Main->errorMessage("Error reading " + fileName);
+        p_Main->guiErrorMessage("Error reading " + fileName);
         return false;
     }
 }
@@ -1397,7 +1397,7 @@ void Scn2672::setFullScreen(bool fullScreenSet)
 void Scn2672::onF3()
 {
     fullScreenSet_ = !fullScreenSet_;
-    p_Main->eventVideoSetFullScreen(fullScreenSet_, videoNumber_);
+    p_Main->guiVideoSetFullScreen(fullScreenSet_, videoNumber_);
 }
 
 void Scn2672::reBlit(wxDC &dc)

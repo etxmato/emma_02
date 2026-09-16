@@ -380,7 +380,7 @@ void Fdc::cycleFdc()
             if (drq_) 
             {
                 status_ |= 0x04;
-                p_Main->eventShowTextMessage("Computer: Missed FDC data");
+                p_Main->guiShowTextMessage("Computer: Missed FDC data");
             }
             fdcCycles_ = 90;
             if (sectorBufferPointer == &sectorBuffer_[sectorLength_]) 
@@ -424,7 +424,7 @@ void Fdc::cycleFdc()
             if (drq_) 
             {
                 status_ |= 0x04;
-                p_Main->eventShowTextMessage("FDC: Missed data");
+                p_Main->guiShowTextMessage("FDC: Missed data");
             }
             fdcCycles_ = 90;
             *(sectorBufferPointer++) = data_;
@@ -460,7 +460,7 @@ void Fdc::cycleFdc()
             if (drq_) 
             {
                 status_ |= 0x04;
-                p_Main->eventShowTextMessage("Computer: Missed FDC data");
+                p_Main->guiShowTextMessage("Computer: Missed FDC data");
             }
             data_ = *(sectorBufferPointer++);
             drq_ = 1;
@@ -670,7 +670,7 @@ void Fdc::onCommand(Byte command)
 
     if (diskName_[drive_].Len() == 0)
     {
-        p_Main->eventShowTextMessage("No Disk in drive");
+        p_Main->guiShowTextMessage("No Disk in drive");
         if (fdcConfiguration_.clearAddress != -1)
             p_Computer->writeMem(fdcConfiguration_.clearAddress, 0, false);
         endCommand(0x80);
