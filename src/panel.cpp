@@ -732,9 +732,9 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
     updateReadyLed_ = false;
     updateStopLed_ = false;
     updateMnLed_ = false;
+    updateNbLed_ = false;
     updatePowerLed_ = false;
     updateErrorLed_ = false;
-    updateMnLed_ = false;
     for (int i=0; i<MAX_DATA_TIL; i++)
     {
         tilDataPointerDefined[i] = false;

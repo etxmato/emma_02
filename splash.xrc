@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
     <object class="wxDialog" name="Vip">
-        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxBORDER_THEME|wxTAB_TRAVERSAL</style>
+        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
         <title>Emma 02 - Info</title>
         <centered>1</centered>
@@ -68,7 +68,7 @@ To start FPB press '1'
         </object>
     </object>
     <object class="wxDialog" name="SBV1_VT">
-        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxBORDER_THEME|wxTAB_TRAVERSAL</style>
+        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
         <title>Emma 02 - Info</title>
         <centered>1</centered>
@@ -148,7 +148,7 @@ To start FPB press '1'
         </object>
     </object>
     <object class="wxDialog" name="SBV1_SUPER">
-        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxBORDER_THEME|wxTAB_TRAVERSAL</style>
+        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
         <title>Emma 02 - Info</title>
         <centered>1</centered>
@@ -211,7 +211,7 @@ To start FPB press '1'
         </object>
     </object>
     <object class="wxDialog" name="SBV3_SUPER">
-        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxBORDER_THEME|wxTAB_TRAVERSAL</style>
+        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
         <title>Emma 02 - Info</title>
         <centered>1</centered>
@@ -274,7 +274,7 @@ To start FPB press '1'
         </object>
     </object>
     <object class="wxDialog" name="RCA_BASIC">
-        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxBORDER_THEME|wxTAB_TRAVERSAL</style>
+        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
         <title>Emma 02 - Info</title>
         <centered>1</centered>
@@ -338,7 +338,7 @@ To start FPB press '1'
         </object>
     </object>
     <object class="wxDialog" name="ELFOS">
-        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxBORDER_THEME|wxTAB_TRAVERSAL</style>
+        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
         <title>Emma 02 - Info</title>
         <centered>1</centered>
@@ -402,7 +402,7 @@ To start FPB press '1'
         </object>
     </object>
     <object class="wxDialog" name="Monitor">
-        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxBORDER_THEME|wxTAB_TRAVERSAL</style>
+        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
         <title>Emma 02 - Info</title>
         <centered>1</centered>
@@ -466,7 +466,7 @@ To start FPB press '1'
         </object>
     </object>
     <object class="wxDialog" name="TINY">
-        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxBORDER_THEME|wxTAB_TRAVERSAL</style>
+        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
         <title>Emma 02 - Info</title>
         <centered>1</centered>
@@ -529,7 +529,7 @@ To start FPB press '1'
         </object>
     </object>
     <object class="wxDialog" name="TINY_VT">
-        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxBORDER_THEME|wxTAB_TRAVERSAL</style>
+        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
         <title>Emma 02 - Info</title>
         <centered>1</centered>
@@ -593,7 +593,7 @@ To start FPB press '1'
         </object>
     </object>
     <object class="wxDialog" name="Elf2K_VT">
-        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxBORDER_THEME|wxTAB_TRAVERSAL</style>
+        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
         <title>Emma 02 - Info</title>
         <centered>1</centered>
@@ -659,7 +659,7 @@ To start FPB press '1'
         </object>
     </object>
     <object class="wxDialog" name="MCDS">
-        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxBORDER_THEME|wxTAB_TRAVERSAL</style>
+        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
         <title>Emma 02 - Info</title>
         <centered>1</centered>
@@ -738,7 +738,7 @@ W: Write to tape
         </object>
     </object>
     <object class="wxDialog" name="COMPLETED">
-        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxBORDER_THEME|wxTAB_TRAVERSAL</style>
+        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
         <title>Emma 02 - Info</title>
         <centered>1</centered>
@@ -764,7 +764,7 @@ W: Write to tape
         </object>
     </object>
     <object class="wxDialog" name="DEFAULT">
-        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxBORDER_THEME|wxTAB_TRAVERSAL</style>
+        <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
         <title>Emma 02 - Info</title>
         <centered>1</centered>

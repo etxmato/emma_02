@@ -37,6 +37,33 @@ BEGIN_EVENT_TABLE(SplashScreen, wxDialog)
     EVT_CLOSE (SplashScreen::onClose)
 END_EVENT_TABLE()
 
+#ifdef __WXMSW__
+static void ApplySplashDarkTitleBar(wxWindow* splashWin)
+{
+    if (!wxSystemSettings::GetAppearance().IsDark())
+        return;
+
+    HWND hwnd = (HWND)splashWin->GetHWND();
+    if (hwnd == NULL)
+        return;
+
+    HMODULE dwmLib = ::LoadLibraryW(L"dwmapi.dll");
+    if (dwmLib == NULL)
+        return;
+
+    typedef HRESULT (WINAPI *DwmSetWindowAttribute_t)(HWND, DWORD, LPCVOID, DWORD);
+    DwmSetWindowAttribute_t setAttr = (DwmSetWindowAttribute_t)::GetProcAddress(dwmLib, "DwmSetWindowAttribute");
+    if (setAttr != NULL)
+    {
+        BOOL useDark = TRUE;
+        // DWMWA_USE_IMMERSIVE_DARK_MODE is 20 on Windows 10 20H1+ / 11, 19 on earlier builds
+        if (FAILED(setAttr(hwnd, 20, &useDark, sizeof(useDark))))
+            setAttr(hwnd, 19, &useDark, sizeof(useDark));
+    }
+    ::FreeLibrary(dwmLib);
+}
+#endif
+
 SplashScreen::SplashScreen(wxWindow *parent)
 {
     wxString dialog;
@@ -51,6 +78,14 @@ SplashScreen::SplashScreen(wxWindow *parent)
         XRCCTRL(*this,"SplashText",wxStaticText)->SetLabel(p_Main->getSplashText());
         XRCCTRL(*this,"DEFAULT",wxDialog)->DoLayoutAdaptation();
     }
+
+#ifdef __WXMSW__
+    // Force the dark immersive title bar (wx pushes dark mode onto the frame's
+    // controls, but a LoadDialog-loaded wxDialog from the memory template can
+    // keep the light title bar / border).
+    ApplySplashDarkTitleBar(this);
+#endif
+
     Show(true);
     
     timerPointer = new wxTimer(this, 1000);
@@ -94,6 +129,11 @@ CompletedSplashScreen::CompletedSplashScreen(wxWindow *parent)
 {
     wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
     wxXmlResource::Get()->LoadDialog(this, parent, "COMPLETED");
+
+#ifdef __WXMSW__
+    ApplySplashDarkTitleBar(this);
+#endif
+
     Show(true);
     
     timerPointer = new wxTimer(this, 1000);
