@@ -490,6 +490,7 @@
     <ClCompile Include="src\guimain.cpp" />
     <ClCompile Include="src\guipopup.cpp" />
     <ClCompile Include="src\guisb.cpp" />
+    <ClCompile Include="src\guiupdate.cpp" />
     <ClCompile Include="src\guivip2.cpp" />
     <ClCompile Include="src\guixml.cpp" />
     <ClCompile Include="src\hd44780.cpp" />
@@ -602,6 +603,7 @@
     <ClInclude Include="src\guimain.h" />
     <ClInclude Include="src\guipopup.h" />
     <ClInclude Include="src\guisb.h" />
+    <ClInclude Include="src\guiupdate.h" />
     <ClInclude Include="src\guivip2.h" />
     <ClInclude Include="src\guixml.h" />
     <ClInclude Include="src\hd44780.h" />
