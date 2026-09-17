@@ -652,14 +652,15 @@ wxFileOffset Memory::allocRomMapperMemory(size_t emsNumber, wxFileOffset length)
 {
     if (currentComputerConfiguration.emsMemoryConfiguration[emsNumber].granularity != 0)
     {
-        long windowSize = currentComputerConfiguration.emsMemoryConfiguration[emsNumber].mask + 1;
-        emsSize_ = (long)currentComputerConfiguration.emsMemoryConfiguration[emsNumber].output.mask
+        wxUint32 windowSize = currentComputerConfiguration.emsMemoryConfiguration[emsNumber].mask + 1;
+        emsSize_ = (wxUint32)currentComputerConfiguration.emsMemoryConfiguration[emsNumber].output.mask
                    * currentComputerConfiguration.emsMemoryConfiguration[emsNumber].granularity
                    + windowSize;
         emsSize_ = ((emsSize_ + 255) / 256) * 256;
     }
     else
-        emsSize_ = (currentComputerConfiguration.emsMemoryConfiguration[emsNumber].mask + 1) * (currentComputerConfiguration.emsMemoryConfiguration[emsNumber].output.mask + 1);
+        emsSize_ = ((wxUint32)currentComputerConfiguration.emsMemoryConfiguration[emsNumber].mask + 1)
+                   * ((wxUint32)currentComputerConfiguration.emsMemoryConfiguration[emsNumber].output.mask + 1);
 
     if (length > emsSize_)
         length = emsSize_;
@@ -691,14 +692,15 @@ void Memory::allocEmsMemorySegment(size_t emsNumber)
 {    
     if (currentComputerConfiguration.emsMemoryConfiguration[emsNumber].granularity != 0)
     {
-        long windowSize = currentComputerConfiguration.emsMemoryConfiguration[emsNumber].mask + 1;
-        emsSize_ = (long)currentComputerConfiguration.emsMemoryConfiguration[emsNumber].output.mask
+        wxUint32 windowSize = currentComputerConfiguration.emsMemoryConfiguration[emsNumber].mask + 1;
+        emsSize_ = (wxUint32)currentComputerConfiguration.emsMemoryConfiguration[emsNumber].output.mask
                    * currentComputerConfiguration.emsMemoryConfiguration[emsNumber].granularity
                    + windowSize;
         emsSize_ = ((emsSize_ + 255) / 256) * 256;
     }
     else
-        emsSize_ = (currentComputerConfiguration.emsMemoryConfiguration[emsNumber].mask + 1) * (currentComputerConfiguration.emsMemoryConfiguration[emsNumber].output.mask + 1);
+        emsSize_ = ((wxUint32)currentComputerConfiguration.emsMemoryConfiguration[emsNumber].mask + 1)
+                   * ((wxUint32)currentComputerConfiguration.emsMemoryConfiguration[emsNumber].output.mask + 1);
     
     emsMemory_[emsNumber].mainMem = (Byte*)malloc((size_t)emsSize_);
     emsMemory_[emsNumber].dataType_ = (Byte*)malloc((size_t)emsSize_);
