@@ -463,6 +463,8 @@
 		992E125D2D7E42610000707B /* mm57109.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = mm57109.h; path = src/mm57109.h; sourceTree = "<group>"; };
 		99321272285FB74F00A7793E /* mac_OS12.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mac_OS12.cpp; path = src/mac_OS12.cpp; sourceTree = "<group>"; };
 		9935652A21446B7000A329C6 /* STK-2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "STK-2.syntax"; sourceTree = "<group>"; };
+		99368910305C685700939BA4 /* Emma 02 vc17.sln */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02 vc17.sln"; sourceTree = "<group>"; };
+		99368911305C685700939BA4 /* Emma 02 vc17.vcxproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02 vc17.vcxproj"; sourceTree = "<group>"; };
 		993B1649211EBD9C008A5656 /* GPL-2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GPL-2.syntax"; sourceTree = "<group>"; };
 		993B6E4028C68ABD007DF353 /* keyb1871.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = keyb1871.h; path = src/keyb1871.h; sourceTree = "<group>"; };
 		993B6E4128C68ABD007DF353 /* keyb1871.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = keyb1871.cpp; path = src/keyb1871.cpp; sourceTree = "<group>"; };
@@ -865,6 +867,8 @@
 				99ACA8591F42330C00788104 /* Emma 02 vc14.sln */,
 				99ACA85A1F42330C00788104 /* Emma 02 vc14.vcxproj */,
 				99ACA85B1F42330C00788104 /* Emma 02 vc14.vcxproj.filters */,
+				99368910305C685700939BA4 /* Emma 02 vc17.sln */,
+				99368911305C685700939BA4 /* Emma 02 vc17.vcxproj */,
 				99F3746E1CADBBC2000DA615 /* COPYING - curl */,
 				99E6EA921F40931D0030F125 /* OpenSSL - LICENSE */,
 				99F3746C1CADBBC2000DA615 /* Quest_CC_Lic.jpg */,
