@@ -331,6 +331,11 @@ void SBDialog::listBackup(wxFileName directory, wxString name, wxString ext, int
     wxDir *dir;
 
     dir = new wxDir (directory.GetLongPath());
+    if (!dir->IsOpened())
+    {
+        delete dir;
+        return;
+    }
     fileFound = dir->GetFirst(&fileName, name+"*" + ext + ".bak", flags);
 
     while (fileFound)
@@ -361,6 +366,11 @@ void SBDialog::listAllBackup(wxString directory)
 
     directoryName = wxFileName(directory);
     dir = new wxDir (directoryName.GetLongPath());
+    if (!dir->IsOpened())
+    {
+        delete dir;
+        return;
+    }
 
     listBackup(directoryName, "", ".*", wxDIR_FILES);
 

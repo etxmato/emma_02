@@ -885,7 +885,7 @@ public:
     void onReInstallData(wxCommandEvent& event);
     void removeRedundantFiles();
     void deleteDir(wxString directory);
-    void reInstall(wxString source, wxString destination, wxString pathSep, wxString doNotCopy="");
+    bool reInstall(wxString source, wxString destination, wxString pathSep, wxString doNotCopy="");
     void removeOldXml(wxString dir, wxString pathSep);
     void reInstallOnNotFound(wxString fileTypeString);
     void checkAndReInstallFile(wxString fileAndPath, wxString fileTypeString);

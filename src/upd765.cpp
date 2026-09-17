@@ -1343,7 +1343,7 @@ void Upd765::buildDirectoryClusters(int clusterRequest)
     // p_Main->guiShowTextMessage(textMessage);
 
     wxDir dir (diskDir_[drive_]);
-    bool cont = dir.GetFirst(&filename);
+    bool cont = dir.IsOpened() && dir.GetFirst(&filename);
     
     for (int i=0x200; i<0x1200; i++)
         diskBuffer_[drive_][i] = 0;

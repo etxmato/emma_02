@@ -57,6 +57,16 @@ void DatadirDialog::onMoveButton( wxCommandEvent& WXUNUSED(event) )
 
     wxFileName destination(newDataDir);
     wxDir dir (dataDir);
+    if (!dir.IsOpened())
+    {
+        XRCCTRL(*this, "DataDirThrobber", wxAnimationCtrl)->Stop();
+        XRCCTRL(*this, "DataDirThrobber", wxAnimationCtrl)->Hide();
+        XRCCTRL(*this, "DataDirMove", wxButton)->Enable(true);
+        XRCCTRL(*this, "DataDirSet", wxButton)->Enable(true);
+        XRCCTRL(*this, "DataDir", wxDirPickerCtrl)->Enable(true);
+        wxMessageBox("Source data directory " + dataDir + " does not exist, cannot move files.", "Emma 02", wxICON_EXCLAMATION | wxOK);
+        return;
+    }
     bool cont = dir.GetFirst(&filename);
 
     while ( cont )

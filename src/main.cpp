@@ -829,9 +829,10 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
     applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
     if (!wxFile::Exists(applicationDirectory_ + "main_11.xrc"))
     {
-        applicationDirectory_ = wxStandardPaths::Get().GetExecutablePath();
-        applicationDirectory_ = applicationDirectory_.Left(applicationDirectory_.Len()-11);
-        applicationDirectory_ = applicationDirectory_ + "share" + pathSeparator_ + "emma_02" + pathSeparator_;
+        wxFileName exeFile(wxStandardPaths::Get().GetExecutablePath());
+        exeFile.RemoveLastDir();        // <prefix>/bin/emma_02 -> <prefix>/bin
+        applicationDirectory_ = exeFile.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR, wxPATH_NATIVE)
+                              + "share" + pathSeparator_ + "emma_02" + pathSeparator_;
     }
 #endif
 #if defined (__WXMAC__)
@@ -898,7 +899,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 
         computerLower = computer;
         computerLower.MakeLower();
-        bool dirFound = dir->GetFirst(&dirName,  wxEmptyString, wxDIR_DIRS);
+        bool dirFound = dir->IsOpened() && dir->GetFirst(&dirName,  wxEmptyString, wxDIR_DIRS);
         while (dirFound)
         {
             dirNameLower = dirName;
@@ -1680,8 +1681,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     wxDir *dir;
     wxString dirName;
     dir = new wxDir (applicationDirectory_ + "data" + pathSeparator_);
-   
-    bool dirFound = dir->GetFirst(&dirName, wxEmptyString, wxDIR_DIRS);
+
+    bool dirFound = dir->IsOpened() && dir->GetFirst(&dirName, wxEmptyString, wxDIR_DIRS);
     while (dirFound)
     {
         configPointer->Read(dirName + "/SoftwareDirInstalled", &softwareDirInstalled, false);
@@ -2784,6 +2785,11 @@ void Main::deleteDir(wxString directory)
     wxDir *dir;
     
     dir = new wxDir (directory);
+    if (!dir->IsOpened())
+    {
+        delete dir;
+        return;
+    }
     fileFound = dir->GetFirst(&fileName);
     
     while (fileFound)
@@ -2796,12 +2802,15 @@ void Main::deleteDir(wxString directory)
     delete dir;
 }
 
-void Main::reInstall(wxString sourceDir, wxString destinationDir, wxString pathSep, wxString doNotCopy)
+bool Main::reInstall(wxString sourceDir, wxString destinationDir, wxString pathSep, wxString doNotCopy)
 {
    wxString filename;
 
    wxFileName destination(destinationDir);
    wxDir dir (sourceDir);
+   if (!dir.IsOpened())
+       return false;
+
    bool cont = dir.GetFirst(&filename);
 
    while ( cont )
@@ -2809,7 +2818,7 @@ void Main::reInstall(wxString sourceDir, wxString destinationDir, wxString pathS
      if (filename == doNotCopy)
          cont = dir.GetNext(&filename);
      if (!cont)
-         return;
+         return true;
      if (wxDir::Exists(sourceDir + filename))
          filename += pathSep;
      
@@ -2818,6 +2827,7 @@ void Main::reInstall(wxString sourceDir, wxString destinationDir, wxString pathS
      copyTree(&source, &destination, pathSep);
      cont = dir.GetNext(&filename);
    }
+   return true;
 }
 
 void Main::removeOldXml(wxString dirName, wxString pathSep)
@@ -3148,7 +3158,9 @@ void Main::reInstallOnNotFound(wxString fileTypeString)
     if (answer == wxYES)
     {
         
-        p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + xmlDirComboString + pathSeparator_,  dataDir_ + xmlDirComboString + pathSeparator_, pathSeparator_);
+        wxString sourceDir = applicationDirectory_ + "data" + pathSeparator_ + xmlDirComboString + pathSeparator_;
+        if (!p_Main->reInstall(sourceDir,  dataDir_ + xmlDirComboString + pathSeparator_, pathSeparator_))
+            wxMessageBox("Default " + fileTypeString + " files were not found in:\n" + sourceDir + "\n\nInstall the Emma 02 data files or set the data directory to a location containing them.", "Emma 02", wxICON_EXCLAMATION | wxOK);
     }
 }
 

@@ -1508,6 +1508,7 @@ void GuiXml::setXmlDirDropDown()
     dirNameList_.Clear();
     dirNameListDefaultFile_.Clear();
     dirNameListGui_.Clear();
+    computerConfiguration.xmlFileConfiguration.subDirectory = "";
 
     wxDir *dir;
     
@@ -1519,10 +1520,22 @@ void GuiXml::setXmlDirDropDown()
             wxDir::Make(computerConfiguration.xmlFileConfiguration.mainDirectory);
             p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + "Xml" + pathSeparator_,  computerConfiguration.xmlFileConfiguration.mainDirectory, pathSeparator_);
         }
+
+        if (!wxDir::Exists(computerConfiguration.xmlFileConfiguration.mainDirectory))
+        {
+            dropdownUpdateOngoing_ = false;
+            return;
+        }
     }
 
     dir = new wxDir (computerConfiguration.xmlFileConfiguration.mainDirectory);
-    
+    if (!dir->IsOpened())
+    {
+        delete dir;
+        dropdownUpdateOngoing_ = false;
+        return;
+    }
+
     bool dirFound = dir->GetFirst(&dirName, wxEmptyString, wxDIR_DIRS);
     while (dirFound)
     {
