@@ -63,7 +63,7 @@ GuiComx::~GuiComx()
 
 void GuiComx::statusLedOnEvent()
 {
-    if (computerConfiguration.vis1870Configuration.statusBarType != STATUSBAR_COMX)
+    if (computerConfiguration.statusBarType != STATUSBAR_COMX)
         return;
     
     if (wxIsMainThread())
@@ -81,7 +81,7 @@ void GuiComx::statusLedOnEvent()
 
 void GuiComx::statusLedOffEvent()
 {
-    if (computerConfiguration.vis1870Configuration.statusBarType != STATUSBAR_COMX)
+    if (computerConfiguration.statusBarType != STATUSBAR_COMX)
         return;
     
     if (wxIsMainThread())
@@ -99,7 +99,7 @@ void GuiComx::statusLedOffEvent()
 
 void GuiComx::expLedOnEvent()
 {
-    if (computerConfiguration.vis1870Configuration.statusBarType != STATUSBAR_COMX)
+    if (computerConfiguration.statusBarType != STATUSBAR_COMX)
         return;
 
     if (wxIsMainThread() || !slotLedUpdate_)
@@ -117,7 +117,7 @@ void GuiComx::expLedOnEvent()
 
 void GuiComx::expLedOffEvent()
 {
-    if (computerConfiguration.vis1870Configuration.statusBarType != STATUSBAR_COMX)
+    if (computerConfiguration.statusBarType != STATUSBAR_COMX)
         return;
 
     if (wxIsMainThread() || !slotLedUpdate_)

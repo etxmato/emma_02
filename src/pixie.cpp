@@ -42,12 +42,13 @@
 #include "pixie.h"
 #include "statusbar.h"
 
-Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType)
+Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType, int statusBarType)
 : Video(title, pos, size)
 {
     cdp1861Configuration_ = cdp1861Configuration;
     cdp1862Configuration_ = cdp1862Configuration;
     cdp1864Configuration_ = cdp1864Configuration;
+    statusBarType_ = statusBarType;
     videoNumber_ = videoNumber;
     
     videoType_ = videoType;
@@ -113,13 +114,13 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 
     this->SetClientSize(size);
 
-    videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_, xZoomFactor_, (cdp1861Configuration_.statusBarType == STATUSBAR_VIP2 && bootStrapType != BOOTSTRAPRUN));
+    videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_, xZoomFactor_, (statusBarType_ == STATUSBAR_VIP2 && bootStrapType != BOOTSTRAPRUN));
 
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
 #endif
 
-    if (cdp1861Configuration_.statusBarType == STATUSBAR_VIP2)
+    if (statusBarType_ == STATUSBAR_VIP2)
     {
         vipIIStatusBarPointer = new VipIIStatusBar(this);
         SetStatusBar(vipIIStatusBarPointer);
@@ -143,7 +144,7 @@ Pixie::~Pixie()
     dcMemory.SelectObject(wxNullBitmap);
     delete screenCopyPointer;
     delete videoScreenPointer;
-    if (cdp1861Configuration_.statusBarType == STATUSBAR_VIP2)
+    if (statusBarType_ == STATUSBAR_VIP2)
         delete vipIIStatusBarPointer;
 }
 
@@ -275,7 +276,7 @@ void Pixie::configureCdp1862(bool autoBoot)
     colourMask_ = 0;
     colourType_ = cdp1862Configuration_.colorType;
     
-    if (cdp1861Configuration_.statusBarType == STATUSBAR_VIP2)
+    if (statusBarType_ == STATUSBAR_VIP2)
         vipIIStatusBarPointer->initVipIIBar(autoBoot);
 }
 
@@ -741,19 +742,19 @@ void Pixie::onF3()
 
 void Pixie::pixieBarSize()
 {
-    if (cdp1861Configuration_.statusBarType == STATUSBAR_VIP2)
+    if (statusBarType_ == STATUSBAR_VIP2)
         vipIIStatusBarPointer->reDrawBar();
 }
 
 void Pixie::reDrawBar()
 {
-    if (cdp1861Configuration_.statusBarType == STATUSBAR_VIP2)
+    if (statusBarType_ == STATUSBAR_VIP2)
         vipIIStatusBarPointer->reDrawBar();
 }
 
 void Pixie::updateVipLedStatus(bool status, int led)
 {
-    if (cdp1861Configuration_.statusBarType == STATUSBAR_VIP2)
+    if (statusBarType_ == STATUSBAR_VIP2)
         vipIIStatusBarPointer->updateLedStatus(status, led);
 }
 
@@ -794,8 +795,8 @@ void Pixie::reBlit(wxDC &dc)
     }
 }
 
-PixieFred::PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType)
-: Pixie(title, pos, size, zoom, zoomfactor, videoNumber, videoType, cdp1861Configuration, cdp1862Configuration, cdp1864Configuration, bootStrapType)
+PixieFred::PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType, int statusBarType)
+: Pixie(title, pos, size, zoom, zoomfactor, videoNumber, videoType, cdp1861Configuration, cdp1862Configuration, cdp1864Configuration, bootStrapType, statusBarType)
 {
     displayType_ = 3;
     setDisplayType(displayType_, DO_NOT_SHOW_ANY_TRACE);
@@ -970,8 +971,8 @@ void PixieFred::cyclePixie()
         graphicsNext_ = 0;
 }
 
-PixieVip2K::PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType)
-: Pixie(title, pos, size, zoom, zoomfactor, videoNumber, videoType, cdp1861Configuration, cdp1862Configuration, cdp1864Configuration, bootStrapType)
+PixieVip2K::PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType, int statusBarType)
+: Pixie(title, pos, size, zoom, zoomfactor, videoNumber, videoType, cdp1861Configuration, cdp1862Configuration, cdp1864Configuration, bootStrapType, statusBarType)
 {
     colourIndex_ = COL_PIXIE_FORE;
     videoNumber_ = videoNumber;
@@ -1204,8 +1205,8 @@ void PixieVip2K::outPixie()
     sequencerAddress_ &= 0x3fff;
 }
 
-PixieStudioIV::PixieStudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType)
-: Pixie(title, pos, size, zoom, zoomfactor, videoNumber, videoType, cdp1861Configuration, cdp1862Configuration, cdp1864Configuration, bootStrapType)
+PixieStudioIV::PixieStudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int videoNumber, int videoType, CDP1861Configuration cdp1861Configuration, CDP1862Configuration cdp1862Configuration, CDP1864Configuration cdp1864Configuration, int bootStrapType, int statusBarType)
+: Pixie(title, pos, size, zoom, zoomfactor, videoNumber, videoType, cdp1861Configuration, cdp1862Configuration, cdp1864Configuration, bootStrapType, statusBarType)
 {
     videoMode_ = ST4_NTSC;
 }

@@ -1289,7 +1289,7 @@ void XmlParser::parseXml_System(wxXmlNode &node)
     computerInfo.configuration = "";
     computerConfiguration.monitorConfiguration.ef = init_EfFlag();
     computerConfiguration.monitorConfiguration.ioGroupVector.clear();
-    computerConfiguration.vis1870Configuration.statusBarType = STATUSBAR_NONE;
+    computerConfiguration.statusBarType = STATUSBAR_NONE;
     computerConfiguration.vis1870Configuration.statusBarLedOut = -1;
 
     wxString guiName;
@@ -1385,17 +1385,17 @@ void XmlParser::parseXml_System(wxXmlNode &node)
 
             case TAG_STATUSBAR:
                 if (child->GetNodeContent() == "comx")
-                    computerConfiguration.vis1870Configuration.statusBarType = STATUSBAR_COMX;
+                    computerConfiguration.statusBarType = STATUSBAR_COMX;
                 if (child->GetNodeContent() == "diag")
-                    computerConfiguration.vis1870Configuration.statusBarType = STATUSBAR_DIAG;
+                    computerConfiguration.statusBarType = STATUSBAR_DIAG;
                 if (child->GetNodeContent() == "cidelsa")
                 {
-                    computerConfiguration.vis1870Configuration.statusBarType = STATUSBAR_CIDELSA;
+                    computerConfiguration.statusBarType = STATUSBAR_CIDELSA;
                     if (child->HasAttribute("out"))
                         computerConfiguration.vis1870Configuration.statusBarLedOut = (int)parseXml_Number(*child, "out");
                 }
                 if (child->GetNodeContent() == "vip2")
-                    computerConfiguration.cdp1861Configuration.statusBarType = STATUSBAR_VIP2;
+                    computerConfiguration.statusBarType = STATUSBAR_VIP2;
             break;
 
             case TAG_COMMENT:

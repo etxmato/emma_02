@@ -15,7 +15,7 @@ class VIS1870 : public Video
 {
 public:
 
-    VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, Vis1870Configuration vis1870Configuration);
+    VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, Vis1870Configuration vis1870Configuration, int statusBarType);
     ~VIS1870();
 
     void focus();

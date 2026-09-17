@@ -72,7 +72,7 @@ void PixieConfig::pixieConfigInit()
     computerConfiguration.cdp1861Configuration.output = init_IoPort();
     computerConfiguration.cdp1861Configuration.ef = init_EfFlag();
 
-    computerConfiguration.cdp1861Configuration.statusBarType = STATUSBAR_NONE;
+//    computerConfiguration.statusBarType = STATUSBAR_NONE;
     computerConfiguration.cdp1861Configuration.defined = false;
     computerConfiguration.cdp1861Configuration.efScreenOn = false;
     computerConfiguration.cdp1861Configuration.highRes = false;

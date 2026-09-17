@@ -1842,9 +1842,9 @@ void GuiXml::setXmlGui()
     }
 
     XRCCTRL(*this, "ControlWindowsXml", wxCheckBox)->SetValue(computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show);
-    XRCCTRL(*this,"AddressText1Xml", wxStaticText)->Enable((computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show && computerConfiguration.frontPanelConfiguration[PANEL_MAIN].defined) || computerConfiguration.vis1870Configuration.statusBarType == STATUSBAR_VIP2);
-    XRCCTRL(*this,"AddressText2Xml", wxStaticText)->Enable((computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show && computerConfiguration.frontPanelConfiguration[PANEL_MAIN].defined) || computerConfiguration.vis1870Configuration.statusBarType == STATUSBAR_VIP2);
-    XRCCTRL(*this,"ShowAddressXml", wxTextCtrl)->Enable((computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show && computerConfiguration.frontPanelConfiguration[PANEL_MAIN].defined) || computerConfiguration.vis1870Configuration.statusBarType == STATUSBAR_VIP2);
+    XRCCTRL(*this,"AddressText1Xml", wxStaticText)->Enable((computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show && computerConfiguration.frontPanelConfiguration[PANEL_MAIN].defined) || computerConfiguration.statusBarType == STATUSBAR_VIP2);
+    XRCCTRL(*this,"AddressText2Xml", wxStaticText)->Enable((computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show && computerConfiguration.frontPanelConfiguration[PANEL_MAIN].defined) || computerConfiguration.statusBarType == STATUSBAR_VIP2);
+    XRCCTRL(*this,"ShowAddressXml", wxTextCtrl)->Enable((computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show && computerConfiguration.frontPanelConfiguration[PANEL_MAIN].defined) || computerConfiguration.statusBarType == STATUSBAR_VIP2);
 
     XRCCTRL(*this,"ControlWindowsXml", wxCheckBox)->Enable(computerConfiguration.frontPanelConfiguration[PANEL_MAIN].defined);
 

@@ -49,13 +49,14 @@ BEGIN_EVENT_TABLE(VIS1870, wxFrame)
     EVT_SIZE(VIS1870::onSize)
 END_EVENT_TABLE()
 
-VIS1870::VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, Vis1870Configuration vis1870Configuration)
+VIS1870::VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, Vis1870Configuration vis1870Configuration, int statusBarType)
 : Video(title, pos, size)
 {
     clock_ = clock;
     colourIndex_ = 0;
     videoClock_ = vis1870Configuration.videoClock;
     vis1870Configuration_ = vis1870Configuration;
+    statusBarType_ = statusBarType;
     videoNumber_ = vis1870Configuration.videoNumber;
     pageMemoryMask_ = vis1870Configuration.pageMemSize;
     pageMemorySize_ = vis1870Configuration.pageMemSize;
@@ -125,7 +126,7 @@ VIS1870::VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, 
         videoHeight_ = shownLinesPerCharacters_*vis1870Configuration_.maxScreenLines;
     }
 
-    switch (vis1870Configuration_.statusBarType)
+    switch (statusBarType_)
     {
         case STATUSBAR_COMX:
             comxStatusBarPointer = new ComxStatusBar(this);
@@ -171,7 +172,7 @@ VIS1870::~VIS1870()
         return;
     delete screenCopyPointer;
 
-    if (vis1870Configuration_.statusBarType != STATUSBAR_NONE)
+    if (statusBarType_ != STATUSBAR_NONE)
         delete statusBarPointer;
 }
 
@@ -243,7 +244,7 @@ bool VIS1870::configure1870()
         message.Printf("	%d Characters with size: 6x%d\n", (charMemorySize_+1)/maxLinesPerCharacters_, linesPerCharacters_);
     p_Main->message(message);
 
-    if (vis1870Configuration_.statusBarType != STATUSBAR_NONE)
+    if (statusBarType_ != STATUSBAR_NONE)
     {
         statusBarPointer->init(vis1870Configuration_.expansionConfiguration_defined);
         statusBarPointer->configure(vis1870Configuration_.statusBarLedOut);
@@ -590,7 +591,7 @@ void VIS1870::cycle1870()
         {
             changeScreenSize();
             if (!fullScreenSet_)
-                if (vis1870Configuration_.statusBarType != STATUSBAR_NONE)
+                if (statusBarType_ != STATUSBAR_NONE)
                     p_Main->v1870BarSizeEvent();
         }
 
@@ -1133,11 +1134,11 @@ void VIS1870::drawBackgroundLine(wxCoord x, wxCoord y)
 
 void VIS1870::reDrawBar()
 {
-    if (vis1870Configuration_.statusBarType == STATUSBAR_NONE)
+    if (statusBarType_ == STATUSBAR_NONE)
         return;
     
     statusBarPointer->reDrawBar();
-    if (vis1870Configuration_.statusBarType == STATUSBAR_COMX)
+    if (statusBarType_ == STATUSBAR_COMX)
         updateComxExpansionLed(true);
 }
 
@@ -1267,7 +1268,7 @@ void VIS1870::setFullScreen(bool fullScreenSet)
 {
     fullScreenSet_ = fullScreenSet;
 #ifdef __WXMAC__
-    if (vis1870Configuration_.statusBarType != STATUSBAR_NONE)
+    if (statusBarType_ != STATUSBAR_NONE)
     {
         if (fullScreenSet)
             SetStatusBar(NULL);

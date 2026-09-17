@@ -317,8 +317,6 @@ public:
     int highRes;
     int colorType;
     PixieGraphics pixieGraphics;
-    
-    int statusBarType;
 };
 
 class CDP1862Configuration : public VideoConfiguration
@@ -440,7 +438,6 @@ public:
     Byte pcbMask;
     bool cmaMaskFixed;
     
-    int statusBarType;
     int statusBarLedOut;
     bool expansionConfiguration_defined;
 };
@@ -2070,7 +2067,8 @@ public:
     bool useSplashScreen_;
     bool clearRam;
     bool clearRtc;
-            
+    int statusBarType;
+
     // Memory related configuration items
     int multicartEmsNumber_;
     int memoryMask;

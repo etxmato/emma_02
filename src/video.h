@@ -239,7 +239,8 @@ protected:
     int uartNumber_;
     int colourIndex_;
     int videoNumber_;
-
+    int statusBarType_;
+    
     bool graphicsOn_;
     
 // Software framebuffer (see video.cpp). All per-pixel drawing

@@ -54,7 +54,7 @@ void GuiVipII::pixieBarSize(wxCommandEvent&WXUNUSED(event))
 
 void GuiVipII::pixieBarSizeEvent()
 {
-    if (computerConfiguration.cdp1861Configuration.statusBarType != STATUSBAR_VIP2)
+    if (computerConfiguration.statusBarType != STATUSBAR_VIP2)
         return;
 
     wxCommandEvent event(STATUS_BAR_PIXIE, 810);

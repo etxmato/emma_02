@@ -4026,9 +4026,9 @@ void Computer::showStatusLed(int led, int status)
 
 void Computer::updateStatusBarLedStatus(bool status, int led)
 {
-    if (currentComputerConfiguration.cdp1861Configuration.statusBarType == STATUSBAR_VIP2)
+    if (currentComputerConfiguration.statusBarType == STATUSBAR_VIP2)
     {
-        if (currentComputerConfiguration.cdp1861Configuration.defined)
+        if (currentComputerConfiguration.cdp1861Configuration.defined || currentComputerConfiguration.cdp1862Configuration.defined)
             pixiePointer->updateVipLedStatus(status, led);
         if (currentComputerConfiguration.cdp1864Configuration.defined)
             cdp1864Pointer->updateVipLedStatus(status, led);
@@ -4070,7 +4070,7 @@ void Computer::switchQ(int value)
 {
     if (qState_ != value)
     {
-        if (currentComputerConfiguration.cdp1861Configuration.statusBarType == STATUSBAR_VIP2)
+        if (currentComputerConfiguration.statusBarType == STATUSBAR_VIP2)
         {
             if (ledTimeMs_ == 0)
                 p_Main->guiUpdateVipIILedStatus(BAR_LED_Q, value == 1);
@@ -5643,7 +5643,7 @@ void Computer::startComputer()
         break;
     }
 
-    switch (currentComputerConfiguration.vis1870Configuration.statusBarType)
+    switch (currentComputerConfiguration.statusBarType)
     {
         case STATUSBAR_COMX:
         case STATUSBAR_DIAG:
@@ -5655,10 +5655,10 @@ void Computer::startComputer()
         break;
     }
     
-    if (currentComputerConfiguration.cdp1861Configuration.statusBarType == STATUSBAR_VIP2)
+    if (currentComputerConfiguration.statusBarType == STATUSBAR_VIP2)
     {
         lastMode_ = cpuMode_;
-        if (currentComputerConfiguration.cdp1861Configuration.defined)
+        if (currentComputerConfiguration.cdp1861Configuration.defined || currentComputerConfiguration.cdp1862Configuration.defined)
             pixiePointer->reDrawBar();
         if (currentComputerConfiguration.cdp1864Configuration.defined)
             cdp1864Pointer->reDrawBar();
@@ -8075,7 +8075,7 @@ void Computer::resetPressed()
         i8275Pointer->cRegWrite(0x40);
     if (currentComputerConfiguration.vis1870Configuration.defined)
     {
-        if (currentComputerConfiguration.vis1870Configuration.statusBarType != STATUSBAR_NONE)
+        if (currentComputerConfiguration.statusBarType != STATUSBAR_NONE)
             p_Main->v1870BarSizeEvent();
 
         if (currentComputerConfiguration.diagnosticBoardConfiguration.defined)
@@ -8788,7 +8788,7 @@ void Computer::configureVideoExtensions()
     if (currentComputerConfiguration.coinConfiguration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.coinConfiguration.videoNumber);
-        coinPointer = new Pixie(p_Main->getRunningComputerText() + " - Coin Video", p_Main->getCoinPos(), wxSize(64*zoom*currentComputerConfiguration.coinConfiguration.xScale, 128*zoom), zoom, currentComputerConfiguration.coinConfiguration.xScale, currentComputerConfiguration.coinConfiguration.videoNumber, VIDEOCOIN, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.cdp1864Configuration, currentComputerConfiguration.bootstrapConfiguration.type);
+        coinPointer = new Pixie(p_Main->getRunningComputerText() + " - Coin Video", p_Main->getCoinPos(), wxSize(64*zoom*currentComputerConfiguration.coinConfiguration.xScale, 128*zoom), zoom, currentComputerConfiguration.coinConfiguration.xScale, currentComputerConfiguration.coinConfiguration.videoNumber, VIDEOCOIN, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.cdp1864Configuration, currentComputerConfiguration.bootstrapConfiguration.type, currentComputerConfiguration.statusBarType);
         p_Video[currentComputerConfiguration.coinConfiguration.videoNumber] = coinPointer;
         coinPointer->configurePixieCoinArcade(currentComputerConfiguration.coinConfiguration);
         coinPointer->initPixie();
@@ -8799,7 +8799,7 @@ void Computer::configureVideoExtensions()
     if (currentComputerConfiguration.cdp1861Configuration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.cdp1861Configuration.videoNumber);
-        pixiePointer = new Pixie(p_Main->getRunningComputerText() + " - Pixie", p_Main->getPixiePos(), wxSize(64*zoom*currentComputerConfiguration.cdp1861Configuration.xScale, 128*zoom), zoom, currentComputerConfiguration.cdp1861Configuration.xScale, currentComputerConfiguration.cdp1861Configuration.videoNumber, VIDEOXMLPIXIE, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.cdp1864Configuration, currentComputerConfiguration.bootstrapConfiguration.type);
+        pixiePointer = new Pixie(p_Main->getRunningComputerText() + " - Pixie", p_Main->getPixiePos(), wxSize(64*zoom*currentComputerConfiguration.cdp1861Configuration.xScale, 128*zoom), zoom, currentComputerConfiguration.cdp1861Configuration.xScale, currentComputerConfiguration.cdp1861Configuration.videoNumber, VIDEOXMLPIXIE, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.cdp1864Configuration, currentComputerConfiguration.bootstrapConfiguration.type, currentComputerConfiguration.statusBarType);
         p_Video[currentComputerConfiguration.cdp1861Configuration.videoNumber] = pixiePointer;
         
         switch (currentComputerConfiguration.cdp1861Configuration.doubleScreenIo)
@@ -8837,7 +8837,7 @@ void Computer::configureVideoExtensions()
     if (currentComputerConfiguration.cdp1864Configuration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.cdp1864Configuration.videoNumber);
-        cdp1864Pointer = new Pixie(p_Main->getRunningComputerText() + " - CDP1864", p_Main->getCdp1864Pos(), wxSize(64*zoom*currentComputerConfiguration.cdp1864Configuration.xScale, 192*zoom), zoom, currentComputerConfiguration.cdp1864Configuration.xScale, currentComputerConfiguration.cdp1864Configuration.videoNumber, VIDEOXML1864, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.cdp1864Configuration, currentComputerConfiguration.bootstrapConfiguration.type);
+        cdp1864Pointer = new Pixie(p_Main->getRunningComputerText() + " - CDP1864", p_Main->getCdp1864Pos(), wxSize(64*zoom*currentComputerConfiguration.cdp1864Configuration.xScale, 192*zoom), zoom, currentComputerConfiguration.cdp1864Configuration.xScale, currentComputerConfiguration.cdp1864Configuration.videoNumber, VIDEOXML1864, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.cdp1864Configuration, currentComputerConfiguration.bootstrapConfiguration.type, currentComputerConfiguration.statusBarType);
         p_Video[currentComputerConfiguration.cdp1864Configuration.videoNumber] = cdp1864Pointer;
         if (!currentComputerConfiguration.cdp1864Configuration.colorLatch)
             if (currentComputerConfiguration.cdp1864Configuration.startRam != -1 && currentComputerConfiguration.cdp1864Configuration.endRam != -1)
@@ -8859,7 +8859,7 @@ void Computer::configureVideoExtensions()
     if (currentComputerConfiguration.studio4VideoConfiguration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.studio4VideoConfiguration.videoNumber);
-        st4VideoPointer = new PixieStudioIV(p_Main->getRunningComputerText(), p_Main->getSt4Pos(), wxSize(64*zoom*currentComputerConfiguration.studio4VideoConfiguration.xScale, 192*zoom), zoom, currentComputerConfiguration.studio4VideoConfiguration.xScale, currentComputerConfiguration.studio4VideoConfiguration.videoNumber, VIDEOSTUDIOIV, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.cdp1864Configuration, currentComputerConfiguration.bootstrapConfiguration.type);
+        st4VideoPointer = new PixieStudioIV(p_Main->getRunningComputerText(), p_Main->getSt4Pos(), wxSize(64*zoom*currentComputerConfiguration.studio4VideoConfiguration.xScale, 192*zoom), zoom, currentComputerConfiguration.studio4VideoConfiguration.xScale, currentComputerConfiguration.studio4VideoConfiguration.videoNumber, VIDEOSTUDIOIV, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.cdp1864Configuration, currentComputerConfiguration.bootstrapConfiguration.type, currentComputerConfiguration.statusBarType);
         p_Video[currentComputerConfiguration.studio4VideoConfiguration.videoNumber] = st4VideoPointer;
         if (currentComputerConfiguration.studio4VideoConfiguration.startRam != -1 && currentComputerConfiguration.studio4VideoConfiguration.endRam != -1)
             defineMemoryType(currentComputerConfiguration.studio4VideoConfiguration.startRam, currentComputerConfiguration.studio4VideoConfiguration.endRam, COLOURRAMST4);
@@ -8872,7 +8872,7 @@ void Computer::configureVideoExtensions()
     if (currentComputerConfiguration.vip2KVideoConfiguration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.vip2KVideoConfiguration.videoNumber);
-        vip2KVideoPointer = new PixieVip2K(p_Main->getRunningComputerText(), p_Main->getVip2KPos(), wxSize(64*zoom*currentComputerConfiguration.vip2KVideoConfiguration.xScale, 192*zoom), zoom, currentComputerConfiguration.vip2KVideoConfiguration.xScale, currentComputerConfiguration.vip2KVideoConfiguration.videoNumber, VIDEOVIP2K, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.cdp1864Configuration, currentComputerConfiguration.bootstrapConfiguration.type);
+        vip2KVideoPointer = new PixieVip2K(p_Main->getRunningComputerText(), p_Main->getVip2KPos(), wxSize(64*zoom*currentComputerConfiguration.vip2KVideoConfiguration.xScale, 192*zoom), zoom, currentComputerConfiguration.vip2KVideoConfiguration.xScale, currentComputerConfiguration.vip2KVideoConfiguration.videoNumber, VIDEOVIP2K, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.cdp1864Configuration, currentComputerConfiguration.bootstrapConfiguration.type, currentComputerConfiguration.statusBarType);
         p_Video[currentComputerConfiguration.vip2KVideoConfiguration.videoNumber] = vip2KVideoPointer;
         p_Computer->readIntelFile(currentComputerConfiguration.vip2KVideoConfiguration.sequencerDirectory + currentComputerConfiguration.vip2KVideoConfiguration.sequencerFile, &sequencerMemory, 2048);
         vip2KVideoPointer->configureVip2K(currentComputerConfiguration.vip2KVideoConfiguration);
@@ -8884,7 +8884,7 @@ void Computer::configureVideoExtensions()
     if (currentComputerConfiguration.fredVideoConfiguration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.fredVideoConfiguration.videoNumber);
-        fredVideoPointer = new PixieFred(p_Main->getRunningComputerText(), p_Main->getFredPos(), wxSize(192*zoom*currentComputerConfiguration.fredVideoConfiguration.xScale, 128*zoom), zoom, currentComputerConfiguration.fredVideoConfiguration.xScale, currentComputerConfiguration.fredVideoConfiguration.videoNumber, VIDEOFRED, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.cdp1864Configuration, currentComputerConfiguration.bootstrapConfiguration.type);
+        fredVideoPointer = new PixieFred(p_Main->getRunningComputerText(), p_Main->getFredPos(), wxSize(192*zoom*currentComputerConfiguration.fredVideoConfiguration.xScale, 128*zoom), zoom, currentComputerConfiguration.fredVideoConfiguration.xScale, currentComputerConfiguration.fredVideoConfiguration.videoNumber, VIDEOFRED, currentComputerConfiguration.cdp1861Configuration, currentComputerConfiguration.cdp1862Configuration, currentComputerConfiguration.cdp1864Configuration, currentComputerConfiguration.bootstrapConfiguration.type, currentComputerConfiguration.statusBarType);
         p_Video[currentComputerConfiguration.fredVideoConfiguration.videoNumber] = fredVideoPointer;
         fredVideoPointer->configureFredVideo(currentComputerConfiguration.fredVideoConfiguration);
         fredVideoPointer->initPixie();
@@ -8981,7 +8981,7 @@ void Computer::configureV1870Extension()
     if (currentComputerConfiguration.vis1870Configuration.defined)
     {
         double zoom = p_Main->getZoom(currentComputerConfiguration.vis1870Configuration.videoNumber);
-        vis1870Pointer = new VIS1870(p_Main->getRunningComputerText() + " - VIS 1870", p_Main->getV1870Pos(), wxSize(240*zoom,216*zoom), zoom, computerClockSpeed_, currentComputerConfiguration.vis1870Configuration);
+        vis1870Pointer = new VIS1870(p_Main->getRunningComputerText() + " - VIS 1870", p_Main->getV1870Pos(), wxSize(240*zoom,216*zoom), zoom, computerClockSpeed_, currentComputerConfiguration.vis1870Configuration, currentComputerConfiguration.statusBarType);
         p_Video[currentComputerConfiguration.vis1870Configuration.videoNumber] = vis1870Pointer;
         
         bool loadRom = vis1870Pointer->configure1870();
