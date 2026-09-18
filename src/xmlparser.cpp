@@ -1355,7 +1355,8 @@ void XmlParser::parseXml_System(wxXmlNode &node)
             break;
 
             case TAG_DIRNAME:
-                computerConfiguration.mainDir_ = dataDir_ + child->GetNodeContent();
+                computerConfiguration.mainComputerFolder_ = child->GetNodeContent();
+                computerConfiguration.mainDir_ = dataDir_ + computerConfiguration.mainComputerFolder_;
                 if (computerConfiguration.mainDir_.Right(1) != pathSeparator_)
                     computerConfiguration.mainDir_ += pathSeparator_;
             break;

@@ -2042,7 +2042,8 @@ public:
 
     // Folder and file location configuration items
     wxString mainDir_;
-        
+    wxString mainComputerFolder_;
+
     // Keyboard and Keypad related configuration items
     bool bitKeypadEf[5];
     wxString keyPadDefinitionFile;

@@ -3157,9 +3157,19 @@ void Main::reInstallOnNotFound(wxString fileTypeString)
     int answer = wxMessageBox(fileTypeString + " file for the " + computerInfo.name + " is missing,\nre-install all " + computerInfo.name + " default files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
     if (answer == wxYES)
     {
-        
-        wxString sourceDir = applicationDirectory_ + "data" + pathSeparator_ + xmlDirComboString + pathSeparator_;
-        if (!p_Main->reInstall(sourceDir,  dataDir_ + xmlDirComboString + pathSeparator_, pathSeparator_))
+        wxString destDir, sourceDir;
+        if (computerConfiguration.mainComputerFolder_ == "")
+        {
+           sourceDir = applicationDirectory_ + "data" + pathSeparator_ + xmlDirComboString + pathSeparator_;
+           destDir = dataDir_ + xmlDirComboString + pathSeparator_;
+        }
+        else
+        {
+           sourceDir = applicationDirectory_ + "data" + pathSeparator_ + computerConfiguration.mainComputerFolder_ + pathSeparator_;
+           destDir = dataDir_ + computerConfiguration.mainComputerFolder_ + pathSeparator_;
+        }
+           
+        if (!p_Main->reInstall(sourceDir,  destDir, pathSeparator_))
             wxMessageBox("Default " + fileTypeString + " files were not found in:\n" + sourceDir + "\n\nInstall the Emma 02 data files or set the data directory to a location containing them.", "Emma 02", wxICON_EXCLAMATION | wxOK);
     }
 }
