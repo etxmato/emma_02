@@ -93,6 +93,22 @@ i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 
     videoScreenPointer = new VideoScreen(this, size, zoom, videoNumber_);
 
+    // Firmware-programmable parameters. These feed the setCycle() timing math
+    // below, so they MUST be initialized first: uninitialized garbage in
+    // horizontalRetraceCount_/verticalRetraceRowCount_ produced a garbage
+    // horizontalRetraceCycleSize8275_ that parked the cycle8275() state
+    // machine in horizontal retrace (Linux heap reuse), so screenLocation_
+    // never reached the end of frame and the Elf 2000 POST failed with code
+    // 34 (no video end of frame interrupt).
+    command_ = C_NONE;
+    parameters_ = 0;
+    spacedRows_ = false;
+    fieldAttributeMode_ = 0;
+    verticalRetraceRowCount_ = 0;
+    horizontalRetraceCount_ = 0;
+    underLinePlacement_ = 0;
+    graphicLine_ = false;
+
     setCycle();
 
     cycleValue8275_ = -1;
@@ -481,6 +497,16 @@ Byte i8275::sRegRead()
 
 void i8275::cycle8275()
 {
+    // Apply firmware-programmed timing immediately. setCycle() otherwise only
+    // re-runs from Video::copyScreen(), which in the display-on state is
+    // reached only at vertical retrace (screenLocation_ == end of frame) -
+    // i.e. only after 24 rows have been fetched using the *old* cycle sizes.
+    // A stale horizontalRetraceCycleSize8275_ parks the state machine in
+    // horizontal retrace, the end-of-frame point is never reached and the
+    // timing is never refreshed (circular dependency).
+    if (reCycle_)
+        setCycle();
+
     if (!displayOn_)
     {
         cycleBlankValue8275_--;
