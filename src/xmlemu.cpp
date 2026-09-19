@@ -5306,6 +5306,21 @@ void Computer::onCmSys00Button()
     setSys00Cm(!getSys00Cm());
 }
 
+void Computer::onPxSys00Button()
+{
+    // System 00 'PX' switch (manual Control Switches list, printed p.16):
+    // "P&X -> 7". The manual prints the arrow the wrong way round - every other
+    // entry on that page is source->destination ("Bus->P", "M(R0)->Bus") - so it
+    // reads "7 -> P & X": the fixed value 7 is set into both P (program counter
+    // register select) and X (data pointer register select), making R(7) serve as
+    // both PC and data pointer. This is a hardware preset, not a bus load (the 7
+    // is hardwired, unlike WIN/WP/WR/WM which take the bus value). Confirmed in the
+    // schematics: LOGIC-2 (SW.PANEL B) drives PX(G) into LOGIC-5 (P-N-X-T), whose
+    // decode/resistor network forces the selector bits high. Not MN-gated.
+    setProgramCounter(7, NO_TREG_TRACE);
+    setDataPointer(7, NO_TREG_TRACE);
+}
+
 void Computer::onLoadSys00Button()
 {
     // System 00 front-panel LOAD switch: arm/disable the direct (hex panel)

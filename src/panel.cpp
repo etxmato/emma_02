@@ -2129,6 +2129,10 @@ void Panel::executeMouseLeftFunction(std::vector<GuiItemConfiguration>::iterator
             p_Computer->onCmSys00Button();
         break;
 
+        case BUTTON_FUNC_PX_SYS00:
+            p_Computer->onPxSys00Button();
+        break;
+
         case BUTTON_FUNC_STEP:
             p_Computer->onSingleStep();
         break;

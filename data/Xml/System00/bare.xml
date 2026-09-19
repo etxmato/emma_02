@@ -80,7 +80,7 @@
         <item><type>text</type><label size="8">R0</label><pos>137,77</pos></item>
         <item><type>switch</type><function>r0_sys00</function><pos>132,87</pos></item>
         <item><type>text</type><label size="8">PX</label><pos>164,77</pos></item>
-        <item><type>switch</type><function></function><pos>159,87</pos></item>
+        <item><type>switch</type><function>px_sys00</function><pos>159,87</pos></item>
         <item><type>text</type><label size="8"></label><pos>188,77</pos></item>
         <item><type>switch</type><function></function><pos>186,87</pos></item>
 
