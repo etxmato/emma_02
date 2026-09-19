@@ -154,6 +154,8 @@ void Cdp1802::initCpu()
     skipTrace_ = false;
     skipTraceHb_ = false;
     singleStateStep_ = false;
+    sys00Rpt_ = false;
+    sys00Cm_ = false;
     for (int type=0; type<INTERRUPT_TYPE_MAX; type++)
     {
         interruptStatus[type].requested = false;
@@ -273,6 +275,25 @@ void Cdp1802::setIdle(bool value)
 {
     idle_= (value)?1:0;
     p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
+}
+
+void Cdp1802::setSys00Rpt(bool value)
+{
+    // System 00 'RPT' switch (Repeat Machine Cycle). When on, cpuCycleFinalize()
+    // holds the execute machine cycle (STATE_EXECUTE_1) instead of advancing to
+    // the next fetch: the current instruction repeats without re-fetching, so a
+    // WIN-latched instruction register (I) is preserved and R(P) never advances
+    // (1971 System 00 manual p.15, III.B.3 - e.g. the memory clear walk).
+    sys00Rpt_ = value;
+}
+
+void Cdp1802::setSys00Cm(bool value)
+{
+    // System 00 'CM' (Clear Memory) switch, manual p.15 III.B.3 step 6. Used
+    // together with RPT: while on, each execute machine cycle of the walk
+    // writes 0 to the location just accessed (see cpuCycleFinalize), so the
+    // WIN-latched instruction (LDA R0) walks through memory clearing it.
+    sys00Cm_ = value;
 }
 
 void Cdp1802::holdIdle()
@@ -1880,7 +1901,15 @@ void Cdp1802::cpuCycleExecute1()
                 }
                 if (idle_)
                     traceBuffer_ = ".";
-                idle_=1;
+                // A wake (RS, DMA, interrupt) may be serviced while this cycle is
+                // running: those clear idle_ and set cpuState_ = STATE_FETCH_1. If
+                // we re-assert idle_ here afterwards, the CPU is left both idle and
+                // about to fetch, and cpuCycleFetch() (which does not touch idle_)
+                // then latches an instruction that repeats forever in the idle
+                // branch of cpuCycleFinalize(). Only enter idle if we are still
+                // executing, i.e. no wake was serviced during this cycle.
+                if (cpuState_ == STATE_EXECUTE_1)
+                    idle_=1;
                 p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
             }
             else
@@ -3585,17 +3614,57 @@ void Cdp1802::cpuCycleExecute2_LBR()
 
 void Cdp1802::cpuCycleFinalize()
 {
+    // System 00 CM (Clear Memory, manual p.15 III.B.3 step 6): while on, each
+    // machine cycle of the RPT walk writes 0 to the location just accessed, so
+    // the WIN-latched instruction (LDA R0) clears memory location by location.
+    // Gated by sys00Rpt_ - the manual only defines CM during the walk - and
+    // placed before machineCycle(), which may DMA. The walk instruction is
+    // LDA Rn: its execute cycle read M(R(n)) and then incremented R(n), so the
+    // location just visited is R(n)-1 (same address the trace line shows as
+    // D=M(R(n)-1)). Note the execute cycle does not latch address_ for LDA
+    // (only INC/DEC do), so the address must be derived from the register.
+    // Gated on I==4 (LDA): the manual defines CM only for the walk. Runs in
+    // both the idle (the manual walk proceeds from the CL idle state, no RS)
+    // and non-idle paths.
+    if (cpuType_ == SYSTEM00 && sys00Cm_ && sys00Rpt_ && (instructionCode_ >> 4) == 4)
+        writeMem(scratchpadRegister_[instructionCode_ & 15] - 1, 0, false, true);
+
     if (!idle_)
     {
         if (trace_ && !skipTrace_ && !skipTraceHb_)
             p_Main->debugTrace(traceBuffer_);
 
-         cpuState_ = STATE_FETCH_1;
+        // System 00 RPT switch: hold the execute machine cycle so the current
+        // instruction repeats without re-fetching (I preserved, R(P) frozen).
+        // With MC ('step'/singleStateStep_) also on, each ST press executes one
+        // repetition; with MC off, ST free-runs the repeat until SP.
+        if (cpuType_ == SYSTEM00 && sys00Rpt_)
+        {
+            cpuState_ = STATE_EXECUTE_1;
+            // The fetch that normally re-seeds traceBuffer_ is inhibited, so
+            // re-seed it here with the held instruction's address. Without
+            // this, every repeated execute cycle appends to the previous
+            // trace line ("0001: GLO R8 D=FFGLO R8 D=FF...") because the
+            // buffer is only reset in cpuCycleFetch().
+            traceBuffer_.Printf("%04X: ", instructionAddress_);
+        }
+        else
+            cpuState_ = STATE_FETCH_1;
     }
     else
     {
         if (trace_ && !skipTrace_ && !skipTraceHb_ && traceBuffer_ != ".")
             p_Main->debugTrace(traceBuffer_);
+
+        // System 00 RPT walk from the CL idle state (manual p.15 III.B.3): the
+        // fetch is inhibited and the walked instruction (e.g. WIN-latched LDA
+        // R0) repeats from STATE_EXECUTE_1. Re-seed traceBuffer_ with the next
+        // walked address: the walked register is post-increment at this point,
+        // the address the NEXT walk cycle reads, so each trace line gets the
+        // correct prefix (same accumulation issue as the non-idle RPT branch
+        // above).
+        if (cpuType_ == SYSTEM00 && sys00Rpt_ && traceBuffer_ != ".")
+            traceBuffer_.Printf("%04X: ", scratchpadRegister_[instructionCode_ & 15]);
 
         machineCycle();
         cpuCycles_ ++;
@@ -3615,7 +3684,9 @@ void Cdp1802::cpuCycleFinalize()
     // so the display tracks the CPU bus (bus_) during normal execution, not just
     // during the IDL idle instruction. Opt-in via cycle="show" on bitled LEDs in
     // the front-panel XML (FREDI/bare.xml does not set this, so it is unaffected).
-    if (cpuType_ == SYSTEM00 && !idle_ && currentComputerConfiguration.ledDisplayConfiguration.showDataOnCycle)
+    // Also update during the RPT walk, which runs with idle_=1 (CL idle state) -
+    // without the sys00Rpt_ term the O-7 lights would freeze during the walk.
+    if (cpuType_ == SYSTEM00 && (!idle_ || sys00Rpt_) && currentComputerConfiguration.ledDisplayConfiguration.showDataOnCycle)
         p_Computer->showBusData();
     if (stopHiddenTrace_)
         skipTrace_ = false;

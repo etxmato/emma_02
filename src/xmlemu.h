@@ -208,6 +208,8 @@ public:
     void onWpSys00Button();
     void onWrSys00Button();
     void onWmSys00Button();
+    void onRptSys00Button();
+    void onCmSys00Button();
     void showMnLed(int status);
     void showNbLed(int status);
     void showBusData();

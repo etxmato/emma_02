@@ -5282,6 +5282,30 @@ void Computer::onRsSys00Button()
     p_Main->guiUpdateTitle();
 }
 
+void Computer::onRptSys00Button()
+{
+    // System 00 'RPT' switch (Repeat Machine Cycle, manual p.15 III.B.3 /
+    // p.17 summary). Latching toggle: when on, the execute machine cycle (S1)
+    // is held - the current instruction repeats without re-fetching, so the
+    // instruction register (I) is preserved and R(P) never advances.
+    //
+    // Interaction with MC ('step', singleStateStep_):
+    //   MC down + RPT up : ST free-runs the repeat (e.g. the memory clear walk)
+    //   MC up   + RPT up : each ST press executes exactly one repetition
+    //   MC up   + RPT off: each ST press executes one machine cycle (S0 or S1)
+    setSys00Rpt(!getSys00Rpt());
+}
+
+void Computer::onCmSys00Button()
+{
+    // System 00 'CM' (Clear Memory) switch, manual p.15 III.B.3 step 6.
+    // Latching toggle like RPT. When on together with RPT, each machine cycle
+    // of the walk (see cpuCycleFinalize) writes 0 to the location just
+    // accessed, clearing memory location by location. Not gated on MN: the
+    // manual procedure turns MN off before using CM.
+    setSys00Cm(!getSys00Cm());
+}
+
 void Computer::onLoadSys00Button()
 {
     // System 00 front-panel LOAD switch: arm/disable the direct (hex panel)
@@ -5336,7 +5360,7 @@ Byte Computer::sys00BusValue()
     switch (sys00BusSel_ & 0x7)
     {
         case 0: return sys00Mn_ ? sys00BitSwitches_ : bus_;  // 0-7 switches (MN on); CPU bus (idle M(R0)) when MN off
-        case 1: return readMem(scratchpadRegister_[0], true);  // M -> M(R0), byte at address R0
+        case 1: return readMem(address_, true);                // M  -> memory data bus at address latch A
         case 2: return (Byte)(address_ & 0xff);                // A0 -> address latch, low byte
         case 3: return getRegisterT();                         // T  -> ALU T register
         case 4: return (Byte)(address_ >> 8);                  // A1 -> address latch, high byte
@@ -5433,8 +5457,13 @@ void Computer::onWinSys00Button()
 {
     if (!sys00Mn_) return;
     Byte bus = sys00BusValue();            // Bus -> I,N
-    instructionCode_ = (instructionCode_ & 0xf0) | (bus & 0x0f);
+    // WIN latches the full bus byte into the instruction register: I = high
+    // nibble, N = low nibble (manual p.16 "Bus → I,N"; p.15: WIN "writes 4
+    // into I, 0 into X" when the bus shows 0x40). Preserving the old I high
+    // nibble made WIN a no-op right after CL (I=0, latch 0x40 → 0x00).
+    instructionCode_ = bus;
     setRegisterN(bus & 0x0f);
+    setDataPointer(bus & 0x0f, true);      // 0 into X
 }
 
 void Computer::onWpSys00Button()

@@ -67,6 +67,10 @@ public:
     int getWait() {return wait_;};
     void setIdle(bool value);
     void holdIdle();
+    void setSys00Rpt(bool value);
+    bool getSys00Rpt() {return sys00Rpt_;};
+    void setSys00Cm(bool value);
+    bool getSys00Cm() {return sys00Cm_;};
     void cpuCycleStep();
     void singleStateStep();
     void cpuCycleFetch();
@@ -205,6 +209,8 @@ protected:
     Byte idle_;
     int cpuType_;
     bool singleStateStep_;
+    bool sys00Rpt_;              // System 00 RPT switch: hold/repeat the execute machine cycle
+    bool sys00Cm_;               // System 00 CM switch: clear memory during the RPT walk
 
     Byte bus_;
     Byte instructionCode_;

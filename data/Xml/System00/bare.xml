@@ -80,9 +80,9 @@
         <item><type>text</type><label size="8">R0</label><pos>137,77</pos></item>
         <item><type>switch</type><function>r0_sys00</function><pos>132,87</pos></item>
         <item><type>text</type><label size="8">PX</label><pos>164,77</pos></item>
-        <item><type>switch</type><function>clear</function><pos>159,87</pos></item>
+        <item><type>switch</type><function></function><pos>159,87</pos></item>
         <item><type>text</type><label size="8"></label><pos>188,77</pos></item>
-        <item><type>switch</type><function>clear</function><pos>186,87</pos></item>
+        <item><type>switch</type><function></function><pos>186,87</pos></item>
 
         <!-- Mode Selectors: WIN, WP, WR, WM (manual write push buttons, MN-gated) -->
         <item><type>text</type><label size="8">WIN</label><pos>213,77</pos></item>
@@ -109,13 +109,13 @@
 
         <!-- Row 4: System States & Status Monitoring -->
         <item><type>text</type><label size="8">RPT</label><pos>105,167</pos></item>
-        <item><type>switch</type><function>run</function><pos>105,177</pos></item>
+        <item><type>switch</type><function>rpt_sys00</function><pos>105,177</pos></item>
         <item><type>text</type><label size="8">MC</label><pos>138,167</pos></item>
         <item><type>switch</type><function>step</function><pos>134,177</pos></item>
         <item><type>text</type><label size="8">TD</label><pos>165,167</pos></item>
-        <item><type>switch</type><function>clear</function><pos>161,177</pos></item>
+        <item><type>switch</type><function></function><pos>161,177</pos></item>
         <item><type>text</type><label size="8">CM</label><pos>190,167</pos></item>
-        <item><type>switch</type><function>clear</function><pos>188,177</pos></item>
+        <item><type>switch</type><function>cm_sys00</function><pos>188,177</pos></item>
 
         <!-- Status Lamps: SP, ID, MN, NB -->
         <item><type>text</type><label size="8">SP</label><pos>219,167</pos></item>
