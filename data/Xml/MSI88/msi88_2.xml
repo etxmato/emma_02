@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="utf-8"?>
+<emmaconfig>
+  <system>
+    <name>MSI/88e</name>
+    <config>MSI/88e Handheld Data Terminal</config>
+    <clock>2.0</clock>
+    <cpu>1802</cpu>
+    <boot>0x0000</boot>
+    <init type="ef1">1</init>
+    <init type="ef2">1</init>
+    <init type="ef3">1</init>
+    <init type="ef4">1</init>
+    <dirname>MSI88</dirname>
+    <!-- NOTE: NO <int> element. The MSI/88 uses no interrupts (see skill notes). -->
+  </system>
+
+  <memory>
+    <rom type="gui">
+      <start>0x0000</start>
+      <end>0x1FFF</end>
+      <pulldown mask="*.bin">MSI88</pulldown>
+      <filename verify="true">msi88_2.bin</filename>
+    </rom>
+    <ram type="gui">
+        <start>0x2000</start>
+        <end>0xA7FF</end>
+    </ram>
+  </memory>
+
+  <keyboard type="matrix">
+    <!--
+      MSI/88e 27-key keyboard matrix - reverse-engineered 2026-08-11
+      from msi88_2.asm (J0408 display refresh/keyboard scan @ 0x0408) and the
+      real-firmware trace trace_send_loop.txt.
+
+      HOW THE FIRMWARE SCANS THE KEYBOARD (multiplexed with the display):
+        - There is NO dedicated row-latch port. The keyboard rows are the
+          MAN2815 display digit-select lines, strobed on OUT 2 (port 2):
+          OUT 2 = 0x43 selects digit 0 (frame start), OUT 2 = 0x42 advances
+          one digit per refresh slot. Verified in trace_send_loop.txt:
+          2413x OUT 2 [43], 24047x OUT 2 [42] (+29x [02] mode strobe).
+        - Columns are read on INP 1 (port 1): bits 0-2 (ANI 07H @ 0x0471)
+          plus bit 6 (ANI 40H @ 0x0416), ACTIVE LOW (all 1s = no key).
+        - The debounce/encode logic @ 0x0484-0x0495 produces:
+              key code = digit_slot + 9 * column   (columns +0/+9/+18).
+        - INP 1 bit 4 (mask 0x10) is polled separately by the boot program
+          (bytecode 0x1EF0-0x1EF2) - a key/status line, left unmapped here.
+        - The old XML mapping (out=5 / in=4) was wrong: OUT 5 only appears in
+          the serial/Q-bit context-save code and INP 4 is a data-table byte.
+
+      EMMA 02 MATRIX KEYBOARD REPRESENTATION:
+        - <out> = port 2 (row strobe). The emulator latches the RAW OUT 2 value,
+          so the row addresses below ARE the digit-select values the firmware
+          writes: 0x43 (digit 0 = keypad row 1) and 0x42 (digits 1-15 = keypad
+          rows 2-7). mask="0x7F" documents the 7 row/digit bits (0x43/0x42 fit).
+        - <in>  = port 1 (columns), mask 0x47 = bits 0,1,2,6.
+        - pol="rev" makes columns active-low (released bit = 1), matching the
+          firmware's "all 1s = no key" convention. With no key pressed the
+          port reads 0x47 (bits 0-2 and 6 set) which keeps the column scan
+          clean (XRI 07H -> 0) and is equivalent to the current trace at the
+          bit-6 test 0x0416 (both land at R0434).
+        - Column bits: 0x01 (col 1), 0x02 (col 2), 0x04 (col 3), 0x40 (col 4).
+        - KNOWN LIMITATION: the standard matrix keyboard only sees the raw OUT 2
+          value, so keypad rows 2-7 collapse onto the single 0x42 strobe value
+          (row 1 stays distinct at 0x43). All 27 keys are defined and register
+          on INP 1, but the firmware cannot tell which of rows 2-7 was pressed
+          in the emulator (the physical slot-multiplex decode is not tracked).
+          A future emulator enhancement tying matrix rows to the multitil digit
+          state would fully resolve this.
+    -->
+    <out mask="0x7F">2</out>
+    <in mask="0x47" pol="rev">1</in>
+
+    <!-- Row 1 (digit 0, OUT 2 = 0x43): STAT, DOWN, UP, SRCH -->
+    <keydef address="0x43" mask="0x01">115</keydef>  <!-- STAT -->
+    <keydef address="0x43" mask="0x02">100</keydef>  <!-- DOWN ▼ -->
+    <keydef address="0x43" mask="0x04">117</keydef>  <!-- UP ▲ -->
+    <keydef address="0x43" mask="0x40">114</keydef>  <!-- SRCH -->
+
+    <!-- Rows 2-7 (digits 1-15, OUT 2 = 0x42): all other keys -->
+    <keydef address="0x42" mask="0x01">112</keydef>  <!-- R2 PAGE -->
+    <keydef address="0x42" mask="0x02">97</keydef>   <!-- R2 DISP ACC -->
+    <keydef address="0x42" mask="0x04">102</keydef>  <!-- R2 RIGHT ▶ -->
+    <keydef address="0x42" mask="0x40">98</keydef>   <!-- R2 BACK SP -->
+    <keydef address="0x42" mask="0x01">99</keydef>   <!-- R3 CLEAR -->
+    <keydef address="0x42" mask="0x02">116</keydef>  <!-- R3 SEND -->
+    <keydef address="0x42" mask="0x04">109</keydef>  <!-- R3 CLR MEM -->
+    <keydef address="0x42" mask="0x40">111</keydef>  <!-- R3 MOD -->
+    <keydef address="0x42" mask="0x01">61</keydef>   <!-- R4 = -->
+    <keydef address="0x42" mask="0x02">55</keydef>   <!-- R4 7 -->
+    <keydef address="0x42" mask="0x04">56</keydef>   <!-- R4 8 -->
+    <keydef address="0x42" mask="0x40">57</keydef>   <!-- R4 9 -->
+    <keydef address="0x42" mask="0x01">45</keydef>   <!-- R5 - -->
+    <keydef address="0x42" mask="0x02">52</keydef>   <!-- R5 4 -->
+    <keydef address="0x42" mask="0x04">53</keydef>   <!-- R5 5 -->
+    <keydef address="0x42" mask="0x40">54</keydef>   <!-- R5 6 -->
+    <keydef address="0x42" mask="0x01">13</keydef>   <!-- R6 ENTER (double height) -->
+    <keydef address="0x42" mask="0x02">49</keydef>   <!-- R6 1 -->
+    <keydef address="0x42" mask="0x04">50</keydef>   <!-- R6 2 -->
+    <keydef address="0x42" mask="0x40">51</keydef>   <!-- R6 3 -->
+    <keydef address="0x42" mask="0x02">103</keydef>  <!-- R7 CTL CHG -->
+    <keydef address="0x42" mask="0x04">48</keydef>   <!-- R7 0 -->
+    <keydef address="0x42" mask="0x40">110</keydef>  <!-- R7 RTN -->
+    <!-- 27 keys = 28 matrix positions minus row7/col1 (ENTER continuation) -->
+  </keyboard>
+
+  <frontpanel init="on">
+    <size>480, 600</size>
+
+    <!-- Header -->
+    <item>
+      <type color="red">text</type>
+      <label size="18">MSI/88e Terminal</label>
+      <pos>80, 10</pos>
+    </item>
+
+    <!-- Display Outputs (2x MAN2815 16-character LED modules) -->
+    <origin>10, 45</origin>
+    <out type="multitil">1</out>
+    <out type="multitil_high">4</out>
+    <out type="multitil_digit">2</out>
+    <item>
+      <type>text</type>
+      <label size="11">Display Output (2x MAN2815, 16 digits)</label>
+      <pos>0, 0</pos>
+    </item>
+    <item>
+        <type form="man2815">til</type>
+        <value>0</value>
+        <function>multitil</function>
+        <pos>0, 20</pos>
+    </item>
+    <item>
+        <type form="man2815">til</type>
+        <value>1</value>
+        <function>multitil</function>
+        <pos>26, 20</pos>
+    </item>
+    <item>
+        <type form="man2815">til</type>
+        <value>2</value>
+        <function>multitil</function>
+        <pos>52, 20</pos>
+    </item>
+    <item>
+        <type form="man2815">til</type>
+        <value>3</value>
+        <function>multitil</function>
+        <pos>78, 20</pos>
+    </item>
+    <item>
+        <type form="man2815">til</type>
+        <value>4</value>
+        <function>multitil</function>
+        <pos>104, 20</pos>
+    </item>
+    <item>
+        <type form="man2815">til</type>
+        <value>5</value>
+        <function>multitil</function>
+        <pos>130, 20</pos>
+    </item>
+    <item>
+        <type form="man2815">til</type>
+        <value>6</value>
+        <function>multitil</function>
+        <pos>156, 20</pos>
+    </item>
+    <item>
+        <type form="man2815">til</type>
+        <value>7</value>
+        <function>multitil</function>
+        <pos>182, 20</pos>
+    </item>
+    <item>
+        <type form="man2815">til</type>
+        <value>8</value>
+        <function>multitil</function>
+        <pos>208, 20</pos>
+    </item>
+    <item>
+        <type form="man2815">til</type>
+        <value>9</value>
+        <function>multitil</function>
+        <pos>234, 20</pos>
+    </item>
+    <item>
+        <type form="man2815">til</type>
+        <value>10</value>
+        <function>multitil</function>
+        <pos>260, 20</pos>
+    </item>
+    <item>
+        <type form="man2815">til</type>
+        <value>11</value>
+        <function>multitil</function>
+        <pos>286, 20</pos>
+    </item>
+    <item>
+        <type form="man2815">til</type>
+        <value>12</value>
+        <function>multitil</function>
+        <pos>312, 20</pos>
+    </item>
+    <item>
+        <type form="man2815">til</type>
+        <value>13</value>
+        <function>multitil</function>
+        <pos>338, 20</pos>
+    </item>
+    <item>
+        <type form="man2815">til</type>
+        <value>14</value>
+        <function>multitil</function>
+        <pos>364, 20</pos>
+    </item>
+    <item>
+        <type form="man2815">til</type>
+        <value>15</value>
+        <function>multitil</function>
+        <pos>390, 20</pos>
+    </item>
+    <origin>0, 0</origin>
+
+    <!-- Mode Switches (OPER / PRGM and Power OFF / ON) -->
+    <origin>20, 130</origin>
+    <item>
+      <type>text</type>
+      <label size="10">OPER/PRGM</label>
+      <pos>0, 0</pos>
+    </item>
+    <item>
+      <type>switch</type>
+      <function>inp_bitswitch</function>
+      <in>2</in>
+      <value>0</value>
+      <init>up</init>
+      <pos>15, 20</pos>
+    </item>
+    <item>
+      <type>text</type>
+      <label size="10">POWER ON</label>
+      <pos>120, 0</pos>
+    </item>
+    <item>
+      <type>switch</type>
+      <function>inp_bitswitch</function>
+      <in>2</in>
+      <value>1</value>
+      <init>down</init>
+      <pos>135, 20</pos>
+    </item>
+    <origin>0, 0</origin>
+
+    <!-- 27-key Data Keypad (ASSY 27409 keyboard MSI/88e-a)
+         7 rows x 4 columns, ENTER double-height spanning rows 6-7.
+         Key values match the keydef keycodes in the <keyboard> section. -->
+    <origin>20, 200</origin>
+    <item>
+      <type>text</type>
+      <label size="11">Data Keypad (27 keys)</label>
+      <pos>0, 0</pos>
+    </item>
+
+    <!-- Row 1: STAT, DOWN, UP, SRCH -->
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>115</value>
+      <label>STAT</label>
+      <size>44, 40</size>
+      <pos>0, 25</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>100</value>
+      <label>▼</label>
+      <size>44, 40</size>
+      <pos>52, 25</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>117</value>
+      <label>▲</label>
+      <size>44, 40</size>
+      <pos>104, 25</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>114</value>
+      <label>SRCH</label>
+      <size>44, 40</size>
+      <pos>156, 25</pos>
+    </item>
+
+    <!-- Row 2: PAGE, DISP ACC, RIGHT, BACK SP -->
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>112</value>
+      <label>PAGE</label>
+      <size>44, 40</size>
+      <pos>0, 72</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>97</value>
+      <label>DISP</label>
+      <size>44, 40</size>
+      <pos>52, 72</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>102</value>
+      <label>▶</label>
+      <size>44, 40</size>
+      <pos>104, 72</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>98</value>
+      <label>BACK</label>
+      <size>44, 40</size>
+      <pos>156, 72</pos>
+    </item>
+
+    <!-- Row 3: CLEAR, SEND, CLR MEM, MOD -->
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>99</value>
+      <label>CLR</label>
+      <size>44, 40</size>
+      <pos>0, 119</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>116</value>
+      <label>SEND</label>
+      <size>44, 40</size>
+      <pos>52, 119</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>109</value>
+      <label>CLRM</label>
+      <size>44, 40</size>
+      <pos>104, 119</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>111</value>
+      <label>MOD</label>
+      <size>44, 40</size>
+      <pos>156, 119</pos>
+    </item>
+
+    <!-- Row 4: =, 7, 8, 9 -->
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>61</value>
+      <label>=</label>
+      <size>44, 40</size>
+      <pos>0, 166</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>55</value>
+      <label>7</label>
+      <size>44, 40</size>
+      <pos>52, 166</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>56</value>
+      <label>8</label>
+      <size>44, 40</size>
+      <pos>104, 166</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>57</value>
+      <label>9</label>
+      <size>44, 40</size>
+      <pos>156, 166</pos>
+    </item>
+
+    <!-- Row 5: -, 4, 5, 6 -->
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>45</value>
+      <label>−</label>
+      <size>44, 40</size>
+      <pos>0, 213</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>52</value>
+      <label>4</label>
+      <size>44, 40</size>
+      <pos>52, 213</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>53</value>
+      <label>5</label>
+      <size>44, 40</size>
+      <pos>104, 213</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>54</value>
+      <label>6</label>
+      <size>44, 40</size>
+      <pos>156, 213</pos>
+    </item>
+
+    <!-- Row 6: ENTER (double height), 1, 2, 3 -->
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>13</value>
+      <label>ENTER</label>
+      <size>44, 87</size>
+      <pos>0, 260</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>49</value>
+      <label>1</label>
+      <size>44, 40</size>
+      <pos>52, 260</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>50</value>
+      <label>2</label>
+      <size>44, 40</size>
+      <pos>104, 260</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>51</value>
+      <label>3</label>
+      <size>44, 40</size>
+      <pos>156, 260</pos>
+    </item>
+
+    <!-- Row 7: CTL CHG, 0, RTN (col 1 is the ENTER continuation) -->
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>103</value>
+      <label>CTL</label>
+      <size>44, 40</size>
+      <pos>52, 307</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>48</value>
+      <label>0</label>
+      <size>44, 40</size>
+      <pos>104, 307</pos>
+    </item>
+    <item>
+      <type>push</type>
+      <function>hex</function>
+      <value>110</value>
+      <label>RTN</label>
+      <size>44, 40</size>
+      <pos>156, 307</pos>
+    </item>
+    <origin>0, 0</origin>
+  </frontpanel>
+
+  <sound type="q">
+    <sw>1</sw>
+  </sound>
+
+  <vt type="vt100" connection="uart1854">
+      <font>vt100.bin</font>
+      <!-- UART1854 register interface on the SEND parallel ports:
+           INP 6 = status (busy="rev": bit 7 = BUSY, 1 while transmitting),
+           OUT 6 = control, OUT 7 = transmit register, INP 7 = receive register. -->
+      <in type="status" busy="rev">6</in>
+      <in type="register">7</in>
+      <out type="control">6</out>
+      <out type="register">7</out>
+      <baud type="receive">4800</baud>
+      <baud type="transmit">4800</baud>
+      <border>0x0</border>
+      <color type="fore">0, 255, 0</color>
+      <color type="back">0, 0x40, 0</color>
+      <color type="high">0, 0xff, 0</color>
+  </vt>
+
+  <debugger>
+    <scrt mode="off">
+      <call reg="4">-1</call>
+      <return reg="5">-1</return>
+    </scrt>
+    <assembler>
+      <code_start>0x0000</code_start>
+      <code_end>0x1FFF</code_end>
+    </assembler>
+  </debugger>
+</emmaconfig>

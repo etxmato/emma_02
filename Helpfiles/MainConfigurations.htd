@@ -954,6 +954,19 @@ Membership Card monitor loaded at address 8000 (hexadecimal) in ROM, including B
 </p>
 
 
+<h2>MSI/88e</h2>
+
+<p><strong>msi88_2_forth.xml</strong></p>
+<p>
+MSI/88e Handheld Data Terminal - Forth code.
+</p>
+
+<p><strong>msi88_2.xml</strong></p>
+<p>
+MSI/88e Handheld Data Terminal.
+</p>
+
+
 <h2>Netronics Elf II</h2>
 
 <p><strong>giantboard.xml</strong></p>
@@ -1058,6 +1071,29 @@ Pico/Elf configuration using the STG ROM including Elf/Os, TMS9918 video and a s
 <p><strong>stg,tms,elfos-uart.xml</strong></p>
 <p>
 Pico/Elf configuration using the STG ROM including Elf/Os, TMS9918 video and a UART 16450.
+</p>
+
+
+<h2>PTC-701</h2>
+
+<p><strong>ptc701_r1.7_forth.xml</strong></p>
+<p>
+PTC-701 McDonald's Terminal - Forth code.
+</p>
+
+<p><strong>ptc701_r1.7.xml</strong></p>
+<p>
+PTC-701 McDonald's Terminal.
+</p>
+
+<p><strong>ptc701_r2.0_forth.xml</strong></p>
+<p>
+PTC-701 R2.0 EM Terminal - Forth code.
+</p>
+
+<p><strong>ptc701_r2.0.xml</strong></p>
+<p>
+PTC-701 R2.0 EM Terminal
 </p>
 
 
@@ -1621,6 +1657,15 @@ SBC1802 configuration using only the main board and a TIL-based front panel.
 <p>
 NTSC or PAL version of the Studio 2020 project started by Ed and myself during COVID (unfinished).
 </p>
+
+
+<h2>System 00</h2>
+
+<p><strong>cassett_video.xml</strong></p>
+<p>
+Cassette and video support.
+</p>
+
 
 <h2>Telmac 1800</h2>
 
