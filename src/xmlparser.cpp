@@ -4406,6 +4406,7 @@ void XmlParser::parseXml_FrontPanel(wxXmlNode &node, int frontNumber)
         "origin",
         "size",
         "pos",
+        "background",
         "iogroup",
         "comment",
         "undefined"
@@ -4424,6 +4425,7 @@ void XmlParser::parseXml_FrontPanel(wxXmlNode &node, int frontNumber)
         TAG_ORIGIN,
         TAG_SIZE,
         TAG_POS,
+        TAG_BACKGROUND,
         TAG_IOGROUP,
         TAG_COMMENT,
         TAG_UNDEFINED
@@ -4455,6 +4457,7 @@ void XmlParser::parseXml_FrontPanel(wxXmlNode &node, int frontNumber)
     computerConfiguration.frontPanelConfiguration[frontNumber].posType = POS_TYPE_RELATIVE;
     
     computerConfiguration.frontPanelConfiguration[frontNumber].picInterrupt = 0;
+    computerConfiguration.frontPanelConfiguration[frontNumber].backgroundColorCode = -1;
     computerConfiguration.frontPanelConfiguration[frontNumber].frontPanelNumberBitText = -1;
 
     wxXmlNode *child = node.GetChildren();
@@ -4548,6 +4551,12 @@ void XmlParser::parseXml_FrontPanel(wxXmlNode &node, int frontNumber)
                     computerConfiguration.frontPanelConfiguration[frontNumber].posType = POS_TYPE_GRID;
                 if (child->GetAttribute("type") == "real")
                     computerConfiguration.frontPanelConfiguration[frontNumber].posType = POS_TYPE_REAL;
+            break;
+
+            case TAG_BACKGROUND:
+                // Fixed panel background colour, e.g. <background color="white_fixed"/>
+                // -1 (unknown or no colour given) keeps the light/dark mode background
+                computerConfiguration.frontPanelConfiguration[frontNumber].backgroundColorCode = textToColorCode(child->GetAttribute("color"), true);
             break;
 
             case TAG_FILENAME:

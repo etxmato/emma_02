@@ -726,6 +726,7 @@ END_EVENT_TABLE()
 Panel::Panel(wxWindow *parent, const wxSize& size)
 : wxWindow(parent, wxID_ANY, wxDefaultPosition, size)
 {
+    backgroundColorCode_ = -1;
     updateQLed_ = false;
     updateReadyLed_ = false;
     updateStopLed_ = false;
@@ -971,9 +972,10 @@ Panel::~Panel()
     }
 }
 
-void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, int picInterruptNumber)
+void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, int picInterruptNumber, int backgroundColorCode)
 {    
     picInterruptNumber_ = picInterruptNumber;
+    backgroundColorCode_ = backgroundColorCode;
 
     readyLedPointerDefined = false;
     stopLedPointerDefined = false;
@@ -1450,7 +1452,9 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
 #endif
 
 //    wxColour panelBg = p_Main->isDarkMode() ? p_Main->getGuiBackGround() : p_Main->getGuiTextColour(GUI_COL_WHITE);
-    wxColour panelBg = p_Main->isDarkMode() ? *wxBLACK : *wxWHITE;
+    // Fixed colour from XML <background color="white_fixed"/>, otherwise follow the light/dark mode selector
+    wxColour panelBg = (backgroundColorCode_ != -1) ? p_Main->getGuiTextColour(backgroundColorCode_)
+                                                    : (p_Main->isDarkMode() ? *wxBLACK : *wxWHITE);
     dc.SetPen(panelBg);
     dc.SetBrush(panelBg);
     dc.DrawRectangle(0, 0, panelSize_.x, panelSize_.y);

@@ -1838,6 +1838,7 @@ public:
     wxPoint defaultPos;
     int posType;
     int picInterrupt;
+    int backgroundColorCode = -1; // GUI_COL_xxx colour code, -1 = follow light/dark mode
     
     int frontPanelNumberBitText;
 

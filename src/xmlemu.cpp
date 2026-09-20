@@ -1307,7 +1307,7 @@ void Computer::initComputer()
         panelPointer.resize(numberOfFrontPanels_+1);
         
         panelPointer[numberOfFrontPanels_] = new PanelFrame(title_, frontPanel->pos, frontPanel->size);
-        panelPointer[numberOfFrontPanels_]->init(frontPanel->guiItemConfiguration, frontPanel->size, frontPanel->picInterrupt);
+        panelPointer[numberOfFrontPanels_]->init(frontPanel->guiItemConfiguration, frontPanel->size, frontPanel->picInterrupt, frontPanel->backgroundColorCode);
         numberOfFrontPanels_++;
     }
 

@@ -55,7 +55,7 @@ public:
     Panel(wxWindow *parent, const wxSize& size);
     virtual ~Panel();
 
-    void init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, int picInterruptNumber);
+    void init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, int picInterruptNumber, int backgroundColorCode = -1);
     virtual void init();
     virtual void init(int computerType);
     void connectKeyEvent(wxWindow* pclComponent);
@@ -372,6 +372,7 @@ private:
     
     vector<GuiItemConfiguration> guiItemConfiguration;
     wxSize panelSize_;
+    int backgroundColorCode_;       // GUI_COL_xxx, -1 = follow light/dark mode
     
     DECLARE_EVENT_TABLE()
 };
@@ -384,7 +385,7 @@ public:
   
     void onClose(wxCloseEvent& event);
 
-    void init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, int picInterruptNumber) {panelPointer->init(buttonConfig, panelSize, picInterruptNumber);};
+    void init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, int picInterruptNumber, int backgroundColorCode = -1) {panelPointer->init(buttonConfig, panelSize, picInterruptNumber, backgroundColorCode);};
     void ledTimeout() {panelPointer->ledTimeout();};
     void setLedMs(long ms) {panelPointer->setLedMs(ms);};
     Byte getKey(Byte vtOut) {return panelPointer->getKey(vtOut);};
