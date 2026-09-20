@@ -171,6 +171,32 @@
         <mode>hex</mode>
     </keypad>
 
+    <video type="fred">
+        <iogroup>2</iogroup>
+        <out>2</out>
+        <border>33x33</border>
+        <color type="fore">255, 255, 255</color>
+        <color type="back">0, 0, 0</color>
+    </video>
+
+    <cassette type="fred">
+        <iogroup>3</iogroup>
+        <stoptone />
+        <bootstart />
+        <ef type="in" mode="2">1</ef>
+        <ef type="run">2</ef>
+        <ef type="error">4</ef>
+        <in mode="2">0</in>
+        <out type="mode">2</out>
+        <out type="sound">3</out>
+        <freq type="0">5200</freq>
+        <freq type="1">6200</freq>
+        <databits>8</databits>
+        <threshold type="8bit">10</threshold>
+        <threshold type="16bit">500</threshold>
+        <threshold type="24bit">1000</threshold>
+    </cassette>
+
     <debugger>
         <scrt mode="off">
             <call reg="4">-1</call>
