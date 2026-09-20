@@ -678,7 +678,27 @@ int XmlBase::textToColorCode(wxString color, bool returnMinusOnNotFound)
         return GUI_COL_GREEN;
 	if (color == "white")
         return GUI_COL_WHITE;
-    
+    if (color == "black_fixed")
+        return GUI_COL_BLACK_FIXED;
+    if (color == "blue_fixed")
+        return GUI_COL_BLUE_FIXED;
+    if (color == "pink_fixed")
+        return GUI_COL_PINK_FIXED;
+    if (color == "red_fixed")
+        return GUI_COL_RED_FIXED;
+    if (color == "orange_fixed")
+        return GUI_COL_ORANGE_FIXED;
+    if (color == "purple_fixed")
+        return GUI_COL_PURPLE_FIXED;
+    if (color == "steel_fixed")
+        return GUI_COL_STEEL_FIXED;
+    if (color == "grey_fixed")
+        return GUI_COL_GREY_FIXED;
+    if (color == "green_fixed")
+        return GUI_COL_GREEN_FIXED;
+    if (color == "white_fixed")
+        return GUI_COL_WHITE_FIXED;
+
     if (returnMinusOnNotFound)
         return -1;
     

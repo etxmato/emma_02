@@ -38,77 +38,77 @@
             <size>25, 25</size>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">C</label>
             <pos>305, 132</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">W</label>
             <pos>329, 132</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">0</label>
             <pos>306, 155</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">0</label>
             <pos>330, 155</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">LADDA</label>
             <pos>353, 155</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">0</label>
             <pos>306, 175</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">1</label>
             <pos>330, 175</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">0-STÄLL</label>
             <pos>353, 175</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">1</label>
             <pos>306, 195</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">1</label>
             <pos>330, 195</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">KÖR</label>
             <pos>353, 195</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">1</label>
             <pos>306, 215</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">0</label>
             <pos>330, 215</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">PAUS</label>
             <pos>353, 215</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">ES</label>
             <pos>73, 427</pos>
         </item>
@@ -119,7 +119,7 @@
             <pos>68, 443</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">F/S</label>
             <pos>114, 427</pos>
         </item>
@@ -130,7 +130,7 @@
             <pos>113, 443</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">CLEAR</label>
             <pos>148, 427</pos>
         </item>
@@ -141,7 +141,7 @@
             <pos>158, 443</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">WAIT</label>
             <pos>200, 427</pos>
         </item>
@@ -160,7 +160,7 @@
             <size>25, 25</size>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">7</label>
             <pos>332, 427</pos>
         </item>
@@ -171,7 +171,7 @@
             <pos>324, 443</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">6</label>
             <pos>377, 427</pos>
         </item>
@@ -182,7 +182,7 @@
             <pos>369, 443</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">5</label>
             <pos>422, 427</pos>
         </item>
@@ -193,7 +193,7 @@
             <pos>414, 443</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">4</label>
             <pos>467, 427</pos>
         </item>
@@ -204,7 +204,7 @@
             <pos>459, 443</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">3</label>
             <pos>539, 427</pos>
         </item>
@@ -215,7 +215,7 @@
             <pos>531, 443</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">2</label>
             <pos>584, 427</pos>
         </item>
@@ -226,7 +226,7 @@
             <pos>576, 443</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">1</label>
             <pos>629, 427</pos>
         </item>
@@ -237,7 +237,7 @@
             <pos>621, 443</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">0</label>
             <pos>674, 427</pos>
         </item>
@@ -248,7 +248,7 @@
             <pos>666, 443</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">ADRESSBUSS</label>
             <pos>368, 20</pos>
         </item>
@@ -301,7 +301,7 @@
             <pos>474, 9</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">DATABUSS</label>
             <pos>579, 20</pos>
         </item>
@@ -354,7 +354,7 @@
             <pos>675, 9</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">I</label>
             <pos>45, 20</pos>
         </item>
@@ -364,7 +364,7 @@
             <pos>42, 9</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">D</label>
             <pos>64, 20</pos>
         </item>
@@ -374,7 +374,7 @@
             <pos>64, 9</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">U</label>
             <pos>87, 20</pos>
         </item>
@@ -385,7 +385,7 @@
             <pos>86, 9</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">H</label>
             <pos>108, 20</pos>
         </item>
@@ -396,12 +396,12 @@
             <pos>108, 9</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">K</label>
             <pos>142, 20</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">Q</label>
             <pos>209, 20</pos>
         </item>
@@ -411,17 +411,17 @@
             <pos>209, 9</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">B</label>
             <pos>242, 20</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">A</label>
             <pos>264, 20</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">S</label>
             <pos>286, 20</pos>
         </item>
@@ -431,7 +431,7 @@
             <pos>286, 9</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">L</label>
             <pos>308, 20</pos>
         </item>
@@ -441,7 +441,7 @@
             <pos>308, 9</pos>
         </item>
         <item>
-            <type color="white">text</type>
+            <type color="white_fixed">text</type>
             <label size="10">EF</label>
             <pos>456, 228</pos>
         </item>
@@ -479,7 +479,7 @@
             <pos>438, 228</pos>
         </item>
         <item>
-          <type color="white">text</type>
+          <type color="white_fixed">text</type>
           <label size="10">0</label>
           <pos>710, 427</pos>
         </item>
@@ -491,7 +491,7 @@
           <pos>726, 430</pos>
         </item>
         <item>
-          <type color="white">text</type>
+          <type color="white_fixed">text</type>
           <label size="10">1</label>
           <pos>710, 405</pos>
         </item>
@@ -503,7 +503,7 @@
           <pos>726, 408</pos>
         </item>
         <item>
-          <type color="white">text</type>
+          <type color="white_fixed">text</type>
           <label size="10">2</label>
           <pos>710, 383</pos>
         </item>
@@ -515,7 +515,7 @@
           <pos>726, 386</pos>
         </item>
         <item>
-          <type color="white">text</type>
+          <type color="white_fixed">text</type>
           <label size="10">3</label>
           <pos>710, 361</pos>
         </item>
@@ -527,7 +527,7 @@
           <pos>726, 364</pos>
         </item>
         <item>
-          <type color="white">text</type>
+          <type color="white_fixed">text</type>
           <label size="10">4</label>
           <pos>710, 317</pos>
         </item>
@@ -539,7 +539,7 @@
           <pos>726, 320</pos>
         </item>
         <item>
-          <type color="white">text</type>
+          <type color="white_fixed">text</type>
           <label size="10">5</label>
           <pos>710, 295</pos>
         </item>
@@ -551,7 +551,7 @@
           <pos>726, 298</pos>
         </item>
         <item>
-          <type color="white">text</type>
+          <type color="white_fixed">text</type>
           <label size="10">6</label>
           <pos>710, 273</pos>
         </item>
@@ -563,7 +563,7 @@
           <pos>726, 276</pos>
         </item>
         <item>
-          <type color="white">text</type>
+          <type color="white_fixed">text</type>
           <label size="10">7</label>
           <pos>710, 251</pos>
         </item>

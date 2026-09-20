@@ -5198,6 +5198,7 @@ void Main::refreshComboColours()
 
 void Main::setSysColours()
 {
+    wxColourDatabase colour;
 #if defined (__WXMAC__) || defined (__linux__)
     wxSystemAppearance system = wxSystemSettings::GetAppearance();
 
@@ -5216,7 +5217,6 @@ void Main::setSysColours()
 #else
     darkMode_ = false;
     guiBackGround_ = wxColour(windowInfo.red, windowInfo.green, windowInfo.blue);
-    wxColourDatabase colour;
     guiTextColour[GUI_COL_BLACK] = wxColour(colour.Find("BLACK"));
     guiTextColour[GUI_COL_WHITE] = wxColour(colour.Find("WHITE"));
 #endif
@@ -5247,6 +5247,16 @@ void Main::setSysColours()
         guiTextColour[GUI_COL_GREY] = wxColour(0x9e, 0xa5, 0xad);
         guiTextColour[GUI_COL_GREEN] = wxColour(0, 0x89, 0x7B);
     }
+    guiTextColour[GUI_COL_BLACK_FIXED] = wxColour(colour.Find("BLACK"));
+    guiTextColour[GUI_COL_BLUE_FIXED] = wxColour(0x2e, 0x41, 0xd5);
+    guiTextColour[GUI_COL_PINK_FIXED] = wxColour(0xb2, 0x51, 0xA7);
+    guiTextColour[GUI_COL_RED_FIXED] = wxColour(0xc6, 0x28, 0x28);
+    guiTextColour[GUI_COL_STEEL_FIXED] = wxColour(0x43, 0x95, 0x96);
+    guiTextColour[GUI_COL_ORANGE_FIXED] = wxColour(0xfc, 0x59, 0x00);
+    guiTextColour[GUI_COL_PURPLE_FIXED] = wxColour(0x67, 0x3a, 0xb7);
+    guiTextColour[GUI_COL_GREY_FIXED] = wxColour(0x9e, 0xa5, 0xad);
+    guiTextColour[GUI_COL_GREEN_FIXED] = wxColour(0, 0x89, 0x7B);
+    guiTextColour[GUI_COL_WHITE_FIXED] = wxColour(colour.Find("WHITE"));
     setMemDumpColours();
 }
 
