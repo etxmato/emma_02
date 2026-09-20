@@ -40,72 +40,72 @@
         <item>
             <type color="white_fixed">text</type>
             <label size="10">C</label>
-            <pos>305, 132</pos>
+            <pos>305, 134</pos>
         </item>
         <item>
             <type color="white_fixed">text</type>
             <label size="10">W</label>
-            <pos>329, 132</pos>
+            <pos>329, 134</pos>
         </item>
         <item>
             <type color="white_fixed">text</type>
             <label size="10">0</label>
-            <pos>306, 155</pos>
+            <pos>306, 159</pos>
         </item>
         <item>
             <type color="white_fixed">text</type>
             <label size="10">0</label>
-            <pos>330, 155</pos>
+            <pos>330, 159</pos>
         </item>
         <item>
             <type color="white_fixed">text</type>
             <label size="10">LADDA</label>
-            <pos>353, 155</pos>
+            <pos>353, 159</pos>
         </item>
         <item>
             <type color="white_fixed">text</type>
             <label size="10">0</label>
-            <pos>306, 175</pos>
+            <pos>306, 179</pos>
         </item>
         <item>
             <type color="white_fixed">text</type>
             <label size="10">1</label>
-            <pos>330, 175</pos>
+            <pos>330, 179</pos>
         </item>
         <item>
             <type color="white_fixed">text</type>
             <label size="10">0-STÄLL</label>
-            <pos>353, 175</pos>
+            <pos>353, 179</pos>
         </item>
         <item>
             <type color="white_fixed">text</type>
             <label size="10">1</label>
-            <pos>306, 195</pos>
+            <pos>306, 199</pos>
         </item>
         <item>
             <type color="white_fixed">text</type>
             <label size="10">1</label>
-            <pos>330, 195</pos>
+            <pos>330, 199</pos>
         </item>
         <item>
             <type color="white_fixed">text</type>
             <label size="10">KÖR</label>
-            <pos>353, 195</pos>
+            <pos>353, 199</pos>
         </item>
         <item>
             <type color="white_fixed">text</type>
             <label size="10">1</label>
-            <pos>306, 215</pos>
+            <pos>306, 219</pos>
         </item>
         <item>
             <type color="white_fixed">text</type>
             <label size="10">0</label>
-            <pos>330, 215</pos>
+            <pos>330, 219</pos>
         </item>
         <item>
             <type color="white_fixed">text</type>
             <label size="10">PAUS</label>
-            <pos>353, 215</pos>
+            <pos>353, 219</pos>
         </item>
         <item>
             <type color="white_fixed">text</type>
@@ -250,13 +250,13 @@
         <item>
             <type color="white_fixed">text</type>
             <label size="10">ADRESSBUSS</label>
-            <pos>368, 20</pos>
+            <pos>368, 24</pos>
         </item>
         <item>
             <type>led</type>
             <value>7</value>
             <function cycle="show">addressled</function>
-            <pos>344, 9</pos>
+            <pos>352, 9</pos>
         </item>
         <item>
             <type>led</type>
@@ -303,7 +303,7 @@
         <item>
             <type color="white_fixed">text</type>
             <label size="10">DATABUSS</label>
-            <pos>579, 20</pos>
+            <pos>579, 24</pos>
         </item>
         <item>
             <type>led</type>
@@ -356,7 +356,7 @@
         <item>
             <type color="white_fixed">text</type>
             <label size="10">I</label>
-            <pos>45, 20</pos>
+            <pos>45, 24</pos>
         </item>
         <item>
             <type>led</type>
@@ -366,7 +366,7 @@
         <item>
             <type color="white_fixed">text</type>
             <label size="10">D</label>
-            <pos>64, 20</pos>
+            <pos>64, 24</pos>
         </item>
         <item>
             <type>led</type>
@@ -376,7 +376,7 @@
         <item>
             <type color="white_fixed">text</type>
             <label size="10">U</label>
-            <pos>87, 20</pos>
+            <pos>87, 24</pos>
         </item>
         <item>
             <type>led</type>
@@ -387,7 +387,7 @@
         <item>
             <type color="white_fixed">text</type>
             <label size="10">H</label>
-            <pos>108, 20</pos>
+            <pos>108, 24</pos>
         </item>
         <item>
             <type>led</type>
@@ -398,12 +398,12 @@
         <item>
             <type color="white_fixed">text</type>
             <label size="10">K</label>
-            <pos>142, 20</pos>
+            <pos>142, 24</pos>
         </item>
         <item>
             <type color="white_fixed">text</type>
             <label size="10">Q</label>
-            <pos>209, 20</pos>
+            <pos>209, 24</pos>
         </item>
         <item>
             <type>led</type>
@@ -413,17 +413,17 @@
         <item>
             <type color="white_fixed">text</type>
             <label size="10">B</label>
-            <pos>242, 20</pos>
+            <pos>242, 24</pos>
         </item>
         <item>
             <type color="white_fixed">text</type>
             <label size="10">A</label>
-            <pos>264, 20</pos>
+            <pos>264, 24</pos>
         </item>
         <item>
             <type color="white_fixed">text</type>
             <label size="10">S</label>
-            <pos>286, 20</pos>
+            <pos>286, 24</pos>
         </item>
         <item>
             <type>led</type>
@@ -433,7 +433,7 @@
         <item>
             <type color="white_fixed">text</type>
             <label size="10">L</label>
-            <pos>308, 20</pos>
+            <pos>308, 24</pos>
         </item>
         <item>
             <type>led</type>
@@ -488,7 +488,7 @@
           <value>0</value>
           <function>out_bitled</function>
           <out>1</out>
-          <pos>726, 430</pos>
+          <pos>726, 427</pos>
         </item>
         <item>
           <type color="white_fixed">text</type>
@@ -500,7 +500,7 @@
           <value>1</value>
           <function>out_bitled</function>
           <out>1</out>
-          <pos>726, 408</pos>
+          <pos>726, 405</pos>
         </item>
         <item>
           <type color="white_fixed">text</type>
@@ -512,7 +512,7 @@
           <value>2</value>
           <function>out_bitled</function>
           <out>1</out>
-          <pos>726, 386</pos>
+          <pos>726, 383</pos>
         </item>
         <item>
           <type color="white_fixed">text</type>
@@ -524,7 +524,7 @@
           <value>3</value>
           <function>out_bitled</function>
           <out>1</out>
-          <pos>726, 364</pos>
+          <pos>726, 361</pos>
         </item>
         <item>
           <type color="white_fixed">text</type>
@@ -536,7 +536,7 @@
           <value>4</value>
           <function>out_bitled</function>
           <out>1</out>
-          <pos>726, 320</pos>
+          <pos>726, 317</pos>
         </item>
         <item>
           <type color="white_fixed">text</type>
@@ -548,7 +548,7 @@
           <value>5</value>
           <function>out_bitled</function>
           <out>1</out>
-          <pos>726, 298</pos>
+          <pos>726, 295</pos>
         </item>
         <item>
           <type color="white_fixed">text</type>
@@ -560,7 +560,7 @@
           <value>6</value>
           <function>out_bitled</function>
           <out>1</out>
-          <pos>726, 276</pos>
+          <pos>726, 273</pos>
         </item>
         <item>
           <type color="white_fixed">text</type>
@@ -572,7 +572,7 @@
           <value>7</value>
           <function>out_bitled</function>
           <out>1</out>
-          <pos>726, 254</pos>
+          <pos>726, 251</pos>
         </item>
 
     </frontpanel>
