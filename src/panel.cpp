@@ -23,6 +23,7 @@
 
 #include "wx/frame.h"
 #include "wx/dir.h"
+#include "wx/graphics.h"
 
 #include "main.h"
 #include "panel.h"
@@ -1446,6 +1447,15 @@ void Panel::connectKeyEvent(wxWindow* pclComponent)
 void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
 {
     wxPaintDC dc(this);
+
+#if defined(__WXMAC__)
+    // The panel's bitmaps are 1x while the paint DC is 2x on a Retina display, and every
+    // wxDC on macOS is a wxGCDC, so DrawBitmap/Blit go through wxGraphicsContext which
+    // interpolates the 2x upscale - the panel looks soft/blurred. Disable interpolation
+    // so the upscale is a crisp nearest-neighbour one.
+    if (wxGraphicsContext* gc = dc.GetGraphicsContext())
+        gc->SetInterpolationQuality(wxINTERPOLATION_NONE);
+#endif
 
 #if defined(__WXMAC__)
     rePaintLeds(dc);
