@@ -6456,30 +6456,6 @@ Byte Computer::readMemDebug(Word address, int function)
         }
     }
 
-    if (currentComputerConfiguration.mc6845Configuration.defined)
-    {
-        groupFound = false;
-        
-        if (currentComputerConfiguration.mc6845Configuration.ioGroupVector.size() == 0)
-            groupFound = true;
-        else
-        {
-            for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.mc6845Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.mc6845Configuration.ioGroupVector.end (); ++ioGroupIterator)
-            {
-                if (*ioGroupIterator == ioGroup_)
-                    groupFound = true;
-            }
-        }
-        if (groupFound)
-        {
-            if ((address&currentComputerConfiguration.mc6845Configuration.dataMask) == currentComputerConfiguration.mc6845Configuration.data)
-                return mc6845Pointer->readDataDirect6845(address);
-            
-            if (address >=currentComputerConfiguration.mc6845Configuration.startRam && address <= currentComputerConfiguration.mc6845Configuration.endRam)
-                return mc6845Pointer->read6845(address & currentComputerConfiguration.mc6845Configuration.ramMask);
-        }
-    }
-
     for (int instance=0; instance<numberOfDipInstances_; instance++)
     {
         if (dipPointer[instance]->ioGroupDip(ioGroup_))
@@ -6898,6 +6874,18 @@ int Computer::readMemIo(Word address)
         }
     }
 
+    if (currentComputerConfiguration.mc6845Configuration.defined)
+    {
+        if (mc6845Pointer->ioGroup6845(ioGroup_))
+        {
+            if ((address&currentComputerConfiguration.mc6845Configuration.dataMask) == currentComputerConfiguration.mc6845Configuration.data)
+                return mc6845Pointer->readDataDirect6845(address);
+            
+            if (address >=currentComputerConfiguration.mc6845Configuration.startRam && address <= currentComputerConfiguration.mc6845Configuration.endRam)
+                return mc6845Pointer->read6845(address & currentComputerConfiguration.mc6845Configuration.ramMask);
+        }
+    }
+
     return -1;
 }
 
@@ -7105,27 +7093,6 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
     {
         if (amiIntControllerPointer->matchesAddress(address))
             amiIntControllerPointer->writeAckRegister(value);
-    }
-
-    if (currentComputerConfiguration.mc6847Configuration.outputMode == 1 && currentComputerConfiguration.mc6847Configuration.defined)
-    {
-        groupFound = false;
-        
-        if (currentComputerConfiguration.mc6847Configuration.ioGroupVector.size() == 0)
-            groupFound = true;
-        else
-        {
-            for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.mc6847Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.mc6847Configuration.ioGroupVector.end (); ++ioGroupIterator)
-            {
-                if (*ioGroupIterator == ioGroup_)
-                    groupFound = true;
-            }
-        }
-        if (groupFound)
-        {
-            if (address>=currentComputerConfiguration.mc6847Configuration.outputStart && address <=currentComputerConfiguration.mc6847Configuration.outputEnd)
-            mc6847Pointer->outMc6847(value);
-        }
     }
 
     if (currentComputerConfiguration.hd44780Configuration.defined && hd44780Pointer != NULL)
@@ -7370,42 +7337,6 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
                     if ((address&currentComputerConfiguration.scn2671Configuration[instance].commandMisc.addressMask) == *port)
                         scn2671InstancePointer[instance]->commandMisc(value);
                 }
-            }
-        }
-    }
-
-    if (currentComputerConfiguration.mc6845Configuration.defined)
-    {
-        groupFound = false;
-        
-        if (currentComputerConfiguration.mc6845Configuration.ioGroupVector.size() == 0)
-            groupFound = true;
-        else
-        {
-            for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.mc6845Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.mc6845Configuration.ioGroupVector.end (); ++ioGroupIterator)
-            {
-                if (*ioGroupIterator == ioGroup_)
-                    groupFound = true;
-            }
-        }
-        if (groupFound)
-        {
-            if ((address&currentComputerConfiguration.mc6845Configuration.dataMask) == currentComputerConfiguration.mc6845Configuration.data)
-            {
-                mc6845Pointer->writeData6845(value);
-                return;
-            }
-
-            if ((address&currentComputerConfiguration.mc6845Configuration.addressMask) == currentComputerConfiguration.mc6845Configuration.address)
-            {
-                mc6845Pointer->writeAddressRegister6845(value);
-                return;
-            }
-
-            if (address >=currentComputerConfiguration.mc6845Configuration.startRam && address <= currentComputerConfiguration.mc6845Configuration.endRam)
-            {
-                mc6845Pointer->write6845(address & currentComputerConfiguration.mc6845Configuration.ramMask, value);
-                return;
             }
         }
     }
@@ -7928,6 +7859,40 @@ void Computer::writeMemIo(Word address, Byte value)
             }
         }
     }
+    
+    if (currentComputerConfiguration.mc6845Configuration.defined)
+    {
+        if (mc6845Pointer->ioGroup6845(ioGroup_))
+        {
+            if ((address&currentComputerConfiguration.mc6845Configuration.dataMask) == currentComputerConfiguration.mc6845Configuration.data)
+            {
+                mc6845Pointer->writeData6845(value);
+                return;
+            }
+
+            if ((address&currentComputerConfiguration.mc6845Configuration.addressMask) == currentComputerConfiguration.mc6845Configuration.address)
+            {
+                mc6845Pointer->writeAddressRegister6845(value);
+                return;
+            }
+
+            if (address >=currentComputerConfiguration.mc6845Configuration.startRam && address <= currentComputerConfiguration.mc6845Configuration.endRam)
+            {
+                mc6845Pointer->write6845(address & currentComputerConfiguration.mc6845Configuration.ramMask, value);
+                return;
+            }
+        }
+    }
+
+    if (currentComputerConfiguration.mc6847Configuration.outputMode == 1 && currentComputerConfiguration.mc6847Configuration.defined)
+    {
+        if (mc6847Pointer->ioGroup6847(ioGroup_))
+        {
+            if (address>=currentComputerConfiguration.mc6847Configuration.outputStart && address <=currentComputerConfiguration.mc6847Configuration.outputEnd)
+            mc6847Pointer->outMc6847(value);
+        }
+    }
+
 }
 
 void Computer::cpuInstruction()

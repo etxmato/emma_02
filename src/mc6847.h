@@ -11,6 +11,7 @@ public:
     ~mc6847();
 
     void configure();
+    bool ioGroup6847(int ioGroup);
     void init6847();
     void setMCBit(int bit, int selection);
     void cycle6847();

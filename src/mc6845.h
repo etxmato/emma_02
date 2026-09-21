@@ -10,6 +10,7 @@ public:
     ~MC6845();
 
     void configure6845();
+    bool ioGroup6845(int ioGroup);
     void init6845();
     Byte ef6845();
     void cycle6845();
