@@ -58,7 +58,7 @@ public:
     int mcrMemNumber;
 };
 
-class Computer : public wxFrame, public Cdp1802, public Fdc, public Ide, public Tu58, public Keyboard, public Keyb1871, public PortExt, public Ps2, public Ps2gpio, public Joycard, public Usbcard, public RtcCDP1879, public RtcDs12788, public RtcMM58174, public Upd765
+class Computer : public wxFrame, public Cdp1802, public Fdc, public Ide, public Tu58, public Keyboard, public Keyb1871, public PortExt, public Ps2, public Ps2gpio, public Joycard, public Usbcard, public RtcCDP1879, public RtcDs12788, public RtcMM58174, public RtcM48t58, public Upd765
 {
 public:
     Computer(const wxString& title, double clock, int tempo, ComputerConfiguration computerConfig);
@@ -581,7 +581,6 @@ private:
     
     wxDateTime systemTime_;
     wxDateTime xmlComputerTime_;
-    int day_, month_, year_;
     bool nvramWriteProtected_;
     
     vector<NvramDetails> nvramDetails;

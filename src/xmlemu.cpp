@@ -5542,10 +5542,6 @@ void Computer::startComputer()
     instructionCounter_= 0;
     p_Main->startTime();
 
-    day_ = xmlComputerTime_.GetDay();
-    month_ = xmlComputerTime_.GetMonth();
-    year_ = xmlComputerTime_.GetYear();
-
     loadRtc();
     rtcCycle_ = 4;
     rtcTimerPointer->Start(250, wxTIMER_CONTINUOUS);
@@ -6147,13 +6143,7 @@ Byte Computer::readMemDebug(Word address, int function)
 {
     address = address & currentComputerConfiguration.memoryMask;
 
-    wxDateTime systemNow;
-    wxDateTime now;
-    wxTimeSpan timeDiff;
     Byte value;
-    int year;
-    Byte high, low, rtcControl;
-    bool groupFound;
 
     Byte minimon[] = { 0xf8, 0xff, 0xa1, 0xe1, 0x6c, 0x64, 0xa3, 0x21,
         0x6c, 0x64, 0x3f, 0x07, 0x37, 0x0c, 0x3a, 0x11,
@@ -6268,23 +6258,6 @@ Byte Computer::readMemDebug(Word address, int function)
         }
     }
 
-    if (currentComputerConfiguration.rtcCdp1879Configuration.defined)
-    {
-        if (ioGroupCdp1879(ioGroup_))
-        {
-            if (address == currentComputerConfiguration.rtcCdp1879Configuration.control)
-            {
-                mainMemory_[address] = readRtcStatusCdp1879();
-                return mainMemory_[address];
-            }
-            if (address >= currentComputerConfiguration.rtcCdp1879Configuration.second && address <= currentComputerConfiguration.rtcCdp1879Configuration.month)
-            {
-                mainMemory_[address] = readRtcCdp1879(address, mainMemory_[address], systemTime_, xmlComputerTime_);
-                return mainMemory_[address];
-            }
-        }
-    }
-
     for (int instance=0; instance<numberOfCdp1877Instances_; instance++)
     {
         if (cdp1877InstancePointer[instance]->ioGroupCdp1877(ioGroup_))
@@ -6298,76 +6271,6 @@ Byte Computer::readMemDebug(Word address, int function)
     if (address == currentComputerConfiguration.mcrConfiguration.bbat.portNumber[0])
     {
         mainMemory_[address] = (mainMemory_[address] & (currentComputerConfiguration.mcrConfiguration.bbat.mask ^ 0xff)) | currentComputerConfiguration.mcrConfiguration.bbat.mask;
-    }
-
-    if (currentComputerConfiguration.rtcM48t58Configuration.defined)
-    {
-        groupFound = false;
-        
-        if (currentComputerConfiguration.rtcM48t58Configuration.ioGroupVector.size() == 0)
-            groupFound = true;
-        else
-        {
-            for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.rtcM48t58Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.rtcM48t58Configuration.ioGroupVector.end (); ++ioGroupIterator)
-            {
-                if (*ioGroupIterator == ioGroup_)
-                    groupFound = true;
-            }
-        }
-        if (groupFound)
-        {
-            if (address > currentComputerConfiguration.rtcM48t58Configuration.control && address <= currentComputerConfiguration.rtcM48t58Configuration.year)
-            {
-                if ((mainMemory_[currentComputerConfiguration.rtcM48t58Configuration.control]&0x40) != 0x40)
-                {
-                    rtcControl = 0;
-                    systemNow = wxDateTime::Now();
-                    timeDiff = systemNow.Subtract(systemTime_);
-
-                    now = xmlComputerTime_;
-                    now.Add(timeDiff);
-                    
-                    value = 0;
-                    if (address == currentComputerConfiguration.rtcM48t58Configuration.second)
-                    {
-                        value = now.GetSecond();
-                        rtcControl = mainMemory_[address] & 0x80;
-                    }
-                    if (address == currentComputerConfiguration.rtcM48t58Configuration.minute)
-                    {
-                        value = now.GetMinute();
-                    }
-                    if (address == currentComputerConfiguration.rtcM48t58Configuration.hour)
-                    {
-                        value = now.GetHour();
-                    }
-                    if (address == currentComputerConfiguration.rtcM48t58Configuration.day)
-                    {
-                        value = now.GetWeekDay();
-                        rtcControl = mainMemory_[address] & 0x70;
-                    }
-                    if (address == currentComputerConfiguration.rtcM48t58Configuration.date)
-                    {
-                        value = now.GetDay();
-                        rtcControl = mainMemory_[address] & 0xc0;
-                    }
-                    if (address == currentComputerConfiguration.rtcM48t58Configuration.month)
-                    {
-                        value = now.GetMonth()+1;
-                    }
-                    if (address == currentComputerConfiguration.rtcM48t58Configuration.year)
-                    {
-                        year = now.GetYear();
-                        value = year % 100;
-                    }
-
-                    high = (int)(value/10)*16;
-                    low = value - (int)(value/10)*10;
-                    mainMemory_[address] = high + low + rtcControl;
-                }
-                return mainMemory_[address];
-            }
-        }
     }
 
     if (currentComputerConfiguration.adConvertorConfiguration.defined)
@@ -6657,6 +6560,36 @@ int Computer::readMemIo(Word address)
         }
     }
 
+    if (currentComputerConfiguration.rtcCdp1879Configuration.defined)
+    {
+        if (ioGroupCdp1879(ioGroup_))
+        {
+            if (address == currentComputerConfiguration.rtcCdp1879Configuration.control)
+            {
+                mainMemory_[address] = readRtcStatusCdp1879();
+                return mainMemory_[address];
+            }
+            if (address >= currentComputerConfiguration.rtcCdp1879Configuration.second && address <= currentComputerConfiguration.rtcCdp1879Configuration.month)
+            {
+                mainMemory_[address] = readRtcCdp1879(address, mainMemory_[address], systemTime_, xmlComputerTime_);
+                return mainMemory_[address];
+            }
+        }
+    }
+
+    if (currentComputerConfiguration.rtcM48t58Configuration.defined)
+    {
+        if (ioGroupRtcM48t58(ioGroup_))
+        {
+            if (address > currentComputerConfiguration.rtcM48t58Configuration.control && address <= currentComputerConfiguration.rtcM48t58Configuration.year)
+            {
+                if ((mainMemory_[currentComputerConfiguration.rtcM48t58Configuration.control]&0x40) != 0x40)
+                    mainMemory_[address] = readRtcM48t58(address, mainMemory_[address], systemTime_, xmlComputerTime_);
+                return mainMemory_[address];
+            }
+        }
+    }
+
     if (currentComputerConfiguration.matrixKeyboardConfiguration.defined)
     {
         if (matrixKeyboardPointer->ioGroup(ioGroup_))
@@ -6812,12 +6745,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
 {
     address = address & currentComputerConfiguration.memoryMask;
 
-    wxDateTime systemNow;
-    wxDateTime now;
-    wxTimeSpan timeDiff;
-    Byte high, low;
     wxString printBuffer;
-    bool groupFound;
 
     address = address | bootstrap_;
     size_t number = (memoryType_[address / 256] >> 8);
@@ -6841,118 +6769,6 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
     
     writeMemIo(address, value);
     
-    if (currentComputerConfiguration.rtcCdp1879Configuration.defined)
-    {
-        if (ioGroupCdp1879(ioGroup_))
-        {
-            if (address == currentComputerConfiguration.rtcCdp1879Configuration.freeze)
-            {
-                unfreezeTimeCdp1879();
-                return;
-            }
-            if (address == currentComputerConfiguration.rtcCdp1879Configuration.control)
-            {
-                writeRtcControlCdp1879(value);
-                return;
-            }
-            if (address >= currentComputerConfiguration.rtcCdp1879Configuration.second && address <= currentComputerConfiguration.rtcCdp1879Configuration.hour)
-            {
-                mainMemory_[address] = value;
-                xmlComputerTime_ = writeRtcTimeCdp1879(address, value, systemTime_, xmlComputerTime_);
-                return;
-            }
-            if (address >= currentComputerConfiguration.rtcCdp1879Configuration.date && address <= currentComputerConfiguration.rtcCdp1879Configuration.month)
-            {
-                mainMemory_[address] = value;
-                xmlComputerTime_ = writeRtcDateCdp1879(address, value, systemTime_, xmlComputerTime_);
-                return;
-            }
-        }
-    }
-
-    if (currentComputerConfiguration.rtcM48t58Configuration.defined)
-    {
-        groupFound = false;
-        
-        if (currentComputerConfiguration.rtcM48t58Configuration.ioGroupVector.size() == 0)
-            groupFound = true;
-        else
-        {
-            for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.rtcM48t58Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.rtcM48t58Configuration.ioGroupVector.end (); ++ioGroupIterator)
-            {
-                if (*ioGroupIterator == ioGroup_)
-                    groupFound = true;
-            }
-        }
-        if (groupFound)
-        {
-            if (address == currentComputerConfiguration.rtcM48t58Configuration.control)
-            {
-                if (value == 0)
-                {
-                    systemNow = wxDateTime::Now();
-                    timeDiff = systemNow.Subtract(systemTime_);
-
-                    now = xmlComputerTime_;
-                    now.Add(timeDiff);
-
-                    now.SetDay(1);
-                    now.SetYear(year_);
-                    now.SetMonth(wxDateTime::Month(month_));
-                    now.SetDay(day_);
-
-                    xmlComputerTime_ = now.Subtract(timeDiff);
-                }
-            }
-            if (address > currentComputerConfiguration.rtcM48t58Configuration.control && address != currentComputerConfiguration.rtcM48t58Configuration.day && address <= currentComputerConfiguration.rtcM48t58Configuration.year)
-            {
-                if (nvramWriteProtected_ || (currentComputerConfiguration.nvRamMpConfiguration.followMpSwitch && mpButtonState_ == 1))
-                    return;
-                if ((mainMemory_[currentComputerConfiguration.rtcM48t58Configuration.control]&0x80) == 0x80)
-                {
-                    mainMemory_[address]=value;
-                    
-                    if (address == currentComputerConfiguration.rtcM48t58Configuration.second)
-                        value &= 0x7f;
-                    if (address == currentComputerConfiguration.rtcM48t58Configuration.minute)
-                        value &= 0x7f;
-                    if (address == currentComputerConfiguration.rtcM48t58Configuration.hour)
-                        value &= 0x3f;
-                    if (address == currentComputerConfiguration.rtcM48t58Configuration.date)
-                        value &= 0x3f;
-                    if (address == currentComputerConfiguration.rtcM48t58Configuration.month)
-                        value &= 0x1f;
-
-                    high = ((value&0xf0)/16)*10;
-                    low = value&0xf;
-                    value = high + low;
-
-                    systemNow = wxDateTime::Now();
-                    timeDiff = systemNow.Subtract(systemTime_);
-
-                    now = xmlComputerTime_;
-                    now.Add(timeDiff);
-
-                    if (address == currentComputerConfiguration.rtcM48t58Configuration.second)
-                        now.SetSecond(value);
-                    if (address == currentComputerConfiguration.rtcM48t58Configuration.minute)
-                        now.SetMinute(value);
-                    if (address == currentComputerConfiguration.rtcM48t58Configuration.hour)
-                        now.SetHour(value);
-                    if (address == currentComputerConfiguration.rtcM48t58Configuration.date)
-                        day_=value;
-                    if (address == currentComputerConfiguration.rtcM48t58Configuration.month)
-                        month_=value-1;
-                    if (address == currentComputerConfiguration.rtcM48t58Configuration.year)
-                        year_=value+2000;
-
-                    xmlComputerTime_ = now.Subtract(timeDiff);
-                    return;
-                }
-            }
-        }
-    }
-
     for (std::vector<EmsMemoryConfiguration>::iterator emsConfig = currentComputerConfiguration.emsMemoryConfiguration.begin (); emsConfig != currentComputerConfiguration.emsMemoryConfiguration.end (); ++emsConfig)
     {
         if (emsConfig->output.portNumber[0] == -1)
@@ -7548,6 +7364,57 @@ void Computer::writeMemIo(Word address, Byte value)
         }
     }
  
+    if (currentComputerConfiguration.rtcCdp1879Configuration.defined)
+    {
+        if (ioGroupCdp1879(ioGroup_))
+        {
+            if (address == currentComputerConfiguration.rtcCdp1879Configuration.freeze)
+            {
+                unfreezeTimeCdp1879();
+                return;
+            }
+            if (address == currentComputerConfiguration.rtcCdp1879Configuration.control)
+            {
+                writeRtcControlCdp1879(value);
+                return;
+            }
+            if (address >= currentComputerConfiguration.rtcCdp1879Configuration.second && address <= currentComputerConfiguration.rtcCdp1879Configuration.hour)
+            {
+                mainMemory_[address] = value;
+                xmlComputerTime_ = writeRtcTimeCdp1879(address, value, systemTime_, xmlComputerTime_);
+                return;
+            }
+            if (address >= currentComputerConfiguration.rtcCdp1879Configuration.date && address <= currentComputerConfiguration.rtcCdp1879Configuration.month)
+            {
+                mainMemory_[address] = value;
+                xmlComputerTime_ = writeRtcDateCdp1879(address, value, systemTime_, xmlComputerTime_);
+                return;
+            }
+        }
+    }
+
+    if (currentComputerConfiguration.rtcM48t58Configuration.defined)
+    {
+        if (ioGroupRtcM48t58(ioGroup_))
+        {
+            if (address == currentComputerConfiguration.rtcM48t58Configuration.control)
+            {
+                xmlComputerTime_ = writeRtcM48t58(address, value, systemTime_, xmlComputerTime_);
+            }
+            if (address > currentComputerConfiguration.rtcM48t58Configuration.control && address != currentComputerConfiguration.rtcM48t58Configuration.day && address <= currentComputerConfiguration.rtcM48t58Configuration.year)
+            {
+                if (nvramWriteProtected_ || (currentComputerConfiguration.nvRamMpConfiguration.followMpSwitch && mpButtonState_ == 1))
+                    return;
+                if ((mainMemory_[currentComputerConfiguration.rtcM48t58Configuration.control]&0x80) == 0x80)
+                {
+                    mainMemory_[address]=value;
+                    xmlComputerTime_ = writeRtcM48t58(address, value, systemTime_, xmlComputerTime_);
+                    return;
+                }
+            }
+        }
+    }
+
     if (currentComputerConfiguration.matrixKeyboardConfiguration.defined)
     {
         if (matrixKeyboardPointer->ioGroup(ioGroup_))
@@ -8341,10 +8208,7 @@ void Computer::configureExtensions()
     }
 
     if (currentComputerConfiguration.rtcM48t58Configuration.defined)
-    {
-        message.Printf("RTC M48T58 at address %04X-%04X\n", currentComputerConfiguration.rtcM48t58Configuration.control, currentComputerConfiguration.rtcM48t58Configuration.year);
-        p_Main->configureMessage(0, message);
-    }
+        configureRtcM48t58(currentComputerConfiguration.rtcM48t58Configuration, xmlComputerTime_);
 
     if (currentComputerConfiguration.rtcCdp1879Configuration.defined)
         configureRtcCdp1879(currentComputerConfiguration.rtcCdp1879Configuration, computerClockSpeed_);

@@ -550,3 +550,154 @@ wxDateTime RtcMM58174::writeRtcMm58174(Word address, Byte value, wxDateTime syst
 
     return xmlComputerTime;
 }
+
+// M48T58 Timekeeper SRAM (STMicroelectronics)
+// 8K x 8 NVRAM, RTC registers in the top 8 bytes of memory, memory-mapped
+
+RtcM48t58::RtcM48t58()
+{
+    day_ = 1;
+    month_ = 0;
+    year_ = 2000;
+}
+
+void RtcM48t58::configureRtcM48t58(RtcM48t58Configuration rtcM48t58Configuration, wxDateTime xmlComputerTime)
+{
+    rtcM48t58Configuration_ = rtcM48t58Configuration;
+    wxString message;
+
+    day_ = xmlComputerTime.GetDay();
+    month_ = xmlComputerTime.GetMonth();
+    year_ = xmlComputerTime.GetYear();
+
+    p_Main->configureMessage(&rtcM48t58Configuration.ioGroupVector, "RTC M48T58");
+    message.Printf("	I/O at address %04X-%04X\n", rtcM48t58Configuration.control, rtcM48t58Configuration.year);
+    p_Main->message(message);
+}
+
+bool RtcM48t58::ioGroupRtcM48t58(int ioGroup)
+{
+    bool groupFound = false;
+
+    if (rtcM48t58Configuration_.ioGroupVector.size() == 0)
+        groupFound = true;
+    else
+    {
+        for (std::vector<int>::iterator ioGroupIterator = rtcM48t58Configuration_.ioGroupVector.begin (); ioGroupIterator != rtcM48t58Configuration_.ioGroupVector.end (); ++ioGroupIterator)
+        {
+            if (*ioGroupIterator == ioGroup)
+                groupFound = true;
+        }
+    }
+    return groupFound;
+}
+
+Byte RtcM48t58::readRtcM48t58(Word address, Byte registerValue, wxDateTime systemTime, wxDateTime xmlComputerTime)
+{
+    Byte rtcControl = 0;
+
+    wxDateTime systemNow = wxDateTime::Now();
+    wxTimeSpan timeDiff = systemNow.Subtract(systemTime);
+    wxDateTime now = xmlComputerTime;
+    now.Add(timeDiff);
+
+    Byte value = 0;
+    if (address == rtcM48t58Configuration_.second)
+    {
+        value = now.GetSecond();
+        rtcControl = registerValue & 0x80;
+    }
+    if (address == rtcM48t58Configuration_.minute)
+    {
+        value = now.GetMinute();
+    }
+    if (address == rtcM48t58Configuration_.hour)
+    {
+        value = now.GetHour();
+    }
+    if (address == rtcM48t58Configuration_.day)
+    {
+        value = now.GetWeekDay();
+        rtcControl = registerValue & 0x70;
+    }
+    if (address == rtcM48t58Configuration_.date)
+    {
+        value = now.GetDay();
+        rtcControl = registerValue & 0xc0;
+    }
+    if (address == rtcM48t58Configuration_.month)
+    {
+        value = now.GetMonth()+1;
+        if (wxDateTime::IsLeapYear(now.GetYear()))
+            rtcControl |= 0x80;    // LP: leap year flag
+    }
+    if (address == rtcM48t58Configuration_.year)
+    {
+        value = now.GetYear() % 100;
+    }
+
+    Byte high = (int)(value/10)*16;
+    Byte low = value - (int)(value/10)*10;
+    return high + low + rtcControl;
+}
+
+wxDateTime RtcM48t58::writeRtcM48t58(Word address, Byte value, wxDateTime systemTime, wxDateTime xmlComputerTime)
+{
+    wxDateTime systemNow, now;
+    wxTimeSpan timeDiff;
+
+    // Control register: writing 0 starts the clock and applies the staged date
+    if (address == rtcM48t58Configuration_.control)
+    {
+        if (value == 0)
+        {
+            systemNow = wxDateTime::Now();
+            timeDiff = systemNow.Subtract(systemTime);
+            now = xmlComputerTime;
+            now.Add(timeDiff);
+
+            now.SetDay(1);
+            now.SetYear(year_);
+            now.SetMonth(wxDateTime::Month(month_));
+            now.SetDay(day_);
+
+            return now.Subtract(timeDiff);
+        }
+        return xmlComputerTime;
+    }
+
+    if (address == rtcM48t58Configuration_.second)
+        value &= 0x7f;
+    if (address == rtcM48t58Configuration_.minute)
+        value &= 0x7f;
+    if (address == rtcM48t58Configuration_.hour)
+        value &= 0x3f;
+    if (address == rtcM48t58Configuration_.date)
+        value &= 0x3f;
+    if (address == rtcM48t58Configuration_.month)
+        value &= 0x1f;
+
+    Byte high = ((value&0xf0)/16)*10;
+    Byte low = value&0xf;
+    value = high + low;
+
+    systemNow = wxDateTime::Now();
+    timeDiff = systemNow.Subtract(systemTime);
+    now = xmlComputerTime;
+    now.Add(timeDiff);
+
+    if (address == rtcM48t58Configuration_.second)
+        now.SetSecond(value);
+    if (address == rtcM48t58Configuration_.minute)
+        now.SetMinute(value);
+    if (address == rtcM48t58Configuration_.hour)
+        now.SetHour(value);
+    if (address == rtcM48t58Configuration_.date)
+        day_ = value;
+    if (address == rtcM48t58Configuration_.month)
+        month_ = value-1;
+    if (address == rtcM48t58Configuration_.year)
+        year_ = value+2000;
+
+    return now.Subtract(timeDiff);
+}

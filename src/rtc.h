@@ -87,4 +87,21 @@ private:
     bool running_;
 };
 
+class RtcM48t58
+{
+public:
+    RtcM48t58();
+    ~RtcM48t58() {};
+
+    void configureRtcM48t58(RtcM48t58Configuration rtcM48t58Configuration, wxDateTime xmlComputerTime);
+    bool ioGroupRtcM48t58(int ioGroup);
+    Byte readRtcM48t58(Word address, Byte registerValue, wxDateTime systemTime, wxDateTime xmlComputerTime);
+    wxDateTime writeRtcM48t58(Word address, Byte value, wxDateTime systemTime, wxDateTime xmlComputerTime);
+
+private:
+    RtcM48t58Configuration rtcM48t58Configuration_;
+
+    int day_, month_, year_;
+};
+
 #endif  // RTC_H
