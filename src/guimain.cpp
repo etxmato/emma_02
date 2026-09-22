@@ -1326,7 +1326,7 @@ void GuiMain::runSoftware(bool load)
                     fileNameFull = computerConfiguration.memoryConfiguration[config].dirname + fileName;
                 
                 if (wxFile::Exists(fileNameFull))
-                    p_Computer->readSt2Program(fileNameFull, NOCHANGE);
+                    p_Computer->readSt2Program(fileNameFull, ROM);
             }
             if (computerConfiguration.memoryConfiguration[config].cartType == CART_BIN)
             {
