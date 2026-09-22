@@ -3203,6 +3203,7 @@ void XmlParser::parseXml_MatrixKeyboard(wxXmlNode &node)
         computerConfiguration.matrixKeyboardConfiguration.textKey[i].ctrlValue = 1;
     
     computerConfiguration.matrixKeyboardConfiguration.useAddress = false;
+    computerConfiguration.matrixKeyboardConfiguration.addressIndexed = false;
     computerConfiguration.matrixKeyboardConfiguration.picInterrupt = -1;
     
 
@@ -3220,8 +3221,14 @@ void XmlParser::parseXml_MatrixKeyboard(wxXmlNode &node)
             case TAG_IN:
                 computerConfiguration.matrixKeyboardConfiguration.input = parseXml_IoPort(*child, MATRIX_KEYBOARD_IN);
                 
-                if (!child->HasAttribute("addressmask") && computerConfiguration.matrixKeyboardConfiguration.input.addressMode)
-                    computerConfiguration.matrixKeyboardConfiguration.input.addressMask = 0x0000;
+                // Explicit addressmask: the read address selects the matrix data
+                // (PTC-701 style, e.g. scan buffer 0x3F20-0x3F27). Without an
+                // addressmask the keyboard uses the latched row from the output
+                // port (VP3000 / Macbug style); addressMask stays at the
+                // parseXml_IoPort default of 0xffff so in() indexes keyValue_
+                // with the full row value.
+                if (child->HasAttribute("addressmask") && computerConfiguration.matrixKeyboardConfiguration.input.addressMode)
+                    computerConfiguration.matrixKeyboardConfiguration.addressIndexed = true;
 
                 if (child->GetAttribute("useaddress") == "yes")
                     computerConfiguration.matrixKeyboardConfiguration.useAddress = true;

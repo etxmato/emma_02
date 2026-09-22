@@ -16,6 +16,8 @@ public:
     void configureScn2672();
     void configureCrt8002();
     void initScn2672();
+    bool ioGroupCrt8002(int ioGroup);
+    bool ioGroupScn2672(int ioGroup);
     void cycleScn2672();
     void blinkScn2672();
 

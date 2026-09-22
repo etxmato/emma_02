@@ -313,6 +313,40 @@ void Scn2672::initScn2672()
     lastAttributeType_ = 0;
 }
 
+bool Scn2672::ioGroupCrt8002(int ioGroup)
+{
+    bool groupFound = false;
+    
+    if (crt8002Configuration_.ioGroupVector.size() == 0)
+        groupFound = true;
+    else
+    {
+        for (std::vector<int>::iterator ioGroupIterator = crt8002Configuration_.ioGroupVector.begin (); ioGroupIterator != crt8002Configuration_.ioGroupVector.end (); ++ioGroupIterator)
+        {
+            if (*ioGroupIterator == ioGroup)
+                groupFound = true;
+        }
+    }
+    return groupFound;
+}
+
+bool Scn2672::ioGroupScn2672(int ioGroup)
+{
+    bool groupFound = false;
+    
+    if (scn2672Configuration_.ioGroupVector.size() == 0)
+        groupFound = true;
+    else
+    {
+        for (std::vector<int>::iterator ioGroupIterator = scn2672Configuration_.ioGroupVector.begin (); ioGroupIterator != scn2672Configuration_.ioGroupVector.end (); ++ioGroupIterator)
+        {
+            if (*ioGroupIterator == ioGroup)
+                groupFound = true;
+        }
+    }
+    return groupFound;
+}
+
 int Scn2672::writeInitializationRegisterScn2672(Byte value, int showTrace)
 {
     writeInitializationRegisterScn2672(registerIndex_++, value, showTrace);
