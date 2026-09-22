@@ -90,6 +90,23 @@ void KeybMatrix::configure(MatrixKeyboardConfiguration matrixKeyboardConfigurati
     resetKeyboard();
 }
 
+bool KeybMatrix::ioGroup(int ioGroup)
+{
+    bool groupFound = false;
+    
+    if (matrixKeyboardConfiguration_.ioGroupVector.size() == 0)
+        groupFound = true;
+    else
+    {
+        for (std::vector<int>::iterator ioGroupIterator = matrixKeyboardConfiguration_.ioGroupVector.begin (); ioGroupIterator != matrixKeyboardConfiguration_.ioGroupVector.end (); ++ioGroupIterator)
+        {
+            if (*ioGroupIterator == ioGroup)
+                groupFound = true;
+        }
+    }
+    return groupFound;
+}
+
 void KeybMatrix::charEvent(int keycode)
 {
     if (keyDown_) return;

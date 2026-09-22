@@ -151,6 +151,23 @@ void MC6845::configure6845()
     
 }
 
+bool MC6845::ioGroup6845(int ioGroup)
+{
+    bool groupFound = false;
+    
+    if (mc6845Configuration_.ioGroupVector.size() == 0)
+        groupFound = true;
+    else
+    {
+        for (std::vector<int>::iterator ioGroupIterator = mc6845Configuration_.ioGroupVector.begin (); ioGroupIterator != mc6845Configuration_.ioGroupVector.end (); ++ioGroupIterator)
+        {
+            if (*ioGroupIterator == ioGroup)
+                groupFound = true;
+        }
+    }
+    return groupFound;
+}
+
 void MC6845::init6845()
 {
     cycleValue6845_ = cycleSize6845_;

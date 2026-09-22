@@ -1191,6 +1191,12 @@
           <!-- keyboard definition for a keyboard solution using a matrix with address latch (Pecom)
           <iogroup>: iogroup, i.e. i/o ports are activate when specified iogroup is selected via the iogroup port
           <in mask="0x3f" pol="rev">: port to read key address latch, mask specifies the address mask used. When using pol="rev" input bits are reversed
+          Two read modes exist when the <in> address is a memory address (value larger than 7):
+            - without addressmask: row-latch keyboard (VP3000, Macbug). The row is latched by writing
+              it to the <out> address, a read of the <in> address returns the bits of the latched row.
+            - with addressmask: address-indexed keyboard (PTC-701). The low bits of the read address
+              (selected by addressmask) select the matrix data directly, e.g.
+              <in addressmask="0x07">0x3F20</in> reads rows 0x3F20-0x3F27.
           <keydef type="z" address="x" bit="y">: map address latch and bit number to specified PC ASCII value. Use the type field to specify:
             1. "text" for predefined keys: return, end, home, up, down, left or right
             2. "shift" for ASCII values representing SHIFT keys on the emulated keyboard

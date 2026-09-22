@@ -217,6 +217,23 @@ void mc6847::configure()
     p_Computer->setCycleType(CYCLE_TYPE_VIDEO_MC6847, MC6847_CYCLE);
 }
 
+bool mc6847::ioGroup6847(int ioGroup)
+{
+    bool groupFound = false;
+    
+    if (mc6847Configuration_.ioGroupVector.size() == 0)
+        groupFound = true;
+    else
+    {
+        for (std::vector<int>::iterator ioGroupIterator = mc6847Configuration_.ioGroupVector.begin (); ioGroupIterator != mc6847Configuration_.ioGroupVector.end (); ++ioGroupIterator)
+        {
+            if (*ioGroupIterator == ioGroup)
+                groupFound = true;
+        }
+    }
+    return groupFound;
+}
+
 void mc6847::init6847()
 {
     cycleValue_ = cycleSize_;

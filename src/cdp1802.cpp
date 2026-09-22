@@ -1738,7 +1738,17 @@ void Cdp1802::cpuCycleStep()
         p_Computer->resetPressed();
     
     p_Computer->showCycleAddress(address_);
-    p_Computer->showCycleData(bus_);
+    // System 00: while the CPU is idle (ST / direct load, i.e. not resumed by RS) the
+    // O-7 lamps are owned by showBusData()/sys00BusValue(), which resolves the Bus
+    // Select bus and the byte just entered during direct load. bus_ here is the CPU
+    // data-bus register (M(R(0)) during idle), not that gated BUS, so driving the lamps
+    // from it as well makes the two writers alternate every machine cycle (entered byte
+    // vs bus_) - visible as LED flicker. Keep the raw bus_ display only while actually
+    // executing (RS/run): on a fetch cycle showBusData() is not called (cpuCycleFetch()
+    // does not call cpuCycleFinalize()), so showCycleData() is the only writer then.
+    // cpuMode_ == RUN cannot be used here as ST sets it too; idle_ is the discriminator.
+    if (cpuType_ != SYSTEM00 || !idle_)
+        p_Computer->showCycleData(bus_);
     
     if (singleStateStep_)
         singleStateStep();

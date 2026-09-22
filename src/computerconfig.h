@@ -855,6 +855,7 @@ public:
     KeyDefinition textKey[LAST_MATRIX_TEXT_KEY];
     Byte keyPressed;
     bool useAddress;
+    bool addressIndexed;  // input address selects the matrix data (addressmask given) instead of using the latched row
     int picInterrupt;
 };
 

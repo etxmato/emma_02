@@ -8,6 +8,7 @@ public:
     ~KeybMatrix() {};
 
     void configure(MatrixKeyboardConfiguration matrixKeyboardConfiguration, wxString saveCommand);
+    bool ioGroup(int ioGroup);
     void charEvent(int keycode);
     bool keyDownExtended(int keycode, wxKeyEvent& event);
     void keyUpExtended(int keycode);

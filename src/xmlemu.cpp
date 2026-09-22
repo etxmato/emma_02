@@ -1519,19 +1519,7 @@ Byte Computer::ef(int flag)
 
     if (currentComputerConfiguration.vis1870Configuration.defined)
     {
-        groupFound = false;
-        
-        if (currentComputerConfiguration.vis1870Configuration.ioGroupVector.size() == 0)
-            groupFound = true;
-        else
-        {
-            for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.vis1870Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.vis1870Configuration.ioGroupVector.end (); ++ioGroupIterator)
-            {
-                if (*ioGroupIterator == ioGroup_)
-                    groupFound = true;
-            }
-        }
-        if (groupFound || currentComputerConfiguration.vis1870Configuration.ef.excludeIoGroup)
+        if (vis1870Pointer->ioGroupCdp1870(ioGroup_, -1) || currentComputerConfiguration.vis1870Configuration.ef.excludeIoGroup)
         {
             if (currentComputerConfiguration.vis1870Configuration.useVideoModeEf && currentComputerConfiguration.vis1870Configuration.videoModeEf == flag)
             {
@@ -1547,19 +1535,7 @@ Byte Computer::ef(int flag)
     
     if (currentComputerConfiguration.matrixKeyboardConfiguration.defined)
     {
-        groupFound = false;
-        
-        if (currentComputerConfiguration.matrixKeyboardConfiguration.ioGroupVector.size() == 0)
-            groupFound = true;
-        else
-        {
-            for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.matrixKeyboardConfiguration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.matrixKeyboardConfiguration.ioGroupVector.end (); ++ioGroupIterator)
-            {
-                if (*ioGroupIterator == ioGroup_)
-                    groupFound = true;
-            }
-        }
-        if (groupFound)
+        if (matrixKeyboardPointer->ioGroup(ioGroup_))
         {
             int returnValue = matrixKeyboardPointer->efKey(flag);
             if (returnValue != -1)
@@ -6209,182 +6185,6 @@ Byte Computer::readMemDebug(Word address, int function)
     if (returnValue != -1)
         return returnValue;
 
-    for (std::vector<MemoryPartConfiguration>::iterator copyConfigIterator = currentComputerConfiguration.memoryCopyConfiguration.begin (); copyConfigIterator != currentComputerConfiguration.memoryCopyConfiguration.end (); ++copyConfigIterator)
-    {
-        if (address >= copyConfigIterator->start && address <= copyConfigIterator->end)
-            if (copyConfigIterator->slot == selectedSlot_ || copyConfigIterator->slot == -1)
-                return (readMemDebug(address + copyConfigIterator->copy));
-    }
-    
-    if (currentComputerConfiguration.matrixKeyboardConfiguration.defined)
-    {
-        if (currentComputerConfiguration.matrixKeyboardConfiguration.input.addressMode)
-        {
-            Word mask = currentComputerConfiguration.matrixKeyboardConfiguration.input.addressMask;
-            if ((address & ~mask) == (currentComputerConfiguration.matrixKeyboardConfiguration.input.portNumber[0] & ~mask))
-                return matrixKeyboardPointer->in(address);
-        }
-    }
-
-    if (currentComputerConfiguration.hd44780Configuration.defined && hd44780Pointer != NULL)
-    {
-        if (hd44780Pointer->ioGroup(ioGroup_))
-        {
-            if (currentComputerConfiguration.hd44780Configuration.statusPort.addressMode)
-            {
-                if (address == currentComputerConfiguration.hd44780Configuration.statusPort.portNumber[0])
-                    return hd44780Pointer->readStatus();
-            }
-            if (currentComputerConfiguration.hd44780Configuration.dataReadPort.addressMode)
-            {
-                if (address == currentComputerConfiguration.hd44780Configuration.dataReadPort.portNumber[0])
-                    return hd44780Pointer->readData();
-            }
-        }
-    }
-
-    if (currentComputerConfiguration.amiIntControllerConfiguration.defined && amiIntControllerPointer != NULL)
-    {
-        if (amiIntControllerPointer->matchesAddress(address))
-            return amiIntControllerPointer->readCauseRegister();
-    }
-
-    for (std::vector<MemoryPartConfiguration>::iterator ramPartConfigIterator = currentComputerConfiguration.memoryRamPartConfiguration.begin (); ramPartConfigIterator != currentComputerConfiguration.memoryRamPartConfiguration.end (); ++ramPartConfigIterator)
-    {
-        if (address >= ramPartConfigIterator->start && address <= ramPartConfigIterator->end)
-                return mainMemory_[address];
-    }
-
-    if (currentComputerConfiguration.crt8002Configuration.defined)
-    {
-        groupFound = false;
-        
-        if (currentComputerConfiguration.crt8002Configuration.ioGroupVector.size() == 0)
-            groupFound = true;
-        else
-        {
-            for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.crt8002Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.crt8002Configuration.ioGroupVector.end (); ++ioGroupIterator)
-            {
-                if (*ioGroupIterator == ioGroup_)
-                    groupFound = true;
-            }
-        }
-        if (groupFound)
-        {
-            if (currentComputerConfiguration.crt8002Configuration.attribute.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.crt8002Configuration.attribute.portNumber.begin (); port != currentComputerConfiguration.crt8002Configuration.attribute.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.crt8002Configuration.attribute.addressMask) == *port)
-                        return scn2672Pointer->readAttribute();
-                }
-            }
-            if (currentComputerConfiguration.crt8002Configuration.attributeScreen1.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.crt8002Configuration.attributeScreen1.portNumber.begin (); port != currentComputerConfiguration.crt8002Configuration.attributeScreen1.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.crt8002Configuration.attributeScreen1.addressMask) == *port)
-                        return scn2672Pointer->readAttributeScreen1();
-                }
-            }
-		}
-	}
-
-    if (currentComputerConfiguration.hd44780Configuration.defined && hd44780Pointer != NULL)
-    {
-        if (hd44780Pointer->ioGroup(ioGroup_))
-        {
-            if (currentComputerConfiguration.hd44780Configuration.statusPort.addressMode)
-            {
-                if (address == currentComputerConfiguration.hd44780Configuration.statusPort.portNumber[0])
-                {
-                    return hd44780Pointer->readStatus();
-                }
-            }
-            if (currentComputerConfiguration.hd44780Configuration.dataReadPort.addressMode)
-            {
-                if (address == currentComputerConfiguration.hd44780Configuration.dataReadPort.portNumber[0])
-                {
-                    return hd44780Pointer->readData();
-                }
-            }
-        }
-    }
-
-    if (currentComputerConfiguration.scn2672Configuration.defined)
-    {
-        groupFound = false;
-        
-        if (currentComputerConfiguration.scn2672Configuration.ioGroupVector.size() == 0)
-            groupFound = true;
-        else
-        {
-            for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.scn2672Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.scn2672Configuration.ioGroupVector.end (); ++ioGroupIterator)
-            {
-                if (*ioGroupIterator == ioGroup_)
-                    groupFound = true;
-            }
-        }
-        if (groupFound)
-        {
-            if (currentComputerConfiguration.scn2672Configuration.data.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.data.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.data.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2672Configuration.data.addressMask) == *port)
-                        return scn2672Pointer->readDataScn2672();
-                }
-            }
-            if (currentComputerConfiguration.scn2672Configuration.status.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.status.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.status.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2672Configuration.status.addressMask) == *port)
-                        return scn2672Pointer->readStatusScn2672();
-                }
-            }
-            if (currentComputerConfiguration.scn2672Configuration.interrupt.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.interrupt.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.interrupt.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2672Configuration.interrupt.addressMask) == *port)
-                        return scn2672Pointer->readInterruptScn2672();
-                }
-            }
-            if (currentComputerConfiguration.scn2672Configuration.screenStart.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.screenStart.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.screenStart.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2672Configuration.screenStart.addressMask) == *port)
-                        return scn2672Pointer->readScreenStartLowScn2672();
-                    if ((address&currentComputerConfiguration.scn2672Configuration.screenStart.addressMask) == (*port + 1))
-                        return scn2672Pointer->readScreenStartHighScn2672();
-                }
-            }
-            if (currentComputerConfiguration.scn2672Configuration.cursor.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.cursor.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.cursor.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2672Configuration.cursor.addressMask) == *port)
-                        return scn2672Pointer->readCursorLowScn2672();
-                    if ((address&currentComputerConfiguration.scn2672Configuration.cursor.addressMask) == (*port + 1))
-                        return scn2672Pointer->readCursorHighScn2672();
-                }
-            }
-
-   /*         if (address == 0xce02)
-                return 0x2f;
-            wxString printBuffer;
-            if (address >= 0xc300 && address <0xCF00 && lastReadAddress_ != scratchpadRegister_[programCounter_] && secondLastReadAddress_ != scratchpadRegister_[programCounter_])
-            {
-                secondLastReadAddress_ = lastReadAddress_;
-                lastReadAddress_ = scratchpadRegister_[programCounter_];
-                printBuffer.Printf("Exec address: %04X, read address: %04X", lastReadAddress_, address);
-                p_Main->guiShowTextMessage(printBuffer);
-            }*/
-        }
-    }
-
     for (int instance=numberOfCdp1854Instances_; instance<numberOfScn2671Instances_; instance++)
     {
         if (scn2671InstancePointer[instance]->ioGroupScn2671(ioGroup_))
@@ -6456,30 +6256,6 @@ Byte Computer::readMemDebug(Word address, int function)
         }
     }
 
-    if (currentComputerConfiguration.mc6845Configuration.defined)
-    {
-        groupFound = false;
-        
-        if (currentComputerConfiguration.mc6845Configuration.ioGroupVector.size() == 0)
-            groupFound = true;
-        else
-        {
-            for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.mc6845Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.mc6845Configuration.ioGroupVector.end (); ++ioGroupIterator)
-            {
-                if (*ioGroupIterator == ioGroup_)
-                    groupFound = true;
-            }
-        }
-        if (groupFound)
-        {
-            if ((address&currentComputerConfiguration.mc6845Configuration.dataMask) == currentComputerConfiguration.mc6845Configuration.data)
-                return mc6845Pointer->readDataDirect6845(address);
-            
-            if (address >=currentComputerConfiguration.mc6845Configuration.startRam && address <= currentComputerConfiguration.mc6845Configuration.endRam)
-                return mc6845Pointer->read6845(address & currentComputerConfiguration.mc6845Configuration.ramMask);
-        }
-    }
-
     for (int instance=0; instance<numberOfDipInstances_; instance++)
     {
         if (dipPointer[instance]->ioGroupDip(ioGroup_))
@@ -6517,12 +6293,6 @@ Byte Computer::readMemDebug(Word address, int function)
             if (picValue != -1)
                 return picValue&0xff;
         }
-    }
-
-    if (currentComputerConfiguration.amiIntControllerConfiguration.defined && amiIntControllerPointer != NULL)
-    {
-        if (amiIntControllerPointer->matchesAddress(address))
-            return amiIntControllerPointer->readCauseRegister();
     }
 
     if (address == currentComputerConfiguration.mcrConfiguration.bbat.portNumber[0])
@@ -6809,18 +6579,6 @@ Byte Computer::readMemDebug(Word address, int function)
         break;
 
         case PRAM1870:
-            groupFound = false;
-            
-            if (currentComputerConfiguration.vis1870Configuration.ioGroupVector.size() == 0)
-                groupFound = true;
-            else
-            {
-                for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.vis1870Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.vis1870Configuration.ioGroupVector.end (); ++ioGroupIterator)
-                {
-                    if (*ioGroupIterator == ioGroup_)
-                        groupFound = true;
-                }
-            }
             // Match the write side: when the page memory is declared iogroup="no"
             // (pageMemExcludeIoGroup), reads must also always go to the VIS page
             // memory, regardless of the current I/O group.  Without this, a read
@@ -6829,28 +6587,16 @@ Byte Computer::readMemDebug(Word address, int function)
             // returning 0x00 instead of the real page byte - which then gets
             // saved into CURSCHR and restored over a valid character (the
             // VIS1802 "space over first char" bug).
-            if (groupFound || currentComputerConfiguration.vis1870Configuration.pageMemExcludeIoGroup)
+            if (vis1870Pointer->ioGroupCdp1870(ioGroup_, -1) || currentComputerConfiguration.vis1870Configuration.pageMemExcludeIoGroup)
                 return vis1870Pointer->readPram(address);
             else
                 return mainMemory_[address];
         break;
             
         case CRAM1870:
-            groupFound = false;
-            
-            if (currentComputerConfiguration.vis1870Configuration.ioGroupVector.size() == 0)
-                groupFound = true;
-            else
-            {
-                for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.vis1870Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.vis1870Configuration.ioGroupVector.end (); ++ioGroupIterator)
-                {
-                    if (*ioGroupIterator == ioGroup_)
-                        groupFound = true;
-                }
-            }
             // Match the write side (charMemExcludeIoGroup / iogroup="no") so
             // character-memory reads work in both I/O groups as well.
-            if (groupFound || currentComputerConfiguration.vis1870Configuration.charMemExcludeIoGroup)
+            if (vis1870Pointer->ioGroupCdp1870(ioGroup_, -1) || currentComputerConfiguration.vis1870Configuration.charMemExcludeIoGroup)
                 return vis1870Pointer->readCram(address);
             else
                 return mainMemory_[address];
@@ -6886,6 +6632,19 @@ int Computer::readMemIo(Word address)
     if (!configured_)
         return -1;
 
+    for (std::vector<MemoryPartConfiguration>::iterator ramPartConfigIterator = currentComputerConfiguration.memoryRamPartConfiguration.begin (); ramPartConfigIterator != currentComputerConfiguration.memoryRamPartConfiguration.end (); ++ramPartConfigIterator)
+    {
+        if (address >= ramPartConfigIterator->start && address <= ramPartConfigIterator->end)
+                return mainMemory_[address];
+    }
+
+    for (std::vector<MemoryPartConfiguration>::iterator copyConfigIterator = currentComputerConfiguration.memoryCopyConfiguration.begin (); copyConfigIterator != currentComputerConfiguration.memoryCopyConfiguration.end (); ++copyConfigIterator)
+    {
+        if (address >= copyConfigIterator->start && address <= copyConfigIterator->end)
+            if (copyConfigIterator->slot == selectedSlot_ || copyConfigIterator->slot == -1)
+                return (readMemDebug(address + copyConfigIterator->copy));
+    }
+    
     if (currentComputerConfiguration.rtcMm58174Configuration.defined)
     {
         if (ioGroupMm58174(ioGroup_))
@@ -6894,6 +6653,140 @@ int Computer::readMemIo(Word address)
             {
                 mainMemory_[address] = readRtcMm58174(address, systemTime_, xmlComputerTime_);
                 return mainMemory_[address];
+            }
+        }
+    }
+
+    if (currentComputerConfiguration.matrixKeyboardConfiguration.defined)
+    {
+        if (matrixKeyboardPointer->ioGroup(ioGroup_))
+        {
+            if (currentComputerConfiguration.matrixKeyboardConfiguration.input.addressMode)
+            {
+                if (currentComputerConfiguration.matrixKeyboardConfiguration.addressIndexed)
+                {
+                    // Address-indexed keyboard (addressmask given, PTC-701 style):
+                    // the address selects the matrix data via the address mask.
+                    Word mask = currentComputerConfiguration.matrixKeyboardConfiguration.input.addressMask;
+                    if ((address & ~mask) == (currentComputerConfiguration.matrixKeyboardConfiguration.input.portNumber[0] & ~mask))
+                        return matrixKeyboardPointer->in(address);
+                }
+                else
+                {
+                    // Row-latch keyboard (VP3000 / Macbug style): exact address
+                    // match, data read via the row latched by the output port.
+                    if (address == currentComputerConfiguration.matrixKeyboardConfiguration.input.portNumber[0])
+                        return matrixKeyboardPointer->in();
+                }
+            }
+        }
+    }
+
+    if (currentComputerConfiguration.mc6845Configuration.defined)
+    {
+        if (mc6845Pointer->ioGroup6845(ioGroup_))
+        {
+            if ((address&currentComputerConfiguration.mc6845Configuration.dataMask) == currentComputerConfiguration.mc6845Configuration.data)
+                return mc6845Pointer->readDataDirect6845(address);
+            
+            if (address >=currentComputerConfiguration.mc6845Configuration.startRam && address <= currentComputerConfiguration.mc6845Configuration.endRam)
+                return mc6845Pointer->read6845(address & currentComputerConfiguration.mc6845Configuration.ramMask);
+        }
+    }
+
+    if (currentComputerConfiguration.crt8002Configuration.defined)
+    {
+        if (scn2672Pointer->ioGroupCrt8002(ioGroup_))
+        {
+            if (currentComputerConfiguration.crt8002Configuration.attribute.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.crt8002Configuration.attribute.portNumber.begin (); port != currentComputerConfiguration.crt8002Configuration.attribute.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.crt8002Configuration.attribute.addressMask) == *port)
+                        return scn2672Pointer->readAttribute();
+                }
+            }
+            if (currentComputerConfiguration.crt8002Configuration.attributeScreen1.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.crt8002Configuration.attributeScreen1.portNumber.begin (); port != currentComputerConfiguration.crt8002Configuration.attributeScreen1.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.crt8002Configuration.attributeScreen1.addressMask) == *port)
+                        return scn2672Pointer->readAttributeScreen1();
+                }
+            }
+        }
+    }
+
+    if (currentComputerConfiguration.scn2672Configuration.defined)
+    {
+        if (scn2672Pointer->ioGroupScn2672(ioGroup_))
+        {
+            if (currentComputerConfiguration.scn2672Configuration.data.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.data.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.data.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.data.addressMask) == *port)
+                        return scn2672Pointer->readDataScn2672();
+                }
+            }
+            if (currentComputerConfiguration.scn2672Configuration.status.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.status.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.status.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.status.addressMask) == *port)
+                        return scn2672Pointer->readStatusScn2672();
+                }
+            }
+            if (currentComputerConfiguration.scn2672Configuration.interrupt.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.interrupt.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.interrupt.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.interrupt.addressMask) == *port)
+                        return scn2672Pointer->readInterruptScn2672();
+                }
+            }
+            if (currentComputerConfiguration.scn2672Configuration.screenStart.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.screenStart.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.screenStart.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.screenStart.addressMask) == *port)
+                        return scn2672Pointer->readScreenStartLowScn2672();
+                    if ((address&currentComputerConfiguration.scn2672Configuration.screenStart.addressMask) == (*port + 1))
+                        return scn2672Pointer->readScreenStartHighScn2672();
+                }
+            }
+            if (currentComputerConfiguration.scn2672Configuration.cursor.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.cursor.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.cursor.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.cursor.addressMask) == *port)
+                        return scn2672Pointer->readCursorLowScn2672();
+                    if ((address&currentComputerConfiguration.scn2672Configuration.cursor.addressMask) == (*port + 1))
+                        return scn2672Pointer->readCursorHighScn2672();
+                }
+            }
+        }
+    }
+
+    if (currentComputerConfiguration.amiIntControllerConfiguration.defined)
+    {
+        if (amiIntControllerPointer->matchesAddress(address))
+            return amiIntControllerPointer->readCauseRegister();
+    }
+
+    if (currentComputerConfiguration.hd44780Configuration.defined)
+    {
+        if (hd44780Pointer->ioGroup(ioGroup_))
+        {
+            if (currentComputerConfiguration.hd44780Configuration.statusPort.addressMode)
+            {
+                if (address == currentComputerConfiguration.hd44780Configuration.statusPort.portNumber[0])
+                    return hd44780Pointer->readStatus();
+            }
+            if (currentComputerConfiguration.hd44780Configuration.dataReadPort.addressMode)
+            {
+                if (address == currentComputerConfiguration.hd44780Configuration.dataReadPort.portNumber[0])
+                    return hd44780Pointer->readData();
             }
         }
     }
@@ -6948,12 +6841,6 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
     
     writeMemIo(address, value);
     
-    for (std::vector<MemoryPartConfiguration>::iterator ramPartConfigIterator = currentComputerConfiguration.memoryRamPartConfiguration.begin (); ramPartConfigIterator != currentComputerConfiguration.memoryRamPartConfiguration.end (); ++ramPartConfigIterator)
-    {
-        if (address >= ramPartConfigIterator->start && address <= ramPartConfigIterator->end)
-            mainMemory_[address]=value;
-    }
-
     if (currentComputerConfiguration.rtcCdp1879Configuration.defined)
     {
         if (ioGroupCdp1879(ioGroup_))
@@ -7101,67 +6988,6 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
         }
     }
 
-    if (currentComputerConfiguration.amiIntControllerConfiguration.defined && amiIntControllerPointer != NULL)
-    {
-        if (amiIntControllerPointer->matchesAddress(address))
-            amiIntControllerPointer->writeAckRegister(value);
-    }
-
-    if (currentComputerConfiguration.mc6847Configuration.outputMode == 1 && currentComputerConfiguration.mc6847Configuration.defined)
-    {
-        groupFound = false;
-        
-        if (currentComputerConfiguration.mc6847Configuration.ioGroupVector.size() == 0)
-            groupFound = true;
-        else
-        {
-            for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.mc6847Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.mc6847Configuration.ioGroupVector.end (); ++ioGroupIterator)
-            {
-                if (*ioGroupIterator == ioGroup_)
-                    groupFound = true;
-            }
-        }
-        if (groupFound)
-        {
-            if (address>=currentComputerConfiguration.mc6847Configuration.outputStart && address <=currentComputerConfiguration.mc6847Configuration.outputEnd)
-            mc6847Pointer->outMc6847(value);
-        }
-    }
-
-    if (currentComputerConfiguration.hd44780Configuration.defined && hd44780Pointer != NULL)
-    {
-        if (hd44780Pointer->ioGroup(ioGroup_))
-        {
-            if (currentComputerConfiguration.hd44780Configuration.commandPort.addressMode)
-            {
-                if (address == currentComputerConfiguration.hd44780Configuration.commandPort.portNumber[0] || address == currentComputerConfiguration.hd44780Configuration.commandPort.portNumber[1])
-                {
-                    hd44780Pointer->writeCommand(value, SHOW_ADDRESS_TRACE);
-                    hd44780DataCount = 0;  // reset counter on any command write
-                    return;
-                }
-            }
-            if (currentComputerConfiguration.hd44780Configuration.dataPort.addressMode)
-            {
-                if (address == currentComputerConfiguration.hd44780Configuration.dataPort.portNumber[0])
-                {
-                    // PTC-701: firmware writes 32 bytes per line to 0x3F50.
-                    // First 16 = character data, next 16 = AMI attribute/control bytes.
-                    // Only forward the first 16 to the HD44780.
-                    if (hd44780DataCount < 16)
-                    {
-//                        wxString dbg;
-//                        dbg.Printf("HD44780 data write: PC=%04X value=0x%02X '%c'", scratchpadRegister_[programCounter_], value, (value >= 0x20 && value <= 0x7E) ? value : '.');
-//                        p_Main->guiShowTextMessage(dbg);
-                        hd44780Pointer->writeData(value, SHOW_ADDRESS_TRACE);
-                    }
-                    hd44780DataCount++;
-                    return;
-                }
-            }
-        }
-    }
-
     if (currentComputerConfiguration.basicPrinterConfiguration.defined)
     {
         if (currentComputerConfiguration.basicPrinterConfiguration.output.addressMode)
@@ -7174,143 +7000,6 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
         }
     }
     
-    if (currentComputerConfiguration.crt8002Configuration.defined)
-    {
-        groupFound = false;
-        
-        if (currentComputerConfiguration.crt8002Configuration.ioGroupVector.size() == 0)
-            groupFound = true;
-        else
-        {
-            for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.crt8002Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.crt8002Configuration.ioGroupVector.end (); ++ioGroupIterator)
-            {
-                if (*ioGroupIterator == ioGroup_)
-                    groupFound = true;
-            }
-        }
-        if (groupFound)
-        {
-            if (currentComputerConfiguration.crt8002Configuration.attribute.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.crt8002Configuration.attribute.portNumber.begin (); port != currentComputerConfiguration.crt8002Configuration.attribute.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.crt8002Configuration.attribute.addressMask) == *port)
-                    {
-                        scn2672Pointer->writeAttribute(value);
-                        return;
-                    }
-                }
-            }
-        }
-    }
-
-    if (currentComputerConfiguration.scn2672Configuration.defined)
-    {
-        groupFound = false;
-        
-        if (currentComputerConfiguration.scn2672Configuration.ioGroupVector.size() == 0)
-            groupFound = true;
-        else
-        {
-            for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.scn2672Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.scn2672Configuration.ioGroupVector.end (); ++ioGroupIterator)
-            {
-                if (*ioGroupIterator == ioGroup_)
-                    groupFound = true;
-            }
-        }
-        if (groupFound)
-        {
-            if (currentComputerConfiguration.scn2672Configuration.data.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.data.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.data.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2672Configuration.data.addressMask) == *port)
-                    {
-                        scn2672Pointer->writeDataScn2672(value);
-                        return;
-                    }
-                }
-            }
-            if (currentComputerConfiguration.scn2672Configuration.initializationRegister.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.initializationRegister.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.initializationRegister.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2672Configuration.initializationRegister.addressMask) == *port)
-                    {
-                        scn2672Pointer->writeInitializationRegisterScn2672(value);
-                        return;
-                    }
-                }
-            }
-            if (currentComputerConfiguration.scn2672Configuration.command.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.command.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.command.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2672Configuration.command.addressMask) == *port)
-                    {
-                        scn2672Pointer->writeCommandScn2672(value);
-                        return;
-                    }
-                }
-            }
-            if (currentComputerConfiguration.scn2672Configuration.screenStart.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.screenStart.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.screenStart.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2672Configuration.screenStart.addressMask) == *port)
-                    {
-                        scn2672Pointer->writeScreenStartLowScn2672(value);
-                        return;
-                    }
-                    if ((address&currentComputerConfiguration.scn2672Configuration.screenStart.addressMask) == (*port + 1))
-                    {
-                        scn2672Pointer->writeScreenStartHighScn2672(value);
-                        return;
-                    }
-                }
-            }
-            if (currentComputerConfiguration.scn2672Configuration.cursor.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.cursor.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.cursor.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2672Configuration.cursor.addressMask) == *port)
-                    {
-                        scn2672Pointer->writeCursorLowScn2672(value);
-                        return;
-                    }
-                    if ((address&currentComputerConfiguration.scn2672Configuration.cursor.addressMask) == (*port + 1))
-                    {
-                        scn2672Pointer->writeCursorHighScn2672(value);
-                        return;
-                    }
-                }
-            }
-            if (currentComputerConfiguration.scn2672Configuration.pointer.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.pointer.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.pointer.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2672Configuration.pointer.addressMask) == *port)
-                    {
-                        scn2672Pointer->writePointerLowScn2672(value);
-                        return;
-                    }
-                    if ((address&currentComputerConfiguration.scn2672Configuration.pointer.addressMask) == (*port + 1))
-                    {
-                        scn2672Pointer->writePointerHighScn2672(value);
-                        return;
-                    }
-                }
-            }
-
-    /*        if (address >= 0xc300 && address <0xCF00 && lastReadAddress_ != scratchpadRegister_[programCounter_])
-            {
-                lastReadAddress_ = scratchpadRegister_[programCounter_];
-                printBuffer.Printf("Exec address: %04X, write address: %04X, value: %02X", lastReadAddress_, address, value);
-                p_Main->guiShowTextMessage(printBuffer);
-            }*/
-        }
-    }
-
     for (int instance=numberOfCdp1854Instances_; instance<numberOfScn2671Instances_; instance++)
     {
         if (scn2671InstancePointer[instance]->ioGroupScn2671(ioGroup_))
@@ -7371,55 +7060,6 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
                         scn2671InstancePointer[instance]->commandMisc(value);
                 }
             }
-        }
-    }
-
-    if (currentComputerConfiguration.mc6845Configuration.defined)
-    {
-        groupFound = false;
-        
-        if (currentComputerConfiguration.mc6845Configuration.ioGroupVector.size() == 0)
-            groupFound = true;
-        else
-        {
-            for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.mc6845Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.mc6845Configuration.ioGroupVector.end (); ++ioGroupIterator)
-            {
-                if (*ioGroupIterator == ioGroup_)
-                    groupFound = true;
-            }
-        }
-        if (groupFound)
-        {
-            if ((address&currentComputerConfiguration.mc6845Configuration.dataMask) == currentComputerConfiguration.mc6845Configuration.data)
-            {
-                mc6845Pointer->writeData6845(value);
-                return;
-            }
-
-            if ((address&currentComputerConfiguration.mc6845Configuration.addressMask) == currentComputerConfiguration.mc6845Configuration.address)
-            {
-                mc6845Pointer->writeAddressRegister6845(value);
-                return;
-            }
-
-            if (address >=currentComputerConfiguration.mc6845Configuration.startRam && address <= currentComputerConfiguration.mc6845Configuration.endRam)
-            {
-                mc6845Pointer->write6845(address & currentComputerConfiguration.mc6845Configuration.ramMask, value);
-                return;
-            }
-        }
-    }
-
-    if (currentComputerConfiguration.matrixKeyboardConfiguration.output.addressMode)
-    {
-        if (address == 0xe001)
-        {
-        }
-
-        if (address == currentComputerConfiguration.matrixKeyboardConfiguration.output.portNumber[0])
-        {
-            matrixKeyboardPointer->setRow(value);
-            return;
         }
     }
 
@@ -7841,19 +7481,7 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
                 mainMemory_[address]=value;
             else
             {
-                groupFound = false;
-                
-                if (currentComputerConfiguration.vis1870Configuration.ioGroupVector.size() == 0)
-                    groupFound = true;
-                else
-                {
-                    for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.vis1870Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.vis1870Configuration.ioGroupVector.end (); ++ioGroupIterator)
-                    {
-                        if (*ioGroupIterator == ioGroup_)
-                            groupFound = true;
-                    }
-                }
-                if (groupFound || currentComputerConfiguration.vis1870Configuration.pageMemExcludeIoGroup)
+                if (vis1870Pointer->ioGroupCdp1870(ioGroup_, -1) || currentComputerConfiguration.vis1870Configuration.pageMemExcludeIoGroup)
                 {
                     address = vis1870Pointer->writePram(address, value);
                     
@@ -7876,24 +7504,9 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
         break;
             
         case CRAM1870:
-            groupFound = false;
-            
-            if (currentComputerConfiguration.vis1870Configuration.ioGroupVector.size() == 0)
-                groupFound = true;
-            else
-            {
-                for (std::vector<int>::iterator ioGroupIterator = currentComputerConfiguration.vis1870Configuration.ioGroupVector.begin (); ioGroupIterator != currentComputerConfiguration.vis1870Configuration.ioGroupVector.end (); ++ioGroupIterator)
-                {
-                    if (*ioGroupIterator == ioGroup_)
-                        groupFound = true;
-                }
-            }
-            if (groupFound || currentComputerConfiguration.vis1870Configuration.charMemExcludeIoGroup)
+            if (vis1870Pointer->ioGroupCdp1870(ioGroup_, -1) || currentComputerConfiguration.vis1870Configuration.charMemExcludeIoGroup)
             {
                 address = vis1870Pointer->writeCram(address, value);
-
-            //    if (address>= memoryStart_ && address<(memoryStart_+256))
-            //        p_Main->updateDebugMemory(address);
             }
             else
             {
@@ -7916,6 +7529,12 @@ void Computer::writeMemIo(Word address, Byte value)
     if (!configured_)
         return;
 
+    for (std::vector<MemoryPartConfiguration>::iterator ramPartConfigIterator = currentComputerConfiguration.memoryRamPartConfiguration.begin (); ramPartConfigIterator != currentComputerConfiguration.memoryRamPartConfiguration.end (); ++ramPartConfigIterator)
+    {
+        if (address >= ramPartConfigIterator->start && address <= ramPartConfigIterator->end)
+            mainMemory_[address]=value;
+    }
+
     if (currentComputerConfiguration.rtcMm58174Configuration.defined)
     {
         if (ioGroupMm58174(ioGroup_))
@@ -7928,6 +7547,196 @@ void Computer::writeMemIo(Word address, Byte value)
             }
         }
     }
+ 
+    if (currentComputerConfiguration.matrixKeyboardConfiguration.defined)
+    {
+        if (matrixKeyboardPointer->ioGroup(ioGroup_))
+        {
+            if (currentComputerConfiguration.matrixKeyboardConfiguration.output.addressMode)
+            {
+                if (address == currentComputerConfiguration.matrixKeyboardConfiguration.output.portNumber[0])
+                {
+                    matrixKeyboardPointer->setRow(value);
+                    return;
+                }
+            }
+        }
+    }
+    
+    if (currentComputerConfiguration.mc6845Configuration.defined)
+    {
+        if (mc6845Pointer->ioGroup6845(ioGroup_))
+        {
+            if ((address&currentComputerConfiguration.mc6845Configuration.dataMask) == currentComputerConfiguration.mc6845Configuration.data)
+            {
+                mc6845Pointer->writeData6845(value);
+                return;
+            }
+
+            if ((address&currentComputerConfiguration.mc6845Configuration.addressMask) == currentComputerConfiguration.mc6845Configuration.address)
+            {
+                mc6845Pointer->writeAddressRegister6845(value);
+                return;
+            }
+
+            if (address >=currentComputerConfiguration.mc6845Configuration.startRam && address <= currentComputerConfiguration.mc6845Configuration.endRam)
+            {
+                mc6845Pointer->write6845(address & currentComputerConfiguration.mc6845Configuration.ramMask, value);
+                return;
+            }
+        }
+    }
+
+    if (currentComputerConfiguration.mc6847Configuration.outputMode == 1 && currentComputerConfiguration.mc6847Configuration.defined)
+    {
+        if (mc6847Pointer->ioGroup6847(ioGroup_))
+        {
+            if (address>=currentComputerConfiguration.mc6847Configuration.outputStart && address <=currentComputerConfiguration.mc6847Configuration.outputEnd)
+            mc6847Pointer->outMc6847(value);
+        }
+    }
+
+    if (currentComputerConfiguration.crt8002Configuration.defined)
+    {
+        if (scn2672Pointer->ioGroupCrt8002(ioGroup_))
+        {
+            if (currentComputerConfiguration.crt8002Configuration.attribute.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.crt8002Configuration.attribute.portNumber.begin (); port != currentComputerConfiguration.crt8002Configuration.attribute.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.crt8002Configuration.attribute.addressMask) == *port)
+                    {
+                        scn2672Pointer->writeAttribute(value);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    if (currentComputerConfiguration.scn2672Configuration.defined)
+    {
+        if (scn2672Pointer->ioGroupScn2672(ioGroup_))
+        {
+            if (currentComputerConfiguration.scn2672Configuration.data.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.data.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.data.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.data.addressMask) == *port)
+                    {
+                        scn2672Pointer->writeDataScn2672(value);
+                        return;
+                    }
+                }
+            }
+            if (currentComputerConfiguration.scn2672Configuration.initializationRegister.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.initializationRegister.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.initializationRegister.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.initializationRegister.addressMask) == *port)
+                    {
+                        scn2672Pointer->writeInitializationRegisterScn2672(value);
+                        return;
+                    }
+                }
+            }
+            if (currentComputerConfiguration.scn2672Configuration.command.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.command.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.command.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.command.addressMask) == *port)
+                    {
+                        scn2672Pointer->writeCommandScn2672(value);
+                        return;
+                    }
+                }
+            }
+            if (currentComputerConfiguration.scn2672Configuration.screenStart.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.screenStart.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.screenStart.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.screenStart.addressMask) == *port)
+                    {
+                        scn2672Pointer->writeScreenStartLowScn2672(value);
+                        return;
+                    }
+                    if ((address&currentComputerConfiguration.scn2672Configuration.screenStart.addressMask) == (*port + 1))
+                    {
+                        scn2672Pointer->writeScreenStartHighScn2672(value);
+                        return;
+                    }
+                }
+            }
+            if (currentComputerConfiguration.scn2672Configuration.cursor.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.cursor.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.cursor.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.cursor.addressMask) == *port)
+                    {
+                        scn2672Pointer->writeCursorLowScn2672(value);
+                        return;
+                    }
+                    if ((address&currentComputerConfiguration.scn2672Configuration.cursor.addressMask) == (*port + 1))
+                    {
+                        scn2672Pointer->writeCursorHighScn2672(value);
+                        return;
+                    }
+                }
+            }
+            if (currentComputerConfiguration.scn2672Configuration.pointer.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2672Configuration.pointer.portNumber.begin (); port != currentComputerConfiguration.scn2672Configuration.pointer.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2672Configuration.pointer.addressMask) == *port)
+                    {
+                        scn2672Pointer->writePointerLowScn2672(value);
+                        return;
+                    }
+                    if ((address&currentComputerConfiguration.scn2672Configuration.pointer.addressMask) == (*port + 1))
+                    {
+                        scn2672Pointer->writePointerHighScn2672(value);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    if (currentComputerConfiguration.amiIntControllerConfiguration.defined)
+    {
+        if (amiIntControllerPointer->matchesAddress(address))
+            amiIntControllerPointer->writeAckRegister(value);
+    }
+
+    if (currentComputerConfiguration.hd44780Configuration.defined)
+    {
+        if (hd44780Pointer->ioGroup(ioGroup_))
+        {
+            if (currentComputerConfiguration.hd44780Configuration.commandPort.addressMode)
+            {
+                if (address == currentComputerConfiguration.hd44780Configuration.commandPort.portNumber[0] || address == currentComputerConfiguration.hd44780Configuration.commandPort.portNumber[1])
+                {
+                    hd44780Pointer->writeCommand(value, SHOW_ADDRESS_TRACE);
+                    hd44780DataCount = 0;  // reset counter on any command write
+                    return;
+                }
+            }
+            if (currentComputerConfiguration.hd44780Configuration.dataPort.addressMode)
+            {
+                if (address == currentComputerConfiguration.hd44780Configuration.dataPort.portNumber[0])
+                {
+                    // PTC-701: firmware writes 32 bytes per line to 0x3F50.
+                    // First 16 = character data, next 16 = AMI attribute/control bytes.
+                    // Only forward the first 16 to the HD44780.
+                    if (hd44780DataCount < 16)
+                        hd44780Pointer->writeData(value, SHOW_ADDRESS_TRACE);
+                    hd44780DataCount++;
+                    return;
+                }
+            }
+        }
+    }
+
 }
 
 void Computer::cpuInstruction()
