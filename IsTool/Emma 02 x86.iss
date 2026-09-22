@@ -173,6 +173,7 @@ Source: ..\data\MS2000\MICRODOS\*.*; DestDir: {app}\data\MS2000\MICRODOS; Compon
 Source: ..\data\MS2000\PLM\*.*; DestDir: {app}\data\MS2000\PLM; Components: MAIN
 Source: ..\data\MS2000\RP\*.*; DestDir: {app}\data\MS2000\RP; Components: MAIN
 Source: ..\data\MS2000\Software\*.*; DestDir: {app}\data\MS2000\Software; Components: MAIN
+Source: ..\data\MSI88\*.*; DestDir: {app}\data\MSI88; Components: MAIN
 Source: ..\data\Nano\*.*; DestDir: {app}\data\Nano; Components: MAIN
 Source: ..\data\NetronicsElfII\*.*; DestDir: {app}\data\NetronicsElfII; Components: MAIN
 Source: ..\data\Payphone\*.*; DestDir: {app}\data\Payphone; Components: MAIN
@@ -190,6 +191,7 @@ Source: ..\data\St2\Visicom-Cartridges\*.*; DestDir: {app}\data\St2\Visicom-Cart
 Source: ..\data\StudioII\*.*; DestDir: {app}\data\StudioII; Components: MAIN
 Source: ..\data\StudioIII\*.*; DestDir: {app}\data\StudioIII; Components: MAIN
 Source: ..\data\StudioIV\*.*; DestDir: {app}\data\StudioIV; Components: MAIN
+Source: ..\data\System00\*.*; DestDir: {app}\data\System00; Components: MAIN
 Source: ..\data\TMC600\*.*; DestDir: {app}\data\TMC600; Components: MAIN
 Source: ..\data\TMC1800\*.*; DestDir: {app}\data\TMC1800; Components: MAIN
 Source: ..\data\TMC2000\*.*; DestDir: {app}\data\TMC2000; Components: MAIN
@@ -234,6 +236,7 @@ Source: ..\data\Xml\Microboard\*.*; DestDir: {app}\data\Xml\Microboard; Componen
 Source: ..\data\Xml\Microtutor\*.*; DestDir: {app}\data\Xml\Microtutor; Components: MAIN
 Source: ..\data\Xml\MicrotutorII\*.*; DestDir: {app}\data\Xml\MicrotutorII; Components: MAIN
 Source: ..\data\Xml\MS2000\*.*; DestDir: {app}\data\Xml\MS2000; Components: MAIN
+Source: ..\data\Xml\MSI88\*.*; DestDir: {app}\data\Xml\MSI88; Components: MAIN
 Source: ..\data\Xml\Nano\*.*; DestDir: {app}\data\Xml\Nano; Components: MAIN
 Source: ..\data\Xml\NetronicsElfII\*.*; DestDir: {app}\data\Xml\NetronicsElfII; Components: MAIN
 Source: ..\data\Xml\Payphone\*.*; DestDir: {app}\data\Xml\Payphone; Components: MAIN
@@ -247,6 +250,7 @@ Source: ..\data\Xml\SBC1802\*.*; DestDir: {app}\data\Xml\SBC1802; Components: MA
 Source: ..\data\Xml\StudioII\*.*; DestDir: {app}\data\Xml\StudioII; Components: MAIN
 Source: ..\data\Xml\StudioIII\*.*; DestDir: {app}\data\Xml\StudioIII; Components: MAIN
 Source: ..\data\Xml\StudioIV\*.*; DestDir: {app}\data\Xml\StudioIV; Components: MAIN
+Source: ..\data\Xml\System00\*.*; DestDir: {app}\data\Xml\System00; Components: MAIN
 Source: ..\data\Xml\TMC600\*.*; DestDir: {app}\data\Xml\TMC600; Components: MAIN
 Source: ..\data\Xml\TMC1800\*.*; DestDir: {app}\data\Xml\TMC1800; Components: MAIN
 Source: ..\data\Xml\TMC2000\*.*; DestDir: {app}\data\Xml\TMC2000; Components: MAIN

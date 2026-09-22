@@ -966,8 +966,9 @@
   <!-- LCD Display -->
   <frontpanel init="on">
     <size>300, 160</size>
+    <background color="white_fixed"/>
 	<item>
-	  <type color1="0xF2,0xF2,0xF2" color2="black">lcd_text</type>
+	  <type color1="0xF2,0xF2,0xF2" color2="black_fixed">lcd_text</type>
 	  <label size="18">999 CALLS ONLY</label>
 		<label2 size="18">999 CALLS ONLY</label2>
 		  <!--<label size="18">NO CASH CALLS</label>
@@ -977,7 +978,7 @@
 		<pos>40, 12</pos>
 	</item>
 	  <item>
-		  <type color1="0xF2,0xF2,0xF2" color2="black">lcd_text</type>
+		  <type color1="0xF2,0xF2,0xF2" color2="black_fixed">lcd_text</type>
 		  <label size="18">INSERT MONEY</label>
 		  <label2 size="18">INSERT MONEY</label2>
 		  <value>3</value>
@@ -985,7 +986,7 @@
 		  <pos>70, 40</pos>
 	  </item>
 	  <item>
-		  <type color1="0xF2,0xF2,0xF2" color2="black">lcd_text</type>
+		  <type color1="0xF2,0xF2,0xF2" color2="black_fixed">lcd_text</type>
 		  <label size="18">CREDIT</label>
 		  <label2 size="18">CREDIT</label2>
 		  <value>6</value>
@@ -993,7 +994,7 @@
 		  <pos>170, 87</pos>
 	  </item>
 	  <item>
-		  <type color1="0xF2,0xF2,0xF2" color2="black">lcd_text</type>
+		  <type color1="0xF2,0xF2,0xF2" color2="black_fixed">lcd_text</type>
 		  <label size="18">MINIMUM</label>
 		  <label2 size="18">MINIMUM</label2>
 		  <value>5</value>
@@ -1001,7 +1002,7 @@
 		  <pos>40, 68</pos>
 	  </item>
 	  <item>
-		  <type color1="0xF2,0xF2,0xF2" color2="black">lcd_text</type>
+		  <type color1="0xF2,0xF2,0xF2" color2="black_fixed">lcd_text</type>
 		  <label size="18">FEE</label>
 		  <label2 size="18">FEE</label2>
 		  <value>5</value>
@@ -1009,7 +1010,7 @@
 		  <pos>40, 96</pos>
 	  </item>
 	  <item>
-		  <type color1="0xF2,0xF2,0xF2" color2="black">lcd_text</type>
+		  <type color1="0xF2,0xF2,0xF2" color2="black_fixed">lcd_text</type>
 		  <label size="18">REFUND</label>
 		  <label2 size="18">REFUND</label2>
 		  <value>7</value>
