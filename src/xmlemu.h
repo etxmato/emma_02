@@ -230,10 +230,10 @@ public:
     Byte readMemDataType(Word address, uint64_t* executed);
     Byte readMem(Word address, bool dmaReadWrite = false);
     Byte readMemDebug(Word address, int function = 0);
-    int readMemIo(Word address);
+    int readMemIo(Word address, int function);
     void writeMem(Word address, Byte value, bool writeRom, bool dmaReadWrite = false);
     void writeMemDebug(Word address, Byte value, bool writeRom);
-    void writeMemIo(Word address, Byte value);
+    void writeMemIo(Word address, Byte value, bool writeRom);
     void cpuInstruction();
     void resetPressed();
     void showDataLeds(Byte value);

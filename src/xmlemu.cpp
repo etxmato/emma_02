@@ -6171,147 +6171,9 @@ Byte Computer::readMemDebug(Word address, int function)
             return i->value;
     }
 
-    int returnValue = readMemIo(address);
+    int returnValue = readMemIo(address, function);
     if (returnValue != -1)
         return returnValue;
-
-    for (int instance=numberOfCdp1854Instances_; instance<numberOfScn2671Instances_; instance++)
-    {
-        if (scn2671InstancePointer[instance]->ioGroupScn2671(ioGroup_))
-        {
-            if (currentComputerConfiguration.scn2671Configuration[instance].isr.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].isr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].isr.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].isr.addressMask) == *port)
-                        return (scn2671InstancePointer[instance]->readInterruptStatusRegister() | scn2672Pointer->readInterruptStatusRegister());
-                }
-            }
-            if (currentComputerConfiguration.scn2671Configuration[instance].cmr.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].cmr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].cmr.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].cmr.addressMask) == *port)
-                        return scn2671InstancePointer[instance]->readCommunicationModeRegister();
-                }
-            }
-            if (currentComputerConfiguration.scn2671Configuration[instance].rxhr.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].rxhr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].rxhr.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].rxhr.addressMask) == *port)
-                        return scn2671InstancePointer[instance]->readReceiverHoldingRegister();
-                }
-            }
-            if (currentComputerConfiguration.scn2671Configuration[instance].csr.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].csr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].csr.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].csr.addressMask) == *port)
-                        return scn2671InstancePointer[instance]->readCommunicationsStatusRegister();
-                }
-            }
-            if (currentComputerConfiguration.scn2671Configuration[instance].imr.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].imr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].imr.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].imr.addressMask) == *port)
-                        return scn2671InstancePointer[instance]->readInterruptMaskRegister();
-                }
-            }
-            if (currentComputerConfiguration.scn2671Configuration[instance].kmr.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].kmr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].kmr.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].kmr.addressMask) == *port)
-                        return scn2671InstancePointer[instance]->readKeyboardModeRegister();
-                }
-            }
-            if (currentComputerConfiguration.scn2671Configuration[instance].khr.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].khr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].khr.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].khr.addressMask) == *port)
-                        return scn2671InstancePointer[instance]->readKeyboardHoldingRegister();
-                }
-            }
-            if (currentComputerConfiguration.scn2671Configuration[instance].ksr.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].ksr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].ksr.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].ksr.addressMask) == *port)
-                        return scn2671InstancePointer[instance]->readKeyboardStatusRegister();
-                }
-            }
-        }
-    }
-
-    for (int instance=0; instance<numberOfDipInstances_; instance++)
-    {
-        if (dipPointer[instance]->ioGroupDip(ioGroup_))
-        {
-            if (dipPointer[instance]->isAddressMode())
-            {
-                if (dipPointer[instance]->isAddressValid(address))
-                    return dipPointer[instance]->getValue();
-            }
-        }
-    }
-
-    for (int instance=0; instance<numberOfCdp1877Instances_; instance++)
-    {
-        if (cdp1877InstancePointer[instance]->ioGroupCdp1877(ioGroup_))
-        {
-            int picValue = cdp1877InstancePointer[instance]->devRead(address, function);
-            if (picValue != -1)
-                return picValue&0xff;
-        }
-    }
-
-    if (address == currentComputerConfiguration.mcrConfiguration.bbat.portNumber[0])
-    {
-        mainMemory_[address] = (mainMemory_[address] & (currentComputerConfiguration.mcrConfiguration.bbat.mask ^ 0xff)) | currentComputerConfiguration.mcrConfiguration.bbat.mask;
-    }
-
-    if (currentComputerConfiguration.adConvertorConfiguration.defined)
-    {
-        if (currentComputerConfiguration.adConvertorConfiguration.addressStart != -1 && currentComputerConfiguration.adConvertorConfiguration.addressEnd != -1)
-        {
-            if (address >= currentComputerConfiguration.adConvertorConfiguration.addressStart && address <= currentComputerConfiguration.adConvertorConfiguration.addressEnd)
-                for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
-                {
-                    if (panelPointer[frontPanel]->isAdsDefined())
-                        return panelPointer[frontPanel]->getAds(address & 0xf)/20;
-                }
-        }
-    }
-
-    if (currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined)
-    {
-/*        wxString printBuffer;
-        if (address >= 0x1000 && address < 0xf400)
-        {
-            if (address < 0x8800 || address > 0x887f)
-            {
-                printBuffer.Printf("Exec address: %04X, read address: %04X, value: %02X", scratchpadRegister_[programCounter_], address, value);
-                p_Main->guiShowTextMessage(printBuffer);
-            }
-        }*/
-        if (currentComputerConfiguration.videoTerminalConfiguration.uartIn.addressMode)
-        {
-            if (address == currentComputerConfiguration.videoTerminalConfiguration.uartIn.portNumber[0])
-            {
-                return p_Serial->uartIn();
-            }
-        }
-        if (currentComputerConfiguration.videoTerminalConfiguration.uartStatus.addressMode)
-        {
-            if (address == currentComputerConfiguration.videoTerminalConfiguration.uartStatus.portNumber[0])
-            {
-                return p_Serial->uartStatus();
-            }
-        }
-    }
 
     size_t number = (memoryType_[address / 256] >> 8);
     
@@ -6530,11 +6392,8 @@ Byte Computer::readMemDebug(Word address, int function)
     }
 }
 
-int Computer::readMemIo(Word address)
+int Computer::readMemIo(Word address, int function)
 {
-    if (!configured_)
-        return -1;
-
     for (std::vector<MemoryPartConfiguration>::iterator ramPartConfigIterator = currentComputerConfiguration.memoryRamPartConfiguration.begin (); ramPartConfigIterator != currentComputerConfiguration.memoryRamPartConfiguration.end (); ++ramPartConfigIterator)
     {
         if (address >= ramPartConfigIterator->start && address <= ramPartConfigIterator->end)
@@ -6548,6 +6407,67 @@ int Computer::readMemIo(Word address)
                 return (readMemDebug(address + copyConfigIterator->copy));
     }
     
+    if (!configured_)
+        return -1;
+
+    for (int instance=0; instance<numberOfDipInstances_; instance++)
+    {
+        if (dipPointer[instance]->ioGroupDip(ioGroup_))
+        {
+            if (dipPointer[instance]->isAddressMode())
+            {
+                if (dipPointer[instance]->isAddressValid(address))
+                    return dipPointer[instance]->getValue();
+            }
+        }
+    }
+
+    for (int instance=0; instance<numberOfCdp1877Instances_; instance++)
+    {
+        if (cdp1877InstancePointer[instance]->ioGroupCdp1877(ioGroup_))
+        {
+            int picValue = cdp1877InstancePointer[instance]->devRead(address, function);
+            if (picValue != -1)
+                return picValue&0xff;
+        }
+    }
+
+    if (address == currentComputerConfiguration.mcrConfiguration.bbat.portNumber[0])
+    {
+        mainMemory_[address] = (mainMemory_[address] & (currentComputerConfiguration.mcrConfiguration.bbat.mask ^ 0xff)) | currentComputerConfiguration.mcrConfiguration.bbat.mask;
+    }
+
+    if (currentComputerConfiguration.adConvertorConfiguration.defined)
+    {
+        if (currentComputerConfiguration.adConvertorConfiguration.addressStart != -1 && currentComputerConfiguration.adConvertorConfiguration.addressEnd != -1)
+        {
+            if (address >= currentComputerConfiguration.adConvertorConfiguration.addressStart && address <= currentComputerConfiguration.adConvertorConfiguration.addressEnd)
+                for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+                {
+                    if (panelPointer[frontPanel]->isAdsDefined())
+                        return panelPointer[frontPanel]->getAds(address & 0xf)/20;
+                }
+        }
+    }
+
+    if (currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined)
+    {
+        if (currentComputerConfiguration.videoTerminalConfiguration.uartIn.addressMode)
+        {
+            if (address == currentComputerConfiguration.videoTerminalConfiguration.uartIn.portNumber[0])
+            {
+                return p_Serial->uartIn();
+            }
+        }
+        if (currentComputerConfiguration.videoTerminalConfiguration.uartStatus.addressMode)
+        {
+            if (address == currentComputerConfiguration.videoTerminalConfiguration.uartStatus.portNumber[0])
+            {
+                return p_Serial->uartStatus();
+            }
+        }
+    }
+
     if (currentComputerConfiguration.rtcMm58174Configuration.defined)
     {
         if (ioGroupMm58174(ioGroup_))
@@ -6645,6 +6565,77 @@ int Computer::readMemIo(Word address)
                 {
                     if ((address&currentComputerConfiguration.crt8002Configuration.attributeScreen1.addressMask) == *port)
                         return scn2672Pointer->readAttributeScreen1();
+                }
+            }
+        }
+    }
+
+    for (int instance=numberOfCdp1854Instances_; instance<numberOfScn2671Instances_; instance++)
+    {
+        if (scn2671InstancePointer[instance]->ioGroupScn2671(ioGroup_))
+        {
+            if (currentComputerConfiguration.scn2671Configuration[instance].isr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].isr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].isr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].isr.addressMask) == *port)
+                        return (scn2671InstancePointer[instance]->readInterruptStatusRegister() | scn2672Pointer->readInterruptStatusRegister());
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].cmr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].cmr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].cmr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].cmr.addressMask) == *port)
+                        return scn2671InstancePointer[instance]->readCommunicationModeRegister();
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].rxhr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].rxhr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].rxhr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].rxhr.addressMask) == *port)
+                        return scn2671InstancePointer[instance]->readReceiverHoldingRegister();
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].csr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].csr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].csr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].csr.addressMask) == *port)
+                        return scn2671InstancePointer[instance]->readCommunicationsStatusRegister();
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].imr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].imr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].imr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].imr.addressMask) == *port)
+                        return scn2671InstancePointer[instance]->readInterruptMaskRegister();
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].kmr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].kmr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].kmr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].kmr.addressMask) == *port)
+                        return scn2671InstancePointer[instance]->readKeyboardModeRegister();
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].khr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].khr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].khr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].khr.addressMask) == *port)
+                        return scn2671InstancePointer[instance]->readKeyboardHoldingRegister();
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].ksr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].ksr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].ksr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].ksr.addressMask) == *port)
+                        return scn2671InstancePointer[instance]->readKeyboardStatusRegister();
                 }
             }
         }
@@ -6767,164 +6758,8 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
         }
     }
     
-    writeMemIo(address, value);
+    writeMemIo(address, value, writeRom);
     
-    for (std::vector<EmsMemoryConfiguration>::iterator emsConfig = currentComputerConfiguration.emsMemoryConfiguration.begin (); emsConfig != currentComputerConfiguration.emsMemoryConfiguration.end (); ++emsConfig)
-    {
-        if (emsConfig->output.portNumber[0] == -1)
-        {
-            if (emsConfig->outputStart != 0 || emsConfig->outputEnd != 0)
-            {
-                if (address>=emsConfig->outputStart && address <=emsConfig->outputEnd)
-                {
-                    emsConfig->page = value & emsConfig->output.mask;
-                }
-            }
-        }
-    }
-    
-    if (currentComputerConfiguration.memoryMapperConfiguration.defined && pagerDefined_ &&
-        !currentComputerConfiguration.memoryMapperConfiguration.addressOutputs.empty())
-    {
-        for (std::vector<AddressOutput>::iterator addrOut = currentComputerConfiguration.memoryMapperConfiguration.addressOutputs.begin ();
-             addrOut != currentComputerConfiguration.memoryMapperConfiguration.addressOutputs.end (); ++addrOut)
-        {
-            if (address == addrOut->address)
-            {
-                setPager(addrOut->slot, value & addrOut->mask);
-            }
-        }
-    }
-
-    for (int instance=0; instance<numberOfCdp1877Instances_; instance++)
-    {
-        if (cdp1877InstancePointer[instance]->ioGroupCdp1877(ioGroup_))
-        {
-            cdp1877InstancePointer[instance]->devWrite(address, value);
-        }
-    }
-
-    if (currentComputerConfiguration.basicPrinterConfiguration.defined)
-    {
-        if (currentComputerConfiguration.basicPrinterConfiguration.output.addressMode)
-        {
-            if (address == currentComputerConfiguration.basicPrinterConfiguration.output.portNumber[0])
-            {
-                p_Printer->printerOut(value^currentComputerConfiguration.basicPrinterConfiguration.reversePolarityOutput);
-                return;
-            }
-        }
-    }
-    
-    for (int instance=numberOfCdp1854Instances_; instance<numberOfScn2671Instances_; instance++)
-    {
-        if (scn2671InstancePointer[instance]->ioGroupScn2671(ioGroup_))
-        {
-            if (currentComputerConfiguration.scn2671Configuration[instance].command.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].command.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].command.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].command.addressMask) == *port)
-                        scn2671InstancePointer[instance]->resetCommand(value);
-                }
-            }
-            if (currentComputerConfiguration.scn2671Configuration[instance].cmr.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].cmr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].cmr.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].cmr.addressMask) == *port)
-                        scn2671InstancePointer[instance]->writeCommunicationModeRegister(value);
-                }
-            }
-            if (currentComputerConfiguration.scn2671Configuration[instance].txhr.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].txhr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].txhr.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].txhr.addressMask) == *port)
-                        scn2671InstancePointer[instance]->writeTransmitterHoldingRegister(value);
-                }
-            }
-            if (currentComputerConfiguration.scn2671Configuration[instance].brr.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].brr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].brr.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].brr.addressMask) == *port)
-                        scn2671InstancePointer[instance]->writeBaudRateControlRegister(value, computerClockSpeed_);
-                }
-            }
-            if (currentComputerConfiguration.scn2671Configuration[instance].imr.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].imr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].imr.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].imr.addressMask) == *port)
-                        scn2671InstancePointer[instance]->writeInterruptMaskRegister(value);
-                }
-            }
-            if (currentComputerConfiguration.scn2671Configuration[instance].kmr.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].kmr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].kmr.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].kmr.addressMask) == *port)
-                        scn2671InstancePointer[instance]->writeKeyboardModeRegister(value);
-                }
-            }
-            if (currentComputerConfiguration.scn2671Configuration[instance].commandMisc.addressMode)
-            {
-                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].commandMisc.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].commandMisc.portNumber.end (); ++port)
-                {
-                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].commandMisc.addressMask) == *port)
-                        scn2671InstancePointer[instance]->commandMisc(value);
-                }
-            }
-        }
-    }
-
-    if (currentComputerConfiguration.cdp1864Configuration.colorLatch)
-    {
-        if (!writeRom)
-        {
-            if (colourLatch_ && (address >= currentComputerConfiguration.cdp1864Configuration.startRam) && (address <= currentComputerConfiguration.cdp1864Configuration.endRam))
-            {
-                colorMemory1864_[address&currentComputerConfiguration.cdp1864Configuration.ramMask] = value & currentComputerConfiguration.ioMask[CDP1864_COLORRAM_OUT];
-                if ((address&currentComputerConfiguration.cdp1864Configuration.ramMask) >= memoryStart_ && (address&currentComputerConfiguration.cdp1864Configuration.ramMask) <(memoryStart_+256))
-                    p_Main->updateDebugMemory(address&currentComputerConfiguration.cdp1864Configuration.ramMask);
-                if (address >= memoryStart_ && address<(memoryStart_ + 256))
-                    p_Main->updateDebugMemory(address);
-                p_Main->updateAssTabCheck(address);
-                return;
-            }
-        }
-    }
-
-    if (currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined)
-    {
-/*        if (address >= 0x1000 && address < 0xf400)
-        {
-            if (address < 0x8800 || address > 0x887f)
-            {
-                printBuffer.Printf("Exec address: %04X, write address: %04X, value: %02X", scratchpadRegister_[programCounter_], address, value);
-                p_Main->guiShowTextMessage(printBuffer);
-            }
-        }*/
-
-        if (currentComputerConfiguration.videoTerminalConfiguration.uartOut.addressMode)
-        {
-            if (address == currentComputerConfiguration.videoTerminalConfiguration.uartOut.portNumber[0])
-            {
-                p_Serial->uartOut(value);
-                return;
-            }
-        }
-        if (currentComputerConfiguration.videoTerminalConfiguration.uartControl.addressMode)
-        {
-            if (address == currentComputerConfiguration.videoTerminalConfiguration.uartControl.portNumber[0])
-            {
-                p_Serial->uartControl(value);
-                return;
-            }
-        }
-    }
-
     if (currentComputerConfiguration.soundConfiguration.type == SOUND_SUPER_VP551)
     {
         switch (address)
@@ -7340,15 +7175,99 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
     }
 }
 
-void Computer::writeMemIo(Word address, Byte value)
+void Computer::writeMemIo(Word address, Byte value, bool writeRom)
 {
-    if (!configured_)
-        return;
-
     for (std::vector<MemoryPartConfiguration>::iterator ramPartConfigIterator = currentComputerConfiguration.memoryRamPartConfiguration.begin (); ramPartConfigIterator != currentComputerConfiguration.memoryRamPartConfiguration.end (); ++ramPartConfigIterator)
     {
         if (address >= ramPartConfigIterator->start && address <= ramPartConfigIterator->end)
             mainMemory_[address]=value;
+    }
+
+    for (std::vector<EmsMemoryConfiguration>::iterator emsConfig = currentComputerConfiguration.emsMemoryConfiguration.begin (); emsConfig != currentComputerConfiguration.emsMemoryConfiguration.end (); ++emsConfig)
+    {
+        if (emsConfig->output.portNumber[0] == -1)
+        {
+            if (emsConfig->outputStart != 0 || emsConfig->outputEnd != 0)
+            {
+                if (address>=emsConfig->outputStart && address <=emsConfig->outputEnd)
+                {
+                    emsConfig->page = value & emsConfig->output.mask;
+                }
+            }
+        }
+    }
+    
+    if (currentComputerConfiguration.memoryMapperConfiguration.defined && pagerDefined_ &&
+        !currentComputerConfiguration.memoryMapperConfiguration.addressOutputs.empty())
+    {
+        for (std::vector<AddressOutput>::iterator addrOut = currentComputerConfiguration.memoryMapperConfiguration.addressOutputs.begin ();
+             addrOut != currentComputerConfiguration.memoryMapperConfiguration.addressOutputs.end (); ++addrOut)
+        {
+            if (address == addrOut->address)
+            {
+                setPager(addrOut->slot, value & addrOut->mask);
+            }
+        }
+    }
+
+    if (!configured_)
+        return;
+
+    for (int instance=0; instance<numberOfCdp1877Instances_; instance++)
+    {
+        if (cdp1877InstancePointer[instance]->ioGroupCdp1877(ioGroup_))
+        {
+            cdp1877InstancePointer[instance]->devWrite(address, value);
+        }
+    }
+
+    if (currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].uart1854_defined)
+    {
+        if (currentComputerConfiguration.videoTerminalConfiguration.uartOut.addressMode)
+        {
+            if (address == currentComputerConfiguration.videoTerminalConfiguration.uartOut.portNumber[0])
+            {
+                p_Serial->uartOut(value);
+                return;
+            }
+        }
+        if (currentComputerConfiguration.videoTerminalConfiguration.uartControl.addressMode)
+        {
+            if (address == currentComputerConfiguration.videoTerminalConfiguration.uartControl.portNumber[0])
+            {
+                p_Serial->uartControl(value);
+                return;
+            }
+        }
+    }
+
+    if (currentComputerConfiguration.basicPrinterConfiguration.defined)
+    {
+        if (currentComputerConfiguration.basicPrinterConfiguration.output.addressMode)
+        {
+            if (address == currentComputerConfiguration.basicPrinterConfiguration.output.portNumber[0])
+            {
+                p_Printer->printerOut(value^currentComputerConfiguration.basicPrinterConfiguration.reversePolarityOutput);
+                return;
+            }
+        }
+    }
+    
+    if (currentComputerConfiguration.cdp1864Configuration.colorLatch)
+    {
+        if (!writeRom)
+        {
+            if (colourLatch_ && (address >= currentComputerConfiguration.cdp1864Configuration.startRam) && (address <= currentComputerConfiguration.cdp1864Configuration.endRam))
+            {
+                colorMemory1864_[address&currentComputerConfiguration.cdp1864Configuration.ramMask] = value & currentComputerConfiguration.ioMask[CDP1864_COLORRAM_OUT];
+                if ((address&currentComputerConfiguration.cdp1864Configuration.ramMask) >= memoryStart_ && (address&currentComputerConfiguration.cdp1864Configuration.ramMask) <(memoryStart_+256))
+                    p_Main->updateDebugMemory(address&currentComputerConfiguration.cdp1864Configuration.ramMask);
+                if (address >= memoryStart_ && address<(memoryStart_ + 256))
+                    p_Main->updateDebugMemory(address);
+                p_Main->updateAssTabCheck(address);
+                return;
+            }
+        }
     }
 
     if (currentComputerConfiguration.rtcMm58174Configuration.defined)
@@ -7476,6 +7395,69 @@ void Computer::writeMemIo(Word address, Byte value)
                         scn2672Pointer->writeAttribute(value);
                         return;
                     }
+                }
+            }
+        }
+    }
+
+    for (int instance=numberOfCdp1854Instances_; instance<numberOfScn2671Instances_; instance++)
+    {
+        if (scn2671InstancePointer[instance]->ioGroupScn2671(ioGroup_))
+        {
+            if (currentComputerConfiguration.scn2671Configuration[instance].command.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].command.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].command.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].command.addressMask) == *port)
+                        scn2671InstancePointer[instance]->resetCommand(value);
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].cmr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].cmr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].cmr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].cmr.addressMask) == *port)
+                        scn2671InstancePointer[instance]->writeCommunicationModeRegister(value);
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].txhr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].txhr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].txhr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].txhr.addressMask) == *port)
+                        scn2671InstancePointer[instance]->writeTransmitterHoldingRegister(value);
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].brr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].brr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].brr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].brr.addressMask) == *port)
+                        scn2671InstancePointer[instance]->writeBaudRateControlRegister(value, computerClockSpeed_);
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].imr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].imr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].imr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].imr.addressMask) == *port)
+                        scn2671InstancePointer[instance]->writeInterruptMaskRegister(value);
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].kmr.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].kmr.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].kmr.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].kmr.addressMask) == *port)
+                        scn2671InstancePointer[instance]->writeKeyboardModeRegister(value);
+                }
+            }
+            if (currentComputerConfiguration.scn2671Configuration[instance].commandMisc.addressMode)
+            {
+                for (std::vector<int>::iterator port = currentComputerConfiguration.scn2671Configuration[instance].commandMisc.portNumber.begin (); port != currentComputerConfiguration.scn2671Configuration[instance].commandMisc.portNumber.end (); ++port)
+                {
+                    if ((address&currentComputerConfiguration.scn2671Configuration[instance].commandMisc.addressMask) == *port)
+                        scn2671InstancePointer[instance]->commandMisc(value);
                 }
             }
         }
