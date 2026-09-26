@@ -392,6 +392,7 @@ public:
     void setTempo(int tempo);
 
     int getGaugeValue() {return gaugeValue_;};
+    void setGaugeValue(int value) {gaugeValue_ = (short)value;};
     void resetGaugeValue() {gaugeValue_ = 0;};
     void setTapePolarity(Byte polarity) {tapePolarity_ = polarity;};
     void setConversionType(int convTypeWav, int convType) {conversionTypeWav_ = convTypeWav; conversionType_ = convType;};

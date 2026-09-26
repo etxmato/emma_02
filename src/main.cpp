@@ -5074,7 +5074,6 @@ wxLongLong Main::traceTime(bool reset)
 
 void Main::vuSet(wxString item, int gaugeValue)
 {
-#ifndef __linux__
     if (gaugeValue == oldGauge_)
         return;
 
@@ -5114,7 +5113,6 @@ void Main::vuSet(wxString item, int gaugeValue)
     }
     dcVu.SelectObject(wxNullBitmap);
     XRCCTRL(*this, item, wxStaticBitmap)->SetBitmap(vu);
-#endif
 }
 
 void Main::sysColourChangeEvent(wxSysColourChangedEvent& event)

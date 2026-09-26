@@ -965,6 +965,17 @@ void Sound::playSaveLoad()
             else
                 psaveWavePointer->write(samples, sample_count);
 
+            // Save VU meter: peak level of the samples being written to the wav
+            // (divisor 8: max psave volume 15 shows ~60% of the bar)
+            int peak = 0;
+            for (int i=0; i<sample_count; i++)
+            {
+                int a = (samples[i] < 0) ? -samples[i] : samples[i];
+                if (a > peak)
+                    peak = a;
+            }
+            p_Computer->setGaugeValue(peak / 8);
+
             p_Computer->stepCassetteCounter(sample_count);
         }
         
@@ -1180,6 +1191,7 @@ void Sound::writeSilenceTapeHw()
         ploadWavePointer->write(samples[0]);
     
     p_Computer->stepCassetteCounter(1);
+    p_Computer->setGaugeValue(0);
 }
 
 int Sound::writeSaveTapeHw(Byte value, Byte numberOfStopBits)
@@ -1234,6 +1246,9 @@ int Sound::writeSaveTapeHw(Byte value, Byte numberOfStopBits)
     }
     p_Computer->stepCassetteCounter(sample_count);
     tapeHwReadyToReceive_ = 0;
+
+    // Save VU meter: HW save writes a sine wave at fixed amplitude
+    p_Computer->setGaugeValue(amplitude_max / 8);
 
     return sample_count;
 }
