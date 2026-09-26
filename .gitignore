@@ -48,3 +48,4 @@ Makefile
 *.res
 *.xcscheme
 Emma 02.xcodeproj/xcshareddata/xcschemes/Emma 02.xcscheme
+IsTool/arm64/emma_02_arm_windows.exe
