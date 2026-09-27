@@ -55844,7 +55844,7 @@
                                   <long name="proxy-Id value">10352</long>
                                   <string name="proxy-Implementation filename">""</string>
                                   <bool name="proxy-Initial value">0</bool>
-                                  <string name="proxy-Label">" INT "</string>
+                                  <string name="proxy-Label">"I / S"</string>
                                   <string name="proxy-Member variable name">""</string>
                                   <string name="proxy-Name">""</string>
                                   <string name="proxy-Platform">"&lt;Any platform&gt;"</string>

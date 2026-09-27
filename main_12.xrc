@@ -8978,7 +8978,7 @@
 <size>12</size>
 </font>
 <style>wxBU_EXACTFIT</style>
-<label> INT </label>
+<label>I / S</label>
 <checked>0</checked>
 </object>
 </object>

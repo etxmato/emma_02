@@ -9780,11 +9780,11 @@
 <border>0</border>
 <object class="wxToggleButton" name="IntButton">
 <size>44,23</size>
-<tooltip>Toggle interrupt trace</tooltip>
+<tooltip>Toggle interrupt / sync trace</tooltip>
 <font>
 <size>14</size>
 </font>
-<label>INT</label>
+<label>I / S</label>
 <checked>0</checked>
 </object>
 </object>
