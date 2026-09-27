@@ -514,9 +514,9 @@ void GuiDebugger::checkMemoryTrap(Word execAddress, Word address, Byte value, in
                         {
                             wxString traceText;
                             if (type == MEM_TRAP_READ)
-                                traceText.Printf("----  DMA out   R0=%04X", p_Computer->getScratchpadRegister(0));
+                                traceText.Printf("      DMA out   R0=%04X", p_Computer->getScratchpadRegister(0));
                             else
-                                traceText.Printf("----  DMA in    R0=%04X", p_Computer->getScratchpadRegister(0));
+                                traceText.Printf("      DMA in    R0=%04X", p_Computer->getScratchpadRegister(0));
                             p_Main->debugTrace(traceText);
                         }
                         else

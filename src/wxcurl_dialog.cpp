@@ -139,10 +139,12 @@ wxStaticText *wxCurlTransferDialog::AddSizerRow(wxSizer *sz, const wxString &nam
                                           wxALIGN_LEFT|wxST_NO_AUTORESIZE );
 
     wxBoxSizer* time = new wxBoxSizer(wxHORIZONTAL);
-    time->Add(st, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT, 5);
-    time->Add(ret, 1, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT, 5);
+    // Start the flag chain from int: OR-ing wxAlignment with wxDirection is
+    // deprecated under C++20 (-Wdeprecated-enum-enum-conversion).
+    time->Add(st, 0, (int)wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT, 5);
+    time->Add(ret, 1, (int)wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT, 5);
 
-    sz->Add(time, 0, wxGROW|wxLEFT|wxRIGHT, OUTER_BORDER);
+    sz->Add(time, 0, (int)wxGROW|wxLEFT|wxRIGHT, OUTER_BORDER);
 
     return ret;
 }
@@ -157,7 +159,7 @@ void wxCurlTransferDialog::CreateControls(const wxString &url, const wxString &m
     {
         wxStaticText *st = new wxStaticText( this, wxID_STATIC, msg );
         st->SetMinSize(wxSize(MINWIDTH, -1));
-        main->Add(st, 0, wxLEFT|wxTOP|wxRIGHT|wxBOTTOM|wxGROW, OUTER_BORDER);
+        main->Add(st, 0, (int)wxLEFT|wxTOP|wxRIGHT|wxBOTTOM|wxGROW, OUTER_BORDER);
     }
 
     // URL row
@@ -169,13 +171,13 @@ void wxCurlTransferDialog::CreateControls(const wxString &url, const wxString &m
         wxFont boldFont(st->GetFont());
         boldFont.SetWeight(wxFONTWEIGHT_BOLD);
         st->SetFont(boldFont);
-        downloading->Add(st, 0, wxRIGHT|wxTOP|wxALIGN_CENTER_VERTICAL, BORDER);
+        downloading->Add(st, 0, (int)wxRIGHT|wxTOP|wxALIGN_CENTER_VERTICAL, BORDER);
 
         m_pURL = new wxStaticText( this, wxID_STATIC, url, wxDefaultPosition,
                                    wxSize(MINWIDTH, -1), wxST_ELLIPSIZE_MIDDLE);
-        downloading->Add(m_pURL, 1, wxALIGN_CENTER_VERTICAL|wxTOP, BORDER);
+        downloading->Add(m_pURL, 1, (int)wxALIGN_CENTER_VERTICAL|wxTOP, BORDER);
 
-        main->Add(downloading, 0, wxGROW|wxLEFT|wxRIGHT, OUTER_BORDER);
+        main->Add(downloading, 0, (int)wxGROW|wxLEFT|wxRIGHT, OUTER_BORDER);
         main->AddSpacer(5);
     }
 
@@ -203,7 +205,7 @@ void wxCurlTransferDialog::CreateControls(const wxString &url, const wxString &m
     {
         wxSizer *rightcolumn = new wxBoxSizer(wxVERTICAL);
         rightcolumn->Add( new wxStaticBitmap(this, wxID_ANY, bitmap),
-                          0, wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT|wxALL, BORDER);
+                          0, (int)wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT|wxALL, BORDER);
 
         wxSizer *both = new wxBoxSizer(wxHORIZONTAL);
         both->Add(leftcolumn);
@@ -221,7 +223,7 @@ void wxCurlTransferDialog::CreateControls(const wxString &url, const wxString &m
     m_pGauge = new wxGauge( this, wxID_ANY, 101 );
 
     main->AddSpacer(5);
-    main->Add(m_pGauge, 0, wxGROW|wxLEFT|wxRIGHT|wxTOP, OUTER_BORDER);
+    main->Add(m_pGauge, 0, (int)wxGROW|wxLEFT|wxRIGHT|wxTOP, OUTER_BORDER);
 
     // do we need to use wxCurlConnectionSettingsDialog?
     bool needsConnSettings = HasFlag(wxCTDS_CONN_SETTINGS_AUTH) ||
@@ -234,7 +236,7 @@ void wxCurlTransferDialog::CreateControls(const wxString &url, const wxString &m
     {
         main->AddStretchSpacer(1);
         main->AddSpacer(BORDER*2);
-        main->Add( new wxStaticLine(this), 0, wxGROW|wxLEFT|wxRIGHT, OUTER_BORDER);
+        main->Add( new wxStaticLine(this), 0, (int)wxGROW|wxLEFT|wxRIGHT, OUTER_BORDER);
 
         // the button row
         wxBoxSizer *btn = new wxBoxSizer(wxHORIZONTAL);
@@ -251,7 +253,7 @@ void wxCurlTransferDialog::CreateControls(const wxString &url, const wxString &m
         if (HasFlag(wxCTDS_CAN_START))
             btn->Add(new wxButton( this, StartButtonId, _("Start") ), 0, wxLEFT, BORDER);
 
-        main->Add(btn, 0, wxGROW|wxLEFT|wxRIGHT|wxTOP|wxBOTTOM, OUTER_BORDER);
+        main->Add(btn, 0, (int)wxGROW|wxLEFT|wxRIGHT|wxTOP|wxBOTTOM, OUTER_BORDER);
     }
 
     this->SetSizerAndFit(main);
@@ -628,8 +630,8 @@ bool wxCurlConnectionSettingsDialog::Create(const wxString& title,
     wxSizer *main = new wxBoxSizer(wxVERTICAL);
     wxSizer *buttons = CreateSeparatedButtonSizer(wxOK|wxCANCEL);
 
-    main->Add(m_pPanel, 1, wxGROW|wxALL, 10);
-    main->Add(buttons, 0, wxGROW|wxALL, 10);
+    main->Add(m_pPanel, 1, (int)wxGROW|wxALL, 10);
+    main->Add(buttons, 0, (int)wxGROW|wxALL, 10);
 
     SetSizerAndFit(main);
 

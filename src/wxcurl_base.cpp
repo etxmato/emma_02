@@ -427,7 +427,7 @@ wxCurlBase::~wxCurlBase()
 //////////////////////////////////////////////////////////////////////
 
 typedef int (*func_T)(void);
-bool wxCurlBase::SetOpt(CURLoption option, ...)
+bool wxCurlBase::SetOpt(int option, ...)
 {
     va_list arg;
 
@@ -445,21 +445,21 @@ bool wxCurlBase::SetOpt(CURLoption option, ...)
     if(option < CURLOPTTYPE_OBJECTPOINT) {
         /* This is a LONG type */
         param_long = va_arg(arg, long);
-        res = curl_easy_setopt(m_pCURL, option, param_long);
+        res = curl_easy_setopt(m_pCURL, (CURLoption)option, param_long);
     }
     else if(option < CURLOPTTYPE_FUNCTIONPOINT) {
         /* This is a object pointer type */
         param_obj = va_arg(arg, void *);
-        res = curl_easy_setopt(m_pCURL, option, param_obj);
+        res = curl_easy_setopt(m_pCURL, (CURLoption)option, param_obj);
     }
     else if(option < CURLOPTTYPE_OFF_T) {
         /* This is a function pointer type */
         param_func = va_arg(arg, func_T );
-        res = curl_easy_setopt(m_pCURL, option, param_func);
+        res = curl_easy_setopt(m_pCURL, (CURLoption)option, param_func);
     } else {
         /* This is a curl_off_t type */
         param_offset = va_arg(arg, curl_off_t);
-        res = curl_easy_setopt(m_pCURL, option, param_offset);
+        res = curl_easy_setopt(m_pCURL, (CURLoption)option, param_offset);
     }
 
     va_end(arg);
@@ -483,7 +483,7 @@ bool wxCurlBase::SetStringOpt(CURLoption option, const wxCharBuffer &str)
     return SetOpt(option, (const char*)str);
 }
 
-bool wxCurlBase::GetInfo(CURLINFO info, ...) const
+bool wxCurlBase::GetInfo(int info, ...) const
 {
     va_list arg;
     void* pParam;
@@ -493,7 +493,7 @@ bool wxCurlBase::GetInfo(CURLINFO info, ...) const
 
     CURLcode res = CURLE_OK;
 
-    res = curl_easy_getinfo(m_pCURL, info, pParam);
+    res = curl_easy_getinfo(m_pCURL, (CURLINFO)info, pParam);
 
     DumpErrorIfNeed(res);
     return (res == CURLE_OK);

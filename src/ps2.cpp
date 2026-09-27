@@ -272,9 +272,9 @@ void Ps2::cyclePs2()
         {
             ps2KValue_ ^= 2;
             if (ps2KValue_ & 2) 
-                p_Computer->debugTrace("PS2 Clock High");
-            else 
-                p_Computer->debugTrace("PS2 Clock Low");
+                p_Computer->debugTrace("      PS2 Clock High");
+            else
+                p_Computer->debugTrace("      PS2 Clock Low");
             if (ps2Interrupt_ &&(ps2KValue_ & 2) == 0) 
                 p_Computer->interrupt();
             ps2Cycles_ = PS2_CYCLES;

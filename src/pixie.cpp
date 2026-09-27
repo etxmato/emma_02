@@ -431,7 +431,8 @@ void Pixie::cyclePixie()
 
     if (graphicsNext_ == 0)
     {
-        p_Computer->debugTrace("----  H.Sync");
+ //       if (traceInt_)
+            p_Computer->debugTrace("      H.Sync");
         graphicsMode_++;
         if (graphicsMode_ == cdp1861Configuration_.pixieGraphics.interrupt-2)
             pixieEf_ = 0;
@@ -520,7 +521,7 @@ void Pixie::cyclePixieCoinArcade()
     
     if (graphicsNext_ == 0)
     {
-        p_Computer->debugTrace("----  H.Sync");
+        p_Computer->debugTrace("      H.Sync");
         graphicsMode_++;
         if (graphicsMode_ >= cdp1861Configuration_.pixieGraphics.screenend)
         {
@@ -578,7 +579,7 @@ void Pixie::cyclePixieCdp1864()
 
     if (graphicsNext_ == 0)
     {
-        p_Computer->debugTrace("----  H.Sync");
+        p_Computer->debugTrace("      H.Sync");
         graphicsMode_++;
         if (graphicsMode_ == cdp1861Configuration_.pixieGraphics.interrupt-2) pixieEf_ = 0;
         if (graphicsMode_ == cdp1861Configuration_.pixieGraphics.start) pixieEf_ = 1;
@@ -905,7 +906,7 @@ void PixieFred::cyclePixie()
 
     if (graphicsNext_ == 0)
     {
-        p_Computer->debugTrace("----  H.Sync");
+        p_Computer->debugTrace("      H.Sync");
         graphicsMode_++;
         if (graphicsMode_ >= 64)
         {
@@ -1237,7 +1238,7 @@ void PixieStudioIV::cyclePixie()
     
     if (graphicsNext_ == 0)
     {
-        p_Computer->debugTrace("----  H.Sync");
+        p_Computer->debugTrace("      H.Sync");
         graphicsMode_++;
         if (graphicsMode_ >= cdp1861Configuration_.pixieGraphics.screenend)
         {

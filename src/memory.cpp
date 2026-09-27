@@ -1092,7 +1092,7 @@ Byte Memory::readSequencer(Word address)
     sequencerAddress |= ((address & 0x7000) >> 4);
     
 //    wxString traceText;
-//    traceText.Printf("----  Sequencer = %04X - %04X", sequencerAddress, address);
+//    traceText.Printf("      Sequencer = %04X - %04X", sequencerAddress, address);
 //    p_Main->debugTrace(traceText);
 
     return sequencerMemory.data[sequencerAddress];
@@ -1106,7 +1106,7 @@ Word Memory::readSequencerAddress(Word address)
     sequencerAddress |= ((address & 0x7000) >> 4);
     
     //    wxString traceText;
-    //    traceText.Printf("----  Sequencer = %04X - %04X", sequencerAddress, address);
+    //    traceText.Printf("      Sequencer = %04X - %04X", sequencerAddress, address);
     //    p_Main->debugTrace(traceText);
     
     return sequencerAddress;

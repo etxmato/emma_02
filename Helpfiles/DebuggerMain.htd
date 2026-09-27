@@ -33,8 +33,8 @@ The Debugger tab contains two sub-tabs:
 <h2>Important Notes</h2>
 
 <ul>
-<li>Settings in the <strong>1802</strong> and <strong>Pseudo</strong> tabs are <strong>not</strong> saved in the Emma 02 configuration file. Each time Emma 02 starts, debugger settings return to their default values.</li>
-
+<li>Most settings in the <strong>1802</strong> and <strong>Pseudo</strong> tabs are <strong>not</strong> saved in the Emma 02 configuration file. Each time Emma 02 starts, debugger settings return to their default values.</li>
+<li><strong>Back</strong> and <strong>Break</strong> toggle state are save in the Emma 02 configuration file.
 <li>SCRT definitions and other options can be configured in the emulator XML configuration files.</li>
 
 </ul>

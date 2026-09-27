@@ -318,7 +318,7 @@ Byte Cdp1802::dmaIn(Byte value)
     if (traceDma_)
     {
         wxString traceText;
-        traceText.Printf("----  DMA in    R0=%04X", scratchpadRegister_[0]);
+        traceText.Printf("      DMA in    R0=%04X", scratchpadRegister_[0]);
         p_Main->debugTrace(traceText);
     }
     
@@ -351,7 +351,7 @@ Byte Cdp1802::dmaOut()
     if (traceDma_)
     {
         wxString traceText;
-        traceText.Printf("----  DMA out   R0=%04X", scratchpadRegister_[0]);
+        traceText.Printf("      DMA out   R0=%04X", scratchpadRegister_[0]);
         p_Main->debugTrace(traceText);
     }
     ret=readMem(scratchpadRegister_[0], DMA_READ_WRITE);
@@ -381,7 +381,7 @@ Byte Cdp1802::pixieDmaOut(int *color, int colourType)
     if (traceDma_)
     {
         wxString traceText;
-        traceText.Printf("----  DMA out   R0=%04X", scratchpadRegister_[0]);
+        traceText.Printf("      DMA out   R0=%04X", scratchpadRegister_[0]);
         p_Main->debugTrace(traceText);
     }
     ret=readMem(scratchpadRegister_[0], DMA_READ_WRITE);
@@ -464,7 +464,7 @@ void Cdp1802::visicomDmaOut(Byte *vram1, Byte *vram2)
     if (traceDma_)
     {
         wxString traceText;
-        traceText.Printf("----  DMA out   R0=%04X", scratchpadRegister_[0]);
+        traceText.Printf("      DMA out   R0=%04X", scratchpadRegister_[0]);
         p_Main->debugTrace(traceText);
     }
     *vram1 = readMem(scratchpadRegister_[0], DMA_READ_WRITE);
@@ -487,7 +487,7 @@ Byte Cdp1802::pixieDmaOut()
     if (traceDma_)
     {
         wxString traceText;
-        traceText.Printf("----  DMA out   R0=%04X", scratchpadRegister_[0]);
+        traceText.Printf("      DMA out   R0=%04X", scratchpadRegister_[0]);
         p_Main->debugTrace(traceText);
     }
     ret=readMem(scratchpadRegister_[0], DMA_READ_WRITE);
@@ -611,7 +611,7 @@ bool Cdp1802::interrupt()
     {
         if (traceInt_)
         {
-            p_Main->debugTrace("----  Interrupt");
+            p_Main->debugTrace("      Interrupt");
         }
         if (traceChip8Int_)
         {
@@ -655,9 +655,9 @@ void Cdp1802::requestInterrupt(int type, bool state, int picNumber)
         if (type != INTERRUPT_TYPE_I8275_1 && type != INTERRUPT_TYPE_I8275_4 && type != INTERRUPT_TYPE_SCN2672)
         {
             if (state && !interruptStatus[type].requested)
-                p_Main->debugTrace("----  Int. request: " + interruptTypeList_[type]);
+                p_Main->debugTrace("      Int. request: " + interruptTypeList_[type]);
             if (!state && interruptStatus[type].requested)
-                p_Main->debugTrace("----  Int. cleared: " + interruptTypeList_[type]);
+                p_Main->debugTrace("      Int. cleared: " + interruptTypeList_[type]);
         }
     }
     interruptStatus[type].requested = state;
@@ -677,7 +677,7 @@ void Cdp1802::pixieInterrupt()
     {
         if (traceInt_)
         {
-            p_Main->debugTrace("----  Interrupt");
+            p_Main->debugTrace("      Interrupt");
  //           p_Main->eventMessageHex(scratchpadRegister_[programCounter_]);
         }
         if (traceChip8Int_)

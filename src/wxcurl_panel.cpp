@@ -85,7 +85,9 @@ wxTextCtrl *wxCurlConnectionSettingsPanel::AddSizerRow(wxSizer *sz, const wxStri
     // the value
     wxTextCtrl *ret = new wxTextCtrl( this, wxID_ANY );
 
-    int flags = wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT;
+    // Start the flag chain from int: OR-ing wxAlignment with wxDirection is
+    // deprecated under C++20 (-Wdeprecated-enum-enum-conversion).
+    int flags = (int)wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT;
     sz->Add(st, 0, flags, BORDER);
     sz->Add(ret, 1, grow ? flags|wxGROW : flags, BORDER);
 
@@ -100,7 +102,7 @@ void wxCurlConnectionSettingsPanel::CreateControls(const wxString &msg)
     if (!msg.IsEmpty())
     {
         wxStaticText *st = new wxStaticText( this, wxID_STATIC, msg );
-        main->Add(st, 0, wxLEFT|wxTOP|wxRIGHT|wxBOTTOM|wxGROW, BORDER);
+        main->Add(st, 0, (int)wxLEFT|wxTOP|wxRIGHT|wxBOTTOM|wxGROW, BORDER);
     }
 
     wxFlexGridSizer *gs = new wxFlexGridSizer(0 /* calc automatically the # of rows */, 2, 0, 0);
@@ -126,7 +128,7 @@ void wxCurlConnectionSettingsPanel::CreateControls(const wxString &msg)
 
     // column 1 contains the text controls:
     gs->AddGrowableCol(1);
-    main->Add(gs, 1, wxGROW|wxALL, BORDER);
+    main->Add(gs, 1, (int)wxGROW|wxALL, BORDER);
 
     // proxy options
     if (HasFlag(wxCCSP_PROXY_OPTIONS))
@@ -143,13 +145,13 @@ void wxCurlConnectionSettingsPanel::CreateControls(const wxString &msg)
         m_pProxyPassword = AddSizerRow(gsProxy, _("Proxy password:"));
         m_pProxyPort = AddSizerRow(gsProxy, _("Proxy port:"), false);
         m_pProxyPort->SetValue(wxS("-1"));
-        proxy->Add(gsProxy, 0, wxGROW|wxALL, BORDER);
+        proxy->Add(gsProxy, 0, (int)wxGROW|wxALL, BORDER);
 
         // column 1 contains the text controls:
         gsProxy->AddGrowableCol(1);
 
         main->AddSpacer(10);
-        main->Add(proxy, 0, wxGROW|wxLEFT|wxRIGHT, BORDER);
+        main->Add(proxy, 0, (int)wxGROW|wxLEFT|wxRIGHT, BORDER);
 #if wxCHECK_VERSION(2,9,0)
         main->AddStretchSpacer(1);
 #endif

@@ -10949,13 +10949,13 @@
                                                                                         <border>0</border>
                                                                                         <object class="wxToggleButton" name="IntButton">
                                                                                             <size>44,23</size>
-                                                                                            <tooltip>Toggle interrupt trace</tooltip>
+                                                                                            <tooltip>Toggle interrupt / sync trace</tooltip>
                                                                                             <font>
                                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                                 <size>-1</size>
                                                                                                 <family>roman</family>
                                                                                             </font>
-                                                                                            <label>INT</label>
+                                                                                            <label>I / S</label>
                                                                                             <checked>0</checked>
                                                                                         </object>
                                                                                     </object>
