@@ -214,6 +214,7 @@ BEGIN_EVENT_TABLE(DebugWindow, GuiDebugger)
     EVT_TOGGLEBUTTON(XRCID("DmaButton"), DebugWindow::onTraceDma)
     EVT_TOGGLEBUTTON(XRCID("IntButton"), DebugWindow::onTraceInt)
     EVT_TOGGLEBUTTON(XRCID("Chip8IntButton"), DebugWindow::onChip8TraceInt)
+    EVT_TOGGLEBUTTON(XRCID("TraceBackButton"), DebugWindow::onTraceBack)
     EVT_TOGGLEBUTTON(XRCID("TraceTrapButton"), DebugWindow::onTraceTrap)
 
     EVT_BUTTON(XRCID("DebugInterrupt"), DebugWindow::onInt)
@@ -687,6 +688,9 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
     traceInt_ = false;
     breakTrap_ = true;
     trace_ = false;
+    traceBack_ = false;
+    traceBackIndex_ = 0;
+    traceBackCount_ = 0;
     chip8Trace_ = false;
     additionalChip8Details_ = false;
     additionalChip8StackDetails_ = false;
@@ -780,6 +784,8 @@ void DebugWindow::readDebugConfig()
     dirAssConfigFile_ = configPointer->Read("/DebugConfigFile", "debug.config");
     profilerType_ = (int)configPointer->Read("/Main/ProfilerType", 0l);
     profilerCounter_ = (int)configPointer->Read("/Main/ProfilerCounter", 1l);
+    configPointer->Read("/Main/Debug_Break_Trap", &breakTrap_, true);
+    configPointer->Read("/Main/Debug_Trace_Back", &traceBack_, false);
 
     dirAssConfigFileDir_ = readConfigDir("/Dir/Main/DebugConfig", dataDir_);
     debugDir_ = readConfigDir("/Dir/Main/Debug", dataDir_);
@@ -794,6 +800,7 @@ void DebugWindow::readDebugConfig()
 
     XRCCTRL(*this, "ProfilerType", wxChoice)->SetSelection(profilerType_);
     XRCCTRL(*this, "ProfilerCounter", wxChoice)->SetSelection(profilerCounter_);
+    XRCCTRL(*this, "TraceBackButton", wxToggleButton)->SetValue(traceBack_);
 //    XRCCTRL(*this, "DebugPortExtender", HexEdit)->setStart(1);
 
     int lineWidth = charWidth_ * 16 + charWidth_/2;
@@ -825,6 +832,8 @@ void DebugWindow::writeDebugConfig()
     configPointer->Write("/DebugConfigFile", dirAssConfigFile_);
     configPointer->Write("/Main/ProfilerType", profilerType_);
     configPointer->Write("/Main/ProfilerCounter", profilerCounter_);
+    configPointer->Write("/Main/Debug_Break_Trap", breakTrap_);
+    configPointer->Write("/Main/Debug_Trace_Back", traceBack_);
 
     writeConfigDir("/Dir/Main/DebugConfig", dirAssConfigFileDir_);
     writeConfigDir("/Dir/Main/Debug", debugDir_);
@@ -1614,6 +1623,45 @@ void DebugWindow::debugTrace(wxString buffer, bool overRideDebugMode)
     traceString_ = traceString_ + buffer + "\n";
 #else
     traceWindowPointer->AppendText(buffer+"\n");
+#endif
+}
+
+void DebugWindow::traceBackPush(wxString buffer)
+{
+    if (buffer.IsEmpty())  return;
+
+    wxCriticalSectionLocker locker(traceBackCriticalSection_);
+
+    traceBackRing_[traceBackIndex_] = buffer;
+    traceBackIndex_ = (traceBackIndex_ + 1) % traceBackSize_;
+    if (traceBackCount_ < traceBackSize_)
+        traceBackCount_ ++;
+}
+
+void DebugWindow::traceBackDump()
+{
+    if (!debugMode_)  return;
+
+    wxString dump;
+
+    {
+        wxCriticalSectionLocker locker(traceBackCriticalSection_);
+
+        if (traceBackCount_ == 0)  return;
+
+        for (int i=0; i<traceBackCount_; i++)
+        {
+            int index = (traceBackIndex_ + traceBackSize_ - traceBackCount_ + i) % traceBackSize_;
+            dump = dump + traceBackRing_[index] + "\n";
+        }
+        traceBackIndex_ = 0;
+        traceBackCount_ = 0;
+    }
+
+#if defined(__WXMAC__) || defined(__linux__)
+    traceString_ = traceString_ + "      Trace Back\n" + dump;
+#else
+    traceWindowPointer->AppendText("      Trace Back\n"+dump);
 #endif
 }
 
@@ -6373,6 +6421,10 @@ void DebugWindow::onDebugDisChip8(wxCommandEvent& WXUNUSED(event))
 void DebugWindow::onClear(wxCommandEvent& WXUNUSED(event))
 {
     traceWindowPointer->Clear();
+
+    wxCriticalSectionLocker locker(traceBackCriticalSection_);
+    traceBackIndex_ = 0;
+    traceBackCount_ = 0;
 }
 
 void DebugWindow::onTrace(wxCommandEvent& WXUNUSED(event))
@@ -6384,6 +6436,13 @@ void DebugWindow::onTrace(wxCommandEvent& WXUNUSED(event))
         enableDebugGui(true);
     }
     SetDebugMode();
+}
+
+void DebugWindow::onTraceBack(wxCommandEvent& WXUNUSED(event))
+{
+    traceBack_ = !traceBack_;
+    if (computerRunning_)
+        p_Computer->setTraceBackStatus(traceBack_);
 }
 
 void DebugWindow::onTraceDma(wxCommandEvent& WXUNUSED(event))
@@ -15511,7 +15570,7 @@ void DebugWindow::updateTitle()
         title = title + " ** CPU STOPPED **";
     p_Computer->SetTitle(getRunningComputerText() + title);
     p_Computer->updateTitle(title);
-    p_Computer->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+    p_Computer->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceBack_, traceDma_, traceInt_, traceChip8Int_);
 }
 
 void DebugWindow::updateDebugMenu(bool debugMode)

@@ -10145,12 +10145,42 @@
                                                                                                 <family>roman</family>
                                                                                             </font>
                                                                                             <style>wxBU_EXACTFIT</style>
-                                                                                            <label> Trace: </label>
+                                                                                            <label> Trace</label>
                                                                                             <checked>0</checked>
                                                                                         </object>
                                                                                     </object>
                                                                                     <object class="sizeritem">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                        <border>0</border>
+                                                                                        <object class="wxToggleButton" name="TraceBackButton">
+                                                                                            <tooltip>Toggle trace buffer</tooltip>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                                <family>roman</family>
+                                                                                            </font>
+                                                                                            <style>wxBU_EXACTFIT</style>
+                                                                                            <label>Back</label>
+                                                                                            <checked>0</checked>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                        <border>0</border>
+                                                                                        <object class="wxToggleButton" name="TraceTrapButton">
+                                                                                            <tooltip>Toggle instruction trap trace</tooltip>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                                <family>roman</family>
+                                                                                            </font>
+                                                                                            <style>wxBU_EXACTFIT</style>
+                                                                                            <label> Break </label>
+                                                                                            <checked>1</checked>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                                         <border>0</border>
                                                                                         <object class="wxToggleButton" name="DmaButton">
                                                                                             <tooltip>Toggle DMA trace</tooltip>
@@ -10165,7 +10195,7 @@
                                                                                         </object>
                                                                                     </object>
                                                                                     <object class="sizeritem">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                                         <border>0</border>
                                                                                         <object class="wxToggleButton" name="IntButton">
                                                                                             <tooltip>Toggle interrupt trace</tooltip>
@@ -10179,11 +10209,27 @@
                                                                                             <checked>0</checked>
                                                                                         </object>
                                                                                     </object>
-                                                                                    <object class="spacer">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                                         <border>0</border>
-                                                                                        <size>2,5d</size>
+                                                                                        <object class="wxButton" name="ClearButton">
+                                                                                            <tooltip>Clear trace window</tooltip>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                                <family>roman</family>
+                                                                                            </font>
+                                                                                            <style>wxBU_EXACTFIT</style>
+                                                                                            <label> Clear </label>
+                                                                                        </object>
                                                                                     </object>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_LEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxBoxSizer">
+                                                                                    <orient>wxHORIZONTAL</orient>
                                                                                     <object class="sizeritem">
                                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                         <border>0</border>
@@ -10213,47 +10259,6 @@
                                                                                             <maxlength>4</maxlength>
                                                                                         </object>
                                                                                     </object>
-                                                                                    <object class="spacer">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                                        <border>0</border>
-                                                                                        <size>2,5d</size>
-                                                                                    </object>
-                                                                                    <object class="sizeritem">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                                        <border>0</border>
-                                                                                        <object class="wxToggleButton" name="TraceTrapButton">
-                                                                                            <tooltip>Toggle instruction trap trace</tooltip>
-                                                                                            <font>
-                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                <size>-1</size>
-                                                                                                <family>roman</family>
-                                                                                            </font>
-                                                                                            <style>wxBU_EXACTFIT</style>
-                                                                                            <label> Break </label>
-                                                                                            <checked>1</checked>
-                                                                                        </object>
-                                                                                    </object>
-                                                                                </object>
-                                                                            </object>
-                                                                            <object class="sizeritem">
-                                                                                <flag>wxALIGN_LEFT|wxRIGHT</flag>
-                                                                                <border>2</border>
-                                                                                <object class="wxBoxSizer">
-                                                                                    <orient>wxHORIZONTAL</orient>
-                                                                                    <object class="sizeritem">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                                                                        <border>0</border>
-                                                                                        <object class="wxButton" name="ClearButton">
-                                                                                            <tooltip>Clear trace window</tooltip>
-                                                                                            <font>
-                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                <size>-1</size>
-                                                                                                <family>roman</family>
-                                                                                            </font>
-                                                                                            <style>wxBU_EXACTFIT</style>
-                                                                                            <label> Clear </label>
-                                                                                        </object>
-                                                                                    </object>
                                                                                     <object class="sizeritem">
                                                                                         <flag>wxGROW|wxALL</flag>
                                                                                         <border>0</border>
@@ -10276,7 +10281,7 @@
                                                                                         <flag>wxGROW|wxTOP|wxBOTTOM</flag>
                                                                                         <border>2</border>
                                                                                         <object class="wxTextCtrl" name="NumberOfSteps" subclass="IntEdit">
-                                                                                            <size>20,-1d</size>
+                                                                                            <size>18,-1d</size>
                                                                                             <tooltip>Number of steps</tooltip>
                                                                                             <font>
                                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -10303,7 +10308,7 @@
                                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                         <border>0</border>
                                                                                         <object class="wxSlider" name="PercentageClock">
-                                                                                            <size>51,-1d</size>
+                                                                                            <size>38,-1d</size>
                                                                                             <tooltip>Slow down emulated computer</tooltip>
                                                                                             <font>
                                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>

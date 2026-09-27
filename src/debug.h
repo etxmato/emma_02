@@ -3,6 +3,7 @@
 
 #include "wx/listctrl.h"
 #include "wx/imaglist.h"
+#include "wx/thread.h"
 
 #include "guidebugger.h"
 
@@ -215,6 +216,8 @@ public:
     void resetDisplay();
     void assemblerDisplay(wxString buffer);
     void debugTrace(wxString buffer, bool overRideDebugMode = false);
+    void traceBackPush(wxString buffer);
+    void traceBackDump();
     void chip8DebugTrace(wxString buffer);
     void setPauseState();
     void SetDebugMode();
@@ -223,6 +226,7 @@ public:
     void onLog(wxCommandEvent&event);
     void onClear(wxCommandEvent&event);
     void onTrace(wxCommandEvent&event);
+    void onTraceBack(wxCommandEvent&event);
     void onTraceDma(wxCommandEvent&event);
     void onTraceInt(wxCommandEvent&event);
     void onChip8TraceInt(wxCommandEvent&event);
@@ -551,6 +555,16 @@ protected:
     int lapTimeTrigger_;
     wxString traceString_;
     wxString chipTraceString_;
+
+    bool traceBack_;
+    enum
+    {
+        traceBackSize_ = 256
+    };
+    wxString traceBackRing_[traceBackSize_];
+    int traceBackIndex_;
+    int traceBackCount_;
+    wxCriticalSection traceBackCriticalSection_;
 
     wxString dirAssNewDir_;
     bool pseudoLoaded_;

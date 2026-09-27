@@ -9727,12 +9727,38 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>0</border>
 <object class="wxToggleButton" name="TraceButton">
-<size>56,23</size>
+<size>44,23</size>
 <tooltip>Toggle instruction trace</tooltip>
 <font>
 <size>14</size>
 </font>
-<label>Trace:</label>
+<label>Trace</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<border>0</border>
+<object class="wxToggleButton" name="TraceBackButton">
+<size>44,23</size>
+<tooltip>Toggle trace buffer</tooltip>
+<font>
+<size>14</size>
+</font>
+<label>Back</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL</flag>
+<border>0</border>
+<object class="wxToggleButton" name="TraceTrapButton">
+<size>44,23</size>
+<tooltip>Toggle between trap and trace</tooltip>
+<font>
+<size>14</size>
+</font>
+<label>Break</label>
 <checked>0</checked>
 </object>
 </object>
@@ -9740,7 +9766,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>0</border>
 <object class="wxToggleButton" name="DmaButton">
-<size>52,23</size>
+<size>44,23</size>
 <tooltip>Toggle DMA trace</tooltip>
 <font>
 <size>14</size>
@@ -9753,7 +9779,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 <border>0</border>
 <object class="wxToggleButton" name="IntButton">
-<size>52,23</size>
+<size>44,23</size>
 <tooltip>Toggle interrupt trace</tooltip>
 <font>
 <size>14</size>
@@ -9762,16 +9788,30 @@
 <checked>0</checked>
 </object>
 </object>
-<object class="spacer">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<object class="sizeritem">
+<flag>wxGROW</flag>
 <border>0</border>
-<size>5,5</size>
+<object class="wxButton" name="ClearButton">
+<size>44,23</size>
+<tooltip>Clear trace window</tooltip>
+<font>
+<size>14</size>
+</font>
+<label>Clear</label>
 </object>
+</object>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_LEFT|wxRIGHT|wxBOTTOM</flag>
+<border>1</border>
+<object class="wxBoxSizer">
+<orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
 <flag>wxGROW</flag>
 <border>0</border>
 <object class="wxButton" name="DebugRunButton">
-<size>52,23</size>
+<size>38,23</size>
 <tooltip>Start execution of machine at specified address</tooltip>
 <font>
 <size>14</size>
@@ -9790,43 +9830,6 @@
 <size>14</size>
 </font>
 <maxlength>4</maxlength>
-</object>
-</object>
-<object class="spacer">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-<border>0</border>
-<size>5,5</size>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
-<border>0</border>
-<object class="wxToggleButton" name="TraceTrapButton">
-<size>52,23</size>
-<tooltip>Toggle between trap and trace</tooltip>
-<font>
-<size>14</size>
-</font>
-<label>Break</label>
-<checked>0</checked>
-</object>
-</object>
-</object>
-</object>
-<object class="sizeritem">
-<flag>wxALIGN_LEFT|wxRIGHT|wxBOTTOM</flag>
-<border>1</border>
-<object class="wxBoxSizer">
-<orient>wxHORIZONTAL</orient>
-<object class="sizeritem">
-<flag>wxGROW</flag>
-<border>0</border>
-<object class="wxButton" name="ClearButton">
-<size>56,23</size>
-<tooltip>Clear trace window</tooltip>
-<font>
-<size>14</size>
-</font>
-<label>Clear</label>
 </object>
 </object>
 <object class="sizeritem">
@@ -9853,7 +9856,7 @@
 <flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>6</border>
 <object class="wxTextCtrl" name="NumberOfSteps" subclass="IntEdit">
-<size>30,23</size>
+<size>25,23</size>
 <tooltip>Number of steps</tooltip>
 <font>
 <size>14</size>
@@ -9876,7 +9879,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
 <object class="wxSlider" name="PercentageClock">
-<size>90,24</size>
+<size>84,24</size>
 <tooltip>Slow down emulated computer</tooltip>
 <font>
 <size>14</size>

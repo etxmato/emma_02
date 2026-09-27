@@ -148,6 +148,7 @@ void Cdp1802::initCpu()
     debugMode_ = false;
     chip8DebugMode_ = false;
     trace_ = false;
+    traceBack_ = false;
     traceDma_ = false;
     traceInt_ = false;
     traceChip8Int_ = false;
@@ -614,7 +615,7 @@ bool Cdp1802::interrupt()
         }
         if (traceChip8Int_)
         {
-            p_Main->chip8DebugTrace("--- 1802 Interrupt");
+            p_Main->chip8DebugTrace("      1802 Interrupt");
         }
         setRegisterT((dataPointer_<<4) | programCounter_, NO_TREG_TRACE);
         setDataPointer(2, NO_TREG_TRACE);
@@ -681,7 +682,7 @@ void Cdp1802::pixieInterrupt()
         }
         if (traceChip8Int_)
         {
-            p_Main->chip8DebugTrace("--- 1802 Interrupt");
+            p_Main->chip8DebugTrace("      1802 Interrupt");
         }
         setRegisterT((dataPointer_<<4) | programCounter_, NO_TREG_TRACE);
         setDataPointer(2, NO_TREG_TRACE);
@@ -733,7 +734,7 @@ void Cdp1802::cpuCycleExecute1_1805()
             }
             else
             {
-                if (trace_)
+                if (trace_ || traceBack_)
                 {
                     buffer.Printf("Illegal code");
                     traceBuffer_ = traceBuffer_ + buffer;
@@ -817,7 +818,7 @@ void Cdp1802::cpuCycleExecute1_1805()
                         setAccumulator(tempWord & 0xff);
                     break;
                     default:
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -828,7 +829,7 @@ void Cdp1802::cpuCycleExecute1_1805()
             }
             else
             {
-                if (trace_)
+                if (trace_ || traceBack_)
                 {
                     buffer.Printf("Illegal code");
                     traceBuffer_ = traceBuffer_ + buffer;
@@ -990,7 +991,7 @@ void Cdp1802::cpuCycleExecute1_1805()
                         setAccumulator(tempWord & 0xff);
                     break;
                     default:
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -1001,7 +1002,7 @@ void Cdp1802::cpuCycleExecute1_1805()
             }
             else
             {
-                if (trace_)
+                if (trace_ || traceBack_)
                 {
                     buffer.Printf("Illegal code");
                     traceBuffer_ = traceBuffer_ + buffer;
@@ -1010,7 +1011,7 @@ void Cdp1802::cpuCycleExecute1_1805()
             }
             break;
         default:
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("Illegal code");
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -1041,7 +1042,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                     ctrRunning_ = 0;
                     ctrPre_ = 32;
                     ctrMode_ = 0;
-                     if (trace_)
+                     if (trace_ || traceBack_)
                     {
                         buffer.Printf("STPC");
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -1049,7 +1050,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                 break;
                 case 1: // 1804
                     decCounter();
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("DTC       CNTR=%02X", counter_);
      //                                     XXX       R
@@ -1060,7 +1061,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                     ctrMode_ = 5;
                     ctrRunning_ = 1;
                     ctrPre_ = 32;
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("SPM2");
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -1070,7 +1071,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                     ctrMode_ = 2;
                     ctrRunning_ = 1;
                     ctrPre_ = 32;
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("SCM2");
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -1080,7 +1081,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                     ctrMode_ = 4;
                     ctrRunning_ = 1;
                     ctrPre_ = 32;
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("SPM1");
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -1090,7 +1091,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                     ctrMode_ = 1;
                     ctrRunning_ = 1;
                     ctrPre_ = 32;
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("SCM1");
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -1103,7 +1104,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                     {
                           setCounterTimer(accumulator_);
                           ci_ = 0;
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("LDC       CH/CNTR=%02X", ch_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -1111,7 +1112,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                     }
                     else
                     {
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("LDC       CH=%02X", ch_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -1122,7 +1123,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                     ctrMode_ = 3;
                     ctrRunning_ = 1;
                     ctrPre_ = 32;
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("STM");
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -1131,7 +1132,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                 case 8: // 1804
                     bus_ = counter_;
                     setAccumulator(bus_);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("GEC       D=%02X", accumulator_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -1139,7 +1140,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                 break;
                 case 9: // 1804
                     tq_ = 1;
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("ETQ");
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -1147,7 +1148,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                 break;
                 case 0xa: // 1804
                     xie_ = 1;
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("XIE");
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -1155,7 +1156,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                 break;
                 case 0xb: // 1804
                     xie_ = 0;
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("XID");
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -1163,7 +1164,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                 break;
                 case 0xc: // 1804
                     cie_ = 1;
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("CIE");
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -1171,14 +1172,14 @@ void Cdp1802::cpuCycleExecute2_1805()
                 break;
                 case 0xd: // 1804
                     cie_ = 0;
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("CID");
                         traceBuffer_ = traceBuffer_ + buffer;
                     }
                 break;
                 default:
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("Illegal code");
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -1198,7 +1199,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                 if (scratchpadRegister_[n] != 0)
                     setScratchpadRegister(programCounter_, (registerB_<<8) | bus_);
 
-                if (trace_)
+                if (trace_ || traceBack_)
                 {
                     buffer.Printf("DBNZ R%X,%02X%02X R%X=%04X", n, registerB_, bus_, n,scratchpadRegister_[n]);
                     traceBuffer_ = traceBuffer_ + buffer;
@@ -1206,7 +1207,7 @@ void Cdp1802::cpuCycleExecute2_1805()
             }
             else
             {
-                if (trace_)
+                if (trace_ || traceBack_)
                 {
                     buffer.Printf("Illegal code");
                     traceBuffer_ = traceBuffer_ + buffer;
@@ -1228,7 +1229,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                     }
                     else
                         setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("BCI  %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -1241,14 +1242,14 @@ void Cdp1802::cpuCycleExecute2_1805()
                         setScratchpadRegister(programCounter_, (scratchpadRegister_[programCounter_]&0xff00) | bus_);
                     else
                         setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("BXI  %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
                     }
                 break;
                 default:
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("Illegal code");
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -1260,7 +1261,7 @@ void Cdp1802::cpuCycleExecute2_1805()
 
         case 6: // 1804
             setScratchpadRegister(n, (registerT_ << 8) | registerB_);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                  buffer.Printf("RLXA R%X   R%X=%04X", n, n, scratchpadRegister_[n]);
                  traceBuffer_ = traceBuffer_ + buffer;
@@ -1285,7 +1286,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                         }
                         setAccumulator(tempWord & 0xff);
 
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("DADC      D=%02X, DF=%1X", accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -1295,7 +1296,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                     break;
                     case 6:
                         writeMemDebug(scratchpadRegister_[dataPointer_], accumulator_, false);
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                               buffer.Printf("DSAV      D=%02X", accumulator_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -1328,7 +1329,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                         }
                         setAccumulator(accumulator_);
 
-                        if (trace_)  
+                        if (trace_ || traceBack_)  
                         {
                             buffer.Printf("DSMB      D=%02X", accumulator_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -1347,7 +1348,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                         }
                         setAccumulator(tempWord & 0xff);
 
-                        if (trace_)  
+                        if (trace_ || traceBack_)  
                         {
                             buffer.Printf("DACI %02X   D=%02X, DF=%1X", bus_, accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -1380,7 +1381,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                         }
                         setAccumulator(accumulator_);
                         
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("DSBI %02X   D=%02X", bus_, accumulator_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -1389,7 +1390,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                         address_=scratchpadRegister_[programCounter_];
                     break;
                     default:
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -1400,7 +1401,7 @@ void Cdp1802::cpuCycleExecute2_1805()
             }
              else
             {
-                if (trace_)
+                if (trace_ || traceBack_)
                 {
                     buffer.Printf("Illegal code");
                     traceBuffer_ = traceBuffer_ + buffer;
@@ -1411,7 +1412,7 @@ void Cdp1802::cpuCycleExecute2_1805()
 
         case 8: // 1804
             setScratchpadRegister(programCounter_, (registerT_ << 8) + registerB_);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                  buffer.Printf("SCAL R%X,%04X", n, scratchpadRegister_[programCounter_]);
                  traceBuffer_ = traceBuffer_ + buffer;
@@ -1422,7 +1423,7 @@ void Cdp1802::cpuCycleExecute2_1805()
 
         case 9: // 1804
             setScratchpadRegister(n, (registerT_ << 8) + registerB_);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                  buffer.Printf("SRET R%X   R%X(P)=%04X", n, programCounter_, scratchpadRegister_[programCounter_]);
                  traceBuffer_ = traceBuffer_ + buffer;
@@ -1434,7 +1435,7 @@ void Cdp1802::cpuCycleExecute2_1805()
         case 0xa: // 1804
             bus_ = registerB_;
             writeMem(scratchpadRegister_[dataPointer_]--, bus_, false);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                  buffer.Printf("RSXD R%X",n);
                  traceBuffer_ = traceBuffer_ + buffer;
@@ -1443,7 +1444,7 @@ void Cdp1802::cpuCycleExecute2_1805()
 
         case 0xb: // 1804
             setScratchpadRegister(dataPointer_, (registerB_ << 8) + registerT_);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                  buffer.Printf("RNX  R%X   R%X=%04X", n, dataPointer_, scratchpadRegister_[dataPointer_]);
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -1454,7 +1455,7 @@ void Cdp1802::cpuCycleExecute2_1805()
 
         case 0xc:  // 1804
             setScratchpadRegister(n, (registerT_ << 8) + registerB_);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-3, &executed) == MEM_TYPE_OPCODE_RLDL)
                      buffer.Printf("RLDL R%X,%04X", n, scratchpadRegister_[n]);
@@ -1482,7 +1483,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                         }
                         setAccumulator(tempWord & 0xff);
 
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("DADD      D=%02X, DF=%1X", accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -1515,7 +1516,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                         }
                         setAccumulator(accumulator_);
 
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("DSM       D=%02X", accumulator_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -1534,7 +1535,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                         }
                         setAccumulator(tempWord & 0xff);
 
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("DADI %02X   D=%02X, DF=%1X", bus_, accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -1567,7 +1568,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                         }
                         setAccumulator(accumulator_);
                         
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("DSMI %02X   D=%02X", bus_, accumulator_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -1576,7 +1577,7 @@ void Cdp1802::cpuCycleExecute2_1805()
                         address_=scratchpadRegister_[programCounter_];
                     break;
                     default:
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -1587,7 +1588,7 @@ void Cdp1802::cpuCycleExecute2_1805()
             }
             else
             {
-                if (trace_)
+                if (trace_ || traceBack_)
                 {
                     buffer.Printf("Illegal code");
                     traceBuffer_ = traceBuffer_ + buffer;
@@ -1596,7 +1597,7 @@ void Cdp1802::cpuCycleExecute2_1805()
             }
         break;
         default:
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("Illegal code");
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -1765,7 +1766,7 @@ void Cdp1802::cpuCycleFetch()
 {
     uint64_t executed;
     
-    if (trace_)
+    if (trace_ || traceBack_)
         traceBuffer_.Printf("%04X: ",scratchpadRegister_[programCounter_]);
     
     instructionAddress_=scratchpadRegister_[programCounter_];
@@ -1904,7 +1905,7 @@ void Cdp1802::cpuCycleExecute1()
                 p_Computer->showMrdLed(1);
                 // O-7 lights follow the Bus Select position rather than M(R(0)).
                 p_Computer->showBusData();
-                if (trace_)
+                if (trace_ || traceBack_)
                 {
                     buffer.Printf("IDL  R%X",n);
                     traceBuffer_ = traceBuffer_ + buffer;
@@ -1928,7 +1929,7 @@ void Cdp1802::cpuCycleExecute1()
                 {
                     bus_=readMem(scratchpadRegister_[0]);
                     p_Computer->showMrdLed(1);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         traceBuffer_ = traceBuffer_ + "IDL";
                     }
@@ -1942,7 +1943,7 @@ void Cdp1802::cpuCycleExecute1()
                     if (cpuType_ == CPU1801)
                     {
                         bus_=0;
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -1953,7 +1954,7 @@ void Cdp1802::cpuCycleExecute1()
                         bus_=readMem(scratchpadRegister_[n]);
                         p_Computer->showMrdLed(1);
                         setAccumulator(bus_);
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("LDN  R%X   D=M(%04X)=%02X",n,scratchpadRegister_[n],accumulator_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -1967,7 +1968,7 @@ void Cdp1802::cpuCycleExecute1()
             address_=scratchpadRegister_[n];
             setScratchpadRegister(n, scratchpadRegister_[n]+1);
             bus_=0;
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("INC  R%X   R%X=%04X",n,n,scratchpadRegister_[n]);
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -1978,7 +1979,7 @@ void Cdp1802::cpuCycleExecute1()
             address_=scratchpadRegister_[n];
             setScratchpadRegister(n, scratchpadRegister_[n]-1);
             bus_=0;
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("DEC  R%X   R%X=%04X",n,n,scratchpadRegister_[n]);
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -1989,7 +1990,7 @@ void Cdp1802::cpuCycleExecute1()
             if (n > 7 && cpuType_ == SYSTEM00)
             {
                 bus_=0;
-                if (trace_)
+                if (trace_ || traceBack_)
                 {
                     buffer.Printf("Illegal code");
                     traceBuffer_ = traceBuffer_ + buffer;
@@ -2004,7 +2005,7 @@ void Cdp1802::cpuCycleExecute1()
                     p_Computer->showMrdLed(1);
                     setScratchpadRegister(programCounter_, (scratchpadRegister_[programCounter_]&0xff00) | bus_);
                     p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("BR   %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -2016,7 +2017,7 @@ void Cdp1802::cpuCycleExecute1()
                         if (cpuType_ == CPU1801)
                         {
                             bus_=0;
-                            if (trace_)
+                            if (trace_ || traceBack_)
                             {
                                 buffer.Printf("Illegal code");
                                 traceBuffer_ = traceBuffer_ + buffer;
@@ -2034,7 +2035,7 @@ void Cdp1802::cpuCycleExecute1()
                             }
                             else
                                 setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
-                            if (trace_)
+                            if (trace_ || traceBack_)
                             {
                                 buffer.Printf("BNZ  %02X",bus_);
                                 traceBuffer_ = traceBuffer_ + buffer;
@@ -2053,7 +2054,7 @@ void Cdp1802::cpuCycleExecute1()
                             setScratchpadRegister(programCounter_, (scratchpadRegister_[programCounter_]&0xff00) | bus_);
                         }
                         else setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("BQ   %02X",bus_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2071,7 +2072,7 @@ void Cdp1802::cpuCycleExecute1()
                     }
                     else
                         setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("BZ   %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -2088,7 +2089,7 @@ void Cdp1802::cpuCycleExecute1()
                     }
                     else
                         setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-2, &executed) == MEM_TYPE_OPCODE_BPZ)
                                 buffer.Printf("BPZ  %02X",bus_);
@@ -2114,7 +2115,7 @@ void Cdp1802::cpuCycleExecute1()
                     }
                     else
                         setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("B1   %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -2134,7 +2135,7 @@ void Cdp1802::cpuCycleExecute1()
                     }
                     else
                         setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("B2   %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -2154,7 +2155,7 @@ void Cdp1802::cpuCycleExecute1()
                     }
                     else
                         setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("B3   %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -2174,7 +2175,7 @@ void Cdp1802::cpuCycleExecute1()
                     }
                     else
                         setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("B4   %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -2186,7 +2187,7 @@ void Cdp1802::cpuCycleExecute1()
                     bus_=readMem(scratchpadRegister_[programCounter_]);
                     p_Computer->showMrdLed(1);
                     setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1, &executed) == MEM_TYPE_OPCODE_SKP)
                             buffer.Printf("SKP");
@@ -2199,7 +2200,7 @@ void Cdp1802::cpuCycleExecute1()
                     if (cpuType_ <= CPU1801)
                     {
                         bus_=0;
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2217,7 +2218,7 @@ void Cdp1802::cpuCycleExecute1()
                         }
                         else
                             setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("BNQ  %02X",bus_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2235,7 +2236,7 @@ void Cdp1802::cpuCycleExecute1()
                     }
                     else
                         setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("BNZ  %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -2252,7 +2253,7 @@ void Cdp1802::cpuCycleExecute1()
                     }
                     else
                         setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-2, &executed) == MEM_TYPE_OPCODE_BM)
                                 buffer.Printf("BM   %02X",bus_);
@@ -2278,7 +2279,7 @@ void Cdp1802::cpuCycleExecute1()
                     }
                     else
                         setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("BN1  %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -2298,7 +2299,7 @@ void Cdp1802::cpuCycleExecute1()
                     }
                     else
                         setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("BN2  %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -2318,7 +2319,7 @@ void Cdp1802::cpuCycleExecute1()
                     }
                     else
                         setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("BN3  %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -2338,7 +2339,7 @@ void Cdp1802::cpuCycleExecute1()
                     }
                     else
                         setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("BN4  %02X",bus_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -2353,7 +2354,7 @@ void Cdp1802::cpuCycleExecute1()
             setScratchpadRegister(n, scratchpadRegister_[n]+1);
             p_Computer->showMrdLed(1);
             setAccumulator(bus_);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("LDA  R%X   D=M(%04X)=%02X",n,scratchpadRegister_[n]-1,accumulator_);
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -2363,7 +2364,7 @@ void Cdp1802::cpuCycleExecute1()
             bus_=accumulator_;
             writeMem(scratchpadRegister_[n], accumulator_, false);
             p_Computer->showMwrLed(1);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("STR  R%X   M(%04X)=%02X",n,scratchpadRegister_[n],accumulator_);
                  traceBuffer_ = traceBuffer_ + buffer;
@@ -2385,7 +2386,7 @@ void Cdp1802::cpuCycleExecute1()
                         setScratchpadRegister(dataPointer_, scratchpadRegister_[dataPointer_]+1);
                         p_Computer->showMrdLed(1);
                         p_Computer->out(n, scratchpadRegister_[dataPointer_]-1, bus_);
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("OUT  %X    [%02X]",n,bus_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2397,7 +2398,7 @@ void Cdp1802::cpuCycleExecute1()
                         writeMem(scratchpadRegister_[dataPointer_], bus_, false);
                         p_Computer->showMwrLed(1);
 //                      SYSTEM 00 doesn't load INP byte in D
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("INP       M(%04X)=%02X", scratchpadRegister_[dataPointer_], bus_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2406,7 +2407,7 @@ void Cdp1802::cpuCycleExecute1()
                         
                     default:
                         bus_=0;
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2419,7 +2420,7 @@ void Cdp1802::cpuCycleExecute1()
             {
                 p_Computer->showMrdLed(1);
                 setScratchpadRegister(dataPointer_, scratchpadRegister_[dataPointer_]+1);
-                if (trace_)
+                if (trace_ || traceBack_)
                 {
                     buffer.Printf("IRX       R%X=%04X",dataPointer_,scratchpadRegister_[dataPointer_]);
                     traceBuffer_ = traceBuffer_ + buffer;
@@ -2440,7 +2441,7 @@ void Cdp1802::cpuCycleExecute1()
                 p_Computer->out(n, scratchpadRegister_[dataPointer_]-1, bus_);
                 if (p_Main->getLapTimeTrigger() == (LAPTIME_OUT - 1 + n))
                     p_Main->lapTime();
-                if (trace_)
+                if (trace_ || traceBack_)
                 {
                     if (currentComputerConfiguration.vis1870Configuration.defined)
                     {
@@ -2471,7 +2472,7 @@ void Cdp1802::cpuCycleExecute1()
             p_Computer->showMwrLed(1);
             if (cpuType_ != CPU1801)  // 1801 doesn't load INP x byte in D
                 setAccumulator(bus_);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("INP  %X    D=M(%04X)=%02X",n-8,scratchpadRegister_[dataPointer_], bus_);
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -2487,7 +2488,7 @@ void Cdp1802::cpuCycleExecute1()
                     setProgramCounter(bus_ & 15, NO_TREG_TRACE);
                     setDataPointer(bus_>>4, NO_TREG_TRACE);
                     interruptEnable_=1;
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("RET       P=R%X, X=R%X", programCounter_, dataPointer_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -2497,7 +2498,7 @@ void Cdp1802::cpuCycleExecute1()
                     if (cpuType_ == SYSTEM00)
                     {
                         bus_=0;
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2511,7 +2512,7 @@ void Cdp1802::cpuCycleExecute1()
                         setProgramCounter(bus_ & 15);
                         setDataPointer(bus_>>4);
                         interruptEnable_=0;
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("DIS       P=R%X, X=R%X", programCounter_, dataPointer_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2522,7 +2523,7 @@ void Cdp1802::cpuCycleExecute1()
                     if (cpuType_ <= CPU1801)
                     {
                         bus_=0;
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2534,7 +2535,7 @@ void Cdp1802::cpuCycleExecute1()
                         setScratchpadRegister(dataPointer_, scratchpadRegister_[dataPointer_]+1);
                         p_Computer->showMrdLed(1);
                         setAccumulator(bus_);
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("LDXA      D=M(%04X)=%02X", scratchpadRegister_[dataPointer_]-1, accumulator_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2545,7 +2546,7 @@ void Cdp1802::cpuCycleExecute1()
                     if (cpuType_ <= CPU1801)
                     {
                         bus_=0;
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2557,7 +2558,7 @@ void Cdp1802::cpuCycleExecute1()
                         setScratchpadRegister(dataPointer_, scratchpadRegister_[dataPointer_]-1);
                         p_Computer->showMwrLed(1);
                         bus_=accumulator_;
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("STXD      M(%04X)=%02X",scratchpadRegister_[dataPointer_]+1,accumulator_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2568,7 +2569,7 @@ void Cdp1802::cpuCycleExecute1()
                     if (cpuType_ <= CPU1801)
                     {
                         bus_=0;
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2589,7 +2590,7 @@ void Cdp1802::cpuCycleExecute1()
                             setAccumulator(tempWord);
                             setDataFlag(0);
                         }
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("ADC       D=%02X, DF=%1X", accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2600,7 +2601,7 @@ void Cdp1802::cpuCycleExecute1()
                     if (cpuType_ <= CPU1801)
                     {
                         bus_=0;
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2621,7 +2622,7 @@ void Cdp1802::cpuCycleExecute1()
                             setAccumulator(tempWord & 0xff);
                             setDataFlag(0);
                         }
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("SDB       D=%02X, DF=%1X", accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2632,7 +2633,7 @@ void Cdp1802::cpuCycleExecute1()
                     bus_=0;
                     if (cpuType_ <= CPU1801)
                     {
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2643,7 +2644,7 @@ void Cdp1802::cpuCycleExecute1()
                         df1= (dataFlag_) ? 128 : 0;
                         setDataFlag((accumulator_ & 1) ? 1 : 0);
                         setAccumulator((accumulator_ >> 1) | df1);
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1, &executed) == MEM_TYPE_OPCODE_RSHR)
                                 buffer.Printf("RSHR      D=%02X, DF=%1X", accumulator_, dataFlag_);
@@ -2658,7 +2659,7 @@ void Cdp1802::cpuCycleExecute1()
                     if (cpuType_ <= CPU1801)
                     {
                         bus_=0;
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2679,7 +2680,7 @@ void Cdp1802::cpuCycleExecute1()
                             setAccumulator(tempWord & 0xff);
                             setDataFlag(0);
                         }
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("SMB       D=%02X, DF=%1X", accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2690,7 +2691,7 @@ void Cdp1802::cpuCycleExecute1()
                     bus_ = registerT_;
                     writeMem(scratchpadRegister_[dataPointer_], registerT_, false);
                     p_Computer->showMwrLed(1);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("SAV       M(%04X)=%02X",scratchpadRegister_[dataPointer_], registerT_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -2700,7 +2701,7 @@ void Cdp1802::cpuCycleExecute1()
                     if (cpuType_ <= CPU1801)
                     {
                         bus_=0;
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2714,7 +2715,7 @@ void Cdp1802::cpuCycleExecute1()
                         setScratchpadRegister(2, scratchpadRegister_[2]-1);
                         p_Computer->showMwrLed(1);
                         setDataPointer(programCounter_);
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("MARK");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2725,7 +2726,7 @@ void Cdp1802::cpuCycleExecute1()
                     bus_=0;
                     if (cpuType_ <= CPU1801)
                     {
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2734,7 +2735,7 @@ void Cdp1802::cpuCycleExecute1()
                     else
                     {
                         setFlipFlopQ(0);;
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             traceBuffer_ = traceBuffer_ + "REQ";
                         }
@@ -2747,7 +2748,7 @@ void Cdp1802::cpuCycleExecute1()
                     bus_=0;
                     if (cpuType_ <= CPU1801)
                     {
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2756,7 +2757,7 @@ void Cdp1802::cpuCycleExecute1()
                     else
                     {
                         setFlipFlopQ(1);;
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             traceBuffer_ = traceBuffer_ + "SEQ";
                         }
@@ -2771,7 +2772,7 @@ void Cdp1802::cpuCycleExecute1()
                     if (cpuType_ <= CPU1801)
                     {
                         bus_=0;
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2794,7 +2795,7 @@ void Cdp1802::cpuCycleExecute1()
                             setAccumulator(tempWord);
                             setDataFlag(0);
                         }
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("ADCI %02X   D=%02X, DF=%1X", bus_, accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2805,7 +2806,7 @@ void Cdp1802::cpuCycleExecute1()
                     if (cpuType_ <= CPU1801)
                     {
                         bus_=0;
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2828,7 +2829,7 @@ void Cdp1802::cpuCycleExecute1()
                             setAccumulator(tempWord & 0xff);
                             setDataFlag(0);
                         }
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("SDBI %02X   D=%02X, DF=%1X", bus_, accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2839,7 +2840,7 @@ void Cdp1802::cpuCycleExecute1()
                     bus_=0;
                     if (cpuType_ <= CPU1801)
                     {
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2850,7 +2851,7 @@ void Cdp1802::cpuCycleExecute1()
                         df1= (dataFlag_ & 1) ? 1: 0;
                         setDataFlag((accumulator_ & 128) ? 1 : 0);
                         setAccumulator((accumulator_ << 1) | df1);
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1, &executed) == MEM_TYPE_OPCODE_RSHL)
                                 buffer.Printf("RSHL      D=%02X, DF=%1X", accumulator_, dataFlag_);
@@ -2865,7 +2866,7 @@ void Cdp1802::cpuCycleExecute1()
                     if (cpuType_ <= CPU1801)
                     {
                         bus_=0;
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2889,7 +2890,7 @@ void Cdp1802::cpuCycleExecute1()
                             setAccumulator(tempWord & 0xff);
                             setDataFlag(0);
                         }
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("SMBI %02X   D=%02X, DF=%1X", bus_, accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -2901,7 +2902,7 @@ void Cdp1802::cpuCycleExecute1()
         case 8:
             bus_= (scratchpadRegister_[n] & 255);
             setAccumulator(bus_);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("GLO  R%X   D=%02X", n, accumulator_);
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -2911,7 +2912,7 @@ void Cdp1802::cpuCycleExecute1()
         case 9:
             bus_= (scratchpadRegister_[n] >> 8);
             setAccumulator(bus_);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("GHI  R%X   D=%02X",n,accumulator_);
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -2921,7 +2922,7 @@ void Cdp1802::cpuCycleExecute1()
         case 0xa:
             bus_=accumulator_;
             setScratchpadRegister(n, (scratchpadRegister_[n] & 0xff00) | accumulator_);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("PLO  R%X   R%X=%04X ",n,n,scratchpadRegister_[n]);
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -2936,7 +2937,7 @@ void Cdp1802::cpuCycleExecute1()
         case 0xb:
             bus_=accumulator_;
             setScratchpadRegister(n, (scratchpadRegister_[n] & 0x00ff) | (accumulator_<<8));
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("PHI  R%X   R%X=%04X ",n,n,scratchpadRegister_[n]);
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -2953,7 +2954,7 @@ void Cdp1802::cpuCycleExecute1()
             {
                 bus_=accumulator_;
                 setScratchpadRegister(n, (scratchpadRegister_[n] & 0xfff0) | (accumulator_&0xf));
-                if (trace_)
+                if (trace_ || traceBack_)
                 {
                     buffer.Printf("PNI  R%X   R%X=%04X ",n,n,scratchpadRegister_[n]);
                     traceBuffer_ = traceBuffer_ + buffer;
@@ -2963,7 +2964,7 @@ void Cdp1802::cpuCycleExecute1()
             else
             {
                 bus_=0;
-                if (trace_)
+                if (trace_ || traceBack_)
                 {
                     buffer.Printf("Illegal code");
                     traceBuffer_ = traceBuffer_ + buffer;
@@ -2972,7 +2973,7 @@ void Cdp1802::cpuCycleExecute1()
         break;
         case 0xd:
             p_Main->writeSepDatatype(scratchpadRegister_[programCounter_], instructionCode_);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 tempAddress = scratchpadRegister_[programCounter_];
                 traceBuffer_ = traceBuffer_ + p_Main->getAssemblySep(&tempAddress, n, &tempstring1, &tempstring2, &scrtProgramCounter_, &startHiddenTrace_, &stopHiddenTrace_, skipTrace_);
@@ -2989,7 +2990,7 @@ void Cdp1802::cpuCycleExecute1()
         case 0xe:
             bus_=n+16*n;
             setDataPointer(n);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("SEX  R%X",n);
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -3000,7 +3001,7 @@ void Cdp1802::cpuCycleExecute1()
             if (n > 6 && cpuType_ == SYSTEM00)
             {
                 bus_=0;
-                if (trace_)
+                if (trace_ || traceBack_)
                 {
                     buffer.Printf("Illegal code");
                     traceBuffer_ = traceBuffer_ + buffer;
@@ -3013,7 +3014,7 @@ void Cdp1802::cpuCycleExecute1()
                     bus_=readMem(scratchpadRegister_[dataPointer_]);
                     p_Computer->showMrdLed(1);
                     setAccumulator(bus_);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("LDX       D=M(%04X)=%02X",scratchpadRegister_[dataPointer_],accumulator_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -3023,7 +3024,7 @@ void Cdp1802::cpuCycleExecute1()
                     bus_=readMem(scratchpadRegister_[dataPointer_]);
                     p_Computer->showMrdLed(1);
                     setAccumulator(bus_ | accumulator_);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("OR        D=%02X",accumulator_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -3033,7 +3034,7 @@ void Cdp1802::cpuCycleExecute1()
                     bus_=readMem(scratchpadRegister_[dataPointer_]);
                     p_Computer->showMrdLed(1);
                     setAccumulator(bus_ & accumulator_);
-                    if (trace_) {
+                    if (trace_ || traceBack_) {
                         buffer.Printf("AND       D=%02X",accumulator_);
                         traceBuffer_ = traceBuffer_ + buffer;
                     }
@@ -3042,7 +3043,7 @@ void Cdp1802::cpuCycleExecute1()
                     bus_=readMem(scratchpadRegister_[dataPointer_]);
                     p_Computer->showMrdLed(1);
                     setAccumulator(bus_ ^ accumulator_);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("XOR       D=%02X",accumulator_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -3062,7 +3063,7 @@ void Cdp1802::cpuCycleExecute1()
                         setAccumulator(tempWord);
                         setDataFlag(0);
                     }
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("ADD       D=%02X, DF=%1X", accumulator_, dataFlag_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -3082,7 +3083,7 @@ void Cdp1802::cpuCycleExecute1()
                         setAccumulator(tempWord & 0xff);
                         setDataFlag(0);
                     }
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("SD        D=%02X, DF=%1X", accumulator_, dataFlag_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -3092,7 +3093,7 @@ void Cdp1802::cpuCycleExecute1()
                     bus_=0;
                     setDataFlag((accumulator_ & 1) ? 1 : 0);
                     setAccumulator(accumulator_>>1);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("SHR       D=%02X, DF=%1X", accumulator_, dataFlag_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -3113,7 +3114,7 @@ void Cdp1802::cpuCycleExecute1()
                         setAccumulator(tempWord & 0xff);
                         setDataFlag(0);
                     }
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("SM        D=%02X, DF=%1X", accumulator_, dataFlag_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -3124,7 +3125,7 @@ void Cdp1802::cpuCycleExecute1()
                     bus_=readMem(scratchpadRegister_[programCounter_]);
                     setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);                    p_Computer->showMrdLed(1);
                     setAccumulator(bus_);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("LDI  %02X   D=%02X", accumulator_, accumulator_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -3135,7 +3136,7 @@ void Cdp1802::cpuCycleExecute1()
                     bus_=readMem(scratchpadRegister_[programCounter_]);
                     setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);                    p_Computer->showMrdLed(1);
                     setAccumulator(accumulator_ | bus_);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("ORI  %02X   D=%02X", bus_, accumulator_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -3147,7 +3148,7 @@ void Cdp1802::cpuCycleExecute1()
                     setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
                     p_Computer->showMrdLed(1);
                     setAccumulator(accumulator_ & bus_);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("ANI  %02X   D=%02X",bus_,accumulator_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -3159,7 +3160,7 @@ void Cdp1802::cpuCycleExecute1()
                     setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
                     p_Computer->showMrdLed(1);
                     setAccumulator(accumulator_ ^ bus_);
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("XRI  %02X   D=%02X",bus_,accumulator_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -3181,7 +3182,7 @@ void Cdp1802::cpuCycleExecute1()
                         setAccumulator(tempWord);
                         setDataFlag(0);
                     }
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("ADI  %02X   D=%02X, DF=%1X", bus_, accumulator_, dataFlag_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -3203,7 +3204,7 @@ void Cdp1802::cpuCycleExecute1()
                         setAccumulator(tempWord & 0xff);
                         setDataFlag(0);
                     }
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("SDI  %02X   D=%02X, DF=%1X", bus_, accumulator_, dataFlag_);
                         traceBuffer_ = traceBuffer_ + buffer;
@@ -3213,7 +3214,7 @@ void Cdp1802::cpuCycleExecute1()
                     bus_=0;
                     if (cpuType_ == CPU1801)
                     {
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("Illegal code");
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -3223,7 +3224,7 @@ void Cdp1802::cpuCycleExecute1()
                     {
                         setDataFlag((accumulator_ & 128) ? 1 : 0);
                         setAccumulator(accumulator_<<1);
-                        if (trace_)
+                        if (trace_ || traceBack_)
                         {
                             buffer.Printf("SHL       D=%02X, DF=%1X", accumulator_, dataFlag_);
                             traceBuffer_ = traceBuffer_ + buffer;
@@ -3247,7 +3248,7 @@ void Cdp1802::cpuCycleExecute1()
                         setAccumulator(tempWord & 0xff);
                         setDataFlag(0);
                     }
-                    if (trace_)
+                    if (trace_ || traceBack_)
                     {
                         buffer.Printf("SMI  %02X   D=%02X, DF=%1X", bus_, accumulator_, dataFlag_);
     //                                     XXX       R
@@ -3386,7 +3387,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
             setScratchpadRegister(programCounter_, branchAddress);
             address_++;
             p_Computer->writeMemLabelType(branchAddress, LABEL_TYPE_JUMP);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("LBR  %02X%02X",highByteBranchAddress,lowByteBranchAddress);
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -3405,7 +3406,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
                 setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
             address_++;
             p_Computer->writeMemLabelType(branchAddress, LABEL_TYPE_JUMP);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("LBQ  %02X%02X",highByteBranchAddress,lowByteBranchAddress);
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -3424,7 +3425,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
                 setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
             address_++;
             p_Computer->writeMemLabelType(branchAddress, LABEL_TYPE_JUMP);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("LBZ  %02X%02X",highByteBranchAddress,lowByteBranchAddress);
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -3443,14 +3444,14 @@ void Cdp1802::cpuCycleExecute2_LBR()
                 setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
             address_++;
             p_Computer->writeMemLabelType(branchAddress, LABEL_TYPE_JUMP);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("LBDF %02X%02X",highByteBranchAddress,lowByteBranchAddress);
                 traceBuffer_ = traceBuffer_ + buffer;
             }
         break;
         case 4:
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("NOP");
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -3464,7 +3465,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
                 address_++;
                 bus_=lowByteBranchAddress;
             }
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("LSNQ");
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -3477,7 +3478,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
                 address_++;
                 bus_=lowByteBranchAddress;
             }
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("LSNZ");
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -3490,7 +3491,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
                 address_++;
                 bus_=lowByteBranchAddress;
             }
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("LSNF");
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -3500,7 +3501,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
             setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
             address_++;
             bus_=lowByteBranchAddress;
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 if (p_Computer->readMemDataType(instructionAddress, &executed) == MEM_TYPE_OPCODE_LSKP)
                     buffer.Printf("LSKP");
@@ -3522,7 +3523,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
                 setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
             address_++;
             p_Computer->writeMemLabelType(branchAddress, LABEL_TYPE_JUMP);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("LBNQ %02X%02X",highByteBranchAddress,lowByteBranchAddress);
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -3541,7 +3542,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
                 setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
             address_++;
             p_Computer->writeMemLabelType(branchAddress, LABEL_TYPE_JUMP);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("LBNZ %02X%02X",highByteBranchAddress,lowByteBranchAddress);
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -3560,7 +3561,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
                 setScratchpadRegister(programCounter_, scratchpadRegister_[programCounter_]+1);
             address_++;
             p_Computer->writeMemLabelType(branchAddress, LABEL_TYPE_JUMP);
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("LBNF %02X%02X",highByteBranchAddress,lowByteBranchAddress);
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -3573,7 +3574,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
                 address_++;
                 bus_=lowByteBranchAddress;
             }
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("LSIE");
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -3586,7 +3587,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
                 address_++;
                 bus_=lowByteBranchAddress;
             }
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("LSQ");
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -3599,7 +3600,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
                 address_++;
                 bus_=lowByteBranchAddress;
             }
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("LSZ");
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -3612,7 +3613,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
                 address_++;
                 bus_=lowByteBranchAddress;
             }
-            if (trace_)
+            if (trace_ || traceBack_)
             {
                 buffer.Printf("LSDF");
                 traceBuffer_ = traceBuffer_ + buffer;
@@ -3643,6 +3644,8 @@ void Cdp1802::cpuCycleFinalize()
     {
         if (trace_ && !skipTrace_ && !skipTraceHb_)
             p_Main->debugTrace(traceBuffer_);
+        else if (traceBack_ && !skipTrace_ && !skipTraceHb_ && !traceBuffer_.IsEmpty())
+            p_Main->traceBackPush(traceBuffer_);
 
         // System 00 RPT switch: hold the execute machine cycle so the current
         // instruction repeats without re-fetching (I preserved, R(P) frozen).
@@ -3665,6 +3668,8 @@ void Cdp1802::cpuCycleFinalize()
     {
         if (trace_ && !skipTrace_ && !skipTraceHb_ && traceBuffer_ != ".")
             p_Main->debugTrace(traceBuffer_);
+        else if (traceBack_ && !skipTrace_ && !skipTraceHb_ && traceBuffer_ != "." && !traceBuffer_.IsEmpty())
+            p_Main->traceBackPush(traceBuffer_);
 
         // System 00 RPT walk from the CL idle state (manual p.15 III.B.3): the
         // fetch is inhibited and the walked instruction (e.g. WIN-latched LDA
@@ -4653,17 +4658,19 @@ void Cdp1802::setSteps(long steps)
     steps_ = steps;
 }
 
-void Cdp1802::setDebugMode (bool debugModeNew, bool debugChip8ModeNew, bool trace, bool traceDma, bool traceInt, bool traceChip8Int)
+void Cdp1802::setDebugMode (bool debugModeNew, bool debugChip8ModeNew, bool trace, bool traceBack, bool traceDma, bool traceInt, bool traceChip8Int)
 {
     if (debugMode_ && !debugModeNew)
     {
         trace_ = false;
         debugMode_ = false;
+        // traceBack_ left unchanged: back-buffer arming is independent of debug mode.
     }
     else
     {
         debugMode_ = debugModeNew;
         trace_ = trace;
+        traceBack_ = traceBack;
         traceDma_ = traceDma;
         traceInt_ = traceInt;
     }

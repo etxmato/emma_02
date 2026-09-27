@@ -151,6 +151,7 @@ public:
     long getSteps(){return steps_;};
     void setSteps(long steps);
     void setTraceStatus(bool trace) {trace_ = trace;};
+    void setTraceBackStatus(bool traceBack) {traceBack_ = traceBack;};
     void setDmaTraceStatus(bool traceDma) {traceDma_ = traceDma;};
     void setIntTraceStatus(bool traceInt) {traceInt_ = traceInt;};
     void setChip8IntTraceStatus(bool traceChip8Int) {traceChip8Int_ = traceChip8Int;};
@@ -158,7 +159,7 @@ public:
     void setOutValue(int number, Byte outValue) {outValues_[number] = outValue;};
     Byte getInValue(int number) {return inValues_[number];};
     void setInValue(int number, Byte inValue) {inValues_[number] = inValue;};
-    void setDebugMode (bool debugModeNew, bool debugChip8ModeNew, bool trace, bool traceDma, bool traceInt, bool traceChip8Int);
+    void setDebugMode (bool debugModeNew, bool debugChip8ModeNew, bool trace, bool traceBack, bool traceDma, bool traceInt, bool traceChip8Int);
     void debugTrace (wxString text);
     Byte getCpuMode() {return cpuMode_;};
     void useColour(int colourMask) {colourMask_ = colourMask;};
@@ -261,6 +262,7 @@ private:
     Byte accumulator_;
 
     bool trace_;
+    bool traceBack_;
     bool skipTrace_;
     bool skipTraceHb_;
     bool traceDma_;

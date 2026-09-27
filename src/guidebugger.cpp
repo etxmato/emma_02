@@ -314,6 +314,8 @@ void GuiDebugger::cycleDebugger()
                 printBuffer.Printf("      Breakpoint at %04X", programCounterAddress);
                 
 //                p_Main->showInstructionTrace(programCounterAddress);
+                if (breakTrap_)
+                    p_Main->traceBackDump();
                 p_Main->debugTrace(printBuffer);
                 if (breakTrap_)
                 {
@@ -384,6 +386,7 @@ void GuiDebugger::cycleDebugger()
                 {
                     p_Computer->setSteps(0);
                     printBuffer.Printf("Instruction Trap at %04X", programCounterAddress);
+                    p_Main->traceBackDump();
                     p_Main->debugTrace(printBuffer);
                     p_Main->guiPauseState();
                     i = numberOfBreakPointsAndTraps_;
@@ -472,6 +475,8 @@ void GuiDebugger::checkRegisterTrap(Byte registerType, Word execAddress, Word va
             {
                 wxString valueString;
                 valueString.Printf(registerTypeText[registerType*2+1], value);
+                if (breakTrap_)
+                    p_Main->traceBackDump();
                 p_Main->showInstructionTrace(execAddress);
                 p_Main->debugTrace("      Register write: " + registerTypeText[registerType*2] + "=" + valueString);
                 if (breakTrap_)
@@ -503,6 +508,8 @@ void GuiDebugger::checkMemoryTrap(Word execAddress, Word address, Byte value, in
                         addressString.Printf("%04X", address);
                         wxString valueString;
                         valueString.Printf("%02X", value);
+                        if (breakTrap_)
+                            p_Main->traceBackDump();
                         if (dmaReadWrite)
                         {
                             wxString traceText;
