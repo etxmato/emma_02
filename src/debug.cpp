@@ -866,7 +866,7 @@ void DebugWindow::enableChip8DebugGui(bool status)
     wxString text;
 
     XRCCTRL(*this,"Chip8PercentageClock", wxSlider)->Enable(status);
-    XRCCTRL(*this,"Chip8PercentageClockText", wxStaticText)->Enable(status);
+//    XRCCTRL(*this,"Chip8PercentageClockText", wxStaticText)->Enable(status);
     XRCCTRL(*this,"Chip8TraceLog", wxButton)->Enable(status);
     XRCCTRL(*this,"Chip8PauseButton", wxBitmapButton)->Enable(status);
     XRCCTRL(*this,"Chip8StepButton", wxBitmapButton)->Enable(false);
@@ -15586,7 +15586,7 @@ void DebugWindow::updateDebugMenu(bool debugMode)
         p_Main->guiUpdateTitle();
     }
     XRCCTRL(*this,"PercentageClock", wxSlider)->Enable(debugMode_);
-    XRCCTRL(*this,"PercentageClockText", wxStaticText)->Enable(debugMode_);
+//    XRCCTRL(*this,"PercentageClockText", wxStaticText)->Enable(debugMode_);
 }
 
 void DebugWindow::onDebugMode(wxCommandEvent&event)

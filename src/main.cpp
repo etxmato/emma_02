@@ -138,6 +138,7 @@ wxString guiSizers[] =
     "ComputerBottomRight",
     "AssBottomRight",
     "DebugRight",
+    "DebugRight2",
     "MemoryDumpBottomRight",
     "MemoryDumpBottomLeft",
     "MemoryDumpBottom",

@@ -7252,7 +7252,7 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>1,3d</size>
+<size>0,3d</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
@@ -7281,7 +7281,7 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>1,3d</size>
+<size>0,3d</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
@@ -7310,7 +7310,7 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>1,3d</size>
+<size>0,3d</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
@@ -7339,7 +7339,7 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>1,3d</size>
+<size>0,3d</size>
 </object>
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL</flag>
@@ -7368,10 +7368,10 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>1,3d</size>
+<size>0,3d</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxStaticText" name="CHButton">
 <tooltip>Counter Jam Value</tooltip>
@@ -7397,10 +7397,10 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>1,3d</size>
+<size>0,3d</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxStaticText" name="CNTRButton">
 <tooltip>Counter / Timer</tooltip>
@@ -7426,10 +7426,10 @@
 <object class="spacer">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<size>1,3d</size>
+<size>0,3d</size>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+<flag>wxALIGN_CENTER_VERTICAL</flag>
 <border>2</border>
 <object class="wxStaticText" name="CIEButton">
 <tooltip>Program counter register</tooltip>
@@ -8487,7 +8487,7 @@
 <object class="wxBoxSizer">
 <orient>wxVERTICAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_RIGHT</flag>
+<flag>wxALIGN_LEFT</flag>
 <border>2</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
@@ -8500,7 +8500,7 @@
 <vgap>0</vgap>
 <hgap>0</hgap>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_TOP|wxLEFT|wxTOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP</flag>
 <border>6</border>
 <object class="wxCheckBox" name="DebugMode">
 <tooltip>Enable debug mode (F1)</tooltip>
@@ -8512,7 +8512,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxALIGN_TOP|wxLEFT|wxTOP</flag>
+<flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP</flag>
 <border>6</border>
 <object class="wxCheckBox" name="ProtectedMode">
 <tooltip>Enable protected mode, no value changes are allowed in protected mode</tooltip>
@@ -8937,7 +8937,7 @@
 </object>
 <object class="sizeritem">
 <object class="wxListCtrl" name="BreakPointAndTrapWindow" subclass="CheckBoxListCtrl">
-<size>188,101d</size>
+<size>174,101d</size>
 <font>
 <size>14</size>
 <face>Courier New</face>
@@ -8972,7 +8972,7 @@
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxALIGN_CENTER_VERTICAL|wxADJUST_MINSIZE</flag>
 <border>0</border>
 <object class="wxToggleButton" name="TraceButton">
 <tooltip>Toggle instruction trace</tooltip>
@@ -8985,7 +8985,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxALIGN_CENTER_VERTICAL|wxADJUST_MINSIZE</flag>
 <border>0</border>
 <object class="wxToggleButton" name="TraceBackButton">
 <tooltip>Toggle trace buffer</tooltip>
@@ -8998,7 +8998,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxALIGN_CENTER_VERTICAL|wxADJUST_MINSIZE</flag>
 <border>0</border>
 <object class="wxToggleButton" name="TraceTrapButton">
 <tooltip>Toggle instruction trap trace</tooltip>
@@ -9011,7 +9011,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxALIGN_CENTER_VERTICAL|wxADJUST_MINSIZE</flag>
 <border>0</border>
 <object class="wxToggleButton" name="DmaButton">
 <tooltip>Toggle DMA trace</tooltip>
@@ -9024,7 +9024,7 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL</flag>
+<flag>wxALIGN_CENTER_VERTICAL|wxADJUST_MINSIZE</flag>
 <border>0</border>
 <object class="wxToggleButton" name="IntButton">
 <tooltip>Toggle interrupt trace</tooltip>
@@ -9032,7 +9032,20 @@
 <size>14</size>
 </font>
 <style>wxBU_EXACTFIT</style>
-<label>I / S</label>
+<label>INT</label>
+<checked>0</checked>
+</object>
+</object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxADJUST_MINSIZE</flag>
+<border>0</border>
+<object class="wxToggleButton" name="SyncButton">
+<tooltip>Toggle interrupt trace</tooltip>
+<font>
+<size>14</size>
+</font>
+<style>wxBU_EXACTFIT</style>
+<label>Sync</label>
 <checked>0</checked>
 </object>
 </object>
@@ -9048,10 +9061,17 @@
 <label> Clear </label>
 </object>
 </object>
+<object class="sizeritem">
+<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<border>0</border>
+<object class="wxStaticText" name="DebugRight">
+<label> </label>
+</object>
+</object>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_LEFT|wxRIGHT</flag>
+<flag>wxALIGN_LEFT</flag>
 <border>2</border>
 <object class="wxBoxSizer">
 <orient>wxHORIZONTAL</orient>
@@ -9065,14 +9085,14 @@
 </font>
 <style>wxBU_EXACTFIT</style>
 <enabled>0</enabled>
-<label> RUN: </label>
+<label> RUN</label>
 </object>
 </object>
 <object class="sizeritem">
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="DebugRunAddress" subclass="HexEdit">
-<size>27,-1d</size>
+<size>24,-1d</size>
 <tooltip>RUN address</tooltip>
 <font>
 <size>14</size>
@@ -9102,7 +9122,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="NumberOfSteps" subclass="IntEdit">
-<size>18,-1d</size>
+<size>12,-1d</size>
 <tooltip>Number of steps</tooltip>
 <font>
 <size>14</size>
@@ -9111,21 +9131,20 @@
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+<flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
 <border>6</border>
 <object class="wxStaticText" name="PercentageClockText">
 <font>
 <size>14</size>
 </font>
-<enabled>0</enabled>
-<label>Speed: </label>
+<label> Speed </label>
 </object>
 </object>
 <object class="sizeritem">
-<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+<flag>wxALIGN_CENTER_VERTICAL|wxALL|wxFIXED_MINSIZE</flag>
 <border>0</border>
 <object class="wxSlider" name="PercentageClock">
-<size>38,-1d</size>
+<size>50,-1d</size>
 <tooltip>Slow down emulated computer</tooltip>
 <font>
 <size>14</size>
@@ -9171,7 +9190,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="DebugCallReg" subclass="HexEdit">
-<size>12,-1d</size>
+<size>14,-1d</size>
 <tooltip>Call register</tooltip>
 <font>
 <size>14</size>
@@ -9183,7 +9202,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="DebugCallAddress" subclass="HexEdit">
-<size>27,-1d</size>
+<size>28,-1d</size>
 <tooltip>Call address</tooltip>
 <font>
 <size>14</size>
@@ -9206,7 +9225,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="DebugRetReg" subclass="HexEdit">
-<size>12,-1d</size>
+<size>14,-1d</size>
 <tooltip>Return register</tooltip>
 <font>
 <size>14</size>
@@ -9218,7 +9237,7 @@
 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
 <border>2</border>
 <object class="wxTextCtrl" name="DebugRetAddress" subclass="HexEdit">
-<size>27,-1d</size>
+<size>28,-1d</size>
 <tooltip>Return address</tooltip>
 <font>
 <size>14</size>
@@ -9229,7 +9248,7 @@
 <object class="sizeritem">
 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 <border>0</border>
-<object class="wxStaticText" name="DebugRight">
+<object class="wxStaticText" name="DebugRight2">
 <label> </label>
 </object>
 </object>
