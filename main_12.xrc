@@ -8986,7 +8986,7 @@
 <flag>wxALIGN_CENTER_VERTICAL|wxADJUST_MINSIZE</flag>
 <border>0</border>
 <object class="wxToggleButton" name="SyncButton">
-<tooltip>Toggle interrupt trace</tooltip>
+<tooltip>Toggle video sync trace</tooltip>
 <font>
 <size>12</size>
 </font>

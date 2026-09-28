@@ -55916,7 +55916,7 @@
                                   <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
                                   <bool name="proxy-Separate files">0</bool>
                                   <long name="proxy-Stretch factor">0</long>
-                                  <string name="proxy-Tooltip text">"Toggle interrupt trace"</string>
+                                  <string name="proxy-Tooltip text">"Toggle video sync trace"</string>
                                   <long name="proxy-Width">-1</long>
                                   <bool name="proxy-wxADJUST_MINSIZE">1</bool>
                                   <bool name="proxy-wxBOTTOM">0</bool>
