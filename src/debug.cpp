@@ -213,6 +213,7 @@ BEGIN_EVENT_TABLE(DebugWindow, GuiDebugger)
     EVT_TOGGLEBUTTON(XRCID("TraceButton"), DebugWindow::onTrace)
     EVT_TOGGLEBUTTON(XRCID("DmaButton"), DebugWindow::onTraceDma)
     EVT_TOGGLEBUTTON(XRCID("IntButton"), DebugWindow::onTraceInt)
+    EVT_TOGGLEBUTTON(XRCID("SyncButton"), DebugWindow::onTraceSync)
     EVT_TOGGLEBUTTON(XRCID("Chip8IntButton"), DebugWindow::onChip8TraceInt)
     EVT_TOGGLEBUTTON(XRCID("TraceBackButton"), DebugWindow::onTraceBack)
     EVT_TOGGLEBUTTON(XRCID("TraceTrapButton"), DebugWindow::onTraceTrap)
@@ -686,6 +687,7 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
     traceDmaMt_ = false;
     traceChip8Int_ = false;
     traceInt_ = false;
+    traceSync_ = false;
     breakTrap_ = true;
     trace_ = false;
     traceBack_ = false;
@@ -6363,7 +6365,7 @@ void DebugWindow::onNumberOfSteps(wxCommandEvent&WXUNUSED(event))
 
 void DebugWindow::SetDebugMode()
 {
-    if (trace_ || traceDma_ || traceInt_ || numberOfBreakPointsAndTraps_ > 0)
+    if (trace_ || traceDma_ || traceInt_ || traceSync_ || numberOfBreakPointsAndTraps_ > 0)
         updateDebugMenu(true);
     else
         updateDebugMenu(false);
@@ -6479,6 +6481,17 @@ void DebugWindow::onTraceInt(wxCommandEvent& WXUNUSED(event))
     if (computerRunning_)
     {
         p_Computer->setIntTraceStatus(traceInt_);
+        enableDebugGui(true);
+    }
+    SetDebugMode();
+}
+
+void DebugWindow::onTraceSync(wxCommandEvent& WXUNUSED(event))
+{
+    traceSync_ = !traceSync_;
+    if (computerRunning_)
+    {
+//        p_Computer->setSyncTraceStatus(traceSync_);
         enableDebugGui(true);
     }
     SetDebugMode();

@@ -229,6 +229,7 @@ public:
     void onTraceBack(wxCommandEvent&event);
     void onTraceDma(wxCommandEvent&event);
     void onTraceInt(wxCommandEvent&event);
+    void onTraceSync(wxCommandEvent&event);
     void onChip8TraceInt(wxCommandEvent&event);
     void onTraceTrap(wxCommandEvent&event);
 
@@ -486,7 +487,8 @@ public:
     void setJumpCorrection(Byte instruction, int value);
     void setNumberOfBytes(Byte instruction, int value);
     int getNumberOfBytes(Byte instruction);
-    bool getTraceInt() {return traceInt_;};
+    bool getTraceSync() {return traceInt_;};
+    bool getTraceSync() {return traceSync_;};
 
     int assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4, Byte* b5, Byte* b6, Byte* b7, bool allowX);
     int ignore_negative(int n);
@@ -525,6 +527,7 @@ protected:
 
     bool traceChip8Int_;
     bool traceInt_;
+    bool traceSync_;
     bool chip8Trace_;
     bool xmlLoaded_;
     Word memoryStart_;
