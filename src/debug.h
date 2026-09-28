@@ -487,7 +487,7 @@ public:
     void setJumpCorrection(Byte instruction, int value);
     void setNumberOfBytes(Byte instruction, int value);
     int getNumberOfBytes(Byte instruction);
-    bool getTraceSync() {return traceInt_;};
+    bool getTraceInt() {return traceInt_;};
     bool getTraceSync() {return traceSync_;};
 
     int assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4, Byte* b5, Byte* b6, Byte* b7, bool allowX);
