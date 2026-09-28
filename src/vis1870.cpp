@@ -602,6 +602,8 @@ void VIS1870::cycle1870()
         ef1Value_ = efNonDisplay_;
         nonDisplay_ = true;
         videoSyncCount_++;
+        if (p_Main->getTraceSync())
+            p_Main->debugTrace("      Vertical Sync VIS1870");
         if (!displayOff_)
         {
                         if (vis1870Configuration_.interruptMode == INT_MODE2)

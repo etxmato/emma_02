@@ -456,6 +456,8 @@ void mc6847::cycle6847()
             changeScreenSize();
         copyScreen();
         videoSyncCount_++;
+        if (p_Main->getTraceSync())
+            p_Main->debugTrace("      Vertical Sync MC6847");
     }
     if (cycleValue_ <= 0)
     {

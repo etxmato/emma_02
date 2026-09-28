@@ -524,6 +524,8 @@ void i8275::cycle8275()
 
             copyScreen();
             videoSyncCount_++;
+            if (p_Main->getTraceSync())
+                p_Main->debugTrace("      Vertical Sync i8275");
             dmaCycleValue8275_ = -1;
             reDraw_ = true;
         }
@@ -582,6 +584,8 @@ void i8275::cycle8275()
                     changeScreenSize();
                 copyScreen();
                 videoSyncCount_++;
+                if (p_Main->getTraceSync())
+                    p_Main->debugTrace("      Vertical Sync i8275");
             }
         }
     }

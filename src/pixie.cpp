@@ -432,7 +432,7 @@ void Pixie::cyclePixie()
     if (graphicsNext_ == 0)
     {
         if (p_Main->getTraceSync())
-            p_Main->debugTrace("      H.Sync");
+            p_Main->debugTrace("      Horizontal Sync CDP1861");
         graphicsMode_++;
         if (graphicsMode_ == cdp1861Configuration_.pixieGraphics.interrupt-2)
             pixieEf_ = 0;
@@ -453,6 +453,8 @@ void Pixie::cyclePixie()
             graphicsMode_ = 0;
             copyScreen();
             videoSyncCount_++;
+            if (p_Main->getTraceSync())
+                p_Main->debugTrace("      Vertical Sync CDP1861");
         }
     }
     if (graphicsNext_ == 2)
@@ -522,7 +524,7 @@ void Pixie::cyclePixieCoinArcade()
     if (graphicsNext_ == 0)
     {
         if (p_Main->getTraceSync())
-            p_Main->debugTrace("      H.Sync");
+            p_Main->debugTrace("      Horizontal Sync Coin Video");
         graphicsMode_++;
         if (graphicsMode_ >= cdp1861Configuration_.pixieGraphics.screenend)
         {
@@ -531,6 +533,8 @@ void Pixie::cyclePixieCoinArcade()
             graphicsMode_ = 0;
             copyScreen();
             videoSyncCount_++;
+            if (p_Main->getTraceSync())
+                p_Main->debugTrace("      Vertical Sync Coin Video");
         }
     }
     if (graphicsNext_ == 2)
@@ -581,7 +585,7 @@ void Pixie::cyclePixieCdp1864()
     if (graphicsNext_ == 0)
     {
         if (p_Main->getTraceSync())
-            p_Main->debugTrace("      H.Sync");
+            p_Main->debugTrace("      Horizontal Sync CDP1864");
         graphicsMode_++;
         if (graphicsMode_ == cdp1861Configuration_.pixieGraphics.interrupt-2) pixieEf_ = 0;
         if (graphicsMode_ == cdp1861Configuration_.pixieGraphics.start) pixieEf_ = 1;
@@ -598,6 +602,8 @@ void Pixie::cyclePixieCdp1864()
             graphicsMode_ = 0;
             copyScreen();
             videoSyncCount_++;
+            if (p_Main->getTraceSync())
+                p_Main->debugTrace("      Vertical Sync CDP1864");
         }
     }
     if (graphicsNext_ == 2)
@@ -909,7 +915,7 @@ void PixieFred::cyclePixie()
     if (graphicsNext_ == 0)
     {
         if (p_Main->getTraceSync())
-            p_Main->debugTrace("      H.Sync");
+            p_Main->debugTrace("      Horizontal Sync FRED Video");
         graphicsMode_++;
         if (graphicsMode_ >= 64)
         {
@@ -918,6 +924,8 @@ void PixieFred::cyclePixie()
             graphicsMode_ = 0;
             copyScreen();
             videoSyncCount_++;
+            if (p_Main->getTraceSync())
+                p_Main->debugTrace("      Vertical Sync FRED Video");
         }
         
         if (graphicsMode_ == 1)
@@ -1165,6 +1173,8 @@ void PixieVip2K::executeSequencer(Byte sequencerValue)
         viewableLines_ = 0;
         copyScreen();
         videoSyncCount_++;
+        if (p_Main->getTraceSync())
+            p_Main->debugTrace("      Vertical Sync VIP2K Video");
     }
     
     pixieEf_ = (sequencerValue & 0x20) >> 5;
@@ -1242,7 +1252,7 @@ void PixieStudioIV::cyclePixie()
     if (graphicsNext_ == 0)
     {
         if (p_Main->getTraceSync())
-            p_Main->debugTrace("      H.Sync");
+            p_Main->debugTrace("      Horizontal Sync Studio IV Video");
         graphicsMode_++;
         if (graphicsMode_ >= cdp1861Configuration_.pixieGraphics.screenend)
         {
@@ -1251,6 +1261,8 @@ void PixieStudioIV::cyclePixie()
             graphicsMode_ = 0;
             copyScreen();
             videoSyncCount_++;
+            if (p_Main->getTraceSync())
+                p_Main->debugTrace("      Vertical Sync Studio IV Video");
         }
     }
     

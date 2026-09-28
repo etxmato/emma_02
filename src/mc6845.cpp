@@ -436,6 +436,8 @@ void MC6845::blink6845()
     {
         blinkValue6845_ = blinkSize6845_;
         videoSyncCount_++;
+        if (p_Main->getTraceSync())
+            p_Main->debugTrace("      Vertical Sync MC6845");
         if (changeScreenSize_)
             changeScreenSize();
         copyScreen();

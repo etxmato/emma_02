@@ -1183,6 +1183,8 @@ void Scn2672::blinkScn2672()
     {
         cursorBlinkValueScn2672_ = cursorBlinkSizeScn2672_;
         videoSyncCount_++;
+        if (p_Main->getTraceSync())
+            p_Main->debugTrace("      Vertical Sync SCN2672");
         if (changeScreenSize_)
             changeScreenSize();
         copyScreen();
@@ -1198,10 +1200,6 @@ void Scn2672::blinkScn2672()
     if (characterBlinkValueScn2672_ <= 0)
     {
         characterBlinkValueScn2672_ = characterBlinkSizeScn2672_;
-        videoSyncCount_++;
-        if (changeScreenSize_)
-            changeScreenSize();
-        copyScreen();
         characterBlinkTimeValue_--;
         if (characterBlinkTimeValue_ <= 0)
         {

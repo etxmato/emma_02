@@ -320,6 +320,8 @@ void HD44780::blinkHd44780()
     {
         blinkValue_ = blinkSize_;
         videoSyncCount_++;
+        if (p_Main->getTraceSync())
+            p_Main->debugTrace("      Display Refresh HD44780");
 
         if (changeScreenSize_)
             changeScreenSize();

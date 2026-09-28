@@ -126,6 +126,8 @@ void SN76430N::cycle()
     {
         cycleValue_ = cycleSize_;
         videoSyncCount_++;
+        if (p_Main->getTraceSync())
+            p_Main->debugTrace("      Vertical Sync SN76430N");
         if (changeScreenSize_)
             changeScreenSize();
         copyScreen();

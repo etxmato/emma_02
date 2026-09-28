@@ -389,6 +389,8 @@ void Tms9918::cycleTms()
     {
         cycleValue_ = cycleSize_;
         videoSyncCount_++;
+        if (p_Main->getTraceSync())
+            p_Main->debugTrace("      Vertical Sync TMS9918");
         if (enableInterrupt_)
         {
             statusRegister_ = statusRegister_ | 0x80;
