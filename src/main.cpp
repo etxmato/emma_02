@@ -1572,7 +1572,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 
     wxString helpFile = applicationDirectory_ + "emma_02.htb";
 
-    wxHtmlWinParser::AddModule(new CodeTagModule());
+    codeTagModule_ = new CodeTagModule();
+    wxHtmlWinParser::AddModule(codeTagModule_);
     help_ = new MyHtmlHelpController(wxHF_TOOLBAR | wxHF_CONTENTS | wxHF_INDEX | wxHF_SEARCH | wxHF_BOOKMARKS | wxHF_PRINT | wxHF_BOOKMARKS);
         
     if (!help_->AddBook(helpFile))
@@ -1766,6 +1767,12 @@ Main::~Main()
     delete guiSizeTimeoutPointer;
     delete guiRedrawBarTimeOutPointer;
     delete help_;
+    if (codeTagModule_)
+    {
+        wxHtmlWinParser::RemoveModule(codeTagModule_);
+        delete codeTagModule_;
+        codeTagModule_ = nullptr;
+    }
     if (configPointer == NULL || !saveOnExit_)
         return;
 

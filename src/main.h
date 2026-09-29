@@ -1069,6 +1069,7 @@ public:
 
 private:
     MyHtmlHelpController *help_;
+    wxHtmlTagsModule *codeTagModule_;
     wxString latestVersion_;
 
     bool saveOnExit_;
