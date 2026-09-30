@@ -50,6 +50,76 @@
 #include "wx/html/winpars.h"
 
 
+// Paints the background of an inline <code> span as one single rectangle.
+//
+// A wxHtmlColourCell(wxHTML_CLR_BACKGROUND) only sets the DC text
+// background, which wxDC paints behind each individual glyph run. Every run
+// is rounded on its own by the platform, so two adjacent words end up with
+// an unpainted one pixel gap in between - seen as a thin line in the page
+// background right of every space inside the code text. Filling one
+// rectangle spanning the whole code text avoids those gaps.
+class CodeBackgroundCell : public wxHtmlCell
+{
+public:
+    CodeBackgroundCell(const wxColour& colour, bool endOfCode = false)
+        : m_Colour(colour), m_EndOfCode(endOfCode) {}
+
+    void Draw(wxDC& dc, int x, int y, int, int, wxHtmlRenderingInfo&) override
+    {
+        if (m_EndOfCode)
+            return;
+
+        // The geometry is taken from the first word of the code text: this
+        // cell has no size of its own, so it is not positioned on the line in
+        // the same way as the words (the container offsets every cell
+        // vertically by its own height and descent).
+        int left = x + m_PosX;
+        int right = left;
+        int top = 0;
+        int height = 0;
+        int lineY = 0;
+
+        for (wxHtmlCell* cell = GetNext(); cell; cell = cell->GetNext())
+        {
+            const CodeBackgroundCell* marker =
+                dynamic_cast<const CodeBackgroundCell*>(cell);
+            if (marker && marker->m_EndOfCode)
+                break;
+
+            if (cell->GetWidth() <= 0)
+                continue;               // colour and font cells have no size
+
+            if (height == 0)
+            {
+                // first word: it defines the line the code text starts on
+                lineY = cell->GetPosY();
+                top = y + lineY;
+                height = cell->GetHeight();
+                left = x + cell->GetPosX();
+            }
+            else if (cell->GetPosY() != lineY)
+                continue;               // code text wrapped to the next line
+
+            right = wxMax(right, x + cell->GetPosX() + cell->GetWidth());
+        }
+
+        if (right <= left || height <= 0)
+            return;
+
+        const wxBrush oldBrush = dc.GetBrush();
+        const wxPen oldPen = dc.GetPen();
+        dc.SetBrush(wxBrush(m_Colour));
+        dc.SetPen(*wxTRANSPARENT_PEN);
+        dc.DrawRectangle(left, top, right - left, height);
+        dc.SetBrush(oldBrush);
+        dc.SetPen(oldPen);
+    }
+
+private:
+    wxColour m_Colour;
+    bool m_EndOfCode;
+};
+
 class CodeTagHandler : public wxHtmlWinTagHandler
 {
 public:
@@ -57,13 +127,30 @@ public:
 
     bool HandleTag(const wxHtmlTag& tag)
     {
-        wxColour savedColour = m_WParser->GetActualColor();
+        // Save the full parser state we are going to change. Note that the
+        // background must be saved as well: hardcoding a colour on the way
+        // out leaves the rest of the page painted in that colour, which makes
+        // the text invisible in the dark colour scheme.
+        int oldFixed = m_WParser->GetFontFixed();
+        wxColour oldColour = m_WParser->GetActualColor();
+        wxColour oldBgColour = m_WParser->GetActualBackgroundColor();
+        int oldBgMode = m_WParser->GetActualBackgroundMode();
 
         m_WParser->SetFontFixed(true);
         m_WParser->GetContainer()->InsertCell(
             new wxHtmlFontCell(m_WParser->CreateCurrentFont()));
+
+        // the code background is painted by CodeBackgroundCell, so keep the
+        // text background transparent inside the code text - otherwise wxDC
+        // paints it per glyph run again and the gaps come back
+        m_WParser->SetActualBackgroundMode(wxBRUSHSTYLE_TRANSPARENT);
+        m_WParser->SetActualBackgroundColor(oldBgColour);
         m_WParser->GetContainer()->InsertCell(
-            new wxHtmlColourCell(wxColour(0xf4, 0xf4, 0xf4), wxHTML_CLR_BACKGROUND));
+            new wxHtmlColourCell(oldBgColour, wxHTML_CLR_TRANSPARENT_BACKGROUND));
+
+        m_WParser->GetContainer()->InsertCell(
+            new CodeBackgroundCell(wxColour(0xf4, 0xf4, 0xf4)));
+
         m_WParser->SetActualColor(wxColour(0x00, 0x00, 0x00));
         m_WParser->GetContainer()->InsertCell(
             new wxHtmlColourCell(wxColour(0x00, 0x00, 0x00), wxHTML_CLR_FOREGROUND));
@@ -71,13 +158,24 @@ public:
         ParseInner(tag);
 
         m_WParser->GetContainer()->InsertCell(
-            new wxHtmlColourCell(wxColour(0xFF, 0xFF, 0xFF), wxHTML_CLR_BACKGROUND));
-        m_WParser->SetActualColor(savedColour);
-        m_WParser->GetContainer()->InsertCell(
-            new wxHtmlColourCell(savedColour, wxHTML_CLR_FOREGROUND));
-        m_WParser->SetFontFixed(false);
+            new CodeBackgroundCell(wxColour(0xf4, 0xf4, 0xf4), true));
+
+        m_WParser->SetFontFixed(oldFixed);
         m_WParser->GetContainer()->InsertCell(
             new wxHtmlFontCell(m_WParser->CreateCurrentFont()));
+
+        m_WParser->SetActualColor(oldColour);
+        m_WParser->GetContainer()->InsertCell(
+            new wxHtmlColourCell(oldColour, wxHTML_CLR_FOREGROUND));
+
+        m_WParser->SetActualBackgroundMode(oldBgMode);
+        m_WParser->SetActualBackgroundColor(oldBgColour);
+        m_WParser->GetContainer()->InsertCell(
+            new wxHtmlColourCell(
+                oldBgColour,
+                oldBgMode == wxBRUSHSTYLE_TRANSPARENT
+                    ? wxHTML_CLR_TRANSPARENT_BACKGROUND
+                    : wxHTML_CLR_BACKGROUND));
 
         return true;
     }

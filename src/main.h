@@ -12,7 +12,120 @@ typedef unsigned short Word;
 #include "vector"
 #include "wx/listctrl.h"
 #include "wx/html/helpctrl.h"
+#include "wx/html/helpwnd.h"
+#include "wx/html/htmlwin.h"
+#include "wx/html/htmlproc.h"
+#include "wx/settings.h"
 #include "definition.h"
+
+// Dark mode help page (Linux only).
+//
+// On Linux wxWidgets reports a dark appearance - wxSystemSettings::
+// GetAppearance().IsDark() is true - but still hands out the light palette for
+// wxSYS_COLOUR_WINDOW and wxSYS_COLOUR_WINDOWTEXT, because its GTK system
+// colour cache is filled before 'gtk-application-prefer-dark-theme' is applied
+// (gtk/settings.cpp: DoUpdateColorScheme() only invalidates gs_systemColorCache
+// when the preference actually changes). The help page is therefore rendered
+// light while the rest of the GUI is dark. macOS and Windows report both
+// colours correctly and are deliberately left alone.
+//
+// wxHTML has no hook for any of the three colours involved:
+//  - the page background is taken from wxHtmlWindow::GetBackgroundColour(),
+//    which wxHtmlWindow::SetPage() resets to wxSYS_COLOUR_WINDOW on every
+//    single page load,
+//  - the text colour is hardcoded to wxSYS_COLOUR_WINDOWTEXT in
+//    wxHtmlWinParser::InitParser(),
+//  - the link colour comes from the wxHtmlRenderingStyle that
+//    wxHtmlWindow::OnPaint() builds on the stack.
+// So the window background is painted from wxEVT_ERASE_BACKGROUND - which
+// OnPaint() still honours - and the two in-document colours are injected with
+// a wxHtmlProcessor, the documented extension point for rewriting markup.
+
+#if defined (__linux__)
+// The page background: guiBackGround_ (wxSYS_COLOUR_FRAMEBK) lifted towards
+// white, because at full strength it reads as a black hole next to the panels.
+static const double HELP_PAGE_BG_LIFT = 0.10;
+// Change both here to retune the help page.
+static const wxColour HELP_PAGE_TEXT_COLOUR(0xdc, 0xdc, 0xdc);
+static const wxColour HELP_PAGE_LINK_COLOUR(0x7c, 0xb7, 0xff);
+
+// Marker injected together with the colours, so a second pass over the same
+// markup (wxHtmlWindow re-runs the processors on the source it has already
+// processed when the fonts or the DPI change) is recognised and left alone.
+// A comment is invisible to wxHTML - htmlpars.cpp: SkipCommentTag().
+static const wxChar* const HELP_DARK_MARKER = wxS("<!--emma-dark-help-->");
+
+// Injects the dark page text and link colours into the markup.
+class MyDarkModeHtmlProcessor : public wxHtmlProcessor
+{
+public:
+    wxString Process(const wxString& text) const override
+    {
+        if (!wxSystemSettings::GetAppearance().IsDark())
+            return text;
+
+        // Note that this cannot simply look for '<font color=': 11 of the help
+        // pages colour keywords in the markup themselves.
+        if (text.find(HELP_DARK_MARKER) != wxString::npos)
+            return text;
+
+        const wxString lower = text.Lower();
+
+        const wxString::size_type bodyPos = lower.find(wxS("<body"));
+        if (bodyPos == wxString::npos)
+            return text;
+
+        const wxString::size_type bodyEnd = lower.find(wxT('>'), bodyPos);
+        if (bodyEnd == wxString::npos)
+            return text;
+
+        const wxString linkStyle = wxString::Format(
+            wxS(" style=\"color:#%02x%02x%02x\""),
+            HELP_PAGE_LINK_COLOUR.Red(), HELP_PAGE_LINK_COLOUR.Green(),
+            HELP_PAGE_LINK_COLOUR.Blue());
+
+        // Build the page in one forward pass, so the two insertions cannot
+        // invalidate each other's offsets no matter where they land:
+        //  - right after the BODY tag, a FONT tag that is never closed and
+        //    gives every cell in the body the dark text colour. Any
+        //    <FONT COLOR> in the page itself still wins, because the FONT
+        //    handler nests.
+        //  - inside every anchor, a style attribute. The A handler in
+        //    m_links.cpp applies the fixed link colour of the rendering style
+        //    first and then lets a style attribute override it, and there is
+        //    no way to reach that style from outside the parser.
+        wxString out;
+        out.reserve(text.length() + 256);
+
+        const wxString fontTag = wxString::Format(
+            wxS("%s<font color=\"#%02x%02x%02x\">"), HELP_DARK_MARKER,
+            HELP_PAGE_TEXT_COLOUR.Red(), HELP_PAGE_TEXT_COLOUR.Green(),
+            HELP_PAGE_TEXT_COLOUR.Blue());
+
+        for (wxString::size_type pos = 0, anchor = lower.find(wxS("<a "));
+             pos <= text.length();
+             ++pos)
+        {
+            if (pos == bodyEnd + 1)
+                out += fontTag;  // no continue: this character must follow
+
+            if (pos == anchor)
+            {
+                out += text.Mid(pos, 2); // the tag name, original case
+                out += linkStyle;
+                ++pos;                 // and step over the space behind it
+                anchor = lower.find(wxS("<a "), pos + 1);
+                continue;
+            }
+
+            if (pos < text.length())
+                out += text[pos];
+        }
+
+        return out;
+    }
+};
+#endif // __linux__
 
 class MyHtmlHelpController : public wxHtmlHelpController
 {
@@ -25,21 +138,55 @@ protected:
     virtual wxWindow* CreateHelpWindow()
     {
         wxHtmlHelpController::CreateHelpWindow();
-        
+
         m_helpWindow->Bind(wxEVT_HTML_LINK_CLICKED, &MyHtmlHelpController::OnHtmlLinkClicked);
-        
+
+#if defined (__linux__)
+        if (wxHtmlWindow* htmlWin = m_helpWindow->GetHtmlWindow())
+        {
+            htmlWin->Bind(wxEVT_ERASE_BACKGROUND, &MyHtmlHelpController::OnEraseBackground);
+            htmlWin->AddProcessor(new MyDarkModeHtmlProcessor());
+        }
+#endif
+
         return m_helpWindow;
     }
 private:
     static void OnHtmlLinkClicked(wxHtmlLinkEvent& event)
     {
         const wxString href = event.GetLinkInfo().GetHref();
-        
+
         if ( href.StartsWith("http://") || href.StartsWith("https://"))
             wxLaunchDefaultBrowser(href);
         else
             event.Skip(true);
     }
+
+#if defined (__linux__)
+    // Not skipping the event is deliberate: wxHtmlWindow::OnPaint() skips its
+    // own DoEraseBackground() once the erase event has been handled, so the
+    // page keeps this background instead of being wiped to the light colour.
+    // The parser leaves the document background transparent, so this is what
+    // shows through the whole page.
+    static void OnEraseBackground(wxEraseEvent& event)
+    {
+        if (!wxSystemSettings::GetAppearance().IsDark())
+        {
+            event.Skip();
+            return;
+        }
+
+        wxDC* dc = event.GetDC();
+        if (dc)
+        {
+            const wxColour bg = wxSystemSettings::GetColour(wxSYS_COLOUR_FRAMEBK);
+            dc->SetBackground(wxColour(wxColour::AlphaBlend(0xff, bg.Red(), HELP_PAGE_BG_LIFT),
+                                       wxColour::AlphaBlend(0xff, bg.Green(), HELP_PAGE_BG_LIFT),
+                                       wxColour::AlphaBlend(0xff, bg.Blue(), HELP_PAGE_BG_LIFT)));
+            dc->Clear();
+        }
+    }
+#endif
 };
 
 // code defining event
