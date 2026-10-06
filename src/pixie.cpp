@@ -137,6 +137,7 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     
     colourType_ = cdp1861Configuration_.colorType;
     bgChanged = false;
+    graphicsOffFrames_ = 0;
 }
 
 Pixie::~Pixie()
@@ -157,6 +158,7 @@ Pixie::~Pixie()
 void Pixie::reset()
 {
     graphicsOn_ = false;
+    graphicsOffFrames_ = PIXIE_OFF_BLANK_SEED;   // blank at the first vsync after reset
 #if defined(__WXMAC__)
     p_Main->guiRefreshVideo(false, videoNumber_);
 #else
@@ -345,6 +347,7 @@ void Pixie::initPixie()
         p_Main->eventSetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_, DON_T_CALL_CHANGE_SCREEN_SIZE, false, videoNumber_);
 
     graphicsOn_ = false;
+    graphicsOffFrames_ = PIXIE_OFF_BLANK_SEED;   // blank at the first vsync (screen starts off)
     graphicsNext_ = 0;
     graphicsMode_ = 0;
 
@@ -451,6 +454,7 @@ void Pixie::cyclePixie()
                     p_Main->pixieBarSizeEvent();
             }
             graphicsMode_ = 0;
+            blankGraphicsOffScreen();
             copyScreen();
             videoSyncCount_++;
             if (p_Main->getTraceSync())
@@ -531,6 +535,7 @@ void Pixie::cyclePixieCoinArcade()
             if (changeScreenSize_)
                 changeScreenSize();
             graphicsMode_ = 0;
+            blankGraphicsOffScreen();
             copyScreen();
             videoSyncCount_++;
             if (p_Main->getTraceSync())
@@ -600,6 +605,7 @@ void Pixie::cyclePixieCdp1864()
                     p_Main->pixieBarSizeEvent();
             }
             graphicsMode_ = 0;
+            blankGraphicsOffScreen();
             copyScreen();
             videoSyncCount_++;
             if (p_Main->getTraceSync())
@@ -795,12 +801,49 @@ void Pixie::reBlit(wxDC &dc)
 
         newBackGround_ = false;
     }
-    if (!graphicsOn_)
+}
+
+void Pixie::blankGraphicsOffScreen()
+{
+    // Called from the cycle handlers at every vsync, just before copyScreen().
+    //
+    // Blanking when the display is disabled must NOT happen at paint time
+    // (reBlit): on macOS the refresh is asynchronous, so a paint queued while
+    // graphics were on can be serviced after the next OUT 1, and firmware
+    // such as BIOSIO toggles OUT 1 / INP 1 around every text line - the
+    // result was a black flash on every line. Instead the blank is decided
+    // here on the emulation thread and only after graphics have been off
+    // FOR PIXIE_OFF_BLANK_FRAMES consecutive vsyncs. A 2-vsync debounce was
+    // tested and still flashed: the BIOSIO boot OFF gaps are 115-515 ms,
+    // i.e. multiple frames, so any short debounce still blanks per text
+    // line. The long debounce keeps the frozen frame through boot text
+    // output (matching Windows/Linux freeze behaviour) while a persistent
+    // off (reset, program end) clears the screen after ~1.3 s at 60 Hz.
+    // The counter restarts at 0 after blanking (never registers above the
+    // threshold), so a sustained off period keeps the blank valid.
+    if (graphicsOn_)
     {
-        dc.SetUserScale(zoom_*xZoomFactor_, zoom_);
-        dc.SetBrush(wxBrush(colour_[colourIndex_+backGround_]));
-        dc.SetPen(wxPen(colour_[colourIndex_+backGround_]));
-        dc.DrawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
+        graphicsOffFrames_ = 0;
+        return;
+    }
+    if (graphicsOffFrames_ < PIXIE_OFF_BLANK_FRAMES)
+        graphicsOffFrames_++;
+    if (graphicsOffFrames_ == PIXIE_OFF_BLANK_FRAMES)
+    {
+        // Blank the framebuffer (flushed to dcMemory by copyScreen right
+        // after this call) and drop the backing store so the next enabled
+        // frame redraws every pixel instead of being suppressed by the
+        // unchanged-pixel optimisation in plot().
+        setColour(colourIndex_+backGround_);
+        drawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
+        for (int x=0; x<384; x++) for (int y=0; y<208; y++)
+        {
+            pbacking_[x][y] = 0;
+            color_[x][y] = 0;
+        }
+        bgChanged = false;
+        reBlit_ = true;
+        graphicsOffFrames_ = 0;   // blank done; wait for the next off period
     }
 }
 
@@ -922,6 +965,7 @@ void PixieFred::cyclePixie()
             if (changeScreenSize_)
                 changeScreenSize();
             graphicsMode_ = 0;
+            blankGraphicsOffScreen();
             copyScreen();
             videoSyncCount_++;
             if (p_Main->getTraceSync())

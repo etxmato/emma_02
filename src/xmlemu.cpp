@@ -474,6 +474,20 @@ Computer::Computer(const wxString& title, double clock, int tempo, ComputerConfi
     numberOfFrontPanels_ = 0;
     thumbSwitchValue_ = -1;
 
+    // Memory write guards must have a defined value before initComputer() calls
+    // configureMemory(). configureMemory() loads the configured ROM/RAM/NVRAM images
+    // through writeMemDebug/writeRomDebug, which silently drop RAM writes when
+    // mpButtonState_ or mpButtonState[] is set, and NVRAM writes when
+    // nvramWriteProtected_ is set. initComputer() only resets these flags after
+    // configureMemory() has run, so an uninitialized value could stop a ROM/RAM
+    // image from ever landing in mainMemory_ (e.g. the VIP CHIP-8 interpreter).
+    mpButtonState_ = 0;
+    mpSuperButtonActive_ = false;
+    for (int i=0; i<4; i++)
+        mpButtonState[i] = false;
+    nvramWriteProtected_ = false;
+    diagRomActive_ = false;
+
     rtcTimerPointer = new wxTimer(this, 900);
 //    computerTimerPointer[0] = new wxTimer(this, 901);
 //    computerTimerPointer[1] = new wxTimer(this, 902);
@@ -1288,8 +1302,19 @@ void Computer::initComputer()
     bootstrap_ = 0;
     configured_ = false;
 
+    // Memory protect must be cleared before configureMemory() loads the configured
+    // ROM/RAM images: writeMemDebug/writeRomDebug silently drop RAM writes while the
+    // MP button state is set. initComputer() is re-entered by powerOn() on an existing
+    // Computer object, so a previous MP press would otherwise block the next load.
+    mpButtonState_ = 0;
+    mpSuperButtonActive_ = false;
+    for (int i=0; i<4; i++)
+        mpButtonState[i] = false;
+    // loadNvRam() skips the NVRAM image while nvRamDisable_ is set.
+    nvRamDisable_ = currentComputerConfiguration.nvRamConfiguration.disable;
+
     configureMemory();
-/*    {
+    {
         wxFile dbg(p_Main->getDataDir() + "romload_debug.txt", wxFile::write_append);
         if (dbg.IsOpened()) {
             wxString msg;
@@ -1297,7 +1322,7 @@ void Computer::initComputer()
                 mainMemory_[0], mainMemory_[1], mainMemory_[2], mainMemory_[3]);
             dbg.Write(msg); dbg.Close();
         }
-    }*/
+    }
 //    Show(p_Main->showFrontPanel());
     for (int i=0; i<8; i++)
         inpSwitchState_[i]=0;
@@ -1315,10 +1340,6 @@ void Computer::initComputer()
         panelPointer[frontPanel]->Show(p_Main->showFrontPanel());
 
     waitButtonState_ = 0;
-    mpButtonState_ = 0;
-    mpSuperButtonActive_ = false;
-    for (int i=0; i<4; i++)
-        mpButtonState[i] = false;
     loadButtonState_ = 1;
     sys00DirectLoad_ = false;
     sys00NybbleValid_ = false;
@@ -1333,7 +1354,6 @@ void Computer::initComputer()
     sys00R0_ = false;
     mnLedPointerDefined_ = false;
     runButtonState_ = 0;
-    nvRamDisable_ = currentComputerConfiguration.nvRamConfiguration.disable;
     endSave_ = currentComputerConfiguration.addressLocationConfiguration.code_start;
 
     switches_ = 0;
@@ -8129,7 +8149,7 @@ void Computer::configureMemory()
         }
         memConfNumber++;
     }
-/*    {
+    {
         wxFile dbg(p_Main->getDataDir() + "romload_debug.txt", wxFile::write_append);
         if (dbg.IsOpened()) {
             wxString msg;
@@ -8146,7 +8166,7 @@ void Computer::configureMemory()
             dbg.Write(msg);
             dbg.Close();
         }
-    }*/
+    }
     if ((currentComputerConfiguration.memoryConfiguration[p_Main->getRomRamButton0()].type & 0xff) == NVRAM)
         loadNvRam(p_Main->getRomRamButton0());
     else

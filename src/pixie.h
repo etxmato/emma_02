@@ -4,6 +4,14 @@
 #include "video.h"
 #include "statusbar.h"
 
+// Number of consecutive vsyncs with graphics off before the framebuffer is
+// blanked on the emulation thread (blankGraphicsOffScreen()).
+#define PIXIE_OFF_BLANK_FRAMES 80
+
+// seed for graphicsOffFrames_ in reset()/initPixie(): one less than the
+// threshold so the first vsync after a reset/start performs the blank.
+#define PIXIE_OFF_BLANK_SEED (PIXIE_OFF_BLANK_FRAMES-1)
+
 class Pixie : public Video
 {
 public:
@@ -52,6 +60,11 @@ protected:
 
     void applyScaleFactor();
 
+    // Counts consecutive vsyncs with graphics disabled and blanks the screen
+    // (background fill into the framebuffer) once graphics have been off for
+    // 80 consecutive vsyncs. Called from the cycle handlers just before copyScreen().
+    void blankGraphicsOffScreen();
+
     Byte pbacking_[384][208];
     Byte color_[384][208];
     Byte bgColor_[312]; 
@@ -67,6 +80,16 @@ protected:
 
     Byte vidInt_;
     bool studioIVFactor_;
+
+    // Consecutive vsyncs with graphics disabled. Used to blank the screen
+    // (into the framebuffer, from the emulation thread) only after graphics
+    // have been off for PIXIE_OFF_BLANK_FRAMES consecutive vsyncs; reset to
+    // 0 after each blank (see blankGraphicsOffScreen in pixie.cpp).
+    // Firmware such as BIOSIO toggles OUT 1 / INP 1 around every text line
+    // with OFF gaps of
+    // 115-515 ms, so a short 2-vsync debounce still flashed per line;
+    // blanking at paint time (reBlit) raced with the async macOS paint.
+    int graphicsOffFrames_;
 
 //    PixieGraphics cdp1861Configuration_.pixieGraphics;
 
