@@ -693,6 +693,13 @@ void Tms9918::copyScreen()
 
     if (reDrawSprites_ && mode_ != TMS_TEXT)
         drawSprites();
+    else if (mode_ != TMS_TEXT)
+        // No sprite update this frame: sync the sprite-plane framebuffer with
+        // the main plane so the composite blit below never pushes stale or
+        // (before the first drawSprites) uninitialized DC content over the
+        // active video area - a graphics mode with no sprite activity would
+        // otherwise show black instead of the main-plane image.
+        copyFramebuffer(1, 2);
 
     // The software framebuffer is flushed into the plane DCs identically on
     // every platform; only how dcMemory reaches the window differs. macOS
