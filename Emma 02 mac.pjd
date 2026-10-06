@@ -66813,7 +66813,7 @@
                                   <bool name="proxy-Enabled">1</bool>
                                   <bool name="proxy-External implementation">1</bool>
                                   <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                  <string name="proxy-Foreground colour">"000000"</string>
+                                  <string name="proxy-Foreground colour">""</string>
                                   <string name="proxy-Header filename">""</string>
                                   <long name="proxy-Height">-1</long>
                                   <string name="proxy-Help text">""</string>
@@ -71184,7 +71184,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -74101,7 +74101,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -75117,7 +75117,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -76834,7 +76834,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -78260,7 +78260,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -81192,7 +81192,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -82338,7 +82338,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -85047,7 +85047,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -87826,7 +87826,7 @@
                                   <bool name="proxy-Enabled">1</bool>
                                   <bool name="proxy-External implementation">1</bool>
                                   <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                  <string name="proxy-Foreground colour">"000000"</string>
+                                  <string name="proxy-Foreground colour">""</string>
                                   <string name="proxy-Header filename">""</string>
                                   <long name="proxy-Height">-1</long>
                                   <string name="proxy-Help text">""</string>
@@ -92334,7 +92334,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -95345,7 +95345,7 @@
                                   <bool name="proxy-Enabled">1</bool>
                                   <bool name="proxy-External implementation">1</bool>
                                   <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                  <string name="proxy-Foreground colour">"000000"</string>
+                                  <string name="proxy-Foreground colour">""</string>
                                   <string name="proxy-Header filename">""</string>
                                   <long name="proxy-Height">-1</long>
                                   <string name="proxy-Help text">""</string>
@@ -99853,7 +99853,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -101139,7 +101139,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -104565,7 +104565,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -110017,7 +110017,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -114526,7 +114526,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -116165,7 +116165,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -117704,7 +117704,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -120398,7 +120398,7 @@
                                   <bool name="proxy-Enabled">1</bool>
                                   <bool name="proxy-External implementation">1</bool>
                                   <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                  <string name="proxy-Foreground colour">"000000"</string>
+                                  <string name="proxy-Foreground colour">""</string>
                                   <string name="proxy-Header filename">""</string>
                                   <long name="proxy-Height">-1</long>
                                   <string name="proxy-Help text">""</string>
@@ -125969,7 +125969,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -127378,7 +127378,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -129307,7 +129307,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>
@@ -132412,7 +132412,7 @@
                                     <bool name="proxy-Enabled">1</bool>
                                     <bool name="proxy-External implementation">1</bool>
                                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
-                                    <string name="proxy-Foreground colour">"000000"</string>
+                                    <string name="proxy-Foreground colour">""</string>
                                     <string name="proxy-Header filename">""</string>
                                     <long name="proxy-Height">-1</long>
                                     <string name="proxy-Help text">""</string>

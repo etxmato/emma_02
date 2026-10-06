@@ -44,7 +44,7 @@ typedef unsigned short Word;
 #if defined (__linux__)
 // The page background: guiBackGround_ (wxSYS_COLOUR_FRAMEBK) lifted towards
 // white, because at full strength it reads as a black hole next to the panels.
-static const double HELP_PAGE_BG_LIFT = 0.10;
+static const double HELP_PAGE_BG_LIFT = 0.04;
 // Change both here to retune the help page.
 static const wxColour HELP_PAGE_TEXT_COLOUR(0xdc, 0xdc, 0xdc);
 static const wxColour HELP_PAGE_LINK_COLOUR(0x7c, 0xb7, 0xff);

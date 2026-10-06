@@ -10886,7 +10886,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -11617,7 +11616,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -12324,7 +12322,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -12791,7 +12788,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -13054,7 +13050,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -13312,7 +13307,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -13752,7 +13746,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -13923,7 +13916,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -14202,7 +14194,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -14432,7 +14423,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -14895,7 +14885,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -15095,7 +15084,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -15540,7 +15528,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -15989,7 +15976,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -16722,7 +16708,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -17207,7 +17192,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -18133,7 +18117,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -19020,7 +19003,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -19744,7 +19726,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -19953,7 +19934,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -20479,7 +20459,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -20714,7 +20693,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -21037,7 +21015,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
@@ -21579,7 +21556,6 @@
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<fg>#000000</fg>
 <label>Function </label>
 </object>
 </object>
