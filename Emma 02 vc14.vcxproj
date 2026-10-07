@@ -125,7 +125,7 @@
       <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_lib\Wind32\msw;$(WXWIN)\include;.;.\..\..\samples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2main.lib;wxmsw30u_xrc.lib;wxmsw30u_html.lib;wxmsw30u_adv.lib;wxmsw30u_core.lib;wxbase30u_xml.lib;wxbase30u_net.lib;wxbase30u.lib;wxregexu.lib;wxexpat.lib;wsock32.lib;wxtiff.lib;wxjpeg.lib;wxpng.lib;wxzlib.lib;libcurl.lib;ws2_32.lib;wldap32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2main.lib;wxmsw30u_xrc.lib;wxmsw30u_html.lib;wxmsw30u_adv.lib;wxmsw30u_core.lib;wxbase30u_xml.lib;wxbase30u_net.lib;wxbase30u.lib;wxregexu.lib;wxexpat.lib;wsock32.lib;wxtiff.lib;wxjpeg.lib;wxpng.lib;wxzlib.lib;libcurl.lib;ws2_32.lib;wldap32.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(SolutionDir)$(Platform)\$(Configuration)\Emma 02.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(SDL)\lib\x86;$(WXWIN)\lib\vc_lib\Win32;$(CURL)\build\Win32\VC14\LIB Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -178,7 +178,7 @@
       <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_lib\msw;$(WXWIN)\include;.;.\..\..\samples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2main.lib;wxmsw30u_xrc.lib;wxmsw30u_html.lib;wxmsw30u_adv.lib;wxmsw30u_core.lib;wxbase30u_xml.lib;wxbase30u_net.lib;wxbase30u.lib;wxregexu.lib;wxexpat.lib;wsock32.lib;wxtiff.lib;wxjpeg.lib;wxpng.lib;wxzlib.lib;libcurl.lib;ws2_32.lib;wldap32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2main.lib;wxmsw30u_xrc.lib;wxmsw30u_html.lib;wxmsw30u_adv.lib;wxmsw30u_core.lib;wxbase30u_xml.lib;wxbase30u_net.lib;wxbase30u.lib;wxregexu.lib;wxexpat.lib;wsock32.lib;wxtiff.lib;wxjpeg.lib;wxpng.lib;wxzlib.lib;libcurl.lib;ws2_32.lib;wldap32.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(SolutionDir)Emma 02.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(SDL)\lib\x64;$(WXWIN)\lib\vc_x64_lib;$(CURL)\build\Win64\VC14\LIB Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -230,7 +230,7 @@
       <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_lib\Wind32\mswd;$(WXWIN)\include;.;.\..\..\samples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2main.lib;wxmsw30ud_xrc.lib;wxmsw30ud_html.lib;wxmsw30ud_adv.lib;wxmsw30ud_core.lib;wxbase30ud_xml.lib;wxbase30ud_net.lib;wxbase30ud.lib;libcurld.lib;wxregexud.lib;wxexpatd.lib;wsock32.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;ws2_32.lib;wldap32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2main.lib;wxmsw30ud_xrc.lib;wxmsw30ud_html.lib;wxmsw30ud_adv.lib;wxmsw30ud_core.lib;wxbase30ud_xml.lib;wxbase30ud_net.lib;wxbase30ud.lib;libcurld.lib;wxregexud.lib;wxexpatd.lib;wsock32.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;ws2_32.lib;wldap32.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>$(SolutionDir)$(Platform)\$(Configuration)\Emma 02.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -287,7 +287,7 @@
       <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_lib\mswd;$(WXWIN)\include;.;.\..\..\samples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2test.lib;SDL2main.lib;wxmsw30ud_xrc.lib;wxmsw30ud_html.lib;wxmsw30ud_adv.lib;wxmsw30ud_core.lib;wxbase30ud_xml.lib;wxbase30ud_net.lib;wxbase30ud.lib;libcurld.lib;wxcode_msw30ud_wxcurl.lib;wxregexud.lib;wxexpatd.lib;wsock32.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;ws2_32.lib;wldap32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2test.lib;SDL2main.lib;wxmsw30ud_xrc.lib;wxmsw30ud_html.lib;wxmsw30ud_adv.lib;wxmsw30ud_core.lib;wxbase30ud_xml.lib;wxbase30ud_net.lib;wxbase30ud.lib;libcurld.lib;wxcode_msw30ud_wxcurl.lib;wxregexud.lib;wxexpatd.lib;wsock32.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;ws2_32.lib;wldap32.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>$(SolutionDir)$(Platform)\$(Configuration)\Emma 02.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>

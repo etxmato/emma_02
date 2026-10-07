@@ -165,7 +165,7 @@
       <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_lib\mswu;$(WXWIN)\include;.;.\..\..\samples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2main.lib;wxmsw33u_xrc.lib;wxmsw33u_html.lib;wxmsw33u_adv.lib;wxmsw33u_core.lib;wxbase33u_xml.lib;wxbase33u_net.lib;wxbase33u.lib;wxwebp.lib;wxregexu.lib;wxexpat.lib;wsock32.lib;wxtiff.lib;wxjpeg.lib;wxpng.lib;wxzlib.lib;libcurl.lib;ws2_32.lib;wldap32.lib;libserialport.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2main.lib;wxmsw33u_xrc.lib;wxmsw33u_html.lib;wxmsw33u_adv.lib;wxmsw33u_core.lib;wxbase33u_xml.lib;wxbase33u_net.lib;wxbase33u.lib;wxwebp.lib;wxregexu.lib;wxexpat.lib;wsock32.lib;wxtiff.lib;wxjpeg.lib;wxpng.lib;wxzlib.lib;libcurl.lib;ws2_32.lib;wldap32.lib;crypt32.lib;libserialport.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(SolutionDir)$(Platform)\$(Configuration)\Emma 02.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(SDL)\lib\x86;$(WXWIN)\lib\vc_lib;$(CURL)\build\Win32\VC14\LIB Release;$(SERIALPORT)\Win32\lib\release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -220,7 +220,7 @@
       <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_x64_lib\mswu;$(WXWIN)\include;.;.\..\..\samples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2main.lib;wxmsw33u_xrc.lib;wxmsw33u_html.lib;wxmsw33u_adv.lib;wxmsw33u_core.lib;wxbase33u_xml.lib;wxbase33u_net.lib;wxbase33u.lib;wxwebp.lib;wxregexu.lib;wxexpat.lib;wsock32.lib;wxtiff.lib;wxjpeg.lib;wxpng.lib;wxzlib.lib;libcurl.lib;ws2_32.lib;wldap32.lib;libserialport.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2main.lib;wxmsw33u_xrc.lib;wxmsw33u_html.lib;wxmsw33u_adv.lib;wxmsw33u_core.lib;wxbase33u_xml.lib;wxbase33u_net.lib;wxbase33u.lib;wxwebp.lib;wxregexu.lib;wxexpat.lib;wsock32.lib;wxtiff.lib;wxjpeg.lib;wxpng.lib;wxzlib.lib;libcurl.lib;ws2_32.lib;wldap32.lib;crypt32.lib;libserialport.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(SolutionDir)$(Platform)\$(Configuration)\Emma 02.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(SDL)\lib\x64;$(WXWIN)\lib\vc_x64_lib;$(CURL)\build\Win64\VC14\LIB Release;$(SERIALPORT)\Win64\lib\release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -330,7 +330,7 @@
       <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_lib\mswud;$(WXWIN)\include;.;.\..\..\samples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2main.lib;wxmsw33ud_xrc.lib;wxmsw33ud_html.lib;wxmsw33ud_adv.lib;wxmsw33ud_core.lib;wxbase33ud_xml.lib;wxbase33ud_net.lib;wxbase33ud.lib;wxwebpd.lib;libcurld.lib;wxregexud.lib;wxexpatd.lib;wsock32.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;ws2_32.lib;wldap32.lib;libserialport.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2main.lib;wxmsw33ud_xrc.lib;wxmsw33ud_html.lib;wxmsw33ud_adv.lib;wxmsw33ud_core.lib;wxbase33ud_xml.lib;wxbase33ud_net.lib;wxbase33ud.lib;wxwebpd.lib;libcurld.lib;wxregexud.lib;wxexpatd.lib;wsock32.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;ws2_32.lib;wldap32.lib;crypt32.lib;libserialport.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>$(SolutionDir)$(Platform)\$(Configuration)\Emma 02.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -385,7 +385,7 @@
       <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_x64_lib\mswud;$(WXWIN)\include;.;.\..\..\samples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2test.lib;SDL2main.lib;wxmsw33ud_xrc.lib;wxmsw33ud_html.lib;wxmsw33ud_adv.lib;wxmsw33ud_core.lib;wxbase33ud_xml.lib;wxbase33ud_net.lib;wxbase33ud.lib;wxwebpd.lib;libcurld.lib;wxregexud.lib;wxexpatd.lib;wsock32.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;ws2_32.lib;wldap32.lib;libserialport.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2test.lib;SDL2main.lib;wxmsw33ud_xrc.lib;wxmsw33ud_html.lib;wxmsw33ud_adv.lib;wxmsw33ud_core.lib;wxbase33ud_xml.lib;wxbase33ud_net.lib;wxbase33ud.lib;wxwebpd.lib;libcurld.lib;wxregexud.lib;wxexpatd.lib;wsock32.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;ws2_32.lib;wldap32.lib;crypt32.lib;libserialport.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>$(SolutionDir)$(Platform)\$(Configuration)\Emma 02.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -440,11 +440,11 @@
       <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_arm64_lib\mswud;$(WXWIN)\include;.;.\..\..\samples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2test.lib;SDL2main.lib;wxmsw33ud_xrc.lib;wxmsw33ud_html.lib;wxmsw33ud_adv.lib;wxmsw33ud_core.lib;wxbase33ud_xml.lib;wxbase33ud_net.lib;wxbase33ud.lib;wxwebpd.lib;libcurld.lib;wxregexud.lib;wxexpatd.lib;wsock32.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;ws2_32.lib;wldap32.lib;libserialport.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;SDL2.lib;SDL2test.lib;SDL2main.lib;wxmsw33ud_xrc.lib;wxmsw33ud_html.lib;wxmsw33ud_adv.lib;wxmsw33ud_core.lib;wxbase33ud_xml.lib;wxbase33ud_net.lib;wxbase33ud.lib;wxwebpd.lib;libcurld.lib;wxregexud.lib;wxexpatd.lib;wsock32.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;ws2_32.lib;wldap32.lib;crypt32.lib;libserialport.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>$(SolutionDir)$(Platform)\$(Configuration)\Emma 02.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\Visual Leak Detector\lib\Win64;$(SDL)\lib\arm64;$(WXWIN)\lib\vc_arm64_lib\mswud\;$(WXWIN)\lib\vc_arm64_lib\;$(CURL)\build\arm64\VC14\LIB Debug;$(SERIALPORT)\ARM64\lib\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Visual Leak Detector\lib\Win64;$(SDL)\lib\arm64;$(WXWIN)\lib\vc_arm64_lib\mswud\;$(WXWIN)\lib\vc_arm64_lib\;$(CURL)\build\arm64\VC14\LIB Debug - DLL Windows SSPI;$(SERIALPORT)\ARM64\lib\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(SolutionDir)$(Platform)\$(Configuration)\Emma 02.pdb</ProgramDatabaseFile>
