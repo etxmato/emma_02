@@ -264,8 +264,8 @@ Source: ..\data\Xml\VT1802\*.*; DestDir: {app}\data\Xml\VT1802; Components: MAIN
 Source: ..\data\Xml\Visicom\*.*; DestDir: {app}\data\Xml\Visicom; Components: MAIN
 Source: ..\images\*.*; DestDir: {app}\images; Components: MAIN
 Source: ..\src\*.*; DestDir: {app}\src; Components: SOURCEFILES
-Source: ..\Emma 02 vc9.sln; DestDir: {app}; Components: SOURCEFILES
-Source: ..\Emma 02 vc9.vcproj; DestDir: {app}; Components: SOURCEFILES
+Source: ..\Emma 02 vc17.sln; DestDir: {app}; Components: SOURCEFILES
+Source: ..\Emma 02 vc17.vcxproj; DestDir: {app}; Components: SOURCEFILES
 Source: ..\Emma 02.rc; DestDir: {app}; Components: SOURCEFILES
 
 [Icons]

@@ -532,12 +532,7 @@ void Video::setScreenSize()
 void Video::changeScreenSize()
 {
     if (p_Main->isZoomEventOngoing())
-    {
-        // TEMP TMSDIAG (remove when done)
-        if (videoType_ == VIDEOXMLTMS)
-            p_Main->guiShowTextMessage("TMSDIAG csz: skipped, zoom event ongoing");
         return;
-    }
 
     changeScreenSize_ = false;
     memoryDCvalid_ = false;
@@ -584,15 +579,6 @@ void Video::changeScreenSize()
          extraBackGround_ = true;
     if ((int)((2*offsetY_+videoHeight_)*zoom_) != destinationHeight_)
          extraBackGround_ = true;
-
-    // TEMP TMSDIAG (remove when done)
-    if (videoType_ == VIDEOXMLTMS)
-    {
-        wxString tmsDiag;
-        tmsDiag.Printf("TMSDIAG csz: dest %dx%d zoom %g xZoom %g -> off (%d,%d) extraBg %d",
-            destinationWidth_, destinationHeight_, zoom_, xZoomFactor_, (int)offsetX_, (int)offsetY_, extraBackGround_ ? 1 : 0);
-        p_Main->guiShowTextMessage(tmsDiag);
-    }
 
     videoScreenPointer->setZoom(zoom_);
     if (wxIsMainThread())
