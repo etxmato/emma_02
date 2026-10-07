@@ -163,6 +163,19 @@ Tms9918::Tms9918(const wxString& title, const wxPoint& pos, const wxSize& size, 
 
     setColourMutexMainPlane(colourIndex_+backgroundColor_+16);
     drawRectangleMainPlane(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
+
+    tmsDiagCount_ = 0;  // TEMP TMSDIAG: sentinel values below force a first copyScreen() print
+    tmsDiagLastOffsetX_ = -1;
+    tmsDiagLastOffsetY_ = -1;
+    tmsDiagLastZoom_ = -1;
+    tmsDiagLastDestW_ = -1;
+    tmsDiagLastDestH_ = -1;
+    tmsDiagLastMode_ = 255;
+    wxString tmsDiag;
+    tmsDiag.Printf("TMSDIAG ctor: off (%d,%d) vid %dx%d border %dx%d zoom %g client %dx%d",
+                   (int)offsetX_, (int)offsetY_, (int)videoWidth_, (int)videoHeight_,
+                   borderX_[videoType_], borderY_[videoType_], zoom_, GetClientSize().x, GetClientSize().y);
+    p_Main->guiShowTextMessage(tmsDiag);
 }
 
 Tms9918::~Tms9918()
@@ -675,6 +688,33 @@ void Tms9918::setCycle()
 
 void Tms9918::copyScreen()
 {
+    // TEMP TMSDIAG: print the first calls plus every offset/zoom/size/mode change (remove when done)
+    {
+        wxSize tmsDiagClient;
+        if (wxIsMainThread())
+            tmsDiagClient = p_Video[videoNumber_]->GetClientSize();
+        else
+            tmsDiagClient = p_Main->eventGetClientSize(false, videoNumber_);
+        tmsDiagCount_++;
+        if (tmsDiagCount_ <= 10 || (int)offsetX_ != tmsDiagLastOffsetX_ || (int)offsetY_ != tmsDiagLastOffsetY_
+            || zoom_ != tmsDiagLastZoom_ || destinationWidth_ != tmsDiagLastDestW_ || destinationHeight_ != tmsDiagLastDestH_
+            || mode_ != tmsDiagLastMode_)
+        {
+            wxString tmsDiag;
+            tmsDiag.Printf("TMSDIAG copy #%d: off (%d,%d) vid %dx%d zoom %g xZoom %g rd %d rb %d spr %d mode %d client %dx%d dest %dx%d zoomEvt %d",
+                tmsDiagCount_, (int)offsetX_, (int)offsetY_, (int)videoWidth_, (int)videoHeight_, zoom_, xZoomFactor_,
+                reDraw_ ? 1 : 0, reBlit_ ? 1 : 0, reDrawSprites_ ? 1 : 0, (int)mode_,
+                tmsDiagClient.x, tmsDiagClient.y, destinationWidth_, destinationHeight_, p_Main->isZoomEventOngoing() ? 1 : 0);
+            p_Main->guiShowTextMessage(tmsDiag);
+            tmsDiagLastOffsetX_ = (int)offsetX_;
+            tmsDiagLastOffsetY_ = (int)offsetY_;
+            tmsDiagLastZoom_ = zoom_;
+            tmsDiagLastDestW_ = destinationWidth_;
+            tmsDiagLastDestH_ = destinationHeight_;
+            tmsDiagLastMode_ = mode_;
+        }
+    }
+
     if (p_Main->isZoomEventOngoing())
         return;
 

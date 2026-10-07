@@ -92,6 +92,15 @@ private:
 
     int cycleValue_;
     int cycleSize_;
+
+    // TEMP TMSDIAG: throttled ctor/copyScreen diagnostics (remove when done)
+    int tmsDiagCount_;
+    int tmsDiagLastOffsetX_;
+    int tmsDiagLastOffsetY_;
+    double tmsDiagLastZoom_;
+    int tmsDiagLastDestW_;
+    int tmsDiagLastDestH_;
+    Byte tmsDiagLastMode_;
 };
 
 #endif  // TMS9918_H
