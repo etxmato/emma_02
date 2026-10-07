@@ -110,6 +110,11 @@ bool wxCurlTransferDialog::Create(const wxString &url, const wxString& title, co
 
 wxCurlDialogReturnFlag wxCurlTransferDialog::RunModal()
 {
+    // Create() may have failed (e.g. the curl session could not be created), in
+    // which case m_pThread or its curl session is not available. Do not crash.
+    if (!m_pThread || !m_pThread->GetCurlSession())
+        return wxCDRF_FAILED;
+
     m_pThread->GetCurlSession()->SetVerbose(m_bVerbose);
 
     if (!HasFlag(wxCTDS_CAN_START))

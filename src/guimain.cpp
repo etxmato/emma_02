@@ -3692,9 +3692,8 @@ void GuiMain::checkWavFileDownload(bool downloadIfMissing)
                 url.Replace(" ", "%20");
 #if !defined (_DEBUG)
                 wxCurlDownloadDialog downloadDialog;
-                downloadDialog.Create(url, &html_stream, "Download File?", computerConfiguration.wavConfiguration[0].fileName, wxNullBitmap, this, wxCTDS_CAN_START|wxCTDS_CAN_PAUSE|wxCTDS_CAN_ABORT|wxCTDS_REMAINING_TIME|wxCTDS_SIZE|wxCTDS_AUTO_CLOSE, 120);
-                
-                downloadDialog.RunModal();
+                if (downloadDialog.Create(url, &html_stream, "Download File?", computerConfiguration.wavConfiguration[0].fileName, wxNullBitmap, this, wxCTDS_CAN_START|wxCTDS_CAN_PAUSE|wxCTDS_CAN_ABORT|wxCTDS_REMAINING_TIME|wxCTDS_SIZE|wxCTDS_AUTO_CLOSE, 120))
+                    downloadDialog.RunModal();
 #endif
 
             }

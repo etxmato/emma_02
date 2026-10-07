@@ -96,10 +96,13 @@ wxCurlThreadError wxCurlBaseThread::SetURL(const wxString &url)
 
 void wxCurlBaseThread::OnExit()
 {
-    if (m_pCurl->IsVerbose())
+    // NOTE: do NOT delete m_pCurl here. The worker thread posts its progress
+    // and end-of-perform events just before Entry() returns, and the GUI thread
+    // still dereferences the curl session (OnEndPerform, UpdateLabels) after
+    // OnExit() has run. Freeing it here is a use-after-free / NULL dereference.
+    // The session is owned by ~wxCurlBaseThread() instead.
+    if (m_pCurl && m_pCurl->IsVerbose())
         wxLogDebug(wxS("wxCurlBaseThread - exiting"));
-
-    wxDELETE(m_pCurl);
 }
 
 bool wxCurlBaseThread::TestDestroy()

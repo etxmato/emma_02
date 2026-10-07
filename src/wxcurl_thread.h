@@ -42,7 +42,14 @@ enum wxCurlThreadError
 };
 
 //! The stack size for wxCurl threads.
-#define wxCURL_THREAD_STACK_SIZE            2048
+// NOTE: this used to be 2048 (bytes!). Windows honours that literally (it is
+// only rounded up to a page, i.e. ~4 KB), which is far too small for a
+// libcurl/TLS transfer, so the worker thread overflows its stack and the whole
+// process dies - a Windows-only crash, because the Unix/macOS wxThread impl
+// calls pthread_attr_setstacksize() with a value below PTHREAD_STACK_MIN and
+// silently falls back to the default (large) stack. 0 tells wxWidgets to use
+// the platform default stack size on every platform.
+#define wxCURL_THREAD_STACK_SIZE            0
 
 
 // ----------------------------------------------------------------------------
@@ -85,6 +92,15 @@ public:
         m_pHandler = handler;
 
         m_bAbort = false;
+    }
+
+    ~wxCurlBaseThread()
+    {
+        // The libcurl session must outlive the queued progress/begin/end
+        // events that reference it (OnEndPerform/UpdateLabels read it from the
+        // GUI thread after the worker thread has finished). Deleting it here,
+        // when the thread object is destroyed, is safe.
+        wxDELETE(m_pCurl);
     }
 
 public:     // thread execution management
