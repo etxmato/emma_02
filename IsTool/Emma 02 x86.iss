@@ -245,8 +245,8 @@ Source: ..\data\Xml\Pecom64\*.*; DestDir: {app}\data\Xml\Pecom64; Components: MA
 Source: ..\data\Xml\PicoElfV2\*.*; DestDir: {app}\data\Xml\PicoElfV2; Components: MAIN
 Source: ..\data\Xml\PTC\*.*; DestDir: {app}\data\Xml\PTC; Components: MAIN
 Source: ..\data\Xml\QuestSuperElf\*.*; DestDir: {app}\data\Xml\QuestSuperElf; Components: MAIN
-Source: ..\data\Xml\Studio2020\*.*; DestDir: {app}\data\Xml\Studio2020; Components: MAIN
 Source: ..\data\Xml\SBC1802\*.*; DestDir: {app}\data\Xml\SBC1802; Components: MAIN
+Source: ..\data\Xml\Studio2020\*.*; DestDir: {app}\data\Xml\Studio2020; Components: MAIN
 Source: ..\data\Xml\StudioII\*.*; DestDir: {app}\data\Xml\StudioII; Components: MAIN
 Source: ..\data\Xml\StudioIII\*.*; DestDir: {app}\data\Xml\StudioIII; Components: MAIN
 Source: ..\data\Xml\StudioIV\*.*; DestDir: {app}\data\Xml\StudioIV; Components: MAIN
@@ -266,15 +266,14 @@ Source: ..\data\Xml\VT1802\*.*; DestDir: {app}\data\Xml\VT1802; Components: MAIN
 Source: ..\data\Xml\Visicom\*.*; DestDir: {app}\data\Xml\Visicom; Components: MAIN
 Source: ..\images\*.*; DestDir: {app}\images; Components: MAIN
 Source: ..\src\*.*; DestDir: {app}\src; Components: SOURCEFILES
-Source: ..\Emma 02 vc9.sln; DestDir: {app}; Components: SOURCEFILES
-Source: ..\Emma 02 vc9.vcproj; DestDir: {app}; Components: SOURCEFILES
+Source: ..\Emma 02 vc17.sln; DestDir: {app}; Components: SOURCEFILES
+Source: ..\Emma 02 vc17.vcxproj; DestDir: {app}; Components: SOURCEFILES
 Source: ..\Emma 02.rc; DestDir: {app}; Components: SOURCEFILES
 
 [Icons]
 Name: {group}\Emma 02; Filename: {app}\Emma 02.exe; WorkingDir: {app}; Components: MAIN
 Name: {group}\{cm:UninstallProgram,Emma 02}; Filename: {uninstallexe}; Components: MAIN
 Name: {commondesktop}\Emma 02; Filename: {app}\Emma 02.exe; WorkingDir: {app}; Tasks: desktopicon
-
 
 [Run]
 Filename: {tmp}\vcredist_x86.exe; Parameters: /quiet; Components: MAIN
