@@ -16,7 +16,7 @@
     </system>
 
     <splash>
-        <text>Press: 0, C, 0, 0, reset and 6 and again reset and 6 to start BASIC</text>
+        <text>Press: 0, C, 0, 0, reset and 6 and to start BASIC</text>
     </splash>
 
     <memory mask="0xfff">
