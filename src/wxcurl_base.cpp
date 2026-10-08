@@ -34,6 +34,15 @@
 // Constants
 //////////////////////////////////////////////////////////////////////
 
+// Maximum time (seconds) to wait for the connection phase (name lookup,
+// TCP connect and TLS handshake) to complete before giving up.
+// Without this, an unreachable host - e.g. the WAV download server being
+// down - leaves the transfer appearing to hang for libcurl's default
+// connect timeout (300 s) before the failure is reported.
+// NOTE: this is a connect timeout, not a total-transfer timeout, so large
+// downloads on a slow link are unaffected once the connection is up.
+#define wxCURL_CONNECT_TIMEOUT_SECONDS      15L
+
 //////////////////////////////////////////////////////////////////////
 // C Functions for LibCURL
 //////////////////////////////////////////////////////////////////////
@@ -785,6 +794,10 @@ void wxCurlBase::SetCurlHandleToDefaults(const wxString& relativeURL)
         ResetResponseVars();
 
         SetStringOpt(CURLOPT_URL, m_szCurrFullURL);
+
+        // Bound the connection phase so a dead/unreachable server is reported
+        // in seconds rather than after libcurl's default of 300 s.
+        SetOpt(CURLOPT_CONNECTTIMEOUT, wxCURL_CONNECT_TIMEOUT_SECONDS);
 
         SetOpt(CURLOPT_HEADERFUNCTION, wxcurl_header_func);
         SetOpt(CURLOPT_WRITEHEADER, &m_szResponseHeader);
