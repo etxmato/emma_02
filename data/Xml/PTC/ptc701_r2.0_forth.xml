@@ -35,7 +35,7 @@
             <out mask="0x3">0x3FA2</out>
             <range>0x4000-0x77FF</range>
             <dirname>PTC</dirname>
-            <filename>ptc734C.bin</filename>
+            <filename>ptc734c.bin</filename>
         </ems>
         
         <!-- RAM: 8K at 0x7800-0x7FFF -->

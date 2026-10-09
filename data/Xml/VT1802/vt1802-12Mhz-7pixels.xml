@@ -19,7 +19,7 @@
             <start>0</start>
             <end>0x7FFF</end>
             <pulldown mask="*.hex">VT1802</pulldown>
-            <filename verify="true">eprom-12MHz-7pixels.hex</filename>
+            <filename verify="true">eprom-12Mhz-7pixels.hex</filename>
         </rom>
         
         <ram type="gui">

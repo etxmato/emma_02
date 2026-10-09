@@ -213,7 +213,7 @@
         <ram type="gui" mask="0x3ff">
             <start>0x0000</start>
             <end>0xFFFF</end>
-            <pulldown mask="Animate Demo.bin">FREDI</pulldown>
+            <pulldown mask="Animate demo.bin">FREDI</pulldown>
             <filename>Animate demo.bin</filename>
         </ram>
     </memory>
