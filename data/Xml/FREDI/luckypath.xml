@@ -214,7 +214,7 @@
         <ram type="gui" mask="0x3ff">
             <start>0x0000</start>
             <end>0xFFFF</end>
-            <pulldown mask="Slide Puzzle I.bin">FREDI</pulldown>
+            <pulldown mask="Luckypath.bin">FREDI</pulldown>
             <filename>Luckypath.bin</filename>
         </ram>
     </memory>

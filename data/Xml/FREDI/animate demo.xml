@@ -214,7 +214,7 @@
             <start>0x0000</start>
             <end>0xFFFF</end>
             <pulldown mask="Animate Demo.bin">FREDI</pulldown>
-            <filename>Animate Demo.bin</filename>
+            <filename>Animate demo.bin</filename>
         </ram>
     </memory>
     

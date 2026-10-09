@@ -399,8 +399,8 @@
         <ram type="gui" mask="0x3ff">
             <start>0x0000</start>
             <end>0xFFFF</end>
-            <pulldown mask="nimnet.bin">FREDI</pulldown>
-            <filename>nimnet.bin</filename>
+            <pulldown mask="Nimnet.bin">FREDI</pulldown>
+            <filename>Nimnet.bin</filename>
         </ram>
     </memory>
     

@@ -327,17 +327,23 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
 wxString GuiMain::readConfigDir(const wxString& key, const wxString& defVal)
 {
     wxString returnDir = configPointer->Read(key, defVal);
-    
+
     if (returnDir == "")
+        returnDir = defVal;
+
+    // Values are normally stored relative to the data directory (see writeConfigDir).
+    // Absolute paths (e.g. a drive letter on Windows) are used as-is.
+    if (returnDir.Left(1) != pathSeparator_ && returnDir.Left(2) != "C:")
         returnDir = dataDir_ + returnDir;
-    
+
+    // If the configured directory does not exist (e.g. it was saved on another
+    // machine, with a different case, or is otherwise stale) fall back to the
+    // default. Never prepend dataDir_ to an already absolute/invalid path, as
+    // that would keep growing the path on every run.
     wxDir directory;
     if (!directory.Open(returnDir))
-        returnDir = dataDir_ + returnDir;
-    
-//    if (returnDir.Left(1) != "/" && returnDir.Left(2) != "C:")
-//        returnDir = dataDir_ + returnDir;
-   
+        returnDir = defVal;
+
     return returnDir;
 }
 
