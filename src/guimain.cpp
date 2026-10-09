@@ -3690,11 +3690,27 @@ void GuiMain::checkWavFileDownload(bool downloadIfMissing)
                // This doesn't work in the debug version??
                 wxString url = "https://www.emma02.hobby-site.com/wave/" + computerConfiguration.wavConfiguration[0].fileName;
                 url.Replace(" ", "%20");
+                bool downloadOk = false;
 #if !defined (_DEBUG)
                 wxCurlDownloadDialog downloadDialog;
                 if (downloadDialog.Create(url, &html_stream, "Download File?", computerConfiguration.wavConfiguration[0].fileName, wxNullBitmap, this, wxCTDS_CAN_START|wxCTDS_CAN_PAUSE|wxCTDS_CAN_ABORT|wxCTDS_REMAINING_TIME|wxCTDS_SIZE|wxCTDS_AUTO_CLOSE, 120))
-                    downloadDialog.RunModal();
+                    downloadOk = (downloadDialog.RunModal() == wxCDRF_SUCCESS);
 #endif
+                html_stream.Close();
+                if (!downloadOk)
+                {
+                    wxFile wavFile(fileName);
+                    if (wavFile.IsOpened())
+                    {
+                        if (wavFile.Length() == 0)
+                        {
+                            wavFile.Close();
+                            wxRemoveFile(fileName);
+                        }
+                        else
+                            wavFile.Close();
+                    }
+                }
 
             }
         }
