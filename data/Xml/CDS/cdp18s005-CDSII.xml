@@ -33,7 +33,7 @@
         <item>
             <type>text</type>
             <label size="12">RESET</label>
-            <pos>40, 70</pos>
+            <pos>40, 74</pos>
         </item>
         <item>
             <type size="small">push</type>
@@ -45,7 +45,7 @@
         <item>
             <type>text</type>
             <label size="12">RUN</label>
-            <pos>102, 70</pos>
+            <pos>102, 74</pos>
         </item>
         <item>
             <type>switch</type>
@@ -73,7 +73,7 @@
         <item>
             <type>text</type>
             <label size="12">ADDRESS</label>
-            <pos>205, 70</pos>
+            <pos>205, 74</pos>
         </item>
         <item>
             <type form="313" font="italic">til</type>
@@ -102,7 +102,7 @@
         <item>
             <type>text</type>
             <label size="12">BUS</label>
-            <pos>313, 70</pos>
+            <pos>313, 74</pos>
         </item>
         <item>
             <type form="313" font="italic">til</type>
@@ -119,7 +119,7 @@
         <item>
             <type>text</type>
             <label size="12">LOAD</label>
-            <pos>380, 70</pos>
+            <pos>380, 74</pos>
         </item>
         <item>
             <type size="small">push</type>
@@ -152,7 +152,7 @@
             <type>led</type>
             <value>1</value>
             <function cycle="show">cpustateled</function>
-            <pos>185, 145</pos>
+            <pos>185, 142</pos>
         </item>
         <item>
             <type color="grey">text</type>
@@ -163,7 +163,7 @@
             <type>led</type>
             <value>0</value>
             <function cycle="show">cpustateled</function>
-            <pos>213, 145</pos>
+            <pos>213, 142</pos>
         </item>
         <item>
             <type color="grey">text</type>
@@ -173,7 +173,7 @@
         <item>
             <type>led</type>
             <function cycle="show">waitled</function>
-            <pos>256, 145</pos>
+            <pos>256, 142</pos>
         </item>
         <item>
             <type color="grey">text</type>
@@ -183,7 +183,7 @@
         <item>
             <type>led</type>
             <function cycle="show">clearled</function>
-            <pos>284, 145</pos>
+            <pos>284, 142</pos>
         </item>
         <item>
             <type color="grey">text</type>
@@ -193,7 +193,7 @@
         <item>
             <type>led</type>
             <function cycle="show">qled</function>
-            <pos>310, 145</pos>
+            <pos>310, 142</pos>
         </item>
         <item>
             <type color="grey">text</type>
@@ -203,7 +203,7 @@
         <item>
             <type>led</type>
             <function cycle="show">runled</function>
-            <pos>338, 145</pos>
+            <pos>338, 142</pos>
         </item>
     </frontpanel>
 
