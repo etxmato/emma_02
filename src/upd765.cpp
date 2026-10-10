@@ -43,6 +43,13 @@
 #define UPD_WRITE 2
 #define UPD_FORMAT_WRITE 3
 
+// Enable to trace the uPD765 HD (directory simulation) path in the debug
+// message window. Used to locate the Windows "DIR hangs" report: each read/
+// write and the directory-cluster build print a begin/end marker, so the last
+// printed marker identifies the call that does not return. Comment out to
+// silence.
+//#define UPD765_HD_DEBUG
+
 #define HD_UPD_NONE 0                // Direct PC HD access commands
 #define HD_UPD_WRITE 1
 #define HD_UPD_DEL 2
@@ -153,6 +160,8 @@ void Upd765::configureUpd765(Upd765Configuration upd765Configuration)
             clusterInfo_[drive][cluster].filenameDefined = false;
             clusterInfo_[drive][cluster].readCluster = true;
             clusterInfo_[drive][cluster].sdwClusterDefined = false;
+            clusterInfo_[drive][cluster].sdwCluster = false;
+            clusterInfo_[drive][cluster].startCluster = 0;
         }
     }
 
@@ -232,6 +241,27 @@ void Upd765::doRead()
             // textMessage.Printf("READ, Cluster %i, drive %i", offset, drive_);
             // p_Main->guiShowTextMessage(textMessage);
 
+            // Cluster number comes from the guest command packet. diskBuffer_
+            // is only MAX_CLUSTER clusters deep, so reject out-of-range
+            // accesses instead of reading/writing past the buffer.
+            if (offset < 0 || offset >= MAX_CLUSTER)
+            {
+                updActivity_ = UPD_NONE;
+                statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;
+                commandReturnCounter_ = 1;
+                commandReturnValue_ = 0;
+                masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
+                return;
+            }
+
+#ifdef UPD765_HD_DEBUG
+            {
+                wxString dbgMsg;
+                dbgMsg.Printf("UPD765 HD READ: off=%d drv=%d dma=%d", offset, drive_, dmaCounter_);
+                p_Main->guiShowTextMessage(dbgMsg);
+            }
+#endif
+
             if (offset == 0)
             {
                 for (int pos = 0; pos < dmaCounter_; pos++)
@@ -272,7 +302,17 @@ void Upd765::doRead()
 
             if (offset >= 1 && offset <= 8)
             {
+#ifdef UPD765_HD_DEBUG
+                {
+                    wxString dbgMsg;
+                    dbgMsg.Printf("UPD765 HD READ: build dir cluster %d ...", offset);
+                    p_Main->guiShowTextMessage(dbgMsg);
+                }
+#endif
                 buildDirectoryClusters(offset);
+#ifdef UPD765_HD_DEBUG
+                p_Main->guiShowTextMessage("UPD765 HD READ: build dir done");
+#endif
                 for (int pos = offset * 512; pos < (offset * 512) + dmaCounter_; pos++)
                     p_Computer->writeMem(p_Computer->getAndIncRegister0(), diskBuffer_[drive_][pos], false);
             }
@@ -285,6 +325,16 @@ void Upd765::doRead()
 
             if (offset >= FIRST_CLUSTER)
             {
+#ifdef UPD765_HD_DEBUG
+                {
+                    wxString dbgMsg;
+                    dbgMsg.Printf("UPD765 HD: cluster off=%d read=%d sdw=%d sdwDef=%d start=%d fname='%s'",
+                        offset, clusterInfo_[drive_][offset].readCluster, clusterInfo_[drive_][offset].sdwCluster,
+                        clusterInfo_[drive_][offset].sdwClusterDefined, clusterInfo_[drive_][offset].startCluster,
+                        clusterInfo_[drive_][offset].fileName.c_str());
+                    p_Main->guiShowTextMessage(dbgMsg);
+                }
+#endif
                 if (!clusterInfo_[drive_][offset].readCluster)
                 {
                     for (int pos = offset * 512; pos < (offset * 512) + dmaCounter_; pos++)
@@ -365,10 +415,12 @@ void Upd765::doRead()
                         int clusterPointer = 0, subNumberOfClusters = numberOfClusters, subClusterStart = offset, sdwCorrection = 1, subNextClusterNumber, subLastClusterNumber;
                         
                         subNextClusterNumber = 0;
-                        while (subNextClusterNumber < (subClusterStart + 1))
+                        int spaceSearchCount = 0;
+                        while (subNextClusterNumber < (subClusterStart + 1) && spaceSearchCount < MAX_CLUSTER)
                         {
                             subNextClusterNumber = getFreeCatCluster();
                             setCatMask(subNextClusterNumber);
+                            spaceSearchCount++;
                         }
                         
                         while (subNumberOfClusters > 0)
@@ -410,7 +462,12 @@ void Upd765::doRead()
                         
                         wxFileName FullPath = wxFileName(clusterInfo_[drive_][offset].fileName);
                         wxString name = FullPath.GetFullName();
-                        wxString path = FullPath.GetPath(true);
+                        // Use GetPathWithSep(), NOT GetPath(true): the bool
+                        // overload maps to GetPath(wxPATH_GET_SEPARATOR) and
+                        // drops wxPATH_GET_VOLUME, so on Windows the drive
+                        // letter was omitted and the ".name" sidecar lookup
+                        // failed (DIR hung).
+                        wxString path = FullPath.GetPathWithSep();
                         
                         if (wxFile::Exists(path + "." + name))
                         {
@@ -419,6 +476,19 @@ void Upd765::doRead()
                             infoFile.Read(&diskBuffer_[drive_][offset * 512 + 0x1F4], 12);
                             infoFile.Close();
                         }
+#ifdef UPD765_HD_DEBUG
+                        {
+                            wxString dbgMsg;
+                            dbgMsg.Printf("UPD765 HD: SDW off=%d n=%d hdr=%02X %02X %02X %02X %02X size=%02X %02X %02X %02X fname='%s'",
+                                offset, numberOfClusters,
+                                diskBuffer_[drive_][offset*512], diskBuffer_[drive_][offset*512+1], diskBuffer_[drive_][offset*512+2],
+                                diskBuffer_[drive_][offset*512+3], diskBuffer_[drive_][offset*512+4],
+                                diskBuffer_[drive_][offset*512+0x1F4], diskBuffer_[drive_][offset*512+0x1F5],
+                                diskBuffer_[drive_][offset*512+0x1F6], diskBuffer_[drive_][offset*512+0x1F7],
+                                name.c_str());
+                            p_Main->guiShowTextMessage(dbgMsg);
+                        }
+#endif
                     }
                     for (int pos = offset * 512; pos < (offset * 512) + dmaCounter_; pos++)
                         p_Computer->writeMem(p_Computer->getAndIncRegister0(), diskBuffer_[drive_][pos], false);
@@ -459,6 +529,13 @@ void Upd765::doRead()
                 }
                 diskFile.Close();
             }
+#ifdef UPD765_HD_DEBUG
+            {
+                wxString dbgMsg;
+                dbgMsg.Printf("UPD765 HD READ: off=%d complete", offset);
+                p_Main->guiShowTextMessage(dbgMsg);
+            }
+#endif
             updActivity_ = UPD_NONE;
             statusRegister0_ = drive_;
             commandReturnCounter_ = 7;
@@ -515,6 +592,28 @@ void Upd765::doWrite()
         // wxString textMessage;
         // textMessage.Printf("WRITE, Cluster %i, drive %i", offset_, drive_);
         // p_Main->guiShowTextMessage(textMessage);
+
+        // Cluster number comes from the guest command packet. diskBuffer_ is
+        // only MAX_CLUSTER clusters deep, so reject out-of-range accesses
+        // instead of reading/writing past the buffer.
+        if (offset_ < 0 || offset_ >= MAX_CLUSTER)
+        {
+            updActivity_ = UPD_NONE;
+            statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;
+            commandReturnCounter_ = 1;
+            commandReturnValue_ = 0;
+            masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
+            return;
+        }
+
+#ifdef UPD765_HD_DEBUG
+        {
+            wxString dbgMsg;
+            dbgMsg.Printf("UPD765 HD WRITE: off=%d drv=%d dma=%d", offset_, drive_, dmaCounter_);
+            p_Main->guiShowTextMessage(dbgMsg);
+        }
+#endif
+
         if (offset_ >= 1 && offset_ <= 8)
         {
             bool clusterEmpty=true;
@@ -558,10 +657,12 @@ void Upd765::doWrite()
                 cluster = diskBuffer_[drive_][offset_ * 512 + clusterPointer] * 256 + diskBuffer_[drive_][offset_ * 512 + clusterPointer + 1] + 1;
                 clusterPointer += 2;
 
-                while ((numberOfClusters & 0x80) == 0)
+                while ((numberOfClusters & 0x80) == 0 && clusterPointer < 0x200)
                 {
                     for (int clusterCount = cluster; clusterCount < (cluster + numberOfClusters); clusterCount++)
                     {
+                        if (clusterCount < 0 || clusterCount >= (MAX_CLUSTER + BUFFER_CLUSTER))
+                            continue;
                         clusterInfo_[drive_][clusterCount].sdwCluster = false;
                         clusterInfo_[drive_][clusterCount].filenameDefined = clusterInfo_[drive_][offset_].filenameDefined;
                         clusterInfo_[drive_][clusterCount].startCluster = offset_;
@@ -590,7 +691,7 @@ void Upd765::doWrite()
                 {
                     wxFileName FullPath = wxFileName(clusterInfo_[drive_][offset_].fileName);
                     wxString name = FullPath.GetFullName();
-                    wxString path = FullPath.GetPath(true);
+                    wxString path = FullPath.GetPathWithSep();
                     
                     if (wxFile::Exists(path + "." + name))
                     {
@@ -627,7 +728,8 @@ void Upd765::doWrite()
                 cluster = diskBuffer_[drive_][offset_ * 512 + clusterPointer] * 256 + diskBuffer_[drive_][offset_ * 512 + clusterPointer+1] + 1;
                 clusterPointer += 2;
 
-                while ((numberOfClusters & 0x80) == 0)
+                while ((numberOfClusters & 0x80) == 0 && clusterPointer < 0x200 &&
+                       cluster >= 0 && cluster < MAX_CLUSTER)
                 {
                     createDiskFile.Write(&diskBuffer_[drive_][cluster * 512], numberOfClusters * 512);
                     
@@ -732,6 +834,14 @@ void Upd765::startHdCommand(int commandPos)
 {
     wxString fileName, ext;
 
+#ifdef UPD765_HD_DEBUG
+    {
+        wxString dbgMsg;
+        dbgMsg.Printf("UPD765 HD: startHdCommand hdCommand=%d commandPos=%d drv=%d", hdCommand_, commandPos, drive_);
+        p_Main->guiShowTextMessage(dbgMsg);
+    }
+#endif
+
     switch (hdCommand_)
     {
         case HD_UPD_WRITE:
@@ -776,6 +886,14 @@ void Upd765::startHdCommand(int commandPos)
     {
         case HD_UPD_WRITE:
             swdClusterNumber = dirBuffer_[commandPos + 1] * 256 + dirBuffer_[commandPos + 2];
+            // Cluster number comes straight from the guest command packet;
+            // reject anything outside the generated buffers (clusterInfo_ has
+            // MAX_CLUSTER+BUFFER_CLUSTER entries, diskBuffer_ only MAX_CLUSTER).
+            if (swdClusterNumber < 0 || swdClusterNumber >= MAX_CLUSTER)
+            {
+                hdCommand_ = HD_UPD_NONE;
+                return;
+            }
             clusterInfo_[drive_][swdClusterNumber].sdwCluster = true;
             clusterInfo_[drive_][swdClusterNumber].fileName = diskDir_[drive_] + writeFileName_;
             clusterInfo_[drive_][swdClusterNumber].filenameDefined = true;
@@ -787,10 +905,12 @@ void Upd765::startHdCommand(int commandPos)
             cluster = diskBuffer_[drive_][swdClusterNumber * 512 + clusterPointer] * 256 + diskBuffer_[drive_][swdClusterNumber * 512 + clusterPointer + 1] + 1;
             clusterPointer += 2;
 
-            while ((numberOfClusters & 0x80) == 0 && cluster < MAX_CLUSTER)
+            while ((numberOfClusters & 0x80) == 0 && cluster < MAX_CLUSTER && clusterPointer < 0x200)
             {
                 for (int clusterCount = cluster; clusterCount < (cluster + numberOfClusters); clusterCount++)
                 {
+                    if (clusterCount < 0 || clusterCount >= (MAX_CLUSTER + BUFFER_CLUSTER))
+                        continue;
                     clusterInfo_[drive_][clusterCount].sdwCluster = false;
                     clusterInfo_[drive_][clusterCount].filenameDefined = clusterInfo_[drive_][swdClusterNumber].filenameDefined;
                     clusterInfo_[drive_][clusterCount].startCluster = swdClusterNumber;
@@ -860,6 +980,10 @@ void Upd765::startHdCommand(int commandPos)
             hdCommand_ = HD_UPD_NONE;
         break;
     }
+
+#ifdef UPD765_HD_DEBUG
+    p_Main->guiShowTextMessage("UPD765 HD: startHdCommand done");
+#endif
 }
 
 void Upd765::setCatMask(int cluster)
@@ -900,12 +1024,19 @@ int Upd765::getCatMask(int cluster)
 
 int Upd765::getFreeCatCluster()
 {
+    // Scan the cluster allocation bitmap for the first free cluster. The
+    // bitmap sits at diskBuffer_[0x1200] and covers clusters 7..MAX_CLUSTER;
+    // cap the scan there so a full or corrupt bitmap cannot run off the end
+    // of the buffer and loop forever (seen as a DIR hang).
     int cluster = 7, catPos = 0x1200;
-    while (diskBuffer_[drive_][catPos] == 0xff)
+    int catPosEnd = 0x1200 + (MAX_CLUSTER - 7 + 7) / 8 + 1;
+    while (catPos < catPosEnd && diskBuffer_[drive_][catPos] == 0xff)
     {
         cluster += 8;
         catPos++;
     }
+    if (catPos >= catPosEnd)
+        return (MAX_CLUSTER - 1);
     int value = diskBuffer_[drive_][catPos];
     while ((value & 0x80) == 0x80)
     {
@@ -919,9 +1050,15 @@ int Upd765::getFreeCatCluster()
 
 int Upd765::get20FreeCatCluster()
 {
+    // Scan the cluster allocation bitmap for a free bit with 2 clear bytes
+    // behind it (20 free clusters). The bitmap sits at diskBuffer_[0x1200]
+    // and covers clusters 7 up to MAX_CLUSTER; cap the scan at that region so
+    // a full or corrupt bitmap cannot run off the end of the buffer and loop
+    // forever (seen as a DIR hang).
     int cluster = 7, catPos = 0x1200;
+    int catPosEnd = 0x1200 + (MAX_CLUSTER - 7 + 7) / 8 + 2;
     bool emptySpaceFound = false;
-    while (!emptySpaceFound)
+    while (!emptySpaceFound && catPos < catPosEnd)
     {
         if (diskBuffer_[drive_][catPos] != 0xff && diskBuffer_[drive_][catPos+1] == 0 && diskBuffer_[drive_][catPos+2] == 0)
             emptySpaceFound = true;
@@ -931,6 +1068,8 @@ int Upd765::get20FreeCatCluster()
             catPos++;
         }
     }
+    if (!emptySpaceFound)
+        return (MAX_CLUSTER - 1);
     int value = diskBuffer_[drive_][catPos];
     while ((value & 0x80) == 0x80)
     {
@@ -953,6 +1092,17 @@ void Upd765::doCommand()
 
     drive_ = commandPacket_[1] & 3;                 // extract drive #
     resetHdData_ = true;
+
+#ifdef UPD765_HD_DEBUG
+    if (p_Main->getDirectoryMode(FDCTYPE_UPD765, drive_) &&
+        (commandPacket_[0] == RDCMD || commandPacket_[0] == WTCMD || commandPacket_[0] == FORMATCMD))
+    {
+        wxString dbgMsg;
+        dbgMsg.Printf("UPD765 HD: cmd=%02X drv=%d cyl=%d rec=%d dma=%d",
+                      commandPacket_[0], drive_, commandPacket_[2], commandPacket_[4], dmaCounter_);
+        p_Main->guiShowTextMessage(dbgMsg);
+    }
+#endif
 
     switch(commandPacket_[0])
     {
@@ -1342,14 +1492,30 @@ void Upd765::buildDirectoryClusters(int clusterRequest)
     // textMessage.Printf("DIR, Cluster %i, drive %i", firstCluster, drive_);
     // p_Main->guiShowTextMessage(textMessage);
 
+#ifdef UPD765_HD_DEBUG
+    {
+        wxString dbgMsg;
+        dbgMsg.Printf("UPD765 HD: buildDirectoryClusters req=%d firstCluster=%d drv=%d", clusterRequest, firstCluster, drive_);
+        p_Main->guiShowTextMessage(dbgMsg);
+    }
+#endif
+
     wxDir dir (diskDir_[drive_]);
     bool cont = dir.IsOpened() && dir.GetFirst(&filename);
-    
+
+#ifdef UPD765_HD_DEBUG
+    if (!cont)
+        p_Main->guiShowTextMessage("UPD765 HD: buildDirectoryClusters - dir not opened or empty");
+#endif
+
+    int filesProcessed = 0;
+
     for (int i=0x200; i<0x1200; i++)
         diskBuffer_[drive_][i] = 0;
     
     while (cont)
     {
+        filesProcessed++;
         wxFileName FullPath = wxFileName(diskDir_[drive_] + filename, wxPATH_NATIVE);
         wxString ext = FullPath.GetExt();
         wxString name = FullPath.GetName();
@@ -1397,6 +1563,14 @@ void Upd765::buildDirectoryClusters(int clusterRequest)
             
             diskBuffer_[drive_][bufferPointer++] = (firstCluster & 0xff00) >> 8;
             diskBuffer_[drive_][bufferPointer++] = firstCluster & 0xff;
+#ifdef UPD765_HD_DEBUG
+            if (directoryCluster == clusterRequest)
+            {
+                wxString dbgMsg;
+                dbgMsg.Printf("UPD765 HD: entry '%s' -> clus %d", filenameAdapted.c_str(), firstCluster);
+                p_Main->guiShowTextMessage(dbgMsg);
+            }
+#endif
             if (directoryCluster == clusterRequest)
                 firstCluster++;
  
@@ -1426,6 +1600,14 @@ void Upd765::buildDirectoryClusters(int clusterRequest)
  
         cont = dir.GetNext(&filename);
     }
+
+#ifdef UPD765_HD_DEBUG
+    {
+        wxString dbgMsg;
+        dbgMsg.Printf("UPD765 HD: buildDirectoryClusters req=%d done, files=%d", clusterRequest, filesProcessed);
+        p_Main->guiShowTextMessage(dbgMsg);
+    }
+#endif
 }
 
 void Upd765::initializeCat(int drive)
