@@ -1459,6 +1459,16 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
 
 #if defined(__WXMAC__)
     rePaintLeds(dc);
+
+    // rePaintLeds() blits the dirty LED/TIL bitmaps. On macOS our wxGCDC DoStretchBlit
+    // patch (dcgraph.cpp) forces ANTIALIAS_NONE for the blit but only restores it in the
+    // XOR branch, so it leaks. The panel's labels are drawn below, after rePaintLeds, so
+    // on frames where an item was dirty the labels were aliased and on others they were
+    // antialiased - visible as the labels flickering at the LED update rate. Restore the
+    // normal antialiasing now that the blits are done (interpolation stays NONE so the
+    // 1x bitmaps keep their crisp nearest-neighbour upscale).
+    if (wxGraphicsContext* gc = dc.GetGraphicsContext())
+        gc->SetAntialiasMode(wxANTIALIAS_DEFAULT);
 #endif
 
 //    wxColour panelBg = p_Main->isDarkMode() ? p_Main->getGuiBackGround() : p_Main->getGuiTextColour(GUI_COL_WHITE);

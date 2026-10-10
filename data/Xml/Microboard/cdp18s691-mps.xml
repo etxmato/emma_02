@@ -59,7 +59,7 @@
         <item>
             <type>text</type>
             <label size="12">ADDRESS</label>
-            <pos>65, 43</pos>
+            <pos>65, 46</pos>
         </item>
         <item>
             <type form="313" font="italic">til</type>
@@ -88,7 +88,7 @@
         <item>
             <type>text</type>
             <label size="12">BUS</label>
-            <pos>218, 43</pos>
+            <pos>218, 46</pos>
         </item>
         <item>
             <type form="313" font="italic">til</type>
@@ -112,7 +112,7 @@
         <item>
             <type>text</type>
             <label size="12">RESET</label>
-            <pos>36, 152</pos>
+            <pos>36, 155</pos>
         </item>
         <item>
             <type size="small">push</type>
@@ -124,7 +124,7 @@
         <item>
             <type>text</type>
             <label size="12">RUN</label>
-            <pos>106, 152</pos>
+            <pos>106, 155</pos>
         </item>
         <item>
             <type size="small">push</type>
@@ -136,7 +136,7 @@
         <item>
             <type>text</type>
             <label size="12">RUN</label>
-            <pos>166, 152</pos>
+            <pos>166, 155</pos>
         </item>
         <item>
             <type>switch</type>
@@ -147,17 +147,17 @@
         <item>
             <type>text</type>
             <label size="12">STEP</label>
-            <pos>224, 108</pos>
+            <pos>223, 108</pos>
         </item>
         <item>
             <type>text</type>
             <label size="12">CONT</label>
-            <pos>219, 152</pos>
+            <pos>220, 155</pos>
         </item>
         <item>
             <type color="grey">text</type>
             <label size="12">SC1</label>
-            <pos>40, 84</pos>
+            <pos>40, 87</pos>
         </item>
         <item>
             <type>led</type>
@@ -168,7 +168,7 @@
         <item>
             <type color="grey">text</type>
             <label size="12">SC0</label>
-            <pos>78, 84</pos>
+            <pos>78, 87</pos>
         </item>
         <item>
             <type>led</type>
@@ -179,7 +179,7 @@
         <item>
             <type color="grey">text</type>
             <label size="12">WT</label>
-            <pos>119, 84</pos>
+            <pos>119, 87</pos>
         </item>
         <item>
             <type>led</type>
@@ -189,7 +189,7 @@
         <item>
             <type color="grey">text</type>
             <label size="12">CLR</label>
-            <pos>154, 84</pos>
+            <pos>154, 87</pos>
         </item>
         <item>
             <type>led</type>
@@ -199,7 +199,7 @@
         <item>
             <type color="grey">text</type>
             <label size="12">Q</label>
-            <pos>201, 84</pos>
+            <pos>201, 87</pos>
         </item>
         <item>
             <type>led</type>
@@ -209,7 +209,7 @@
         <item>
             <type color="grey">text</type>
             <label size="12">RUN</label>
-            <pos>229, 84</pos>
+            <pos>229, 87</pos>
         </item>
         <item>
             <type>led</type>
