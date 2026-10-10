@@ -65,6 +65,7 @@ public:
     void ledTimeout() {cdp1852ScreenPointer->ledTimeout();};
     void setLedMs(long ms) {cdp1852ScreenPointer->setLedMs(ms);};
     void refreshLeds() {cdp1852ScreenPointer->refreshLeds();};
+    void refreshPanel() {cdp1852ScreenPointer->refreshPanel();};
     void onStbButton(wxCommandEvent&event);
     void releaseButtonOnScreen(HexButton* buttonPoint) {cdp1852ScreenPointer->releaseButtonOnScreen(buttonPoint);};
     Byte getEfState() {return cdp1852ScreenPointer->getEfState();};

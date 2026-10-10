@@ -9328,6 +9328,10 @@ void Computer::setGreenLed(int status)
 
 void Computer::refreshPanel()
 {
+    for (int num=0; num<numberOfCdp1851Instances_; num++)
+        cdp1851InstancePointer[num]->refreshPanel();
+    for (int num=0; num<numberOfCdp1852Frames_; num++)
+        cdp1852FramePointer[num]->refreshPanel();
     for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
         panelPointer[frontPanel]->refreshPanel();
 }

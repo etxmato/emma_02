@@ -85,8 +85,10 @@ void Cdp1852Screen::onPaint(wxPaintEvent&WXUNUSED(event))
     wxColourDatabase colour;
     wxString number;
 
-    dc.SetPen(*wxWHITE_PEN);
-    dc.SetBrush(*wxWHITE_BRUSH);
+    // Follow the light/dark mode selector like the shared Panel::onPaint() does.
+    wxColour panelBg = p_Main->isDarkMode() ? *wxBLACK : *wxWHITE;
+    dc.SetPen(panelBg);
+    dc.SetBrush(panelBg);
     dc.DrawRectangle(0, 0, 329, 219);
 #if defined(__WXMAC__)
     wxFont defaultFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
@@ -94,7 +96,7 @@ void Cdp1852Screen::onPaint(wxPaintEvent&WXUNUSED(event))
     wxFont defaultFont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 #endif
 
-    dc.SetTextForeground(*wxBLACK);
+    dc.SetTextForeground(p_Main->getGuiTextColour(GUI_COL_BLACK));
     dc.SetFont(defaultFont);
     
     for (int i=0; i<8; i++)

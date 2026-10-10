@@ -5242,6 +5242,8 @@ void Main::refreshSysColourDependents()
 
     if (computerRunning_)
     {
+        p_Computer->refreshPanel();
+
         switch (selectedTab_)
         {
             case DIRECTASSTAB:
