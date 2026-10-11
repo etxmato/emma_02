@@ -43,12 +43,50 @@
 #define UPD_WRITE 2
 #define UPD_FORMAT_WRITE 3
 
-// Enable to trace the uPD765 HD (directory simulation) path in the debug
-// message window. Used to locate the Windows "DIR hangs" report: each read/
-// write and the directory-cluster build print a begin/end marker, so the last
-// printed marker identifies the call that does not return. Comment out to
-// silence.
+// Enable to trace the uPD765 HD (directory simulation) path. Used to locate
+// the Windows "DIR hangs" report and the MS2000 MicroDos "wrong software
+// loaded" symptoms: every HD read/write, the directory-cluster build, the SDW
+// descriptor build and any out-of-range guard fire are logged. Output goes to
+// <home>/upd765_hd_trace.log rather than the message window (the per-cluster
+// traffic is far too heavy for it). Comment out to silence.
 //#define UPD765_HD_DEBUG
+
+#ifdef UPD765_HD_DEBUG
+// Single-writer HD trace (emulation thread only). APPENDS to
+// <home>/upd765_hd_trace.log, one line per event, flushed immediately so a
+// crash still leaves the log. Appended (never truncated) so every run is
+// preserved, each prefixed with a timestamped session header.
+// upd765HdTraceClose() closes the file; it is called on every uPD765
+// (re)configure (see configureUpd765) so the file is left closed and a later
+// run cannot wipe it.
+static wxFFile upd765HdTraceFile;
+static bool upd765HdTraceOpened = false;
+
+static void upd765HdTrace(const wxString &line)
+{
+    if (!upd765HdTraceOpened)
+    {
+        upd765HdTraceOpened = true;
+        wxFileName logFile(wxFileName::GetHomeDir(), "upd765_hd_trace.log");
+        upd765HdTraceFile.Open(logFile.GetFullPath(), "a");
+        if (upd765HdTraceFile.IsOpened())
+            upd765HdTraceFile.Write(wxString::Format("\n=== upd765 HD trace session %s ===\n",
+                wxDateTime::Now().FormatISOCombined(' ').c_str()));
+    }
+    if (upd765HdTraceFile.IsOpened())
+    {
+        upd765HdTraceFile.Write(line + "\n");
+        upd765HdTraceFile.Flush();
+    }
+}
+
+static void upd765HdTraceClose()
+{
+    if (upd765HdTraceFile.IsOpened())
+        upd765HdTraceFile.Close();
+    upd765HdTraceOpened = false;
+}
+#endif
 
 #define HD_UPD_NONE 0                // Direct PC HD access commands
 #define HD_UPD_WRITE 1
@@ -123,6 +161,9 @@ Upd765::Upd765()
 */
 void Upd765::configureUpd765(Upd765Configuration upd765Configuration)
 {
+#ifdef UPD765_HD_DEBUG
+    upd765HdTraceClose();     // close/flush the previous run's trace before a new session
+#endif
     upd765Configuration_ = upd765Configuration;
     
     for (int i=0; i<4; i++)
@@ -246,6 +287,9 @@ void Upd765::doRead()
             // accesses instead of reading/writing past the buffer.
             if (offset < 0 || offset >= MAX_CLUSTER)
             {
+#ifdef UPD765_HD_DEBUG
+                upd765HdTrace(wxString::Format("UPD765 HD GUARD: doRead offset=%d OUT OF RANGE (MAX_CLUSTER=%d) rejected -> ABNORMAL_TERMINATION drv=%d dma=%d", offset, MAX_CLUSTER, drive_, dmaCounter_));
+#endif
                 updActivity_ = UPD_NONE;
                 statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;
                 commandReturnCounter_ = 1;
@@ -258,7 +302,7 @@ void Upd765::doRead()
             {
                 wxString dbgMsg;
                 dbgMsg.Printf("UPD765 HD READ: off=%d drv=%d dma=%d", offset, drive_, dmaCounter_);
-                p_Main->guiShowTextMessage(dbgMsg);
+                upd765HdTrace(dbgMsg);
             }
 #endif
 
@@ -306,12 +350,12 @@ void Upd765::doRead()
                 {
                     wxString dbgMsg;
                     dbgMsg.Printf("UPD765 HD READ: build dir cluster %d ...", offset);
-                    p_Main->guiShowTextMessage(dbgMsg);
+                    upd765HdTrace(dbgMsg);
                 }
 #endif
                 buildDirectoryClusters(offset);
 #ifdef UPD765_HD_DEBUG
-                p_Main->guiShowTextMessage("UPD765 HD READ: build dir done");
+                upd765HdTrace("UPD765 HD READ: build dir done");
 #endif
                 for (int pos = offset * 512; pos < (offset * 512) + dmaCounter_; pos++)
                     p_Computer->writeMem(p_Computer->getAndIncRegister0(), diskBuffer_[drive_][pos], false);
@@ -332,10 +376,20 @@ void Upd765::doRead()
                         offset, clusterInfo_[drive_][offset].readCluster, clusterInfo_[drive_][offset].sdwCluster,
                         clusterInfo_[drive_][offset].sdwClusterDefined, clusterInfo_[drive_][offset].startCluster,
                         clusterInfo_[drive_][offset].fileName.c_str());
-                    p_Main->guiShowTextMessage(dbgMsg);
+                    upd765HdTrace(dbgMsg);
                 }
 #endif
-                if (!clusterInfo_[drive_][offset].readCluster)
+                // A directory-listed handle (sdwCluster && !filenameDefined)
+                // must (re)build its SDW from the host file, even if its
+                // readCluster flag is stale; otherwise MicroDos parses raw
+                // buffer bytes as if they were the descriptor. Every other
+                // cluster keeps the original short-cut: readCluster==false
+                // serves the raw buffer, which is exactly what a guest that
+                // has just written its own SDW (filenameDefined==true) needs
+                // when it reads the handle back.
+                bool directoryHandle = clusterInfo_[drive_][offset].sdwCluster &&
+                                       !clusterInfo_[drive_][offset].filenameDefined;
+                if (!clusterInfo_[drive_][offset].readCluster && !directoryHandle)
                 {
                     for (int pos = offset * 512; pos < (offset * 512) + dmaCounter_; pos++)
                         p_Computer->writeMem(p_Computer->getAndIncRegister0(), diskBuffer_[drive_][pos], false);
@@ -486,7 +540,7 @@ void Upd765::doRead()
                                 diskBuffer_[drive_][offset*512+0x1F4], diskBuffer_[drive_][offset*512+0x1F5],
                                 diskBuffer_[drive_][offset*512+0x1F6], diskBuffer_[drive_][offset*512+0x1F7],
                                 name.c_str());
-                            p_Main->guiShowTextMessage(dbgMsg);
+                            upd765HdTrace(dbgMsg);
                         }
 #endif
                     }
@@ -533,7 +587,7 @@ void Upd765::doRead()
             {
                 wxString dbgMsg;
                 dbgMsg.Printf("UPD765 HD READ: off=%d complete", offset);
-                p_Main->guiShowTextMessage(dbgMsg);
+                upd765HdTrace(dbgMsg);
             }
 #endif
             updActivity_ = UPD_NONE;
@@ -598,6 +652,9 @@ void Upd765::doWrite()
         // instead of reading/writing past the buffer.
         if (offset_ < 0 || offset_ >= MAX_CLUSTER)
         {
+#ifdef UPD765_HD_DEBUG
+            upd765HdTrace(wxString::Format("UPD765 HD GUARD: doWrite offset_=%d OUT OF RANGE (MAX_CLUSTER=%d) rejected -> ABNORMAL_TERMINATION drv=%d dma=%d", offset_, MAX_CLUSTER, drive_, dmaCounter_));
+#endif
             updActivity_ = UPD_NONE;
             statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;
             commandReturnCounter_ = 1;
@@ -610,7 +667,7 @@ void Upd765::doWrite()
         {
             wxString dbgMsg;
             dbgMsg.Printf("UPD765 HD WRITE: off=%d drv=%d dma=%d", offset_, drive_, dmaCounter_);
-            p_Main->guiShowTextMessage(dbgMsg);
+            upd765HdTrace(dbgMsg);
         }
 #endif
 
@@ -677,6 +734,13 @@ void Upd765::doWrite()
                 // textMessage.Printf("WRITE SDW, number of clusters %i, start cluster %i", diskBuffer_[drive_][offset_ * 512], diskBuffer_[drive_][offset_ * 512 + 1] * 256 + diskBuffer_[drive_][offset_ * 512 + 2]);
                 // p_Main->guiShowTextMessage(textMessage);
 
+#ifdef UPD765_HD_DEBUG
+                upd765HdTrace(wxString::Format("UPD765 HD WRITE SDW: off_=%d count=%d start=%d file='%s'",
+                    offset_, diskBuffer_[drive_][offset_ * 512],
+                    diskBuffer_[drive_][offset_ * 512 + 1] * 256 + diskBuffer_[drive_][offset_ * 512 + 2] + 1,
+                    clusterInfo_[drive_][offset_].fileName.c_str()));
+#endif
+
                 bool writeInfoFile = false;
                 for (int i = 0x1f5; i < 0x200; i++)
                 {
@@ -723,6 +787,11 @@ void Upd765::doWrite()
                 
                 wxFile createDiskFile;
                 createDiskFile.Create(clusterInfo_[drive_][offset_].fileName);
+#ifdef UPD765_HD_DEBUG
+                upd765HdTrace(wxString::Format("UPD765 HD WRITE FILE: '%s' startCluster=%d firstCluster=%d",
+                    clusterInfo_[drive_][offset_].fileName.c_str(), offset_,
+                    diskBuffer_[drive_][offset_ * 512 + 1] * 256 + diskBuffer_[drive_][offset_ * 512 + 2] + 1));
+#endif
                 
                 numberOfClusters = diskBuffer_[drive_][offset_ * 512 + clusterPointer++];
                 cluster = diskBuffer_[drive_][offset_ * 512 + clusterPointer] * 256 + diskBuffer_[drive_][offset_ * 512 + clusterPointer+1] + 1;
@@ -838,7 +907,7 @@ void Upd765::startHdCommand(int commandPos)
     {
         wxString dbgMsg;
         dbgMsg.Printf("UPD765 HD: startHdCommand hdCommand=%d commandPos=%d drv=%d", hdCommand_, commandPos, drive_);
-        p_Main->guiShowTextMessage(dbgMsg);
+        upd765HdTrace(dbgMsg);
     }
 #endif
 
@@ -891,9 +960,15 @@ void Upd765::startHdCommand(int commandPos)
             // MAX_CLUSTER+BUFFER_CLUSTER entries, diskBuffer_ only MAX_CLUSTER).
             if (swdClusterNumber < 0 || swdClusterNumber >= MAX_CLUSTER)
             {
+#ifdef UPD765_HD_DEBUG
+                upd765HdTrace(wxString::Format("UPD765 HD GUARD: startHdCommand SDW cluster=%d OUT OF RANGE (MAX_CLUSTER=%d) for file '%s' -> dropped", swdClusterNumber, MAX_CLUSTER, writeFileName_.c_str()));
+#endif
                 hdCommand_ = HD_UPD_NONE;
                 return;
             }
+#ifdef UPD765_HD_DEBUG
+            upd765HdTrace(wxString::Format("UPD765 HD WRITE DIR: file='%s' swdCluster=%d", writeFileName_.c_str(), swdClusterNumber));
+#endif
             clusterInfo_[drive_][swdClusterNumber].sdwCluster = true;
             clusterInfo_[drive_][swdClusterNumber].fileName = diskDir_[drive_] + writeFileName_;
             clusterInfo_[drive_][swdClusterNumber].filenameDefined = true;
@@ -982,7 +1057,7 @@ void Upd765::startHdCommand(int commandPos)
     }
 
 #ifdef UPD765_HD_DEBUG
-    p_Main->guiShowTextMessage("UPD765 HD: startHdCommand done");
+    upd765HdTrace("UPD765 HD: startHdCommand done");
 #endif
 }
 
@@ -1100,7 +1175,7 @@ void Upd765::doCommand()
         wxString dbgMsg;
         dbgMsg.Printf("UPD765 HD: cmd=%02X drv=%d cyl=%d rec=%d dma=%d",
                       commandPacket_[0], drive_, commandPacket_[2], commandPacket_[4], dmaCounter_);
-        p_Main->guiShowTextMessage(dbgMsg);
+        upd765HdTrace(dbgMsg);
     }
 #endif
 
@@ -1496,7 +1571,7 @@ void Upd765::buildDirectoryClusters(int clusterRequest)
     {
         wxString dbgMsg;
         dbgMsg.Printf("UPD765 HD: buildDirectoryClusters req=%d firstCluster=%d drv=%d", clusterRequest, firstCluster, drive_);
-        p_Main->guiShowTextMessage(dbgMsg);
+        upd765HdTrace(dbgMsg);
     }
 #endif
 
@@ -1505,7 +1580,7 @@ void Upd765::buildDirectoryClusters(int clusterRequest)
 
 #ifdef UPD765_HD_DEBUG
     if (!cont)
-        p_Main->guiShowTextMessage("UPD765 HD: buildDirectoryClusters - dir not opened or empty");
+        upd765HdTrace("UPD765 HD: buildDirectoryClusters - dir not opened or empty");
 #endif
 
     int filesProcessed = 0;
@@ -1558,8 +1633,28 @@ void Upd765::buildDirectoryClusters(int clusterRequest)
                 diskBuffer_[drive_][bufferPointer++] = filenameAdapted[i];
             
             bufferPointer ++;
-            clusterInfo_[drive_][firstCluster].fileName = diskDir_[drive_] + filename;
-            clusterInfo_[drive_][firstCluster].sdwCluster = true;
+            // (Re)assign this handle. Reset the per-cluster state when the
+            // handle is new or previously belonged to a different file, so a
+            // stale sdwClusterDefined/startCluster/filenameDefined cannot make
+            // doRead() serve raw buffer bytes (or a previous file's descriptor)
+            // instead of (re)building the SDW. If the same file keeps the
+            // handle, leave the state alone so the SDW is not re-allocated
+            // (which would drift its data clusters upward) on every directory
+            // read.
+            wxString handleFileName = diskDir_[drive_] + filename;
+            if (clusterInfo_[drive_][firstCluster].fileName != handleFileName ||
+                !clusterInfo_[drive_][firstCluster].sdwCluster)
+            {
+                clusterInfo_[drive_][firstCluster].fileName = handleFileName;
+                clusterInfo_[drive_][firstCluster].sdwCluster = true;
+                clusterInfo_[drive_][firstCluster].sdwClusterDefined = false;
+                clusterInfo_[drive_][firstCluster].startCluster = 0;
+                // Clear any stale 'created by the guest' marker: this handle
+                // now describes a directory-listed file, so doRead() must
+                // (re)build its SDW from the host file. readCluster is left
+                // untouched (it has never been set here, in any version).
+                clusterInfo_[drive_][firstCluster].filenameDefined = false;
+            }
             
             diskBuffer_[drive_][bufferPointer++] = (firstCluster & 0xff00) >> 8;
             diskBuffer_[drive_][bufferPointer++] = firstCluster & 0xff;
@@ -1568,7 +1663,7 @@ void Upd765::buildDirectoryClusters(int clusterRequest)
             {
                 wxString dbgMsg;
                 dbgMsg.Printf("UPD765 HD: entry '%s' -> clus %d", filenameAdapted.c_str(), firstCluster);
-                p_Main->guiShowTextMessage(dbgMsg);
+                upd765HdTrace(dbgMsg);
             }
 #endif
             if (directoryCluster == clusterRequest)
@@ -1605,7 +1700,7 @@ void Upd765::buildDirectoryClusters(int clusterRequest)
     {
         wxString dbgMsg;
         dbgMsg.Printf("UPD765 HD: buildDirectoryClusters req=%d done, files=%d", clusterRequest, filesProcessed);
-        p_Main->guiShowTextMessage(dbgMsg);
+        upd765HdTrace(dbgMsg);
     }
 #endif
 }
