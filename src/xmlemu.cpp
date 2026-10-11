@@ -5633,7 +5633,11 @@ void Computer::startComputer()
     for (int num=0; num<numberOfCdp1851Instances_; num++)
     {
         cdp1851InstancePointer[num]->setLedMs(ledTimeMs_);
-        cdp1851InstancePointer[num]->Show(currentComputerConfiguration.cdp1851Configuration[num].windowOpen);
+        // Only a window-connection CDP1851 has an actual frame; the printer/none
+        // variants are created without a wxFrame base (no GTK widget), so Show()
+        // would assert "invalid frame" on wxGTK (see debug_linux_sbc1802.md).
+        if (currentComputerConfiguration.cdp1851Configuration[num].connection == PIO_CONNECTION_WINDOW)
+            cdp1851InstancePointer[num]->Show(currentComputerConfiguration.cdp1851Configuration[num].windowOpen);
     }
     for (int num=0; num<numberOfCdp1852Frames_; num++)
     {
@@ -9087,9 +9091,15 @@ void Computer::releaseButtonOnScreen1852(HexButton* buttonPointer, int WXUNUSED(
 
 void Computer::showCdp1851(int pioNumber, bool state)
 {
-    cdp1851InstancePointer[pioNumber]->Show(state);
-    if (state)
-        cdp1851InstancePointer[pioNumber]->refreshLeds();
+    // Only a window-connection CDP1851 owns a frame widget; the printer/none
+    // variants are built without a wxFrame base, so Show() would assert
+    // "invalid frame" on wxGTK (see debug_linux_sbc1802.md).
+    if (currentComputerConfiguration.cdp1851Configuration[pioNumber].connection == PIO_CONNECTION_WINDOW)
+    {
+        cdp1851InstancePointer[pioNumber]->Show(state);
+        if (state)
+            cdp1851InstancePointer[pioNumber]->refreshLeds();
+    }
 }
 
 void Computer::showCdp1852(int pioNumber, bool state)
