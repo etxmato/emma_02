@@ -116,7 +116,8 @@ cp -a "$SRCROOT/Linux build/emma_02.desktop" "$STAGE/usr/share/applications/emma
 strip --strip-unneeded "$STAGE/usr/bin/emma_02" 2>/dev/null || true
 chmod 755 "$STAGE/usr/bin/emma_02"
 
-DEB="$OUTDIR/${PACKAGE}_${VERSION}_${DEBARCH}${SUFFIX}.deb"
+# Version-free artifact name; the version lives in the v<version> folder and the Version: field.
+DEB="$OUTDIR/${PACKAGE}_${DEBARCH}${SUFFIX}.deb"
 dpkg-deb --build "$STAGE" "$DEB"
 echo "built: $DEB"
 dpkg-deb -f "$DEB" Package Version Architecture Depends

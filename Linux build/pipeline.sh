@@ -11,7 +11,8 @@
 #   --format  deb (default); rpm reserved for later (same conf, no data.tar)
 #   --no-build  skip compile, package the binary already in the VM
 #   --clean   clean rebuild (make clean first)
-#   --out DIR where to place the artifact on the Mac (default: repo root)
+#   --out DIR where to place the artifact on the Mac
+#             (default: the installation repo at $INSTALL_ROOT/v<version>)
 #
 # Reads Linux build/emma02_package.conf as the single source of truth (PACKAGE/VERSION).
 set -e
@@ -32,8 +33,10 @@ done
 
 SCRIPTDIR="$(cd "$(dirname "$0")" && pwd)"
 REPO="$(cd "$SCRIPTDIR/.." && pwd)"
-[ -n "$OUTDIR" ] || OUTDIR="$REPO"
 CONF="$SCRIPTDIR/emma02_package.conf"
+# Published artifacts land in a version-named subfolder of the installation repo
+# (e.g. .../emma_02_installation/v2.01/), matching the existing folder convention.
+INSTALL_ROOT="${INSTALL_ROOT:-/Users/etxmato/workspace/emma_02_installation}"
 
 case "$ARCH" in
   amd64) VM="emma02-x64"; OTHER_DIR="Release";;
@@ -53,13 +56,17 @@ command -v rsync   >/dev/null || { echo "rsync not found" >&2; exit 1; }
 PKG="$(grep -E '^PACKAGE=' "$CONF" | head -n1 | cut -d= -f2-)"
 VER="$(grep -E '^VERSION=' "$CONF" | head -n1 | cut -d= -f2-)"
 [ -n "$PKG" ] && [ -n "$VER" ] || { echo "cannot read PACKAGE/VERSION from $CONF" >&2; exit 1; }
-ARTIFACT="${PKG}_${VER}_${ARCH}${SUFFIX}.deb"
+# Artifact name is version-free: the release version lives in the v<version> folder
+# (and in the package's Version: field), so download links stay stable across releases.
+ARTIFACT="${PKG}_${ARCH}${SUFFIX}.deb"
+[ -n "$OUTDIR" ] || OUTDIR="$INSTALL_ROOT/v$VER"
 
 echo "== Emma 02 pipeline =="
 echo "  arch:    $ARCH   VM: $VM   wx: $WXVER"
 echo "  format:  $FORMAT"
 echo "  package: $PKG $VER -> $ARTIFACT"
 echo "  repo:    $REPO"
+echo "  install: $OUTDIR"
 
 # 1. ensure the builder VM exists and is running
 if ! limactl list --json 2>/dev/null | grep -q "\"name\":\"$VM\""; then
