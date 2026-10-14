@@ -1164,8 +1164,15 @@ void GuiXml::onLedTimerXml(wxCommandEvent&event)
     if (computerRunning_ && (selectedTab_ == XMLTAB))
         p_Computer->setLedMs(ms);
 
-    configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Led_Update_Frequency", computerConfiguration.ledTime_);
-    configPointer->Flush();
+    // The dropdown arrays are only filled by setXmlDirDropDown() during GUI
+    // initialisation. wx 3.0 fires EVT_TEXT while the XRC panel is still being
+    // built, so guard against indexing the empty arrays (wx 3.2 does not send
+    // the event at creation time and therefore hid this).
+    if (dirNameList_.GetCount() > 0)
+    {
+        configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Led_Update_Frequency", computerConfiguration.ledTime_);
+        configPointer->Flush();
+    }
 }
 
 void GuiXml::onAutoLoadXml(wxCommandEvent&event)
