@@ -176,10 +176,22 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
     
     wxConfigBase *windowConfigPointer;
     
+#if wxCHECK_VERSION(3, 1, 0)
     returnValue.bitness = wxPlatformInfo::Get().GetBitness();
     wxString cpuArchitecture = wxPlatformInfo::Get().GetCpuArchitectureName();
 
     returnValue.arm = (cpuArchitecture == "arm64" || cpuArchitecture == "aarch64");
+#else
+    // wx 3.0 has no GetBitness()/GetCpuArchitectureName() nor the wxBitness
+    // enum; derive the same information from the compiler. bitness mirrors
+    // wxBITNESS_32 (0) / wxBITNESS_64 (1).
+    returnValue.bitness = (sizeof(void*) == 8) ? 1 : 0;
+#if defined(__aarch64__) || defined(__arm__)
+    returnValue.arm = true;
+#else
+    returnValue.arm = false;
+#endif
+#endif
 
 #if defined (__WXMAC__)
     windowInfoFile = "osx_" + fontSizeString + ".ini";

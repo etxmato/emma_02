@@ -14,7 +14,9 @@ typedef unsigned short Word;
 #include "wx/html/helpctrl.h"
 #include "wx/html/helpwnd.h"
 #include "wx/html/htmlwin.h"
+#if wxCHECK_VERSION(3, 1, 0)
 #include "wx/html/htmlproc.h"
+#endif
 #include "wx/settings.h"
 #include "definition.h"
 
@@ -41,7 +43,7 @@ typedef unsigned short Word;
 // OnPaint() still honours - and the two in-document colours are injected with
 // a wxHtmlProcessor, the documented extension point for rewriting markup.
 
-#if defined (__linux__)
+#if defined (__linux__) && wxCHECK_VERSION(3, 1, 0)
 // The page background: guiBackGround_ (wxSYS_COLOUR_FRAMEBK) lifted towards
 // white, because at full strength it reads as a black hole next to the panels.
 static const double HELP_PAGE_BG_LIFT = 0.04;
@@ -141,7 +143,7 @@ protected:
 
         m_helpWindow->Bind(wxEVT_HTML_LINK_CLICKED, &MyHtmlHelpController::OnHtmlLinkClicked);
 
-#if defined (__linux__)
+#if defined (__linux__) && wxCHECK_VERSION(3, 1, 0)
         if (wxHtmlWindow* htmlWin = m_helpWindow->GetHtmlWindow())
         {
             htmlWin->Bind(wxEVT_ERASE_BACKGROUND, &MyHtmlHelpController::OnEraseBackground);
@@ -162,7 +164,7 @@ private:
             event.Skip(true);
     }
 
-#if defined (__linux__)
+#if defined (__linux__) && wxCHECK_VERSION(3, 1, 0)
     // Not skipping the event is deliberate: wxHtmlWindow::OnPaint() skips its
     // own DoEraseBackground() once the erase event has been handled, so the
     // page keeps this background instead of being wiped to the light colour.
@@ -523,8 +525,8 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 2.00
-#define EMMA_SUB_VERSION 20
+#define EMMA_VERSION 2.01
+#define EMMA_SUB_VERSION 0
 
 #define XML 0
 
