@@ -525,8 +525,8 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 2.00
-#define EMMA_SUB_VERSION 20
+#define EMMA_VERSION 2.01
+#define EMMA_SUB_VERSION 0
 
 #define XML 0
 
