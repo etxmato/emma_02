@@ -260,7 +260,7 @@ void Serial::configureUart16450(VideoTerminalConfiguration videoTerminalConfigur
 void Serial::startSerial()
 {
     setNumberOfBits();
-    sp_return error = sp_get_port_by_name(currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].serialPort, &port);
+    sp_return error = sp_get_port_by_name(currentComputerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[currentComputerConfiguration.videoTerminalConfiguration.selectedTerminalSetting].serialPort.mb_str(), &port);
     if (error == SP_OK)
     {
         error = sp_open(port, (sp_mode)(SP_MODE_READ | SP_MODE_WRITE));

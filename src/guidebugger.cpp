@@ -37,6 +37,7 @@
 #endif
 
 #include "wx/xrc/xmlres.h"
+#include "xrc_compat.h"
 #include "wx/tglbtn.h"
 
 #include "main.h"

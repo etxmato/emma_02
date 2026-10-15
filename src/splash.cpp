@@ -29,6 +29,7 @@
 #include "splash.h"
 #include "main.h"
 #include "wx/xrc/xmlres.h"
+#include "xrc_compat.h"
 
 BEGIN_EVENT_TABLE(SplashScreen, wxDialog)
     EVT_BUTTON(XRCID("NoShow"), SplashScreen::noShow)

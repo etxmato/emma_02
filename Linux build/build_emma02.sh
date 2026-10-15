@@ -1,17 +1,19 @@
 #!/bin/bash
 # Compile Emma 02 for the right architecture (guest-side, runs on the Linux builder).
-# Usage: ./build_emma02.sh --arch amd64|arm64 [--src REPO_ROOT] [--jobs N] [--clean] [--allow-wx30]
+# Usage: ./build_emma02.sh --arch amd64|arm64 [--src REPO_ROOT] [--jobs N] [--clean] [--allow-wx X.Y]
 #   amd64 -> Release_x86/    arm64 -> Release/
+#   --allow-wx lowers the accepted wx floor below 3.2 for old-distro cells
+#              (3.0 for the Ubuntu 22.04 deb, 3.1 for the openSUSE Leap 15 rpm)
 # Verifies toolchain + wx/SDL/curl/serialport/X11 before running make, then checks ldd.
 set -e
-ARCH=""; SRCROOT=""; JOBS=""; CLEAN=0; ALLOW_WX30=0
+ARCH=""; SRCROOT=""; JOBS=""; CLEAN=0; MIN_WX="3.2"
 while [ $# -gt 0 ]; do
   case "$1" in
     --arch) ARCH="$2"; shift 2;;
     --src) SRCROOT="$2"; shift 2;;
     --jobs) JOBS="$2"; shift 2;;
     --clean) CLEAN=1; shift;;
-    --allow-wx30) ALLOW_WX30=1; shift;;
+    --allow-wx) MIN_WX="$2"; shift 2;;
     *) echo "unknown arg: $1" >&2; exit 1;;
   esac
 done
@@ -44,16 +46,17 @@ for t in g++ gcc make wx-config strip; do
   command -v "$t" >/dev/null 2>&1 || { echo "missing tool: $t" >&2; exit 1; }
 done
 
-# 4. wx version (3.2+ required; 3.0 only with --allow-wx30 for the future 22.04 cell)
+# 4. wx version (default need >= 3.2; --allow-wx sets a lower floor for old-distro cells)
 WXVER="$(wx-config --release 2>/dev/null || wx-config --version 2>/dev/null || echo 0)"
-WXMAJ="$(echo "$WXVER" | cut -d. -f1)"; WXMIN="$(echo "$WXVER" | cut -d. -f2)"
+WXMAJ="${WXVER%%.*}"; WXMIN="${WXVER#*.}"; WXMIN="${WXMIN%%.*}"
 WXMAJ="${WXMAJ:-0}"; WXMIN="${WXMIN:-0}"
-if [ "$WXMAJ" -lt 3 ] || { [ "$WXMAJ" -eq 3 ] && [ "$WXMIN" -lt 2 ] && [ "$ALLOW_WX30" = "0" ]; }; then
-  echo "wxWidgets $WXVER found, need >= 3.2 for this target" >&2
-  echo "install libwxgtk3.2-dev (24.04+) or rebuild wx from source" >&2; exit 1
+MINMAJ="${MIN_WX%%.*}"; MINMIN="${MIN_WX#*.}"; MINMIN="${MINMIN%%.*}"
+if [ "$WXMAJ" -lt "$MINMAJ" ] || { [ "$WXMAJ" -eq "$MINMAJ" ] && [ "$WXMIN" -lt "$MINMIN" ]; }; then
+  echo "wxWidgets $WXVER found, need >= $MIN_WX for this target" >&2
+  echo "install the distro wxWidgets devel package (libwxgtk3.2-dev / wxGTK-devel / wxGTK3-3_2-devel)" >&2; exit 1
 fi
-if [ "$WXMIN" -lt 2 ] && [ "$ALLOW_WX30" = "1" ]; then
-  echo "WARNING: wx $WXVER build — needs GetAppearance() fallback (see packaging skill §3)" >&2
+if [ "$WXMAJ" -eq 3 ] && [ "$WXMIN" -lt 2 ]; then
+  echo "NOTE: wx $WXVER (< 3.2) build — source uses wxCHECK_VERSION guards for this" >&2
 fi
 echo "wx: $WXVER  arch-target: $ARCH ($BINDIR)  jobs: $JOBS"
 
@@ -66,7 +69,9 @@ ldconfig -p 2>/dev/null | grep -q libX11 >/dev/null 2>&1 || MISS="$MISS libx11-d
 [ -d /usr/include/SDL ] || MISS="$MISS libsdl1.2-dev(headers)"
 if [ -n "$MISS" ]; then
   echo "missing libraries:$MISS" >&2
-  echo "try: sudo apt-get install -y libwxgtk3.2-dev libsdl1.2-dev libcurl4-openssl-dev libserialport-dev libx11-dev" >&2
+  echo "  Debian/Ubuntu: apt-get install -y libwxgtk3.2-dev libsdl1.2-dev libcurl4-openssl-dev libserialport-dev libx11-dev" >&2
+  echo "  Fedora:        dnf install -y wxGTK-devel sdl12-compat-devel libcurl-devel libserialport-devel libX11-devel" >&2
+  echo "  openSUSE:      zypper in -y wxGTK3-3_2-devel libSDL-devel libcurl-devel libserialport-devel libX11-devel" >&2
   exit 1
 fi
 

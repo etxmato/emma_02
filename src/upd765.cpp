@@ -1606,7 +1606,7 @@ void Upd765::buildDirectoryClusters(int clusterRequest)
         ext = ext.Left(3);
 
         wxString filenameAdapted = name + ext;
-        int directoryCluster = hash(filenameAdapted);
+        int directoryCluster = hash(filenameAdapted.mb_str());
         
         int bufferPointer = (directoryCluster + 1) * 512;
         int clusterPointer = 0;

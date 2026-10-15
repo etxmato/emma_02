@@ -27,6 +27,7 @@
 #endif
 
 #include "wx/xrc/xmlres.h"
+#include "xrc_compat.h"
 #include "wx/spinctrl.h"
 
 #include "main.h"
@@ -992,7 +993,7 @@ void GuiXml::onDisk(int diskNumber)
             wxFileName setectedDirFile = wxFileName(floppyDirSwitched_[computerConfiguration.fdcType_][diskNumber]);
             wxArrayString dirArray = setectedDirFile.GetDirs();
             dirName = dirArray.Last();
-            XRCCTRL(*this, "FDC"+diskNumberString+"_FileXml", wxTextCtrl)->SetValue(dirName);
+            XRCCTRL(*this, wxString("FDC")+diskNumberString+"_FileXml", wxTextCtrl)->SetValue(dirName);
         }
     }
     else
@@ -1023,7 +1024,7 @@ void GuiXml::onDisk(int diskNumber)
         writeConfigDir(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Dir/FDC"+diskNumberString+"_File_" + type, floppyDir_[computerConfiguration.fdcType_][diskNumber]);
         configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/FDC"+diskNumberString+"_File_" + type, floppy_[computerConfiguration.fdcType_][diskNumber]);
         if (mode_.gui)
-            XRCCTRL(*this, "FDC"+diskNumberString+"_FileXml", wxTextCtrl)->SetValue(floppy_[computerConfiguration.fdcType_][diskNumber]);
+            XRCCTRL(*this, wxString("FDC")+diskNumberString+"_FileXml", wxTextCtrl)->SetValue(floppy_[computerConfiguration.fdcType_][diskNumber]);
     }
 }
 
@@ -1106,7 +1107,7 @@ void GuiXml::onDiskEject(int diskNumber)
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/FDC"+diskNumberString+"_File_" + type, floppy_[computerConfiguration.fdcType_][diskNumber]);
 
     if (mode_.gui)
-        XRCCTRL(*this, "FDC"+diskNumberString+"_FileXml", wxTextCtrl)->SetValue(floppy_[computerConfiguration.fdcType_][diskNumber]);
+        XRCCTRL(*this, wxString("FDC")+diskNumberString+"_FileXml", wxTextCtrl)->SetValue(floppy_[computerConfiguration.fdcType_][diskNumber]);
 }
 
 void GuiXml::onDiskDirSwitch0(wxCommandEvent&WXUNUSED(event))
@@ -1236,7 +1237,7 @@ void GuiXml::romRamXml(int romRamButton, wxString romRamButtonString)
         romRam = "NVR";
 
     fileName = wxFileSelector( "Select the " + romRam + " file to load",
-                              computerConfiguration.memoryConfiguration[romRamButton].dirname, XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->GetValue(),
+                              computerConfiguration.memoryConfiguration[romRamButton].dirname, XRCCTRL(*this, wxString("RomRam")+romRamButtonString+"Xml", wxComboBox)->GetValue(),
                                "",
                                wxString::Format
                               (
@@ -1254,7 +1255,7 @@ void GuiXml::romRamXml(int romRamButton, wxString romRamButtonString)
     computerConfiguration.memoryConfiguration[romRamButton].dirname = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
     computerConfiguration.memoryConfiguration[romRamButton].filename = FullPath.GetFullName();
 
-    XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->SetValue(computerConfiguration.memoryConfiguration[romRamButton].filename);
+    XRCCTRL(*this, wxString("RomRam")+romRamButtonString+"Xml", wxComboBox)->SetValue(computerConfiguration.memoryConfiguration[romRamButton].filename);
 
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/GuiRomRam"+romRamButtonString, computerConfiguration.memoryConfiguration[romRamButton].filename);
     configPointer->Flush();
@@ -1275,7 +1276,7 @@ void GuiXml::romRomTextXml(int romRamButton, wxString romRamButtonString)
     if (dropdownUpdateOngoing_)
         return;
 
-    computerConfiguration.memoryConfiguration[romRamButton].filename = XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->GetValue();
+    computerConfiguration.memoryConfiguration[romRamButton].filename = XRCCTRL(*this, wxString("RomRam")+romRamButtonString+"Xml", wxComboBox)->GetValue();
 
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/GuiRomRam"+romRamButtonString, computerConfiguration.memoryConfiguration[romRamButton].filename);
     configPointer->Flush();
@@ -1304,7 +1305,7 @@ void GuiXml::onRomRom1ComboXml(wxCommandEvent& event)
 void GuiXml::romRomComboXml(int romRamButton, wxString romRamButtonString)
 {
     computerConfiguration.memoryConfiguration[romRamButton].dirname = romRamDirNameListGui_[romRamButton][romRamFileComboSelection[romRamButton]];
-    computerConfiguration.memoryConfiguration[romRamButton].filename = XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->GetValue();
+    computerConfiguration.memoryConfiguration[romRamButton].filename = XRCCTRL(*this, wxString("RomRam")+romRamButtonString+"Xml", wxComboBox)->GetValue();
 
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/GuiRomRam"+romRamButtonString, computerConfiguration.memoryConfiguration[romRamButton].filename);
     configPointer->Flush();
@@ -1498,7 +1499,7 @@ void GuiXml::setRomRamDropDown(int romRamButton, wxString romRamButtonString)
         }
 
         if (mode_.gui)
-            XRCCTRL(*this, "RomRam"+romRamButtonString+"Xml", wxComboBox)->Append(romRamFileNameListGui_[romRamButton][number]);
+            XRCCTRL(*this, wxString("RomRam")+romRamButtonString+"Xml", wxComboBox)->Append(romRamFileNameListGui_[romRamButton][number]);
     }
 
     dropdownUpdateOngoing_ = false;

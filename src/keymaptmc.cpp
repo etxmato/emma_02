@@ -25,6 +25,7 @@
 #define KEY_DEF_SHIFT 1
 
 #include "wx/xrc/xmlres.h"             
+#include "xrc_compat.h"
 
 BEGIN_EVENT_TABLE(KeyMapTmcDialog, wxDialog)
    EVT_BUTTON(XRCID("Save"), KeyMapTmcDialog::onSaveButton)

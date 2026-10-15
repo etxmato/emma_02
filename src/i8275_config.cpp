@@ -30,6 +30,7 @@
 #include "i8275_config.h"
 #include "wx/tglbtn.h"
 #include "wx/xrc/xmlres.h"
+#include "xrc_compat.h"
 
 #define THIS_PANEL_NAME "PanelVideo8275"
 

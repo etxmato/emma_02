@@ -22,6 +22,7 @@
 #include "guipopup.h"
 
 #include "wx/xrc/xmlres.h"             
+#include "xrc_compat.h"
 
 BEGIN_EVENT_TABLE(PopupDialog, wxDialog)
     EVT_BUTTON(XRCID("CasButton"), PopupDialog::onCassette)
@@ -412,47 +413,47 @@ void PopupDialog::setUpdFloppyGui(int drive)
     
     deActivateFdc = true;
     
-    XRCCTRL(*this, "FDC"+driveStr+"_SwitchXml", wxBitmapButton)->Enable(false);
+    XRCCTRL(*this, wxString("FDC")+driveStr+"_SwitchXml", wxBitmapButton)->Enable(false);
     if (currentComputerConfiguration.fdcConfiguration.wd1770_defined)
     {
         if (drive < 2 && drive < currentComputerConfiguration.fdcConfiguration.drives)
             deActivateFdc = false;
-        XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->Enable( currentComputerConfiguration.fdcConfiguration.wd1770_defined && drive < 2 && drive < currentComputerConfiguration.fdcConfiguration.drives);
+        XRCCTRL(*this, wxString("FDC")+driveStr+"_ButtonXml", wxButton)->Enable( currentComputerConfiguration.fdcConfiguration.wd1770_defined && drive < 2 && drive < currentComputerConfiguration.fdcConfiguration.drives);
     }
     if (currentComputerConfiguration.fdcConfiguration.wd1793_defined)
     {
         if (drive < currentComputerConfiguration.fdcConfiguration.drives)
             deActivateFdc = false;
-        XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->Enable(currentComputerConfiguration.fdcConfiguration.wd1793_defined && drive < currentComputerConfiguration.fdcConfiguration.drives);
+        XRCCTRL(*this, wxString("FDC")+driveStr+"_ButtonXml", wxButton)->Enable(currentComputerConfiguration.fdcConfiguration.wd1793_defined && drive < currentComputerConfiguration.fdcConfiguration.drives);
     }
     if (currentComputerConfiguration.upd765Configuration.defined)
     {
         if (drive < 4)
             deActivateFdc = false;
-        XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->Enable(drive < 4);
-        XRCCTRL(*this, "FDC"+driveStr+"_SwitchXml", wxBitmapButton)->Enable(true);
+        XRCCTRL(*this, wxString("FDC")+driveStr+"_ButtonXml", wxButton)->Enable(drive < 4);
+        XRCCTRL(*this, wxString("FDC")+driveStr+"_SwitchXml", wxBitmapButton)->Enable(true);
     }
     if (currentComputerConfiguration.ideConfiguration.defined && drive < 2)
     {
         deActivateFdc = false;
-        XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->Enable(true);
+        XRCCTRL(*this, wxString("FDC")+driveStr+"_ButtonXml", wxButton)->Enable(true);
     }
     if (currentComputerConfiguration.tu58Configuration.defined && drive > 1 && drive < 4)
     {
         deActivateFdc = false;
-        XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->Enable(true);
+        XRCCTRL(*this, wxString("FDC")+driveStr+"_ButtonXml", wxButton)->Enable(true);
     }
 
     if (p_Main->getDirectoryMode(currentComputerConfiguration.fdcType_, drive))
     {
-        XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetLabel("HD "+driveStr);
-        XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetToolTip("Browse for HD Directory "+driveStr);
-        XRCCTRL(*this, "FDC"+driveStr+"_FileXml", wxTextCtrl)->Enable(false);
-        XRCCTRL(*this, "Eject_FDC"+driveStr+"Xml", wxBitmapButton)->Enable(false);
+        XRCCTRL(*this, wxString("FDC")+driveStr+"_ButtonXml", wxButton)->SetLabel("HD "+driveStr);
+        XRCCTRL(*this, wxString("FDC")+driveStr+"_ButtonXml", wxButton)->SetToolTip("Browse for HD Directory "+driveStr);
+        XRCCTRL(*this, wxString("FDC")+driveStr+"_FileXml", wxTextCtrl)->Enable(false);
+        XRCCTRL(*this, wxString("Eject_FDC")+driveStr+"Xml", wxBitmapButton)->Enable(false);
         wxFileName selectedDirFile = wxFileName(p_Main->getFloppyDirSwitched(currentComputerConfiguration.fdcType_, drive));
         wxArrayString dirArray = selectedDirFile.GetDirs();
         wxString dirName = dirArray.Last();
-        XRCCTRL(*this, "FDC"+driveStr+"_FileXml", wxTextCtrl)->SetValue(dirName);
+        XRCCTRL(*this, wxString("FDC")+driveStr+"_FileXml", wxTextCtrl)->SetValue(dirName);
     }
     else
     {
@@ -460,23 +461,23 @@ void PopupDialog::setUpdFloppyGui(int drive)
         {
             if (drive < 2)
             {
-                XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetLabel("IDE "+driveStr);
-                XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetToolTip("Browse for IDE "+driveStr+" image file");
+                XRCCTRL(*this, wxString("FDC")+driveStr+"_ButtonXml", wxButton)->SetLabel("IDE "+driveStr);
+                XRCCTRL(*this, wxString("FDC")+driveStr+"_ButtonXml", wxButton)->SetToolTip("Browse for IDE "+driveStr+" image file");
             }
             else
             {
-                XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetLabel("TU58 "+driveStrMinus2);
-                XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetToolTip("Browse for TU58 "+driveStrMinus2+" image file");
+                XRCCTRL(*this, wxString("FDC")+driveStr+"_ButtonXml", wxButton)->SetLabel("TU58 "+driveStrMinus2);
+                XRCCTRL(*this, wxString("FDC")+driveStr+"_ButtonXml", wxButton)->SetToolTip("Browse for TU58 "+driveStrMinus2+" image file");
             }
         }
         else
         {
-            XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetLabel("FDC "+driveStr);
-            XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->SetToolTip("Browse for FDC "+driveStr+" image file");
+            XRCCTRL(*this, wxString("FDC")+driveStr+"_ButtonXml", wxButton)->SetLabel("FDC "+driveStr);
+            XRCCTRL(*this, wxString("FDC")+driveStr+"_ButtonXml", wxButton)->SetToolTip("Browse for FDC "+driveStr+" image file");
         }
-        XRCCTRL(*this, "FDC"+driveStr+"_ButtonXml", wxButton)->Enable(!deActivateFdc);
-        XRCCTRL(*this, "FDC"+driveStr+"_FileXml", wxTextCtrl)->Enable(!deActivateFdc);
-        XRCCTRL(*this, "Eject_FDC"+driveStr+"Xml", wxBitmapButton)->Enable(!deActivateFdc);
-        XRCCTRL(*this, "FDC"+driveStr+"_FileXml", wxTextCtrl)->SetValue(p_Main->getFloppyFile(currentComputerConfiguration.fdcType_, drive));
+        XRCCTRL(*this, wxString("FDC")+driveStr+"_ButtonXml", wxButton)->Enable(!deActivateFdc);
+        XRCCTRL(*this, wxString("FDC")+driveStr+"_FileXml", wxTextCtrl)->Enable(!deActivateFdc);
+        XRCCTRL(*this, wxString("Eject_FDC")+driveStr+"Xml", wxBitmapButton)->Enable(!deActivateFdc);
+        XRCCTRL(*this, wxString("FDC")+driveStr+"_FileXml", wxTextCtrl)->SetValue(p_Main->getFloppyFile(currentComputerConfiguration.fdcType_, drive));
     }
 }

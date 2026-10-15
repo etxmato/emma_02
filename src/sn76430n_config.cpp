@@ -30,6 +30,7 @@
 #include "sn76430n_config.h"
 #include "wx/tglbtn.h"
 #include "wx/xrc/xmlres.h"
+#include "xrc_compat.h"
 
 #define THIS_PANEL_NAME "PanelVideoSN76430N"
 

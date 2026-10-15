@@ -29,6 +29,7 @@
 #include "main.h"
 #include "hd44780_config.h"
 #include "wx/xrc/xmlres.h"
+#include "xrc_compat.h"
 
 #define THIS_PANEL_NAME "PanelVideoHd44780"
 

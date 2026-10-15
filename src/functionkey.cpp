@@ -22,6 +22,7 @@
 #include "functionkey.h"
 
 #include "wx/xrc/xmlres.h"             
+#include "xrc_compat.h"
 
 int keyUsed[] =
 {// 0  1  2  3  4  5  6  7  8  9

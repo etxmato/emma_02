@@ -30,6 +30,7 @@
 #include "video_config.h"
 #include "wx/tglbtn.h"
 #include "wx/xrc/xmlres.h"
+#include "xrc_compat.h"
 
 BEGIN_EVENT_TABLE(VideoConfig, Ct2425Config)
     EVT_TOGGLEBUTTON(XRCID("VideoTraceButton"), VideoConfig::onVideoTrace)

@@ -40,6 +40,7 @@
 #endif
 
 #include "wx/xrc/xmlres.h"
+#include "xrc_compat.h"
 #include "wx/textfile.h"
 #include "wx/tglbtn.h"
 #include "wx/listbox.h"
@@ -13128,7 +13129,7 @@ void DebugWindow::addressLog(Word value)
     writingToLog_ = true;
     wxString buffer;
     buffer.Printf("%04X ",value);
-    dirAssLogFile_.Write(buffer, 5);
+    dirAssLogFile_.Write(buffer.mb_str(), 5);
     writingToLog_ = false;
     
     if (!computerConfiguration.debuggerConfiguration.videoLog_active)

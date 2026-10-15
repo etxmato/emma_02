@@ -12,6 +12,7 @@ public:
     // Create sound file with given sample rate(in Hz) and fileName.
     WaveWriter( long sampleRate, int bitsPerSample);
     bool openFile(char const* fileName = "out.wav" );
+    bool openFile(const wxString& fileName) { return openFile(fileName.mb_str().data()); }
 
     // Enable stereo output
     void stereo( int );

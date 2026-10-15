@@ -31,6 +31,7 @@
 #define IN_BUTTON_2 7
 
 #include "wx/xrc/xmlres.h"             
+#include "xrc_compat.h"
 #include <wx/statline.h>
 
 BEGIN_EVENT_TABLE(KeyMapDialog, wxDialog)

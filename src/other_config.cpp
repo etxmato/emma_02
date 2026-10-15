@@ -30,6 +30,7 @@
 #include "other_config.h"
 #include "wx/tglbtn.h"
 #include "wx/xrc/xmlres.h"
+#include "xrc_compat.h"
 
 BEGIN_EVENT_TABLE(OtherConfig, XmlBase)
     EVT_TOGGLEBUTTON(XRCID("OtherTraceButton"), OtherConfig::onOtherTrace)

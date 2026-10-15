@@ -32,7 +32,7 @@
 #include "mac.h"
 //#include "serial.h"
 #include "wx/sstream.h"
-#if wxCHECK_VERSION(3, 1, 0)
+#if wxCHECK_VERSION(3, 2, 0)
 #include "wx/uilocale.h"
 #else
 #include "wx/intl.h"

@@ -26,6 +26,7 @@
 #endif
 
 #include "wx/xrc/xmlres.h"
+#include "xrc_compat.h"
 #include "wx/filesys.h"
 //#include "wx/url.h"
 #include "wxcurl_http.h"
@@ -2273,7 +2274,7 @@ void Main::readConfig()
 
     wxString RomRamOptionString = configPointer->Read("/Main/XmlRomRamOption", "GUI");
     if (mode_.gui)
-       menubarPointer->Check(XRCID(RomRamOptionString), true);
+       menubarPointer->Check(wxXmlResource::GetXRCID(RomRamOptionString), true);
     XmlRomRamOptionGui_ = (RomRamOptionString == "GUI");
 
     readDebugConfig();
@@ -2346,12 +2347,12 @@ void Main::readConfig()
         else
             menubarPointer->Check(XRCID("MI_FontSize14"), true);
 
-        menubarPointer->Check(XRCID(equalizationString), true);
-        menubarPointer->Check(XRCID(cpuTypeString), true);
-        menubarPointer->Check(XRCID(cpuStartupRegistersString), true);
-        menubarPointer->Check(XRCID(cpuStartupRamString), true);
-        menubarPointer->Check(XRCID(cpuStartupVideoRamString), true);
-        menubarPointer->Check(XRCID(keyboardTypeMenuItem_), true);
+        menubarPointer->Check(wxXmlResource::GetXRCID(equalizationString), true);
+        menubarPointer->Check(wxXmlResource::GetXRCID(cpuTypeString), true);
+        menubarPointer->Check(wxXmlResource::GetXRCID(cpuStartupRegistersString), true);
+        menubarPointer->Check(wxXmlResource::GetXRCID(cpuStartupRamString), true);
+        menubarPointer->Check(wxXmlResource::GetXRCID(cpuStartupVideoRamString), true);
+        menubarPointer->Check(wxXmlResource::GetXRCID(keyboardTypeMenuItem_), true);
         menubarPointer->SetFont(*defaultFont);
         delete defaultFont;
     }
@@ -3602,7 +3603,7 @@ void Main::onKeyboardDutch(wxCommandEvent&WXUNUSED(event))
     else
     {
         wxMenuBar *menubarPointer = GetMenuBar();
-        menubarPointer->Check(XRCID(keyboardTypeMenuItem_), true);
+        menubarPointer->Check(wxXmlResource::GetXRCID(keyboardTypeMenuItem_), true);
         wxMessageBox( "Key definition file not found", "Emma 02", wxICON_ERROR | wxOK );
     }
 }
@@ -3617,7 +3618,7 @@ void Main::onKeyboardGerman(wxCommandEvent&WXUNUSED(event))
     else
     {
         wxMenuBar *menubarPointer = GetMenuBar();
-        menubarPointer->Check(XRCID(keyboardTypeMenuItem_), true);
+        menubarPointer->Check(wxXmlResource::GetXRCID(keyboardTypeMenuItem_), true);
         wxMessageBox( "Key definition file not found", "Emma 02", wxICON_ERROR | wxOK );
     }
 }
@@ -3632,7 +3633,7 @@ void Main::onKeyboardFrench(wxCommandEvent&WXUNUSED(event))
     else
     {
         wxMenuBar *menubarPointer = GetMenuBar();
-        menubarPointer->Check(XRCID(keyboardTypeMenuItem_), true);
+        menubarPointer->Check(wxXmlResource::GetXRCID(keyboardTypeMenuItem_), true);
         wxMessageBox( "Key definition file not found", "Emma 02", wxICON_ERROR | wxOK );
     }
 }
@@ -3647,7 +3648,7 @@ void Main::onKeyboardSwedish(wxCommandEvent&WXUNUSED(event))
     else
     {
         wxMenuBar *menubarPointer = GetMenuBar();
-        menubarPointer->Check(XRCID(keyboardTypeMenuItem_), true);
+        menubarPointer->Check(wxXmlResource::GetXRCID(keyboardTypeMenuItem_), true);
         wxMessageBox( "Key definition file not found", "Emma 02", wxICON_ERROR | wxOK );
     }
 }
@@ -3662,7 +3663,7 @@ void Main::onKeyboardUs(wxCommandEvent&WXUNUSED(event))
     else
     {
         wxMenuBar *menubarPointer = GetMenuBar();
-        menubarPointer->Check(XRCID(keyboardTypeMenuItem_), true);
+        menubarPointer->Check(wxXmlResource::GetXRCID(keyboardTypeMenuItem_), true);
         wxMessageBox( "Key definition file not found", "Emma 02", wxICON_ERROR | wxOK );
     }
 }
@@ -3677,7 +3678,7 @@ void Main::onKeyboardUserDefined(wxCommandEvent&WXUNUSED(event))
     else
     {
         wxMenuBar *menubarPointer = GetMenuBar();
-        menubarPointer->Check(XRCID(keyboardTypeMenuItem_), true);
+        menubarPointer->Check(wxXmlResource::GetXRCID(keyboardTypeMenuItem_), true);
         wxMessageBox( "Key definition file not found", "Emma 02", wxICON_ERROR | wxOK );
     }
 }

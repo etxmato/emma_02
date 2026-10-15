@@ -33,7 +33,7 @@ if [ "$BUILD" = "1" ]; then
   BUILD_ARGS="--arch $ARCH --src $SRCROOT"
   [ -n "$JOBS" ] && BUILD_ARGS="$BUILD_ARGS --jobs $JOBS"
   [ "$CLEAN" = "1" ] && BUILD_ARGS="$BUILD_ARGS --clean"
-  [ "$WXVER" = "3.0" ] && BUILD_ARGS="$BUILD_ARGS --allow-wx30"
+  [ "$WXVER" = "3.0" ] && BUILD_ARGS="$BUILD_ARGS --allow-wx 3.0"
   "$SCRIPTDIR/build_emma02.sh" $BUILD_ARGS
 fi
 
@@ -117,6 +117,11 @@ strip --strip-unneeded "$STAGE/usr/bin/emma_02" 2>/dev/null || true
 chmod 755 "$STAGE/usr/bin/emma_02"
 
 # Version-free artifact name; the version lives in the v<version> folder and the Version: field.
+# normalise staged modes: the source checkout can carry restrictive modes (600/700)
+# that rsync -a copies through, which would ship unreadable data. git only tracks the
+# executable bit, so a polluted checkout is invisible in the commit.
+chmod -R a+rX "$STAGE"
+
 DEB="$OUTDIR/${PACKAGE}_${DEBARCH}${SUFFIX}.deb"
 dpkg-deb --build "$STAGE" "$DEB"
 echo "built: $DEB"

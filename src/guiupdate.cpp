@@ -27,6 +27,7 @@
 #endif
 
 #include "wx/xrc/xmlres.h"
+#include "xrc_compat.h"
 #include "wx/spinctrl.h"
 #include "wx/statbox.h"
 

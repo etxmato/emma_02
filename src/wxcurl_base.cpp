@@ -110,7 +110,7 @@ extern "C"
         }
 
         // here wxChar usage is correct as szVerboseMessage string is used:
-        pBuf->Write((const wxChar*)szVerboseMessage, szVerboseMessage.Len() * sizeof(wxChar));
+        pBuf->Write(szVerboseMessage.wc_str(), szVerboseMessage.Len() * sizeof(wxChar));
 
         return 0;
     }

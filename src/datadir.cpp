@@ -22,6 +22,7 @@
 #include "datadir.h"
 
 #include "wx/xrc/xmlres.h"             
+#include "xrc_compat.h"
 #include "wx/filepicker.h"
 #include "wx/dir.h"
 #include "wx/animate.h"

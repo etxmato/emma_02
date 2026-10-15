@@ -22,6 +22,7 @@
 #include "vtsetup.h"
 
 #include "wx/xrc/xmlres.h"             
+#include "xrc_compat.h"
 #include "wx/spinctrl.h"
 #include "wx/statline.h"
 
@@ -214,7 +215,7 @@ void VtSetupDialog::loadSettingValues()
     for (int i=0; i<17; i++)
     {
         box.Printf("%d", i);
-        XRCCTRL(*this, "VtSetupBit"+box, wxChoice)->SetSelection(SetUpFeature_[i]);
+        XRCCTRL(*this, wxString("VtSetupBit")+box, wxChoice)->SetSelection(SetUpFeature_[i]);
     }
     if (currentComputerConfiguration.videoTerminalConfiguration.external || currentComputerConfiguration.videoTerminalConfiguration.loop_back)
     {
@@ -264,7 +265,7 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
         for (int i=0; i<17; i++)
         {
             box.Printf("%d", i);
-            if (XRCCTRL(*this, "VtSetupBit"+box, wxChoice)->GetSelection() == 0)
+            if (XRCCTRL(*this, wxString("VtSetupBit")+box, wxChoice)->GetSelection() == 0)
                 SetUpFeature_[i]  = 0;
             else
                 SetUpFeature_[i]  = 1;

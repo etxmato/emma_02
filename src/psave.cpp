@@ -22,6 +22,7 @@
 #include "psave.h"
 
 #include "wx/xrc/xmlres.h"             
+#include "xrc_compat.h"
 #include <wx/spinctrl.h>
 
 BEGIN_EVENT_TABLE(PsaveDialog, wxDialog)

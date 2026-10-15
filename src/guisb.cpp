@@ -22,6 +22,7 @@
 #include "guisb.h"
 
 #include "wx/xrc/xmlres.h"             
+#include "xrc_compat.h"
 
 BEGIN_EVENT_TABLE(SBDialog, wxDialog)
     EVT_BUTTON(XRCID("SBSave"), SBDialog::onSaveButton)
