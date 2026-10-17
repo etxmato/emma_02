@@ -159,11 +159,10 @@ void Pixie::reset()
 {
     graphicsOn_ = false;
     graphicsOffFrames_ = PIXIE_OFF_BLANK_SEED;   // blank at the first vsync after reset
-#if defined(__WXMAC__)
-    p_Main->guiRefreshVideo(false, videoNumber_);
-#else
-    videoScreenPointer->disableScreen(colour_[colourIndex_+backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
-#endif
+    if (videoPaintFromPaintHandler_)
+        p_Main->guiRefreshVideo(false, videoNumber_);
+    else
+        videoScreenPointer->disableScreen(colour_[colourIndex_+backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 }
 
 void Pixie::configurePixie()
@@ -357,11 +356,10 @@ void Pixie::initPixie()
     backGround_ = backGroundInit_;
 
     changeScreenSize();
-#if defined(__WXMAC__)
-    p_Main->guiRefreshVideo(false, videoNumber_);
-#else
-    videoScreenPointer->disableScreen(colour_[colourIndex_+backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
-#endif
+    if (videoPaintFromPaintHandler_)
+        p_Main->guiRefreshVideo(false, videoNumber_);
+    else
+        videoScreenPointer->disableScreen(colour_[colourIndex_+backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
     drawScreen();
 }
 
@@ -1255,11 +1253,10 @@ Byte PixieVip2K::inPixie()
 void PixieVip2K::outPixie()
 {
     graphicsOn_ = false;
-#if defined(__WXMAC__)
-    p_Main->guiRefreshVideo(false, videoNumber_);
-#else
-    videoScreenPointer->disableScreen(colour_[colourIndex_+backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
-#endif
+    if (videoPaintFromPaintHandler_)
+        p_Main->guiRefreshVideo(false, videoNumber_);
+    else
+        videoScreenPointer->disableScreen(colour_[colourIndex_+backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
     sequencerAddress_ &= 0x3fff;
 }
 
@@ -1359,11 +1356,10 @@ Byte PixieStudioIV::efPixie()
 void PixieStudioIV::outPixie()
 {
     graphicsOn_ = false;
-#if defined(__WXMAC__)
-    p_Main->guiRefreshVideo(false, videoNumber_);
-#else
-    videoScreenPointer->disableScreen(colour_[colourIndex_+backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
-#endif
+    if (videoPaintFromPaintHandler_)
+        p_Main->guiRefreshVideo(false, videoNumber_);
+    else
+        videoScreenPointer->disableScreen(colour_[colourIndex_+backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 }
 
 void PixieStudioIV::dmaEnable(int showTrace)

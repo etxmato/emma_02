@@ -43,6 +43,7 @@
 
 #if defined(__linux__)
 #include <X11/Xlib.h>
+#include <stdlib.h>
 #include "app_icon.xpm"
 #endif
 
@@ -708,15 +709,48 @@ END_EVENT_TABLE()
 IMPLEMENT_APP_NO_MAIN(Emu1802)
 int main(int argc, char *argv[])
 {
+    // GTK3 on Wayland cannot composite the emulation-thread wxClientDC draws the
+    // emulator uses, which leaves the emulated screen black, while the X11
+    // backend paints it correctly. So prefer X11 - on a Wayland desktop that is
+    // XWayland - but only when an X display is really usable, so we never force
+    // a backend that cannot connect. XOpenDisplay resolves DISPLAY, honours
+    // XAUTHORITY and starts socket-activated XWayland on demand. If none is
+    // available we stay on Wayland and videoInitPaintDelivery() (below) puts the
+    // video window on the paint-handler delivery path. Set GDK_BACKEND yourself
+    // to override this choice.
+    if (getenv("GDK_BACKEND") == NULL)
+    {
+        Display *xDisplay = XOpenDisplay(NULL);
+        if (xDisplay != NULL)
+        {
+            XCloseDisplay(xDisplay);
+            setenv("GDK_BACKEND", "x11", 1);
+        }
+    }
+
     if (!XInitThreads())
-        return false;
+        return 1;
 
     wxDISABLE_DEBUG_SUPPORT();
 //    return wxEntry(argc, argv);
 
 //  code as suggested initially by Mark but replaced by two lines above as on Elf2K exit with assert
-    wxEntryStart( argc, argv );
-    wxTheApp->OnInit();
+//  wxEntryStart can fail (e.g. GTK could not be initialised because DISPLAY is
+//  unset or unreachable); in that case wxTheApp is not created, so it must not
+//  be dereferenced - just report the failure and exit instead of crashing.
+    if (!wxEntryStart( argc, argv ))
+        return 1;
+
+    // GTK is initialised now: decide how the video window reaches the screen,
+    // based on the GDK backend that was actually selected.
+    videoInitPaintDelivery();
+
+    if (!wxTheApp->OnInit())
+    {
+        wxEntryCleanup();
+        return 1;
+    }
+
     wxTheApp->OnRun();
     wxTheApp->OnExit();
     wxEntryCleanup();

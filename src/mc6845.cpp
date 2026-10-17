@@ -448,12 +448,10 @@ void MC6845::blink6845()
             if (cursorOn_ && cursorBlink_)
                     cursorBlinkOn_ = !cursorBlinkOn_;
         }
-#ifndef __WXMAC__
-        if (cursorOn_)
+        if (videoPaintFromPaintHandler_)
+            p_Main->guiRefreshVideo(false, videoNumber_);
+        else if (cursorOn_)
             drawCursor6845(cursorAddress_, cursorBlinkOn_);
-#else
-        p_Main->guiRefreshVideo(false, videoNumber_);
-#endif
     }
 }
 

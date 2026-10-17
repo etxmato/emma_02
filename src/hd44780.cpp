@@ -331,16 +331,14 @@ void HD44780::blinkHd44780()
 
         copyScreen();
 
-#ifndef __WXMAC__
-        if (cursorOn_ || blinkOn_)
+        if (videoPaintFromPaintHandler_)
+            p_Main->guiRefreshVideo(false, videoNumber_);
+        else if (cursorOn_ || blinkOn_)
         {
             int col, row;
             if (ddramAddressToPosition(addressCounter_, &col, &row))
                 drawCursor(col, row, cursorBlinkState_);
         }
-#else
-        p_Main->guiRefreshVideo(false, videoNumber_);
-#endif
     }
 }
 

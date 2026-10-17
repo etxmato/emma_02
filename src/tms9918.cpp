@@ -706,10 +706,11 @@ void Tms9918::copyScreen()
         copyFramebuffer(1, 2);
 
     // The software framebuffer is flushed into the plane DCs identically on
-    // every platform; only how dcMemory reaches the window differs. macOS
-    // posts an async refresh (onPaint -> reBlit(dc), which also paints the
-    // extra background); Windows/Linux draw the extra background and blit the
-    // client DC directly from the emulation thread here.
+    // every platform; only how dcMemory reaches the window differs. When
+    // videoPaintFromPaintHandler_ is set (macOS, and GTK3/Wayland) the emulation
+    // thread posts an async refresh (onPaint -> reBlit(dc), which also paints
+    // the extra background); otherwise (Windows, GTK3/X11) it paints the extra
+    // background and blits the client DC directly from the emulation thread.
     if (reBlit_ || reDraw_ || reDrawSprites_)
     {
         flushFramebuffer();
@@ -717,13 +718,16 @@ void Tms9918::copyScreen()
         if (mode_ != TMS_TEXT)
             dcMemoryMainAndSpritePlane.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcMemorySpritePlane, offsetX_, offsetY_);
         dcMemory.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemoryMainAndSpritePlane, 0, 0);
-#if defined(__WXMAC__)
-        p_Main->guiRefreshVideo(false, videoNumber_);
-#else
-        if (extraBackGround_ && newBackGround_)
-            drawExtraBackground(colour_[colourIndex_+backgroundColor_+16]);
-        videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
-#endif
+        if (videoPaintFromPaintHandler_)
+        {
+            p_Main->guiRefreshVideo(false, videoNumber_);
+        }
+        else
+        {
+            if (extraBackGround_ && newBackGround_)
+                drawExtraBackground(colour_[colourIndex_+backgroundColor_+16]);
+            videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
+        }
         reBlit_ = false;
         reDraw_ = false;
     }

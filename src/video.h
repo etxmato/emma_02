@@ -4,6 +4,15 @@
 #include "splash.h"
 #include "definition.h"
 
+// True when the video window must be painted from the paint handler
+// (onPaint -> reBlit(dc)) instead of the emulation thread blitting a
+// wxClientDC. Always true on macOS (AppKit requires main-thread drawing) and,
+// on Linux, true only when GTK runs on the Wayland backend: GTK3/Wayland
+// cannot composite emulation-thread wxClientDC draws, which otherwise leaves
+// the emulated screen black. Set once at startup by videoInitPaintDelivery().
+extern bool videoPaintFromPaintHandler_;
+void videoInitPaintDelivery();
+
 class VideoScreen : public wxWindow
 {
 public:

@@ -28,6 +28,38 @@
 #include "main.h"
 #include "video.h"
 
+#if defined(__linux__)
+#include <string.h>
+#endif
+
+// Runtime delivery choice, see video.h. macOS always paints from the paint
+// handler; on Linux it depends on the GDK backend selected at startup; Windows
+// keeps the emulation-thread client-DC blit.
+#if defined(__WXMAC__)
+bool videoPaintFromPaintHandler_ = true;
+#else
+bool videoPaintFromPaintHandler_ = false;
+#endif
+
+void videoInitPaintDelivery()
+{
+#if defined(__linux__)
+    // Which backend GDK will use, without pulling in GTK headers (wx-config
+    // does not add the GTK include path on all distros). main() has already set
+    // GDK_BACKEND=x11 when a usable X display was found, so:
+    //   - GDK_BACKEND set   -> that is the backend (x11, or a user override);
+    //   - GDK_BACKEND unset -> the X probe failed and GDK falls back to Wayland
+    //                          when WAYLAND_DISPLAY is present.
+    // GTK3/Wayland cannot composite emulation-thread wxClientDC draws, so the
+    // video window must be painted from the paint handler there.
+    const char *gdkBackend = getenv("GDK_BACKEND");
+    if (gdkBackend != NULL)
+        videoPaintFromPaintHandler_ = strncmp(gdkBackend, "wayland", 7) == 0;
+    else
+        videoPaintFromPaintHandler_ = getenv("WAYLAND_DISPLAY") != NULL;
+#endif
+}
+
 BEGIN_EVENT_TABLE(VideoScreen, wxWindow)
     EVT_PAINT(VideoScreen::onPaint)
     EVT_CHAR(VideoScreen::onChar)
@@ -87,26 +119,34 @@ void VideoScreen::onPaint(wxPaintEvent&WXUNUSED(event))
         return;
     
     wxPaintDC dcWindow(this);
-#ifdef __WXMAC__
-    dcWindow.SetUserScale((double)zoom_*xZoomFactor_, zoom_);
-#endif
-    if (vt100_)
+    if (videoPaintFromPaintHandler_)
     {
-#ifdef __WXMAC__
-        if (p_Vt100[uartNumber_] != NULL)
-            p_Vt100[uartNumber_]->reBlit(dcWindow);
-#else
-        if (p_Vt100[uartNumber_] != NULL)
-            p_Vt100[uartNumber_]->setReBlit();
-#endif
+        // Paint from here (macOS, and GTK3/Wayland): the emulation thread only
+        // asks for a refresh, reBlit() blits dcMemory into this paint DC.
+        dcWindow.SetUserScale((double)zoom_*xZoomFactor_, zoom_);
+        if (vt100_)
+        {
+            if (p_Vt100[uartNumber_] != NULL)
+                p_Vt100[uartNumber_]->reBlit(dcWindow);
+        }
+        else
+        {
+            p_Video[videoNumber_]->reBlit(dcWindow);
+        }
     }
     else
     {
-#ifdef __WXMAC__
-        p_Video[videoNumber_]->reBlit(dcWindow);
-#else
-        p_Video[videoNumber_]->setReBlit();
-#endif
+        // Windows and X11: the emulation thread blits a wxClientDC itself, so
+        // here it is enough to flag that a re-blit is due.
+        if (vt100_)
+        {
+            if (p_Vt100[uartNumber_] != NULL)
+                p_Vt100[uartNumber_]->setReBlit();
+        }
+        else
+        {
+            p_Video[videoNumber_]->setReBlit();
+        }
     }
 }
 
@@ -779,32 +819,36 @@ void Video::copyScreen()
         blinkScreen();
 
     // The software framebuffer is flushed into dcMemory identically on every
-    // platform; only how dcMemory reaches the window differs. macOS posts an
-    // async refresh (onPaint -> reBlit(dc), which also paints the extra
-    // background); Windows/Linux draw the extra background and blit the client
-    // DC directly from the emulation thread here.
-#if defined(__WXMAC__)
-    flushFramebuffer();
-    if (reBlit_ || reDraw_ || reBlink_)
-    {
-        eventRefreshScreen();
-        reBlit_ = false;
-        reDraw_ = false;
-        reBlink_ = false;
-    }
-#else
-    if (extraBackGround_ && newBackGround_)
-        drawExtraBackground(copyScreenBackgroundColour());
-
-    if (reBlit_ || reDraw_ || reBlink_)
+    // platform; only how dcMemory reaches the window differs. When
+    // videoPaintFromPaintHandler_ is set (macOS, and GTK3/Wayland) the emulation
+    // thread posts an async refresh (onPaint -> reBlit(dc), which also paints
+    // the extra background); otherwise (Windows, GTK3/X11) it paints the extra
+    // background and blits the client DC directly from the emulation thread.
+    if (videoPaintFromPaintHandler_)
     {
         flushFramebuffer();
-        videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, copyScreenHeight(), &dcMemory, 0, 0);
-        reBlit_ = false;
-        reDraw_ = false;
-        reBlink_ = false;
+        if (reBlit_ || reDraw_ || reBlink_)
+        {
+            eventRefreshScreen();
+            reBlit_ = false;
+            reDraw_ = false;
+            reBlink_ = false;
+        }
     }
-#endif
+    else
+    {
+        if (extraBackGround_ && newBackGround_)
+            drawExtraBackground(copyScreenBackgroundColour());
+
+        if (reBlit_ || reDraw_ || reBlink_)
+        {
+            flushFramebuffer();
+            videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, copyScreenHeight(), &dcMemory, 0, 0);
+            reBlit_ = false;
+            reDraw_ = false;
+            reBlink_ = false;
+        }
+    }
 }
 
 void Video::reDrawBar()
