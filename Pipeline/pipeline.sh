@@ -273,7 +273,7 @@ for l in sys.stdin:
   # One-time: remove the pre-rename "Linux build" dir (renamed to Pipeline/
   # 2026-10-18); rmdir via cmd because Remove-Item on that path proved unreliable
   # through the ssh/cmd/powershell chain. 2>nul makes it a no-op once gone.
-  win_guest 'rmdir /s /q "C:\emma02-build\Linux build" 2>nul'
+  win_guest 'rmdir /s /q "C:\emma02-build\Linux build" 2>nul & exit 0'
   win_guest 'powershell -NoProfile -ExecutionPolicy Bypass -File "C:\emma02-build\Pipeline\purge_win_metadata.ps1"'
   rm -f "$TARBALL"
 
