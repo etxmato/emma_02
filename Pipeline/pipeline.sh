@@ -331,6 +331,7 @@ echo "-- syncing tree ..."
 rsync -a --delete \
   --exclude='.git' \
   --exclude="$OTHER_DIR" \
+  --exclude='/build/' \
   --exclude='Debug' --exclude='Debug_x86' \
   --exclude='*.o' --exclude='*.d' --exclude='emma_02' --exclude='*.deb' --exclude='*.rpm' \
   --exclude='.DS_Store' --exclude='**/.DS_Store' --exclude='.AppleDouble' --exclude='**/.AppleDouble' --exclude='.LSOverride' --exclude='**/.LSOverride' \
