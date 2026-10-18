@@ -23,6 +23,12 @@
 
 #include "wx/xrc/xmlres.h"             
 #include "xrc_compat.h"
+
+#if defined(__WXMSW__)
+#include "wx/msw/wrapwin.h"
+#else
+#include <sys/stat.h>
+#endif
 #include "wx/filepicker.h"
 #include "wx/dir.h"
 #include "wx/animate.h"
@@ -95,6 +101,26 @@ void DatadirDialog::onSetButton( wxCommandEvent& WXUNUSED(event) )
     EndModal( wxID_OK );
 }
 
+// Clears the read-only attribute so an existing file can be overwritten.
+// wxCopyFile maps to the Win32 CopyFile API, which fails with ERROR_ACCESS_DENIED
+// when the destination file already exists and is read-only. Re-installing the
+// 1802 / configuration files over a previous installation therefore failed for any
+// file left read-only; make the destination writable first.
+static void makeFileWritable( const wxString& path )
+{
+    if ( !wxFileExists( path ) )
+        return;
+#if defined(__WXMSW__)
+    DWORD attributes = ::GetFileAttributes( path.wc_str() );
+    if ( attributes != INVALID_FILE_ATTRIBUTES && ( attributes & FILE_ATTRIBUTE_READONLY ) )
+        ::SetFileAttributes( path.wc_str(), attributes & ~FILE_ATTRIBUTE_READONLY );
+#else
+    struct stat fileStatus;
+    if (::stat(path.mb_str(), &fileStatus) == 0 && !(fileStatus.st_mode & S_IWUSR))
+        ::chmod(path.mb_str(), fileStatus.st_mode | S_IWUSR);
+#endif
+}
+
 bool DatadirDialog::copyTree( wxFileName* source, wxFileName* destination ) 
 { 
     // Copy file if it isn't a directory. 
@@ -102,7 +128,9 @@ bool DatadirDialog::copyTree( wxFileName* source, wxFileName* destination )
     { 
          if ( !wxRenameFile (source->GetFullPath(), destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetFullName() ))
         {
-            if ( ! wxCopyFile(source->GetFullPath(), destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetFullName() )) 
+            wxString destinationFile = destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetFullName();
+            makeFileWritable( destinationFile );
+            if ( ! wxCopyFile(source->GetFullPath(), destinationFile ) ) 
                 return false; 
 
             wxRemoveFile (source->GetFullPath());

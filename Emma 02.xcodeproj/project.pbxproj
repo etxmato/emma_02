@@ -622,7 +622,7 @@
 		999CBFEA2EC2888800AB1F68 /* scn2671.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = scn2671.cpp; path = src/scn2671.cpp; sourceTree = "<group>"; };
 		999DCB7E2F689D960049B922 /* other_config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = other_config.h; path = src/other_config.h; sourceTree = "<group>"; };
 		999DCB7F2F689D960049B922 /* other_config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = other_config.cpp; path = src/other_config.cpp; sourceTree = "<group>"; };
-		999DE99A20667EF2005B3A29 /* Linux build */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Linux build"; sourceTree = "<group>"; };
+		999DE99A20667EF2005B3A29 /* Pipeline */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Pipeline"; sourceTree = "<group>"; };
 		999F67A224B8975A00863075 /* amvbas.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = amvbas.syntax; sourceTree = "<group>"; };
 		99A3115F21A75B98003CB022 /* Chip8Vip2K.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8Vip2K.syntax; sourceTree = "<group>"; };
 		99AB90C228A8C82E00BCF5B3 /* emma_02_arm_x64_osx_12.pkgproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = emma_02_arm_x64_osx_12.pkgproj; sourceTree = "<group>"; };
@@ -917,7 +917,7 @@
 				99F3746A1CADBB93000DA615 /* copyright.rtf */,
 				996B97391B24116B009827BF /* data */,
 				9998999D1F96A3E500870480 /* Helpfiles */,
-				999DE99A20667EF2005B3A29 /* Linux build */,
+				999DE99A20667EF2005B3A29 /* Pipeline */,
 				99E6EA971F40EC300030F125 /* IsTool */,
 				9973DDFC1A69B7B300B57557 /* images */,
 				99B5DE4F1F4A228400674C05 /* images_linux */,

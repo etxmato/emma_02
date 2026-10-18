@@ -1,0 +1,31 @@
+# Emma 02 Windows builder VM (ARM64, QEMU-only, experimental Lima Windows support).
+# Create with:  limactl create --name=emma02-win --cpus=6 --memory=8 --disk=100 \
+#                                "/Users/etxmato/workspace/emma_02/Pipeline/emma02-win.yaml"
+# Then:        limactl start emma02-win      (first boot is the GUI-driven Windows Setup)
+#
+# Based on Lima's stock template:windows-11, with two local changes:
+#   - ISO path points at the ISO actually downloaded (name/version drifts per release)
+#   - no file mount expected (plain mode); the pipeline syncs via tar+scp into C:\emma02-build
+os: "Windows"
+vmType: "qemu"
+
+images:
+- location: "/Users/etxmato/Downloads/Windows11_Client_arm64_en-us_26300_9457.iso"
+  arch: "aarch64"
+
+# Windows 11 needs TPM emulation by default (host swtpm required - installed 2026-10-15).
+tpm: true
+
+osOpts:
+  Windows:
+    # virtio-win ISO: drivers for virtio disk/net/serial. Lima downloads and caches it.
+    # (Virtio-win supports x86_64 and aarch64; the ISO contains both.)
+    virtioWin:
+    - location: https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.271-1/virtio-win-0.1.271.iso
+      arch: "aarch64"
+      digest: "sha256:bbe6166ad86a490caefad438fef8aa494926cb0a1b37fa1212925cfd81656429"
+
+plain: true
+
+video:
+  display: default

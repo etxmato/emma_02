@@ -51,6 +51,33 @@
 
 #include "wx/html/winpars.h"
 
+#if defined(__WXMSW__)
+#include "wx/msw/wrapwin.h"
+#else
+#include <sys/stat.h>
+#endif
+
+// Clears the read-only attribute so an existing file can be overwritten.
+// wxCopyFile maps to the Win32 CopyFile API, which fails with ERROR_ACCESS_DENIED
+// when the destination file already exists and is read-only. Re-installing the
+// 1802 / configuration files over a previous installation therefore failed for any
+// file left read-only; make the destination writable first.
+static void makeFileWritable( const wxString& path )
+{
+    if ( !wxFileExists( path ) )
+        return;
+#if defined(__WXMSW__)
+    DWORD attributes = ::GetFileAttributes( path.wc_str() );
+    if ( attributes != INVALID_FILE_ATTRIBUTES && ( attributes & FILE_ATTRIBUTE_READONLY ) )
+        ::SetFileAttributes( path.wc_str(), attributes & ~FILE_ATTRIBUTE_READONLY );
+#else
+    struct stat fileStatus;
+    if (::stat(path.mb_str(), &fileStatus) == 0 && !(fileStatus.st_mode & S_IWUSR))
+        ::chmod(path.mb_str(), fileStatus.st_mode | S_IWUSR);
+#endif
+}
+
+
 
 // Paints the background of an inline <code> span as one single rectangle.
 //
@@ -949,6 +976,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
         dataDir_ = regPointer->Read("/DataDir", iniDirectory_);
         if (wxFile::Exists(dataDir_ + "emma_02.ini"))
         {
+            makeFileWritable( iniDirectory_ + "emma_02.ini" );
             if (wxCopyFile(dataDir_ + "emma_02.ini", iniDirectory_ + "emma_02.ini"))
                 wxRemoveFile (dataDir_ + "emma_02.ini");
         }
@@ -3329,7 +3357,9 @@ bool Main::copyTree( wxFileName* source, wxFileName* destination, wxString pathS
     // Copy file if it isn't a directory.
     if ( ! wxDir::Exists(source->GetFullPath()) )
     {
-        if ( ! wxCopyFile(source->GetFullPath(), destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetFullName() ))
+        wxString destinationFile = destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetFullName();
+        makeFileWritable( destinationFile );
+        if ( ! wxCopyFile(source->GetFullPath(), destinationFile ) )
             return false;
         
         wxYield ();

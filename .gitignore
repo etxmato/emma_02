@@ -15,16 +15,16 @@
 /Debug/src/*.d
 /Debug_x86/src/*.o
 /Debug_x86/src/*.d
-/Linux build/linux-5.18-aarch64/
-/Linux build/linux-5.14-aarch64/
-/Linux build/linux-5.11-aarch64/
-/Linux build/linux-4.11-x86_64/
-/Linux build/.project
-/Linux build/.rpmmacros
-/Linux build/emma02_full_dependency.list
-/Linux build/emma02_min_dependency.list
-/Linux build/file2brl.temp
-/Linux build/ubuntu_build-pi.dbp
+/Pipeline/linux-5.18-aarch64/
+/Pipeline/linux-5.14-aarch64/
+/Pipeline/linux-5.11-aarch64/
+/Pipeline/linux-4.11-x86_64/
+/Pipeline/.project
+/Pipeline/.rpmmacros
+/Pipeline/emma02_full_dependency.list
+/Pipeline/emma02_min_dependency.list
+/Pipeline/file2brl.temp
+/Pipeline/ubuntu_build-pi.dbp
 /Helpfiles/emma_02.hhc
 /Helpfiles/emma_02.hhk
 /Helpfiles/emma_02.hhp
@@ -49,3 +49,5 @@ Makefile
 *.xcscheme
 Emma 02.xcodeproj/xcshareddata/xcschemes/Emma 02.xcscheme
 IsTool/arm64/emma_02_arm_windows.exe
+/Pipeline/emma_02_arm
+/Pipeline/emma_02_amd64

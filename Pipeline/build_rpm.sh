@@ -1,5 +1,5 @@
 #!/bin/bash
-# Build Emma 02 .rpm from Linux build/emma02_package.conf (single source of truth)
+# Build Emma 02 .rpm from Pipeline/emma02_package.conf (single source of truth)
 # Runs on the Linux builder (Lima VM), not on macOS.
 #
 # Same approach as build_deb.sh: the [files] payload is staged and shipped directly.
@@ -106,7 +106,25 @@ done < "$CONF"
 
 # desktop entry (parity with .dbp <<MENU>> and build_deb.sh)
 mkdir -p "$STAGE/usr/share/applications"
-cp -a "$SRCROOT/Linux build/emma_02.desktop" "$STAGE/usr/share/applications/emma_02.desktop"
+cp -a "$SRCROOT/Pipeline/emma_02.desktop" "$STAGE/usr/share/applications/emma_02.desktop"
+
+# --- one-release compatibility shim: CyberVision ROM filename case change ---
+# The previous payload shipped .../data/Cybervision/Cybervision2001.bin (capital
+# C) while the XMLs ask for cybervision2001.bin (lowercase). Both names must be in
+# the payload for one release so that an upgrade of the OLD package can still
+# remove its recorded capital-C entry: that entry is deleted AFTER the new files
+# are laid down, and it would otherwise fail with
+#   "file /usr/share/emma_02/data/Cybervision/Cybervision2001.bin: remove failed:
+#    No such file or directory".
+# Generated here (not as a second repo file) because a case-only duplicate cannot
+# exist in the macOS checkout - the payload is staged on the case-sensitive
+# builder VM. Guarded so a future re-sync of the real uppercase name is a no-op;
+# remove this block once no install predating the rename is being upgraded.
+CV_CAP="$STAGE/usr/share/emma_02/data/Cybervision/Cybervision2001.bin"
+CV_LOW="$STAGE/usr/share/emma_02/data/Cybervision/cybervision2001.bin"
+if [ -f "$CV_LOW" ] && [ ! -e "$CV_CAP" ]; then
+  install -D -m 644 "$CV_LOW" "$CV_CAP"
+fi
 
 # strip binary like Debreate <<BUILD>> strip option
 strip --strip-unneeded "$STAGE/usr/bin/emma_02" 2>/dev/null || true
