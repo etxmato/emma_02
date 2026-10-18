@@ -51,3 +51,6 @@ Emma 02.xcodeproj/xcshareddata/xcschemes/Emma 02.xcscheme
 IsTool/arm64/emma_02_arm_windows.exe
 /Pipeline/emma_02_arm
 /Pipeline/emma_02_amd64
+/build/
+/emma_02_mac.dmg
+Emma02.manifest.saved

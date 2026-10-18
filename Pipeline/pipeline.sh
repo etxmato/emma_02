@@ -4,15 +4,23 @@
 #
 # Usage:
 #   ./pipeline.sh --arch amd64|arm64 [--format deb|rpm] [--wx 3.0|3.1|3.2] [--distro fedora|suse] [--jobs N] [--clean] [--no-build] [--out DIR]
-#   ./pipeline.sh --arch arm|x64|x86 --format exe [--wx 3.3] [--no-build] [--out DIR]
+#   ./pipeline.sh --arch arm|x64|x86 --format exe [--wx 3.3|3.2] [--no-build] [--out DIR]
+#   ./pipeline.sh --format dmg [--wx 3.3] [--deploy 12.0|10.13] [--jobs N] [--clean] [--no-build] [--out DIR]
 #
 #   Linux: --arch amd64 -> Release_x86 | arm64 -> Release
 #   Windows (exe): --arch arm -> ARM64 | x64 -> x64 | x86 -> Win32 (all from one ARM64 Win11 VM)
-#   --format  deb (default) or rpm or exe
+#     --wx 3.3: vc17 modern line (arm/x64/x86) -> emma_02_<arch>_windows.exe
+#     --wx 3.2: vc9 XP line (x64/x86 only) -> emma_02_<arch>_windows_xp.exe
+#     --wx 2.8: vc9 w2k line (x86 only) -> emma_02_x86_windows_w2k.exe
+#   macOS (dmg): no --arch (one universal arm64+x86_64 binary, built natively on the Mac, no VM)
+#     --deploy 12.0 (default, Monterey+) | 10.13 (High Sierra, needs 10.13-built wx3.3 tree)
+#   --format  deb (default) or rpm or exe or dmg
 #   --wx      wx ABI of the target:
 #             deb  3.2 (default) | 3.0  (Ubuntu 22.04, *-2204 VMs, _legacy)
 #             rpm  3.2 (default) | 3.1  (openSUSE Leap 15, *-15 VMs, _leap15)
-#             exe  3.3 (default, vc17 line only for now; 3.2 legacy line follows)
+#             exe  3.3 (default, vc17 modern line) | 3.2 (vc9 XP line, x64/x86 -> _xp)
+#                  | 2.8 (vc9 w2k line, x86 only -> _w2k)
+#             dmg  3.3 (default, Emma 02 Xcode target)
 #             Fedora is wx 3.2 only (it ships no 3.0/3.1)
 #   --distro  fedora|suse — required with --format rpm; picks the builder VM and the
 #             DEPENDS_RPM_* dependency set (RPM package names differ per distro)
@@ -24,13 +32,14 @@
 # Reads Pipeline/emma02_package.conf as the single source of truth (PACKAGE/VERSION).
 set -e
 
-ARCH=""; WXVER=""; FORMAT="deb"; DISTRO=""; JOBS=""; CLEAN=0; BUILD=1; OUTDIR=""
+ARCH=""; WXVER=""; FORMAT="deb"; DISTRO=""; DEPLOY=""; JOBS=""; CLEAN=0; BUILD=1; OUTDIR=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --arch) ARCH="$2"; shift 2;;
     --wx) WXVER="$2"; shift 2;;
     --format) FORMAT="$2"; shift 2;;
     --distro) DISTRO="$2"; shift 2;;
+    --deploy) DEPLOY="$2"; shift 2;;
     --jobs) JOBS="$2"; shift 2;;
     --clean) CLEAN=1; shift;;
     --no-build) BUILD=0; shift;;
@@ -41,7 +50,7 @@ done
 # default wx per format (so --wx can be omitted)
 if [ -z "$WXVER" ]; then
   case "$FORMAT" in
-    exe) WXVER="3.3";;
+    exe|dmg) WXVER="3.3";;
     *) WXVER="3.2";;
   esac
 fi
@@ -57,6 +66,8 @@ case "$ARCH" in
   amd64) OTHER_DIR="Release";;
   arm64) OTHER_DIR="Release_x86";;
   arm|x64|x86) OTHER_DIR="";;
+  "") [ "$FORMAT" = "dmg" ] || { echo "--arch amd64|arm64 required (deb/rpm) or arm|x64|x86 (exe)" >&2; exit 1; }
+     OTHER_DIR="";;
   *) echo "--arch amd64|arm64 required (deb/rpm) or arm|x64|x86 (exe)" >&2; exit 1;;
 esac
 case "$FORMAT" in
@@ -104,23 +115,49 @@ case "$FORMAT" in
     EXT="rpm"; GUEST_SCRIPT="build_rpm.sh"; GUEST_ARGS="--arch $ARCH --distro $DISTRO --wx $WXVER"
     ;;
   exe)
-    # All three arches from one ARM64 Win11 VM (build_win.bat maps
+    # All arches from one ARM64 Win11 VM (build_win.bat maps
     # arm->ARM64, x64->x64, x86->Win32; MSVC cross-builds x64/Win32).
+    # --wx 3.3: vc17 modern line (arm/x64/x86); --wx 3.2: vc9 XP line (x64/x86 -> _xp);
+    # --wx 2.8: vc9 w2k line (x86 only -> _w2k).
     case "$ARCH" in
       arm|x64|x86) ;;
       *) echo "--arch arm|x64|x86 required with --format exe" >&2; exit 1;;
     esac
-    [ "$WXVER" = "3.3" ] || { echo "--wx 3.3 required for exe (vc17/wx3.3.3 line)" >&2; exit 1; }
+    case "$WXVER" in
+      3.3) SUFFIX="";;
+      3.2) [ "$ARCH" = "arm" ] && { echo "--wx 3.2 XP line is x64/x86 only (no ARM64 in VC9)" >&2; exit 1; }
+           SUFFIX="_xp";;
+      2.8) [ "$ARCH" = "x86" ] || { echo "--wx 2.8 w2k line is x86 only" >&2; exit 1; }
+           SUFFIX="_w2k";;
+      *) echo "--wx 3.3|3.2|2.8 required for exe (3.3 vc17 modern, 3.2 vc9 XP, 2.8 vc9 w2k)" >&2; exit 1;;
+    esac
     [ -z "$DISTRO" ] || { echo "--distro not used with --format exe" >&2; exit 1; }
-    VM="emma02-win"; SUFFIX=""; EXT="exe"
+    VM="emma02-win"; EXT="exe"
     GUEST_SCRIPT="build_win.bat"; GUEST_ARGS="--arch $ARCH --wx $WXVER"
     ;;
-  *) echo "unknown --format '$FORMAT' (deb|rpm|exe)" >&2; exit 1;;
+  dmg)
+    # Native macOS build: no VM, no --arch (one universal binary covers
+    # both Apple Silicon and Intel). Runs build_mac.sh locally.
+    [ -z "$ARCH" ] || { echo "--arch not used with --format dmg (universal binary)" >&2; exit 1; }
+    [ "$WXVER" = "3.3" ] || { echo "--wx 3.3 required for dmg (Emma 02 Xcode target)" >&2; exit 1; }
+    [ -z "$DISTRO" ] || { echo "--distro not used with --format dmg" >&2; exit 1; }
+    [ -z "$DEPLOY" ] && DEPLOY="12.0"
+    case "$DEPLOY" in
+      12.0) SUFFIX="";;
+      10.13) SUFFIX="_highsierra";;
+      *) echo "--deploy 12.0|10.13 required for dmg" >&2; exit 1;;
+    esac
+    VM=""; EXT="dmg"
+    GUEST_SCRIPT="build_mac.sh"; GUEST_ARGS="--wx $WXVER --deploy $DEPLOY"
+    ;;
+  *) echo "unknown --format '$FORMAT' (deb|rpm|exe|dmg)" >&2; exit 1;;
 esac
 
 command -v limactl >/dev/null || { echo "limactl not found (install Lima)" >&2; exit 1; }
 if [ "$FORMAT" = "exe" ]; then
   command -v tar >/dev/null || { echo "tar not found" >&2; exit 1; }
+elif [ "$FORMAT" = "dmg" ]; then
+  : # native macOS build: no VM tooling needed
 else
   command -v rsync >/dev/null || { echo "rsync not found" >&2; exit 1; }
 fi
@@ -130,10 +167,13 @@ VER="$(grep -E '^VERSION=' "$CONF" | head -n1 | cut -d= -f2-)"
 [ -n "$PKG" ] && [ -n "$VER" ] || { echo "cannot read PACKAGE/VERSION from $CONF" >&2; exit 1; }
 # Artifact name is version-free: the release version lives in the v<version> folder
 # (and in the package's Version:/AppVersion field), so download links stay stable.
-# Windows keeps its historical underscore form (emma_02_<arch>_windows.exe,
-# matching the .iss OutputBaseFilename); deb/rpm use the dashed PACKAGE form.
+# Windows keeps its historical underscore form (emma_02_<arch>_windows[_xp|_w2k].exe,
+# matching the .iss OutputBaseFilename); deb/rpm use the dashed PACKAGE form;
+# macOS is a universal DMG (emma_02_mac.dmg, or emma_02_mac_highsierra.dmg for 10.13).
 if [ "$FORMAT" = "exe" ]; then
-  ARTIFACT="emma_02_${ARCH}_windows.exe"
+  ARTIFACT="emma_02_${ARCH}_windows${SUFFIX}.exe"
+elif [ "$FORMAT" = "dmg" ]; then
+  ARTIFACT="emma_02_mac${SUFFIX}.dmg"
 else
   ARTIFACT="${PKG}_${ARCH}${SUFFIX}.$EXT"
 fi
@@ -145,6 +185,36 @@ echo "  format:  $FORMAT"
 echo "  package: $PKG $VER -> $ARTIFACT"
 echo "  repo:    $REPO"
 echo "  install: $OUTDIR"
+
+# ---------------------------------------------------------------------------
+# macOS dmg flow (native: no VM, no sync — builds in place on the Mac).
+# ---------------------------------------------------------------------------
+if [ "$FORMAT" = "dmg" ]; then
+  echo "  guest:   native (no VM)"
+  ARGS="$GUEST_ARGS --src $REPO --out $OUTDIR"
+  [ "$BUILD" = "1" ] && ARGS="$ARGS --build"
+  [ "$CLEAN" = "1" ] && ARGS="$ARGS --clean"
+  [ -n "$JOBS" ] && ARGS="$ARGS --jobs $JOBS"
+
+  echo "-- building + packaging (native) ..."
+  LOG_BASE="${ARTIFACT%.dmg}"
+  GUEST_LOG="$OUTDIR/${LOG_BASE}.build.log"
+  mkdir -p "$OUTDIR"
+  # Drop any previous artifact so a failed build can never leave a stale file
+  # that looks like a fresh one.
+  rm -f "$OUTDIR/$ARTIFACT"
+  if ! "$SCRIPTDIR/$GUEST_SCRIPT" $ARGS > "$GUEST_LOG" 2>&1; then
+    tail -n 40 "$GUEST_LOG"
+    echo "ERROR: mac build failed - full log: $GUEST_LOG" >&2
+    exit 1
+  fi
+  tail -n 25 "$GUEST_LOG"
+  echo "build log: $GUEST_LOG"
+
+  echo "== done =="
+  ls -lh "$OUTDIR/$ARTIFACT"
+  exit 0
+fi
 
 # ---------------------------------------------------------------------------
 # Windows exe flow (plain-mode VM: no mounts, no guest rsync).

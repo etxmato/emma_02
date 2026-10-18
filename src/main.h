@@ -14,6 +14,10 @@ typedef unsigned short Word;
 #include "wx/html/helpctrl.h"
 #include "wx/html/helpwnd.h"
 #include "wx/html/htmlwin.h"
+#if wxCHECK_VERSION(2, 8, 0) && !wxCHECK_VERSION(2, 9, 0)
+// wx 2.8 has no wxS() macro (introduced with the 3.0 string rework) - _T() is equivalent.
+#define wxS(x) _T(x)
+#endif
 #if wxCHECK_VERSION(3, 1, 0)
 #include "wx/html/htmlproc.h"
 #endif
@@ -193,7 +197,13 @@ private:
 
 // code defining event
 
+#if wxCHECK_VERSION(2, 9, 0)
 class guiEvent: public wxThreadEvent
+#else
+// wx 2.8 (w2k line) has no wxThreadEvent - wxEvent carries the same payload
+// via the plain members below plus Clone() for wxPostEvent().
+class guiEvent: public wxEvent
+#endif
 {
 public:
     guiEvent( wxEventType commandType = wxEVT_NULL, int id = 0 )
@@ -266,12 +276,26 @@ private:
     wxSize sizeValue_;
 };
 
+#if wxCHECK_VERSION(2, 9, 0)
 wxDEFINE_EVENT(GUI_MSG, guiEvent);
+#else
+// wx 2.8: old event-type declaration (wxDEFINE_EVENT is 2.9+).
+DECLARE_EVENT_TYPE(wxEVT_GUI_MSG, -1)
+#define GUI_MSG wxEVT_GUI_MSG
+#endif
 
 #define guiEventHandler(func) (&func)
 
+#if wxCHECK_VERSION(2, 9, 0)
 #define EVT_GUI_MSG(id, func) \
     wx__DECLARE_EVT1(GUI_MSG, id, (&func))
+#else
+// wx 2.8 event table entry (matches the pre-2.9 implementation kept below).
+#define EVT_GUI_MSG(id, fn) \
+    DECLARE_EVENT_TABLE_ENTRY( wxEVT_GUI_MSG, id, -1, \
+    (wxObjectEventFunction) (wxEventFunction) \
+    wxStaticCastEvent( guiEventFunction, & fn ), (wxObject *) NULL ),
+#endif
 
 /*class guiEvent: public wxEvent
 {

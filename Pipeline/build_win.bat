@@ -1,18 +1,25 @@
 @echo off
-REM Build Emma 02 Windows installer - wx 3.3.3, all three arches (guest-side, runs on the Windows builder).
-REM Usage: build_win.bat --arch arm/x64/x86 [--wx 3.3] [--src REPO_ROOT] [--out DIR] [--no-build]
-REM   --arch arm : MSBuild Platform=ARM64, IsTool\Emma 02 arm.iss, gives emma_02_arm_windows.exe
-REM   --arch x64 : MSBuild Platform=x64,   IsTool\Emma 02 x64.iss, gives emma_02_x64_windows.exe
-REM   --arch x86 : MSBuild Platform=Win32,  IsTool\Emma 02 x86.iss, gives emma_02_x86_windows.exe
-REM   --wx 3.3   : only wx 3.3 supported by this script (vc17 line); the 3.2/vc9 legacy line follows.
+REM Build Emma 02 Windows installer - wx 3.3.3 modern + wx 3.2 XP + wx 2.8 w2k lines (guest-side).
+REM Usage: build_win.bat --arch arm/x64/x86 [--wx 3.3|3.2|2.8] [--src REPO_ROOT] [--out DIR] [--no-build]
+REM   --arch arm : MSBuild Platform=ARM64, IsTool\Emma 02 arm.iss, gives emma_02_arm_windows.exe (3.3 only)
+REM   --arch x64 : 3.3 -> x64.iss/emma_02_x64_windows.exe | 3.2 -> x64_xp.iss/emma_02_x64_windows_xp.exe
+REM   --arch x86 : 3.3 -> x86.iss/emma_02_x86_windows.exe | 3.2 -> x86_xp.iss/emma_02_x86_windows_xp.exe
+REM            : 2.8 -> w2k.iss/emma_02_x86_windows_w2k.exe (x86 only, Win2000)
+REM   --wx 3.3   : vc17 line (VS2022 MSBuild, wx 3.3.3, WXWIN) - arm/x64/x86
+REM   --wx 3.2   : vc9 XP line (VS2008 vcbuild/devenv, wx 3.2, WX32) - x64/x86 only, packaged with Inno 5
+REM   --wx 2.8   : vc9 w2k line (VS2008, wx 2.8.12, WX28, SDL 1.2, stripped manifest) - x86 only, Inno 5
 REM   --src      : repo root (default: parent of this script's dir)
 REM   --out      : where to place the installer (default: %SRCROOT%)
-REM   --no-build : skip MSBuild, package the exe already present
-REM Env expected (baked into the VM image, system-wide): WXWIN, SDL, CURL, SERIALPORT.
+REM   --no-build : skip compile, package the exe already present
+REM Env expected (baked into the VM image, system-wide): WXWIN, WX32, WX28, SDL, CURL, SERIALPORT.
 REM Deps expected next to the tree per arch (WXLIBDIR/SDLLIBDIR/SPORTDIR in the table below):
-REM   wx %WXWIN%\lib\vc_arm64_lib, vc_x64_lib, vc_lib\wxmsw33u_core.lib,
-REM   ..\SDL2-2.0.5\lib\arm64, x64, x86\SDL2.dll,
-REM   ..\libserialport\ARM64, Win64, Win32\lib\libserialport.dll.
+REM   wx 3.3: %WXWIN%\lib\vc_arm64_lib, vc_x64_lib, vc_lib\wxmsw33u_core.lib,
+REM   wx 3.2: %WX32%\lib\vc_x64_lib, vc_lib\wxmsw32u_core.lib (built via wx_vc9.sln,
+REM     WXWIN is redirected to WX32 for the vc9 build since vc9.vcproj reads $(WXWIN)),
+REM   ..\SDL2-2.0.5\lib\arm64, x64, x86\SDL2.dll (compiler-agnostic, shared),
+REM   VC9 link lib: ..\libserialport\Win32|Win64\lib\libserialport.lib (vc9.vcproj
+REM     links $(SERIALPORT)\Win32|Win64\lib directly, unlike vc17 which uses \lib\release),
+REM   XP payload DLL: ..\libserialport\Win32|Win64\lib\release\libserialport.dll (VC9-built).
 setlocal EnableDelayedExpansion
 
 set ARCH=
@@ -54,31 +61,151 @@ goto arch_done
 :arch_x64
 set PLATFORM=x64
 set SLNPLATFORM=x64
-set ISSFILE=IsTool\Emma 02 x64.iss
+if "%WXVER%"=="3.2" (
+  set ISSFILE=IsTool\Emma 02 x64_xp.iss
+  set ISSOUT=IsTool\x64\emma_02_x64_windows_xp.exe
+  set ARTIFACT=emma_02_x64_windows_xp.exe
+  set VCREDIST=vcredist9_x64.exe
+) else (
+  set ISSFILE=IsTool\Emma 02 x64.iss
+  set ISSOUT=IsTool\x64\emma_02_x64_windows.exe
+  set ARTIFACT=emma_02_x64_windows.exe
+  set VCREDIST=vcredist_x64.exe
+)
 set EXEFILE=x64\Release\Emma 02.exe
-set ISSOUT=IsTool\x64\emma_02_x64_windows.exe
-set ARTIFACT=emma_02_x64_windows.exe
 set WXLIBDIR=vc_x64_lib
 set SDLLIBDIR=x64
 set SPORTDIR=Win64
-set VCREDIST=vcredist_x64.exe
 goto arch_done
 
 :arch_x86
 set PLATFORM=Win32
 set SLNPLATFORM=x86
-set ISSFILE=IsTool\Emma 02 x86.iss
+if "%WXVER%"=="2.8" (
+  set ISSFILE=IsTool\Emma 02 w2k.iss
+  set ISSOUT=IsTool\x86\emma_02_x86_windows_w2k.exe
+  set ARTIFACT=emma_02_x86_windows_w2k.exe
+  set VCREDIST=vcredist9_x86.exe
+) else if "%WXVER%"=="3.2" (
+  set ISSFILE=IsTool\Emma 02 x86_xp.iss
+  set ISSOUT=IsTool\x86\emma_02_x86_windows_xp.exe
+  set ARTIFACT=emma_02_x86_windows_xp.exe
+  set VCREDIST=vcredist9_x86.exe
+) else (
+  set ISSFILE=IsTool\Emma 02 x86.iss
+  set ISSOUT=IsTool\x86\emma_02_x86_windows.exe
+  set ARTIFACT=emma_02_x86_windows.exe
+  set VCREDIST=vcredist_x86.exe
+)
 set EXEFILE=Win32\Release\Emma 02.exe
-set ISSOUT=IsTool\x86\emma_02_x86_windows.exe
-set ARTIFACT=emma_02_x86_windows.exe
 set WXLIBDIR=vc_lib
 set SDLLIBDIR=x86
 set SPORTDIR=Win32
-set VCREDIST=vcredist_x86.exe
 goto arch_done
 
 :arch_done
-if not "%WXVER%"=="3.3" ( echo --wx 3.3 required ^(vc17 line only^) >&2 & exit /b 1 )
+if "%WXVER%"=="3.3" goto line_vc17
+if "%WXVER%"=="3.2" goto line_vc9
+if "%WXVER%"=="2.8" goto line_vc9_w2k
+echo --wx 3.3 ^(vc17 modern^), 3.2 ^(vc9 XP^) or 2.8 ^(vc9 w2k^) required >&2 & exit /b 1
+
+:line_vc9_w2k
+if not "%ARCH%"=="x86" ( echo --wx 2.8 w2k line is x86 only >&2 & exit /b 1 )
+if "%SRCROOT%"=="" set SRCROOT=%~dp0..
+if "%OUTDIR%"=="" set OUTDIR=%SRCROOT%
+cd /d "%SRCROOT%" || ( echo cannot cd to SRCROOT: %SRCROOT% >&2 & exit /b 1 )
+
+REM 1. toolchain + baked deps present? (same VS2008 as the XP line, plus the
+REM    wx2.8 tree, SDL 1.2 tree and stripped manifest)
+REM    MSBuild 17 cannot build .vcproj - the w2k line needs VS2008 vcbuild/devenv.
+where vcbuild >nul 2>&1
+if not errorlevel 1 set "VCBUILD=vcbuild"
+if not defined VCBUILD (
+  set "DEVENV=!ProgramFiles(x86)!\Microsoft Visual Studio 9.0\Common7\IDE\devenv.com"
+  if exist "!DEVENV!" set "VCBUILD=!DEVENV! /build"
+)
+if not defined VCBUILD (
+  set "DEVENV2=!ProgramFiles!\Microsoft Visual Studio 9.0\Common7\IDE\devenv.com"
+  if exist "!DEVENV2!" set "VCBUILD=!DEVENV2! /build"
+)
+if not defined VCBUILD ( echo VS2008 vcbuild/devenv not found - bake the XP layer first >&2 & exit /b 1 )
+if not defined WX28 ( echo WX28 not set ^(want C:\wxWidgets-2.8^) >&2 & exit /b 1 )
+if not exist "%WX28%\lib\%WXLIBDIR%\wxmsw28u_core.lib" ( echo missing wx 2.8 %PLATFORM% lib: %WX28%\lib\%WXLIBDIR%\wxmsw28u_core.lib >&2 & exit /b 1 )
+if not exist "..\SDL-1.2.15\lib\%SDLLIBDIR%\SDL.dll" ( echo missing dep: ..\SDL-1.2.15\lib\%SDLLIBDIR%\SDL.dll >&2 & exit /b 1 )
+if not exist "..\libserialport\%SPORTDIR%\lib\libserialport.lib" ( echo missing dep: ..\libserialport\%SPORTDIR%\lib\libserialport.lib ^(VC9 link lib^) >&2 & exit /b 1 )
+if not exist "..\libserialport\%SPORTDIR%\lib\release\libserialport.dll" ( echo missing dep: ..\libserialport\%SPORTDIR%\lib\release\libserialport.dll ^(VC9 payload DLL^) >&2 & exit /b 1 )
+if not exist "IsTool\%VCREDIST%" ( echo missing payload: IsTool\%VCREDIST% ^(VC9 vcredist, shared with XP line^) >&2 & exit /b 1 )
+if not exist "Emma02_w2k.manifest" ( echo missing Emma02_w2k.manifest ^(stripped manifest^) >&2 & exit /b 1 )
+set "ISCC_EXE=C:\Inno5\ISCC.exe"
+if exist "!ISCC_EXE!" ( set "ISCC=!ISCC_EXE!" ) else ( set "ISCC=ISCC.exe" )
+echo wx: 2.8-w2k ^(vc9^)  arch-target: %ARCH% ^(%PLATFORM%^)  src: %CD%
+
+REM 2. compile (same vc9 sln, WXWIN redirected to the wx2.8 tree; the .rc embeds
+REM    Emma02.manifest so swap in the stripped w2k manifest for this build only,
+REM    restore afterwards. Build legacy before modern: output path collides.)
+if "%BUILD%"=="1" (
+  set "WXWIN_SAVED=%WXWIN%"
+  set "WXWIN=%WX28%"
+  copy /Y Emma02.manifest Emma02.manifest.saved >nul
+  copy /Y Emma02_w2k.manifest Emma02.manifest >nul
+  %VCBUILD% "Emma 02 vc9.sln" "Release|%PLATFORM%"
+  set "VC9RC=!errorlevel!"
+  copy /Y Emma02.manifest.saved Emma02.manifest >nul
+  del Emma02.manifest.saved
+  set "WXWIN=!WXWIN_SAVED!"
+  set "WXWIN_SAVED="
+  if not "!VC9RC!"=="0" ( echo vc9-w2k build failed >&2 & exit /b 1 )
+)
+if not exist "%EXEFILE%" ( echo missing binary: %EXEFILE% ^(build first or drop --no-build^) >&2 & exit /b 1 )
+goto stamp
+
+:line_vc9
+if "%ARCH%"=="arm" ( echo --wx 3.2 XP line is x86/x64 only ^(no ARM64 in VC9^) >&2 & exit /b 1 )
+if "%SRCROOT%"=="" set SRCROOT=%~dp0..
+if "%OUTDIR%"=="" set OUTDIR=%SRCROOT%
+cd /d "%SRCROOT%" || ( echo cannot cd to SRCROOT: %SRCROOT% >&2 & exit /b 1 )
+
+REM 1. toolchain + baked deps present?
+REM    MSBuild 17 cannot build .vcproj - the vc9 line needs VS2008 vcbuild/devenv.
+where vcbuild >nul 2>&1
+if not errorlevel 1 set "VCBUILD=vcbuild"
+if not defined VCBUILD (
+  set "DEVENV=!ProgramFiles(x86)!\Microsoft Visual Studio 9.0\Common7\IDE\devenv.com"
+  if exist "!DEVENV!" set "VCBUILD=!DEVENV! /build"
+)
+if not defined VCBUILD (
+  set "DEVENV2=!ProgramFiles!\Microsoft Visual Studio 9.0\Common7\IDE\devenv.com"
+  if exist "!DEVENV2!" set "VCBUILD=!DEVENV2! /build"
+)
+if not defined VCBUILD ( echo VS2008 vcbuild/devenv not found - bake the XP layer first >&2 & exit /b 1 )
+if not defined WX32 ( echo WX32 not set ^(want C:\wxWidgets-3.2^) >&2 & exit /b 1 )
+if not exist "%WX32%\lib\%WXLIBDIR%\wxmsw32u_core.lib" ( echo missing wx 3.2 %PLATFORM% lib: %WX32%\lib\%WXLIBDIR%\wxmsw32u_core.lib >&2 & exit /b 1 )
+if not exist "..\SDL2-2.0.5\lib\%SDLLIBDIR%\SDL2.dll" ( echo missing dep: ..\SDL2-2.0.5\lib\%SDLLIBDIR%\SDL2.dll >&2 & exit /b 1 )
+if not exist "..\libserialport\%SPORTDIR%\lib\libserialport.lib" ( echo missing dep: ..\libserialport\%SPORTDIR%\lib\libserialport.lib ^(VC9 link lib^) >&2 & exit /b 1 )
+if not exist "..\libserialport\%SPORTDIR%\lib\release\libserialport.dll" ( echo missing dep: ..\libserialport\%SPORTDIR%\lib\release\libserialport.dll ^(VC9 payload DLL^) >&2 & exit /b 1 )
+if not exist "IsTool\%VCREDIST%" ( echo missing payload: IsTool\%VCREDIST% ^(VC9 vcredist for the XP line^) >&2 & exit /b 1 )
+set "ISCC_EXE=C:\Inno5\ISCC.exe"
+if exist "!ISCC_EXE!" ( set "ISCC=!ISCC_EXE!" ) else ( set "ISCC=ISCC.exe" )
+echo wx: 3.2-XP ^(vc9^)  arch-target: %ARCH% ^(%PLATFORM%^)  src: %CD%
+
+REM 2. compile (vc9 sln via vcbuild/devenv - XP-compatible CRT; build legacy before modern:
+REM    vc9 Win32\Release\Emma 02.exe collides with the vc17 output path;
+REM    note: vcbuild/devenv take the solution FIRST, then the configuration.
+REM    vc9.vcproj reads $(WXWIN) - point it at the wx3.2 tree for this build only,
+REM    restore afterwards so the modern line is unaffected.)
+if "%BUILD%"=="1" (
+  set "WXWIN_SAVED=%WXWIN%"
+  set "WXWIN=%WX32%"
+  %VCBUILD% "Emma 02 vc9.sln" "Release|%PLATFORM%"
+  set "VC9RC=!errorlevel!"
+  set "WXWIN=!WXWIN_SAVED!"
+  set "WXWIN_SAVED="
+  if not "!VC9RC!"=="0" ( echo vc9 build failed >&2 & exit /b 1 )
+)
+if not exist "%EXEFILE%" ( echo missing binary: %EXEFILE% ^(build first or drop --no-build^) >&2 & exit /b 1 )
+goto stamp
+
+:line_vc17
 if "%SRCROOT%"=="" set SRCROOT=%~dp0..
 if "%OUTDIR%"=="" set OUTDIR=%SRCROOT%
 cd /d "%SRCROOT%" || ( echo cannot cd to SRCROOT: %SRCROOT% >&2 & exit /b 1 )
@@ -110,6 +237,7 @@ if "%BUILD%"=="1" (
 )
 if not exist "%EXEFILE%" ( echo missing binary: %EXEFILE% ^(build first or drop --no-build^) >&2 & exit /b 1 )
 
+:stamp
 REM 3. stamp AppVersion/AppVerName in the .iss from emma02_package.conf (transient, guest-only)
 for /f "tokens=2 delims==" %%V in ('findstr "^VERSION=" "Pipeline\emma02_package.conf"') do set VER=%%V
 if "%VER%"=="" ( echo cannot read VERSION from Pipeline\emma02_package.conf >&2 & exit /b 1 )
@@ -117,7 +245,8 @@ powershell -NoProfile -Command "(Get-Content '%ISSFILE%') -replace '^AppVerName=
 if errorlevel 1 ( echo version stamp failed >&2 & exit /b 1 )
 echo version: %VER% -^> %ISSFILE%
 
-REM 4. package via Inno Setup 6
+REM 4. package via Inno Setup (6 for the modern line, 5.6.1 for the XP line -
+REM    Inno 6 output does not run on XP)
 "%ISCC%" "%ISSFILE%"
 if errorlevel 1 ( echo ISCC failed >&2 & exit /b 1 )
 if not exist "%ISSOUT%" ( echo ISCC produced no installer: %ISSOUT% >&2 & exit /b 1 )

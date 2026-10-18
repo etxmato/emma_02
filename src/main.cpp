@@ -1932,7 +1932,7 @@ Main::~Main()
     {
         wxHtmlWinParser::RemoveModule(codeTagModule_);
         delete codeTagModule_;
-        codeTagModule_ = nullptr;
+        codeTagModule_ = NULL;
     }
     if (configPointer == NULL || !saveOnExit_)
         return;
