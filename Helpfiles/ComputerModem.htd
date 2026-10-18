@@ -151,9 +151,9 @@ Start a Membership Card emulator.<br>
 <h4>Monitor Commands</h4>
 
 <ul>
-<li><code>L</code> — Load a program (Intel HEX file loaded to address specified in the HEX file)</li>
-<li><code>I</code> — Load a Chip-8 program (Intel HEX file loaded to the Chip-8 memory area)</li>
-<li><code>S</code> — Save a program</li>
+<li><code>L</code> &mdash; Load a program (Intel HEX file loaded to address specified in the HEX file)</li>
+<li><code>I</code> &mdash; Load a Chip-8 program (Intel HEX file loaded to the Chip-8 memory area)</li>
+<li><code>S</code> &mdash; Save a program</li>
 </ul>
 
 <p>
