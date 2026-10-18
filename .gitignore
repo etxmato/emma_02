@@ -54,3 +54,4 @@ IsTool/arm64/emma_02_arm_windows.exe
 /build/
 /emma_02_mac.dmg
 Emma02.manifest.saved
+/Pipeline/legacy
