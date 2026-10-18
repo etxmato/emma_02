@@ -31,7 +31,15 @@ EmmaStatusBar::~EmmaStatusBar()
 {
     delete ledOffPointer;
     delete ledOnPointer;
-    deleteBitmaps();
+    // deleteBitmaps() is NOT called here: it deletes the LED bitmap buttons, which
+    // are child windows of the statusbar. A window that still owns children must
+    // not have them destroyed by hand while it is being destroyed itself - wx
+    // destroys them from its own child list (and drops already-deleted children),
+    // and doing both corrupts the GDI refcounts, which surfaced as
+    // "assert m_count > 0 failed in DecRef(): invalid ref data count" in
+    // wxFontBase::~wxFontBase via wxStockGDI::DeleteAll() on exit.
+    // Each derived class calls deleteBitmaps() from its own destructor instead,
+    // while it is still fully constructed.
 }
 
 BEGIN_EVENT_TABLE(ComxStatusBar, wxStatusBar)
@@ -78,6 +86,10 @@ ComxStatusBar::ComxStatusBar(wxWindow *parent)
 
 ComxStatusBar::~ComxStatusBar()
 {
+    // Delete the LED child buttons here, while this object is still alive (see
+    // the comment on EmmaStatusBar::~EmmaStatusBar). Doing it from the base
+    // destructor left the child windows to be destroyed twice on exit.
+    deleteBitmaps();
     delete ledDisabledPointer;
 }
 
@@ -507,6 +519,9 @@ CidelsaStatusBar::CidelsaStatusBar(wxWindow *parent)
 
 CidelsaStatusBar::~CidelsaStatusBar()
 {
+    // See the comment on EmmaStatusBar::~EmmaStatusBar: the LED child buttons
+    // must be deleted while this object is still fully constructed.
+    deleteBitmaps();
 }
 
 void CidelsaStatusBar::onButtonPress1(wxCommandEvent&WXUNUSED(event))
@@ -725,6 +740,9 @@ DiagStatusBar::DiagStatusBar(wxWindow *parent)
 
 DiagStatusBar::~DiagStatusBar()
 {
+    // See the comment on EmmaStatusBar::~EmmaStatusBar: the LED child buttons
+    // must be deleted while this object is still fully constructed.
+    deleteBitmaps();
 }
 
 void DiagStatusBar::init(bool WXUNUSED(expansionConfiguration_defined))

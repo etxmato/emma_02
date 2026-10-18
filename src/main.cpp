@@ -4408,6 +4408,11 @@ void Main::stopComputer()
     {
         directAssPointer->Stop();
         vuPointer->Stop();
+        traceTimeoutPointer->Stop();
+        beepTimerPointer->Stop();
+        keyDebounceTimeoutPointer->Stop();
+        guiSizeTimeoutPointer->Stop();
+        guiRedrawBarTimeOutPointer->Stop();
 //        cpuPointer->Stop();
        
         if (!computerRunning_)
