@@ -3,7 +3,7 @@
 # Runs on the Linux builder (Lima VM), not on macOS.
 # Usage: ./build_deb.sh --arch amd64|arm64 [--wx 3.0|3.2] [--src REPO_ROOT] [--out DIR] [--build] [--clean] [--jobs N]
 #   --build: compile first via build_emma02.sh (correct libs + Release dir per arch), then package
-#   --wx 3.0: build/package the wxWidgets 3.0 variant (Ubuntu 20.04/22.04); Depends from DEPENDS_WX30
+#   --wx 3.0: build/package the wxWidgets 3.0 variant (Ubuntu 22.04); Depends from DEPENDS_WX30
 set -e
 ARCH=""
 WXVER="3.2"
@@ -45,7 +45,7 @@ MAINTAINER="$(get MAINTAINER)"
 HOMEPAGE="$(get HOMEPAGE)"
 if [ "$WXVER" = "3.0" ]; then
   DEPENDS="$(get DEPENDS_WX30)"
-  SUFFIX="_wx30"
+  SUFFIX="_legacy"
 else
   DEPENDS="$(get DEPENDS)"
   SUFFIX=""

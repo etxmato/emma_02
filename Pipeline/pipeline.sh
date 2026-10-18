@@ -10,8 +10,8 @@
 #   Windows (exe): --arch arm -> ARM64 | x64 -> x64 | x86 -> Win32 (all from one ARM64 Win11 VM)
 #   --format  deb (default) or rpm or exe
 #   --wx      wx ABI of the target:
-#             deb  3.2 (default) | 3.0  (Ubuntu 20.04/22.04, *-2204 VMs, _wx30)
-#             rpm  3.2 (default) | 3.1  (openSUSE Leap 15, *-15 VMs, _wx31)
+#             deb  3.2 (default) | 3.0  (Ubuntu 22.04, *-2204 VMs, _legacy)
+#             rpm  3.2 (default) | 3.1  (openSUSE Leap 15, *-15 VMs, _leap15)
 #             exe  3.3 (default, vc17 line only for now; 3.2 legacy line follows)
 #             Fedora is wx 3.2 only (it ships no 3.0/3.1)
 #   --distro  fedora|suse — required with --format rpm; picks the builder VM and the
@@ -67,7 +67,7 @@ case "$FORMAT" in
       *) echo "--arch amd64|arm64 required with --format deb" >&2; exit 1;;
     esac
     case "$WXVER" in
-      3.0) VM="$VM-2204"; SUFFIX="_wx30";;
+      3.0) VM="$VM-2204"; SUFFIX="_legacy";;
       3.2) SUFFIX="";;
       *) echo "--wx 3.0|3.2 required for deb" >&2; exit 1;;
     esac
@@ -88,10 +88,10 @@ case "$FORMAT" in
         SUFFIX="_fedora"
         ;;
       suse)
-        # wx 3.2 -> Leap 16 (base VMs, _suse suffix); wx 3.1 -> Leap 15 (*-15 VMs, _wx31)
+        # wx 3.2 -> Leap 16 (base VMs, _leap16 suffix); wx 3.1 -> Leap 15 (*-15 VMs, _leap15)
         case "$WXVER" in
-          3.2) VM_SUF="";  SUFFIX="_suse";;
-          3.1) VM_SUF="-15"; SUFFIX="_suse_wx31";;
+          3.2) VM_SUF="";  SUFFIX="_leap16";;
+          3.1) VM_SUF="-15"; SUFFIX="_leap15";;
           *) echo "--wx 3.1|3.2 required for suse rpm" >&2; exit 1;;
         esac
         case "$ARCH" in
