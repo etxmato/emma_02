@@ -57,19 +57,19 @@
 #include <sys/stat.h>
 #endif
 
-// Clears the read-only attribute so an existing file can be overwritten.
+// Clears the read-only and hidden attributes so an existing file can be overwritten.
 // wxCopyFile maps to the Win32 CopyFile API, which fails with ERROR_ACCESS_DENIED
 // when the destination file already exists and is read-only. Re-installing the
 // 1802 / configuration files over a previous installation therefore failed for any
-// file left read-only; make the destination writable first.
+// file left read-only or hidden; make the destination writable and visible first.
 static void makeFileWritable( const wxString& path )
 {
     if ( !wxFileExists( path ) )
         return;
 #if defined(__WXMSW__)
     DWORD attributes = ::GetFileAttributes( path.wc_str() );
-    if ( attributes != INVALID_FILE_ATTRIBUTES && ( attributes & FILE_ATTRIBUTE_READONLY ) )
-        ::SetFileAttributes( path.wc_str(), attributes & ~FILE_ATTRIBUTE_READONLY );
+    if ( attributes != INVALID_FILE_ATTRIBUTES && ( attributes & (FILE_ATTRIBUTE_READONLY | FILE_ATTRIBUTE_HIDDEN) ) )
+        ::SetFileAttributes( path.wc_str(), attributes & ~(FILE_ATTRIBUTE_READONLY | FILE_ATTRIBUTE_HIDDEN) );
 #else
     struct stat fileStatus;
     if (::stat(path.mb_str(), &fileStatus) == 0 && !(fileStatus.st_mode & S_IWUSR))
