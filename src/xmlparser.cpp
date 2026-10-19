@@ -197,6 +197,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
         computerConfiguration.fdcType_ = FDCTYPE_17XX;
         computerConfiguration.frontPanelConfiguration.clear();
         computerConfiguration.frontPanelConfiguration.resize(1);
+        computerConfiguration.frontPanelConfiguration[PANEL_MAIN].backgroundColorCode = -1;
         return;
     }
         
@@ -467,6 +468,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show = false;
     computerConfiguration.frontPanelConfiguration[PANEL_MAIN].size.x = 0;
     computerConfiguration.frontPanelConfiguration[PANEL_MAIN].size.y = 0;
+    computerConfiguration.frontPanelConfiguration[PANEL_MAIN].backgroundColorCode = -1;
     
     computerConfiguration.mainFrontPanelConfiguration.nibbleLeds = false;
     computerConfiguration.mainFrontPanelConfiguration.dataSwitchButtons = false;

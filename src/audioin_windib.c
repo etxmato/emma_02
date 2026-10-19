@@ -67,10 +67,10 @@ WAVEHDR *CreateWaveHeader(Uint32 buflen)
 void CALLBACK waveInProc(HWAVEIN hwi,UINT uMsg, DWORD_PTR dwInstance,
 	DWORD_PTR dwParam1, DWORD_PTR dwParam2)
 {
-	(void)dwParam2;
 	SDL_AudioSpec *spec=(SDL_AudioSpec *)dwInstance;
 	void (*CallBack)(void *,Uint8 *, int);
 	WAVEHDR *header;
+	(void)dwParam2;
 
 	switch(uMsg)
 	{
@@ -264,8 +264,8 @@ void WINDIB_CloseAudioIn()
 
 int enqueue_thread(void *dat)
 {
-  (void)dat;
   queuebuf buf;
+  (void)dat;
 
   buf=Dequeue();
   while(buf.hdr!=NULL)

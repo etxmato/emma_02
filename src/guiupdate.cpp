@@ -42,66 +42,98 @@ END_EVENT_TABLE()
 GuiUpdate::GuiUpdate(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
 : GuiMain(title, pos, size, mode, dataDir, iniDir)
 {
+    thermalEf_ = false;
+    panelRefreshOngoing_ = false;
+    for (int i = 0; i < VIDEOXMLMAX; i++)
+        videoRefreshOngoing_[i] = false;
 }
 
 void GuiUpdate::guiSetButtonLabel(wxString info, wxString value)
 {
     if (!mode_.gui)
         return;
-    
-    CallAfter([this, info, value]() {
-        XRCCTRL(*this, info, wxButton)->SetLabel(value);
-    });
+
+    callAfterInfo_ = info;
+    callAfterValue_ = value;
+    CallAfter(&GuiUpdate::guiSetButtonLabelHelper);
+}
+
+void GuiUpdate::guiSetButtonLabelHelper()
+{
+    XRCCTRL(*this, callAfterInfo_, wxButton)->SetLabel(callAfterValue_);
 }
 
 void GuiUpdate::guiSetCheckBox(wxString info, bool state)
 {
     if (!mode_.gui)
         return;
-    
-    CallAfter([this, info, state]() {
-        setCheckBox(info, state);
-    });
+
+    callAfterInfo_ = info;
+    callAfterState_ = state;
+    CallAfter(&GuiUpdate::guiSetCheckBoxHelper);
+}
+
+void GuiUpdate::guiSetCheckBoxHelper()
+{
+    setCheckBox(callAfterInfo_, callAfterState_);
 }
 
 void GuiUpdate::guiShowMessage(Word message)
 {
     wxString buffer;
     buffer.Printf("%04X", message);
-    
-    CallAfter([this, buffer]() {
-        p_Main->message(buffer);
-    });
+
+    callAfterMessageText_ = buffer;
+    CallAfter(&GuiUpdate::guiShowMessageHelper);
+}
+
+void GuiUpdate::guiShowMessageHelper()
+{
+    p_Main->message(callAfterMessageText_);
 }
 
 void GuiUpdate::guiSetTextValue(wxString info, wxString value)
 {
     if (!mode_.gui)
         return;
-    
-    CallAfter([this, info, value]() {
-        XRCCTRL(*this, info, wxTextCtrl)->SetValue(value);
-    });
+
+    callAfterInfo_ = info;
+    callAfterValue_ = value;
+    CallAfter(&GuiUpdate::guiSetTextValueHelper);
+}
+
+void GuiUpdate::guiSetTextValueHelper()
+{
+    XRCCTRL(*this, callAfterInfo_, wxTextCtrl)->SetValue(callAfterValue_);
 }
 
 void GuiUpdate::guiSetStaticTextValue(wxString info, wxString value)
 {
     if (!mode_.gui)
         return;
-    
-    CallAfter([this, info, value]() {
-        XRCCTRL(*this, info, wxStaticText)->SetLabel(value);
-    });
+
+    callAfterInfo_ = info;
+    callAfterValue_ = value;
+    CallAfter(&GuiUpdate::guiSetStaticTextValueHelper);
+}
+
+void GuiUpdate::guiSetStaticTextValueHelper()
+{
+    XRCCTRL(*this, callAfterInfo_, wxStaticText)->SetLabel(callAfterValue_);
 }
 
 void GuiUpdate::guiEnableClock(bool state)
 {
     if (!mode_.gui)
         return;
-    
-    CallAfter([this, state]() {
-        XRCCTRL(*this, "clockTextCtrl", wxTextCtrl)->Enable(state);
-    });
+
+    callAfterState_ = state;
+    CallAfter(&GuiUpdate::guiEnableClockHelper);
+}
+
+void GuiUpdate::guiEnableClockHelper()
+{
+    XRCCTRL(*this, "clockTextCtrl", wxTextCtrl)->Enable(callAfterState_);
 }
 
 void GuiUpdate::guiSetConvertState(bool state)
@@ -109,10 +141,14 @@ void GuiUpdate::guiSetConvertState(bool state)
     if (!mode_.gui)
         return;
 
-    CallAfter([this, state]() {
-        XRCCTRL(*this, "BatchConvertButtonXml", wxButton)->Enable(state);
-        XRCCTRL(*this, "BatchButtonXml", wxButton)->Enable(state);
-    });
+    callAfterState_ = state;
+    CallAfter(&GuiUpdate::guiSetConvertStateHelper);
+}
+
+void GuiUpdate::guiSetConvertStateHelper()
+{
+    XRCCTRL(*this, "BatchConvertButtonXml", wxButton)->Enable(callAfterState_);
+    XRCCTRL(*this, "BatchButtonXml", wxButton)->Enable(callAfterState_);
 }
 
 void GuiUpdate::guiSetLocation(bool state, Word saveStart, Word saveEnd, Word saveExec)
@@ -133,25 +169,32 @@ void GuiUpdate::guiSetLocation(bool state, Word saveStart, Word saveEnd, Word sa
     if (!mode_.gui)
         return;
 
-    CallAfter([this, state, saveStartString, saveEndString, saveExecString]() {
-        if (popupDialog_ != NULL)
-            popupDialog_->setLocation(state, saveStartString, saveEndString, saveExecString);
+    callAfterState_ = state;
+    callAfterSaveStartString_ = saveStartString;
+    callAfterSaveEndString_ = saveEndString;
+    callAfterSaveExecString_ = saveExecString;
+    CallAfter(&GuiUpdate::guiSetLocationHelper);
+}
 
-        if (state)
-        {
-            XRCCTRL(*this,"SaveStartXml", wxTextCtrl)->ChangeValue(saveStartString);
-            XRCCTRL(*this,"SaveEndXml", wxTextCtrl)->ChangeValue(saveEndString);
-            XRCCTRL(*this,"SaveExecXml", wxTextCtrl)->ChangeValue(saveExecString);
-        }
-        else
-        {
-            XRCCTRL(*this,"SaveStartXml", wxTextCtrl)->ChangeValue("");
-            XRCCTRL(*this,"SaveEndXml", wxTextCtrl)->ChangeValue("");
-            XRCCTRL(*this,"SaveExecXml", wxTextCtrl)->ChangeValue("");
-        }
-        XRCCTRL(*this, "UseLocationXml", wxCheckBox)->SetValue(state);
-        enableLocationGui();
-    });
+void GuiUpdate::guiSetLocationHelper()
+{
+    if (popupDialog_ != NULL)
+        popupDialog_->setLocation(callAfterState_, callAfterSaveStartString_, callAfterSaveEndString_, callAfterSaveExecString_);
+
+    if (callAfterState_)
+    {
+        XRCCTRL(*this,"SaveStartXml", wxTextCtrl)->ChangeValue(callAfterSaveStartString_);
+        XRCCTRL(*this,"SaveEndXml", wxTextCtrl)->ChangeValue(callAfterSaveEndString_);
+        XRCCTRL(*this,"SaveExecXml", wxTextCtrl)->ChangeValue(callAfterSaveExecString_);
+    }
+    else
+    {
+        XRCCTRL(*this,"SaveStartXml", wxTextCtrl)->ChangeValue("");
+        XRCCTRL(*this,"SaveEndXml", wxTextCtrl)->ChangeValue("");
+        XRCCTRL(*this,"SaveExecXml", wxTextCtrl)->ChangeValue("");
+    }
+    XRCCTRL(*this, "UseLocationXml", wxCheckBox)->SetValue(callAfterState_);
+    enableLocationGui();
 }
 
 void GuiUpdate::guiSetLocationState(bool state)
@@ -161,13 +204,17 @@ void GuiUpdate::guiSetLocationState(bool state)
     if (!mode_.gui)
         return;
 
-    CallAfter([this, state]() {
-        if (popupDialog_ != NULL)
-            popupDialog_->setLocation(state);
+    callAfterState_ = state;
+    CallAfter(&GuiUpdate::guiSetLocationStateHelper);
+}
 
-        XRCCTRL(*this, "UseLocationXml", wxCheckBox)->SetValue(state);
-        enableLocationGui();
-    });
+void GuiUpdate::guiSetLocationStateHelper()
+{
+    if (popupDialog_ != NULL)
+        popupDialog_->setLocation(callAfterState_);
+
+    XRCCTRL(*this, "UseLocationXml", wxCheckBox)->SetValue(callAfterState_);
+    enableLocationGui();
 }
 
 void GuiUpdate::guiSaveStart(Word saveStart)
@@ -181,12 +228,16 @@ void GuiUpdate::guiSaveStart(Word saveStart)
     if (!mode_.gui)
         return;
 
-    CallAfter([this, saveStartString]() {
-        if (popupDialog_ != NULL)
-            popupDialog_->setStartLocation(saveStartString);
+    callAfterSaveStartString_ = saveStartString;
+    CallAfter(&GuiUpdate::guiSaveStartHelper);
+}
 
-        XRCCTRL(*this,"SaveStartXml", wxTextCtrl)->SetValue(saveStartString);
-    });
+void GuiUpdate::guiSaveStartHelper()
+{
+    if (popupDialog_ != NULL)
+        popupDialog_->setStartLocation(callAfterSaveStartString_);
+
+    XRCCTRL(*this,"SaveStartXml", wxTextCtrl)->SetValue(callAfterSaveStartString_);
 }
 
 void GuiUpdate::guiSaveEnd(Word saveEnd)
@@ -200,108 +251,138 @@ void GuiUpdate::guiSaveEnd(Word saveEnd)
     if (!mode_.gui)
         return;
 
-    CallAfter([this, saveEndString]() {
-        if (popupDialog_ != NULL)
-            popupDialog_->setEndLocation(saveEndString);
+    callAfterSaveEndString_ = saveEndString;
+    CallAfter(&GuiUpdate::guiSaveEndHelper);
+}
 
-        XRCCTRL(*this,"SaveEndXml", wxTextCtrl)->SetValue(saveEndString);
-    });
+void GuiUpdate::guiSaveEndHelper()
+{
+    if (popupDialog_ != NULL)
+        popupDialog_->setEndLocation(callAfterSaveEndString_);
+
+    XRCCTRL(*this,"SaveEndXml", wxTextCtrl)->SetValue(callAfterSaveEndString_);
 }
 
 void GuiUpdate::guiSetTapeState(int tapeState, wxString tapeNumber)
 {
-    CallAfter([this, tapeState, tapeNumber]() {
-        setTapeState(tapeState, tapeNumber);
-    });
+    callAfterTapeState_ = tapeState;
+    callAfterTapeNumber_ = tapeNumber;
+    CallAfter(&GuiUpdate::guiSetTapeStateHelper);
+}
+
+void GuiUpdate::guiSetTapeStateHelper()
+{
+    setTapeState(callAfterTapeState_, callAfterTapeNumber_);
 }
 
 void GuiUpdate::guiSetSwName(wxString swName)
 {
-    CallAfter([this, swName]() {
-        p_Main->setSwName(swName);
-        p_Main->updateTitle();
-    });
+    callAfterSwName_ = swName;
+    CallAfter(&GuiUpdate::guiSetSwNameHelper);
+}
+
+void GuiUpdate::guiSetSwNameHelper()
+{
+    p_Main->setSwName(callAfterSwName_);
+    p_Main->updateTitle();
 }
 
 void GuiUpdate::guiUpdateTitle()
 {
-    CallAfter([this]() {
-        p_Main->updateTitle();
-    });
+    CallAfter(&GuiUpdate::guiUpdateTitleHelper);
+}
+
+void GuiUpdate::guiUpdateTitleHelper()
+{
+    p_Main->updateTitle();
 }
 
 void GuiUpdate::guiHwTapeStateChange(int status)
 {
     hwTapeState_ = status;
 
-    CallAfter([this]() {
-        if (!mode_.gui)
-            return;
+    CallAfter(&GuiUpdate::guiHwTapeStateChangeHelper);
+}
 
-        switch (hwTapeState_)
-        {
-            case HW_TAPE_STATE_PLAY:
-                XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->SetBitmapLabel(playDarkGreenBitmap);
-                XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
-                XRCCTRL(*this, "CasRewindXml", wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
-                XRCCTRL(*this, "CasSaveXml", wxBitmapButton)->SetBitmapLabel(recOffBitmap);
-                break;
+void GuiUpdate::guiHwTapeStateChangeHelper()
+{
+    if (!mode_.gui)
+        return;
 
-            case HW_TAPE_STATE_FF:
-                XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
-                XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->SetBitmapLabel(forwardDarkGreenBitmap);
-                XRCCTRL(*this, "CasRewindXml", wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
-                XRCCTRL(*this, "CasSaveXml", wxBitmapButton)->SetBitmapLabel(recOffBitmap);
-                break;
+    switch (hwTapeState_)
+    {
+        case HW_TAPE_STATE_PLAY:
+            XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->SetBitmapLabel(playDarkGreenBitmap);
+            XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+            XRCCTRL(*this, "CasRewindXml", wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
+            XRCCTRL(*this, "CasSaveXml", wxBitmapButton)->SetBitmapLabel(recOffBitmap);
+            break;
 
-            case HW_TAPE_STATE_RW:
-                XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
-                XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
-                XRCCTRL(*this, "CasRewindXml", wxBitmapButton)->SetBitmapLabel(rewindDarkGreenBitmap);
-                XRCCTRL(*this, "CasSaveXml", wxBitmapButton)->SetBitmapLabel(recOffBitmap);
-                break;
+        case HW_TAPE_STATE_FF:
+            XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+            XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->SetBitmapLabel(forwardDarkGreenBitmap);
+            XRCCTRL(*this, "CasRewindXml", wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
+            XRCCTRL(*this, "CasSaveXml", wxBitmapButton)->SetBitmapLabel(recOffBitmap);
+            break;
 
-            case HW_TAPE_STATE_REC:
-                XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
-                XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
-                XRCCTRL(*this, "CasRewindXml", wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
-                XRCCTRL(*this, "CasSaveXml", wxBitmapButton)->SetBitmapLabel(recOnBitmap);
-                break;
+        case HW_TAPE_STATE_RW:
+            XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+            XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+            XRCCTRL(*this, "CasRewindXml", wxBitmapButton)->SetBitmapLabel(rewindDarkGreenBitmap);
+            XRCCTRL(*this, "CasSaveXml", wxBitmapButton)->SetBitmapLabel(recOffBitmap);
+            break;
 
-            default:
-                hwTapeState_ = HW_TAPE_STATE_OFF;
-                XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
-                XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
-                XRCCTRL(*this, "CasRewindXml", wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
-                XRCCTRL(*this, "CasSaveXml", wxBitmapButton)->SetBitmapLabel(recOffBitmap);
-                break;
-        }
-    });
+        case HW_TAPE_STATE_REC:
+            XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+            XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+            XRCCTRL(*this, "CasRewindXml", wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
+            XRCCTRL(*this, "CasSaveXml", wxBitmapButton)->SetBitmapLabel(recOnBitmap);
+            break;
+
+        default:
+            hwTapeState_ = HW_TAPE_STATE_OFF;
+            XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+            XRCCTRL(*this, "CasForwardXml", wxBitmapButton)->SetBitmapLabel(forwardBlackBitmap);
+            XRCCTRL(*this, "CasRewindXml", wxBitmapButton)->SetBitmapLabel(rewindBlackBitmap);
+            XRCCTRL(*this, "CasSaveXml", wxBitmapButton)->SetBitmapLabel(recOffBitmap);
+            break;
+    }
 }
 
 void GuiUpdate::guiShowTextMessage(wxString messageText)
 {
-    CallAfter([this, messageText]() {
-        p_Main->message(messageText);
-    });
+    callAfterMessageText_ = messageText;
+    CallAfter(&GuiUpdate::guiShowTextMessageHelper);
+}
+
+void GuiUpdate::guiShowTextMessageHelper()
+{
+    p_Main->message(callAfterMessageText_);
 }
 
 void GuiUpdate::guiPrintParallel(Byte value)
 {
     if (statusLedUpdate_)
         p_Main->statusLedOnEvent();
-    CallAfter([this, value]() {
-        p_PrinterParallel->outParallel(value);
-        if (statusLedUpdate_)
-            p_Main->statusLedOffDirect();
-    });
+    callAfterValueByte_ = value;
+    CallAfter(&GuiUpdate::guiPrintParallelHelper);
+}
+
+void GuiUpdate::guiPrintParallelHelper()
+{
+    p_PrinterParallel->outParallel(callAfterValueByte_);
+    if (statusLedUpdate_)
+        p_Main->statusLedOffDirect();
 }
 
 void GuiUpdate::guiPrintParallelFinished()
 {
-    CallAfter([this]() {
-        p_PrinterParallel->printFinished();
-    });
+    CallAfter(&GuiUpdate::guiPrintParallelFinishedHelper);
+}
+
+void GuiUpdate::guiPrintParallelFinishedHelper()
+{
+    p_PrinterParallel->printFinished();
 }
 
 void GuiUpdate::guiPrintThermal(Byte value, Byte Qflag)
@@ -309,129 +390,183 @@ void GuiUpdate::guiPrintThermal(Byte value, Byte Qflag)
     if (statusLedUpdate_)
         p_Main->statusLedOnEvent();
     thermalEf_ = true;
-    CallAfter([this, value, Qflag]() {
-        p_PrinterThermal->outThermal(value, Qflag);
-        thermalEf_ = false;
-        if (statusLedUpdate_)
-            p_Main->statusLedOffDirect();
-    });
+    callAfterValueByte_ = value;
+    callAfterQflag_ = Qflag;
+    CallAfter(&GuiUpdate::guiPrintThermalHelper);
+}
+
+void GuiUpdate::guiPrintThermalHelper()
+{
+    p_PrinterThermal->outThermal(callAfterValueByte_, callAfterQflag_);
+    thermalEf_ = false;
+    if (statusLedUpdate_)
+        p_Main->statusLedOffDirect();
 }
 
 void GuiUpdate::guiPrintThermalFinished()
 {
-    CallAfter([this]() {
-        p_PrinterThermal->printFinished();
-        thermalEf_ = false;
-    });
+    CallAfter(&GuiUpdate::guiPrintThermalFinishedHelper);
+}
+
+void GuiUpdate::guiPrintThermalFinishedHelper()
+{
+    p_PrinterThermal->printFinished();
+    thermalEf_ = false;
 }
 
 void GuiUpdate::guiPrintSerial(Byte value)
 {
     if (statusLedUpdate_)
         p_Main->statusLedOnEvent();
-    CallAfter([this, value]() {
-        p_PrinterSerial->outSerial(value);
-        if (statusLedUpdate_)
-            p_Main->statusLedOffDirect();
-    });
+    callAfterValueByte_ = value;
+    CallAfter(&GuiUpdate::guiPrintSerialHelper);
+}
+
+void GuiUpdate::guiPrintSerialHelper()
+{
+    p_PrinterSerial->outSerial(callAfterValueByte_);
+    if (statusLedUpdate_)
+        p_Main->statusLedOffDirect();
 }
 
 void GuiUpdate::guiPrintSerialFinished()
 {
-    CallAfter([this]() {
-        p_PrinterSerial->printFinished();
-    });
+    CallAfter(&GuiUpdate::guiPrintSerialFinishedHelper);
+}
+
+void GuiUpdate::guiPrintSerialFinishedHelper()
+{
+    p_PrinterSerial->printFinished();
 }
 
 void GuiUpdate::guiPrintPecom(Byte value)
 {
-    CallAfter([this, value]() {
-        p_Printer->printerOut(value);
-    });
+    callAfterValueByte_ = value;
+    CallAfter(&GuiUpdate::guiPrintPecomHelper);
+}
+
+void GuiUpdate::guiPrintPecomHelper()
+{
+    p_Printer->printerOut(callAfterValueByte_);
 }
 
 void GuiUpdate::guiZoomChange(double zoom, int videoNumber)
 {
-    CallAfter([this, zoom, videoNumber]() {
-        if (p_Video[videoNumber] == NULL)
-            return;
+    callAfterZoom_ = zoom;
+    callAfterVideoNumber_ = videoNumber;
+    CallAfter(&GuiUpdate::guiZoomChangeHelper);
+}
 
-        p_Video[videoNumber]->setZoom(zoom);
-        if (computerRunning_)
-        {
+void GuiUpdate::guiZoomChangeHelper()
+{
+    if (p_Video[callAfterVideoNumber_] == NULL)
+        return;
+
+    p_Video[callAfterVideoNumber_]->setZoom(callAfterZoom_);
+    if (computerRunning_)
+    {
 #if defined(__linux__)
-            guiRedrawBarTimeOutPointer->Start(200, wxTIMER_ONE_SHOT);
+        guiRedrawBarTimeOutPointer->Start(200, wxTIMER_ONE_SHOT);
 #else
-            p_Video[videoNumber]->reDrawBar();
+        p_Video[callAfterVideoNumber_]->reDrawBar();
 #endif
-        }
-        p_Main->zoomEventFinished();
-    });
+    }
+    p_Main->zoomEventFinished();
 }
 
 void GuiUpdate::guiZoomVtChange(double zoom, int uartNumber)
 {
-    CallAfter([this, zoom, uartNumber]() {
-        p_Vt100[uartNumber]->setZoom(zoom);
+    callAfterZoom_ = zoom;
+    callAfterUartNumber_ = uartNumber;
+    CallAfter(&GuiUpdate::guiZoomVtChangeHelper);
+}
+
+void GuiUpdate::guiZoomVtChangeHelper()
+{
+    p_Vt100[callAfterUartNumber_]->setZoom(callAfterZoom_);
 //        if (runningComputer_ != ELF2K && runningComputer_ != MEMBER)
 //            p_Vt100[UART1]->copyScreen();
-        p_Main->zoomVtEventFinished();
-    });
+    p_Main->zoomVtEventFinished();
 }
 
 void GuiUpdate::guiZoom(double zoom, int videoNumber, bool isVt)
 {
-    CallAfter([this, zoom, videoNumber, isVt]() {
-        if (isVt)
-            p_Main->zoomEventVt(zoom);
-        else
-            p_Main->zoomEvent(zoom, videoNumber);
-    });
+    callAfterZoom_ = zoom;
+    callAfterVideoNumber_ = videoNumber;
+    callAfterIsVt_ = isVt;
+    CallAfter(&GuiUpdate::guiZoomHelper);
+}
+
+void GuiUpdate::guiZoomHelper()
+{
+    if (callAfterIsVt_)
+        p_Main->zoomEventVt(callAfterZoom_);
+    else
+        p_Main->zoomEvent(callAfterZoom_, callAfterVideoNumber_);
 }
 
 void GuiUpdate::guiVideoSetFullScreen(bool state, int videoNumber)
 {
-    CallAfter([this, state, videoNumber]() {
-        fullScreenEventOngoing_ = true;
-        if (p_Video[videoNumber] != NULL)
-            p_Video[videoNumber]->setFullScreen(state);
-    });
+    callAfterState_ = state;
+    callAfterVideoNumber_ = videoNumber;
+    CallAfter(&GuiUpdate::guiVideoSetFullScreenHelper);
+}
+
+void GuiUpdate::guiVideoSetFullScreenHelper()
+{
+    fullScreenEventOngoing_ = true;
+    if (p_Video[callAfterVideoNumber_] != NULL)
+        p_Video[callAfterVideoNumber_]->setFullScreen(callAfterState_);
 }
 
 void GuiUpdate::guiVtSetFullScreen(bool state, int uartNumber)
 {
-    CallAfter([this, state, uartNumber]() {
-        if (p_Vt100[uartNumber] != NULL)
-            p_Vt100[uartNumber]->setFullScreen(state);
-    });
+    callAfterState_ = state;
+    callAfterUartNumber_ = uartNumber;
+    CallAfter(&GuiUpdate::guiVtSetFullScreenHelper);
+}
+
+void GuiUpdate::guiVtSetFullScreenHelper()
+{
+    if (p_Vt100[callAfterUartNumber_] != NULL)
+        p_Vt100[callAfterUartNumber_]->setFullScreen(callAfterState_);
 }
 
 void GuiUpdate::guiChangeNoteBook()
 {
-    CallAfter([this]() {
-        XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(XMLTAB);
-        XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(DEBUGGERTAB);
-        long selected_tab = configPointer->Read("/Main/Selected_Tab", 0l);
-        if (selected_tab > DEBUGGERTAB)
-            selected_tab = 0;
-        XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(selected_tab);
-    });
+    CallAfter(&GuiUpdate::guiChangeNoteBookHelper);
+}
+
+void GuiUpdate::guiChangeNoteBookHelper()
+{
+    XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(XMLTAB);
+    XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(DEBUGGERTAB);
+    long selected_tab = configPointer->Read("/Main/Selected_Tab", 0l);
+    if (selected_tab > DEBUGGERTAB)
+        selected_tab = 0;
+    XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(selected_tab);
 }
 
 void GuiUpdate::guiSetFandMBasicGui()
 {
     if (!mode_.gui)
         return;
-    CallAfter([this]() {
-        p_Main->setFandMBasicGui();
-    });
+    CallAfter(&GuiUpdate::guiSetFandMBasicGuiHelper);
+}
+
+void GuiUpdate::guiSetFandMBasicGuiHelper()
+{
+    p_Main->setFandMBasicGui();
 }
 
 void GuiUpdate::guiPauseState()
 {
-    CallAfter([this]() {
-        p_Main->setPauseState();
-    });
+    CallAfter(&GuiUpdate::guiPauseStateHelper);
+}
+
+void GuiUpdate::guiPauseStateHelper()
+{
+    p_Main->setPauseState();
 }
 
 void GuiUpdate::guiRefreshVideo(bool isVt, int uart_video_Number)
@@ -440,13 +575,18 @@ void GuiUpdate::guiRefreshVideo(bool isVt, int uart_video_Number)
         return;
 
     videoRefreshOngoing_[uart_video_Number] = true;
-    CallAfter([this, isVt, uart_video_Number]() {
-        if (isVt)
-            p_Vt100[uart_video_Number]->refreshVideo();
-        else
-            p_Video[uart_video_Number]->refreshVideo();
-        videoRefreshOngoing_[uart_video_Number] = false;
-    });
+    callAfterIsVt_ = isVt;
+    callAfterUartVideoNumber_ = uart_video_Number;
+    CallAfter(&GuiUpdate::guiRefreshVideoHelper);
+}
+
+void GuiUpdate::guiRefreshVideoHelper()
+{
+    if (callAfterIsVt_)
+        p_Vt100[callAfterUartVideoNumber_]->refreshVideo();
+    else
+        p_Video[callAfterUartVideoNumber_]->refreshVideo();
+    videoRefreshOngoing_[callAfterUartVideoNumber_] = false;
 }
 
 void GuiUpdate::guiRefreshPanel()
@@ -455,54 +595,81 @@ void GuiUpdate::guiRefreshPanel()
         return;
 
     panelRefreshOngoing_ = true;
-    CallAfter([this]() {
-        p_Computer->refreshPanel();
-        panelRefreshOngoing_ = false;
-    });
+    CallAfter(&GuiUpdate::guiRefreshPanelHelper);
+}
+
+void GuiUpdate::guiRefreshPanelHelper()
+{
+    p_Computer->refreshPanel();
+    panelRefreshOngoing_ = false;
 }
 
 void GuiUpdate::guiUpdateLedStatus(bool status, int card, int i)
 {
-    CallAfter([this, status, card, i]() {
-        if (computerRunning_)
-            p_Video[computerConfiguration.vis1870Configuration.videoNumber]->updateStatusLed(status, card, i);
-    });
+    callAfterStatus_ = status;
+    callAfterCard_ = card;
+    callAfterI_ = i;
+    CallAfter(&GuiUpdate::guiUpdateLedStatusHelper);
+}
+
+void GuiUpdate::guiUpdateLedStatusHelper()
+{
+    if (computerRunning_)
+        p_Video[computerConfiguration.vis1870Configuration.videoNumber]->updateStatusLed(callAfterStatus_, callAfterCard_, callAfterI_);
 }
 
 void GuiUpdate::guiUpdateVipIILedStatus(int led, bool status)
 {
-    CallAfter([this, led, status]() {
-        p_Computer->updateStatusBarLedStatus(status, led);
-    });
+    callAfterLed_ = led;
+    callAfterLedStatus_ = status;
+    CallAfter(&GuiUpdate::guiUpdateVipIILedStatusHelper);
+}
+
+void GuiUpdate::guiUpdateVipIILedStatusHelper()
+{
+    p_Computer->updateStatusBarLedStatus(callAfterLedStatus_, callAfterLed_);
 }
 
 void GuiUpdate::guiDebounceTimer()
 {
-    CallAfter([this]() {
-        keyDebounceTimeoutPointer->Start(80, wxTIMER_ONE_SHOT);
-    });
+    CallAfter(&GuiUpdate::guiDebounceTimerHelper);
+}
+
+void GuiUpdate::guiDebounceTimerHelper()
+{
+    keyDebounceTimeoutPointer->Start(80, wxTIMER_ONE_SHOT);
 }
 
 void GuiUpdate::guiBeepTimer(int frequency, int ms)
 {
     p_Computer->toneBeep(frequency, true);
-    CallAfter([this, ms]() {
-        beepTimerPointer->Start(ms, wxTIMER_ONE_SHOT);
-    });
+    callAfterMs_ = ms;
+    CallAfter(&GuiUpdate::guiBeepTimerHelper);
+}
+
+void GuiUpdate::guiBeepTimerHelper()
+{
+    beepTimerPointer->Start(callAfterMs_, wxTIMER_ONE_SHOT);
 }
 
 void GuiUpdate::guiErrorMessage(wxString messageText)
 {
-    CallAfter([this, messageText]() {
-        (void)wxMessageBox(messageText, "Emma 02", wxICON_ERROR | wxOK);
-    });
+    callAfterMessageText_ = messageText;
+    CallAfter(&GuiUpdate::guiErrorMessageHelper);
+}
+
+void GuiUpdate::guiErrorMessageHelper()
+{
+    (void)wxMessageBox(callAfterMessageText_, "Emma 02", wxICON_ERROR | wxOK);
 }
 
 void GuiUpdate::guiKillComputer()
 {
-    CallAfter([this]() {
-        p_Main->killComputer();
-    });
+    CallAfter(&GuiUpdate::guiKillComputerHelper);
 }
 
+void GuiUpdate::guiKillComputerHelper()
+{
+    p_Main->killComputer();
+}
 

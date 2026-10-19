@@ -368,9 +368,9 @@ void FunctionKeyMapDialog::connectKeyDownEvent(wxWindow* pclComponent)
                           (wxObject*) NULL, 
                           this);
     
-    for (wxWindow* pclChild : pclComponent->GetChildren())
+    for (wxWindowList::compatibility_iterator node = pclComponent->GetChildren().GetFirst(); node; node = node->GetNext())
     {
-      this->connectKeyDownEvent(pclChild);
+      this->connectKeyDownEvent((wxWindow*)node->GetData());
     } 
   } 
 } 

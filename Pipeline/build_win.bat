@@ -21,6 +21,7 @@ REM   VC9 link lib: ..\libserialport\Win32|Win64\lib\libserialport.lib (vc9.vcpr
 REM     links $(SERIALPORT)\Win32|Win64\lib directly, unlike vc17 which uses \lib\release),
 REM   XP payload DLL: ..\libserialport\Win32|Win64\lib\release\libserialport.dll (VC9-built).
 setlocal EnableDelayedExpansion
+set "PF86=%ProgramFiles(x86)%"
 
 set ARCH=
 set WXVER=3.3
@@ -121,12 +122,16 @@ REM    MSBuild 17 cannot build .vcproj - the w2k line needs VS2008 vcbuild/deven
 where vcbuild >nul 2>&1
 if not errorlevel 1 set "VCBUILD=vcbuild"
 if not defined VCBUILD (
-  set "DEVENV=!ProgramFiles(x86)!\Microsoft Visual Studio 9.0\Common7\IDE\devenv.com"
+  set "DEVENV=!PF86!\Microsoft Visual Studio 9.0\Common7\IDE\devenv.com"
   if exist "!DEVENV!" set "VCBUILD=!DEVENV! /build"
 )
 if not defined VCBUILD (
   set "DEVENV2=!ProgramFiles!\Microsoft Visual Studio 9.0\Common7\IDE\devenv.com"
   if exist "!DEVENV2!" set "VCBUILD=!DEVENV2! /build"
+)
+if not defined VCBUILD (
+  set "VCBUILD_EXE=!PF86!\Microsoft Visual Studio 9.0\VC\vcpackages\vcbuild.exe"
+  if exist "!VCBUILD_EXE!" set "VCBUILD=!VCBUILD_EXE!"
 )
 if not defined VCBUILD ( echo VS2008 vcbuild/devenv not found - bake the XP layer first >&2 & exit /b 1 )
 if not defined WX28 ( echo WX28 not set ^(want C:\wxWidgets-2.8^) >&2 & exit /b 1 )
@@ -148,7 +153,7 @@ if "%BUILD%"=="1" (
   set "WXWIN=%WX28%"
   copy /Y Emma02.manifest Emma02.manifest.saved >nul
   copy /Y Emma02_w2k.manifest Emma02.manifest >nul
-  %VCBUILD% "Emma 02 vc9.sln" "Release|%PLATFORM%"
+  "!VCBUILD!" "Emma 02 vc9.sln" "Release|%PLATFORM%"
   set "VC9RC=!errorlevel!"
   copy /Y Emma02.manifest.saved Emma02.manifest >nul
   del Emma02.manifest.saved
@@ -170,12 +175,16 @@ REM    MSBuild 17 cannot build .vcproj - the vc9 line needs VS2008 vcbuild/deven
 where vcbuild >nul 2>&1
 if not errorlevel 1 set "VCBUILD=vcbuild"
 if not defined VCBUILD (
-  set "DEVENV=!ProgramFiles(x86)!\Microsoft Visual Studio 9.0\Common7\IDE\devenv.com"
+  set "DEVENV=!PF86!\Microsoft Visual Studio 9.0\Common7\IDE\devenv.com"
   if exist "!DEVENV!" set "VCBUILD=!DEVENV! /build"
 )
 if not defined VCBUILD (
   set "DEVENV2=!ProgramFiles!\Microsoft Visual Studio 9.0\Common7\IDE\devenv.com"
   if exist "!DEVENV2!" set "VCBUILD=!DEVENV2! /build"
+)
+if not defined VCBUILD (
+  set "VCBUILD_EXE=!PF86!\Microsoft Visual Studio 9.0\VC\vcpackages\vcbuild.exe"
+  if exist "!VCBUILD_EXE!" set "VCBUILD=!VCBUILD_EXE!"
 )
 if not defined VCBUILD ( echo VS2008 vcbuild/devenv not found - bake the XP layer first >&2 & exit /b 1 )
 if not defined WX32 ( echo WX32 not set ^(want C:\wxWidgets-3.2^) >&2 & exit /b 1 )
@@ -196,7 +205,7 @@ REM    restore afterwards so the modern line is unaffected.)
 if "%BUILD%"=="1" (
   set "WXWIN_SAVED=%WXWIN%"
   set "WXWIN=%WX32%"
-  %VCBUILD% "Emma 02 vc9.sln" "Release|%PLATFORM%"
+  "!VCBUILD!" "Emma 02 vc9.sln" "Release|%PLATFORM%"
   set "VC9RC=!errorlevel!"
   set "WXWIN=!WXWIN_SAVED!"
   set "WXWIN_SAVED="

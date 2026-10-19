@@ -806,7 +806,7 @@ bool Emu1802::OnInit()
     // this wxSystemSettings::GetAppearance().IsDark() stays false and the
     // native control chrome (menu, wxChoice, notebook, scrollbars, panels) is
     // created in light mode. DarkMode_Auto follows the Windows app mode.
-#if defined (__WXMSW__)
+#if defined (__WXMSW__) && wxCHECK_VERSION(3,3,0)
     MSWEnableDarkMode(wxApp::DarkMode_Auto);
 #endif
     
@@ -1910,9 +1910,6 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         updateCheckPointer->Start(10000, wxTIMER_ONE_SHOT);
 
     guiInitialized_ = true;
-    panelRefreshOngoing_ = false;
-    for (int i=0; i<VIDEOXMLMAX; i++)
-       videoRefreshOngoing_[i] = false;
     emuClosing_ = false;
 }
 
@@ -4163,9 +4160,9 @@ void Main::connectKeyEvent(wxWindow* pclComponent)
                           (wxObject*) NULL,
                           this);
 
-    for (wxWindow* pclChild : pclComponent->GetChildren())
+    for (wxWindowList::compatibility_iterator node = pclComponent->GetChildren().GetFirst(); node; node = node->GetNext())
     {
-      this->connectKeyEvent(pclChild);
+      this->connectKeyEvent((wxWindow*)node->GetData());
     }
   }
 }

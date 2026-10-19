@@ -582,6 +582,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\guiupdate.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\guisb.cpp"
 				>
 			</File>

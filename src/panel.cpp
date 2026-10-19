@@ -1437,9 +1437,9 @@ void Panel::connectKeyEvent(wxWindow* pclComponent)
                           (wxObject*) NULL,
                           this);
 
-    for (wxWindow* pclChild : pclComponent->GetChildren())
+    for (wxWindowList::compatibility_iterator node = pclComponent->GetChildren().GetFirst(); node; node = node->GetNext())
     {
-      this->connectKeyEvent(pclChild);
+      this->connectKeyEvent((wxWindow*)node->GetData());
     }
   }
 }

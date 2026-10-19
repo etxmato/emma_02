@@ -17,7 +17,7 @@
 #   --format  deb (default) or rpm or exe or dmg
 #   --wx      wx ABI of the target:
 #             deb  3.2 (default) | 3.0  (Ubuntu 22.04, *-2204 VMs, _legacy)
-#             rpm  3.2 (default) | 3.1  (openSUSE Leap 15, *-15 VMs, _leap15)
+#             rpm  3.2 (default) | 3.1  (openSUSE Leap 15.6, *-15 VMs, _leap156)
 #             exe  3.3 (default, vc17 modern line) | 3.2 (vc9 XP line, x64/x86 -> _xp)
 #                  | 2.8 (vc9 w2k line, x86 only -> _w2k)
 #             dmg  3.3 (default, Emma 02 Xcode target)
@@ -99,10 +99,10 @@ case "$FORMAT" in
         SUFFIX="_fedora"
         ;;
       suse)
-        # wx 3.2 -> Leap 16 (base VMs, _leap16 suffix); wx 3.1 -> Leap 15 (*-15 VMs, _leap15)
+        # wx 3.2 -> Leap 16 (base VMs, _leap16 suffix); wx 3.1 -> Leap 15.6 (*-15 VMs, _leap156)
         case "$WXVER" in
           3.2) VM_SUF="";  SUFFIX="_leap16";;
-          3.1) VM_SUF="-15"; SUFFIX="_leap15";;
+          3.1) VM_SUF="-15"; SUFFIX="_leap156";;
           *) echo "--wx 3.1|3.2 required for suse rpm" >&2; exit 1;;
         esac
         case "$ARCH" in

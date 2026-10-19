@@ -10,7 +10,7 @@
 #   --build: compile first via build_emma02.sh (correct libs + Release dir per arch), then package
 #   --distro fedora|suse: selects the builder distro family and the artifact name
 #   --wx: wx ABI of the target distro — fedora is 3.2 only; suse 3.2 (Leap 16,
-#         DEPENDS_RPM_SUSE) or 3.1 (Leap 15, DEPENDS_RPM_SUSE_WX31, _leap15 suffix)
+#         DEPENDS_RPM_SUSE) or 3.1 (Leap 15.6, DEPENDS_RPM_SUSE_WX31, _leap156 suffix)
 set -e
 ARCH=""
 DISTRO=""
@@ -45,7 +45,7 @@ case "$DISTRO" in
   suse)
     case "$WXVER" in
       3.2) DEPS_KEY="DEPENDS_RPM_SUSE";      WX_SUFFIX="16";;
-      3.1) DEPS_KEY="DEPENDS_RPM_SUSE_WX31"; WX_SUFFIX="15";;
+      3.1) DEPS_KEY="DEPENDS_RPM_SUSE_WX31"; WX_SUFFIX="156";;
       *) echo "--wx 3.1|3.2 required for suse rpm" >&2; exit 1;;
     esac
     DISTRO_SUFFIX="_leap"; OBSOLETES="emma02_suse emma02_suse_x86";;

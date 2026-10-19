@@ -54,12 +54,78 @@ public:
     bool getThermalEf() { return thermalEf_; };
 
 protected:
-    bool thermalEf_ = false;
-    bool panelRefreshOngoing_ = false;
-    bool videoRefreshOngoing_[VIDEOXMLMAX] = {};
+    bool thermalEf_;
+    bool panelRefreshOngoing_;
+    bool videoRefreshOngoing_[VIDEOXMLMAX];
 
 private:
-    
+    void guiSetButtonLabelHelper();
+    void guiSetCheckBoxHelper();
+    void guiShowMessageHelper();
+    void guiSetTextValueHelper();
+    void guiSetStaticTextValueHelper();
+    void guiEnableClockHelper();
+    void guiSetConvertStateHelper();
+    void guiSetLocationHelper();
+    void guiSetLocationStateHelper();
+    void guiSaveStartHelper();
+    void guiSaveEndHelper();
+    void guiSetTapeStateHelper();
+    void guiSetSwNameHelper();
+    void guiUpdateTitleHelper();
+    void guiHwTapeStateChangeHelper();
+    void guiShowTextMessageHelper();
+    void guiPrintParallelHelper();
+    void guiPrintParallelFinishedHelper();
+    void guiPrintThermalHelper();
+    void guiPrintThermalFinishedHelper();
+    void guiPrintSerialHelper();
+    void guiPrintSerialFinishedHelper();
+    void guiPrintPecomHelper();
+    void guiZoomChangeHelper();
+    void guiZoomVtChangeHelper();
+    void guiZoomHelper();
+    void guiVideoSetFullScreenHelper();
+    void guiVtSetFullScreenHelper();
+    void guiChangeNoteBookHelper();
+    void guiSetFandMBasicGuiHelper();
+    void guiPauseStateHelper();
+    void guiRefreshVideoHelper();
+    void guiRefreshPanelHelper();
+    void guiUpdateLedStatusHelper();
+    void guiUpdateVipIILedStatusHelper();
+    void guiDebounceTimerHelper();
+    void guiBeepTimerHelper();
+    void guiErrorMessageHelper();
+    void guiKillComputerHelper();
+
+    wxString callAfterInfo_;
+    wxString callAfterValue_;
+    wxString callAfterText_;
+    wxString callAfterSwName_;
+    wxString callAfterMessageText_;
+    wxString callAfterTapeNumber_;
+    wxString callAfterSaveStartString_;
+    wxString callAfterSaveEndString_;
+    wxString callAfterSaveExecString_;
+    bool callAfterState_;
+    bool callAfterStatus_;
+    bool callAfterIsVt_;
+    bool callAfterLedStatus_;
+    int callAfterCard_;
+    int callAfterI_;
+    int callAfterLed_;
+    int callAfterTapeState_;
+    int callAfterUartVideoNumber_;
+    int callAfterUartNumber_;
+    int callAfterVideoNumber_;
+    int callAfterFrequency_;
+    int callAfterMs_;
+    double callAfterZoom_;
+    Byte callAfterValueByte_;
+    Byte callAfterQflag_;
+    Word callAfterMessage_;
+
     DECLARE_EVENT_TABLE()
 };
 
