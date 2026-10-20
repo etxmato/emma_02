@@ -91,7 +91,7 @@ if "%WXVER%"=="2.8" (
   set ISSFILE=IsTool\Emma 02 x86_xp.iss
   set ISSOUT=IsTool\x86\emma_02_x86_windows_xp.exe
   set ARTIFACT=emma_02_x86_windows_xp.exe
-  set VCREDIST=vcredist9_x86.exe
+  set VCREDIST=vccrt.msi
 ) else (
   set ISSFILE=IsTool\Emma 02 x86.iss
   set ISSOUT=IsTool\x86\emma_02_x86_windows.exe
@@ -247,6 +247,12 @@ if "%BUILD%"=="1" (
 if not exist "%EXEFILE%" ( echo missing binary: %EXEFILE% ^(build first or drop --no-build^) >&2 & exit /b 1 )
 
 :stamp
+REM 2b. --no-build freshness: the packaged exe must not be older than any source/project/resource file.
+REM     Existence alone let a stale binary through (tonight's bug).
+if "%BUILD%"=="0" (
+  powershell -NoProfile -Command "$e=(Get-Item '%EXEFILE%').LastWriteTime; $n=Get-ChildItem -Path '%SRCROOT%' -Recurse -File -Include *.cpp,*.c,*.h,*.rc,*.manifest,*.vcproj,*.sln | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if ($n -and $n.LastWriteTime -gt $e) { Write-Output ('stale binary %EXEFILE%: older than ' + $n.FullName + ' - rebuild without --no-build'); exit 1 }"
+  if errorlevel 1 ( echo stale binary: %EXEFILE% ^(rebuild without --no-build^) >&2 & exit /b 1 )
+)
 REM 3. stamp AppVersion/AppVerName in the .iss from emma02_package.conf (transient, guest-only)
 for /f "tokens=2 delims==" %%V in ('findstr "^VERSION=" "Pipeline\emma02_package.conf"') do set VER=%%V
 if "%VER%"=="" ( echo cannot read VERSION from Pipeline\emma02_package.conf >&2 & exit /b 1 )

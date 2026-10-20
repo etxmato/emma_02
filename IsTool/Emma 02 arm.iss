@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V2.00
-AppVersion=2.00
+AppVerName=Emma 02 - V2.01
+AppVersion=2.01
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
@@ -267,10 +267,6 @@ Source: ..\data\Xml\VP4801\*.*; DestDir: {app}\data\Xml\VP4801; Components: MAIN
 Source: ..\data\Xml\VT1802\*.*; DestDir: {app}\data\Xml\VT1802; Components: MAIN
 Source: ..\data\Xml\Visicom\*.*; DestDir: {app}\data\Xml\Visicom; Components: MAIN
 Source: ..\images\*.*; DestDir: {app}\images; Components: MAIN
-Source: ..\src\*.*; DestDir: {app}\src; Components: SOURCEFILES
-Source: ..\Emma 02 vc17.sln; DestDir: {app}; Components: SOURCEFILES
-Source: ..\Emma 02 vc17.vcxproj; DestDir: {app}; Components: SOURCEFILES
-Source: ..\Emma 02.rc; DestDir: {app}; Components: SOURCEFILES
 
 [Icons]
 Name: {group}\Emma 02; Filename: {app}\Emma 02.exe; WorkingDir: {app}; Components: MAIN
@@ -283,7 +279,6 @@ Filename: {app}\Emma 02.exe; Description: {cm:LaunchProgram,Emma 02}; WorkingDir
 
 [Components]
 Name: MAIN; Description: Main Files; Types: full compact custom minimum; Flags: disablenouninstallwarning fixed
-Name: SOURCEFILES; Description: Install Source Files; Types: full; Flags: disablenouninstallwarning
 
 [Types]
 Name: full; Description: Full installation
