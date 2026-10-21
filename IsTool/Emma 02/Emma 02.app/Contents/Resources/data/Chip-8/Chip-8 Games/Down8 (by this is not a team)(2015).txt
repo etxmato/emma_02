@@ -1,7 +1,0 @@
-It's downwell, but on the chip-8! Instructions are explained in game.
-
-You can press [F/v] to skip to the hardest level first.
-
-There was an ending planned, but...
-
-you know how it is.

@@ -1,2 +1,0 @@
-You must drop packets from your airplane (key 8) and make sure
-          they hit the ground without colliding with other planes.

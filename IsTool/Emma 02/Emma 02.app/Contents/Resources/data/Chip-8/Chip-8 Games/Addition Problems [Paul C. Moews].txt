@@ -1,3 +1,0 @@
-Press the right numbers to give the answer. If ansewr is correct, then it will display "C" 
-(for CORRECT)on the right of your answer and if not correct, then will display "E" (for
-ERROR) and will display the correct answer under your answer. 
