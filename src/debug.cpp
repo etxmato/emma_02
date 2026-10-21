@@ -1641,9 +1641,9 @@ void DebugWindow::traceBackPush(wxString buffer)
         traceBackCount_ ++;
 }
 
-void DebugWindow::traceBackDump()
+void DebugWindow::traceBackDump(bool overRideDebugMode)
 {
-    if (!debugMode_)  return;
+    if (!debugMode_ && !overRideDebugMode)  return;
 
     wxString dump;
 

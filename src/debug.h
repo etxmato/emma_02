@@ -217,7 +217,7 @@ public:
     void assemblerDisplay(wxString buffer);
     void debugTrace(wxString buffer, bool overRideDebugMode = false);
     void traceBackPush(wxString buffer);
-    void traceBackDump();
+    void traceBackDump(bool overRideDebugMode = false);
     void chip8DebugTrace(wxString buffer);
     void setPauseState();
     void SetDebugMode();
