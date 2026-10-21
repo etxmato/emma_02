@@ -59,3 +59,7 @@ Emma 02 vc9.ncb
 Emma 02 vc9.suo
 *.ncb
 Emma 02 vc9.suo
+*.user
+*.bak
+*.corupt
+Thumbs.db
