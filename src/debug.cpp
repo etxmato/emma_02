@@ -718,11 +718,7 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
     pauseOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/pause_on.png", wxBITMAP_TYPE_PNG);
     pauseOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/pause_off.png", wxBITMAP_TYPE_PNG);
     
-    uncheckBitmap_ = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/unchecked.png", wxBITMAP_TYPE_PNG);
-    checkedBitmap_ = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/checked.png", wxBITMAP_TYPE_PNG);
-    imageList_ = new wxImageList(13, 13, true, 2);
-    checkedButton_ = imageList_->Add(checkedBitmap_, wxColour (255, 255, 255));
-    uncheckButton_ = imageList_->Add(uncheckBitmap_, wxColour (255, 255, 255));
+    imageList_ = NULL;
 
     debugDir_ = readConfigDir("/Dir/Main/Debug", dataDir_);
     fontSize_ = (int)configPointer->Read("/Main/FontSize", 11);
@@ -791,6 +787,8 @@ void DebugWindow::readDebugConfig()
 
     if (!mode_.gui)
         return;
+    if (!imageList_)
+        imageList_ = createDebuggerCheckBoxImageList(chip8BreakPointWindowPointer, applicationDirectory_ + IMAGES_FOLDER, checkedButton_, uncheckButton_);
     chip8BreakPointWindowPointer->SetImageList(imageList_, wxIMAGE_LIST_SMALL);
     XRCCTRL(*this, "ProfilerBitmap", wxStaticBitmap)->SetSize(profilerWidth_, (numberOfDebugLines_-PROFILER_OFFSET)*lineSpace_+4);
     XRCCTRL(*this, "AssBitmap", wxStaticBitmap)->SetSize(assWidth_, numberOfDebugLines_*lineSpace_+4);

@@ -474,6 +474,8 @@ private:
     DECLARE_DYNAMIC_CLASS(CheckBoxListCtrl) 
 }; 
 
+wxImageList *createDebuggerCheckBoxImageList(wxListCtrl *listCtrl, const wxString &imagesDir, int &checkedIndex, int &uncheckedIndex);
+
 class SlotEdit : public wxTextCtrl 
 { 
 public: 

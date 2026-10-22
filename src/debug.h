@@ -652,8 +652,6 @@ private:
     int selectedChip8BreakPoint_;
     int selectedmemoryTrap_;
 
-    wxBitmap uncheckBitmap_;
-    wxBitmap checkedBitmap_;
     int uncheckButton_;
     int checkedButton_;
     wxImageList *imageList_;

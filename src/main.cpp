@@ -431,6 +431,61 @@ void CheckBoxListCtrl::onMouseRelease(wxMouseEvent& event)
         event.Skip();
 }
 
+// The checked/unchecked bitmaps are 13x13. In list mode the generic wxListCtrl
+// draws the icon and the label from the same top edge of the item, so when the
+// text line is taller than the bitmap the checkbox looks top aligned. On GTK
+// pad the bitmaps so the checkbox is centred on the text line; the other
+// backends align the icon themselves.
+static wxBitmap centreDebuggerCheckBoxBitmap(const wxBitmap &bitmap, int height)
+{
+    if (bitmap.GetHeight() >= height)
+        return bitmap;
+
+    wxImage image = bitmap.ConvertToImage();
+    if (!image.IsOk())
+        return bitmap;
+
+    const int width = image.GetWidth();
+    const int offset = (height - image.GetHeight()) / 2;
+
+    wxImage canvas(width, height);
+    unsigned char *canvasData = canvas.GetData();
+    const unsigned char *imageData = image.GetData();
+
+    for (int i = 0; i < width * height * 3; i++)
+        canvasData[i] = 0xFF;
+
+    for (int y = 0; y < image.GetHeight(); y++)
+        for (int x = 0; x < width * 3; x++)
+            canvasData[((y + offset) * width * 3) + x] = imageData[(y * width * 3) + x];
+
+    return wxBitmap(canvas);
+}
+
+wxImageList *createDebuggerCheckBoxImageList(wxListCtrl *listCtrl, const wxString &imagesDir, int &checkedIndex, int &uncheckedIndex)
+{
+    wxBitmap checked(imagesDir + "/checked.png", wxBITMAP_TYPE_PNG);
+    wxBitmap unchecked(imagesDir + "/unchecked.png", wxBITMAP_TYPE_PNG);
+
+    int height = checked.GetHeight();
+
+#if defined(__linux__)
+    // Row height is the text height plus 6 and the icon is drawn at the top
+    // edge plus 2; charHeight + 2 centres the icon in that row.
+    if (listCtrl && listCtrl->GetCharHeight() + 2 > height)
+        height = listCtrl->GetCharHeight() + 2;
+#endif
+
+    checked = centreDebuggerCheckBoxBitmap(checked, height);
+    unchecked = centreDebuggerCheckBoxBitmap(unchecked, height);
+
+    wxImageList *imageList = new wxImageList(checked.GetWidth(), height, true, 2);
+    checkedIndex = imageList->Add(checked, wxColour (255, 255, 255));
+    uncheckedIndex = imageList->Add(unchecked, wxColour (255, 255, 255));
+
+    return imageList;
+}
+
 SlotEdit::SlotEdit() 
 : wxTextCtrl() 
 { 

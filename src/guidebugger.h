@@ -83,8 +83,6 @@ private:
     vector <BreakPointAndTrap> breakPointAndTraps;
     int selectedBreakPointAndTrap_;
 
-    wxBitmap uncheckBitmap_;
-    wxBitmap checkedBitmap_;
     int uncheckButton_;
     int checkedButton_;
     wxImageList *imageList_;
