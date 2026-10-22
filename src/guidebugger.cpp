@@ -272,20 +272,16 @@ GuiDebugger::GuiDebugger(const wxString& title, const wxPoint& pos, const wxSize
     numberOfBreakPointsAndTraps_ = 0;
     breakPointAndTraps.clear();
 
-#if defined(__WXMSW__)
     uncheckBitmap_ = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/unchecked.png", wxBITMAP_TYPE_PNG);
     checkedBitmap_ = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/checked.png", wxBITMAP_TYPE_PNG);
     imageList_ = new wxImageList(13, 13, true, 2);
     checkedButton_ = imageList_->Add(checkedBitmap_, wxColour (255, 255, 255));
     uncheckButton_ = imageList_->Add(uncheckBitmap_, wxColour (255, 255, 255));
-#endif
 }
 
 GuiDebugger::~GuiDebugger()
 {
-#if defined(__WXMSW__)
     delete imageList_;
-#endif
 }
 
 void GuiDebugger::readGuiDebuggerConfig()
@@ -295,9 +291,12 @@ void GuiDebugger::readGuiDebuggerConfig()
 
     XRCCTRL(*this, "TraceTrapButton", wxToggleButton)->SetValue(breakTrap_);
 
-#if defined (__WXMSW__)
     breakPointAndTrapWindowPointer->SetImageList(imageList_, wxIMAGE_LIST_SMALL);
-#endif
+}
+
+void GuiDebugger::setCheckedImage(int item)
+{
+    breakPointAndTrapWindowPointer->SetItemImage(item, checkedButton_, -1);
 }
 
 void GuiDebugger::cycleDebugger()
@@ -640,6 +639,7 @@ void GuiDebugger::addBreakPoint()
 
     printBuffer.Printf("BP %04X", breakPointAndTraps[numberOfBreakPointsAndTraps_].addressStart);
     breakPointAndTrapWindowPointer->InsertItem(numberOfBreakPointsAndTraps_, printBuffer);
+    setCheckedImage(numberOfBreakPointsAndTraps_);
     numberOfBreakPointsAndTraps_++;
 }
 
@@ -693,6 +693,7 @@ void GuiDebugger::addRegisterTrap()
 
     printBuffer.Printf("RT " + registerTypeText[breakPointAndTraps[numberOfBreakPointsAndTraps_].type*2] + " " + registerTypeText[breakPointAndTraps[numberOfBreakPointsAndTraps_].type*2+1], breakPointAndTraps[numberOfBreakPointsAndTraps_].value);
     breakPointAndTrapWindowPointer->InsertItem(numberOfBreakPointsAndTraps_, printBuffer);
+    setCheckedImage(numberOfBreakPointsAndTraps_);
     numberOfBreakPointsAndTraps_++;
 }
 
@@ -1571,6 +1572,7 @@ void GuiDebugger::addInstructionTrap()
         break;
     }
     breakPointAndTrapWindowPointer->InsertItem(numberOfBreakPointsAndTraps_, "IT " + printBuffer);
+    setCheckedImage(numberOfBreakPointsAndTraps_);
     numberOfBreakPointsAndTraps_++;
 }
 
@@ -1743,6 +1745,7 @@ void GuiDebugger::addMemoryTrap()
         printBuffer += valueStr;
     }
     breakPointAndTrapWindowPointer->InsertItem(numberOfBreakPointsAndTraps_, printBuffer);
+    setCheckedImage(numberOfBreakPointsAndTraps_);
     numberOfBreakPointsAndTraps_++;
 }
 

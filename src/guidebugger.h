@@ -37,6 +37,7 @@ public:
     void checkRegisterTrap(Byte registerType, Word execAddress, Word value, bool noTrace);
     void checkMemoryTrap(Word execAddress, Word address, Byte value, int type, bool dmaReadWrite = false);
     void switchBreakPointAndTrap(int item);
+    void setCheckedImage(int item);
 
 protected:
     int numberOfBreakPointsAndTraps_;

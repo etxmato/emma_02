@@ -239,6 +239,8 @@ IMPLEMENT_DYNAMIC_CLASS(CodeTagModule, wxHtmlTagsModule)
 #define VU_MAX 100
 #define VU_HI 10
 
+#define CHECKBOX_HIT_WIDTH 20
+
 PopupDialog *popupDialog_;
 
 IMPLEMENT_DYNAMIC_CLASS(FloatEdit, wxTextCtrl) 
@@ -409,7 +411,16 @@ void CheckBoxListCtrl::onMouseRelease(wxMouseEvent& event)
     int flags;
 
     int item = (int)HitTest(event.GetPosition(), flags);
-    if (flags == wxLIST_HITTEST_ONITEMICON)
+
+    bool onCheckBox = (flags == wxLIST_HITTEST_ONITEMICON);
+    if (!onCheckBox && item != wxNOT_FOUND && (flags & wxLIST_HITTEST_ONITEM))
+    {
+        // Icon hit-test flags are not reported consistently on every backend; use the left edge of the item instead
+        wxRect itemRect;
+        GetItemRect(item, itemRect);
+        onCheckBox = (event.GetPosition().x - itemRect.x) < CHECKBOX_HIT_WIDTH;
+    }
+    if (onCheckBox)
     {
         if (idReference == "BreakPointAndTrapWindow")
             p_Main->switchBreakPointAndTrap(item);

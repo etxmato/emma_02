@@ -9526,7 +9526,7 @@
 <size>-1</size>
 <face>Courier New</face>
 </font>
-<style>wxLC_SMALL_ICON|wxLC_EDIT_LABELS|wxLC_SINGLE_SEL|wxSUNKEN_BORDER</style>
+<style>wxLC_LIST |wxLC_EDIT_LABELS|wxLC_SINGLE_SEL|wxSUNKEN_BORDER</style>
 </object>
 </object>
 </object>
@@ -10609,7 +10609,7 @@
 <size>-1</size>
 <face>Courier New</face>
 </font>
-<style>wxLC_SMALL_ICON|wxLC_EDIT_LABELS|wxLC_SINGLE_SEL|wxSUNKEN_BORDER</style>
+<style>wxLC_LIST |wxLC_EDIT_LABELS|wxLC_SINGLE_SEL|wxSUNKEN_BORDER</style>
 </object>
 </object>
 </object>
