@@ -55,3 +55,12 @@ IsTool/arm64/emma_02_arm_windows.exe
 /emma_02_mac.dmg
 Emma02.manifest.saved
 /Pipeline/legacy
+Emma 02 vc9.ncb
+Emma 02 vc9.suo
+*.ncb
+Emma 02 vc9.suo
+*.user
+*.bak
+*.corupt
+Thumbs.db
+/IsTool/Emma 02/

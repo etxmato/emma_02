@@ -1,2 +1,0 @@
-Code correction done by Marcel van Tongeren:
-Added a JP 2BE @2BE looping at the end of the code, replacing a SYS 000 as that crashes on a VIP. This also meant I had to move the bitmap data 2 bytes to 2C0 and change all LD I,xxx to LD I,xxx+2

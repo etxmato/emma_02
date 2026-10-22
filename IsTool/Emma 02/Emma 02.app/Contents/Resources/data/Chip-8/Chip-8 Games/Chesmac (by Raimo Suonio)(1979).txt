@@ -1,5 +1,0 @@
-CHESMAC: by Raimo Suonio (1979)
-
-On the 1st screen (TRSO?), enter 1 then on the second screen (M/V 0/1 ?), also enter 1.   
-After, you need to enter the coordinates (example: D2D4) and after, wait (many minutes)
-the computer's move. 

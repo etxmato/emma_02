@@ -1,3 +1,0 @@
-Hagley Museum and Library: Sarnoff/RCA Collection -Joseph A. Weisbecker's archived manuscripts and materials -Accession 2464 -Box Number AVD B41
-
-STK-2 language including an example program. Press A, B, C or D; A will print values from address 0x500 to the printer after doing some calculation with them. B, C and D do more calculations. Between every key press a reset is needed as the program will be in a loop. STK looks like it was designed for use on a VIP with printer connected (Output 3: latch, Q: strobe, EF 3: busy)

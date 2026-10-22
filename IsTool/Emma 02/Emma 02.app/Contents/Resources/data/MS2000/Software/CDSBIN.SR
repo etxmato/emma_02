@@ -1,101 +1,0 @@
- ...
- ...NAME: CDSBIN
- ...DATE: 11/29/83
- ...PROGRAM NUMBER: SU.CD.SO(1.0)
- ...DESCRIPTION: THE CDS BIN ROUTINE CONVERTS AN ASCII OBJECT FILE INTO A BIN
- ...             OBJECT FILE.
- ...
- ...PROCEDURE CDSBIN
- ...BEGIN FIND PROGRAM LIMITS WHILE LOADING IN FILE
-         ORG     0F97DH
-UCALL EQU 0B453H
-KEYIN EQU 012H
-PFNAM EQU 024H
-TMPRG1 EQU 00EH
-TYPE EQU 014H
-OPEN EQU 0
-IOCSTA EQU 1
-CDERR EQU 028H
-PUTCHR EQU 00EH
-CLOSE EQU 2
-CDENT EQU 01EH
-IOCFDF EQU 24
-IOCSBS EQU 5
-IOCGDW EQU 31
-IOCLUN EQU 11
-TMPRG3 EQU 00CH
-SPACE EQU 020H
-RETREG EQU 005H
-CBUFP EQU 09090H
-TMPRG2 EQU 00DH
-TMPRG4 EQU 00BH
-IOCMLS EQU 12
-OPTDLM EQU ';'
-IOCBRG EQU 00FH
-SYSFN EQU 091A8H
-GETCHR EQU 8
-CDERST EQU 09DDEH
-IOCSBP EQU 9
-TMPRG5 EQU 00AH
-PUTLS EQU 010H
-IOCRIB EQU 22
-IOCPSN EQU 3
-DREAD EQU 01AH
-RIBLB EQU 500
-DWRIT EQU 01CH
-UCLX EQU 0B447H
-REGBUF EQU UCLX
-        A.1(BEGIN)->R3.1        ..TRANSFER CONTROL TO R3
-        A.0(BEGIN)->R3.0
-        SEP     R3
-BEGIN   A.1(SAFLAG)->TMPRG1.1
-        A.0(SAFLAG)->TMPRG1.0           ..CLEAR STARTING ADR. FLAG
-        0->@TMPRG1
-        A.1(CBUFP)->TMPRG1.1    ..POINT T1 @ COMMAND BUFFER POINTER
-        A.0(CBUFP)->TMPRG1.0
-        A.1(PFNBUF)->TMPRG2.1   ..POINT T2 @ PFNAM PARAMETER PACKET
-        A.0(PFNBUF)->TMPRG2.0
-        A.1(CRIBLB)->TMPRG3.1
-        A.0(CRIBLB)->TMPRG3.0           ..ZERO OUT BINARY VALUES
-        7->TMPRG4.0
-CDS005  0->@TMPRG3
-        INC     TMPRG3
-        DEC     TMPRG4
-        TMPRG4.0
-        LBNZ    CDS005
-        DEC     TMPRG3          ..SETUP LOWEST ADDRESS
-        DEC     TMPRG3
-        DEC     TMPRG3
-        0FFH->@TMPRG3
-        DEC     TMPRG3
-        ->@TMPRG3
-        @TMPRG1!->@TMPRG2       ..MOVE INPUT LINE ADR.
-        INC     TMPRG2
-        @TMPRG1->@TMPRG2
-        INC     TMPRG2          ..POINT T2 TO OUTPUT PTR
-        A.1(INPIOC+IOCLUN)->TMPRG3.1->@TMPRG2
-        INC     TMPRG2          ..MOVE OUTPUT ADR INTO PACKET & T3
-        A.0(INPIOC+IOCLUN)->TMPRG3.0->@TMPRG2
-        0->@TMPRG3              ..SET UNIT NO TO ZER0
-        9->TMPRG2.0             ..BLANK OUT NAME, SUFFIX
-CDS010  INC     TMPRG3
-        SPACE->@TMPRG3
-        DEC     TMPRG2
-        TMPRG2.0
-        LBNZ    CDS010
-        CALL    UCALL
-        DC  PFNAM
-        DC (PFNBUF)  ..TRANSFER INFO FROM COM. LINE TO IOCB
-        A.1(REGBUF+11)->TMPRG4.1        ..POINT @ PFNAM STATUS
-        A.0(REGBUF+11)->TMPRG4.0
-        @TMPRG4                 ..TEST STATUS
-        LBNZ    CDS170          ..BRANCH TO SYNTAX ERROR
-        A.1(PFNBUF+2)->TMPRG1.1 ..POINT T1 @ OUTPUT PTR AREA
-        A.0(PFNBUF+2)->TMPRG1.0
-        A.1(OUPIOC+IOCLUN)->TMPRG2.1->@TMPRG1
-        INC     TMPRG1          ..MOVE OUTPUT PTR INTO T2 & PACKET
-        A.0(OUPIOC+IOCLUN)->TMPRG2.0->@TMPRG1
-        0->@TMPRG2              ..ZERO OUT UNIT NUMBER
-        9->TMPRG3.0             ..SET LOOP COUNT
-CDS020  INC     TMPRG2          ..BLANK OUT NAME,SUFFIX
-        SPACE->@TMPRG2        DEC     TMPRG3        TMPRG3.0        LBNZ    CDS020        CALL    UCALL        DC PFNAM        DC (PFNBUF)   ..MOVE IN OUTPUT NAME        @TMPRG4                 ..TEST FOR OUTPUT NAME        LBZ     CDS033          ..BRANCH IF NAME SPECIFIED        .AND.080H                ..TEST FOR NULL FILE NAME        LBZ     CDS170          ..BRANCH TO SYNTAX ERROR        A.1(INPIOC+IOCMLS)->TMPRG1.1   ..MOVE INPUT NAME TO OUTPUT NAME        A.0(INPIOC+IOCMLS)->TMPRG1.0        A.1(OUPIOC+IOCMLS)->TMPRG2.1        A.0(OUPIOC+IOCMLS)->TMPRG2.0        6->TMPRG3.0CDS030  @TMPRG1!->@TMPRG2        INC     TMPRG2        DEC     TMPRG3        TMPRG3.0        LBNZ    CDS030        'C'->@TMPRG2           ..MOVE IN CM AS SUFFIX        INC     TMPRG2        'M'->@TMPRG2        INC     TMPRG2        ' '->@TMPRG2CDS033  A.1(PFNBUF)->TMPRG1.1   ..POINT T1 @ PARSE FILE NAME BUF        A.0(PFNBUF)->TMPRG1.0        @TMPRG1!->TMPRG2.1      ..POINT T2 @ COMMAND BUFFER        @TMPRG1->TMPRG2.0        0->TMPRG4.0->TMPRG4.1   ..ZERO OUT COUNT VALUE        @TMPRG2!.XOR.OPTDLM     ..TEST FOR OPTION DELIMITER        LBNZ    CDS060          ..BRANCH IF NO STARTING ADRCDS035  @TMPRG2-'0'        LBNF    CDS060          ..BRANCH WHEN NO NUMBER        @TMPRG2-':'        LBDF    CDS040          ..BRANCH TO CHECK A-F        @TMPRG2!.AND.00FH->TMPRG3.1      ..SAVE HEX PART        LBR     CDS050CDS040  @TMPRG2-'A'        LBNF    CDS060          ..BRANCH NOT A-F        @TMPRG2-'['        LBDF    CDS060          ..BRANCH NOT A-F        @TMPRG2!-55->TMPRG3.1CDS050  TMPRG4.1*2*2*2*2->@R2   ..ALTER T4.1        TMPRG4.0/2/2/2/2.OR.@->TMPRG4.1        TMPRG4.0*2*2*2*2->@R2   ..ALTER T4.0        TMPRG3.1.OR.@->TMPRG4.0        A.1(SAFLAG)->TMPRG1.1   ..SET STARTING ADR FLAG        A.0(SAFLAG)->TMPRG1.0        1->@TMPRG1        LBR     CDS035CDS060  A.1(CRIBSA)->TMPRG1.1   ..T4=STARTING ADR        A.0(CRIBSA)->TMPRG1.0   ..POINT T1 @ RIBSA        TMPRG4.1->@TMPRG1       ..SAVE STARTING ADR        INC     TMPRG1        TMPRG4.0->@TMPRG1        A.1(INPIOC)->TMPRG1.1   ..SET UP INPUT IOCB        A.0(INPIOC)->TMPRG1.0        0B1H->@TMPRG1            ..SETUP DTT        TMPRG1.0+IOCGDW->TMPRG2.0       ..POINT T2 @ GDW        TMPRG1.1+"0->TMPRG2.1        'D'->@TMPRG2           ..MOVE IN DK        INC     TMPRG2        'K'->@TMPRG2        TMPRG1.0+IOCSBS->TMPRG2.0       ..SETUP SECTOR BUF START        TMPRG1.1+"0->TMPRG2.1        A.1(INPBUF)->@TMPRG2        INC     TMPRG2        A.0(INPBUF)->@TMPRG2        INC     TMPRG2        A.1(INPBUF+511)->@TMPRG2        ..SETUP SECTOR BUF END        INC     TMPRG2        A.0(INPBUF+511)->@TMPRG2        CALL    UCALL        DC OPEN        DC (INPIOC)    ..OPEN FILE        A.1(INPIOC+1)->IOCBRG.1         ..CHECK FOR ERROR        A.0(INPIOC+1)->IOCBRG.0        @IOCBRG        LBZ     READX          ..BRANCH IF NO ERRORINPERR  CALL    UCALL        DC CDERR        DC (INPIOC)        CALL    SYSFN        DC CDENTREADX   CALL    READ            ..READ 1 ASCII DIGIT        RF.1.XOR.021H            ..CHECK FOR !        LBZ     ISITM        RF.1.XOR.024H            ..CHECK FOR $        LBZ     ISITU        RF.1.XOR.013H            ..CHECK FOR DC3        LBNZ    READX        LBR     CDS090          ..WHEN DONE BRANCHISITM   CALL    READ        RF.1.XOR.04DH    ..CK FOR M        LBNZ    ERRORX        0->R8.1->R8.0   ..CLEAR OUT R8READX1  CALL    READ            ..READ 1 ASCII DIGIT        LBDF    READX2          ..BRANCH IF HEX        RF.1.XOR.02EH            ..CHECK FOR PERIOD        LBNZ    READX1READXA  CALL    UCALL        DC GETCHR        DC (INPIOC)        RF.1.XOR.00DH            ..CHECK FOR CARRIAGE RETURN        LBNZ    READXA        LBR     READX1READX2  SEX     R2        R8.1*2*2*2*2->@R2        R8.0/2/2/2/2.OR.@->R8.1        RF.1->@R2        R8.0*2*2*2*2.OR.@->R8.0        CALL    READ            ..READ NEXT DIGIT        LBDF    READX2          ..BRANCH IF HEX        RF.1.XOR.020H            ..CHECK FOR SPACE        LBNZ    ERRORXREADX3  CALL    READ        LBNF    READX4          ..BRANCH IF NOT HEX        A.1(CRIBSL)->TMPRG1.1   ..RIBSL HOLDS HIGHEST ADR USED        A.0(CRIBSL)->TMPRG1.0        SEX     TMPRG1          ..SET X FOR COMPARISON        R8.1-@        IRX                     ..ADVANCE FOR NEXT TEST        LBNF    RDNXTS          ..BRANCH IF R8 < RIBSL        LBNZ    RDGRET          ..NON-ZERO =>R8 > RIBSL        R8.0-@                  ..COMPARE LS PARTS        LBNF    RDNXTS          ..BRANCH IF R8< RIBSL        LBZ     RDNXTS          ..BRANCH IF R8 = RIBSLRDGRET  R8.0->@TMPRG1           ..SAVE NEW HIGH ADR        DEC     TMPRG1        R8.1->@TMPRG1        INC     TMPRG1RDNXTS  IRX                     ..POINT X @ RIBLA        R8.1-@                  ..COMPARE MS PART        IRX                     ..ADVANCE FOR LS PART TEST        LBNF    RDLESS          ..BRANCH IF R8 < RIBLA        LBNZ    CONT10          ..BRANCH IF R8 > RIBLA        R8.0-@                  ..COMPARE LS PART        LBDF    CONT10          ..BRANCH IF R8 >= RIBLARDLESS  R8.0->@TMPRG1   ..SET NEW LOWEST ADR        DEC     TMPRG1        R8.1->@TMPRG1CONT10  SEX     R2              ..SAVE LOW ORDER FOR CDSBIN BINARY CREAT        @R8.AND.00FH->@R2        RF.1*2*2*2*2.OR.@->@R8READXB  CALL    READ        LBNF    ERRORX        SEX     R2        RF.1->@R2        @R8.AND.0F0H.OR.@->@R8        SEX     R8        @R8.XOR.@        LBZ     WRTOK        SEX     R2              ..PRINT OUT NO RAM        R8.1->@-        R8.0->@-        A.1(INPIOC+1)->IOCBRG.1        A.0(INPIOC+1)->IOCBRG.0        28->@IOCBRG        DEC     IOCBRG        CALL    CDERST        INC     R2        INC     R2WRTOK   INC     R8        LBR     READX3READX4  RF.1.XOR.00DH            ..CHECK IF CR        LBZ     READX        RF.1.XOR.03BH            ..CHECK FOR SEMICOLON        LBZ     READXA          ..BRANCH IF SEMICOLON        LBR     READX3ISITU   CALL    READ        RF.1.XOR.'U'        LBNZ    ERRORX        0->R8.1->R8.0           ..CLEAR OUT R8ADLP    CALL    READ        LBNF    ADLP1        SEX     R2        R8.1*2*2*2*2->@R2        R8.0/2/2/2/2.OR.@->R8.1        RF.1->@R2        R8.0*2*2*2*2.OR.@->R8.0        LBR     ADLPADLP1   A.1(SAFLAG)->TMPRG1.1   ..CHECK SAFLAG        A.0(SAFLAG)->TMPRG1.0        @TMPRG1        LBNZ    CDS090          ..BRANCH IF START ADR. IN COMMAND LINE        A.1(CRIBSA)->TMPRG1.1   ..OTHERWISE SAVE AWAY PROGRAM START ADR.        A.0(CRIBSA)->TMPRG1.0        R8.1->@TMPRG1        INC     TMPRG1        R8.0->@TMPRG1        LBR     CDS090READ    CALL    UCALL        DC GETCHR        DC (INPIOC)        RF.1-030H                ..TEST FOR HEX        LBNF    NOTHEX        RF.1-047H        LBDF    NOTHEX        RF.1-03AH        LBNF    HEX        RF.1-041H        LBDF    HEXNOTHEX  0*2                     ..CLEAR F        SEP     RETREGHEX     RF.1.AND.040H            ..SET F        LBZ     HEXRET          ..BRANCH IF 0-9        RF.1.AND.00FH+9->RF.1        LBR     HEX10HEXRET  RF.1.AND.00FH->RF.1HEX10   080H*2                   ..SET F FLAG        SEP     RETREGERRORX  A.1(INPIOC+1)->TMPRG1.1        A.0(INPIOC+1)->TMPRG1.0        29->@TMPRG1        CALL    UCALL        DC CDERR        DC (INPIOC)        CALL    SYSFN        DC CDENT ...    START OF FINAL ROUTINECDS090  A.1(CRIBSL+1)->TMPRG1.1         ..RIBSL =(RIBSL-RIBLA)/128        A.0(CRIBSL+1)->TMPRG1.0        A.1(CRIBLA+1)->TMPRG2.1         ..POINT T2 @ RIBLA        A.0(CRIBLA+1)->TMPRG2.0        SEX     TMPRG2        @TMPRG1-@->TMPRG3.0             ..SUBTRACT LS PARTS        DEC     TMPRG1        DEC     TMPRG2                  ..ADVANCE TO MS PARTS        @TMPRG1-"0-@->TMPRG3.1          ..SUBTRACT CARRY AND MS PART        INC     TMPRG3        0->TMPRG4.1        1->TMPRG4.0             ..DIVIDE BY 512CDS095  TMPRG3.1-2        LBNF    CDS110          ..BRANCH IF FINISHED        TMPRG3.0-A.0(512)->TMPRG3.0        TMPRG3.1-"A.1(512)->TMPRG3.1        INC     TMPRG4          ..ADVANCE SECTOR COUNT        LBR     CDS095          ..CONTINUE DIVIDECDS110  TMPRG4.1->@TMPRG1       ..SAVE NO. SECTORS TO LOAD        INC     TMPRG1        TMPRG4.0->@TMPRG1        DEC     TMPRG1          ..POINT T1 @ # BYTES IN LAST SECTOR        DEC     TMPRG1        DEC     TMPRG1        TMPRG3.1->@TMPRG1; INC TMPRG1        TMPRG3.0->@TMPRG1       ..SAVE AWAY RIBLB        TMPRG3.1        LBNZ    CDS125        TMPRG3.0        LBZ     CDS130CDS125  INC     TMPRG4          ..ADJUST FOR LAST SECTORCDS130  A.1(OUPIOC+IOCSBP)->TMPRG1.1    ..SAVE CLUSTER COUNT IN IOCB        A.0(OUPIOC+IOCSBP)->TMPRG1.0        TMPRG4.0->@TMPRG1        A.1(OUPIOC)->TMPRG1.1        A.0(OUPIOC)->TMPRG1.0        072H->@TMPRG1            ..SETUP OUTPUT DDT        A.1(OUPIOC+IOCFDF)->TMPRG2.1        A.0(OUPIOC+IOCFDF)->TMPRG2.0        011H->@TMPRG2         ..SETUP FDF FOR BINARY AND CONTIGUOUS CLUSTES        A.1(OUPIOC+IOCSBS)->TMPRG2.1        A.0(OUPIOC+IOCSBS)->TMPRG2.0        A.1(OUPBUF)->@TMPRG2    ..SETUP IOCSBS        INC     TMPRG2        A.0(OUPBUF)->@TMPRG2        INC     TMPRG2        A.1(OUPBUF+511)->@TMPRG2        ..SETUP IOCSBE        INC     TMPRG2        A.0(OUPBUF+511)->@TMPRG2        A.1(OUPIOC+IOCGDW)->TMPRG2.1    ..SETUP IOCGDW        A.0(OUPIOC+IOCGDW)->TMPRG2.0        'D'->@TMPRG2        INC     TMPRG2        'K'->@TMPRG2        CALL    UCALL        DC OPEN        DC (OUPIOC)     ..OPEN OUTPUT DEVICE        INC    TMPRG1        @TMPRG1        LBZ CDS140      ..BRANCH IF NO ERRORSCDS138  CALL UCALL,CDERR,OUPIOC ..PRINT OUT ERROR        CALL SYSFN,CDENTCDS140  A.1(CRIBSL)->TMPRG1.1   ..LOAD UP LOOP COUNT        A.0(CRIBSL)->TMPRG1.0        @TMPRG1!->TMPRG4.1      ..T4 CONTAINS LOOP COUNT        @TMPRG1!->TMPRG4.0        A.1(OUPIOC+IOCSBS)->TMPRG3.1  ..POINT T3 @ OUTPUT POINTER        A.0(OUPIOC+IOCSBS)->TMPRG3.0        @TMPRG1!->@TMPRG3        INC TMPRG3        @TMPRG1->@TMPRG3        A.1(OUPIOC+1)->TMPRG5.1  ..POINT T5 @ STA        A.0(OUPIOC+1)->TMPRG5.0CDS145  CALL    UCALL        DC PUTLS        DC (OUPIOC)        @TMPRG5        LBNZ    CDS138        DEC     TMPRG4        TMPRG4.0        LBNZ    CDS150          ..BRANCH TO CONTINUE LOOP        TMPRG4.1        LBZ     CDS155          ..BRANCH WHEN FINISHED LOOPCDS150  @TMPRG3+A.0(512)->@TMPRG3    ..SETUP NEW BUFFER POINTER        DEC     TMPRG3        @TMPRG3+"A.1(512)->@TMPRG3        INC     TMPRG3        LBR     CDS145CDS155  A.1(OUPIOC+IOCRIB)->TMPRG1.1    ..ADJUST RIB        A.0(OUPIOC+IOCRIB)->TMPRG1.0        A.1(OUPIOC+IOCPSN)->TMPRG2.1        A.0(OUPIOC+IOCPSN)->TMPRG2.0        @TMPRG1!->@TMPRG2        INC     TMPRG2        @TMPRG1->@TMPRG2        INC     TMPRG2          ..SETUP BUFFER NOT TO CLOBBER CDSBIN        A.1(OUPBUF)->@TMPRG2        INC     TMPRG2        A.0(OUPBUF)->@TMPRG2        CALL    UCALL        DC DREAD        DC (OUPIOC+1)        A.1(OUPIOC+1)->IOCBRG.1         ..CHECK FOR ERROR        A.0(OUPIOC+1)->IOCBRG.0        @IOCBRG        LBZ     C1             ..BRANCH IF NO ERROR        LBR     CDS138C1      A.1(OUPIOC+IOCSBS+1)->TMPRG1.1        A.0(OUPIOC+IOCSBS+1)->TMPRG1.0        @TMPRG1+A.0(RIBLB)->TMPRG2.0         ..POINT T2 @ RIB RIBLB        DEC     TMPRG1        @TMPRG1+"A.1(RIBLB)->TMPRG2.1        A.1(CRIBLB)->TMPRG3.1        A.0(CRIBLB)->TMPRG3.0        8->TMPRG4.0             ..MOVE RIBLB,RIBSL,RIBLA,RIBSACDS160  @TMPRG3!->@TMPRG2        INC     TMPRG2        DEC     TMPRG4        TMPRG4.0        LBNZ    CDS160        CALL    UCALL        DC DWRIT        DC (OUPIOC+1)         ..WRITE OUT UPDATED RIB        A.1(OUPIOC+1)->IOCBRG.1         ..CHECK FOR ERROR        A.0(OUPIOC+1)->IOCBRG.0        @IOCBRG        LBZ     C2             ..BRANCH IF NO ERROR        LBR     CDS138C2      CALL    UCALL        DC CLOSE        DC (OUPIOC)        A.1(OUPIOC+1)->IOCBRG.1         ..CHECK FOR ERROR        A.0(OUPIOC+1)->IOCBRG.0        @IOCBRG        LBZ     C3             ..BRANCH IF NO ERROR        LBR     CDS138C3      CALL    SYSFN        DC CDENTCDS170  A.1(INPIOC+1)->TMPRG1.1         ..THIS PRINTS OUT SYNTAX ERROR        A.0(INPIOC+1)->TMPRG1.0        11->@TMPRG1        CALL    UCALL        DC CDERR        DC (INPIOC)        CALL    SYSFN        DC CDENTSAFLAG  DS      1             ..STARTING ADR FLAGPFNBUF  DS      4             ..PARSE FILENAME BUFFERINPIOC  DS      36            ..INPUT IOCBOUPBUFINPBUF  DS      512           ..INPUT AND OUTPUT BUFFEROUPIOC  DS      36            ..OUTPUT IOCBCRIBLB  DS      2             ..# BYTES IN LAST SECTORCRIBSL  DS      2             ..# SECTORS TO LOAD/CURRENT HIGHEST ADR.CRIBLA  DS      2             ..START LOAD ADDRESS/CURRENT LOWEST ADR.CRIBSA  DS      2             ..START EXECUTION ADDRESS        ENDS      1             ..STARTING ADR FLAGPFNBUF  DS      4             ..PARSE FILENAME BUFFERINPIOC  DS      36            ..INPUT IOCBOUPBUFINPBUF  DS      512           ..INPUT AND OUTPUT BUFFEROUPIOC  DS      36            ..OUTPUT IOCBCRIBLB  DS      2             ..# BYTES IN LAST SECTORCRIBSL  DS      2             ..# SECTORS TO LOAD/CURRENT 

@@ -1,3 +1,0 @@
-Hagley Museum and Library: Sarnoff/RCA Collection -Joseph A. Weisbecker's archived manuscripts and materials -Accession 2464 -Box Number AVD B41
-
-Test Word language with some example SW. looks like it was designed for use on a VIP with printer connected (Output 3: latch, Q: strobe, EF 3: busy)

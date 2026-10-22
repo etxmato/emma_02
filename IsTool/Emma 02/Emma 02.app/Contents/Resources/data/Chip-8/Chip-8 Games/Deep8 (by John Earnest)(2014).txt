@@ -1,9 +1,0 @@
-
-Deep8 - by John Earnest (2014)
-------------------------------
-
-A stripped down port of the Mako game "Deep" for Chip8. Move your boat 
-left and right with A/D. Press S to drop a bomb and release S to detonate 
-it. Destroy incoming squid before they tip your boat!
-
-This game was one of the earliest programs written using Octo.

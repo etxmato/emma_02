@@ -1,2 +1,0 @@
-Fly through the screen 3 times to win the level.
-	  F=start, E=start level, 1/4=up/down

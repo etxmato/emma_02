@@ -1,5 +1,0 @@
-Classic minesweeper
-
-Move WASD
-X: open field
-C: mark as mine

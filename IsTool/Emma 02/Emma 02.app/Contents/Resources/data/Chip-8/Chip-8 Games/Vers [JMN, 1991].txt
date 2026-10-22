@@ -1,6 +1,0 @@
-A TRON clone. Keys:
-                                   Left Pl.   Right Pl.
-                          UP          7          C
-                          DOWN        A          D
-                          LEFT        1          B
-                          RIGHT       2          F

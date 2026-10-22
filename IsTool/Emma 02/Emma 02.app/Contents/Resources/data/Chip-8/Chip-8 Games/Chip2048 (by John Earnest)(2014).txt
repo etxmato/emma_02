@@ -1,1 +1,0 @@
-5/7/8/9 (WASD) tilts the board as usual, 1 starts a new game. 
