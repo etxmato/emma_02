@@ -29,14 +29,27 @@
 #include "main.h"
 #include "iodevice.h"
 
+// VC9's std::vector<T>::resize(size_type) calls the two-argument overload with the element
+// passed by value. For the large configuration types (0x8080 bytes) the callee pops that
+// argument with "ret imm16" >= 0x8000, and QEMU (all released versions) sign-extends the
+// immediate, moving ESP by -0x10000 and crashing the emulator when a COMX is started.
+// Growing with push_back passes the element by reference, so no large ret immediate is
+// generated. See xp_crash_20261021_fault_at_null.md.
+template <class T>
+static void growConfigurationVector(std::vector<T>& vec, size_t size)
+{
+    while (vec.size() < size)
+        vec.push_back(T());
+}
+
 IoDevice::IoDevice()
 {
 }
 
 void IoDevice::initIo()
 {
-    outputConfiguration.resize(1);
-    inputConfiguration.resize(2);
+    growConfigurationVector(outputConfiguration, 1);
+    growConfigurationVector(inputConfiguration, 2);
 
     for (int group=0; group<257; group++)
     {
@@ -382,7 +395,7 @@ size_t IoDevice::getInputConfiguration(int q, int group, int number)
         inputConfigurationNumber++;
         if (inputConfigurationNumber >= inputConfiguration.size())
         {
-            inputConfiguration.resize(inputConfigurationNumber+1);
+            growConfigurationVector(inputConfiguration, inputConfigurationNumber+1);
             for (int localGroup=0; localGroup<257; localGroup++)
             {
                 for (int io=0; io<8; io++)
@@ -410,7 +423,7 @@ size_t IoDevice::getOutputConfiguration(int q, int group, int number)
         outputConfigurationNumber++;
         if (outputConfigurationNumber >= outputConfiguration.size())
         {
-            outputConfiguration.resize(outputConfigurationNumber+1);
+            growConfigurationVector(outputConfiguration, outputConfigurationNumber+1);
             for (int localGroup=0; localGroup<257; localGroup++)
             {
                 for (int io=0; io<8; io++)
