@@ -201,7 +201,7 @@ public:
     wxString getScreenDumpFile();
     wxString getPrintFile();
 
-    void setConfiguration(ComputerConfiguration computerConfig) { computerConfiguration = computerConfig;};
+    void setConfiguration(const ComputerConfiguration& computerConfig) { computerConfiguration = computerConfig;};
     ComputerConfiguration getConfiguration(){ return computerConfiguration;};
 
     long getBitValue(wxString reference);

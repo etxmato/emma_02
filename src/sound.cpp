@@ -132,7 +132,7 @@ Sound::~Sound()
 #endif
 }
 
-void Sound::initSound(double percentageClock, int bass, int treble, int toneChannels, int noiseChannels, int stereo, ComputerConfiguration computerConfiguration)
+void Sound::initSound(double percentageClock, int bass, int treble, int toneChannels, int noiseChannels, int stereo, const ComputerConfiguration& computerConfiguration)
 {
     soundClock_ = computerConfiguration.clockSpeed_;
     percentageClock_ = percentageClock;

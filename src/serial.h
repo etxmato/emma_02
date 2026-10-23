@@ -8,7 +8,7 @@ class Serial
 {
 public:
 
-    Serial(int computerType, double clock, ComputerConfiguration computerConfig, int uartNumber);
+    Serial(int computerType, double clock, const ComputerConfiguration& computerConfig, int uartNumber);
     ~Serial();
 
     void configure(int selectedBaudR, int selectedBaudT, VideoTerminalConfiguration videoTerminalConfiguration);

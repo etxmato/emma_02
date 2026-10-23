@@ -17,9 +17,9 @@ REM   wx 3.3: %WXWIN%\lib\vc_arm64_lib, vc_x64_lib, vc_lib\wxmsw33u_core.lib,
 REM   wx 3.2: %WX32%\lib\vc_x64_lib, vc_lib\wxmsw32u_core.lib (built via wx_vc9.sln,
 REM     WXWIN is redirected to WX32 for the vc9 build since vc9.vcproj reads $(WXWIN)),
 REM   ..\SDL2-2.0.5\lib\arm64, x64, x86\SDL2.dll (compiler-agnostic, shared),
-REM   VC9 link lib: ..\libserialport\Win32|Win64\lib\libserialport.lib (vc9.vcproj
-REM     links $(SERIALPORT)\Win32|Win64\lib directly, unlike vc17 which uses \lib\release),
-REM   XP payload DLL: ..\libserialport\Win32|Win64\lib\release\libserialport.dll (VC9-built).
+REM   VC9 link lib: ..\libserialport\Win32-VS2008|Win64-VS2008\lib\release\libserialport.lib (vc9.vcproj
+REM     links those dirs; plain Win32|Win64 trees belong to the vc17/VS2022 line),
+REM   XP payload DLL: ..\libserialport\Win32-VS2008|Win64-VS2008\lib\release\libserialport.dll (VC9-built).
 setlocal EnableDelayedExpansion
 set "PF86=%ProgramFiles(x86)%"
 
@@ -111,6 +111,7 @@ if "%WXVER%"=="2.8" goto line_vc9_w2k
 echo --wx 3.3 ^(vc17 modern^), 3.2 ^(vc9 XP^) or 2.8 ^(vc9 w2k^) required >&2 & exit /b 1
 
 :line_vc9_w2k
+set "EXEFILE=%PLATFORM%-VC9\Release\Emma 02.exe"
 if not "%ARCH%"=="x86" ( echo --wx 2.8 w2k line is x86 only >&2 & exit /b 1 )
 if "%SRCROOT%"=="" set SRCROOT=%~dp0..
 if "%OUTDIR%"=="" set OUTDIR=%SRCROOT%
@@ -137,8 +138,8 @@ if not defined VCBUILD ( echo VS2008 vcbuild/devenv not found - bake the XP laye
 if not defined WX28 ( echo WX28 not set ^(want C:\wxWidgets-2.8^) >&2 & exit /b 1 )
 if not exist "%WX28%\lib\%WXLIBDIR%\wxmsw28u_core.lib" ( echo missing wx 2.8 %PLATFORM% lib: %WX28%\lib\%WXLIBDIR%\wxmsw28u_core.lib >&2 & exit /b 1 )
 if not exist "..\SDL-1.2.15\lib\%SDLLIBDIR%\SDL.dll" ( echo missing dep: ..\SDL-1.2.15\lib\%SDLLIBDIR%\SDL.dll >&2 & exit /b 1 )
-if not exist "..\libserialport\%SPORTDIR%\lib\libserialport.lib" ( echo missing dep: ..\libserialport\%SPORTDIR%\lib\libserialport.lib ^(VC9 link lib^) >&2 & exit /b 1 )
-if not exist "..\libserialport\%SPORTDIR%\lib\release\libserialport.dll" ( echo missing dep: ..\libserialport\%SPORTDIR%\lib\release\libserialport.dll ^(VC9 payload DLL^) >&2 & exit /b 1 )
+if not exist "..\libserialport\%SPORTDIR%-VS2008\lib\release\libserialport.lib" ( echo missing dep: ..\libserialport\%SPORTDIR%-VS2008\lib\release\libserialport.lib ^(VC9 link lib^) >&2 & exit /b 1 )
+if not exist "..\libserialport\%SPORTDIR%-VS2008\lib\release\libserialport.dll" ( echo missing dep: ..\libserialport\%SPORTDIR%-VS2008\lib\release\libserialport.dll ^(VC9 payload DLL^) >&2 & exit /b 1 )
 if not exist "IsTool\%VCREDIST%" ( echo missing payload: IsTool\%VCREDIST% ^(VC9 vcredist, shared with XP line^) >&2 & exit /b 1 )
 if not exist "Emma02_w2k.manifest" ( echo missing Emma02_w2k.manifest ^(stripped manifest^) >&2 & exit /b 1 )
 set "ISCC_EXE=C:\Inno5\ISCC.exe"
@@ -165,6 +166,7 @@ if not exist "%EXEFILE%" ( echo missing binary: %EXEFILE% ^(build first or drop 
 goto stamp
 
 :line_vc9
+set "EXEFILE=%PLATFORM%-VC9\Release\Emma 02.exe"
 if "%ARCH%"=="arm" ( echo --wx 3.2 XP line is x86/x64 only ^(no ARM64 in VC9^) >&2 & exit /b 1 )
 if "%SRCROOT%"=="" set SRCROOT=%~dp0..
 if "%OUTDIR%"=="" set OUTDIR=%SRCROOT%
@@ -190,15 +192,15 @@ if not defined VCBUILD ( echo VS2008 vcbuild/devenv not found - bake the XP laye
 if not defined WX32 ( echo WX32 not set ^(want C:\wxWidgets-3.2^) >&2 & exit /b 1 )
 if not exist "%WX32%\lib\%WXLIBDIR%\wxmsw32u_core.lib" ( echo missing wx 3.2 %PLATFORM% lib: %WX32%\lib\%WXLIBDIR%\wxmsw32u_core.lib >&2 & exit /b 1 )
 if not exist "..\SDL2-2.0.5\lib\%SDLLIBDIR%\SDL2.dll" ( echo missing dep: ..\SDL2-2.0.5\lib\%SDLLIBDIR%\SDL2.dll >&2 & exit /b 1 )
-if not exist "..\libserialport\%SPORTDIR%\lib\libserialport.lib" ( echo missing dep: ..\libserialport\%SPORTDIR%\lib\libserialport.lib ^(VC9 link lib^) >&2 & exit /b 1 )
-if not exist "..\libserialport\%SPORTDIR%\lib\release\libserialport.dll" ( echo missing dep: ..\libserialport\%SPORTDIR%\lib\release\libserialport.dll ^(VC9 payload DLL^) >&2 & exit /b 1 )
+if not exist "..\libserialport\%SPORTDIR%-VS2008\lib\release\libserialport.lib" ( echo missing dep: ..\libserialport\%SPORTDIR%-VS2008\lib\release\libserialport.lib ^(VC9 link lib^) >&2 & exit /b 1 )
+if not exist "..\libserialport\%SPORTDIR%-VS2008\lib\release\libserialport.dll" ( echo missing dep: ..\libserialport\%SPORTDIR%-VS2008\lib\release\libserialport.dll ^(VC9 payload DLL^) >&2 & exit /b 1 )
 if not exist "IsTool\%VCREDIST%" ( echo missing payload: IsTool\%VCREDIST% ^(VC9 vcredist for the XP line^) >&2 & exit /b 1 )
 set "ISCC_EXE=C:\Inno5\ISCC.exe"
 if exist "!ISCC_EXE!" ( set "ISCC=!ISCC_EXE!" ) else ( set "ISCC=ISCC.exe" )
 echo wx: 3.2-XP ^(vc9^)  arch-target: %ARCH% ^(%PLATFORM%^)  src: %CD%
 
 REM 2. compile (vc9 sln via vcbuild/devenv - XP-compatible CRT; build legacy before modern:
-REM    vc9 Win32\Release\Emma 02.exe collides with the vc17 output path;
+REM    vc9 writes Win32-VC9|x64-VC9 (own OutDir + IntDir) so it never shares objects with vc17 Win32|x64;
 REM    note: vcbuild/devenv take the solution FIRST, then the configuration.
 REM    vc9.vcproj reads $(WXWIN) - point it at the wx3.2 tree for this build only,
 REM    restore afterwards so the modern line is unaffected.)

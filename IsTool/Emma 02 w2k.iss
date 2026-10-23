@@ -34,7 +34,7 @@ Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:Ad
 
 [Files]
 Source: vcredist9_x86.exe; DestDir: {tmp}; Flags: deleteafterinstall; Components: MAIN
-Source: ..\Win32\Release\Emma 02.exe; DestDir: {app}; Components: MAIN; Tasks: ; Languages: 
+Source: ..\Win32-VC9\Release\Emma 02.exe; DestDir: {app}; Components: MAIN; Tasks: ; Languages: 
 Source: ..\emma_02.htb; DestDir: {app}; Components: MAIN
 Source: ..\*.def; DestDir: {app}; Components: MAIN
 Source: ..\*.syntax; DestDir: {app}; Components: MAIN
@@ -71,7 +71,7 @@ Source: ..\win2000_12.ini; DestDir: {app}; Components: MAIN
 Source: ..\winxp_11.ini; DestDir: {app}; Components: MAIN
 Source: ..\winxp_12.ini; DestDir: {app}; Components: MAIN
 Source: ..\..\SDL-1.2.15\lib\x86\SDL.dll; DestDir: {app}; Components: MAIN
-Source: ..\..\libserialport\Win32\lib\libserialport.dll; DestDir: {app}; Components: MAIN
+Source: ..\..\libserialport\Win32-VS2008\lib\release\libserialport.dll; DestDir: {app}; Components: MAIN
 Source: ..\OpenSSL - LICENSE; DestDir: {app}; Components: MAIN
 Source: ..\Quest_license.txt; DestDir: {app}; Components: MAIN
 Source: ..\Quest_CC_Lic.jpg; DestDir: {app}; Components: MAIN

@@ -88,7 +88,7 @@ int baudRateFactor_[] =
 //    38400, 19200, 9600, 4800, 3600, 2400, 2000, 1800, 1200, 600, 300, 200,  150,  134,  110,  75,   50
 };
 
-Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, ComputerConfiguration computerConfig, int uartNumber)
+Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double clock, const ComputerConfiguration& computerConfig, int uartNumber)
 : Video(title, pos, size)
 {
     currentComputerConfiguration = computerConfig;

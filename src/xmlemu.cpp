@@ -440,7 +440,7 @@ BEGIN_EVENT_TABLE(Computer, wxFrame)
 END_EVENT_TABLE()
 #endif
 
-Computer::Computer(const wxString& title, double clock, int tempo, ComputerConfiguration computerConfig)
+Computer::Computer(const wxString& title, double clock, int tempo, const ComputerConfiguration& computerConfig)
 : wxFrame((wxFrame *)NULL, -1, title)
 {
     currentComputerConfiguration = computerConfig;
@@ -1977,7 +1977,7 @@ Byte Computer::in(Byte port, Word address)
     return returnValue;
 }
 
-Byte Computer::inConfiguration(InputConfiguration inConfiguration, Byte port, Word address)
+Byte Computer::inConfiguration(const InputConfiguration& inConfiguration, Byte port, Word address)
 {
     Byte ret = 255;
         
@@ -2487,7 +2487,7 @@ void Computer::out(Byte port, Word address, Byte value)
     }
 }
 
-void Computer::outConfiguration(OutputConfiguration outConfiguration, Byte port, Word address, Byte value)
+void Computer::outConfiguration(const OutputConfiguration& outConfiguration, Byte port, Word address, Byte value)
 {
     int showTrace;
     Byte mask = currentComputerConfiguration.ioMask[outConfiguration.type[qState_][ioGroup_+1][port]];

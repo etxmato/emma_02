@@ -38,7 +38,7 @@ public:
     Sound();
     ~Sound();
 
-    void initSound(double percentageClock, int bass, int treble, int toneChannels, int noiseChannels, int stereo, ComputerConfiguration computerConfiguration);
+    void initSound(double percentageClock, int bass, int treble, int toneChannels, int noiseChannels, int stereo, const ComputerConfiguration& computerConfiguration);
 
     void toneCoinOn();
     void toneCoinOff();

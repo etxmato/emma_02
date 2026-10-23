@@ -61,7 +61,7 @@ public:
 class Computer : public wxFrame, public Cdp1802, public Fdc, public Ide, public Tu58, public Keyboard, public Keyb1871, public PortExt, public Ps2, public Ps2gpio, public Joycard, public Usbcard, public RtcCDP1879, public RtcDs12788, public RtcMM58174, public RtcM48t58, public Upd765
 {
 public:
-    Computer(const wxString& title, double clock, int tempo, ComputerConfiguration computerConfig);
+    Computer(const wxString& title, double clock, int tempo, const ComputerConfiguration& computerConfig);
     Computer() {};
     ~Computer();
 
@@ -105,10 +105,10 @@ public:
     void resetComputer();
     Byte ef(int flag);
     Byte in(Byte port, Word address);
-    Byte inConfiguration(InputConfiguration inConfiguration, Byte port, Word address);
+    Byte inConfiguration(const InputConfiguration& inConfiguration, Byte port, Word address);
     Byte getData(bool switchButton);
     void out(Byte port, Word address, Byte value);
-    void outConfiguration(OutputConfiguration outConfiguration, Byte port, Word address, Byte value);
+    void outConfiguration(const OutputConfiguration& outConfiguration, Byte port, Word address, Byte value);
     void cycle(int type);
     void cycleCd();
     void cycleCt2425();
