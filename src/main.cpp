@@ -709,7 +709,10 @@ void MemEdit::saveNumber(int number)
 }
 
 DEFINE_EVENT_TYPE(OPEN_PRINTER_WINDOW)
-//DEFINE_EVENT_TYPE(GUI_MSG) // This is for wx 2.8.12 but doesn't actually work
+#if !wxCHECK_VERSION(2, 9, 0)
+// wx 2.8: definition for the DECLARE_EVENT_TYPE(wxEVT_GUI_MSG) in main.h (wxDEFINE_EVENT is 2.9+)
+DEFINE_EVENT_TYPE(wxEVT_GUI_MSG)
+#endif
 
 BEGIN_EVENT_TABLE(Main, DebugWindow)
 

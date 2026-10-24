@@ -39,6 +39,7 @@ BEGIN_EVENT_TABLE(SplashScreen, wxDialog)
 END_EVENT_TABLE()
 
 #ifdef __WXMSW__
+#if wxCHECK_VERSION(3, 1, 0)
 static void ApplySplashDarkTitleBar(wxWindow* splashWin)
 {
     if (!wxSystemSettings::GetAppearance().IsDark())
@@ -64,6 +65,7 @@ static void ApplySplashDarkTitleBar(wxWindow* splashWin)
     ::FreeLibrary(dwmLib);
 }
 #endif
+#endif
 
 SplashScreen::SplashScreen(wxWindow *parent)
 {
@@ -77,14 +79,18 @@ SplashScreen::SplashScreen(wxWindow *parent)
     if (dialog == "DEFAULT")
     {
         XRCCTRL(*this,"SplashText",wxStaticText)->SetLabel(p_Main->getSplashText());
+#if wxCHECK_VERSION(2, 9, 0)
         XRCCTRL(*this,"DEFAULT",wxDialog)->DoLayoutAdaptation();
+#endif
     }
 
 #ifdef __WXMSW__
     // Force the dark immersive title bar (wx pushes dark mode onto the frame's
     // controls, but a LoadDialog-loaded wxDialog from the memory template can
     // keep the light title bar / border).
+#if wxCHECK_VERSION(3, 1, 0)
     ApplySplashDarkTitleBar(this);
+#endif
 #endif
 
     Show(true);
@@ -132,7 +138,9 @@ CompletedSplashScreen::CompletedSplashScreen(wxWindow *parent)
     wxXmlResource::Get()->LoadDialog(this, parent, "COMPLETED");
 
 #ifdef __WXMSW__
+#if wxCHECK_VERSION(3, 1, 0)
     ApplySplashDarkTitleBar(this);
+#endif
 #endif
 
     Show(true);
