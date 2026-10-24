@@ -1930,7 +1930,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
                 configPointer->Write(dirName + "/SoftwareDirInstalled", true);
             }
             wxDir compDir(dataDir + dirName);
-            if (!compDir.HasFiles())
+            if (!compDir.HasFiles() && !compDir.HasSubDirs())
             {
                 int answer = wxMessageBox("1802 Software directory " + dirName + " is empty, install default files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
                 if (answer == wxYES)

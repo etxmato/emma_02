@@ -90,6 +90,7 @@ Source: ..\data\dutch.ini; DestDir: {app}\data; Components: MAIN
 Source: ..\data\french.ini; DestDir: {app}\data; Components: MAIN
 Source: ..\data\CDP18S020\*.*; DestDir: {app}\data\CDP18S020; Components: MAIN
 Source: ..\data\CDS\*.*; DestDir: {app}\data\CDS; Components: MAIN
+Source: ..\data\Chip-8\*.*; DestDir: {app}\data\Chip-8; Components: MAIN
 Source: ..\data\Chip-8\Chip-8 Demos\*.*; DestDir: {app}\data\Chip-8\Chip-8 Demos; Components: MAIN
 Source: ..\data\Chip-8\Chip-8 ETI660 Games\*.*; DestDir: {app}\data\Chip-8\Chip-8 ETI660 Games; Components: MAIN
 Source: ..\data\Chip-8\Chip-8 ETI660 Hybrids\*.*; DestDir: {app}\data\Chip-8\Chip-8 ETI660 Hybrids; Components: MAIN
@@ -181,6 +182,7 @@ Source: ..\data\Pecom\*.*; DestDir: {app}\data\Pecom; Components: MAIN
 Source: ..\data\Pico\*.*; DestDir: {app}\data\Pico; Components: MAIN
 Source: ..\data\PTC\*.*; DestDir: {app}\data\PTC; Components: MAIN
 Source: ..\data\SBC1802\*.*; DestDir: {app}\data\SBC1802; Components: MAIN
+Source: ..\data\St2\*.*; DestDir: {app}\data\St2; Components: MAIN
 Source: ..\data\St2\Conic_StudioIII-Cartridges\*.*; DestDir: {app}\data\St2\Conic_StudioIII-Cartridges; Components: MAIN
 Source: ..\data\St2\Conic_StudioIII-Homebrew\*.*; DestDir: {app}\data\St2\Conic_StudioIII-Homebrew; Components: MAIN
 Source: ..\data\St2\Conic_StudioIII-Sarnoff-Collection\*.*; DestDir: {app}\data\St2\Conic_StudioIII-Sarnoff-Collection; Components: MAIN
