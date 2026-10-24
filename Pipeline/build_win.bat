@@ -117,6 +117,9 @@ if "%SRCROOT%"=="" set SRCROOT=%~dp0..
 if "%OUTDIR%"=="" set OUTDIR=%SRCROOT%
 cd /d "%SRCROOT%" || ( echo cannot cd to SRCROOT: %SRCROOT% >&2 & exit /b 1 )
 
+REM    WX28 is set with setx /M; sshd sessions can predate it, so read the
+REM    machine value from the registry when it is missing from this process.
+if not defined WX28 for /f "tokens=2,*" %%A in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v WX28 2^>nul ^| findstr /i "WX28"') do set "WX28=%%B"
 REM 1. toolchain + baked deps present? (same VS2008 as the XP line, plus the
 REM    wx2.8 tree, SDL 1.2 tree and stripped manifest)
 REM    MSBuild 17 cannot build .vcproj - the w2k line needs VS2008 vcbuild/devenv.
