@@ -174,8 +174,15 @@ cd /d "%SRCROOT%" || ( echo cannot cd to SRCROOT: %SRCROOT% >&2 & exit /b 1 )
 
 REM 1. toolchain + baked deps present?
 REM    MSBuild 17 cannot build .vcproj - the vc9 line needs VS2008 vcbuild/devenv.
+REM    x64: the x86 VCBuild cannot resolve Release|x64 in this Express + SDK 7.0
+REM    setup (VCBLD0007); the amd64-hosted VCBuild in VC\bin\x86_amd64 (from the
+REM    SDK 7.0 vc_stdamd64 MSI) ships its own VCProjectEngine and does.
+if /i "%PLATFORM%"=="x64" (
+  set "VCBUILD_X64=!PF86!\Microsoft Visual Studio 9.0\VC\bin\x86_amd64\vcbuild.exe"
+  if exist "!VCBUILD_X64!" set "VCBUILD=!VCBUILD_X64!"
+)
 where vcbuild >nul 2>&1
-if not errorlevel 1 set "VCBUILD=vcbuild"
+if not errorlevel 1 if not defined VCBUILD set "VCBUILD=vcbuild"
 if not defined VCBUILD (
   set "DEVENV=!PF86!\Microsoft Visual Studio 9.0\Common7\IDE\devenv.com"
   if exist "!DEVENV!" set "VCBUILD=!DEVENV! /build"
