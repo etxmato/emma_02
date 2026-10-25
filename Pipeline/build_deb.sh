@@ -45,7 +45,7 @@ MAINTAINER="$(get MAINTAINER)"
 HOMEPAGE="$(get HOMEPAGE)"
 if [ "$WXVER" = "3.0" ]; then
   DEPENDS="$(get DEPENDS_WX30)"
-  SUFFIX="_legacy"
+  SUFFIX="-legacy"
 else
   DEPENDS="$(get DEPENDS)"
   SUFFIX=""
@@ -134,7 +134,8 @@ chmod 755 "$STAGE/usr/bin/emma_02"
 # executable bit, so a polluted checkout is invisible in the commit.
 chmod -R a+rX "$STAGE"
 
-DEB="$OUTDIR/${PACKAGE}_${DEBARCH}${SUFFIX}.deb"
+# Naming (2026-10-25): emma_02-<os>-<arch>[-<variant>].<ext>
+DEB="$OUTDIR/emma_02-linux-${DEBARCH}${SUFFIX}.deb"
 dpkg-deb --build "$STAGE" "$DEB"
 echo "built: $DEB"
 dpkg-deb -f "$DEB" Package Version Architecture Depends

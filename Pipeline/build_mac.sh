@@ -48,11 +48,12 @@ esac
 CONF="$SCRIPTDIR/emma02_package.conf"
 get() { grep -E "^$1=" "$CONF" | head -n1 | cut -d= -f2-; }
 VERSION="$(get VERSION)"
-# Artifact mirrors pipeline.sh naming (version-free, deploy suffix for 10.13).
+# Artifact mirrors pipeline.sh naming: emma_02-<os>-<arch>[-<variant>].<ext>
+# (version-free; the DMG is universal arm64+x86_64, deploy suffix for 10.13).
 if [ "$DEPLOY" = "10.13" ]; then
-  ARTIFACT="emma_02_mac_highsierra.dmg"
+  ARTIFACT="emma_02-macos-universal-highsierra.dmg"
 else
-  ARTIFACT="emma_02_mac.dmg"
+  ARTIFACT="emma_02-macos-universal.dmg"
 fi
 
 # Xcode needs the real Xcode.app, not the CLT stub

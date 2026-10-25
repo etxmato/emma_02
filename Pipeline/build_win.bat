@@ -1,10 +1,10 @@
 @echo off
 REM Build Emma 02 Windows installer - wx 3.3.3 modern + wx 3.2 XP + wx 2.8 w2k lines (guest-side).
 REM Usage: build_win.bat --arch arm/x64/x86 [--wx 3.3|3.2|2.8] [--src REPO_ROOT] [--out DIR] [--no-build]
-REM   --arch arm : MSBuild Platform=ARM64, IsTool\Emma 02 arm.iss, gives emma_02_arm_windows.exe (3.3 only)
-REM   --arch x64 : 3.3 -> x64.iss/emma_02_x64_windows.exe | 3.2 -> x64_xp.iss/emma_02_x64_windows_xp.exe
-REM   --arch x86 : 3.3 -> x86.iss/emma_02_x86_windows.exe | 3.2 -> x86_xp.iss/emma_02_x86_windows_xp.exe
-REM            : 2.8 -> w2k.iss/emma_02_x86_windows_w2k.exe (x86 only, Win2000)
+REM   --arch arm : MSBuild Platform=ARM64, IsTool\Emma 02 arm.iss, gives emma_02-windows-arm64.exe (3.3 only)
+REM   --arch x64 : 3.3 -> x64.iss/emma_02-windows-x64.exe | 3.2 -> x64_xp.iss/emma_02-windows-x64-xp.exe
+REM   --arch x86 : 3.3 -> x86.iss/emma_02-windows-x86.exe | 3.2 -> x86_xp.iss/emma_02-windows-x86-xp.exe
+REM            : 2.8 -> w2k.iss/emma_02-windows-x86-w2k.exe (x86 only, Win2000)
 REM   --wx 3.3   : vc17 line (VS2022 MSBuild, wx 3.3.3, WXWIN) - arm/x64/x86
 REM   --wx 3.2   : vc9 XP line (VS2008 vcbuild/devenv, wx 3.2, WX32) - x64/x86 only, packaged with Inno 5
 REM   --wx 2.8   : vc9 w2k line (VS2008, wx 2.8.12, WX28, SDL 1.2, stripped manifest) - x86 only, Inno 5
@@ -51,8 +51,8 @@ set PLATFORM=ARM64
 set SLNPLATFORM=ARM64
 set ISSFILE=IsTool\Emma 02 arm.iss
 set EXEFILE=ARM64\Release\Emma 02.exe
-set ISSOUT=IsTool\arm64\emma_02_arm_windows.exe
-set ARTIFACT=emma_02_arm_windows.exe
+set ISSOUT=IsTool\arm64\emma_02-windows-arm64.exe
+set ARTIFACT=emma_02-windows-arm64.exe
 set WXLIBDIR=vc_arm64_lib
 set SDLLIBDIR=arm64
 set SPORTDIR=ARM64
@@ -64,13 +64,13 @@ set PLATFORM=x64
 set SLNPLATFORM=x64
 if "%WXVER%"=="3.2" (
   set ISSFILE=IsTool\Emma 02 x64_xp.iss
-  set ISSOUT=IsTool\x64\emma_02_x64_windows_xp.exe
-  set ARTIFACT=emma_02_x64_windows_xp.exe
+  set ISSOUT=IsTool\x64\emma_02-windows-x64-xp.exe
+  set ARTIFACT=emma_02-windows-x64-xp.exe
   set VCREDIST=vcredist9_x64.exe
 ) else (
   set ISSFILE=IsTool\Emma 02 x64.iss
-  set ISSOUT=IsTool\x64\emma_02_x64_windows.exe
-  set ARTIFACT=emma_02_x64_windows.exe
+  set ISSOUT=IsTool\x64\emma_02-windows-x64.exe
+  set ARTIFACT=emma_02-windows-x64.exe
   set VCREDIST=vcredist_x64.exe
 )
 set EXEFILE=x64\Release\Emma 02.exe
@@ -84,18 +84,18 @@ set PLATFORM=Win32
 set SLNPLATFORM=x86
 if "%WXVER%"=="2.8" (
   set ISSFILE=IsTool\Emma 02 w2k.iss
-  set ISSOUT=IsTool\x86\emma_02_x86_windows_w2k.exe
-  set ARTIFACT=emma_02_x86_windows_w2k.exe
+  set ISSOUT=IsTool\x86\emma_02-windows-x86-w2k.exe
+  set ARTIFACT=emma_02-windows-x86-w2k.exe
   set VCREDIST=vcredist9_x86.exe
 ) else if "%WXVER%"=="3.2" (
   set ISSFILE=IsTool\Emma 02 x86_xp.iss
-  set ISSOUT=IsTool\x86\emma_02_x86_windows_xp.exe
-  set ARTIFACT=emma_02_x86_windows_xp.exe
+  set ISSOUT=IsTool\x86\emma_02-windows-x86-xp.exe
+  set ARTIFACT=emma_02-windows-x86-xp.exe
   set VCREDIST=vccrt.msi
 ) else (
   set ISSFILE=IsTool\Emma 02 x86.iss
-  set ISSOUT=IsTool\x86\emma_02_x86_windows.exe
-  set ARTIFACT=emma_02_x86_windows.exe
+  set ISSOUT=IsTool\x86\emma_02-windows-x86.exe
+  set ARTIFACT=emma_02-windows-x86.exe
   set VCREDIST=vcredist_x86.exe
 )
 set EXEFILE=Win32\Release\Emma 02.exe

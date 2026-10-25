@@ -9,9 +9,9 @@
 #
 #   Linux: --arch amd64 -> Release_x86 | arm64 -> Release
 #   Windows (exe): --arch arm -> ARM64 | x64 -> x64 | x86 -> Win32 (all from one ARM64 Win11 VM)
-#     --wx 3.3: vc17 modern line (arm/x64/x86) -> emma_02_<arch>_windows.exe
-#     --wx 3.2: vc9 XP line (x64/x86 only) -> emma_02_<arch>_windows_xp.exe
-#     --wx 2.8: vc9 w2k line (x86 only) -> emma_02_x86_windows_w2k.exe
+#     --wx 3.3: vc17 modern line (arm/x64/x86) -> emma_02-windows-<arch>.exe
+#     --wx 3.2: vc9 XP line (x64/x86 only) -> emma_02-windows-<arch>-xp.exe
+#     --wx 2.8: vc9 w2k line (x86 only) -> emma_02-windows-x86-w2k.exe
 #   macOS (dmg): no --arch (one universal arm64+x86_64 binary, built natively on the Mac, no VM)
 #     --deploy 12.0 (default, Monterey+) | 10.13 (High Sierra, needs 10.13-built wx3.3 tree)
 #   --format  deb (default) or rpm or exe or dmg
@@ -78,7 +78,7 @@ case "$FORMAT" in
       *) echo "--arch amd64|arm64 required with --format deb" >&2; exit 1;;
     esac
     case "$WXVER" in
-      3.0) VM="$VM-2204"; SUFFIX="_legacy";;
+      3.0) VM="$VM-2204"; SUFFIX="-legacy";;
       3.2) SUFFIX="";;
       *) echo "--wx 3.0|3.2 required for deb" >&2; exit 1;;
     esac
@@ -96,13 +96,13 @@ case "$FORMAT" in
           amd64) VM="emma02-fedora-x64";;
           arm64) VM="emma02-fedora";;
         esac
-        SUFFIX="_fedora"
+        SUFFIX="-fedora"
         ;;
       suse)
         # wx 3.2 -> Leap 16 (base VMs, _leap16 suffix); wx 3.1 -> Leap 15.6 (*-15 VMs, _leap156)
         case "$WXVER" in
-          3.2) VM_SUF="";  SUFFIX="_leap16";;
-          3.1) VM_SUF="-15"; SUFFIX="_leap156";;
+          3.2) VM_SUF="";  SUFFIX="-leap16";;
+          3.1) VM_SUF="-15"; SUFFIX="-leap156";;
           *) echo "--wx 3.1|3.2 required for suse rpm" >&2; exit 1;;
         esac
         case "$ARCH" in
@@ -126,9 +126,9 @@ case "$FORMAT" in
     case "$WXVER" in
       3.3) SUFFIX="";;
       3.2) [ "$ARCH" = "arm" ] && { echo "--wx 3.2 XP line is x64/x86 only (no ARM64 in VC9)" >&2; exit 1; }
-           SUFFIX="_xp";;
+           SUFFIX="-xp";;
       2.8) [ "$ARCH" = "x86" ] || { echo "--wx 2.8 w2k line is x86 only" >&2; exit 1; }
-           SUFFIX="_w2k";;
+           SUFFIX="-w2k";;
       *) echo "--wx 3.3|3.2|2.8 required for exe (3.3 vc17 modern, 3.2 vc9 XP, 2.8 vc9 w2k)" >&2; exit 1;;
     esac
     [ -z "$DISTRO" ] || { echo "--distro not used with --format exe" >&2; exit 1; }
@@ -144,7 +144,7 @@ case "$FORMAT" in
     [ -z "$DEPLOY" ] && DEPLOY="12.0"
     case "$DEPLOY" in
       12.0) SUFFIX="";;
-      10.13) SUFFIX="_highsierra";;
+      10.13) SUFFIX="-highsierra";;
       *) echo "--deploy 12.0|10.13 required for dmg" >&2; exit 1;;
     esac
     VM=""; EXT="dmg"
@@ -167,15 +167,24 @@ VER="$(grep -E '^VERSION=' "$CONF" | head -n1 | cut -d= -f2-)"
 [ -n "$PKG" ] && [ -n "$VER" ] || { echo "cannot read PACKAGE/VERSION from $CONF" >&2; exit 1; }
 # Artifact name is version-free: the release version lives in the v<version> folder
 # (and in the package's Version:/AppVersion field), so download links stay stable.
-# Windows keeps its historical underscore form (emma_02_<arch>_windows[_xp|_w2k].exe,
-# matching the .iss OutputBaseFilename); deb/rpm use the dashed PACKAGE form;
-# macOS is a universal DMG (emma_02_mac.dmg, or emma_02_mac_highsierra.dmg for 10.13).
+# Naming scheme (2026-10-25): emma_02-<os>-<arch>[-<variant>].<ext>
+#   os:   linux | macos | windows
+#   arch: deb  arm64 | amd64
+#         rpm  aarch64 | amd64          (RPM's native arch spelling)
+#         exe  arm64 | x64 | x86        (Windows arch spelling)
+#         dmg  universal                (arm64 + x86_64 slices)
+#   variant: -legacy (deb wx3.0), -fedora/-leap16/-leap156 (rpm),
+#            -xp / -w2k (exe), -highsierra (dmg 10.13)
+# The Windows exe names must match IsTool/*.iss OutputBaseFilename and build_win.bat.
 if [ "$FORMAT" = "exe" ]; then
-  ARTIFACT="emma_02_${ARCH}_windows${SUFFIX}.exe"
+  case "$ARCH" in arm) NAMEARCH="arm64";; *) NAMEARCH="$ARCH";; esac
+  ARTIFACT="emma_02-windows-${NAMEARCH}${SUFFIX}.exe"
 elif [ "$FORMAT" = "dmg" ]; then
-  ARTIFACT="emma_02_mac${SUFFIX}.dmg"
+  ARTIFACT="emma_02-macos-universal${SUFFIX}.dmg"
 else
-  ARTIFACT="${PKG}_${ARCH}${SUFFIX}.$EXT"
+  case "$ARCH" in arm64) NAMEARCH="aarch64";; *) NAMEARCH="$ARCH";; esac
+  [ "$FORMAT" = "deb" ] && NAMEARCH="$ARCH"   # .deb uses arm64, .rpm uses aarch64
+  ARTIFACT="emma_02-linux-${NAMEARCH}${SUFFIX}.$EXT"
 fi
 [ -n "$OUTDIR" ] || OUTDIR="$INSTALL_ROOT/v$VER"
 
@@ -346,7 +355,7 @@ ARGS="$GUEST_ARGS --src $GUEST_DIR --out $GUEST_DIR"
 [ -n "$JOBS" ] && ARGS="$ARGS --jobs $JOBS"
 
 echo "-- building + packaging in guest ..."
-GUEST_LOG="$OUTDIR/${PKG}_${ARCH}${SUFFIX}.$EXT.build.log"
+GUEST_LOG="$OUTDIR/${ARTIFACT%.$EXT}.build.log"
 mkdir -p "$OUTDIR"
 # Drop any previous artifact so a failed build can never leave a stale file that
 # looks like a fresh one.

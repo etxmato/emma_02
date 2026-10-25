@@ -41,18 +41,18 @@ WX_SUFFIX=""
 case "$DISTRO" in
   fedora)
     [ "$WXVER" = "3.2" ] || { echo "fedora rpm is wx 3.2 only (Fedora ships no wx 3.0/3.1)" >&2; exit 1; }
-    DEPS_KEY="DEPENDS_RPM_FEDORA"; DISTRO_SUFFIX="_fedora"; OBSOLETES="emma02_fedora emma02_fedora_x86";;
+    DEPS_KEY="DEPENDS_RPM_FEDORA"; DISTRO_SUFFIX="-fedora"; OBSOLETES="emma02_fedora emma02_fedora_x86";;
   suse)
     case "$WXVER" in
       3.2) DEPS_KEY="DEPENDS_RPM_SUSE";      WX_SUFFIX="16";;
       3.1) DEPS_KEY="DEPENDS_RPM_SUSE_WX31"; WX_SUFFIX="156";;
       *) echo "--wx 3.1|3.2 required for suse rpm" >&2; exit 1;;
     esac
-    DISTRO_SUFFIX="_leap"; OBSOLETES="emma02_suse emma02_suse_x86";;
+    DISTRO_SUFFIX="-leap"; OBSOLETES="emma02_suse emma02_suse_x86";;
   *) echo "--distro fedora|suse required" >&2; exit 1;;
 esac
 SUFFIX="${DISTRO_SUFFIX}${WX_SUFFIX}"
-if [ "$ARCH" = "amd64" ]; then BIN="Release_x86"; RPMARCH="x86_64"; else BIN="Release"; RPMARCH="aarch64"; fi
+if [ "$ARCH" = "amd64" ]; then BIN="Release_x86"; RPMARCH="x86_64"; NAMEARCH="amd64"; else BIN="Release"; RPMARCH="aarch64"; NAMEARCH="aarch64"; fi
 
 command -v rpmbuild >/dev/null || { echo "rpmbuild not found (install rpm-build)" >&2; exit 1; }
 
@@ -193,7 +193,7 @@ fi
 chmod -R a+rX "$STAGE"
 
 # keep the generated spec next to the artifact: cheap reproducibility/debug aid
-cp -a "$SPEC" "$OUTDIR/${PACKAGE}_${ARCH}${SUFFIX}.spec"
+cp -a "$SPEC" "$OUTDIR/emma_02-linux-${NAMEARCH}${SUFFIX}.spec"
 
 rpmbuild -bb --define "_topdir $TOP" "$SPEC"
 
@@ -201,7 +201,8 @@ RPM="$(find "$TOP/RPMS" -type f -name '*.rpm' | head -n1)"
 [ -n "$RPM" ] || { echo "rpmbuild produced no rpm" >&2; exit 1; }
 
 # Version-free artifact name; the version lives in the v<version> folder and the Version: tag.
-DEST="$OUTDIR/${PACKAGE}_${ARCH}${SUFFIX}.rpm"
+# Naming (2026-10-25): emma_02-<os>-<arch>[-<variant>].<ext> (rpm uses aarch64)
+DEST="$OUTDIR/emma_02-linux-${NAMEARCH}${SUFFIX}.rpm"
 cp -a "$RPM" "$DEST"
 echo "built: $DEST"
 rpm -qp --qf 'Package: %{NAME}\nVersion: %{VERSION}-%{RELEASE}\nArchitecture: %{ARCH}\n' "$DEST"
