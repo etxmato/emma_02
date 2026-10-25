@@ -291,7 +291,7 @@ void ComxStatusBar::displayLeds()
                     ledBitmapPointers [card][1]->SetBitmapLabel(*ledDisabledPointer);
 #endif
             }
-            if (p_Computer->readMemDebug(0xC001) == COMXEMPTY)
+            if (!p_Computer->isXmlSlotCardDefined(card))
                 ledBitmapPointers[card][i]->Hide();
             if ((!expansionConfiguration_defined_) &&(card >0))
                 ledBitmapPointers[card][i]->Hide();

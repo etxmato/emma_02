@@ -46,6 +46,7 @@ public:
     void defineXmlSlotMemoryType(int slot, long start, long end, int type);
     void defineXmlSlotMemoryType(int slot, long address, int type);
     Byte getXmlSlotMemoryType(int slot, long address);
+    bool isXmlSlotCardDefined(int slot);
     void defineMcrMapMemoryType(int map, long start, long end, int type);
     void defineExpansionMemoryType(int slot, long start, long end, int type);
     void defineExpansionMemoryType(int slot, long address, int type); 

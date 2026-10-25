@@ -964,6 +964,36 @@ Byte Memory::getXmlSlotMemoryType(int slot, long address)
     return slotMemoryType_[slot][address];
 }
 
+bool Memory::isXmlSlotCardDefined(int slot)
+{
+    if (slot < 0 || slot >= (int)currentComputerConfiguration.slotConfiguration.slotInfo.size())
+        return false;
+
+    SlotInfo &slotInfo = currentComputerConfiguration.slotConfiguration.slotInfo[slot];
+
+    if (slotInfo.filename != "")
+        return true;
+
+    if (slotInfo.maxBankNumber_ > 1)
+    {
+        for (int bank = 0; bank < slotInfo.maxBankNumber_; bank++)
+        {
+            if (slotInfo.bankInfo[bank].type != UNDEFINED ||
+                slotInfo.bankInfo[bank].filename != "")
+                return true;
+        }
+        return false;
+    }
+
+    for (int ramPart = 0; ramPart < 4; ramPart++)
+    {
+        if (slotInfo.ramStart[ramPart] != 0 || slotInfo.ramEnd[ramPart] != 0)
+            return true;
+    }
+
+    return false;
+}
+
 void Memory::defineMcrMapMemoryType(int map, long start, long end, int type)
 {
     start /= 256;
