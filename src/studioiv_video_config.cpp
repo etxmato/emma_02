@@ -241,13 +241,13 @@ void St4VideoConfig::parseXml_St4Video(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_OUT:
-                if (child->GetAttribute("type") == "color")
+                if (child->GetAttribute("type", wxEmptyString) == "color")
                 {
                     computerConfiguration.studio4VideoConfiguration.output = parseXml_IoPort(*child, STUDIOIV_VIDEO_OUT);
                     setIoPortConfig(computerConfiguration.studio4VideoConfiguration.output, registerIdSt4Video[ST4_VIDEO_MODE], registerFunctionSt4Video[ST4_VIDEO_MODE], "O");
                     setIoPortConfig(computerConfiguration.studio4VideoConfiguration.output, registerIdSt4Video[ST4_VIDEO_BACKGROUND], registerFunctionSt4Video[ST4_VIDEO_BACKGROUND], "O");
                 }
-                if (child->GetAttribute("type") == "dma")
+                if (child->GetAttribute("type", wxEmptyString) == "dma")
                 {
                     computerConfiguration.studio4VideoConfiguration.dmaEnable = parseXml_IoPort(*child, STUDIOIV_VIDEO_DMA_ENABLE_OUT);
                     setIoPortConfigRadio(computerConfiguration.studio4VideoConfiguration.dmaEnable, registerIdSt4VideoRadio[ST4_VIDEO_DMA_ENABLE], registerFunctionSt4VideoRadio[ST4_VIDEO_DMA_ENABLE], "O");
@@ -320,37 +320,37 @@ void St4VideoConfig::parseXml_St4Video(wxXmlNode &node)
                 green = (int)getNextHexDec(&color) & 0xff;
                 blue = (int)getNextHexDec(&color) & 0xff;
                 
-                if (child->GetAttribute("type") == "black")
+                if (child->GetAttribute("type", wxEmptyString) == "black")
                     screenInfo.defaultColour[COL_ST4_BLACK].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "red")
+                if (child->GetAttribute("type", wxEmptyString) == "red")
                     screenInfo.defaultColour[COL_ST4_RED].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "blue")
+                if (child->GetAttribute("type", wxEmptyString) == "blue")
                     screenInfo.defaultColour[COL_ST4_BLUE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "magenta")
+                if (child->GetAttribute("type", wxEmptyString) == "magenta")
                     screenInfo.defaultColour[COL_ST4_MAGENTA].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "green")
+                if (child->GetAttribute("type", wxEmptyString) == "green")
                     screenInfo.defaultColour[COL_ST4_GREEN].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "yellow")
+                if (child->GetAttribute("type", wxEmptyString) == "yellow")
                     screenInfo.defaultColour[COL_ST4_YELLOW].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "cyan")
+                if (child->GetAttribute("type", wxEmptyString) == "cyan")
                     screenInfo.defaultColour[COL_ST4_CYAN].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "white")
+                if (child->GetAttribute("type", wxEmptyString) == "white")
                     screenInfo.defaultColour[COL_ST4_WHITE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back_black")
+                if (child->GetAttribute("type", wxEmptyString) == "back_black")
                     screenInfo.defaultColour[COL_ST4_BACK_BLACK].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back_red")
+                if (child->GetAttribute("type", wxEmptyString) == "back_red")
                     screenInfo.defaultColour[COL_ST4_BACK_RED].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back_blue")
+                if (child->GetAttribute("type", wxEmptyString) == "back_blue")
                     screenInfo.defaultColour[COL_ST4_BACK_BLUE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back_magenta")
+                if (child->GetAttribute("type", wxEmptyString) == "back_magenta")
                     screenInfo.defaultColour[COL_ST4_BACK_MAGENTA].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back_green")
+                if (child->GetAttribute("type", wxEmptyString) == "back_green")
                     screenInfo.defaultColour[COL_ST4_BACK_GREEN].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back_yellow")
+                if (child->GetAttribute("type", wxEmptyString) == "back_yellow")
                     screenInfo.defaultColour[COL_ST4_BACK_YELLOW].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back_cyan")
+                if (child->GetAttribute("type", wxEmptyString) == "back_cyan")
                     screenInfo.defaultColour[COL_ST4_BACK_CYAN].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back_white")
+                if (child->GetAttribute("type", wxEmptyString) == "back_white")
                     screenInfo.defaultColour[COL_ST4_BACK_WHITE].Printf("#%02X%02X%02X", red, green, blue);
             break;
                 

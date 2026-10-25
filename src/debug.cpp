@@ -45,9 +45,9 @@
 #include "wx/tglbtn.h"
 #include "wx/listbox.h"
 #include "wx/fileconf.h"
-#include "wx/numformatter.h"
 
 #include "main.h"
+#include <limits>
 #include "debug.h"
 #include "computerconfig.h"
 
@@ -7127,7 +7127,7 @@ void DebugWindow::directAss()
         else
         {
             if (executed > 0)
-                executedStr = wxNumberFormatter::ToString((double)executed, 0);
+                executedStr = EMMA_NUMBER_STRING(executed, 0);
             numberOfSpaces = 26 - (int)executedStr.Len();
         }
 
@@ -11363,8 +11363,8 @@ void DebugWindow::loadAll(wxString configFileName)
             dirAssFileNameVector[number] = identifier;
 
             wxString tempStr = configFileIn.GetNextLine();
-            tempStr.Replace("\\", wxFileName::GetPathSeparator(wxPATH_NATIVE));
-            tempStr.Replace("/", wxFileName::GetPathSeparator(wxPATH_NATIVE));
+            tempStr.Replace("\\", wxString(wxFileName::GetPathSeparator(wxPATH_NATIVE)));
+            tempStr.Replace("/", wxString(wxFileName::GetPathSeparator(wxPATH_NATIVE)));
             if (tempStr.Left(2) == "c:" || tempStr.Left(2) == "C:")
                 dirAssDirNameVector[number] = tempStr;
             else
@@ -12539,7 +12539,7 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
                     pos = line.Find(';', true);
                     line.SetChar(pos, '\a');
                     line.Replace(";", "\n        ");
-                    line.Replace('\a', ';');
+                    line.Replace(wxString(wxT('\a')), wxT(";"));
                     pos = line.Find('\n', true);
                     tempLine = line.Right(line.Len()-pos);
                     pos = tempLine.Find(';', true);
@@ -15952,7 +15952,7 @@ void DebugWindow::definePseudoCommands()
                             wxString codeVal = pseudoLine.Mid(codePos2 + 5);
                             for (size_t hc = 0; hc < codeVal.Len(); hc++)
                             {
-                                wxUniChar ch = codeVal.GetChar(hc);
+                                EMMA_UNICHAR ch = codeVal.GetChar(hc);
                                 if ((ch >= wxT('0') && ch <= wxT('9')) ||
                                     (ch >= wxT('a') && ch <= wxT('f')) ||
                                     (ch >= wxT('A') && ch <= wxT('F')))

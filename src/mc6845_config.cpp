@@ -240,14 +240,14 @@ void Mc6845Config::parseXml_MC6845Video(wxXmlNode &node)
              break;
                 
             case TAG_OUT:
-                if (child->GetAttribute("type") == "register")
+                if (child->GetAttribute("type", wxEmptyString) == "register")
                 {
                     computerConfiguration.mc6845Configuration.address = (int)parseXml_Number(*child);
                     computerConfiguration.mc6845Configuration.addressMask = (int)parseXml_Number(*child, "mask");
                     if (computerConfiguration.mc6845Configuration.addressMask == 0)
                         computerConfiguration.mc6845Configuration.addressMask = 0xFFFF;
                 }
-                if (child->GetAttribute("type") == "data")
+                if (child->GetAttribute("type", wxEmptyString) == "data")
                 {
                     computerConfiguration.mc6845Configuration.data = (int)parseXml_Number(*child);
                     computerConfiguration.mc6845Configuration.dataMask = (int)parseXml_Number(*child, "mask");
@@ -355,9 +355,9 @@ void Mc6845Config::parseXml_MC6845Video(wxXmlNode &node)
                 green = (int)getNextHexDec(&color) & 0xff;
                 blue = (int)getNextHexDec(&color) & 0xff;
                 
-                if (child->GetAttribute("type") == "fore")
+                if (child->GetAttribute("type", wxEmptyString) == "fore")
                     screenInfo.defaultColour[COL_MC6845_FORE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back")
+                if (child->GetAttribute("type", wxEmptyString) == "back")
                     screenInfo.defaultColour[COL_MC6845_BACK].Printf("#%02X%02X%02X", red, green, blue);
             break;
     

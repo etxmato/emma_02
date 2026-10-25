@@ -1620,8 +1620,14 @@ void Usbcard::usbOutNoEfCheck(Byte value)
                         storeClockValue(systemNow.GetMonth()+1);
                         storeClockValue(systemNow.GetYear() % 100);
                                                 
+#if wxCHECK_VERSION(2, 9, 0)
                         dateFormat = systemFormat.GetInfo(wxLOCALE_SHORT_DATE_FMT);
                         timeFormat = systemFormat.GetInfo(wxLOCALE_TIME_FMT);
+#else
+                        // wx 2.8 has no date/time format keys: fixed fallback in the same %d/%m/%Y and %H:%M:%S form
+                        dateFormat = "%d/%m/%Y";
+                        timeFormat = "%H:%M:%S";
+#endif
                         
                         // %d/%m/%Y - %Y-%m-%d
                         dateFormat = dateFormat.MakeLower();
@@ -2487,7 +2493,7 @@ wxString Usbcard::convertCase(wxString strValue, int type, int convertType)
                 strValue = strValue.MakeUpper();
                 break;
             case CAPITALIZE:
-                strValue = strValue.Capitalize();
+                strValue = EMMA_CAPITALIZE(strValue);
                 break;
         }
             break;
@@ -2525,7 +2531,7 @@ wxString Usbcard::convertCase(wxString strValue, int type, int convertType)
                 strValue = strValue.MakeUpper();
                 break;
             case CAPITALIZE:
-                strValue = strValue.Capitalize();
+                strValue = EMMA_CAPITALIZE(strValue);
                 break;
         }
             break;
@@ -3391,11 +3397,11 @@ void Usbcard::convertSyncToScores()
     {
         data = data.Right(data.Len()-1);
         
-        swIdStr = data.BeforeFirst(';', &dataCopy);
-        playerName = dataCopy.BeforeFirst(';', &data);
-        highScoreStr = data.BeforeFirst(';', &dataCopy);
-        gameNumberStr = dataCopy.BeforeFirst(';', &data);
-        locationStr = data.BeforeFirst(';', &dataCopy);
+        swIdStr = EMMA_BEFORE_FIRST(data, ';', &dataCopy);
+        playerName = EMMA_BEFORE_FIRST(dataCopy, ';', &data);
+        highScoreStr = EMMA_BEFORE_FIRST(data, ';', &dataCopy);
+        gameNumberStr = EMMA_BEFORE_FIRST(dataCopy, ';', &data);
+        locationStr = EMMA_BEFORE_FIRST(data, ';', &dataCopy);
         
         data = dataCopy.AfterFirst('~');
         
@@ -3406,9 +3412,9 @@ void Usbcard::convertSyncToScores()
             data = data.Mid(position);
         }
         
-        swIdStr.ToCLong(&swId);
-        highScoreStr.ToCLong(&highScore);
-        gameNumberStr.ToCLong(&gameNumber);
+        EMMA_TO_CLONG(swIdStr, &swId);
+        EMMA_TO_CLONG(highScoreStr, &highScore);
+        EMMA_TO_CLONG(gameNumberStr, &gameNumber);
         
         pos = getSwId((int)swId);
         if (pos != -1)
@@ -4505,7 +4511,7 @@ void Usbcard::writeLine(bool trim)
         {
             if ((i+1)>diff && i<(textLine_.Len()+diff))
             {
-                charByte = textLine_[i-diff].GetValue();
+                charByte = EMMA_CHAR_VALUE(textLine_[i-diff]);
                 int linkNumber = linkLine_[i-diff];
                 
                 if (charByte == 32)
@@ -4566,28 +4572,28 @@ wxString Usbcard::convertUtf8(wxString text)
     
     for (size_t i=0; i<text.Len(); i++)
     {
-        charValue = text[i].GetValue();
-        if ((text[i].GetValue()&0xe0) == 0xC0 && (i+1)<text.Len())
+        charValue = EMMA_CHAR_VALUE(text[i]);
+        if ((EMMA_CHAR_VALUE(text[i])&0xe0) == 0xC0 && (i+1)<text.Len())
         {
-            charValue = (text[i].GetValue()&0x1f)<<6;
-            charValue = charValue + (text[i+1].GetValue()&0x3f);
+            charValue = (EMMA_CHAR_VALUE(text[i])&0x1f)<<6;
+            charValue = charValue + (EMMA_CHAR_VALUE(text[i+1])&0x3f);
             text.Remove(i+1,1);
         }
         
-        if ((text[i].GetValue()&0xf0) == 0xE0 && (i+2)<text.Len())
+        if ((EMMA_CHAR_VALUE(text[i])&0xf0) == 0xE0 && (i+2)<text.Len())
         {
-            charValue = (text[i].GetValue()&0x0f)<<12;
-            charValue = charValue + ((text[i+1].GetValue()&0x3f)<<6);
-            charValue = charValue + (text[i+2].GetValue()&0x3f);
+            charValue = (EMMA_CHAR_VALUE(text[i])&0x0f)<<12;
+            charValue = charValue + ((EMMA_CHAR_VALUE(text[i+1])&0x3f)<<6);
+            charValue = charValue + (EMMA_CHAR_VALUE(text[i+2])&0x3f);
             text.Remove(i+1,2);
         }
         
-        if ((text[i].GetValue()&0xf1) == 0xf0 && (i+3)<text.Len())
+        if ((EMMA_CHAR_VALUE(text[i])&0xf1) == 0xf0 && (i+3)<text.Len())
         {
-            charValue = (text[i].GetValue()&0x07)<<18;
-            charValue = charValue + ((text[i+1].GetValue()&0x3f)<<12);
-            charValue = charValue + ((text[i+2].GetValue()&0x3f)<<6);
-            charValue = charValue + (text[i+3].GetValue()&0x3f);
+            charValue = (EMMA_CHAR_VALUE(text[i])&0x07)<<18;
+            charValue = charValue + ((EMMA_CHAR_VALUE(text[i+1])&0x3f)<<12);
+            charValue = charValue + ((EMMA_CHAR_VALUE(text[i+2])&0x3f)<<6);
+            charValue = charValue + (EMMA_CHAR_VALUE(text[i+3])&0x3f);
             text.Remove(i+1,3);
         }
         if (charValue <= 0x80 || charValue == 160)
@@ -4911,7 +4917,7 @@ void Usbcard::getText()
             
             if (htmlTag.element.Len() != 0)
             {
-                switch (htmlTag.element[0].GetValue())
+                switch (EMMA_CHAR_VALUE(htmlTag.element[0]))
                 {
                     case 'a':
                         if (htmlTag.element == "a")
@@ -5008,7 +5014,7 @@ void Usbcard::getText()
                         if (htmlTag.element.Len() > 1) // hX
                         {
                             unsigned long number;
-                            if (htmlTag.element.Mid(1,1).ToCULong(&number))
+                            if (EMMA_TO_CULONG(htmlTag.element.Mid(1,1), &number))
                             {
                                 writeLine();
                                 newLine();
@@ -5216,7 +5222,7 @@ void Usbcard::getText()
                             if (htmlTag.element.Left(2) == "/h")
                             {
                                 unsigned long number;
-                                if (htmlTag.element.Mid(2,1).ToCULong(&number))
+                                if (EMMA_TO_CULONG(htmlTag.element.Mid(2,1), &number))
                                 {
                                     writeLine();
                                     newLine();
@@ -7144,7 +7150,7 @@ void Usbcard::liTag()
             if (currentUrlLinePos_ < 2)
                 writeText(bullet+" ", urlLink_ == 0x80, shapeColour_ == 0x80, false);
             else
-                textLine_.SetChar(currentUrlLinePos_-2, bullet[0].GetValue());
+                textLine_.SetChar(currentUrlLinePos_-2, EMMA_CHAR_VALUE(bullet[0]));
         }
     }
 }

@@ -1,6 +1,11 @@
 #ifndef STATUSBAR_H
 #define STATUSBAR_H
 
+// wx 2.8 has no bitmap API on wxButton: MSW uses wxBitmapButton LEDs there, as on Linux/Mac
+#if defined(__WXMSW__) && wxCHECK_VERSION(2, 8, 0) && !wxCHECK_VERSION(2, 9, 0)
+#define EMMA_LED_BITMAP_BUTTON_W28
+#endif
+
 #define LED_SIZE_X 12
 #define LED_SIZE_Y 7
 
@@ -19,6 +24,17 @@ public:
 protected:
     wxBitmap *ledOffPointer;
     wxBitmap *ledOnPointer;
+
+#if defined(__WXMAC__)
+    // macOS 26 (Tahoe) and later: wxStatusBarMac leaves its background to the OS
+    // and uses a very light grey for the text. The status bar is a transparent
+    // view, so the frame background (black for the video frames) showed through.
+    // On 26+ we paint the bar background, separator and text ourselves; on older
+    // macOS releases the base class still paints it. See
+    // bug_fix_macos_statusbar_black.md.
+    void onPaint(wxPaintEvent& event);
+    void onSysColourChanged(wxSysColourChangedEvent& event);
+#endif
 };
 
 class ComxStatusBar : public EmmaStatusBar
@@ -40,7 +56,7 @@ private:
     void updateStatusBarText();
     wxString getStatusBarTextXml(int slot, wxRect rect);
 
-#if defined(__linux__) || defined(__WXMAC__)
+#if defined(__linux__) || defined(__WXMAC__) || defined(EMMA_LED_BITMAP_BUTTON_W28)
     wxBitmapButton *ledBitmapPointers [4][2];
 #else
     wxButton *ledBitmapPointers [4][2];
@@ -99,7 +115,7 @@ private:
     void displayText();
     void displayLeds();
 
-#if defined(__linux__) || defined(__WXMAC__)
+#if defined(__linux__) || defined(__WXMAC__) || defined(EMMA_LED_BITMAP_BUTTON_W28)
     wxBitmapButton *ledBitmapPointers [5];
 #else
     wxButton *ledBitmapPointers [5];
@@ -138,7 +154,7 @@ private:
     void displayText();
     void displayLeds();
 
-#if defined(__linux__) || defined(__WXMAC__)
+#if defined(__linux__) || defined(__WXMAC__) || defined(EMMA_LED_BITMAP_BUTTON_W28)
     wxBitmapButton *diagLedPointer [NUMBER_OF_DIAG_LEDS];
 #else
     wxButton *diagLedPointer [NUMBER_OF_DIAG_LEDS];
@@ -157,7 +173,7 @@ private:
 
 };
 
-class VipIIStatusBar : public wxStatusBar
+class VipIIStatusBar : public EmmaStatusBar
 {
 public:
     VipIIStatusBar(wxWindow *parent);
@@ -173,7 +189,7 @@ private:
     void deleteBitmaps();
     void updateStatusBarText();
 
-#if defined(__linux__) || defined(__WXMAC__)
+#if defined(__linux__) || defined(__WXMAC__) || defined(EMMA_LED_BITMAP_BUTTON_W28)
     wxBitmapButton *ledBitmapPointers [4];
 #else
     wxButton *ledBitmapPointers [4];

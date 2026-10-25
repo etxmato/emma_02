@@ -1011,7 +1011,7 @@ void Mm57109Instance::mantissaConvert(double reg)
     {
         if (outputFormat.GetChar(charNumber) < 0x30)
             charNumber++;
-        outputRegister[digit] = outputFormat.GetChar(charNumber++) - (wxUniChar)0x30;
+        outputRegister[digit] = outputFormat.GetChar(charNumber++) - (EMMA_UNICHAR)0x30;
     }
     for (int digit = mdc_+2; digit < 10; digit++)
         outputRegister[digit] = 0;
@@ -1060,11 +1060,11 @@ void Mm57109Instance::exponentConvert(double reg)
 
     outputRegister[3] = 0x9b;      // digital point is not used - i.e. always 0x9b
     
-    outputRegister[4] = outputFormat.GetChar(charNumber++) - (wxUniChar)0x30;
+    outputRegister[4] = outputFormat.GetChar(charNumber++) - (EMMA_UNICHAR)0x30;
     charNumber++;                  // skip the digital point as it is always in the same position
 
     for (int digit = 5; digit < mdc_+4; digit++)             // get digit 2 to 8
-        outputRegister[digit] = outputFormat.GetChar(charNumber++) - (wxUniChar)0x30;
+        outputRegister[digit] = outputFormat.GetChar(charNumber++) - (EMMA_UNICHAR)0x30;
     for (int digit = mdc_+4; digit < 12; digit++)
         outputRegister[digit] = 0;
 
@@ -1077,7 +1077,7 @@ void Mm57109Instance::exponentConvert(double reg)
     while (charNumber < outputFormat.Len())
     {
         exponent *= 10;
-        exponent += outputFormat.GetChar(charNumber++) - (wxUniChar)0x30;
+        exponent += outputFormat.GetChar(charNumber++) - (EMMA_UNICHAR)0x30;
     }
     
     outputRegister[0] = (exponent/10) % 10;

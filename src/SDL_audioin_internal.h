@@ -65,7 +65,7 @@ DECLSPEC int  SDLCALL AudioSpecTicks(const SDL_AudioSpec *spec);
 DECLSPEC int SDLCALL null_init(void);
 DECLSPEC void SDLCALL null_quit(void);
 
-#if defined (__WXMSW__)
+#if defined (__WXMSW__) && !defined (EMMA_SDL12)
 extern volatile SDL_AudioStatus audioin_status;
 #else
 extern volatile SDL_audiostatus audioin_status;

@@ -215,9 +215,9 @@ void FredVideoConfig::parseXml_FredVideo(wxXmlNode &node)
                 green = (int)getNextHexDec(&color) & 0xff;
                 blue = (int)getNextHexDec(&color) & 0xff;
                 
-                if (child->GetAttribute("type") == "fore")
+                if (child->GetAttribute("type", wxEmptyString) == "fore")
                     screenInfo.defaultColour[COL_PIXIE_FORE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back")
+                if (child->GetAttribute("type", wxEmptyString) == "back")
                     screenInfo.defaultColour[COL_PIXIE_BACK].Printf("#%02X%02X%02X", red, green, blue);
             break;
                 

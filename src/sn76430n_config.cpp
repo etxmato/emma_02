@@ -170,15 +170,15 @@ void Sn76430NConfig::parseXml_SN76430NVideo(wxXmlNode &node)
                 green = (int)getNextHexDec(&color) & 0xff;
                 blue = (int)getNextHexDec(&color) & 0xff;
                 
-                if (child->GetAttribute("type") == "white")
+                if (child->GetAttribute("type", wxEmptyString) == "white")
                     screenInfo.defaultColour[COL_SN76430N_WHITE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "yellow")
+                if (child->GetAttribute("type", wxEmptyString) == "yellow")
                     screenInfo.defaultColour[COL_SN76430N_YELLOW].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "green")
+                if (child->GetAttribute("type", wxEmptyString) == "green")
                     screenInfo.defaultColour[COL_SN76430N_GREEN].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "red")
+                if (child->GetAttribute("type", wxEmptyString) == "red")
                     screenInfo.defaultColour[COL_SN76430N_RED].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "black")
+                if (child->GetAttribute("type", wxEmptyString) == "black")
                     screenInfo.defaultColour[COL_SN76430N_BLACK].Printf("#%02X%02X%02X", red, green, blue);
             break;
                 

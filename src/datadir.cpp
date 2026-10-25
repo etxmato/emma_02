@@ -111,9 +111,9 @@ static void makeFileWritable( const wxString& path )
     if ( !wxFileExists( path ) )
         return;
 #if defined(__WXMSW__)
-    DWORD attributes = ::GetFileAttributes( path.wc_str() );
+    DWORD attributes = ::GetFileAttributes( EMMA_WCSTR(path) );
     if ( attributes != INVALID_FILE_ATTRIBUTES && ( attributes & (FILE_ATTRIBUTE_READONLY | FILE_ATTRIBUTE_HIDDEN) ) )
-        ::SetFileAttributes( path.wc_str(), attributes & ~(FILE_ATTRIBUTE_READONLY | FILE_ATTRIBUTE_HIDDEN) );
+        ::SetFileAttributes( EMMA_WCSTR(path), attributes & ~(FILE_ATTRIBUTE_READONLY | FILE_ATTRIBUTE_HIDDEN) );
 #else
     struct stat fileStatus;
     if (::stat(path.mb_str(), &fileStatus) == 0 && !(fileStatus.st_mode & S_IWUSR))

@@ -149,7 +149,11 @@ int WINDIB_OpenAudioIn(SDL_AudioSpec *requested, SDL_AudioSpec *result)
 	readsem=SDL_CreateSemaphore(0);
 	writesem=SDL_CreateSemaphore(NUM_BUFFERS);
 
+#if defined (EMMA_SDL12)
+	thread=SDL_CreateThread(enqueue_thread,NULL);
+#else
 	thread=SDL_CreateThread(enqueue_thread,"",NULL);
+#endif
 	if(thread==NULL)
 	{  
 	  SDL_DestroyMutex(mutex); mutex=NULL;

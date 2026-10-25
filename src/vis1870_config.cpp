@@ -275,12 +275,12 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
         {
             case TAG_PAGE:
                 labelDetails = "Page RAM = %d KB";
-                if (child->GetAttribute("type") == "rom")
+                if (child->GetAttribute("type", wxEmptyString) == "rom")
                 {
                     computerConfiguration.vis1870Configuration.pageMemIsRom = true;
                     labelDetails = "Page ROM = %d KB";
                 }
-                if (child->GetAttribute("iogroup") == "no")
+                if (child->GetAttribute("iogroup", wxEmptyString) == "no")
                 {
                     computerConfiguration.vis1870Configuration.pageMemExcludeIoGroup = true;
                     labelDetails += " (no grp)";
@@ -294,12 +294,12 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
                                 
             case TAG_CHAR:
                 labelDetails = "Character RAM = %d KB";
-                if (child->GetAttribute("type") == "rom")
+                if (child->GetAttribute("type", wxEmptyString) == "rom")
                 {
                     computerConfiguration.vis1870Configuration.charMemIsRom = true;
                     labelDetails = "Character ROM = %d KB";
                 }
-                if (child->GetAttribute("iogroup") == "no")
+                if (child->GetAttribute("iogroup", wxEmptyString) == "no")
                 {
                     computerConfiguration.vis1870Configuration.charMemExcludeIoGroup = true;
                     labelDetails += " (no grp)";
@@ -312,7 +312,7 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
 
             case TAG_GRAPHIC:
                 labelDetails = "Graphic RAM = %d KB";
-                if (child->GetAttribute("iogroup") == "no")
+                if (child->GetAttribute("iogroup", wxEmptyString) == "no")
                 {
                     computerConfiguration.vis1870Configuration.graphicMemExcludeIoGroup = true;
                     labelDetails += " (no grp)";
@@ -328,7 +328,7 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
             break;
 
             case TAG_FILENAME:
-                if (child->GetAttribute("format") == "tmc")
+                if (child->GetAttribute("format", wxEmptyString) == "tmc")
                     computerConfiguration.vis1870Configuration.charRomIsTmcFormat = true;
                 computerConfiguration.characterRomConfiguration.fileName = child->GetNodeContent();
             break;
@@ -369,17 +369,17 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
             break;
 
             case TAG_EF:
-                if (child->GetAttribute("type") == "display")
+                if (child->GetAttribute("type", wxEmptyString) == "display")
                 {
                     computerConfiguration.vis1870Configuration.ef = parseXml_EfFlag(*child, VIS1870_EF);
                     setEfFlagConfig(computerConfiguration.vis1870Configuration.ef, "(non)display period", "VisEfDisplayText");
                 }
-                if (child->GetAttribute("type") == "mode")
+                if (child->GetAttribute("type", wxEmptyString) == "mode")
                 {
                     computerConfiguration.vis1870Configuration.videoModeEf = (int)parseXml_Number(*child);
                     computerConfiguration.vis1870Configuration.useVideoModeEf = true;
                 }
-                if (child->GetAttribute("write") == "enable")
+                if (child->GetAttribute("write", wxEmptyString) == "enable")
                 {
                     computerConfiguration.vis1870Configuration.useBlockWrite = false;
                 }
@@ -398,23 +398,23 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
             break;
 
             case TAG_COLORRAM:
-                if (child->GetAttribute("type") == "cidelsa")
+                if (child->GetAttribute("type", wxEmptyString) == "cidelsa")
                     computerConfiguration.vis1870Configuration.colorRamType = CR_CIDELSA;
-                if (child->GetAttribute("type") == "tmc")
+                if (child->GetAttribute("type", wxEmptyString) == "tmc")
                     computerConfiguration.vis1870Configuration.colorRamType = CR_TMC600;
-                if (child->GetAttribute("type") == "vp3301")
+                if (child->GetAttribute("type", wxEmptyString) == "vp3301")
                     computerConfiguration.vis1870Configuration.colorRamType = CR_VP3301;
             break;
                 
             case TAG_OUT:
-                if (child->GetAttribute("type") == "write")
+                if (child->GetAttribute("type", wxEmptyString) == "write")
                 {
                     registerSelectActive_ = true;
 
                     computerConfiguration.vis1870Configuration.outputWrite = parseXml_IoPort(*child, VIS1870_TELMAC_DATA_OUT);
                     setIoPortConfig(computerConfiguration.vis1870Configuration.outputWrite, registerId[VIS_DATA], registerFunction[VIS_DATA], "O");
                 }
-                if (child->GetAttribute("type") == "select")
+                if (child->GetAttribute("type", wxEmptyString) == "select")
                 {
                     registerSelectActive_ = true;
                     
@@ -429,14 +429,14 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
                     computerConfiguration.vis1870Configuration.outputSelect = parseXml_IoPort(*child, VIS1870_TELMAC_REGISTER_OUT);
                     setIoPortConfig(computerConfiguration.vis1870Configuration.outputSelect, registerId[VIS_REGISTER], registerFunction[VIS_REGISTER], "O");
                 }
-                if (child->GetAttribute("type") == "int")
+                if (child->GetAttribute("type", wxEmptyString) == "int")
                 {
                     computerConfiguration.vis1870Configuration.outputInterruptEnable = parseXml_IoPort(*child, VIS1870_OUT2);
                     
                     if (!registerSelectActive_)
                         setIoPortConfig(computerConfiguration.vis1870Configuration.outputInterruptEnable, registerId[VIS_INT_ENABLE], registerFunction[VIS_INT_ENABLE], "O");
                 }
-                if (child->GetAttribute("type") == "int_reset")
+                if (child->GetAttribute("type", wxEmptyString) == "int_reset")
                 {
                     computerConfiguration.vis1870Configuration.outputInterruptReset = parseXml_IoPort(*child, VIS1870_INT_RESET);
                     if (!registerSelectActive_)
@@ -481,7 +481,7 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
                 green[number] = getNextHexDec(&color) & 0xff;
                 blue[number] = getNextHexDec(&color) & 0xff;
                 
-                if (child->GetAttribute("type") == "mask")
+                if (child->GetAttribute("type", wxEmptyString) == "mask")
                 {
                     if (number == 0)
                     {
@@ -527,7 +527,7 @@ void Vis1870Config::parseXml_VisVideo(wxXmlNode &node)
             break;
 
             case TAG_IOGROUP:
-                if (child->GetAttribute("type") == "q")
+                if (child->GetAttribute("type", wxEmptyString) == "q")
                 {
                     computerConfiguration.vis1870Configuration.qGroup = (int)parseXml_Number(*child);
                 }

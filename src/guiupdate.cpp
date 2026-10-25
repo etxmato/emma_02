@@ -53,14 +53,12 @@ void GuiUpdate::guiSetButtonLabel(wxString info, wxString value)
     if (!mode_.gui)
         return;
 
-    callAfterInfo_ = info;
-    callAfterValue_ = value;
-    CallAfter(&GuiUpdate::guiSetButtonLabelHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiSetButtonLabelHelper, info, value);
 }
 
-void GuiUpdate::guiSetButtonLabelHelper()
+void GuiUpdate::guiSetButtonLabelHelper(wxString info, wxString value)
 {
-    XRCCTRL(*this, callAfterInfo_, wxButton)->SetLabel(callAfterValue_);
+    XRCCTRL(*this, info, wxButton)->SetLabel(value);
 }
 
 void GuiUpdate::guiSetCheckBox(wxString info, bool state)
@@ -68,14 +66,12 @@ void GuiUpdate::guiSetCheckBox(wxString info, bool state)
     if (!mode_.gui)
         return;
 
-    callAfterInfo_ = info;
-    callAfterState_ = state;
-    CallAfter(&GuiUpdate::guiSetCheckBoxHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiSetCheckBoxHelper, info, state);
 }
 
-void GuiUpdate::guiSetCheckBoxHelper()
+void GuiUpdate::guiSetCheckBoxHelper(wxString info, bool state)
 {
-    setCheckBox(callAfterInfo_, callAfterState_);
+    setCheckBox(info, state);
 }
 
 void GuiUpdate::guiShowMessage(Word message)
@@ -83,13 +79,12 @@ void GuiUpdate::guiShowMessage(Word message)
     wxString buffer;
     buffer.Printf("%04X", message);
 
-    callAfterMessageText_ = buffer;
-    CallAfter(&GuiUpdate::guiShowMessageHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiShowMessageHelper, buffer);
 }
 
-void GuiUpdate::guiShowMessageHelper()
+void GuiUpdate::guiShowMessageHelper(wxString messageText)
 {
-    p_Main->message(callAfterMessageText_);
+    p_Main->message(messageText);
 }
 
 void GuiUpdate::guiSetTextValue(wxString info, wxString value)
@@ -97,14 +92,12 @@ void GuiUpdate::guiSetTextValue(wxString info, wxString value)
     if (!mode_.gui)
         return;
 
-    callAfterInfo_ = info;
-    callAfterValue_ = value;
-    CallAfter(&GuiUpdate::guiSetTextValueHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiSetTextValueHelper, info, value);
 }
 
-void GuiUpdate::guiSetTextValueHelper()
+void GuiUpdate::guiSetTextValueHelper(wxString info, wxString value)
 {
-    XRCCTRL(*this, callAfterInfo_, wxTextCtrl)->SetValue(callAfterValue_);
+    XRCCTRL(*this, info, wxTextCtrl)->SetValue(value);
 }
 
 void GuiUpdate::guiSetStaticTextValue(wxString info, wxString value)
@@ -112,14 +105,12 @@ void GuiUpdate::guiSetStaticTextValue(wxString info, wxString value)
     if (!mode_.gui)
         return;
 
-    callAfterInfo_ = info;
-    callAfterValue_ = value;
-    CallAfter(&GuiUpdate::guiSetStaticTextValueHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiSetStaticTextValueHelper, info, value);
 }
 
-void GuiUpdate::guiSetStaticTextValueHelper()
+void GuiUpdate::guiSetStaticTextValueHelper(wxString info, wxString value)
 {
-    XRCCTRL(*this, callAfterInfo_, wxStaticText)->SetLabel(callAfterValue_);
+    XRCCTRL(*this, info, wxStaticText)->SetLabel(value);
 }
 
 void GuiUpdate::guiEnableClock(bool state)
@@ -127,13 +118,12 @@ void GuiUpdate::guiEnableClock(bool state)
     if (!mode_.gui)
         return;
 
-    callAfterState_ = state;
-    CallAfter(&GuiUpdate::guiEnableClockHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiEnableClockHelper, state);
 }
 
-void GuiUpdate::guiEnableClockHelper()
+void GuiUpdate::guiEnableClockHelper(bool state)
 {
-    XRCCTRL(*this, "clockTextCtrl", wxTextCtrl)->Enable(callAfterState_);
+    XRCCTRL(*this, "clockTextCtrl", wxTextCtrl)->Enable(state);
 }
 
 void GuiUpdate::guiSetConvertState(bool state)
@@ -141,14 +131,13 @@ void GuiUpdate::guiSetConvertState(bool state)
     if (!mode_.gui)
         return;
 
-    callAfterState_ = state;
-    CallAfter(&GuiUpdate::guiSetConvertStateHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiSetConvertStateHelper, state);
 }
 
-void GuiUpdate::guiSetConvertStateHelper()
+void GuiUpdate::guiSetConvertStateHelper(bool state)
 {
-    XRCCTRL(*this, "BatchConvertButtonXml", wxButton)->Enable(callAfterState_);
-    XRCCTRL(*this, "BatchButtonXml", wxButton)->Enable(callAfterState_);
+    XRCCTRL(*this, "BatchConvertButtonXml", wxButton)->Enable(state);
+    XRCCTRL(*this, "BatchButtonXml", wxButton)->Enable(state);
 }
 
 void GuiUpdate::guiSetLocation(bool state, Word saveStart, Word saveEnd, Word saveExec)
@@ -169,23 +158,19 @@ void GuiUpdate::guiSetLocation(bool state, Word saveStart, Word saveEnd, Word sa
     if (!mode_.gui)
         return;
 
-    callAfterState_ = state;
-    callAfterSaveStartString_ = saveStartString;
-    callAfterSaveEndString_ = saveEndString;
-    callAfterSaveExecString_ = saveExecString;
-    CallAfter(&GuiUpdate::guiSetLocationHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiSetLocationHelper, state, saveStartString, saveEndString, saveExecString);
 }
 
-void GuiUpdate::guiSetLocationHelper()
+void GuiUpdate::guiSetLocationHelper(bool state, wxString saveStartString, wxString saveEndString, wxString saveExecString)
 {
     if (popupDialog_ != NULL)
-        popupDialog_->setLocation(callAfterState_, callAfterSaveStartString_, callAfterSaveEndString_, callAfterSaveExecString_);
+        popupDialog_->setLocation(state, saveStartString, saveEndString, saveExecString);
 
-    if (callAfterState_)
+    if (state)
     {
-        XRCCTRL(*this,"SaveStartXml", wxTextCtrl)->ChangeValue(callAfterSaveStartString_);
-        XRCCTRL(*this,"SaveEndXml", wxTextCtrl)->ChangeValue(callAfterSaveEndString_);
-        XRCCTRL(*this,"SaveExecXml", wxTextCtrl)->ChangeValue(callAfterSaveExecString_);
+        XRCCTRL(*this,"SaveStartXml", wxTextCtrl)->ChangeValue(saveStartString);
+        XRCCTRL(*this,"SaveEndXml", wxTextCtrl)->ChangeValue(saveEndString);
+        XRCCTRL(*this,"SaveExecXml", wxTextCtrl)->ChangeValue(saveExecString);
     }
     else
     {
@@ -193,7 +178,7 @@ void GuiUpdate::guiSetLocationHelper()
         XRCCTRL(*this,"SaveEndXml", wxTextCtrl)->ChangeValue("");
         XRCCTRL(*this,"SaveExecXml", wxTextCtrl)->ChangeValue("");
     }
-    XRCCTRL(*this, "UseLocationXml", wxCheckBox)->SetValue(callAfterState_);
+    XRCCTRL(*this, "UseLocationXml", wxCheckBox)->SetValue(state);
     enableLocationGui();
 }
 
@@ -204,16 +189,15 @@ void GuiUpdate::guiSetLocationState(bool state)
     if (!mode_.gui)
         return;
 
-    callAfterState_ = state;
-    CallAfter(&GuiUpdate::guiSetLocationStateHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiSetLocationStateHelper, state);
 }
 
-void GuiUpdate::guiSetLocationStateHelper()
+void GuiUpdate::guiSetLocationStateHelper(bool state)
 {
     if (popupDialog_ != NULL)
-        popupDialog_->setLocation(callAfterState_);
+        popupDialog_->setLocation(state);
 
-    XRCCTRL(*this, "UseLocationXml", wxCheckBox)->SetValue(callAfterState_);
+    XRCCTRL(*this, "UseLocationXml", wxCheckBox)->SetValue(state);
     enableLocationGui();
 }
 
@@ -228,16 +212,15 @@ void GuiUpdate::guiSaveStart(Word saveStart)
     if (!mode_.gui)
         return;
 
-    callAfterSaveStartString_ = saveStartString;
-    CallAfter(&GuiUpdate::guiSaveStartHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiSaveStartHelper, saveStartString);
 }
 
-void GuiUpdate::guiSaveStartHelper()
+void GuiUpdate::guiSaveStartHelper(wxString saveStartString)
 {
     if (popupDialog_ != NULL)
-        popupDialog_->setStartLocation(callAfterSaveStartString_);
+        popupDialog_->setStartLocation(saveStartString);
 
-    XRCCTRL(*this,"SaveStartXml", wxTextCtrl)->SetValue(callAfterSaveStartString_);
+    XRCCTRL(*this,"SaveStartXml", wxTextCtrl)->SetValue(saveStartString);
 }
 
 void GuiUpdate::guiSaveEnd(Word saveEnd)
@@ -251,45 +234,41 @@ void GuiUpdate::guiSaveEnd(Word saveEnd)
     if (!mode_.gui)
         return;
 
-    callAfterSaveEndString_ = saveEndString;
-    CallAfter(&GuiUpdate::guiSaveEndHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiSaveEndHelper, saveEndString);
 }
 
-void GuiUpdate::guiSaveEndHelper()
+void GuiUpdate::guiSaveEndHelper(wxString saveEndString)
 {
     if (popupDialog_ != NULL)
-        popupDialog_->setEndLocation(callAfterSaveEndString_);
+        popupDialog_->setEndLocation(saveEndString);
 
-    XRCCTRL(*this,"SaveEndXml", wxTextCtrl)->SetValue(callAfterSaveEndString_);
+    XRCCTRL(*this,"SaveEndXml", wxTextCtrl)->SetValue(saveEndString);
 }
 
 void GuiUpdate::guiSetTapeState(int tapeState, wxString tapeNumber)
 {
-    callAfterTapeState_ = tapeState;
-    callAfterTapeNumber_ = tapeNumber;
-    CallAfter(&GuiUpdate::guiSetTapeStateHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiSetTapeStateHelper, tapeState, tapeNumber);
 }
 
-void GuiUpdate::guiSetTapeStateHelper()
+void GuiUpdate::guiSetTapeStateHelper(int tapeState, wxString tapeNumber)
 {
-    setTapeState(callAfterTapeState_, callAfterTapeNumber_);
+    setTapeState(tapeState, tapeNumber);
 }
 
 void GuiUpdate::guiSetSwName(wxString swName)
 {
-    callAfterSwName_ = swName;
-    CallAfter(&GuiUpdate::guiSetSwNameHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiSetSwNameHelper, swName);
 }
 
-void GuiUpdate::guiSetSwNameHelper()
+void GuiUpdate::guiSetSwNameHelper(wxString swName)
 {
-    p_Main->setSwName(callAfterSwName_);
+    p_Main->setSwName(swName);
     p_Main->updateTitle();
 }
 
 void GuiUpdate::guiUpdateTitle()
 {
-    CallAfter(&GuiUpdate::guiUpdateTitleHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiUpdateTitleHelper);
 }
 
 void GuiUpdate::guiUpdateTitleHelper()
@@ -301,15 +280,15 @@ void GuiUpdate::guiHwTapeStateChange(int status)
 {
     hwTapeState_ = status;
 
-    CallAfter(&GuiUpdate::guiHwTapeStateChangeHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiHwTapeStateChangeHelper, status);
 }
 
-void GuiUpdate::guiHwTapeStateChangeHelper()
+void GuiUpdate::guiHwTapeStateChangeHelper(int status)
 {
     if (!mode_.gui)
         return;
 
-    switch (hwTapeState_)
+    switch (status)
     {
         case HW_TAPE_STATE_PLAY:
             XRCCTRL(*this, "CasLoadXml", wxBitmapButton)->SetBitmapLabel(playDarkGreenBitmap);
@@ -351,33 +330,31 @@ void GuiUpdate::guiHwTapeStateChangeHelper()
 
 void GuiUpdate::guiShowTextMessage(wxString messageText)
 {
-    callAfterMessageText_ = messageText;
-    CallAfter(&GuiUpdate::guiShowTextMessageHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiShowTextMessageHelper, messageText);
 }
 
-void GuiUpdate::guiShowTextMessageHelper()
+void GuiUpdate::guiShowTextMessageHelper(wxString messageText)
 {
-    p_Main->message(callAfterMessageText_);
+    p_Main->message(messageText);
 }
 
 void GuiUpdate::guiPrintParallel(Byte value)
 {
     if (statusLedUpdate_)
         p_Main->statusLedOnEvent();
-    callAfterValueByte_ = value;
-    CallAfter(&GuiUpdate::guiPrintParallelHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiPrintParallelHelper, value);
 }
 
-void GuiUpdate::guiPrintParallelHelper()
+void GuiUpdate::guiPrintParallelHelper(Byte value)
 {
-    p_PrinterParallel->outParallel(callAfterValueByte_);
+    p_PrinterParallel->outParallel(value);
     if (statusLedUpdate_)
         p_Main->statusLedOffDirect();
 }
 
 void GuiUpdate::guiPrintParallelFinished()
 {
-    CallAfter(&GuiUpdate::guiPrintParallelFinishedHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiPrintParallelFinishedHelper);
 }
 
 void GuiUpdate::guiPrintParallelFinishedHelper()
@@ -390,14 +367,12 @@ void GuiUpdate::guiPrintThermal(Byte value, Byte Qflag)
     if (statusLedUpdate_)
         p_Main->statusLedOnEvent();
     thermalEf_ = true;
-    callAfterValueByte_ = value;
-    callAfterQflag_ = Qflag;
-    CallAfter(&GuiUpdate::guiPrintThermalHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiPrintThermalHelper, value, Qflag);
 }
 
-void GuiUpdate::guiPrintThermalHelper()
+void GuiUpdate::guiPrintThermalHelper(Byte value, Byte Qflag)
 {
-    p_PrinterThermal->outThermal(callAfterValueByte_, callAfterQflag_);
+    p_PrinterThermal->outThermal(value, Qflag);
     thermalEf_ = false;
     if (statusLedUpdate_)
         p_Main->statusLedOffDirect();
@@ -405,7 +380,7 @@ void GuiUpdate::guiPrintThermalHelper()
 
 void GuiUpdate::guiPrintThermalFinished()
 {
-    CallAfter(&GuiUpdate::guiPrintThermalFinishedHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiPrintThermalFinishedHelper);
 }
 
 void GuiUpdate::guiPrintThermalFinishedHelper()
@@ -418,20 +393,19 @@ void GuiUpdate::guiPrintSerial(Byte value)
 {
     if (statusLedUpdate_)
         p_Main->statusLedOnEvent();
-    callAfterValueByte_ = value;
-    CallAfter(&GuiUpdate::guiPrintSerialHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiPrintSerialHelper, value);
 }
 
-void GuiUpdate::guiPrintSerialHelper()
+void GuiUpdate::guiPrintSerialHelper(Byte value)
 {
-    p_PrinterSerial->outSerial(callAfterValueByte_);
+    p_PrinterSerial->outSerial(value);
     if (statusLedUpdate_)
         p_Main->statusLedOffDirect();
 }
 
 void GuiUpdate::guiPrintSerialFinished()
 {
-    CallAfter(&GuiUpdate::guiPrintSerialFinishedHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiPrintSerialFinishedHelper);
 }
 
 void GuiUpdate::guiPrintSerialFinishedHelper()
@@ -441,34 +415,31 @@ void GuiUpdate::guiPrintSerialFinishedHelper()
 
 void GuiUpdate::guiPrintPecom(Byte value)
 {
-    callAfterValueByte_ = value;
-    CallAfter(&GuiUpdate::guiPrintPecomHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiPrintPecomHelper, value);
 }
 
-void GuiUpdate::guiPrintPecomHelper()
+void GuiUpdate::guiPrintPecomHelper(Byte value)
 {
-    p_Printer->printerOut(callAfterValueByte_);
+    p_Printer->printerOut(value);
 }
 
 void GuiUpdate::guiZoomChange(double zoom, int videoNumber)
 {
-    callAfterZoom_ = zoom;
-    callAfterVideoNumber_ = videoNumber;
-    CallAfter(&GuiUpdate::guiZoomChangeHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiZoomChangeHelper, zoom, videoNumber);
 }
 
-void GuiUpdate::guiZoomChangeHelper()
+void GuiUpdate::guiZoomChangeHelper(double zoom, int videoNumber)
 {
-    if (p_Video[callAfterVideoNumber_] == NULL)
+    if (p_Video[videoNumber] == NULL)
         return;
 
-    p_Video[callAfterVideoNumber_]->setZoom(callAfterZoom_);
+    p_Video[videoNumber]->setZoom(zoom);
     if (computerRunning_)
     {
 #if defined(__linux__)
         guiRedrawBarTimeOutPointer->Start(200, wxTIMER_ONE_SHOT);
 #else
-        p_Video[callAfterVideoNumber_]->reDrawBar();
+        p_Video[videoNumber]->reDrawBar();
 #endif
     }
     p_Main->zoomEventFinished();
@@ -476,14 +447,12 @@ void GuiUpdate::guiZoomChangeHelper()
 
 void GuiUpdate::guiZoomVtChange(double zoom, int uartNumber)
 {
-    callAfterZoom_ = zoom;
-    callAfterUartNumber_ = uartNumber;
-    CallAfter(&GuiUpdate::guiZoomVtChangeHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiZoomVtChangeHelper, zoom, uartNumber);
 }
 
-void GuiUpdate::guiZoomVtChangeHelper()
+void GuiUpdate::guiZoomVtChangeHelper(double zoom, int uartNumber)
 {
-    p_Vt100[callAfterUartNumber_]->setZoom(callAfterZoom_);
+    p_Vt100[uartNumber]->setZoom(zoom);
 //        if (runningComputer_ != ELF2K && runningComputer_ != MEMBER)
 //            p_Vt100[UART1]->copyScreen();
     p_Main->zoomVtEventFinished();
@@ -491,50 +460,43 @@ void GuiUpdate::guiZoomVtChangeHelper()
 
 void GuiUpdate::guiZoom(double zoom, int videoNumber, bool isVt)
 {
-    callAfterZoom_ = zoom;
-    callAfterVideoNumber_ = videoNumber;
-    callAfterIsVt_ = isVt;
-    CallAfter(&GuiUpdate::guiZoomHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiZoomHelper, zoom, videoNumber, isVt);
 }
 
-void GuiUpdate::guiZoomHelper()
+void GuiUpdate::guiZoomHelper(double zoom, int videoNumber, bool isVt)
 {
-    if (callAfterIsVt_)
-        p_Main->zoomEventVt(callAfterZoom_);
+    if (isVt)
+        p_Main->zoomEventVt(zoom);
     else
-        p_Main->zoomEvent(callAfterZoom_, callAfterVideoNumber_);
+        p_Main->zoomEvent(zoom, videoNumber);
 }
 
 void GuiUpdate::guiVideoSetFullScreen(bool state, int videoNumber)
 {
-    callAfterState_ = state;
-    callAfterVideoNumber_ = videoNumber;
-    CallAfter(&GuiUpdate::guiVideoSetFullScreenHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiVideoSetFullScreenHelper, state, videoNumber);
 }
 
-void GuiUpdate::guiVideoSetFullScreenHelper()
+void GuiUpdate::guiVideoSetFullScreenHelper(bool state, int videoNumber)
 {
     fullScreenEventOngoing_ = true;
-    if (p_Video[callAfterVideoNumber_] != NULL)
-        p_Video[callAfterVideoNumber_]->setFullScreen(callAfterState_);
+    if (p_Video[videoNumber] != NULL)
+        p_Video[videoNumber]->setFullScreen(state);
 }
 
 void GuiUpdate::guiVtSetFullScreen(bool state, int uartNumber)
 {
-    callAfterState_ = state;
-    callAfterUartNumber_ = uartNumber;
-    CallAfter(&GuiUpdate::guiVtSetFullScreenHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiVtSetFullScreenHelper, state, uartNumber);
 }
 
-void GuiUpdate::guiVtSetFullScreenHelper()
+void GuiUpdate::guiVtSetFullScreenHelper(bool state, int uartNumber)
 {
-    if (p_Vt100[callAfterUartNumber_] != NULL)
-        p_Vt100[callAfterUartNumber_]->setFullScreen(callAfterState_);
+    if (p_Vt100[uartNumber] != NULL)
+        p_Vt100[uartNumber]->setFullScreen(state);
 }
 
 void GuiUpdate::guiChangeNoteBook()
 {
-    CallAfter(&GuiUpdate::guiChangeNoteBookHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiChangeNoteBookHelper);
 }
 
 void GuiUpdate::guiChangeNoteBookHelper()
@@ -551,7 +513,7 @@ void GuiUpdate::guiSetFandMBasicGui()
 {
     if (!mode_.gui)
         return;
-    CallAfter(&GuiUpdate::guiSetFandMBasicGuiHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiSetFandMBasicGuiHelper);
 }
 
 void GuiUpdate::guiSetFandMBasicGuiHelper()
@@ -561,7 +523,7 @@ void GuiUpdate::guiSetFandMBasicGuiHelper()
 
 void GuiUpdate::guiPauseState()
 {
-    CallAfter(&GuiUpdate::guiPauseStateHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiPauseStateHelper);
 }
 
 void GuiUpdate::guiPauseStateHelper()
@@ -575,18 +537,16 @@ void GuiUpdate::guiRefreshVideo(bool isVt, int uart_video_Number)
         return;
 
     videoRefreshOngoing_[uart_video_Number] = true;
-    callAfterIsVt_ = isVt;
-    callAfterUartVideoNumber_ = uart_video_Number;
-    CallAfter(&GuiUpdate::guiRefreshVideoHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiRefreshVideoHelper, isVt, uart_video_Number);
 }
 
-void GuiUpdate::guiRefreshVideoHelper()
+void GuiUpdate::guiRefreshVideoHelper(bool isVt, int uart_video_Number)
 {
-    if (callAfterIsVt_)
-        p_Vt100[callAfterUartVideoNumber_]->refreshVideo();
+    if (isVt)
+        p_Vt100[uart_video_Number]->refreshVideo();
     else
-        p_Video[callAfterUartVideoNumber_]->refreshVideo();
-    videoRefreshOngoing_[callAfterUartVideoNumber_] = false;
+        p_Video[uart_video_Number]->refreshVideo();
+    videoRefreshOngoing_[uart_video_Number] = false;
 }
 
 void GuiUpdate::guiRefreshPanel()
@@ -595,7 +555,7 @@ void GuiUpdate::guiRefreshPanel()
         return;
 
     panelRefreshOngoing_ = true;
-    CallAfter(&GuiUpdate::guiRefreshPanelHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiRefreshPanelHelper);
 }
 
 void GuiUpdate::guiRefreshPanelHelper()
@@ -606,33 +566,28 @@ void GuiUpdate::guiRefreshPanelHelper()
 
 void GuiUpdate::guiUpdateLedStatus(bool status, int card, int i)
 {
-    callAfterStatus_ = status;
-    callAfterCard_ = card;
-    callAfterI_ = i;
-    CallAfter(&GuiUpdate::guiUpdateLedStatusHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiUpdateLedStatusHelper, status, card, i);
 }
 
-void GuiUpdate::guiUpdateLedStatusHelper()
+void GuiUpdate::guiUpdateLedStatusHelper(bool status, int card, int i)
 {
     if (computerRunning_)
-        p_Video[computerConfiguration.vis1870Configuration.videoNumber]->updateStatusLed(callAfterStatus_, callAfterCard_, callAfterI_);
+        p_Video[computerConfiguration.vis1870Configuration.videoNumber]->updateStatusLed(status, card, i);
 }
 
 void GuiUpdate::guiUpdateVipIILedStatus(int led, bool status)
 {
-    callAfterLed_ = led;
-    callAfterLedStatus_ = status;
-    CallAfter(&GuiUpdate::guiUpdateVipIILedStatusHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiUpdateVipIILedStatusHelper, led, status);
 }
 
-void GuiUpdate::guiUpdateVipIILedStatusHelper()
+void GuiUpdate::guiUpdateVipIILedStatusHelper(int led, bool status)
 {
-    p_Computer->updateStatusBarLedStatus(callAfterLedStatus_, callAfterLed_);
+    p_Computer->updateStatusBarLedStatus(status, led);
 }
 
 void GuiUpdate::guiDebounceTimer()
 {
-    CallAfter(&GuiUpdate::guiDebounceTimerHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiDebounceTimerHelper);
 }
 
 void GuiUpdate::guiDebounceTimerHelper()
@@ -643,29 +598,27 @@ void GuiUpdate::guiDebounceTimerHelper()
 void GuiUpdate::guiBeepTimer(int frequency, int ms)
 {
     p_Computer->toneBeep(frequency, true);
-    callAfterMs_ = ms;
-    CallAfter(&GuiUpdate::guiBeepTimerHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiBeepTimerHelper, ms);
 }
 
-void GuiUpdate::guiBeepTimerHelper()
+void GuiUpdate::guiBeepTimerHelper(int ms)
 {
-    beepTimerPointer->Start(callAfterMs_, wxTIMER_ONE_SHOT);
+    beepTimerPointer->Start(ms, wxTIMER_ONE_SHOT);
 }
 
 void GuiUpdate::guiErrorMessage(wxString messageText)
 {
-    callAfterMessageText_ = messageText;
-    CallAfter(&GuiUpdate::guiErrorMessageHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiErrorMessageHelper, messageText);
 }
 
-void GuiUpdate::guiErrorMessageHelper()
+void GuiUpdate::guiErrorMessageHelper(wxString messageText)
 {
-    (void)wxMessageBox(callAfterMessageText_, "Emma 02", wxICON_ERROR | wxOK);
+    (void)wxMessageBox(messageText, "Emma 02", wxICON_ERROR | wxOK);
 }
 
 void GuiUpdate::guiKillComputer()
 {
-    CallAfter(&GuiUpdate::guiKillComputerHelper);
+    EmmaCallAfter(this, &GuiUpdate::guiKillComputerHelper);
 }
 
 void GuiUpdate::guiKillComputerHelper()

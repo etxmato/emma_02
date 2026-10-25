@@ -126,7 +126,7 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
     if (dataDirEmpty)
     {
         if (!wxDir::Exists(dataDir_))
-            wxDir::Make(dataDir_);
+            EMMA_MKDIR(dataDir_);
         
         int answer = wxMessageBox("1802 Software directory is empty, install default files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
         if (answer == wxYES)
@@ -312,14 +312,24 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
     returnValue.ledPosX1 = (int)windowConfigPointer->Read("/Bar/ledPosX1", 0l);
     returnValue.ledPosX2 = (int)windowConfigPointer->Read("/Bar/ledPosX2", 19);
     returnValue.ledSpacing = (int)windowConfigPointer->Read("/Bar/ledSpacing", 1);
+#if defined(__WXMAC__)
+    returnValue.ledPosDiagY = (int)windowConfigPointer->Read("/Bar/ledPosDiagY", 2);
+#elif defined(__WXMSW__)
+    returnValue.ledPosDiagY = (int)windowConfigPointer->Read("/Bar/ledPosDiagY", 4);
+#else
     returnValue.ledPosDiagY = (int)windowConfigPointer->Read("/Bar/ledPosDiagY", -2);
+#endif
     returnValue.ledPosVip2Y = (int)windowConfigPointer->Read("/Bar/ledPosVip2Y", -1);
     
     returnValue.statusBarLeader = windowConfigPointer->Read("/Bar/leader", "%d:           X");
     returnValue.statusBarLeader = returnValue.statusBarLeader.Left (returnValue.statusBarLeader.Len()-1);
 
-    returnValue.statusBarLeaderCidelsa = windowConfigPointer->Read("/Bar/leaderCidelsa", "      X");
-    returnValue.statusBarLeaderCidelsa = returnValue.statusBarLeaderCidelsa.Mid (1, returnValue.statusBarLeaderCidelsa.Len()-2);
+    wxString leaderCidelsa = windowConfigPointer->Read("/Bar/leaderCidelsa", "      X");
+    returnValue.statusBarLeaderCidelsa = leaderCidelsa.Mid (1, leaderCidelsa.Len()-2);
+    returnValue.statusBarLeaderDiag = windowConfigPointer->Read("/Bar/leaderDiag", leaderCidelsa);
+    returnValue.statusBarLeaderDiag = returnValue.statusBarLeaderDiag.Mid (1, returnValue.statusBarLeaderDiag.Len()-2);
+    returnValue.statusBarLeaderVIP2 = windowConfigPointer->Read("/Bar/leaderVIP2", leaderCidelsa);
+    returnValue.statusBarLeaderVIP2 = returnValue.statusBarLeaderVIP2.Mid (1, returnValue.statusBarLeaderVIP2.Len()-2);
 
     returnValue.statusBarElementMeasure[0] = (int)windowConfigPointer->Read("/Bar/ElementMeasure0", 40);
     returnValue.statusBarElementMeasure[1] = (int)windowConfigPointer->Read("/Bar/ElementMeasure1", 70);
@@ -1574,7 +1584,7 @@ wxString GuiMain::convertLocale(wxString returnString)
         precision = (int)(returnString.Len() - dotPosition);
     
     if (toDouble(returnString, &value))
-        returnString.FromDouble(value, precision);
+        return EMMA_FROM_DOUBLE(returnString, value, precision);
 
     return returnString;
 }
@@ -1584,7 +1594,7 @@ bool GuiMain::toDouble(wxString stringName, double* result)
     stringName.Replace(",",".");
     stringName.Replace("'",".");
 
-    bool returnValue = stringName.ToCDouble(result);
+    bool returnValue = EMMA_TO_CDOUBLE(stringName, result);
 
     return returnValue;
 }
@@ -2544,7 +2554,9 @@ void GuiMain::setRealCas()
         computerConfiguration.autoCassetteLoad_ = false;
 #if defined(__WXMSW__)
         XRCCTRL(*this, "RealCasLoadXml", wxBitmapButton)->SetBitmapLabel(realCasOnBitmap);
+#if wxCHECK_VERSION(2, 9, 0)
         XRCCTRL(*this, "RealCasLoadXml", wxBitmapButton)->SetBitmapCurrent(realCasOnBitmap);
+#endif
         XRCCTRL(*this, "RealCasLoadXml", wxBitmapButton)->SetBitmapFocus(realCasOnBitmap);
         XRCCTRL(*this, "RealCasLoadXml", wxBitmapButton)->SetToolTip("Disable real cassette loading");
 #endif
@@ -2570,7 +2582,9 @@ void GuiMain::setRealCas()
     {
 #if defined(__WXMSW__)
         XRCCTRL(*this, "RealCasLoadXml", wxBitmapButton)->SetBitmapLabel(realCasOffBitmap);
+#if wxCHECK_VERSION(2, 9, 0)
         XRCCTRL(*this, "RealCasLoadXml", wxBitmapButton)->SetBitmapCurrent(realCasOffBitmap);
+#endif
         XRCCTRL(*this, "RealCasLoadXml", wxBitmapButton)->SetBitmapFocus(realCasOffBitmap);
         XRCCTRL(*this, "RealCasLoadXml", wxBitmapButton)->SetToolTip("Enable real cassette loading");
 #endif
@@ -2655,7 +2669,9 @@ void GuiMain::setRealCasOff()
 
 #if defined(__WXMSW__)
     XRCCTRL(*this, "RealCasLoadXml", wxBitmapButton)->SetBitmapLabel(realCasOffBitmap);
+#if wxCHECK_VERSION(2, 9, 0)
     XRCCTRL(*this, "RealCasLoadXml", wxBitmapButton)->SetBitmapCurrent(realCasOffBitmap);
+#endif
     XRCCTRL(*this, "RealCasLoadXml", wxBitmapButton)->SetBitmapFocus(realCasOffBitmap);
     XRCCTRL(*this, "RealCasLoadXml", wxBitmapButton)->SetToolTip("Enable real cassette loading");
 #endif

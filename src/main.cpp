@@ -39,7 +39,6 @@
 #include "wx/fileconf.h"
 #include "wx/cmdline.h"
 #include "wx/sstream.h"
-#include "wx/numformatter.h"
 
 #if defined(__linux__)
 #include <X11/Xlib.h>
@@ -48,6 +47,7 @@
 #endif
 
 #include "main.h"
+EmmaCallDispatcher* gEmmaCallDispatcher = new EmmaCallDispatcher();
 
 #include "wx/html/winpars.h"
 
@@ -62,14 +62,15 @@
 // when the destination file already exists and is read-only. Re-installing the
 // 1802 / configuration files over a previous installation therefore failed for any
 // file left read-only or hidden; make the destination writable and visible first.
+
 static void makeFileWritable( const wxString& path )
 {
     if ( !wxFileExists( path ) )
         return;
 #if defined(__WXMSW__)
-    DWORD attributes = ::GetFileAttributes( path.wc_str() );
+    DWORD attributes = ::GetFileAttributes( EMMA_WCSTR(path) );
     if ( attributes != INVALID_FILE_ATTRIBUTES && ( attributes & (FILE_ATTRIBUTE_READONLY | FILE_ATTRIBUTE_HIDDEN) ) )
-        ::SetFileAttributes( path.wc_str(), attributes & ~(FILE_ATTRIBUTE_READONLY | FILE_ATTRIBUTE_HIDDEN) );
+        ::SetFileAttributes( EMMA_WCSTR(path), attributes & ~(FILE_ATTRIBUTE_READONLY | FILE_ATTRIBUTE_HIDDEN) );
 #else
     struct stat fileStatus;
     if (::stat(path.mb_str(), &fileStatus) == 0 && !(fileStatus.st_mode & S_IWUSR))
@@ -149,6 +150,7 @@ private:
     bool m_EndOfCode;
 };
 
+#if wxCHECK_VERSION(2, 9, 0) // <code> help styling needs the 2.9+ parser API
 class CodeTagHandler : public wxHtmlWinTagHandler
 {
 public:
@@ -221,6 +223,7 @@ public:
 };
 
 IMPLEMENT_DYNAMIC_CLASS(CodeTagModule, wxHtmlTagsModule)
+#endif
 
 #include "psave.h"
 #include "functionkey.h"
@@ -709,7 +712,13 @@ void MemEdit::saveNumber(int number)
 }
 
 DEFINE_EVENT_TYPE(OPEN_PRINTER_WINDOW)
-//DEFINE_EVENT_TYPE(GUI_MSG) // This is for wx 2.8.12 but doesn't actually work
+#if !wxCHECK_VERSION(2, 9, 0)
+DEFINE_EVENT_TYPE(wxEVT_COMPUTER_MSG)
+#endif
+#if !wxCHECK_VERSION(2, 9, 0)
+// wx 2.8: definition for the DECLARE_EVENT_TYPE(wxEVT_GUI_MSG) in main.h (wxDEFINE_EVENT is 2.9+)
+DEFINE_EVENT_TYPE(wxEVT_GUI_MSG)
+#endif
 
 BEGIN_EVENT_TABLE(Main, DebugWindow)
 
@@ -1027,7 +1036,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
     if (!mode_.portable)
     {
         if (!wxDir::Exists(iniDirectory_))
-            wxDir::Make(iniDirectory_);
+            EMMA_MKDIR(iniDirectory_);
     }
     else
     {
@@ -1799,8 +1808,10 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 
     wxString helpFile = applicationDirectory_ + "emma_02.htb";
 
+#if wxCHECK_VERSION(2, 9, 0)
     codeTagModule_ = new CodeTagModule();
     wxHtmlWinParser::AddModule(codeTagModule_);
+#endif
     help_ = new MyHtmlHelpController(wxHF_TOOLBAR | wxHF_CONTENTS | wxHF_INDEX | wxHF_SEARCH | wxHF_BOOKMARKS | wxHF_PRINT | wxHF_BOOKMARKS);
         
     if (!help_->AddBook(helpFile))
@@ -1924,7 +1935,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
                 int answer = wxMessageBox("1802 Software directory " + dirName + " does not exist, install default files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
                 if (answer == wxYES)
                 {
-                    wxDir::Make(dataDir + dirName);
+                    EMMA_MKDIR(dataDir + dirName);
                     p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + dirName + pathSeparator_,  dataDir + dirName + pathSeparator_, pathSeparator_);
                 }
                 configPointer->Write(dirName + "/SoftwareDirInstalled", true);
@@ -1991,12 +2002,14 @@ Main::~Main()
     delete guiSizeTimeoutPointer;
     delete guiRedrawBarTimeOutPointer;
     delete help_;
+#if wxCHECK_VERSION(2, 9, 0)
     if (codeTagModule_)
     {
         wxHtmlWinParser::RemoveModule(codeTagModule_);
         delete codeTagModule_;
         codeTagModule_ = NULL;
     }
+#endif
     if (configPointer == NULL || !saveOnExit_)
         return;
 
@@ -2435,7 +2448,7 @@ void Main::readConfig()
 #ifdef __WXMAC__
     functionKey_[13] = (int)configPointer->Read("/Main/Ctrlv_Key", (long)86);
 #else
-    functionKey_[13] = (int)configPointer->Read("/Main/Ctrlv_Key", (long)WXK_CONTROL_V);
+    functionKey_[13] = (int)configPointer->Read("/Main/Ctrlv_Key", (long)EMMA_KEY_CTRL_V);
 #endif
     
     wxString cpuTypeString = configPointer->Read("/Main/Cpu_Type", "CDP1805");
@@ -3379,7 +3392,7 @@ void Main::removeOldXml(wxString dirName, wxString pathSep)
       dir.Open(dirName + dirDeleteList[number]);
 
       if (wxDir::Exists(dirName + dirDeleteList[number]) && !dir.HasFiles() && !dir.HasSubDirs())
-          wxDir::Remove(dirName + dirDeleteList[number]);
+          EMMA_RMDIR(dirName + dirDeleteList[number]);
       number ++;
    }
 }
@@ -3643,7 +3656,7 @@ void Main::setDefaultSettings()
         configPointer->Write(aliasStr, alias[i]);
         configPointer->Write(aliasEmailStr, aliasEmail[i]);
     }
-    configPointer->Write("/Comx/AliasNumberOf", (unsigned int)numberOfAlias_); 
+    configPointer->Write("/Comx/AliasNumberOf", EMMA_CONFIG_UINT(numberOfAlias_)); 
     oldXmlFileName_ = "";
 
     clearDebugMemory();
@@ -3897,7 +3910,7 @@ void Main::onKeyDown(wxKeyEvent& event)
     {
         if (computerRunning_ && (selectedTab_ == PROFILERTAB || selectedTab_ == DIRECTASSTAB))
         {
-            if (event.GetModifiers() == wxMOD_SHIFT)
+            if (EMMA_MODS_SHIFT(event))
                 onAssSpinPageUp();
             else
             {
@@ -3912,7 +3925,7 @@ void Main::onKeyDown(wxKeyEvent& event)
     {
         if (computerRunning_ && (selectedTab_ == PROFILERTAB || selectedTab_ == DIRECTASSTAB))
         {
-            if (event.GetModifiers() == wxMOD_SHIFT)
+            if (EMMA_MODS_SHIFT(event))
                 onAssSpinPageDown();
             else
             {
@@ -3938,7 +3951,7 @@ void Main::onWheel(wxMouseEvent& event)
            {
               case PROFILERTAB:
               case DIRECTASSTAB:
-                  if (event.GetModifiers() == wxMOD_SHIFT)
+                  if (EMMA_MODS_SHIFT(event))
                       onAssSpinPageUp();
                   else
                   {
@@ -3948,7 +3961,7 @@ void Main::onWheel(wxMouseEvent& event)
               return;
 
               case MEMORYTAB:
-                 if (event.GetModifiers() == wxMOD_SHIFT)
+                 if (EMMA_MODS_SHIFT(event))
                     debugDisplayPageSpinUp(0x100);
                  else
                     debugDisplayPageSpinUp(0x10);
@@ -3965,7 +3978,7 @@ void Main::onWheel(wxMouseEvent& event)
            {
               case PROFILERTAB:
               case DIRECTASSTAB:
-                  if (event.GetModifiers() == wxMOD_SHIFT)
+                  if (EMMA_MODS_SHIFT(event))
                       onAssSpinPageDown();
                   else
                   {
@@ -3975,7 +3988,7 @@ void Main::onWheel(wxMouseEvent& event)
               return;
 
               case MEMORYTAB:
-                 if (event.GetModifiers() == wxMOD_SHIFT)
+                 if (EMMA_MODS_SHIFT(event))
                     onDebugDisplayPageSpinDown(0x100);
                  else
                     onDebugDisplayPageSpinDown(0x10);
@@ -5176,7 +5189,7 @@ void Main::showTime()
         if (instructionCounterOverflow_)
             print_buffer = "---";
         else
-            print_buffer.Printf(wxNumberFormatter::ToString((double)instructionCounter, 0));
+            print_buffer.Printf(EMMA_NUMBER_STRING((double)instructionCounter, 0));
 
 #if wxCHECK_VERSION(2, 9, 0)
         XRCCTRL(*this, "InstructionCounter", wxStaticText)->SetLabelText(print_buffer);
@@ -5187,7 +5200,7 @@ void Main::showTime()
         if (instructionCounterOverflow_)
             print_buffer = "---";
         else
-            print_buffer.Printf(wxNumberFormatter::ToString((double)instructionCounter/s, 0));
+            print_buffer.Printf(EMMA_NUMBER_STRING((double)instructionCounter/s, 0));
 
 #if wxCHECK_VERSION(2, 9, 0)
         XRCCTRL(*this, "InstructionsPerSecond", wxStaticText)->SetLabelText(print_buffer);
@@ -5214,7 +5227,7 @@ void Main::showTime()
         if (cpuCyclesOverflow_)
             print_buffer = "---";
         else
-            print_buffer.Printf(wxNumberFormatter::ToString((double)cpuCycles, 0));
+            print_buffer.Printf(EMMA_NUMBER_STRING((double)cpuCycles, 0));
 
 #if wxCHECK_VERSION(2, 9, 0)
         XRCCTRL(*this, "CpuCycles", wxStaticText)->SetLabelText(print_buffer);
@@ -5362,7 +5375,11 @@ void Main::sysColourChangeEvent(wxSysColourChangedEvent& event)
 #if defined (__WXMSW__)
     // wxChoice::MSWSetDarkOrLightMode() re-themes the native comboboxes after
     // this handler returns, so normalise their colours/selection afterwards.
+#if wxCHECK_VERSION(2, 9, 0)
     CallAfter(&Main::refreshComboColours);
+#else
+    refreshComboColours();
+#endif
 #endif
 
     event.Skip();
@@ -5709,12 +5726,32 @@ void Main::eventSetClientSize(int sizex, int sizey, bool changeScreenSize, bool 
     }
 }
 
+#if !wxCHECK_VERSION(2, 9, 0)
+// wx 2.8: wxMessageDialog has no SetYesNoLabels. Two-button dialog with the same
+// labels (Yes = "0000", No = address) and the same return values as wxMessageDialog.
+static int ShowAddressPopup28(wxWindow* parent, const wxString& address)
+{
+    wxDialog dlg(parent, wxID_ANY, wxT("Binary load"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE);
+    wxBoxSizer* top = new wxBoxSizer(wxVERTICAL);
+    top->Add(new wxStaticText(&dlg, wxID_ANY, wxT("Select start address")), 0, wxALL, 12);
+    wxBoxSizer* row = new wxBoxSizer(wxHORIZONTAL);
+    row->Add(new wxButton(&dlg, wxID_YES, wxT("0000")), 0, wxALL, 6);
+    row->Add(new wxButton(&dlg, wxID_NO, address), 0, wxALL, 6);
+    row->Add(new wxButton(&dlg, wxID_CANCEL, wxT("Cancel")), 0, wxALL, 6);
+    top->Add(row, 0, wxALIGN_CENTER | wxALL, 6);
+    dlg.SetSizer(top);
+    top->Fit(&dlg);
+    dlg.Centre();
+    return dlg.ShowModal();
+}
+#endif
+
 void Main::ShowAddressPopupEvent(guiEvent&event)
 {
-    wxMessageDialog showAddressPopupDialog(this, "Select start address", "Binary load", wxCANCEL | wxYES_NO);
-
     wxString address;
     address.Printf("%04X", event.GetInt());
+#if wxCHECK_VERSION(2, 9, 0)
+    wxMessageDialog showAddressPopupDialog(this, "Select start address", "Binary load", wxCANCEL | wxYES_NO);
 #if defined (__WXMAC__)
     showAddressPopupDialog.SetYesNoLabels(address, "0000");
 #else
@@ -5722,22 +5759,28 @@ void Main::ShowAddressPopupEvent(guiEvent&event)
 #endif
 
     p_Main->setAddressPopupAnswer(showAddressPopupDialog.ShowModal());
+#else
+    p_Main->setAddressPopupAnswer(ShowAddressPopup28(this, address));
+#endif
 }
 
 int Main::eventShowAddressPopup(Word specifiedStartAddress)
 {
     if (wxIsMainThread())
     {
-        wxMessageDialog showAddressPopupDialog(this, "Select start address", "Binary load", wxCANCEL | wxYES_NO);
-
         wxString address;
         address.Printf("%04X", specifiedStartAddress);
+#if wxCHECK_VERSION(2, 9, 0)
+        wxMessageDialog showAddressPopupDialog(this, "Select start address", "Binary load", wxCANCEL | wxYES_NO);
 #if defined (__WXMAC__)
         showAddressPopupDialog.SetYesNoLabels(address, "0000");
 #else
         showAddressPopupDialog.SetYesNoLabels("0000", address);
 #endif
         messageAddressPopupAnswer_ = showAddressPopupDialog.ShowModal();
+#else
+        messageAddressPopupAnswer_ = ShowAddressPopup28(this, address);
+#endif
     }
     else
     {

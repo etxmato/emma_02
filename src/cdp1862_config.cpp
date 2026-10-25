@@ -206,12 +206,12 @@ void Cdp1862Config::parseXml_Cdp1862Video(wxXmlNode &node)
             break;
                 
             case TAG_OUT:
-                if (child->GetAttribute("type") == "back")
+                if (child->GetAttribute("type", wxEmptyString) == "back")
 				{
                     computerConfiguration.cdp1862Configuration.background = parseXml_IoPort(*child, CDP1862_BACKGROUND_OUT);
 				setIoPortConfig(computerConfiguration.cdp1862Configuration.background, registerIdCdp1862[CDP1862_BACKGROUND], registerFunctionCdp1862[CDP1862_BACKGROUND], "O");
 				}
-                if (child->GetAttribute("type") == "color_ram")
+                if (child->GetAttribute("type", wxEmptyString) == "color_ram")
 				{
                     computerConfiguration.cdp1862Configuration.colorMemory = parseXml_IoPort(*child, CDP1862_COLORRAM_OUT);
 				setIoPortConfig(computerConfiguration.cdp1862Configuration.colorMemory, registerIdCdp1862[CDP1862_COLOR_RAM], registerFunctionCdp1862[CDP1862_COLOR_RAM], "O");
@@ -224,47 +224,47 @@ void Cdp1862Config::parseXml_Cdp1862Video(wxXmlNode &node)
                 green = (int)getNextHexDec(&color) & 0xff;
                 blue = (int)getNextHexDec(&color) & 0xff;
                 
-                if (child->GetAttribute("type") == "fore")
+                if (child->GetAttribute("type", wxEmptyString) == "fore")
                     screenInfo.defaultColour[COL_CDP1862_WHITE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back")
+                if (child->GetAttribute("type", wxEmptyString) == "back")
                     screenInfo.defaultColour[COL_CDP1862_BACK_BLUE].Printf("#%02X%02X%02X", red, green, blue);
 
-                if (child->GetAttribute("type") == "red")
+                if (child->GetAttribute("type", wxEmptyString) == "red")
                     screenInfo.defaultColour[COL_CDP1862_RED].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "blue")
+                if (child->GetAttribute("type", wxEmptyString) == "blue")
                     screenInfo.defaultColour[COL_CDP1862_BLUE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "magenta")
+                if (child->GetAttribute("type", wxEmptyString) == "magenta")
                     screenInfo.defaultColour[COL_CDP1862_MAGENTA].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "green")
+                if (child->GetAttribute("type", wxEmptyString) == "green")
                     screenInfo.defaultColour[COL_CDP1862_GREEN].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "yellow")
+                if (child->GetAttribute("type", wxEmptyString) == "yellow")
                     screenInfo.defaultColour[COL_CDP1862_YELLOW].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "cyan")
+                if (child->GetAttribute("type", wxEmptyString) == "cyan")
                     screenInfo.defaultColour[COL_CDP1862_CYAN].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back_blue")
+                if (child->GetAttribute("type", wxEmptyString) == "back_blue")
                     screenInfo.defaultColour[COL_CDP1862_BACK_BLUE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back_black")
+                if (child->GetAttribute("type", wxEmptyString) == "back_black")
                     screenInfo.defaultColour[COL_CDP1862_BACK_BLACK].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back_green")
+                if (child->GetAttribute("type", wxEmptyString) == "back_green")
                     screenInfo.defaultColour[COL_CDP1862_BACK_GREEN].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back_red")
+                if (child->GetAttribute("type", wxEmptyString) == "back_red")
                     screenInfo.defaultColour[COL_CDP1862_BACK_RED].Printf("#%02X%02X%02X", red, green, blue);
 
                 if (computerConfiguration.cdp1862Configuration.colorType == PIXIE_COLOR_VICTORY_1862 || computerConfiguration.cdp1862Configuration.colorType == PIXIE_COLOR_VIP_1862)
                 {
-                    if (child->GetAttribute("type") == "white")
+                    if (child->GetAttribute("type", wxEmptyString) == "white")
                         screenInfo.defaultColour[COL_CDP1862_BLACK].Printf("#%02X%02X%02X", red, green, blue);
-                    if (child->GetAttribute("type") == "black")
+                    if (child->GetAttribute("type", wxEmptyString) == "black")
                         screenInfo.defaultColour[COL_CDP1862_WHITE].Printf("#%02X%02X%02X", red, green, blue);
                 }
                 else
                 {
-                    if (child->GetAttribute("type") == "white")
+                    if (child->GetAttribute("type", wxEmptyString) == "white")
                     {
                         whiteDefined = true;
                         screenInfo.defaultColour[COL_CDP1862_WHITE].Printf("#%02X%02X%02X", red, green, blue);
                     }
-                    if (child->GetAttribute("type") == "black")
+                    if (child->GetAttribute("type", wxEmptyString) == "black")
                     {
                         blackDefined = true;
                         screenInfo.defaultColour[COL_CDP1862_BLACK].Printf("#%02X%02X%02X", red, green, blue);

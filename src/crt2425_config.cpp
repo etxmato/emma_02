@@ -149,59 +149,59 @@ void Crt2425Config::parseXml_CoinMechanism(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_OUT:
-                if (child->GetAttribute("type") == "gates")
+                if (child->GetAttribute("type", wxEmptyString) == "gates")
                     coinMechanismIo.gates = parseXml_IoPort(*child, COIN_MECHANISM_GATES);
-                if (child->GetAttribute("type") == "validator")
+                if (child->GetAttribute("type", wxEmptyString) == "validator")
                     coinMechanismIo.validators = parseXml_IoPort(*child, COIN_MECHANISM_VALIDATOR);
-                if (child->GetAttribute("type") == "control")
+                if (child->GetAttribute("type", wxEmptyString) == "control")
                     coinMechanismIo.control = parseXml_IoPort(*child, COIN_MECHANISM_CONTROL);
             break;
                 
             case TAG_IN:
-                if (child->GetAttribute("type") == "sensors")
+                if (child->GetAttribute("type", wxEmptyString) == "sensors")
                     coinMechanismIo.sensors = parseXml_IoPort(*child, COIN_MECHANISM_SENSORS);
-                if (child->GetAttribute("type") == "coins")
+                if (child->GetAttribute("type", wxEmptyString) == "coins")
                     coinMechanismIo.coins = parseXml_IoPort(*child, COIN_MECHANISM_COINS);
             break;
 
             case TAG_TIMER:
-                if (child->GetAttribute("type") == "ignore_led")
+                if (child->GetAttribute("type", wxEmptyString) == "ignore_led")
                     coinMechanismIo.ignore_led = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "before_1")
+                if (child->GetAttribute("type", wxEmptyString) == "before_1")
                     coinMechanismIo.before_1 = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "block_1")
+                if (child->GetAttribute("type", wxEmptyString) == "block_1")
                     coinMechanismIo.block_1 = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "between_1_2")
+                if (child->GetAttribute("type", wxEmptyString) == "between_1_2")
                     coinMechanismIo.between_1_2 = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "block_2")
+                if (child->GetAttribute("type", wxEmptyString) == "block_2")
                     coinMechanismIo.block_2 = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "between_2_x")
+                if (child->GetAttribute("type", wxEmptyString) == "between_2_x")
                     coinMechanismIo.between_2_x = (int)parseXml_Number(*child);
             break;
                 
             case TAG_SENSOR:
-                if (child->GetAttribute("type") == "after_gate_1")
+                if (child->GetAttribute("type", wxEmptyString) == "after_gate_1")
                     coinMechanismIo.sensor_after_gate_1 = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "after_gate_2")
+                if (child->GetAttribute("type", wxEmptyString) == "after_gate_2")
                     coinMechanismIo.sensor_after_gate_2 = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "upper_escrow")
+                if (child->GetAttribute("type", wxEmptyString) == "upper_escrow")
                     coinMechanismIo.sensor_upper_escrow = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "lower_escrow")
+                if (child->GetAttribute("type", wxEmptyString) == "lower_escrow")
                     coinMechanismIo.sensor_lower_escrow = (int)parseXml_Number(*child);
             break;
 
             case TAG_GATE:
-                if (child->GetAttribute("type") == "first")
+                if (child->GetAttribute("type", wxEmptyString) == "first")
                     coinMechanismIo.gate_first = (int)parseXml_Number(*child)-1;
-                if (child->GetAttribute("type") == "second")
+                if (child->GetAttribute("type", wxEmptyString) == "second")
                     coinMechanismIo.gate_second = (int)parseXml_Number(*child)-1;
-                if (child->GetAttribute("type") == "upper_escrow_cash")
+                if (child->GetAttribute("type", wxEmptyString) == "upper_escrow_cash")
                     coinMechanismIo.gate_upper_escrow_cash = (int)parseXml_Number(*child)-1;
-                if (child->GetAttribute("type") == "lower_escrow_cash")
+                if (child->GetAttribute("type", wxEmptyString) == "lower_escrow_cash")
                     coinMechanismIo.gate_lower_escrow_cash = (int)parseXml_Number(*child)-1;
-                if (child->GetAttribute("type") == "upper_escrow_return")
+                if (child->GetAttribute("type", wxEmptyString) == "upper_escrow_return")
                     coinMechanismIo.gate_upper_escrow_return = (int)parseXml_Number(*child)-1;
-                if (child->GetAttribute("type") == "lower_escrow_return")
+                if (child->GetAttribute("type", wxEmptyString) == "lower_escrow_return")
                     coinMechanismIo.gate_lower_escrow_return = (int)parseXml_Number(*child)-1;
             break;
 

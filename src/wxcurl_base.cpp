@@ -110,7 +110,12 @@ extern "C"
         }
 
         // here wxChar usage is correct as szVerboseMessage string is used:
+#if wxCHECK_VERSION(2, 9, 0)
         pBuf->Write(szVerboseMessage.wc_str(), szVerboseMessage.Len() * sizeof(wxChar));
+#else
+        // wx 2.8 ANSI: wxChar is a char, so the narrow buffer points at the same bytes
+        pBuf->Write(szVerboseMessage.c_str(), szVerboseMessage.Len() * sizeof(wxChar));
+#endif
 
         return 0;
     }

@@ -289,19 +289,19 @@ void Ct2425Config::parseXml_Ct2425(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_OUT:
-                if (child->GetAttribute("type") == "gates")
+                if (child->GetAttribute("type", wxEmptyString) == "gates")
                 {
                     ct2425Io.gates = parseXml_IoPort(*child, CT2425_IO_GATES);
                     setIoPortConfig(ct2425Io.gates, registerIdCt2425[CT2425_GATES_AND_LEDS], registerFunctionCt2425[CT2425_GATES_AND_LEDS], "O", false, "");
                     setIoPortConfig(ct2425Io.gates, registerIdCt2425[CT2425_GATES], registerFunctionCt2425[CT2425_GATES], "O", false, "");
                     setIoPortConfig(ct2425Io.gates, registerIdCt2425[CT2425_LEDS], registerFunctionCt2425[CT2425_LEDS], "O", false, "");
                 }
-                if (child->GetAttribute("type") == "validator")
+                if (child->GetAttribute("type", wxEmptyString) == "validator")
                 {
                     ct2425Io.validators = parseXml_IoPort(*child, CT2425_IO_VALIDATOR);
                     setIoPortConfig(ct2425Io.validators, registerIdCt2425[CT2425_VALIDATOR], registerFunctionCt2425[CT2425_VALIDATOR], "O", false, "");
                 }
-                if (child->GetAttribute("type") == "control")
+                if (child->GetAttribute("type", wxEmptyString) == "control")
                 {
                     ct2425Io.control = parseXml_IoPort(*child, CT2425_IO_CONTROL);
                     setIoPortConfig(ct2425Io.control, registerIdCt2425[CT2425_CONTROL], registerFunctionCt2425[CT2425_CONTROL], "O", false, "");
@@ -309,12 +309,12 @@ void Ct2425Config::parseXml_Ct2425(wxXmlNode &node)
             break;
                 
             case TAG_IN:
-                if (child->GetAttribute("type") == "sensors")
+                if (child->GetAttribute("type", wxEmptyString) == "sensors")
                 {
                     ct2425Io.sensors = parseXml_IoPort(*child, CT2425_IO_SENSORS);
                     setIoPortConfig(ct2425Io.sensors, registerIdCt2425[CT2425_SENSORS], registerFunctionCt2425[CT2425_SENSORS], "I", false, "");
                 }
-                if (child->GetAttribute("type") == "coins")
+                if (child->GetAttribute("type", wxEmptyString) == "coins")
                 {
                     ct2425Io.coins = parseXml_IoPort(*child, CT2425_IO_COINS);
                     setIoPortConfig(ct2425Io.coins, registerIdCt2425[CT2425_COINS], registerFunctionCt2425[CT2425_COINS], "I", false, "");
@@ -322,7 +322,7 @@ void Ct2425Config::parseXml_Ct2425(wxXmlNode &node)
             break;
 
             case TAG_EF:
-                if (child->GetAttribute("type") == "spm")
+                if (child->GetAttribute("type", wxEmptyString) == "spm")
                 {
                     ct2425Io.efSpm = parseXml_EfFlag(*child, CT2425_IO_SPM_EF);
                     setEfFlagConfig(ct2425Io.efSpm , "SPM", "Ct2425SpmEf_11Text");
@@ -335,53 +335,53 @@ void Ct2425Config::parseXml_Ct2425(wxXmlNode &node)
             break;
                 
            case TAG_TIMER:
-                if (child->GetAttribute("type") == "ignore_led")
+                if (child->GetAttribute("type", wxEmptyString) == "ignore_led")
                     ct2425Io.ignore_led = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "before_1")
+                if (child->GetAttribute("type", wxEmptyString) == "before_1")
                     ct2425Io.before_1 = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "block_1")
+                if (child->GetAttribute("type", wxEmptyString) == "block_1")
                     ct2425Io.block_1 = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "between_1_2")
+                if (child->GetAttribute("type", wxEmptyString) == "between_1_2")
                     ct2425Io.between_1_2 = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "block_2")
+                if (child->GetAttribute("type", wxEmptyString) == "block_2")
                     ct2425Io.block_2 = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "between_2_x")
+                if (child->GetAttribute("type", wxEmptyString) == "between_2_x")
                     ct2425Io.between_2_x = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "after_gate_5_6")
+                if (child->GetAttribute("type", wxEmptyString) == "after_gate_5_6")
                     ct2425Io.after_gate_5_6 = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "block_5")
+                if (child->GetAttribute("type", wxEmptyString) == "block_5")
                     ct2425Io.block_5 = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "spm_interval")
+                if (child->GetAttribute("type", wxEmptyString) == "spm_interval")
                     ct2425Io.spm_interval = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "spm_pulse")
+                if (child->GetAttribute("type", wxEmptyString) == "spm_pulse")
                     ct2425Io.spm_pulse = (int)parseXml_Number(*child);
             break;
                 
             case TAG_SENSOR:
-                if (child->GetAttribute("type") == "after_gate_1")
+                if (child->GetAttribute("type", wxEmptyString) == "after_gate_1")
                     ct2425Io.sensor_after_gate_1 = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "after_gate_2")
+                if (child->GetAttribute("type", wxEmptyString) == "after_gate_2")
                     ct2425Io.sensor_after_gate_2 = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "upper_escrow")
+                if (child->GetAttribute("type", wxEmptyString) == "upper_escrow")
                     ct2425Io.sensor_upper_escrow = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "lower_escrow")
+                if (child->GetAttribute("type", wxEmptyString) == "lower_escrow")
                     ct2425Io.sensor_lower_escrow = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "return")
+                if (child->GetAttribute("type", wxEmptyString) == "return")
                     ct2425Io.sensor_return = (int)parseXml_Number(*child);
             break;
 
             case TAG_GATE:
-                if (child->GetAttribute("type") == "first")
+                if (child->GetAttribute("type", wxEmptyString) == "first")
                     ct2425Io.gate_first = (int)parseXml_Number(*child)-1;
-                if (child->GetAttribute("type") == "second")
+                if (child->GetAttribute("type", wxEmptyString) == "second")
                     ct2425Io.gate_second = (int)parseXml_Number(*child)-1;
-                if (child->GetAttribute("type") == "upper_escrow_cash")
+                if (child->GetAttribute("type", wxEmptyString) == "upper_escrow_cash")
                     ct2425Io.gate_upper_escrow_cash = (int)parseXml_Number(*child)-1;
-                if (child->GetAttribute("type") == "lower_escrow_cash")
+                if (child->GetAttribute("type", wxEmptyString) == "lower_escrow_cash")
                     ct2425Io.gate_lower_escrow_cash = (int)parseXml_Number(*child)-1;
-                if (child->GetAttribute("type") == "upper_escrow_return")
+                if (child->GetAttribute("type", wxEmptyString) == "upper_escrow_return")
                     ct2425Io.gate_upper_escrow_return = (int)parseXml_Number(*child)-1;
-                if (child->GetAttribute("type") == "lower_escrow_return")
+                if (child->GetAttribute("type", wxEmptyString) == "lower_escrow_return")
                     ct2425Io.gate_lower_escrow_return = (int)parseXml_Number(*child)-1;
             break;
 

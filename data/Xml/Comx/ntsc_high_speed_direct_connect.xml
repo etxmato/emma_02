@@ -12,7 +12,6 @@
         <init ef="2">1</init>
         <init ef="3">1</init>
         <dma out="q">5</dma>
-        <statusbar>comx</statusbar>
         <dirname>Comx</dirname>
     </system>
     

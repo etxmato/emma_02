@@ -41,6 +41,13 @@
 // The cURL library header:
 #include <curl/curl.h>
 
+#if defined(__WXMSW__) && !wxCHECK_VERSION(2,9,0)
+    // curl.h pulls in <windows.h> before wx has undefined its GetClassInfo macro
+    // (wx/msw/winundef.h), so the wxCurl class declarations would become
+    // GetClassInfoA in this translation unit only. Re-apply wx cleanup (2.8 only).
+    #include "wx/msw/wrapwin.h"
+#endif
+
 
 
 // base.h: wxWidgets Declarations for Event Types.
