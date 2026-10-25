@@ -540,10 +540,10 @@ void PrinterCanvas::doGraphics()
     int destinationY;
 
      if (plotterSolidLine_)
-        pen.SetStyle(wxPENSTYLE_SOLID);
+        pen.SetStyle(EMMA_PEN_SOLID);
     else
     {
-        pen.SetStyle(wxPENSTYLE_USER_DASH);
+        pen.SetStyle(EMMA_PEN_USER_DASH);
         pen.SetDashes(4, plotterDash_[plotterLineScale_]);
     }
 
@@ -643,7 +643,7 @@ void PrinterCanvas::doGraphics()
         break;
 
         case 'P':
-            pen.SetStyle(wxPENSTYLE_SOLID);
+            pen.SetStyle(EMMA_PEN_SOLID);
             dcPreview.SetPen(pen);
             plotterStringPosition_++;
             while(plotterStringPosition_ <(int)printLine_.Len())

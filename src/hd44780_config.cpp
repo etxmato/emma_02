@@ -169,12 +169,12 @@ void Hd44780Config::parseXml_HD44780Video(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_OUT:
-                if (child->GetAttribute("type") == "command")
+                if (child->GetAttribute("type", wxEmptyString) == "command")
                 {
                     computerConfiguration.hd44780Configuration.commandPort = parseXml_IoPort(*child, HD44780_COMMAND_OUT);
                     setIoPortConfig(computerConfiguration.hd44780Configuration.commandPort, registerIdHd44780[HD44780_COMMAND], registerFunctionHd44780[HD44780_COMMAND], "O", false, "");
                }
-                if (child->GetAttribute("type") == "data")
+                if (child->GetAttribute("type", wxEmptyString) == "data")
                 {
                     computerConfiguration.hd44780Configuration.dataPort = parseXml_IoPort(*child, HD44780_DATA_OUT);
                     setIoPortConfig(computerConfiguration.hd44780Configuration.commandPort, registerIdHd44780[HD44780_DATA], registerFunctionHd44780[HD44780_DATA], "O", false, "");
@@ -182,12 +182,12 @@ void Hd44780Config::parseXml_HD44780Video(wxXmlNode &node)
             break;
 
             case TAG_IN:
-                if (child->GetAttribute("type") == "status")
+                if (child->GetAttribute("type", wxEmptyString) == "status")
                 {
                     computerConfiguration.hd44780Configuration.statusPort = parseXml_IoPort(*child, HD44780_STATUS_IN);
                     setIoPortConfig(computerConfiguration.hd44780Configuration.commandPort, registerIdHd44780[HD44780_BUSYFLAG], registerFunctionHd44780[HD44780_BUSYFLAG], "I", false, "");
                 }
-                if (child->GetAttribute("type") == "data")
+                if (child->GetAttribute("type", wxEmptyString) == "data")
                 {
                     computerConfiguration.hd44780Configuration.dataReadPort = parseXml_IoPort(*child, HD44780_DATA_IN);
                     setIoPortConfig(computerConfiguration.hd44780Configuration.commandPort, registerIdHd44780[HD44780_ADDRESS], registerFunctionHd44780[HD44780_ADDRESS], "I", false, "");
@@ -285,9 +285,9 @@ void Hd44780Config::parseXml_HD44780Video(wxXmlNode &node)
                 green = (int)getNextHexDec(&color) & 0xff;
                 blue = (int)getNextHexDec(&color) & 0xff;
                 
-                if (child->GetAttribute("type") == "fore")
+                if (child->GetAttribute("type", wxEmptyString) == "fore")
                     screenInfo.defaultColour[COL_HD44780_FORE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back")
+                if (child->GetAttribute("type", wxEmptyString) == "back")
                     screenInfo.defaultColour[COL_HD44780_BACK].Printf("#%02X%02X%02X", red, green, blue);
             break;
 

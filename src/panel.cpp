@@ -113,8 +113,8 @@ HexButton::HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label)
             buttonSize.y = 30;
         break;
    }
-    upBitmapPointer = new wxBitmap(buttonSize);
-    downBitmapPointer = new wxBitmap(buttonSize);
+    upBitmapPointer = new EMMA_BITMAP_SIZE(buttonSize);
+    downBitmapPointer = new EMMA_BITMAP_SIZE(buttonSize);
     
     wxMemoryDC memDC(*upBitmapPointer);
     wxSize labelSize = memDC.GetTextExtent(label);
@@ -137,7 +137,7 @@ HexButton::HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label)
     
     if (type == PUSH_BUTTON_PIO)
     {
-        disabledBitmapPointer = new wxBitmap(buttonSize);
+        disabledBitmapPointer = new EMMA_BITMAP_SIZE(buttonSize);
         
         disabledBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/hex_button_small_disabled.png", wxBITMAP_TYPE_PNG);
         
@@ -464,7 +464,7 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
 
 void SwitchButton::maskBitmap(wxString label, wxBitmap *upBitmap, wxBitmap *downBitmap)
 {
-    upBitmapPointer = new wxBitmap(buttonSize_);
+    upBitmapPointer = new EMMA_BITMAP_SIZE(buttonSize_);
 
     wxMemoryDC memDC(*upBitmapPointer);
     wxSize labelSize = memDC.GetTextExtent(label);
@@ -476,7 +476,7 @@ void SwitchButton::maskBitmap(wxString label, wxBitmap *upBitmap, wxBitmap *down
     memDC.DrawText(label, xPosition, yPosition);
     memDC.SelectObject(wxNullBitmap);
     
-    downBitmapPointer = new wxBitmap(buttonSize_);
+    downBitmapPointer = new EMMA_BITMAP_SIZE(buttonSize_);
 
     memDC.SelectObject(*downBitmapPointer);
     memDC.Clear();

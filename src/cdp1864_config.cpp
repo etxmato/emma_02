@@ -217,12 +217,12 @@ void Cdp1864Config::parseXml_Cdp1864Video(wxXmlNode &node)
             case TAG_IN:
                 if (child->HasAttribute("type"))
                 {
-                    if (child->GetAttribute("type") == "off")
+                    if (child->GetAttribute("type", wxEmptyString) == "off")
                     {
                         computerConfiguration.cdp1864Configuration.disable = parseXml_IoPort(*child, CDP1864_DISABLE_IN);
                         setIoPortConfigRadio(computerConfiguration.cdp1864Configuration.disable, registerIdCdp1864Radio[CDP1864_DISABLE], registerFunctionCdp1864Radio[CDP1864_DISABLE], "I");
                     }
-                    if (child->GetAttribute("type") == "on")
+                    if (child->GetAttribute("type", wxEmptyString) == "on")
                     {
                         computerConfiguration.cdp1864Configuration.enable = parseXml_IoPort(*child, CDP1864_ENABLE_IN);
                         setIoPortConfigRadio(computerConfiguration.cdp1864Configuration.enable, registerIdCdp1864Radio[CDP1864_ENABLE], registerFunctionCdp1864Radio[CDP1864_ENABLE], "I");
@@ -282,23 +282,23 @@ void Cdp1864Config::parseXml_Cdp1864Video(wxXmlNode &node)
             break;
 
             case TAG_OUT:
-                if (child->GetAttribute("type") == "back")
+                if (child->GetAttribute("type", wxEmptyString) == "back")
                 {
                     computerConfiguration.cdp1864Configuration.background = parseXml_IoPort(*child, CDP1864_BACKGROUND_OUT);
                     setIoPortConfig(computerConfiguration.cdp1864Configuration.background, registerIdCdp1864[CDP1864_BACKGROUND], registerFunctionCdp1864[CDP1864_BACKGROUND], "O");
                 }
-                if (child->GetAttribute("type") == "tone")
+                if (child->GetAttribute("type", wxEmptyString) == "tone")
                 {
                     computerConfiguration.soundConfiguration.type = SOUND_1863_1864;
                     computerConfiguration.cdp1864Configuration.toneLatch = parseXml_IoPort(*child, CDP1864_TONE_LATCH_OUT);
                     setIoPortConfig(computerConfiguration.cdp1864Configuration.toneLatch, registerIdCdp1864[CDP1864_TONE_LATCH], registerFunctionCdp1864[CDP1864_TONE_LATCH], "O");
                 }
-                if (child->GetAttribute("type") == "color_ram")
+                if (child->GetAttribute("type", wxEmptyString) == "color_ram")
                 {
                     computerConfiguration.cdp1864Configuration.colorMemory = parseXml_IoPort(*child, CDP1864_COLORRAM_OUT);
                     setIoPortConfig(computerConfiguration.cdp1864Configuration.colorMemory, registerIdCdp1864[CDP1864_COLOR_RAM], registerFunctionCdp1864[CDP1864_COLOR_RAM], "O");
                 }
-                if (child->GetAttribute("type") == "color_tone")
+                if (child->GetAttribute("type", wxEmptyString) == "color_tone")
                 {
                     computerConfiguration.cdp1864Configuration.colorLatch = true;
                     computerConfiguration.soundConfiguration.type = SOUND_1863_1864;
@@ -308,7 +308,7 @@ void Cdp1864Config::parseXml_Cdp1864Video(wxXmlNode &node)
             break;
                 
             case TAG_EF:
-                if (child->GetAttribute("type") == "on")
+                if (child->GetAttribute("type", wxEmptyString) == "on")
                 {
                     computerConfiguration.cdp1864Configuration.screenOn = true;
                     if (mode_.gui)
@@ -380,47 +380,47 @@ void Cdp1864Config::parseXml_Cdp1864Video(wxXmlNode &node)
                 green = (int)getNextHexDec(&color) & 0xff;
                 blue = (int)getNextHexDec(&color) & 0xff;
                 
-                if (child->GetAttribute("type") == "fore")
+                if (child->GetAttribute("type", wxEmptyString) == "fore")
                     screenInfo.defaultColour[COL_CDP1864_WHITE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back")
+                if (child->GetAttribute("type", wxEmptyString) == "back")
                     screenInfo.defaultColour[COL_CDP1864_BACK_BLUE].Printf("#%02X%02X%02X", red, green, blue);
 
-                if (child->GetAttribute("type") == "red")
+                if (child->GetAttribute("type", wxEmptyString) == "red")
                     screenInfo.defaultColour[COL_CDP1864_RED].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "blue")
+                if (child->GetAttribute("type", wxEmptyString) == "blue")
                     screenInfo.defaultColour[COL_CDP1864_BLUE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "magenta")
+                if (child->GetAttribute("type", wxEmptyString) == "magenta")
                     screenInfo.defaultColour[COL_CDP1864_MAGENTA].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "green")
+                if (child->GetAttribute("type", wxEmptyString) == "green")
                     screenInfo.defaultColour[COL_CDP1864_GREEN].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "yellow")
+                if (child->GetAttribute("type", wxEmptyString) == "yellow")
                     screenInfo.defaultColour[COL_CDP1864_YELLOW].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "cyan")
+                if (child->GetAttribute("type", wxEmptyString) == "cyan")
                     screenInfo.defaultColour[COL_CDP1864_CYAN].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back_blue")
+                if (child->GetAttribute("type", wxEmptyString) == "back_blue")
                     screenInfo.defaultColour[COL_CDP1864_BACK_BLUE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back_black")
+                if (child->GetAttribute("type", wxEmptyString) == "back_black")
                     screenInfo.defaultColour[COL_CDP1864_BACK_BLACK].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back_green")
+                if (child->GetAttribute("type", wxEmptyString) == "back_green")
                     screenInfo.defaultColour[COL_CDP1864_BACK_GREEN].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back_red")
+                if (child->GetAttribute("type", wxEmptyString) == "back_red")
                     screenInfo.defaultColour[COL_CDP1864_BACK_RED].Printf("#%02X%02X%02X", red, green, blue);
 
                 if (computerConfiguration.cdp1864Configuration.colorType == PIXIE_COLOR_VICTORY_1864 || computerConfiguration.cdp1864Configuration.colorType == PIXIE_COLOR_VIP_1864)
                 {
-                    if (child->GetAttribute("type") == "white")
+                    if (child->GetAttribute("type", wxEmptyString) == "white")
                         screenInfo.defaultColour[COL_CDP1864_BLACK].Printf("#%02X%02X%02X", red, green, blue);
-                    if (child->GetAttribute("type") == "black")
+                    if (child->GetAttribute("type", wxEmptyString) == "black")
                         screenInfo.defaultColour[COL_CDP1864_WHITE].Printf("#%02X%02X%02X", red, green, blue);
                 }
                 else
                 {
-                    if (child->GetAttribute("type") == "white")
+                    if (child->GetAttribute("type", wxEmptyString) == "white")
                     {
                         whiteDefined = true;
                         screenInfo.defaultColour[COL_CDP1864_WHITE].Printf("#%02X%02X%02X", red, green, blue);
                     }
-                    if (child->GetAttribute("type") == "black")
+                    if (child->GetAttribute("type", wxEmptyString) == "black")
                     {
                         blackDefined = true;
                         screenInfo.defaultColour[COL_CDP1864_BLACK].Printf("#%02X%02X%02X", red, green, blue);

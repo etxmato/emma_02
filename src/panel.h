@@ -11,12 +11,25 @@
 #define BUTTON_LEFT false
 #define BASICADDR_MAX 4
 
+#if wxCHECK_VERSION(2, 9, 0)
 wxDEFINE_EVENT(COMPUTER_MSG, guiEvent);
+#else
+// wx 2.8: wxDEFINE_EVENT is 2.9+; the definition lives in main.cpp (DEFINE_EVENT_TYPE)
+DECLARE_EVENT_TYPE(wxEVT_COMPUTER_MSG, -1)
+#define COMPUTER_MSG wxEVT_COMPUTER_MSG
+#endif
 
 #define guiEventHandler(func) (&func)
 
+#if wxCHECK_VERSION(2, 9, 0)
 #define EVT_COMPUTER_MSG(id, func) \
 wx__DECLARE_EVT1(COMPUTER_MSG, id, (&func))
+#else
+#define EVT_COMPUTER_MSG(id, func) \
+    DECLARE_EVENT_TABLE_ENTRY( COMPUTER_MSG, id, -1, \
+    (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) (wxEventFunction) \
+    wxStaticCastEvent( guiEventFunction, & func ), (wxObject *) NULL )
+#endif
 
 class HexButtonCdp1851 : public HexButton
 {

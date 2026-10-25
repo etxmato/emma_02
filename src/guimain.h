@@ -188,6 +188,8 @@ public:
     int getStatusBarElementMeasure(int number) {return windowInfo.statusBarElementMeasure[number];};
     wxString getBarLeader() {return windowInfo.statusBarLeader;};
     wxString getBarLeaderCidelsa() {return windowInfo.statusBarLeaderCidelsa;};
+    wxString getBarLeaderDiag() {return windowInfo.statusBarLeaderDiag;};
+    wxString getBarLeaderVIP2() {return windowInfo.statusBarLeaderVIP2;};
     int getPrintX() {return printX_;};
 
     wxString getCharRomFile() {return computerConfiguration.characterRomConfiguration.fileName;};

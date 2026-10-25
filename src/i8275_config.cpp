@@ -251,12 +251,12 @@ void I8275Config::parseXml_Intel8275Video(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_IN:
-                if (child->GetAttribute("type") == "status")
+                if (child->GetAttribute("type", wxEmptyString) == "status")
                 {
                     computerConfiguration.i8275Configuration.readStatus = parseXml_IoPort(*child, I8275_READ_STATUS_IN);
                     setIoPortConfig(computerConfiguration.i8275Configuration.readStatus, registerIdI8275[I8275_STATUS], registerFunctionI8275[I8275_STATUS], "I");
                 }
-                if (child->GetAttribute("type") == "parameter")
+                if (child->GetAttribute("type", wxEmptyString) == "parameter")
                 {
                     computerConfiguration.i8275Configuration.readParameter = parseXml_IoPort(*child, I8275_READ_PARAMETER_IN);
                     setIoPortConfig(computerConfiguration.i8275Configuration.readParameter, registerIdI8275[I8275_READ_PARAMETER], registerFunctionI8275[I8275_READ_PARAMETER], "I");
@@ -266,12 +266,12 @@ void I8275Config::parseXml_Intel8275Video(wxXmlNode &node)
             break;
 
             case TAG_OUT:
-                if (child->GetAttribute("type") == "command")
+                if (child->GetAttribute("type", wxEmptyString) == "command")
                 {
                     computerConfiguration.i8275Configuration.writeCommandOutput = parseXml_IoPort(*child, I8275_WRITE_COMMAND_OUT);
                     setIoPortConfig(computerConfiguration.i8275Configuration.writeCommandOutput, registerIdI8275[I8275_COMMAND], registerFunctionI8275[I8275_COMMAND], "O");
                 }
-                if (child->GetAttribute("type") == "parameter")
+                if (child->GetAttribute("type", wxEmptyString) == "parameter")
                 {
                     computerConfiguration.i8275Configuration.writeParameter  = parseXml_IoPort(*child, I8275_WRITE_PARAMETER_OUT);
                     setIoPortConfig(computerConfiguration.i8275Configuration.writeParameter, registerIdI8275[I8275_WRITE_PARAMETER], registerFunctionI8275[I8275_WRITE_PARAMETER], "O");
@@ -280,7 +280,7 @@ void I8275Config::parseXml_Intel8275Video(wxXmlNode &node)
                 
             case TAG_FONT:
                 computerConfiguration.characterRomConfiguration.fileName = child->GetNodeContent();
-                if (child->GetAttribute("gpa") == "switched")
+                if (child->GetAttribute("gpa", wxEmptyString) == "switched")
                     computerConfiguration.i8275Configuration.gpaSwitched = true;
             break;
 
@@ -291,7 +291,7 @@ void I8275Config::parseXml_Intel8275Video(wxXmlNode &node)
             break;
 
             case TAG_EF:
-                if (child->GetAttribute("type") == "horizontal")
+                if (child->GetAttribute("type", wxEmptyString) == "horizontal")
                 {
                     computerConfiguration.i8275Configuration.efHorizontalRetrace = parseXml_EfFlag(*child, I8275_HORIZONTAL_EF);
                     setEfFlagConfig(computerConfiguration.i8275Configuration.efHorizontalRetrace, "horizontal retrace", "8275EfHorizontal");
@@ -304,7 +304,7 @@ void I8275Config::parseXml_Intel8275Video(wxXmlNode &node)
             break;
                                 
             case TAG_INTERRUPT:
-                if (child->GetAttribute("type") == "horizontal")
+                if (child->GetAttribute("type", wxEmptyString) == "horizontal")
                     computerConfiguration.i8275Configuration.picInterrupt = (int)parseXml_Number(*child);
                 else
                     computerConfiguration.i8275Configuration.picInterruptHorizontal = (int)parseXml_Number(*child);
@@ -350,11 +350,11 @@ void I8275Config::parseXml_Intel8275Video(wxXmlNode &node)
                 green = (int)getNextHexDec(&color) & 0xff;
                 blue = (int)getNextHexDec(&color) & 0xff;
                 
-                if (child->GetAttribute("type") == "fore")
+                if (child->GetAttribute("type", wxEmptyString) == "fore")
                     screenInfo.defaultColour[COL_I8275_FORE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back")
+                if (child->GetAttribute("type", wxEmptyString) == "back")
                     screenInfo.defaultColour[COL_I8275_BACK].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "high")
+                if (child->GetAttribute("type", wxEmptyString) == "high")
                     screenInfo.defaultColour[COL_I8275_HIGH].Printf("#%02X%02X%02X", red, green, blue);
             break;
                 

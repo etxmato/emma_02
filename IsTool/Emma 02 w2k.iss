@@ -34,7 +34,7 @@ Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:Ad
 
 [Files]
 Source: vcredist9_x86.exe; DestDir: {tmp}; Flags: deleteafterinstall; Components: MAIN
-Source: ..\Win32-VC9\Release\Emma 02.exe; DestDir: {app}; Components: MAIN; Tasks: ; Languages: 
+Source: ..\Win32-VC9-W2K\Release\Emma 02.exe; DestDir: {app}; Components: MAIN; Tasks: ; Languages: 
 Source: ..\emma_02.htb; DestDir: {app}; Components: MAIN
 Source: ..\*.def; DestDir: {app}; Components: MAIN
 Source: ..\*.syntax; DestDir: {app}; Components: MAIN

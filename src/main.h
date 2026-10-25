@@ -17,6 +17,88 @@ typedef unsigned short Word;
 #if wxCHECK_VERSION(2, 8, 0) && !wxCHECK_VERSION(2, 9, 0)
 // wx 2.8 has no wxS() macro (introduced with the 3.0 string rework) - _T() is equivalent.
 #define wxS(x) _T(x)
+// wx 2.8 wxXmlNode only has HasProp() (HasAttribute is the 2.9+ name)
+#define HasAttribute HasProp
+// wx 2.8 lacks the ASCII control key codes (WXK_CONTROL_*) and WXK_NONE.
+// wxKeyCode is an enum, so the None value needs the cast to assign/compare.
+#define WXK_NONE ((wxKeyCode)0)
+#define WXK_CONTROL_A 1
+#define WXK_CONTROL_B 2
+#define WXK_CONTROL_C 3
+#define WXK_CONTROL_D 4
+#define WXK_CONTROL_E 5
+#define WXK_CONTROL_F 6
+#define WXK_CONTROL_G 7
+#define WXK_CONTROL_J 10
+#define WXK_CONTROL_K 11
+#define WXK_CONTROL_L 12
+#define WXK_CONTROL_N 14
+#define WXK_CONTROL_O 15
+#define WXK_CONTROL_P 16
+#define WXK_CONTROL_Q 17
+#define WXK_CONTROL_R 18
+#define WXK_CONTROL_S 19
+#define WXK_CONTROL_T 20
+#define WXK_CONTROL_U 21
+#define WXK_CONTROL_V 22
+#define WXK_CONTROL_W 23
+#define WXK_CONTROL_X 24
+#define WXK_CONTROL_Y 25
+#define WXK_CONTROL_Z 26
+// wx 2.8 has no free CallAfter(&Class::method). CallAfter() below queues the member call
+// (thread-safe, callable from the emulator thread) and a pending event runs it on the GUI thread.
+#include "wx/thread.h"
+#include <deque>
+class EmmaDeferredCall28 {
+public:
+    virtual ~EmmaDeferredCall28() {}
+    virtual void Run() = 0;
+};
+template<class C> class EmmaDeferredMember28 : public EmmaDeferredCall28 {
+public:
+    EmmaDeferredMember28(C* obj, void (C::*fn)()) : obj_(obj), fn_(fn) {}
+    virtual void Run() { (obj_->*fn_)(); }
+private:
+    C* obj_;
+    void (C::*fn_)();
+};
+class EmmaCallDispatcher28 : public wxEvtHandler {
+public:
+    EmmaCallDispatcher28() : type_(wxNewEventType()) {
+        Connect(wxID_ANY, wxID_ANY, type_, wxEventHandler(EmmaCallDispatcher28::OnCall));
+    }
+    void Enqueue(EmmaDeferredCall28* call) {
+        {
+            wxCriticalSectionLocker lock(cs_);
+            queue_.push_back(call);
+        }
+        wxCommandEvent ev(type_);
+        AddPendingEvent(ev);
+    }
+    void OnCall(wxEvent&) {
+        EmmaDeferredCall28* call = NULL;
+        {
+            wxCriticalSectionLocker lock(cs_);
+            if (!queue_.empty()) {
+                call = queue_.front();
+                queue_.pop_front();
+            }
+        }
+        if (call) {
+            call->Run();
+            delete call;
+        }
+    }
+private:
+    wxEventType type_;
+    wxCriticalSection cs_;
+    std::deque<EmmaDeferredCall28*> queue_;
+};
+extern EmmaCallDispatcher28* gEmmaCallDispatcher28;
+template<class C> void EmmaCallAfter28(C* obj, void (C::*fn)()) {
+    gEmmaCallDispatcher28->Enqueue(new EmmaDeferredMember28<C>(obj, fn));
+}
+#define CallAfter(f) EmmaCallAfter28(this, f)
 #endif
 #if wxCHECK_VERSION(3, 1, 0)
 #include "wx/html/htmlproc.h"
@@ -138,14 +220,18 @@ class MyHtmlHelpController : public wxHtmlHelpController
 public:
     MyHtmlHelpController(int style=wxHF_DEFAULT_STYLE, wxWindow *parentWindow=NULL)
     : wxHtmlHelpController(style, parentWindow) {}
+#if wxCHECK_VERSION(2, 9, 0)
     MyHtmlHelpController(wxWindow *parentWindow, int style=wxHF_DEFAULT_STYLE)
     : wxHtmlHelpController(parentWindow, style) {}
+#endif
 protected:
     virtual wxWindow* CreateHelpWindow()
     {
         wxHtmlHelpController::CreateHelpWindow();
 
+#if wxCHECK_VERSION(2, 9, 0)
         m_helpWindow->Bind(wxEVT_HTML_LINK_CLICKED, &MyHtmlHelpController::OnHtmlLinkClicked);
+#endif
 
 #if defined (__linux__) && wxCHECK_VERSION(3, 1, 0)
         if (wxHtmlWindow* htmlWin = m_helpWindow->GetHtmlWindow())
@@ -195,6 +281,99 @@ private:
 #endif
 };
 
+// wxNumberFormatter is 2.9+; wx 2.8 gets plain integer formatting
+#if wxCHECK_VERSION(2, 9, 0)
+#include "wx/numformatter.h"
+#define EMMA_NUMBER_STRING(v, p) wxNumberFormatter::ToString((double)(v), (p))
+#else
+#define EMMA_NUMBER_STRING(v, p) wxString::Format(wxT("%.*f"), (int)(p), (double)(v))
+#endif
+#if wxCHECK_VERSION(2, 9, 0)
+#define EMMA_UNICHAR wxUniChar
+#else
+#define EMMA_UNICHAR wxChar
+#endif
+// wx 2.8 compatibility: wxString helpers missing in 2.8 (2.8 variants follow 3.x semantics)
+#if wxCHECK_VERSION(2, 9, 0)
+#define EMMA_CHAR_VALUE(c) ((c).GetValue())
+#define EMMA_CAPITALIZE(s) ((s).Capitalize())
+#define EMMA_BEFORE_FIRST(s, ch, rest) ((s).BeforeFirst((ch), (rest)))
+#define EMMA_TO_CLONG(s, p) ((s).ToCLong(p))
+#define EMMA_TO_CULONG(s, p) ((s).ToCULong(p))
+#else
+inline wxString EmmaCapitalize28(const wxString& s)
+{
+    wxString result(s);
+    for (size_t i = 0; i < result.Len(); i++)
+        result[i] = (wxChar)((i == 0) ? wxToupper(result[i]) : wxTolower(result[i]));
+    return result;
+}
+inline wxString EmmaBeforeFirst28(const wxString& s, wxChar ch, wxString* rest)
+{
+    int pos = s.Find(ch);
+    if (pos == wxNOT_FOUND)
+    {
+        if (rest)
+            *rest = wxEmptyString;
+        return s;
+    }
+    if (rest)
+        *rest = s.Mid(pos + 1);
+    return s.Left(pos);
+}
+#define EMMA_CHAR_VALUE(c) ((unsigned char)(c))
+#define EMMA_CAPITALIZE(s) EmmaCapitalize28(s)
+#define EMMA_BEFORE_FIRST(s, ch, rest) EmmaBeforeFirst28((s), (ch), (rest))
+#define EMMA_TO_CLONG(s, p) ((s).ToLong(p))
+#define EMMA_TO_CULONG(s, p) ((s).ToULong(p))
+#endif
+// wx 2.8 compatibility: wxDir::Make/Remove, WXK_CONTROL_V, wxMouseEvent::GetModifiers, UInt config write
+#if wxCHECK_VERSION(2, 9, 0)
+#define EMMA_MKDIR(p) wxDir::Make(p)
+#define EMMA_RMDIR(p) wxDir::Remove(p)
+#define EMMA_KEY_CTRL_V WXK_CONTROL_V
+#define EMMA_MODS_SHIFT(ev) ((ev).GetModifiers() == wxMOD_SHIFT)
+#define EMMA_CONFIG_UINT(v) ((unsigned int)(v))
+#else
+#define EMMA_MKDIR(p) wxFileName::Mkdir(p, 0777, wxPATH_MKDIR_FULL)
+#define EMMA_RMDIR(p) wxRmdir(p)
+#define EMMA_KEY_CTRL_V 22
+#define EMMA_MODS_SHIFT(ev) ((ev).ShiftDown() && !(ev).ControlDown() && !(ev).AltDown() && !(ev).MetaDown())
+#define EMMA_CONFIG_UINT(v) ((long)(v))
+#endif
+// wx 2.8 compatibility: win32 attribute calls. The 2.8 line is an ANSI build
+// (GetFileAttributesA takes const char*), the 2.9+ builds are Unicode (W API),
+// so the wx version selects the matching string type here.
+#if wxCHECK_VERSION(2, 9, 0)
+#define EMMA_WCSTR(s) (s).wc_str()
+#else
+#define EMMA_WCSTR(s) (s).c_str()
+#endif
+// wx 2.8 has no wxBitmap(wxSize) constructor; the width/height form is equivalent
+#if wxCHECK_VERSION(2, 9, 0)
+#define EMMA_BITMAP_SIZE(sz) wxBitmap(sz)
+#else
+#define EMMA_BITMAP_SIZE(sz) wxBitmap((sz).x, (sz).y)
+#endif
+// wx 2.8 spells the pen style enums wxSOLID / wxUSER_DASH
+#if wxCHECK_VERSION(2, 9, 0)
+#define EMMA_PEN_SOLID wxPENSTYLE_SOLID
+#define EMMA_PEN_USER_DASH wxPENSTYLE_USER_DASH
+#else
+#define EMMA_PEN_SOLID wxSOLID
+#define EMMA_PEN_USER_DASH wxUSER_DASH
+#endif
+// wx 2.8 has no wxString::FromDouble / ToCDouble. FromDouble is static and
+// returns a new string; ToDouble is the C-locale parse in 2.8 (ToCDouble was
+// split out in 2.9 precisely to make that explicit).
+#if wxCHECK_VERSION(2, 9, 0)
+#define EMMA_FROM_DOUBLE(s, v, p) ((s).FromDouble((v), (p)))
+#define EMMA_TO_CDOUBLE(s, p) ((s).ToCDouble(p))
+#else
+#define EMMA_FROM_DOUBLE(s, v, p) EMMA_NUMBER_STRING(v, p)
+#define EMMA_TO_CDOUBLE(s, p) ((s).ToDouble(p))
+#endif
+
 // code defining event
 
 #if wxCHECK_VERSION(2, 9, 0)
@@ -207,11 +386,25 @@ class guiEvent: public wxEvent
 {
 public:
     guiEvent( wxEventType commandType = wxEVT_NULL, int id = 0 )
+#if wxCHECK_VERSION(2, 9, 0)
     : wxThreadEvent( commandType, id )
+#else
+    : wxEvent( id, commandType )
+#endif
     {
+#if !wxCHECK_VERSION(2, 9, 0)
+        intPayload_ = 0;
+#endif
     }
 
     // accessors
+#if !wxCHECK_VERSION(2, 9, 0)
+    // wx 2.8 has no wxEventBasicPayloadMixin (wx 3.x wxThreadEvent provides these)
+    int GetInt() const { return intPayload_; }
+    void SetInt(int i) { intPayload_ = i; }
+    wxString GetString() const { return stringPayload_; }
+    void SetString(const wxString& s) { stringPayload_ = s; }
+#endif
     bool GetBoolValue()            { return boolValue_;}
     bool GetBoolValue1()            { return boolValue1_;}
     double GetDoubleValue()        { return doubleValue_;}
@@ -274,6 +467,10 @@ private:
     wxString stringValue4_;
     wxString stringValue5_;
     wxSize sizeValue_;
+#if !wxCHECK_VERSION(2, 9, 0)
+    int intPayload_;
+    wxString stringPayload_;
+#endif
 };
 
 #if wxCHECK_VERSION(2, 9, 0)
@@ -282,6 +479,7 @@ wxDEFINE_EVENT(GUI_MSG, guiEvent);
 // wx 2.8: old event-type declaration (wxDEFINE_EVENT is 2.9+).
 DECLARE_EVENT_TYPE(wxEVT_GUI_MSG, -1)
 #define GUI_MSG wxEVT_GUI_MSG
+typedef void (wxEvtHandler::*guiEventFunction)(guiEvent&);
 #endif
 
 #define guiEventHandler(func) (&func)
@@ -422,6 +620,8 @@ public:
 
     wxString statusBarLeader;
     wxString statusBarLeaderCidelsa;
+    wxString statusBarLeaderDiag;
+    wxString statusBarLeaderVIP2;
 
     bool packageDeb;
     

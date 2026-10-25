@@ -174,12 +174,12 @@ void PixieConfig::parseXml_PixieVideo(wxXmlNode &node)
             case TAG_IO:
                 if (child->HasAttribute("type"))
                 {
-                    if (child->GetAttribute("type") == "on")
+                    if (child->GetAttribute("type", wxEmptyString) == "on")
                     {
                         computerConfiguration.cdp1861Configuration.input = parseXml_IoPort(*child, CDP1861_ENABLE_IN);
                         setIoPortConfigRadio(computerConfiguration.cdp1861Configuration.input, registerIdPixie[PIXIE_ENABLE], registerFunctionPixie[PIXIE_ENABLE], "B");
                     }
-                    if (child->GetAttribute("type") == "off")
+                    if (child->GetAttribute("type", wxEmptyString) == "off")
                     {
                         computerConfiguration.cdp1861Configuration.output = parseXml_IoPort(*child, CDP1861_DISABLE_OUT);
                         setIoPortConfigRadio(computerConfiguration.cdp1861Configuration.output, registerIdPixie[PIXIE_DISABLE], registerFunctionPixie[PIXIE_DISABLE], "B");
@@ -197,12 +197,12 @@ void PixieConfig::parseXml_PixieVideo(wxXmlNode &node)
                 if (child->HasAttribute("type"))
                 {
                     computerConfiguration.cdp1861Configuration.doubleScreenIo = PIXIE_IN_IN;
-                    if (child->GetAttribute("type") == "on")
+                    if (child->GetAttribute("type", wxEmptyString) == "on")
                     {
                         computerConfiguration.cdp1861Configuration.input = parseXml_IoPort(*child, CDP1861_ENABLE_IN);
                         setIoPortConfigRadio(computerConfiguration.cdp1861Configuration.input, registerIdPixie[PIXIE_ENABLE], registerFunctionPixie[PIXIE_ENABLE], "I");
                     }
-                    if (child->GetAttribute("type") == "off")
+                    if (child->GetAttribute("type", wxEmptyString) == "off")
                     {
                         computerConfiguration.cdp1861Configuration.output = parseXml_IoPort(*child, CDP1861_DISABLE_OUT);
                         setIoPortConfigRadio(computerConfiguration.cdp1861Configuration.output, registerIdPixie[PIXIE_DISABLE], registerFunctionPixie[PIXIE_DISABLE], "I");
@@ -219,12 +219,12 @@ void PixieConfig::parseXml_PixieVideo(wxXmlNode &node)
                 if (child->HasAttribute("type"))
                 {
                     computerConfiguration.cdp1861Configuration.doubleScreenIo = PIXIE_OUT_OUT;
-                    if (child->GetAttribute("type") == "on")
+                    if (child->GetAttribute("type", wxEmptyString) == "on")
                     {
                         computerConfiguration.cdp1861Configuration.input = parseXml_IoPort(*child, CDP1861_ENABLE_IN);
                         setIoPortConfigRadio(computerConfiguration.cdp1861Configuration.input, registerIdPixie[PIXIE_ENABLE], registerFunctionPixie[PIXIE_ENABLE], "O");
                     }
-                    if (child->GetAttribute("type") == "off")
+                    if (child->GetAttribute("type", wxEmptyString) == "off")
                     {
                         computerConfiguration.cdp1861Configuration.output = parseXml_IoPort(*child, CDP1861_DISABLE_OUT);
                         setIoPortConfigRadio(computerConfiguration.cdp1861Configuration.output, registerIdPixie[PIXIE_DISABLE], registerFunctionPixie[PIXIE_DISABLE], "O");
@@ -238,7 +238,7 @@ void PixieConfig::parseXml_PixieVideo(wxXmlNode &node)
             break;
                 
             case TAG_EF:
-                if (child->GetAttribute("type") == "on")
+                if (child->GetAttribute("type", wxEmptyString) == "on")
                 {
                     computerConfiguration.cdp1861Configuration.efScreenOn = true;
                     if (mode_.gui)
@@ -301,15 +301,15 @@ void PixieConfig::parseXml_PixieVideo(wxXmlNode &node)
                 green = (int)getNextHexDec(&color) & 0xff;
                 blue = (int)getNextHexDec(&color) & 0xff;
                 
-                if (child->GetAttribute("type") == "fore")
+                if (child->GetAttribute("type", wxEmptyString) == "fore")
                     screenInfo.defaultColour[COL_PIXIE_FORE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "fore1")
+                if (child->GetAttribute("type", wxEmptyString) == "fore1")
                     screenInfo.defaultColour[COL_PIXIE_VISICOM_COL1].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "fore2")
+                if (child->GetAttribute("type", wxEmptyString) == "fore2")
                     screenInfo.defaultColour[COL_PIXIE_VISICOM_COL2].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "fore3")
+                if (child->GetAttribute("type", wxEmptyString) == "fore3")
                     screenInfo.defaultColour[COL_PIXIE_VISICOM_COL3].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back")
+                if (child->GetAttribute("type", wxEmptyString) == "back")
                     screenInfo.defaultColour[COL_PIXIE_BACK].Printf("#%02X%02X%02X", red, green, blue);
             break;
                 

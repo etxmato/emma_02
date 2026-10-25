@@ -680,11 +680,11 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
                 }
                 else
                 {
-                    if (child->GetAttribute("type") == "io")
+                    if (child->GetAttribute("type", wxEmptyString) == "io")
                         parseXml_FrontPanel (*child, PANEL_MAIN);
                     else
                     {
-                        if (child->GetAttribute("init") == "on")
+                        if (child->GetAttribute("init", wxEmptyString) == "on")
                             computerConfiguration.frontPanelConfiguration[PANEL_MAIN].show = true;
                         
                         computerConfiguration.frontPanelConfiguration[PANEL_MAIN].defined = true;
@@ -701,101 +701,101 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
 
             case TAG_DISK:
                 computerConfiguration.fdcConfiguration.drives = (int) ((parseXml_Number(*child, "drives")-1)&0x3) + 1;
-                if (child->GetAttribute("type") == "upd765")
+                if (child->GetAttribute("type", wxEmptyString) == "upd765")
                     parseXml_Upd765 (*child);
-                if (child->GetAttribute("type") == "1793")
+                if (child->GetAttribute("type", wxEmptyString) == "1793")
                 {
                     computerConfiguration.fdcConfiguration.wd1793_defined = true;
                     parseXml_FdcDisk (*child);
                 }
-                if (child->GetAttribute("type") == "1770")
+                if (child->GetAttribute("type", wxEmptyString) == "1770")
                 {
                     computerConfiguration.fdcConfiguration.wd1770_defined = true;
                     parseXml_FdcDisk (*child);
                 }
-                if (child->GetAttribute("type") == "ide")
+                if (child->GetAttribute("type", wxEmptyString) == "ide")
                     parseXml_IdeDisk (*child);
-                if (child->GetAttribute("type") == "tu58")
+                if (child->GetAttribute("type", wxEmptyString) == "tu58")
                     parseXml_Tu58Disk (*child);
             break;
                 
             case TAG_VIDEO:
-                if (child->GetAttribute("type") == "coin")
+                if (child->GetAttribute("type", wxEmptyString) == "coin")
                     parseXml_CoinVideo (*child);
-                if (child->GetAttribute("type") == "pixie" || child->GetAttribute("type") == "cdp1861" || child->GetAttribute("type") == "1861")
+                if (child->GetAttribute("type", wxEmptyString) == "pixie" || child->GetAttribute("type", wxEmptyString) == "cdp1861" || child->GetAttribute("type", wxEmptyString) == "1861")
                     parseXml_PixieVideo (*child);
-                if (child->GetAttribute("type") == "cdp1862" || child->GetAttribute("type") == "1862")
+                if (child->GetAttribute("type", wxEmptyString) == "cdp1862" || child->GetAttribute("type", wxEmptyString) == "1862")
                     parseXml_Cdp1862Video (*child);
-                if (child->GetAttribute("type") == "cdp1864" || child->GetAttribute("type") == "1864")
+                if (child->GetAttribute("type", wxEmptyString) == "cdp1864" || child->GetAttribute("type", wxEmptyString) == "1864")
                     parseXml_Cdp1864Video (*child);
-                if (child->GetAttribute("type") == "vip2k")
+                if (child->GetAttribute("type", wxEmptyString) == "vip2k")
                     parseXml_Vip2KVideo (*child);
-                if (child->GetAttribute("type") == "fred")
+                if (child->GetAttribute("type", wxEmptyString) == "fred")
                     parseXml_FredVideo (*child);
-                if (child->GetAttribute("type") == "scn2672")
+                if (child->GetAttribute("type", wxEmptyString) == "scn2672")
                     parseXml_Scn2672Video (*child);
-                if (child->GetAttribute("type") == "crt8002")
+                if (child->GetAttribute("type", wxEmptyString) == "crt8002")
                     parseXml_Crt8002Video (*child);
-                if (child->GetAttribute("type") == "mc6845")
+                if (child->GetAttribute("type", wxEmptyString) == "mc6845")
                     parseXml_MC6845Video (*child);
-                if (child->GetAttribute("type") == "mc6847")
+                if (child->GetAttribute("type", wxEmptyString) == "mc6847")
                     parseXml_MC6847Video (*child);
-                if (child->GetAttribute("type") == "hd44780")
+                if (child->GetAttribute("type", wxEmptyString) == "hd44780")
                     parseXml_HD44780Video (*child);
-                if (child->GetAttribute("type") == "tms9918")
+                if (child->GetAttribute("type", wxEmptyString) == "tms9918")
                     parseXml_TMS9918Video (*child);
-                if (child->GetAttribute("type") == "intel8275")
+                if (child->GetAttribute("type", wxEmptyString) == "intel8275")
                     parseXml_Intel8275Video (*child);
-                if (child->GetAttribute("type") == "1870")
+                if (child->GetAttribute("type", wxEmptyString) == "1870")
                     parseXml_VisVideo (*child);
-                if (child->GetAttribute("type") == "sn76430n")
+                if (child->GetAttribute("type", wxEmptyString) == "sn76430n")
                     parseXml_SN76430NVideo (*child);
-                if (child->GetAttribute("type") == "st4")
+                if (child->GetAttribute("type", wxEmptyString) == "st4")
                     parseXml_St4Video (*child);
             break;
 
             case TAG_KEYBOARD:
-                if (child->GetAttribute("type") == "ps2")
+                if (child->GetAttribute("type", wxEmptyString) == "ps2")
                 {
                    computerConfiguration.ps2KeyboardConfiguration.interrupt = false;
                    parseXml_Ps2Keyboard (*child);
                 }
-                if (child->GetAttribute("type") == "ps2-interrupt")
+                if (child->GetAttribute("type", wxEmptyString) == "ps2-interrupt")
                 {
                    computerConfiguration.ps2KeyboardConfiguration.interrupt = true;
                    parseXml_Ps2Keyboard (*child);
                 }
-                if (child->GetAttribute("type") == "ps2-gpio")
+                if (child->GetAttribute("type", wxEmptyString) == "ps2-gpio")
                 {
                    parseXml_Gpio (*child);
                 }
-                if (child->GetAttribute("type") == "ps2-89C4051")
+                if (child->GetAttribute("type", wxEmptyString) == "ps2-89C4051")
                 {
                    parseXml_Gpio (*child);
                 }
-                if (child->GetAttribute("type") == "ascii")
+                if (child->GetAttribute("type", wxEmptyString) == "ascii")
                    parseXml_AsciiKeyboard (*child);
-                if (child->GetAttribute("type") == "1871")
+                if (child->GetAttribute("type", wxEmptyString) == "1871")
                    parseXml_1871Keyboard (*child);
-                if (child->GetAttribute("type") == "latch")
+                if (child->GetAttribute("type", wxEmptyString) == "latch")
                     parseXml_LatchKeyboard (*child);
-                if (child->GetAttribute("type") == "matrix")
+                if (child->GetAttribute("type", wxEmptyString) == "matrix")
                     parseXml_MatrixKeyboard (*child);
             break;
 
             case TAG_CDP1851:
                 if (child->HasAttribute("connection"))
                 {
-                    if (child->GetAttribute("connection") == "window")
+                    if (child->GetAttribute("connection", wxEmptyString) == "window")
                     {
                         pioConnection = PIO_CONNECTION_WINDOW;
-                        parseXml_Cdp1851 (*child, child->GetAttribute("init") == "on", pioConnection);
+                        parseXml_Cdp1851 (*child, child->GetAttribute("init", wxEmptyString) == "on", pioConnection);
                     }
                     else
                     {
-                        if (child->GetAttribute("connection") == "printer")
+                        if (child->GetAttribute("connection", wxEmptyString) == "printer")
                             pioConnection = PIO_CONNECTION_PRINTER;
-                        if (child->GetAttribute("connection") == "none")
+                        if (child->GetAttribute("connection", wxEmptyString) == "none")
                             pioConnection = PIO_CONNECTION_NONE;
                         parseXml_Cdp1851 (*child, false, pioConnection);
                     }
@@ -803,24 +803,24 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
                 else
                 {
                     pioConnection = PIO_CONNECTION_WINDOW;
-                    parseXml_Cdp1851 (*child, child->GetAttribute("init") == "on", pioConnection);
+                    parseXml_Cdp1851 (*child, child->GetAttribute("init", wxEmptyString) == "on", pioConnection);
                 }
             break;
 
             case TAG_CDP1852:
-                parseXml_Cdp1852 (*child, child->GetAttribute("init") == "on");
+                parseXml_Cdp1852 (*child, child->GetAttribute("init", wxEmptyString) == "on");
             break;
 
             case TAG_CDP1854:
-                if (child->GetAttribute("connection") == "tu58")
+                if (child->GetAttribute("connection", wxEmptyString) == "tu58")
                     uartConnection = UART_CONNECTION_TU58;
-                if (child->GetAttribute("connection") == "vt1802")
+                if (child->GetAttribute("connection", wxEmptyString) == "vt1802")
                     uartConnection = UART_CONNECTION_VT1802;
-                if (child->GetAttribute("connection") == "vis1802")
+                if (child->GetAttribute("connection", wxEmptyString) == "vis1802")
                     uartConnection = UART_CONNECTION_VIS1802;
-                if (child->GetAttribute("connection") == "vt100")
+                if (child->GetAttribute("connection", wxEmptyString) == "vt100")
                     uartConnection = UART_CONNECTION_VT100;
-                if (child->GetAttribute("connection") == "loop_back")
+                if (child->GetAttribute("connection", wxEmptyString) == "loop_back")
                 {
                     computerConfiguration.videoTerminalConfiguration.loop_back = true;
                     uartConnection = UART_CONNECTION_LOOP_BACK;
@@ -858,15 +858,15 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
             break;
 
             case TAG_SCN2671:
-                if (child->GetAttribute("connection") == "tu58")
+                if (child->GetAttribute("connection", wxEmptyString) == "tu58")
                     uartConnection = UART_CONNECTION_TU58;
-                if (child->GetAttribute("connection") == "vt1802")
+                if (child->GetAttribute("connection", wxEmptyString) == "vt1802")
                     uartConnection = UART_CONNECTION_VT1802;
-                if (child->GetAttribute("connection") == "vis1802")
+                if (child->GetAttribute("connection", wxEmptyString) == "vis1802")
                     uartConnection = UART_CONNECTION_VIS1802;
-                if (child->GetAttribute("connection") == "vt100")
+                if (child->GetAttribute("connection", wxEmptyString) == "vt100")
                     uartConnection = UART_CONNECTION_VT100;
-                if (child->GetAttribute("connection") == "loop_back")
+                if (child->GetAttribute("connection", wxEmptyString) == "loop_back")
                 {
                     computerConfiguration.videoTerminalConfiguration.loop_back = true;
                     uartConnection = UART_CONNECTION_LOOP_BACK;
@@ -883,9 +883,9 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
             break;
 
             case TAG_KEYPAD:
-                if (child->GetAttribute("type") == "elf")
+                if (child->GetAttribute("type", wxEmptyString) == "elf")
                     parseXml_ElfKeypad (*child);
-                if (child->GetAttribute("type") == "latch")
+                if (child->GetAttribute("type", wxEmptyString) == "latch")
                 {
                     if (child->HasAttribute("pad"))
                     {
@@ -893,10 +893,10 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
                         {
                             padLetter.Printf("%c", pad+97-1);
                             padNumber.Printf("%c", pad+49-1);
-                            if (child->GetAttribute("pad") == padLetter || child->GetAttribute("pad") == padNumber)
+                            if (child->GetAttribute("pad", wxEmptyString) == padLetter || child->GetAttribute("pad", wxEmptyString) == padNumber)
                             {
-                                computerConfiguration.keyLatchConfiguration[pad].padNumberStr = " " + child->GetAttribute("pad");
-                                computerConfiguration.keyLatchConfiguration[pad].padNumberStr = computerConfiguration.keyLatchConfiguration[pad].padNumberStr.Capitalize();
+                                computerConfiguration.keyLatchConfiguration[pad].padNumberStr = " " + child->GetAttribute("pad", wxEmptyString);
+                                computerConfiguration.keyLatchConfiguration[pad].padNumberStr = EMMA_CAPITALIZE(computerConfiguration.keyLatchConfiguration[pad].padNumberStr);
                                 if (parseXml_Number(*child, "keys") == 10)
                                     computerConfiguration.numberOfPadKeys = 10;
                                 parseXml_LatchKeypad (pad, *child);
@@ -911,22 +911,22 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
                         parseXml_LatchKeypad (1, *child);
                     }
                 }
-                if (child->GetAttribute("type") == "fred")
+                if (child->GetAttribute("type", wxEmptyString) == "fred")
                     parseXml_FredKeypad (*child);
-                if (child->GetAttribute("type") == "hug" || child->GetAttribute("type") == "eti")
+                if (child->GetAttribute("type", wxEmptyString) == "hug" || child->GetAttribute("type", wxEmptyString) == "eti")
                     parseXml_EtiKeypad (*child);
-                if (child->GetAttribute("type") == "cv")
+                if (child->GetAttribute("type", wxEmptyString) == "cv")
                     parseXml_CvKeypad (*child);
-                if (child->GetAttribute("type") == "bit")
+                if (child->GetAttribute("type", wxEmptyString) == "bit")
                 {
                     for (int pad=0; pad<MAX_BITKEYPADS; pad++)
                     {
                         padLetter.Printf("%c", pad+97);
                         padNumber.Printf("%c", pad+49);
-                        if (child->GetAttribute("pad") == padLetter || child->GetAttribute("pad") == padNumber)
+                        if (child->GetAttribute("pad", wxEmptyString) == padLetter || child->GetAttribute("pad", wxEmptyString) == padNumber)
                         {
-                            computerConfiguration.bitKeypadConfiguration[pad].number = child->GetAttribute("pad");
-                            computerConfiguration.bitKeypadConfiguration[pad].number = computerConfiguration.bitKeypadConfiguration[pad].number.Capitalize();
+                            computerConfiguration.bitKeypadConfiguration[pad].number = child->GetAttribute("pad", wxEmptyString);
+                            computerConfiguration.bitKeypadConfiguration[pad].number = EMMA_CAPITALIZE(computerConfiguration.bitKeypadConfiguration[pad].number);
                             if (parseXml_Number(*child, "keys") == 10)
                                 computerConfiguration.numberOfPadKeys = 10;
                             parseXml_BitKeypad (pad, *child);
@@ -940,10 +940,10 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
                 {
                     padLetter.Printf("%c", pad+97);
                     padNumber.Printf("%c", pad+49);
-                    if (child->GetAttribute("pad") == padLetter || child->GetAttribute("pad") == padNumber)
+                    if (child->GetAttribute("pad", wxEmptyString) == padLetter || child->GetAttribute("pad", wxEmptyString) == padNumber)
                     {
-                        computerConfiguration.bitKeypadConfiguration[pad].number = child->GetAttribute("pad");
-                        computerConfiguration.bitKeypadConfiguration[pad].number = computerConfiguration.bitKeypadConfiguration[pad].number.Capitalize();
+                        computerConfiguration.bitKeypadConfiguration[pad].number = child->GetAttribute("pad", wxEmptyString);
+                        computerConfiguration.bitKeypadConfiguration[pad].number = EMMA_CAPITALIZE(computerConfiguration.bitKeypadConfiguration[pad].number);
                         if (parseXml_Number(*child, "keys") == 10)
                             computerConfiguration.numberOfPadKeys = 10;
                         parseXml_BitKeypad (pad, *child);
@@ -956,42 +956,42 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
             break;
 
             case TAG_VT:
-                if (child->GetAttribute("type") == "vt100")
+                if (child->GetAttribute("type", wxEmptyString) == "vt100")
                     computerConfiguration.videoTerminalConfiguration.type = VT100;
-                if (child->GetAttribute("type") == "vt52")
+                if (child->GetAttribute("type", wxEmptyString) == "vt52")
                 {
                     computerConfiguration.videoTerminalConfiguration.type = VT52;
                     computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomFileName = "vt52.a.bin";
                 }
-                if (child->GetAttribute("type") == "external")
+                if (child->GetAttribute("type", wxEmptyString) == "external")
                 {
                     computerConfiguration.videoTerminalConfiguration.external = true;
                     computerConfiguration.videoTerminalConfiguration.type = VTNONE;
                 }
-                if (child->GetAttribute("type") == "loop_back")
+                if (child->GetAttribute("type", wxEmptyString) == "loop_back")
                 {
                     computerConfiguration.videoTerminalConfiguration.loop_back = true;
                     computerConfiguration.videoTerminalConfiguration.type = VTNONE;
                 }
-                if (child->GetAttribute("connection") == "serial")
+                if (child->GetAttribute("connection", wxEmptyString) == "serial")
                 {
                     computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_UART_16450] = true;
                     computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_UART_1854] = true;
                     parseXml_SerialVt (*child);
                 }
-                if (child->GetAttribute("connection") == "scn2671")
+                if (child->GetAttribute("connection", wxEmptyString) == "scn2671")
                 {
                     computerConfiguration.videoTerminalConfiguration.scn2671_defined = true;
                     parseXml_Scn2671Vt (*child);
                 }
-                if (child->GetAttribute("connection") == "uart1854")
+                if (child->GetAttribute("connection", wxEmptyString) == "uart1854")
                 {
                     computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].uart1854_defined = true;
                     computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_UART_16450] = true;
                     computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_UART_1854] = true;
                     parseXml_UartVt (*child, false);
                 }
-                if (child->GetAttribute("connection") == "uart16450")
+                if (child->GetAttribute("connection", wxEmptyString) == "uart16450")
                 {
                     computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].uart16450_defined = true;
                     computerConfiguration.videoTerminalConfiguration.specifiedInXml[XML_VT_UART_16450] = true;
@@ -1003,39 +1003,39 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
             case TAG_PRINTER:
                 if (child->HasAttribute("connection"))
                 {
-                    if (child->GetAttribute("connection") == "cdp1851")
+                    if (child->GetAttribute("connection", wxEmptyString) == "cdp1851")
                     {
                         parseXml_Cdp1851_Printer (*child);
                     }
                 }
                 else
                 {
-                    if (child->GetAttribute("type") == "")
+                    if (child->GetAttribute("type", wxEmptyString) == "")
                     {
                         computerConfiguration.basicPrinterConfiguration.defined = true;
                         parseXml_Printer (*child, PRINTER_BASIC);
                     }
-                    if (child->GetAttribute("type") == "q")
+                    if (child->GetAttribute("type", wxEmptyString) == "q")
                     {
                         computerConfiguration.qSerialPrinterConfiguration.defined = true;
                         parseXml_Printer (*child, PRINTER_SERIAL_Q);
                     }
-                    if (child->GetAttribute("type") == "centronics")
+                    if (child->GetAttribute("type", wxEmptyString) == "centronics")
                     {
                         computerConfiguration.centronicsPrinterConfiguration.defined = true;
                         parseXml_Printer (*child, PRINTER_CENTRONICS);
                     }
-                    if (child->GetAttribute("type") == "parallel")
+                    if (child->GetAttribute("type", wxEmptyString) == "parallel")
                     {
                         computerConfiguration.parallelPrinterConfiguration.defined = true;
                         parseXml_Printer (*child, PRINTER_PARALLEL);
                     }
-                    if (child->GetAttribute("type") == "serial")
+                    if (child->GetAttribute("type", wxEmptyString) == "serial")
                     {
                         computerConfiguration.serialPrinterConfiguration.defined = true;
                         parseXml_Printer (*child, PRINTER_SERIAL);
                     }
-                    if (child->GetAttribute("type") == "thermal")
+                    if (child->GetAttribute("type", wxEmptyString) == "thermal")
                     {
                         computerConfiguration.thermalPrinterConfiguration.defined = true;
                         parseXml_Printer (*child, COMXTHPRINTER);
@@ -1044,9 +1044,9 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
             break;
 
             case TAG_CASSETTE:
-                if (child->GetAttribute("type") == "cv")
+                if (child->GetAttribute("type", wxEmptyString) == "cv")
                 {
-                    if (child->GetAttribute("decks") == "2")
+                    if (child->GetAttribute("decks", wxEmptyString) == "2")
                         computerConfiguration.hwTapeConfiguration.twoDecks = true;
                     computerConfiguration.hwTapeConfiguration.defined = true;
                     computerConfiguration.hwTapeConfiguration.format = TAPE_FORMAT_CV;
@@ -1054,9 +1054,9 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
                 }
                 else
                 {
-                    if (child->GetAttribute("type") == "fred")
+                    if (child->GetAttribute("type", wxEmptyString) == "fred")
                     {
-                        if (child->GetAttribute("decks") == "2")
+                        if (child->GetAttribute("decks", wxEmptyString) == "2")
                             computerConfiguration.hwTapeConfiguration.twoDecks = true;
                         computerConfiguration.hwTapeConfiguration.defined = true;
                         computerConfiguration.hwTapeConfiguration.format = TAPE_FORMAT_AUTO;
@@ -1064,7 +1064,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
                     }
                     else
                     {
-                        if (child->GetAttribute("decks") == "2")
+                        if (child->GetAttribute("decks", wxEmptyString) == "2")
                             computerConfiguration.swTapeConfiguration.twoDecks = true;
                         computerConfiguration.swTapeConfiguration.defined = true;
                         parseXml_SwCassette (*child);
@@ -1073,23 +1073,23 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
             break;
 
             case TAG_SOUND:
-                if (child->GetAttribute("type") == "q")
+                if (child->GetAttribute("type", wxEmptyString) == "q")
                     parseXml_QSound (*child);
-                if (child->GetAttribute("type") == "studio")
+                if (child->GetAttribute("type", wxEmptyString) == "studio")
                     parseXml_StudioSound (*child);
-                if (child->GetAttribute("type") == "bit")
+                if (child->GetAttribute("type", wxEmptyString) == "bit")
                     parseXml_OutBitSound (*child);
-                if (child->GetAttribute("type") == "coin")
+                if (child->GetAttribute("type", wxEmptyString) == "coin")
                     parseXml_CoinSound (*child);
-                if (child->GetAttribute("type") == "cdp1863" || child->GetAttribute("type") == "1863")
+                if (child->GetAttribute("type", wxEmptyString) == "cdp1863" || child->GetAttribute("type", wxEmptyString) == "1863")
                     parseXml_Cdp1863Sound (*child);
-                if (child->GetAttribute("type") == "8912")
+                if (child->GetAttribute("type", wxEmptyString) == "8912")
                     parseXml_AY_3_8912Sound (*child);
-                if (child->GetAttribute("type") == "vp550")
+                if (child->GetAttribute("type", wxEmptyString) == "vp550")
                     computerConfiguration.soundConfiguration.type = SOUND_SUPER_VP550;
-                if (child->GetAttribute("type") == "vp551")
+                if (child->GetAttribute("type", wxEmptyString) == "vp551")
                     computerConfiguration.soundConfiguration.type = SOUND_SUPER_VP551;
-                if (child->GetAttribute("stereo") == "on")
+                if (child->GetAttribute("stereo", wxEmptyString) == "on")
                     computerConfiguration.soundConfiguration.stereo = 2;
             break;
 
@@ -1099,7 +1099,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
             break;
 
             case TAG_HEXMODEM:
-                computerConfiguration.videoTerminalConfiguration.hexModem_cdp18s020 = (child->GetAttribute("type") == "cdp18S020");
+                computerConfiguration.videoTerminalConfiguration.hexModem_cdp18s020 = (child->GetAttribute("type", wxEmptyString) == "cdp18S020");
                 computerConfiguration.videoTerminalConfiguration.hexModem_defined = true;
                 parseXml_Xmodem (*child);
             break;
@@ -1121,18 +1121,18 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
             break;
 
             case TAG_RTC:
-                if (child->GetAttribute("type") == "cdp1879")
+                if (child->GetAttribute("type", wxEmptyString) == "cdp1879")
                     parseXml_RtcCdp1879 (*child);
-                if (child->GetAttribute("type") == "m48t58")
+                if (child->GetAttribute("type", wxEmptyString) == "m48t58")
                     parseXml_RtcM48T58 (*child);
-                if (child->GetAttribute("type") == "ds12887")
+                if (child->GetAttribute("type", wxEmptyString) == "ds12887")
                     parseXml_RtcDS12887 (*child);
-                if (child->GetAttribute("type") == "mm58174")
+                if (child->GetAttribute("type", wxEmptyString) == "mm58174")
                     parseXml_RtcMM58174 (*child);
             break;
 
             case TAG_USB:
-                if (child->GetAttribute("type") == "superboard")
+                if (child->GetAttribute("type", wxEmptyString) == "superboard")
                     parseXml_UsbSuperBoard (*child);
             break;
 
@@ -1326,11 +1326,11 @@ void XmlParser::parseXml_System(wxXmlNode &node)
                 
             case TAG_BOOT:
                 computerConfiguration.autoBootConfiguration.defined = true;
-                if (child->GetAttribute("start") == "no")
+                if (child->GetAttribute("start", wxEmptyString) == "no")
                  computerConfiguration.autoBootConfiguration.defined = false;
-                if (child->GetAttribute("dma") == "out")
+                if (child->GetAttribute("dma", wxEmptyString) == "out")
                     computerConfiguration.autoBootConfiguration.dmaOutOnBoot = true;
-                if (child->GetAttribute("dma") == "zero")
+                if (child->GetAttribute("dma", wxEmptyString) == "zero")
                     computerConfiguration.autoBootConfiguration.dmaOutOnBootIfMem0is0 = true;
 
                 computerConfiguration.autoBootConfiguration.address = getHexDec(child->GetNodeContent());
@@ -1342,13 +1342,13 @@ void XmlParser::parseXml_System(wxXmlNode &node)
             break;
                 
             case TAG_INIT:
-                if (child->GetAttribute("ef") == "1")
+                if (child->GetAttribute("ef", wxEmptyString) == "1")
                     computerConfiguration.defaultEfConfiguration.ef1 = (int)parseXml_Number(*child);
-                if (child->GetAttribute("ef") == "2")
+                if (child->GetAttribute("ef", wxEmptyString) == "2")
                     computerConfiguration.defaultEfConfiguration.ef2 = (int)parseXml_Number(*child);
-                if (child->GetAttribute("ef") == "3")
+                if (child->GetAttribute("ef", wxEmptyString) == "3")
                     computerConfiguration.defaultEfConfiguration.ef3 = (int)parseXml_Number(*child);
-                if (child->GetAttribute("ef") == "4")
+                if (child->GetAttribute("ef", wxEmptyString) == "4")
                     computerConfiguration.defaultEfConfiguration.ef4 = (int)parseXml_Number(*child);
             break;
 
@@ -1366,7 +1366,7 @@ void XmlParser::parseXml_System(wxXmlNode &node)
                 
             case TAG_DMA:
                 computerConfiguration.dmaConfiguration.defined = true;
-                if (child->GetAttribute("out") == "q")
+                if (child->GetAttribute("out", wxEmptyString) == "q")
                     computerConfiguration.dmaConfiguration.startOnFirstQ = true;
                 else
                     computerConfiguration.dmaConfiguration.startOnFirstOut = (int)parseXml_Number(*child, "out");
@@ -1810,7 +1810,7 @@ void XmlParser::parseXml_Locations(wxXmlNode &node)
                 writeAddress.address = (Word)getHexDec(child->GetNodeContent());
                 writeAddress.value = (int)parseXml_Number(*child, "value");
                 
-                if (child->GetAttribute("function") == "debug")
+                if (child->GetAttribute("function", wxEmptyString) == "debug")
                     writeAddress.function = WRITE_ADDRESS_DEBUG;
 
                 computerConfiguration.addressLocationConfiguration.writeAddress.push_back(writeAddress);
@@ -1819,7 +1819,7 @@ void XmlParser::parseXml_Locations(wxXmlNode &node)
             case TAG_READ_ADDRESS:
                 readAddress.address = (Word)getHexDec(child->GetNodeContent());
                 
-                if (child->GetAttribute("function") == "debug")
+                if (child->GetAttribute("function", wxEmptyString) == "debug")
                     readAddress.function = READ_ADDRESS_DEBUG;
 
                 computerConfiguration.addressLocationConfiguration.readAddress.push_back(readAddress);
@@ -1902,12 +1902,12 @@ void XmlParser::parseXml_Locations(wxXmlNode &node)
             case TAG_SET_PSEUDO_AM4KBAS1978:
                 newInfo.type = tagTypeInt-TAG_RESET_STATE;
 
-                newInfo.additionalAddress = getHexDec(child->GetAttribute("info"));
+                newInfo.additionalAddress = getHexDec(child->GetAttribute("info", wxEmptyString));
 
                 if (child->HasAttribute("address"))
                 {
-                    addressLocationConfiguration = child->GetAttribute("address");
-                    addressValues = child->GetAttribute("value");
+                    addressLocationConfiguration = child->GetAttribute("address", wxEmptyString);
+                    addressValues = child->GetAttribute("value", wxEmptyString);
                     while (addressLocationConfiguration != "")
                     {
                         newAddressInfo.checkAddress = getNextHexDec(&addressLocationConfiguration);
@@ -1920,8 +1920,8 @@ void XmlParser::parseXml_Locations(wxXmlNode &node)
 
                 if (child->HasAttribute("reg"))
                 {
-                    addressLocationConfiguration = child->GetAttribute("reg");
-                    addressValues = child->GetAttribute("value");
+                    addressLocationConfiguration = child->GetAttribute("reg", wxEmptyString);
+                    addressValues = child->GetAttribute("value", wxEmptyString);
                     while (addressLocationConfiguration != "")
                     {
                         newRegInfo.checkReg = getNextHexDec(&addressLocationConfiguration);
@@ -1937,16 +1937,16 @@ void XmlParser::parseXml_Locations(wxXmlNode &node)
                     switch (tagTypeInt)
                     {
                         case TAG_RESET_STATE:
-                            computerConfiguration.stateCommand_[RESETSTATE] = child->GetAttribute("command");
+                            computerConfiguration.stateCommand_[RESETSTATE] = child->GetAttribute("command", wxEmptyString);
                         break;
                         case TAG_UT_STATE:
-                            computerConfiguration.stateCommand_[UTSTATE] = child->GetAttribute("command");
+                            computerConfiguration.stateCommand_[UTSTATE] = child->GetAttribute("command", wxEmptyString);
                         break;
                         case TAG_BASIC_STATE:
-                            computerConfiguration.stateCommand_[BASICSTATE] = child->GetAttribute("command");
+                            computerConfiguration.stateCommand_[BASICSTATE] = child->GetAttribute("command", wxEmptyString);
                         break;
                         case TAG_BASIC_STATE_CW:
-                            computerConfiguration.stateCommand_[BASICSTATECW] = child->GetAttribute("command");
+                            computerConfiguration.stateCommand_[BASICSTATECW] = child->GetAttribute("command", wxEmptyString);
                         break;
                     }
                 }
@@ -2075,7 +2075,7 @@ void XmlParser::parseXml_Bootstrap(wxXmlNode &node)
             break;
 
             case TAG_TIMER:
-                if (child->GetAttribute("type") == "onin")
+                if (child->GetAttribute("type", wxEmptyString) == "onin")
                     computerConfiguration.bootstrapConfiguration.type = BOOTSTRAPTIMER_ONIN;
                 else
                     computerConfiguration.bootstrapConfiguration.type = BOOTSTRAPTIMER;
@@ -2184,16 +2184,16 @@ void XmlParser::parseXml_IdeDisk(wxXmlNode &node)
             break;
 
             case TAG_IN:
-                if (child->GetAttribute("type") == "status")
+                if (child->GetAttribute("type", wxEmptyString) == "status")
                     computerConfiguration.ideConfiguration.status = parseXml_IoPort(*child, IDE_READ_STATUS_IN);
-                if (child->GetAttribute("type") == "read")
+                if (child->GetAttribute("type", wxEmptyString) == "read")
                     computerConfiguration.ideConfiguration.input = parseXml_IoPort(*child, IDE_READ_PORT_IN);
             break;
 
            case TAG_OUT:
-                if (child->GetAttribute("type") == "select")
+                if (child->GetAttribute("type", wxEmptyString) == "select")
                     computerConfiguration.ideConfiguration.selectOutput = parseXml_IoPort(*child, IDE_SELECT_PORT_OUT);
-                if (child->GetAttribute("type") == "write")
+                if (child->GetAttribute("type", wxEmptyString) == "write")
                     computerConfiguration.ideConfiguration.writeOutput = parseXml_IoPort(*child, IDE_WRITE_PORT_OUT);
             break;
                 
@@ -2298,16 +2298,16 @@ void XmlParser::parseXml_FdcDisk(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_IN:
-                if (child->GetAttribute("type") == "read")
+                if (child->GetAttribute("type", wxEmptyString) == "read")
                     computerConfiguration.fdcConfiguration.readInput = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "intrq")
+                if (child->GetAttribute("type", wxEmptyString) == "intrq")
                     computerConfiguration.fdcConfiguration.intrqInput = parseXml_IoPort(*child);
             break;
                 
             case TAG_OUT:
-                if (child->GetAttribute("type") == "select")
+                if (child->GetAttribute("type", wxEmptyString) == "select")
                     computerConfiguration.fdcConfiguration.selectOutput = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "write")
+                if (child->GetAttribute("type", wxEmptyString) == "write")
                     computerConfiguration.fdcConfiguration.writeOutput = parseXml_IoPort(*child);
             break;
                 
@@ -2429,18 +2429,18 @@ void XmlParser::parseXml_Upd765(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_IN:
-                if (child->GetAttribute("type") == "status")
+                if (child->GetAttribute("type", wxEmptyString) == "status")
                     computerConfiguration.upd765Configuration.readStatus = parseXml_IoPort(*child, UPD765_READ_STATUS_IN);
-                if (child->GetAttribute("type") == "command")
+                if (child->GetAttribute("type", wxEmptyString) == "command")
                     computerConfiguration.upd765Configuration.readCommand = parseXml_IoPort(*child, UPD765_READ_COMMAND_IN);
             break;
                 
             case TAG_OUT:
-                if (child->GetAttribute("type") == "control")
+                if (child->GetAttribute("type", wxEmptyString) == "control")
                     computerConfiguration.upd765Configuration.dmaControl = parseXml_IoPort(*child, UPD765_DMA_CONTROL_OUT);
-                if (child->GetAttribute("type") == "count")
+                if (child->GetAttribute("type", wxEmptyString) == "count")
                     computerConfiguration.upd765Configuration.dmaCount = parseXml_IoPort(*child, UPD765_DMA_COUNT_OUT);
-                if (child->GetAttribute("type") == "command")
+                if (child->GetAttribute("type", wxEmptyString) == "command")
                     computerConfiguration.upd765Configuration.writeCommand = parseXml_IoPort(*child, UPD765_WRITE_COMMAND_OUT);
             break;
                 
@@ -2474,7 +2474,7 @@ void XmlParser::parseXml_Upd765(wxXmlNode &node)
                 floppyDirSwitched_[FDCTYPE_UPD765][diskNumber] = computerConfiguration.mainDir_ + child->GetNodeContent();
                 if (floppyDirSwitched_[FDCTYPE_UPD765][diskNumber].Right(1) != pathSeparator_)
                     floppyDirSwitched_[FDCTYPE_UPD765][diskNumber] += pathSeparator_;
-                if (child->GetAttribute("default") == "yes")
+                if (child->GetAttribute("default", wxEmptyString) == "yes")
                     directoryMode_[FDCTYPE_UPD765][diskNumber] = true;
             break;
 
@@ -2761,7 +2761,7 @@ void XmlParser::parseXml_Gpio(wxXmlNode &node)
             break;
 
             case TAG_KEYDEF:
-                if (child->GetAttribute("type") == "text")
+                if (child->GetAttribute("type", wxEmptyString) == "text")
                 {
                     keyText = child->GetNodeContent();
                     textEfKeyInt = 0;
@@ -2772,15 +2772,15 @@ void XmlParser::parseXml_Gpio(wxXmlNode &node)
                             if (!child->HasAttribute("os"))
                                 computerConfiguration.gpioPs2KeyboardConfiguration.textKey[textEfKeyInt] = (int)parseXml_Number(*child, "value");
 #ifdef __WXMAC__
-                            if (child->GetAttribute("os") == "mac")
+                            if (child->GetAttribute("os", wxEmptyString) == "mac")
                                 computerConfiguration.gpioPs2KeyboardConfiguration.textKey[textEfKeyInt] = (int)parseXml_Number(*child, "value");
 #endif
 #ifdef __WXMSW__
-                            if (child->GetAttribute("os") == "windows")
+                            if (child->GetAttribute("os", wxEmptyString) == "windows")
                                 computerConfiguration.gpioPs2KeyboardConfiguration.textKey[textEfKeyInt] = (int)parseXml_Number(*child, "value");
 #endif
 #ifdef __linux__
-                            if (child->GetAttribute("os") == "linux")
+                            if (child->GetAttribute("os", wxEmptyString) == "linux")
                                 computerConfiguration.gpioPs2KeyboardConfiguration.textKey[textEfKeyInt] = (int)parseXml_Number(*child, "value");
 #endif
                         }
@@ -2940,9 +2940,9 @@ void XmlParser::parseXml_1871Keyboard(wxXmlNode &node)
             break;
                 
             case TAG_EF:
-                if (child->GetAttribute("type") == "rpt")
+                if (child->GetAttribute("type", wxEmptyString) == "rpt")
                     computerConfiguration.cdp1871Configuration.repeatEf = parseXml_EfFlag(*child, CDP1871_REPEAT_EF);
-                if (child->GetAttribute("type") == "data" || child->GetAttribute("type") == "ready" )
+                if (child->GetAttribute("type", wxEmptyString) == "data" || child->GetAttribute("type", wxEmptyString) == "ready" )
                     computerConfiguration.cdp1871Configuration.ef = parseXml_EfFlag(*child, CDP1871_EF);
             break;
                 
@@ -3041,7 +3041,7 @@ void XmlParser::parseXml_LatchKeyboard(wxXmlNode &node)
             break;
                 
             case TAG_KEYDEF:
-                if (child->GetAttribute("type") == "")
+                if (child->GetAttribute("type", wxEmptyString) == "")
                 {
                     keyValue = (int)parseXml_Number(*child)&0x1ff;
                     if (keyValue != 0)
@@ -3055,7 +3055,7 @@ void XmlParser::parseXml_LatchKeyboard(wxXmlNode &node)
                     }
                 }
                 
-                if (child->GetAttribute("type") == "text")
+                if (child->GetAttribute("type", wxEmptyString) == "text")
                 {
                     keyText = child->GetNodeContent();
                     if (keyText == "alt_right")
@@ -3074,7 +3074,7 @@ void XmlParser::parseXml_LatchKeyboard(wxXmlNode &node)
                         computerConfiguration.keyLatchConfiguration[0].caps = (int)parseXml_Number(*child, "out");
                 }
 
-                if (child->GetAttribute("type") == "force")
+                if (child->GetAttribute("type", wxEmptyString) == "force")
                 {
                     keyValue = (int)parseXml_Number(*child)&0x1ff;
                     if (keyValue != 0)
@@ -3082,7 +3082,7 @@ void XmlParser::parseXml_LatchKeyboard(wxXmlNode &node)
                             computerConfiguration.keyLatchConfiguration[0].pcForceShift[keyValue] = (int)parseXml_Number(*child, "out");
                 }
 
-                if (child->GetAttribute("type") == "force_noshift")
+                if (child->GetAttribute("type", wxEmptyString) == "force_noshift")
                 {
                     keyValue = (int)parseXml_Number(*child)&0x1ff;
                     if (keyValue != 0)
@@ -3090,7 +3090,7 @@ void XmlParser::parseXml_LatchKeyboard(wxXmlNode &node)
                             computerConfiguration.keyLatchConfiguration[0].pcForceNoShift[keyValue] = (int)parseXml_Number(*child, "out");
                 }
 
-                if (child->GetAttribute("type") == "shift")
+                if (child->GetAttribute("type", wxEmptyString) == "shift")
                 {
                     keyValue = (int)parseXml_Number(*child)&0x1ff;
                     if (keyValue != 0)
@@ -3233,10 +3233,10 @@ void XmlParser::parseXml_MatrixKeyboard(wxXmlNode &node)
                 if (child->HasAttribute("addressmask") && computerConfiguration.matrixKeyboardConfiguration.input.addressMode)
                     computerConfiguration.matrixKeyboardConfiguration.addressIndexed = true;
 
-                if (child->GetAttribute("useaddress") == "yes")
+                if (child->GetAttribute("useaddress", wxEmptyString) == "yes")
                     computerConfiguration.matrixKeyboardConfiguration.useAddress = true;
 
-                if (child->GetAttribute("pol") == "rev")
+                if (child->GetAttribute("pol", wxEmptyString) == "rev")
                     computerConfiguration.matrixKeyboardConfiguration.keyPressed = 0;
             break;
             
@@ -3246,7 +3246,7 @@ void XmlParser::parseXml_MatrixKeyboard(wxXmlNode &node)
             break;
 
             case TAG_KEYDEF:
-                if (child->GetAttribute("type") == "")
+                if (child->GetAttribute("type", wxEmptyString) == "")
                 {
                     keyValue = (int)parseXml_Number(*child)&0xff;
                     computerConfiguration.matrixKeyboardConfiguration.keyValue[keyValue] = (int)parseXml_Number(*child, "address");
@@ -3255,7 +3255,7 @@ void XmlParser::parseXml_MatrixKeyboard(wxXmlNode &node)
                     if (child->HasAttribute("mask"))
                         computerConfiguration.matrixKeyboardConfiguration.bitValue[keyValue] = parseXml_Number(*child, "mask");
                 }
-                if (child->GetAttribute("type") == "shift")
+                if (child->GetAttribute("type", wxEmptyString) == "shift")
                 {
                     keyValue = (int)parseXml_Number(*child)&0xff;
                     computerConfiguration.matrixKeyboardConfiguration.keyValue[keyValue] = (int)parseXml_Number(*child, "address");
@@ -3265,7 +3265,7 @@ void XmlParser::parseXml_MatrixKeyboard(wxXmlNode &node)
                         computerConfiguration.matrixKeyboardConfiguration.bitValue[keyValue] = parseXml_Number(*child, "mask");
                     computerConfiguration.matrixKeyboardConfiguration.shiftValue[keyValue] = 0;
                 }
-                if (child->GetAttribute("type") == "ctrl")
+                if (child->GetAttribute("type", wxEmptyString) == "ctrl")
                 {
                     keyValue = (int)parseXml_Number(*child)&0xff;
                     computerConfiguration.matrixKeyboardConfiguration.keyValue[keyValue] = (int)parseXml_Number(*child, "address");
@@ -3275,7 +3275,7 @@ void XmlParser::parseXml_MatrixKeyboard(wxXmlNode &node)
                         computerConfiguration.matrixKeyboardConfiguration.bitValue[keyValue] = parseXml_Number(*child, "mask");
                     computerConfiguration.matrixKeyboardConfiguration.ctrlValue[keyValue] = 0;
                 }
-                if (child->GetAttribute("type") == "text" || child->GetAttribute("type") == "text_ctrl")
+                if (child->GetAttribute("type", wxEmptyString) == "text" || child->GetAttribute("type", wxEmptyString) == "text_ctrl")
                 {
                     keyText = child->GetNodeContent();
                     textEfKeyInt = 0;
@@ -3289,7 +3289,7 @@ void XmlParser::parseXml_MatrixKeyboard(wxXmlNode &node)
                             if (child->HasAttribute("mask"))
                                 computerConfiguration.matrixKeyboardConfiguration.textKey[textEfKeyInt].bitMaskPressed = parseXml_Number(*child, "mask");
                             computerConfiguration.matrixKeyboardConfiguration.textKey[textEfKeyInt].bitMaskNotPressed = computerConfiguration.matrixKeyboardConfiguration.textKey[textEfKeyInt].bitMaskPressed ^ 0xff;
-                            if (child->GetAttribute("type") == "text_ctrl")
+                            if (child->GetAttribute("type", wxEmptyString) == "text_ctrl")
                                 computerConfiguration.matrixKeyboardConfiguration.textKey[textEfKeyInt].ctrlValue = 0;
                        }
                         textEfKeyInt++;
@@ -3308,7 +3308,7 @@ void XmlParser::parseXml_MatrixKeyboard(wxXmlNode &node)
                     if (keyText == efKeyList[textEfKeyInt])
                     {
                         computerConfiguration.matrixKeyboardConfiguration.efKey[textEfKeyInt] = tagTypeInt-TAG_EF1+1;
-                        if (child->GetAttribute("pol") == "rev")
+                        if (child->GetAttribute("pol", wxEmptyString) == "rev")
                             computerConfiguration.matrixKeyboardConfiguration.efKeyRev[textEfKeyInt] = true;
                     }
                     textEfKeyInt++;
@@ -3390,11 +3390,11 @@ void XmlParser::parseXml_ElfKeypad(wxXmlNode &node)
             break;
                 
             case TAG_EF:
-                if (child->GetAttribute("type") == "data" || child->GetAttribute("type") == "ready" )
+                if (child->GetAttribute("type", wxEmptyString) == "data" || child->GetAttribute("type", wxEmptyString) == "ready" )
                     computerConfiguration.hexDisplayConfiguration.ef = parseXml_EfFlag(*child, HEX_KEY_EF);
-                if (child->GetAttribute("type") == "in")
+                if (child->GetAttribute("type", wxEmptyString) == "in")
                     computerConfiguration.hexDisplayConfiguration.inEf = parseXml_EfFlag(*child);
-                if (child->GetAttribute("type") == "in_elf")
+                if (child->GetAttribute("type", wxEmptyString) == "in_elf")
                     computerConfiguration.hexDisplayConfiguration.inEfElf = parseXml_EfFlag(*child);
             break;
                                 
@@ -3514,7 +3514,7 @@ void XmlParser::parseXml_BitKeypad(int padnumber, wxXmlNode &node)
                 else if (child->HasAttribute("mod"))
                 {
                     int modValue = 0;
-                    wxString modStr = child->GetAttribute("mod");
+                    wxString modStr = child->GetAttribute("mod", wxEmptyString);
                     if (modStr == "shift")
                         modValue = wxMOD_SHIFT;
                     else if (modStr == "ctrl" || modStr == "control")
@@ -3685,12 +3685,12 @@ void XmlParser::parseXml_CvKeypad(wxXmlNode &node)
             break;
 
             case TAG_KEYDEF:
-                if (child->GetAttribute("type") == "")
+                if (child->GetAttribute("type", wxEmptyString) == "")
                 {
                     keyValue = (int)parseXml_Number(*child)&0xff;
                     computerConfiguration.cvKeypadConfiguration.keydef[keyValue] = (int)parseXml_Number(*child, "value");
                 }
-                if (child->GetAttribute("type") == "text")
+                if (child->GetAttribute("type", wxEmptyString) == "text")
                 {
                     keyText = child->GetNodeContent();
                     textEfKeyInt = 0;
@@ -3829,7 +3829,7 @@ void XmlParser::parseXml_LatchKeypad(int pad, wxXmlNode &node)
             break;
                 
             case TAG_KEYDEF:
-                if (child->GetAttribute("type") == "")
+                if (child->GetAttribute("type", wxEmptyString) == "")
                 {
                     keyValue = (int)parseXml_Number(*child)&0x1ff;
                     if (keyValue != 0)
@@ -3843,7 +3843,7 @@ void XmlParser::parseXml_LatchKeypad(int pad, wxXmlNode &node)
                     }
                 }
                 
-                if (child->GetAttribute("type") == "text")
+                if (child->GetAttribute("type", wxEmptyString) == "text")
                 {
                     keyText = child->GetNodeContent();
                     if (keyText == "alt_right")
@@ -3862,12 +3862,12 @@ void XmlParser::parseXml_LatchKeypad(int pad, wxXmlNode &node)
                         computerConfiguration.keyLatchConfiguration[pad].caps = (int)parseXml_Number(*child, "out");
                 }
 
-                if (child->GetAttribute("type") == "file")
+                if (child->GetAttribute("type", wxEmptyString) == "file")
                 {
                     computerConfiguration.keyPadDefinitionFile = child->GetNodeContent();
                 }
 
-                if (child->GetAttribute("type") == "force")
+                if (child->GetAttribute("type", wxEmptyString) == "force")
                 {
                     keyValue = (int)parseXml_Number(*child)&0x1ff;
                     if (keyValue != 0)
@@ -3875,7 +3875,7 @@ void XmlParser::parseXml_LatchKeypad(int pad, wxXmlNode &node)
                             computerConfiguration.keyLatchConfiguration[pad].pcForceShift[keyValue] = (int)parseXml_Number(*child, "out");
                 }
 
-                if (child->GetAttribute("type") == "shift")
+                if (child->GetAttribute("type", wxEmptyString) == "shift")
                 {
                     keyValue = (int)parseXml_Number(*child)&0x1ff;
                     if (keyValue != 0)
@@ -3990,7 +3990,7 @@ void XmlParser::parseXml_FredKeypad(wxXmlNode &node)
             break;
                 
             case TAG_IN:
-                if (child->GetAttribute("type") == "key")
+                if (child->GetAttribute("type", wxEmptyString) == "key")
                 {
                     computerConfiguration.fredKeypadConfiguration.inputKey = parseXml_IoPort(*child, KEY_TAPE_FRED_READ_DATA_IN);
                     if (child->HasAttribute("mode"))
@@ -3998,7 +3998,7 @@ void XmlParser::parseXml_FredKeypad(wxXmlNode &node)
                         computerConfiguration.fredKeypadConfiguration.input_mode = (int)parseXml_Number(*child, "mode");
                     }
                 }
-                if (child->GetAttribute("type") == "coin")
+                if (child->GetAttribute("type", wxEmptyString) == "coin")
                 {
                     computerConfiguration.fredKeypadConfiguration.coinArcadeControl = true;
                     computerConfiguration.fredKeypadConfiguration.inputCoin = parseXml_IoPort(*child, KEY_FRED_COIN_ARCADE_IN);
@@ -4006,7 +4006,7 @@ void XmlParser::parseXml_FredKeypad(wxXmlNode &node)
             break;
                 
             case TAG_EF:
-                if (child->GetAttribute("type") == "key")
+                if (child->GetAttribute("type", wxEmptyString) == "key")
                 {
                     computerConfiguration.fredKeypadConfiguration.efKey = parseXml_EfFlag(*child, KEY_TAPE_FRED_EF);
                     if (child->HasAttribute("mode"))
@@ -4014,11 +4014,11 @@ void XmlParser::parseXml_FredKeypad(wxXmlNode &node)
                         computerConfiguration.fredKeypadConfiguration.ef_mode = (int)parseXml_Number(*child, "mode");
                     }
                 }
-                if (child->GetAttribute("type") == "fireb")
+                if (child->GetAttribute("type", wxEmptyString) == "fireb")
                 {
                     computerConfiguration.fredKeypadConfiguration.efFireB = parseXml_EfFlag(*child, KEY_FRED_COIN_ARCADE_EF);
                 }
-                if (child->GetAttribute("type") == "coin" || child->GetAttribute("type") == "error")
+                if (child->GetAttribute("type", wxEmptyString) == "coin" || child->GetAttribute("type", wxEmptyString) == "error")
                 {
                     computerConfiguration.fredKeypadConfiguration.efCoin = parseXml_EfFlag(*child, TAPE_ERROR_FRED_EF);
                 }
@@ -4200,7 +4200,7 @@ void XmlParser::parseXml_EfButtons(wxXmlNode &node)
             case TAG_EF2:
             case TAG_EF3:
             case TAG_EF4:
-                if (child->GetAttribute("type") == "mod")
+                if (child->GetAttribute("type", wxEmptyString) == "mod")
                 {
                     computerConfiguration.efButtonsConfiguration.key[tagTypeInt-TAG_EF1+1].modString = child->GetNodeContent();
                     if (computerConfiguration.efButtonsConfiguration.key[tagTypeInt-TAG_EF1+1].modString == "alt")
@@ -4247,7 +4247,7 @@ void XmlParser::parseXml_EfButtons(wxXmlNode &node)
                 else
                 {
                     computerConfiguration.efButtonsConfiguration.key[tagTypeInt-TAG_EF1+1].resetInp = -1;
-                    if (child->GetAttribute("type") == "reset")
+                    if (child->GetAttribute("type", wxEmptyString) == "reset")
                     {
                         if (child->HasAttribute("in"))
                             computerConfiguration.efButtonsConfiguration.key[tagTypeInt-TAG_EF1+1].resetInp = (int)parseXml_Number(*child, "in");
@@ -4341,7 +4341,7 @@ void XmlParser::parseXml_AdConvertor(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_IN:
-                if (child->GetAttribute("type") == "adi")
+                if (child->GetAttribute("type", wxEmptyString) == "adi")
                 {
                 	addressPort = parseXml_IoPort(*child);
                 	if (addressPort.portNumber.size() == 1)
@@ -4482,47 +4482,47 @@ void XmlParser::parseXml_FrontPanel(wxXmlNode &node, int frontNumber)
         switch (tagTypeInt)
         {
             case TAG_OUT:
-                if (child->GetAttribute("type") == "multitil")
+                if (child->GetAttribute("type", wxEmptyString) == "multitil")
                     computerConfiguration.multiSegDisplayConfiguration.segOutput = parseXml_IoPort(*child, MULTI_TIL_DISPLAY_OUT);
-                else if (child->GetAttribute("type") == "multitil_high")
+                else if (child->GetAttribute("type", wxEmptyString) == "multitil_high")
                     computerConfiguration.multiSegDisplayConfiguration.segOutputHigh = parseXml_IoPort(*child, MULTI_TIL_DISPLAY_OUT_HIGH);
-                else if (child->GetAttribute("type") == "multitil_digit")
+                else if (child->GetAttribute("type", wxEmptyString) == "multitil_digit")
                     computerConfiguration.multiSegDisplayConfiguration.segDigitOutput = parseXml_IoPort(*child, MULTI_TIL_DISPLAY_DIGIT);
                 else
                     computerConfiguration.hexDisplayConfiguration.output = parseXml_IoPort(*child, HEX_DISPLAY_OUT);
             break;
                 
             case TAG_IN:
-                if (child->GetAttribute("type") == "multitil")
+                if (child->GetAttribute("type", wxEmptyString) == "multitil")
                     computerConfiguration.multiSegDisplayConfiguration.segInput = parseXml_IoPort(*child, MULTI_TIL_DISPLAY_IN);
                 else
                 {
-                    if (child->GetAttribute("type") == "direct")
+                    if (child->GetAttribute("type", wxEmptyString) == "direct")
                     {
                         computerConfiguration.hexDisplayConfiguration.input = parseXml_IoPort(*child, SWITCHES_IN_DIRECT);
                     }
                     else
                     {
-                        computerConfiguration.hexDisplayConfiguration.oneKeyIn = (child->GetAttribute("type") == "onekey");
+                        computerConfiguration.hexDisplayConfiguration.oneKeyIn = (child->GetAttribute("type", wxEmptyString) == "onekey");
                         computerConfiguration.useHexKeyboard = true;
                         computerConfiguration.defaultKeyDefinition[0] = "elfdefault";
                         if (child->HasAttribute("default"))
-                            computerConfiguration.defaultKeyDefinition[0] = child->GetAttribute("default");
+                            computerConfiguration.defaultKeyDefinition[0] = child->GetAttribute("default", wxEmptyString);
                         computerConfiguration.hexDisplayConfiguration.input = parseXml_IoPort(*child, HEX_KEY_IN);
                     }
                 }
             break;
                 
             case TAG_EF:
-                if (child->GetAttribute("type") == "data" || child->GetAttribute("type") == "ready" )
+                if (child->GetAttribute("type", wxEmptyString) == "data" || child->GetAttribute("type", wxEmptyString) == "ready" )
                     computerConfiguration.hexDisplayConfiguration.ef = parseXml_EfFlag(*child, HEX_KEY_EF);
-                if (child->GetAttribute("type") == "in")
+                if (child->GetAttribute("type", wxEmptyString) == "in")
                     computerConfiguration.hexDisplayConfiguration.inEf = parseXml_EfFlag(*child);
-                if (child->GetAttribute("type") == "in_elf")
+                if (child->GetAttribute("type", wxEmptyString) == "in_elf")
                     computerConfiguration.hexDisplayConfiguration.inEfElf = parseXml_EfFlag(*child);
-                if (child->GetAttribute("type") == "start")
+                if (child->GetAttribute("type", wxEmptyString) == "start")
                     computerConfiguration.hexDisplayConfiguration.startEf = parseXml_EfFlag(*child);
-                if (child->GetAttribute("type") == "multitil")
+                if (child->GetAttribute("type", wxEmptyString) == "multitil")
                     computerConfiguration.multiSegDisplayConfiguration.segEf = parseXml_EfFlag(*child, MULTI_TIL_DISPLAY_EF);
 
             break;
@@ -4532,7 +4532,7 @@ void XmlParser::parseXml_FrontPanel(wxXmlNode &node, int frontNumber)
             break;
 
             case TAG_CYCLE:
-                if (child->GetAttribute("type") == "multitil")
+                if (child->GetAttribute("type", wxEmptyString) == "multitil")
                     computerConfiguration.multiSegDisplayConfiguration.cycleValue = (int)parseXml_Number(*child);
             break;
                 
@@ -4557,22 +4557,22 @@ void XmlParser::parseXml_FrontPanel(wxXmlNode &node, int frontNumber)
                 position = child->GetNodeContent();
                 computerConfiguration.frontPanelConfiguration[frontNumber].defaultPos.x = (int)getNextHexDec(&position);
                 computerConfiguration.frontPanelConfiguration[frontNumber].defaultPos.y = (int)getNextHexDec(&position);
-                if (child->GetAttribute("type") == "grid")
+                if (child->GetAttribute("type", wxEmptyString) == "grid")
                     computerConfiguration.frontPanelConfiguration[frontNumber].posType = POS_TYPE_GRID;
-                if (child->GetAttribute("type") == "real")
+                if (child->GetAttribute("type", wxEmptyString) == "real")
                     computerConfiguration.frontPanelConfiguration[frontNumber].posType = POS_TYPE_REAL;
             break;
 
             case TAG_BACKGROUND:
                 // Fixed panel background colour, e.g. <background color="white_fixed"/>
                 // -1 (unknown or no colour given) keeps the light/dark mode background
-                computerConfiguration.frontPanelConfiguration[frontNumber].backgroundColorCode = textToColorCode(child->GetAttribute("color"), true);
+                computerConfiguration.frontPanelConfiguration[frontNumber].backgroundColorCode = textToColorCode(child->GetAttribute("color", wxEmptyString), true);
             break;
 
             case TAG_FILENAME:
                 if (child->HasAttribute("pol"))
                 {
-                    if (child->GetAttribute("pol") == "rev")
+                    if (child->GetAttribute("pol", wxEmptyString) == "rev")
                         computerConfiguration.multiSegDisplayConfiguration.reversePolarity = true;
                 }
                 if (child->HasAttribute("high"))
@@ -4893,14 +4893,14 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = SWITCH_BUTTON_VERTICAL;
                     if (child->HasAttribute("direction"))
                     {
-                        if (child->GetAttribute("direction") == "horizontal")
+                        if (child->GetAttribute("direction", wxEmptyString) == "horizontal")
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = SWITCH_BUTTON_HORIZONTAL;
                     }
                     if (child->HasAttribute("form"))
                     {
-                        if (child->GetAttribute("form") == "elf2k_power")
+                        if (child->GetAttribute("form", wxEmptyString) == "elf2k_power")
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = ELF2K_POWER_BUTTON;
-                        if (child->GetAttribute("form") == "square")
+                        if (child->GetAttribute("form", wxEmptyString) == "square")
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = SWITCH_BUTTON_SQUARE_GREEN;
                     }
                 }
@@ -4951,9 +4951,9 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                         computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PUSH_BUTTON;
                     if (child->HasAttribute("size"))
                     {
-                        if (child->GetAttribute("size") == "small")
+                        if (child->GetAttribute("size", wxEmptyString) == "small")
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PUSH_BUTTON_SMALL;
-                        if (child->GetAttribute("size") == "large")
+                        if (child->GetAttribute("size", wxEmptyString) == "large")
                         {
                             if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type == PUSH_BUTTON_GREEN)
                                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PUSH_BUTTON_ROUND_GREEN_LARGE;
@@ -4964,19 +4964,19 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
 
                     if (child->HasAttribute("form"))
                     {
-                        if (child->GetAttribute("form") == "rectangle")
+                        if (child->GetAttribute("form", wxEmptyString) == "rectangle")
                         {
                             if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type == PUSH_BUTTON_SMALL)
                                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PUSH_BUTTON_RECTANGLE_SMALL;
                             else
                                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PUSH_BUTTON_RECTANGLE;
                         }
-                        if (child->GetAttribute("form") == "round")
+                        if (child->GetAttribute("form", wxEmptyString) == "round")
                         {
                             if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type != PUSH_BUTTON_ROUND_GREEN_LARGE && computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type != PUSH_BUTTON_ROUND_RED_LARGE)
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PUSH_BUTTON_ROUND_BLACK;
                         }
-                        if (child->GetAttribute("form") == "flex")
+                        if (child->GetAttribute("form", wxEmptyString) == "flex")
                         {
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PUSH_BUTTON_FLEX;
                         }
@@ -4985,7 +4985,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
 
                 if (child->HasAttribute("color"))
                 {
-                    if (child->GetAttribute("color") == "red")
+                    if (child->GetAttribute("color", wxEmptyString) == "red")
                     {
                         if(computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type == PUSH_BUTTON)
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PUSH_BUTTON_RED;
@@ -4994,28 +4994,28 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                         if(computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type == SWITCH_BUTTON_VERTICAL)
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = SWITCH_BUTTON_VERTICAL_RED;
                     }
-                    if (child->GetAttribute("color") == "blue")
+                    if (child->GetAttribute("color", wxEmptyString) == "blue")
                     {
                         if(computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type == PUSH_BUTTON)
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PUSH_BUTTON_BLUE;
                         if(computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type == SWITCH_BUTTON_VERTICAL)
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = SWITCH_BUTTON_BLUE;
                     }
-                    if (child->GetAttribute("color") == "orange")
+                    if (child->GetAttribute("color", wxEmptyString) == "orange")
                     {
                         if(computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type == PUSH_BUTTON)
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PUSH_BUTTON_ORANGE;
                         if(computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type == SWITCH_BUTTON_VERTICAL)
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = SWITCH_BUTTON_ORANGE;
                     }
-                    if (child->GetAttribute("color") == "yellow")
+                    if (child->GetAttribute("color", wxEmptyString) == "yellow")
                     {
                         if(computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type == PUSH_BUTTON)
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PUSH_BUTTON_YELLOW;
                         if(computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type == SWITCH_BUTTON_VERTICAL)
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = SWITCH_BUTTON_YELLOW;
                     }
-                    if (child->GetAttribute("color") == "green")
+                    if (child->GetAttribute("color", wxEmptyString) == "green")
                     {
                         if(computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type == PUSH_BUTTON)
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PUSH_BUTTON_GREEN;
@@ -5031,27 +5031,27 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                 if (child->GetNodeContent() == "text")
                 {
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PANEL_TEXT;
-                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 = textToColorCode(child->GetAttribute("color"));
+                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 = textToColorCode(child->GetAttribute("color", wxEmptyString));
 
                     if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 == -1)
                     {
-                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].color1 = textToWxColour(child->GetAttribute("color"));
+                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].color1 = textToWxColour(child->GetAttribute("color", wxEmptyString));
                     }
                 }
                 
                if (child->GetNodeContent() == "lcd_text")
                 {
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PANEL_BIT_TEXT;
-                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 = textToColorCode(child->GetAttribute("color1"), true);
-                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor2 = textToColorCode(child->GetAttribute("color2"), true);
+                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 = textToColorCode(child->GetAttribute("color1", wxEmptyString), true);
+                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor2 = textToColorCode(child->GetAttribute("color2", wxEmptyString), true);
                     
                     if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 == -1)
                     {
-                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].color1 = textToWxColour(child->GetAttribute("color1"));
+                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].color1 = textToWxColour(child->GetAttribute("color1", wxEmptyString));
                     }
                     if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor2 == -1)
                     {
-                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].color2 = textToWxColour(child->GetAttribute("color2"));
+                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].color2 = textToWxColour(child->GetAttribute("color2", wxEmptyString));
                     }
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].function = LCD_TEXT_FUNC_BIT_OUT;
                     computerConfiguration.frontPanelConfiguration[frontNumber].frontPanelNumberBitText = frontNumber;
@@ -5060,11 +5060,11 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                 if (child->GetNodeContent() == "thumb_text")
                 {
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = THUMB_TEXT;
-                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 = textToColorCode(child->GetAttribute("color"));
+                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 = textToColorCode(child->GetAttribute("color", wxEmptyString));
 
                     if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 == -1)
                     {
-                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].color1 = textToWxColour(child->GetAttribute("color"));
+                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].color1 = textToWxColour(child->GetAttribute("color", wxEmptyString));
                     }
                 }
 
@@ -5076,32 +5076,32 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                 if (child->GetNodeContent() == "led")
                 {
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = LED_SMALL_RED;
-                    if (child->GetAttribute("form") == "realred")
+                    if (child->GetAttribute("form", wxEmptyString) == "realred")
                         computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = LED_REAL_RED;
-                    if (child->GetAttribute("form") == "realgreen")
+                    if (child->GetAttribute("form", wxEmptyString) == "realgreen")
                         computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = LED_REAL_GREEN;
-                    if (child->GetAttribute("form") == "realorange")
+                    if (child->GetAttribute("form", wxEmptyString) == "realorange")
                         computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = LED_REAL_ORANGE;
-                    if (child->GetAttribute("form") == "large")
+                    if (child->GetAttribute("form", wxEmptyString) == "large")
                         computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = LED_LARGE_RED;
-                    if (child->GetAttribute("form") == "largegreen")
+                    if (child->GetAttribute("form", wxEmptyString) == "largegreen")
                         computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = LED_LARGE_GREEN;
-                    if (child->GetAttribute("form") == "largeorange")
+                    if (child->GetAttribute("form", wxEmptyString) == "largeorange")
                         computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = LED_LARGE_ORANGE;
-                    if (child->GetAttribute("form") == "largecolor")
+                    if (child->GetAttribute("form", wxEmptyString) == "largecolor")
                         computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = LED_LARGE_COLOR;
-                    if (child->GetAttribute("form") == "disable")
+                    if (child->GetAttribute("form", wxEmptyString) == "disable")
                         computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = LED_SMALL_RED_DISABLE;
                 }
 
                 if (child->GetNodeContent() == "til")
                 {
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = TIL_311;
-                    if (child->GetAttribute("form") == "313")
+                    if (child->GetAttribute("form", wxEmptyString) == "313")
                         computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = TIL_313;
-                    if (child->GetAttribute("font") == "italic")
+                    if (child->GetAttribute("font", wxEmptyString) == "italic")
                         computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = TIL_313_ITALIC;
-                    if (child->GetAttribute("form") == "man2815")
+                    if (child->GetAttribute("form", wxEmptyString) == "man2815")
                         computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = TIL_MAN2815;
                 }
 
@@ -5122,7 +5122,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
             break;
 
             case TAG_OUT:
-                if (child->GetAttribute("type") == "til" || child->GetAttribute("type") == "lcd")
+                if (child->GetAttribute("type", wxEmptyString) == "til" || child->GetAttribute("type", wxEmptyString) == "lcd")
                 {
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].tilOutput = parseXml_IoPort(*child, TIL_OUT);
                     if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value != -1 && computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].tilOutput.portNumber[0] != -1)
@@ -5283,7 +5283,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                         if (itemFunctionId >= BUTTON_FUNC_IN && itemFunctionId < BUTTON_FUNC_CARD)
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value = itemFunctionId+20;
 
-                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].reversePol = child->GetAttribute("pol") == "rev";
+                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].reversePol = child->GetAttribute("pol", wxEmptyString) == "rev";
 
                         switch (itemFunctionId)
                         {
@@ -5365,42 +5365,42 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                             break;
 
                             case BUTTON_FUNC_RUN:
-                                if (child->GetAttribute("type") == "reset")
+                                if (child->GetAttribute("type", wxEmptyString) == "reset")
                                     computerConfiguration.runPressType = RUN_TYPE_RESET;
-                                if (child->GetAttribute("type") == "boot")
+                                if (child->GetAttribute("type", wxEmptyString) == "boot")
                                     computerConfiguration.runPressType = RUN_TYPE_BOOT;
-                                if (child->GetAttribute("type") == "switch")
+                                if (child->GetAttribute("type", wxEmptyString) == "switch")
                                     computerConfiguration.runPressType = RUN_TYPE_SWITCH;
-                                if (child->GetAttribute("type") == "velf")
+                                if (child->GetAttribute("type", wxEmptyString) == "velf")
                                     computerConfiguration.runPressType = RUN_TYPE_VELF;
-                                if (child->GetAttribute("type") == "uc1800")
+                                if (child->GetAttribute("type", wxEmptyString) == "uc1800")
                                     computerConfiguration.runPressType = RUN_TYPE_UC1800;
-                                if (child->GetAttribute("type") == "microtutor")
+                                if (child->GetAttribute("type", wxEmptyString) == "microtutor")
                                     computerConfiguration.runPressType = RUN_TYPE_MICROTUTOR;
                             break;
 
                             case BUTTON_FUNC_LOAD:
-                                if (child->GetAttribute("type") == "switch")
+                                if (child->GetAttribute("type", wxEmptyString) == "switch")
                                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PUSH_SWITCH_BUTTON;
                             break;
 
                             case BUTTON_FUNC_RUN0:
-                                if (child->GetAttribute("type") == "reset")
+                                if (child->GetAttribute("type", wxEmptyString) == "reset")
                                     computerConfiguration.runPressType = RUN_TYPE_RESET;
-                                if (child->GetAttribute("type") == "boot")
+                                if (child->GetAttribute("type", wxEmptyString) == "boot")
                                     computerConfiguration.runPressType = RUN_TYPE_BOOT;
                             break;
 
                             case BUTTON_FUNC_RESET:
-                                if (child->GetAttribute("type") == "full")
+                                if (child->GetAttribute("type", wxEmptyString) == "full")
                                     computerConfiguration.resetPressType = RESET_TYPE_FULL;
                             break;
                                 
                             case BUTTON_FUNC_STEP:
                             case BUTTON_FUNC_PAUSE:
-                                if (child->GetAttribute("type") == "cosmicos")
+                                if (child->GetAttribute("type", wxEmptyString) == "cosmicos")
                                     computerConfiguration.stepPressType = STEP_TYPE_COSMICOS;
-                                if (child->GetAttribute("type") == "switch_push")
+                                if (child->GetAttribute("type", wxEmptyString) == "switch_push")
                                     computerConfiguration.stepPressType = STEP_TYPE_SWITCH_PUSH;
                             break;
 
@@ -5482,11 +5482,11 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                             case LED_FUNC_BIT:
                                 // cycle="show" is a global flag; check it before the value
                                 // guard (value is parsed from a later <value> tag)
-                                if (child->GetAttribute("cycle") == "show")
+                                if (child->GetAttribute("cycle", wxEmptyString) == "show")
                                     computerConfiguration.ledDisplayConfiguration.showDataOnCycle = true;
                                 if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value != -1)
                                 {
-                                    if (child->GetAttribute("load") == "show")
+                                    if (child->GetAttribute("load", wxEmptyString) == "show")
                                         computerConfiguration.ledDisplayConfiguration.showDataOnLoad = true;
                                 }
                             break;
@@ -5501,7 +5501,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                                 
                             case LED_FUNC_ADDRESS:
                                 if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value != -1)
-                                if (child->GetAttribute("cycle") == "show")
+                                if (child->GetAttribute("cycle", wxEmptyString) == "show")
                                     computerConfiguration.ledDisplayConfiguration.showAddressOnCycle = true;
                             break;
 
@@ -5516,15 +5516,15 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                                 if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value != -1)
                                 {
                                     computerConfiguration.ledDisplayConfiguration.datatil[computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value] = true;
-                                    if (child->GetAttribute("dp") == "q")
+                                    if (child->GetAttribute("dp", wxEmptyString) == "q")
                                         computerConfiguration.ledDisplayConfiguration.datatilDpQ[computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value] = true;
                                 }
                                 else
                                 {
-                                    if (child->GetAttribute("dp") == "q")
+                                    if (child->GetAttribute("dp", wxEmptyString) == "q")
                                         dpQvalue = true;
                                 }
-                                if (child->GetAttribute("cycle") == "show")
+                                if (child->GetAttribute("cycle", wxEmptyString) == "show")
                                     computerConfiguration.ledDisplayConfiguration.showDataOnCycle = true;
                             break;
 
@@ -5532,12 +5532,12 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                                 if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value != -1 && computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].tilOutput.portNumber[0] != -1)
                                 {
                                     computerConfiguration.ledDisplayConfiguration.outtil[computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].tilOutput.portNumber[0]] [computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value] = true;
-                                    if (child->GetAttribute("dp") == "q")
+                                    if (child->GetAttribute("dp", wxEmptyString) == "q")
                                         computerConfiguration.ledDisplayConfiguration.outtilDpQ[computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].tilOutput.portNumber[0]][computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value] = true;
                                 }
                                 else
                                 {
-                                    if (child->GetAttribute("dp") == "q")
+                                    if (child->GetAttribute("dp", wxEmptyString) == "q")
                                         dpQvalue = true;
                                 }
                             break;
@@ -5545,7 +5545,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                             case TIL_ADDRESS:
                                 if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value != -1)
                                     computerConfiguration.ledDisplayConfiguration.addresstil[computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].value] = true;
-                                if (child->GetAttribute("cycle") == "show")
+                                if (child->GetAttribute("cycle", wxEmptyString) == "show")
                                     computerConfiguration.ledDisplayConfiguration.showAddressOnCycle = true;
                             break;
 
@@ -5566,11 +5566,11 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                         {
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].actOnPress = false;
                             computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].actOnRelease = false;
-                            if (child->GetAttribute("action") == "press")
+                            if (child->GetAttribute("action", wxEmptyString) == "press")
                                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].actOnPress = true;
-                            if (child->GetAttribute("action") == "release")
+                            if (child->GetAttribute("action", wxEmptyString) == "release")
                                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].actOnRelease = true;
-                            if (child->GetAttribute("action") == "both")
+                            if (child->GetAttribute("action", wxEmptyString) == "both")
                             {
                                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].actOnPress = true;
                                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].actOnRelease = true;
@@ -5625,7 +5625,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
             break;
 
             case TAG_FILENAME:
-                if (child->GetAttribute("dirname") == "images")
+                if (child->GetAttribute("dirname", wxEmptyString) == "images")
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].useImageDir = true;
                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].fileName = child->GetNodeContent();
             break;
@@ -5702,12 +5702,12 @@ void XmlParser::parseXml_Cdp1851_Printer(wxXmlNode &node)
             break;
                 
             case TAG_PORT_A:
-                computerConfiguration.cdp1851PrinterConfiguration.portFunction[0] = get_Cdp1851_Printer_function(child->GetAttribute("type"));
+                computerConfiguration.cdp1851PrinterConfiguration.portFunction[0] = get_Cdp1851_Printer_function(child->GetAttribute("type", wxEmptyString));
                 parseXml_Cdp1851_PrinterPort(*child, 0);
             break;
 
             case TAG_PORT_B:
-                computerConfiguration.cdp1851PrinterConfiguration.portFunction[1] = get_Cdp1851_Printer_function(child->GetAttribute("type"));
+                computerConfiguration.cdp1851PrinterConfiguration.portFunction[1] = get_Cdp1851_Printer_function(child->GetAttribute("type", wxEmptyString));
                 parseXml_Cdp1851_PrinterPort(*child, 1);
             break;
 
@@ -5989,29 +5989,29 @@ void XmlParser::parseXml_Cdp1851(wxXmlNode &node, bool windowOn, int connection)
         switch (tagTypeInt)
         {
             case TAG_OUT:
-                if (child->GetAttribute("type") == "a")
+                if (child->GetAttribute("type", wxEmptyString) == "a")
                     cdp1851.writePortA = parseXml_IoPort(*child, CDP1851_WRITE_A_OUT);
-                if (child->GetAttribute("type") == "b")
+                if (child->GetAttribute("type", wxEmptyString) == "b")
                     cdp1851.writePortB = parseXml_IoPort(*child, CDP1851_WRITE_B_OUT);
-                if (child->GetAttribute("type") == "control")
+                if (child->GetAttribute("type", wxEmptyString) == "control")
                     cdp1851.writeControl = parseXml_IoPort(*child, CDP1851_WRITE_CONTROL_OUT);
             break;
                 
             case TAG_IN:
-                if (child->GetAttribute("type") == "a")
+                if (child->GetAttribute("type", wxEmptyString) == "a")
                     cdp1851.readPortA = parseXml_IoPort(*child, CDP1851_READ_A_OUT);
-                if (child->GetAttribute("type") == "b")
+                if (child->GetAttribute("type", wxEmptyString) == "b")
                     cdp1851.readPortB = parseXml_IoPort(*child, CDP1851_READ_B_OUT);
-                if (child->GetAttribute("type") == "status")
+                if (child->GetAttribute("type", wxEmptyString) == "status")
                     cdp1851.readStatus = parseXml_IoPort(*child, CDP1851_READ_STATUS_IN);
             break;
                 
             case TAG_EF:
-                if (child->GetAttribute("type") == "a")
+                if (child->GetAttribute("type", wxEmptyString) == "a")
                     cdp1851.efaRdy = parseXml_EfFlag(*child, CDP1851_A_EF);
-                if (child->GetAttribute("type") == "b")
+                if (child->GetAttribute("type", wxEmptyString) == "b")
                     cdp1851.efbRdy = parseXml_EfFlag(*child, CDP1851_B_EF);
-                if (child->GetAttribute("type") == "irq")
+                if (child->GetAttribute("type", wxEmptyString) == "irq")
                     cdp1851.efIrq = parseXml_EfFlag(*child, CDP1851_IRQ);
             break;
 
@@ -6026,9 +6026,9 @@ void XmlParser::parseXml_Cdp1851(wxXmlNode &node, bool windowOn, int connection)
             break;
 
             case TAG_INIT:
-                if (child->GetAttribute("type") == "a")
+                if (child->GetAttribute("type", wxEmptyString) == "a")
                     cdp1851.initPortA = (Byte)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "b")
+                if (child->GetAttribute("type", wxEmptyString) == "b")
                     cdp1851.initPortB = (Byte)parseXml_Number(*child);
             break;
                 
@@ -6226,27 +6226,27 @@ void XmlParser::parseXml_Cdp1854(wxXmlNode &node, int connection)
         switch (tagTypeInt)
         {
             case TAG_IN:
-                if (child->GetAttribute("type") == "register")
+                if (child->GetAttribute("type", wxEmptyString) == "register")
                     cdp1854.in = parseXml_IoPort(*child, UART1854_READ_RECEIVER_IN);
-                if (child->GetAttribute("type") == "status")
+                if (child->GetAttribute("type", wxEmptyString) == "status")
                 {
                     cdp1854.status = parseXml_IoPort(*child, UART1854_READ_STATUS_IN);
-                    if (child->GetAttribute("busy") == "rev")
+                    if (child->GetAttribute("busy", wxEmptyString) == "rev")
                         cdp1854.busyPolarity = true;
                 }
             break;
 
             case TAG_OUT:
-                if (child->GetAttribute("type") == "register")
+                if (child->GetAttribute("type", wxEmptyString) == "register")
                     cdp1854.out = parseXml_IoPort(*child, UART1854_LOAD_TRANSMITTER_OUT);
-                if (child->GetAttribute("type") == "control")
+                if (child->GetAttribute("type", wxEmptyString) == "control")
                     cdp1854.control = parseXml_IoPort(*child, UART1854_LOAD_CONTROL_OUT);
-                if (child->GetAttribute("thre") == "unchanged")
+                if (child->GetAttribute("thre", wxEmptyString) == "unchanged")
                     cdp1854.threUnchangedAtControl = true;
             break;
                 
             case TAG_EF:
-                if (child->GetAttribute("type") == "int")
+                if (child->GetAttribute("type", wxEmptyString) == "int")
                     cdp1854.efInterrupt = parseXml_EfFlag(*child, UART1854_EF_INTERRUPT);
                 else
                     cdp1854.ef = parseXml_EfFlag(*child, UART1854_EF);
@@ -6266,9 +6266,9 @@ void XmlParser::parseXml_Cdp1854(wxXmlNode &node, int connection)
                 number = 0;
                 while (baud < parserBaudRateValue_[number] && parserBaudRateValue_[number] != 50)
                     number++;
-                if (child->GetAttribute("type") == "receive")
+                if (child->GetAttribute("type", wxEmptyString) == "receive")
                     cdp1854.baudR = number;
-                if (child->GetAttribute("type") == "transmit")
+                if (child->GetAttribute("type", wxEmptyString) == "transmit")
                     cdp1854.baudT = number;
             break;
 
@@ -6347,21 +6347,21 @@ void XmlParser::parseXml_Cdp1855(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_OUT:
-                if (child->GetAttribute("type") == "control")
+                if (child->GetAttribute("type", wxEmptyString) == "control")
                     computerConfiguration.cdp1855Configuration.control = parseXml_IoPort(*child, MDU_CONTROL);
              break;
                 
             case TAG_IN:
-                if (child->GetAttribute("type") == "status")
+                if (child->GetAttribute("type", wxEmptyString) == "status")
                     computerConfiguration.cdp1855Configuration.status = parseXml_IoPort(*child, MDU_STATUS);
             break;
 
             case TAG_IO:
-                if (child->GetAttribute("type") == "x")
+                if (child->GetAttribute("type", wxEmptyString) == "x")
                     computerConfiguration.cdp1855Configuration.x = parseXml_IoPort(*child, MDU_X);
-                if (child->GetAttribute("type") == "y")
+                if (child->GetAttribute("type", wxEmptyString) == "y")
                     computerConfiguration.cdp1855Configuration.y = parseXml_IoPort(*child, MDU_Y);
-                if (child->GetAttribute("type") == "z")
+                if (child->GetAttribute("type", wxEmptyString) == "z")
                     computerConfiguration.cdp1855Configuration.z = parseXml_IoPort(*child, MDU_Z);
             break;
 
@@ -6440,24 +6440,24 @@ void XmlParser::parseXml_Cdp1877(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_OUT:
-                if (child->GetAttribute("type") == "mien")
+                if (child->GetAttribute("type", wxEmptyString) == "mien")
                     cdp1877.writeMien = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "mask")
+                if (child->GetAttribute("type", wxEmptyString) == "mask")
                     cdp1877.writeMask = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "control")
+                if (child->GetAttribute("type", wxEmptyString) == "control")
                     cdp1877.writeControl = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "page")
+                if (child->GetAttribute("type", wxEmptyString) == "page")
                     cdp1877.writePage = parseXml_IoPort(*child);
             break;
                 
             case TAG_IN:
-                if (child->GetAttribute("type") == "irq")
+                if (child->GetAttribute("type", wxEmptyString) == "irq")
                     cdp1877.readIrq = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "status")
+                if (child->GetAttribute("type", wxEmptyString) == "status")
                     cdp1877.readStatus = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "polling")
+                if (child->GetAttribute("type", wxEmptyString) == "polling")
                     cdp1877.readPolling = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "vector")
+                if (child->GetAttribute("type", wxEmptyString) == "vector")
                     cdp1877.readVector = parseXml_IoPort(*child);
             break;
                 
@@ -6533,7 +6533,7 @@ void XmlParser::parseXml_AmiIntController(wxXmlNode &node)
                 amiIntController.causeRegister = (Word)(getNextHexDec(&content) & 0xffff);
                 if (child->HasAttribute("addressmask"))
                 {
-                    wxString maskStr = child->GetAttribute("addressmask");
+                    wxString maskStr = child->GetAttribute("addressmask", wxEmptyString);
                     amiIntController.causeRegisterMask = (Word)(getNextHexDec(&maskStr) & 0xffff);
                 }
             }
@@ -6630,44 +6630,44 @@ void XmlParser::parseXml_Cdp1878(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_OUT:
-                if (child->GetAttribute("counter") == "a")
+                if (child->GetAttribute("counter", wxEmptyString) == "a")
                 {
-                    if (child->GetAttribute("type") == "control")
+                    if (child->GetAttribute("type", wxEmptyString) == "control")
                         cdp1878.controlA = parseXml_IoPort(*child, TIMER_CONTROL_A);
                 }
-                if (child->GetAttribute("counter") == "b")
+                if (child->GetAttribute("counter", wxEmptyString) == "b")
                 {
-                    if (child->GetAttribute("type") == "control")
+                    if (child->GetAttribute("type", wxEmptyString) == "control")
                         cdp1878.controlB = parseXml_IoPort(*child, TIMER_CONTROL_B);
                 }
              break;
                 
             case TAG_IN:
-                if (child->GetAttribute("counter") == "a")
+                if (child->GetAttribute("counter", wxEmptyString) == "a")
                 {
-                    if (child->GetAttribute("type") == "interrupt")
+                    if (child->GetAttribute("type", wxEmptyString) == "interrupt")
                         cdp1878.interruptA = parseXml_IoPort(*child, TIMER_INTERRUPT);
                 }
-                if (child->GetAttribute("counter") == "b")
+                if (child->GetAttribute("counter", wxEmptyString) == "b")
                 {
-                    if (child->GetAttribute("type") == "interrupt")
+                    if (child->GetAttribute("type", wxEmptyString) == "interrupt")
                         cdp1878.interruptB = parseXml_IoPort(*child, TIMER_INTERRUPT);
                 }
             break;
 
             case TAG_IO:
-                if (child->GetAttribute("counter") == "a")
+                if (child->GetAttribute("counter", wxEmptyString) == "a")
                 {
-                    if (child->GetAttribute("type") == "low")
+                    if (child->GetAttribute("type", wxEmptyString) == "low")
                         cdp1878.counterLowA = parseXml_IoPort(*child, TIMER_COUNTER_LOW_A);
-                    if (child->GetAttribute("type") == "high")
+                    if (child->GetAttribute("type", wxEmptyString) == "high")
                         cdp1878.counterHighA = parseXml_IoPort(*child, TIMER_COUNTER_HIGH_A);
                 }
-                if (child->GetAttribute("counter") == "b")
+                if (child->GetAttribute("counter", wxEmptyString) == "b")
                 {
-                    if (child->GetAttribute("type") == "low")
+                    if (child->GetAttribute("type", wxEmptyString) == "low")
                         cdp1878.counterLowB = parseXml_IoPort(*child, TIMER_COUNTER_LOW_B);
-                    if (child->GetAttribute("type") == "high")
+                    if (child->GetAttribute("type", wxEmptyString) == "high")
                         cdp1878.counterHighB = parseXml_IoPort(*child, TIMER_COUNTER_HIGH_B);
                 }
             break;
@@ -6677,9 +6677,9 @@ void XmlParser::parseXml_Cdp1878(wxXmlNode &node)
             break;
 
             case TAG_CLOCK:
-                if (child->GetAttribute("counter") == "a")
+                if (child->GetAttribute("counter", wxEmptyString) == "a")
                     cdp1878.clockA = getDouble(child->GetNodeContent(), childName, 500, "500", false);
-                if (child->GetAttribute("counter") == "b")
+                if (child->GetAttribute("counter", wxEmptyString) == "b")
                     cdp1878.clockB = getDouble(child->GetNodeContent(), childName, 500, "500", false);
             break;
                 
@@ -6946,35 +6946,35 @@ void XmlParser::parseXml_Scn2671(wxXmlNode &node, int connection)
         switch (tagTypeInt)
         {
             case TAG_IO:
-                if (child->GetAttribute("type") == "cmr")
+                if (child->GetAttribute("type", wxEmptyString) == "cmr")
                     scn2671.cmr = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "imr")
+                if (child->GetAttribute("type", wxEmptyString) == "imr")
                     scn2671.imr = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "kmr")
+                if (child->GetAttribute("type", wxEmptyString) == "kmr")
                     scn2671.kmr = parseXml_IoPort(*child);
             break;
 
             case TAG_OUT:
-                if (child->GetAttribute("type") == "command")
+                if (child->GetAttribute("type", wxEmptyString) == "command")
                     scn2671.command = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "txhr")
+                if (child->GetAttribute("type", wxEmptyString) == "txhr")
                     scn2671.txhr = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "brr")
+                if (child->GetAttribute("type", wxEmptyString) == "brr")
                     scn2671.brr = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "command_misc")
+                if (child->GetAttribute("type", wxEmptyString) == "command_misc")
                     scn2671.commandMisc = parseXml_IoPort(*child);
             break;
                 
             case TAG_IN:
-                if (child->GetAttribute("type") == "isr")
+                if (child->GetAttribute("type", wxEmptyString) == "isr")
                     scn2671.isr = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "rxhr")
+                if (child->GetAttribute("type", wxEmptyString) == "rxhr")
                     scn2671.rxhr = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "csr")
+                if (child->GetAttribute("type", wxEmptyString) == "csr")
                     scn2671.csr = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "khr")
+                if (child->GetAttribute("type", wxEmptyString) == "khr")
                     scn2671.khr = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "ksr")
+                if (child->GetAttribute("type", wxEmptyString) == "ksr")
                     scn2671.ksr = parseXml_IoPort(*child);
             break;
 
@@ -6984,7 +6984,7 @@ void XmlParser::parseXml_Scn2671(wxXmlNode &node, int connection)
             break;
 
             case TAG_KEYDEF:
-                if (child->GetAttribute("type") == "text")
+                if (child->GetAttribute("type", wxEmptyString) == "text")
                 {
                     keyText = child->GetNodeContent();
                     textEfKeyInt = 0;
@@ -6993,15 +6993,15 @@ void XmlParser::parseXml_Scn2671(wxXmlNode &node, int connection)
                         if (keyText == textKeyList[textEfKeyInt])
                         {
                             scn2671.textKey[textEfKeyInt].keyValue = (int)parseXml_Number(*child, "value");
-                            if (child->GetAttribute("vt") == "ctrl")
+                            if (child->GetAttribute("vt", wxEmptyString) == "ctrl")
                                 scn2671.textKey[textEfKeyInt].ctrlValue = 1;
-                            if (child->GetAttribute("vt") == "shift")
+                            if (child->GetAttribute("vt", wxEmptyString) == "shift")
                                 scn2671.textKey[textEfKeyInt].shiftValue = 1;
                        }
                         textEfKeyInt++;
                     }
                 }
-                if (child->GetAttribute("type") == "vt4801")
+                if (child->GetAttribute("type", wxEmptyString) == "vt4801")
                 {
 	                scn2671.vt4801coding = true;
                 }
@@ -7166,13 +7166,13 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
             break;
 
             case TAG_DIRNAME:
-                if (child->GetAttribute("type") == "font")
+                if (child->GetAttribute("type", wxEmptyString) == "font")
                 {
                     computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory = dataDir_ + child->GetNodeContent();
                     if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory.Right(1) != pathSeparator_)
                         computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory += pathSeparator_;
                 }
-                if (child->GetAttribute("type") == "wav")
+                if (child->GetAttribute("type", wxEmptyString) == "wav")
                 {
                     computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavDirectory = dataDir_ + child->GetNodeContent();
                     if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavDirectory.Right(1) != pathSeparator_)
@@ -7181,11 +7181,11 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
             break;
 
             case TAG_OUT:
-                if (child->GetAttribute("type") == "q")
+                if (child->GetAttribute("type", wxEmptyString) == "q")
                 {
                     computerConfiguration.videoTerminalConfiguration.qOutput = parseXml_IoPort(*child, VIDEO_TERMINAL_Q_OUT);
                     computerConfiguration.videoTerminalConfiguration.qOutputBitMask = parseXml_Number(*child, "bitmask");
-                    if (child->GetAttribute("pol") == "rev")
+                    if (child->GetAttribute("pol", wxEmptyString) == "rev")
                         computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].reverseQ = 1;
                     else
                         computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].reverseQ = 0;
@@ -7196,7 +7196,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
             break;
                 
             case TAG_EF:
-                if (child->GetAttribute("type") == "int")
+                if (child->GetAttribute("type", wxEmptyString) == "int")
                     computerConfiguration.videoTerminalConfiguration.efInterrupt = parseXml_EfFlag(*child);
                 else
                 {
@@ -7212,7 +7212,7 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
             break;
 
             case TAG_Q:
-                if (child->GetAttribute("pol") == "rev")
+                if (child->GetAttribute("pol", wxEmptyString) == "rev")
                     computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].reverseQ = 1;
                 else
                     computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].reverseQ = 0;
@@ -7229,17 +7229,17 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                 number = 0;
                 while (baud < parserBaudRateValue_[number] && parserBaudRateValue_[number] != 50)
                     number++;
-                if (child->GetAttribute("type") == "receive")
+                if (child->GetAttribute("type", wxEmptyString) == "receive")
                 {
                     computerConfiguration.videoTerminalConfiguration.baudR = number;
                     if (child->HasAttribute("correction"))
-                        computerConfiguration.videoTerminalConfiguration.baudCorrectionR = getDouble(child->GetAttribute("correction"), childName, -1, "", true);
+                        computerConfiguration.videoTerminalConfiguration.baudCorrectionR = getDouble(child->GetAttribute("correction", wxEmptyString), childName, -1, "", true);
                 }
-                if (child->GetAttribute("type") == "transmit")
+                if (child->GetAttribute("type", wxEmptyString) == "transmit")
                 {
                     computerConfiguration.videoTerminalConfiguration.baudT = number;
                     if (child->HasAttribute("correction"))
-                        computerConfiguration.videoTerminalConfiguration.baudCorrectionT = getDouble(child->GetAttribute("correction"), childName, -1, "", true);
+                        computerConfiguration.videoTerminalConfiguration.baudCorrectionT = getDouble(child->GetAttribute("correction", wxEmptyString), childName, -1, "", true);
                 }
             break;
 
@@ -7457,11 +7457,11 @@ void XmlParser::parseXml_SerialVt(wxXmlNode &node)
                 green = (int)getNextHexDec(&color) & 0xff;
                 blue = (int)getNextHexDec(&color) & 0xff;
                 
-                if (child->GetAttribute("type") == "fore")
+                if (child->GetAttribute("type", wxEmptyString) == "fore")
                     screenInfo.defaultColour[COL_VT_FORE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back")
+                if (child->GetAttribute("type", wxEmptyString) == "back")
                     screenInfo.defaultColour[COL_VT_BACK].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "high")
+                if (child->GetAttribute("type", wxEmptyString) == "high")
                     screenInfo.defaultColour[COL_VT_HIGH].Printf("#%02X%02X%02X", red, green, blue);
             break;
                 
@@ -7649,13 +7649,13 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
             break;
 
             case TAG_DIRNAME:
-                if (child->GetAttribute("type") == "font")
+                if (child->GetAttribute("type", wxEmptyString) == "font")
                 {
                     computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory = dataDir_ + child->GetNodeContent();
                     if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory.Right(1) != pathSeparator_)
                         computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory += pathSeparator_;
                 }
-                if (child->GetAttribute("type") == "wav")
+                if (child->GetAttribute("type", wxEmptyString) == "wav")
                 {
                     computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavDirectory = dataDir_ + child->GetNodeContent();
                     if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavDirectory.Right(1) != pathSeparator_)
@@ -7664,27 +7664,27 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
             break;
                 
             case TAG_IN:
-                if (child->GetAttribute("type") == "register")
+                if (child->GetAttribute("type", wxEmptyString) == "register")
                     computerConfiguration.videoTerminalConfiguration.uartIn = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "status")
+                if (child->GetAttribute("type", wxEmptyString) == "status")
                 {
                     computerConfiguration.videoTerminalConfiguration.uartStatus = parseXml_IoPort(*child);
-                    if (child->GetAttribute("busy") == "rev")
+                    if (child->GetAttribute("busy", wxEmptyString) == "rev")
                         computerConfiguration.videoTerminalConfiguration.busyPolarity = true;
                 }
             break;
 
             case TAG_OUT:
-                if (child->GetAttribute("type") == "register")
+                if (child->GetAttribute("type", wxEmptyString) == "register")
                     computerConfiguration.videoTerminalConfiguration.uartOut = parseXml_IoPort(*child);
-                if (child->GetAttribute("type") == "control")
+                if (child->GetAttribute("type", wxEmptyString) == "control")
                     computerConfiguration.videoTerminalConfiguration.uartControl = parseXml_IoPort(*child);
-                if (child->GetAttribute("thre") == "unchanged")
+                if (child->GetAttribute("thre", wxEmptyString) == "unchanged")
                     computerConfiguration.videoTerminalConfiguration.threUnchangedAtControl = true;
             break;
                 
             case TAG_EF:
-                if (child->GetAttribute("type") == "int")
+                if (child->GetAttribute("type", wxEmptyString) == "int")
                     computerConfiguration.videoTerminalConfiguration.efInterrupt = parseXml_EfFlag(*child);
                 else
                 {
@@ -7708,9 +7708,9 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
                 number = 0;
                 while (baud < parserBaudRateValue_[number] && parserBaudRateValue_[number] != 50)
                     number++;
-                if (child->GetAttribute("type") == "receive")
+                if (child->GetAttribute("type", wxEmptyString) == "receive")
                     computerConfiguration.videoTerminalConfiguration.baudR = number;
-                if (child->GetAttribute("type") == "transmit")
+                if (child->GetAttribute("type", wxEmptyString) == "transmit")
                     computerConfiguration.videoTerminalConfiguration.baudT = number;
             break;
 
@@ -7928,11 +7928,11 @@ void XmlParser::parseXml_Scn2671Vt(wxXmlNode &node)
                 green = (int)getNextHexDec(&color) & 0xff;
                 blue = (int)getNextHexDec(&color) & 0xff;
                 
-                if (child->GetAttribute("type") == "fore")
+                if (child->GetAttribute("type", wxEmptyString) == "fore")
                     screenInfo.defaultColour[COL_VT_FORE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back")
+                if (child->GetAttribute("type", wxEmptyString) == "back")
                     screenInfo.defaultColour[COL_VT_BACK].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "high")
+                if (child->GetAttribute("type", wxEmptyString) == "high")
                     screenInfo.defaultColour[COL_VT_HIGH].Printf("#%02X%02X%02X", red, green, blue);
             break;
                 
@@ -8119,13 +8119,13 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
             break;
 
             case TAG_DIRNAME:
-                if (child->GetAttribute("type") == "font")
+                if (child->GetAttribute("type", wxEmptyString) == "font")
                 {
                     computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory = dataDir_ + child->GetNodeContent();
                     if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory.Right(1) != pathSeparator_)
                         computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].vtCharRomDirectory += pathSeparator_;
                 }
-                if (child->GetAttribute("type") == "wav")
+                if (child->GetAttribute("type", wxEmptyString) == "wav")
                 {
                     computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavDirectory = dataDir_ + child->GetNodeContent();
                     if (computerConfiguration.videoTerminalConfiguration.terminalInterfaceSetting[XML_SETTING].wavDirectory.Right(1) != pathSeparator_)
@@ -8136,19 +8136,19 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
             case TAG_IN:
                 if (uart16450)
                 {
-                    if (child->GetAttribute("type") == "port" || child->GetAttribute("type") == "read")
+                    if (child->GetAttribute("type", wxEmptyString) == "port" || child->GetAttribute("type", wxEmptyString) == "read")
                         computerConfiguration.videoTerminalConfiguration.uartIn = parseXml_IoPort(*child);
-                    if (child->GetAttribute("type") == "status")
+                    if (child->GetAttribute("type", wxEmptyString) == "status")
                         computerConfiguration.videoTerminalConfiguration.uartStatus = parseXml_IoPort(*child);
                 }
                 else
                 {
-                    if (child->GetAttribute("type") == "register")
+                    if (child->GetAttribute("type", wxEmptyString) == "register")
                         computerConfiguration.videoTerminalConfiguration.uartIn = parseXml_IoPort(*child);
-                    if (child->GetAttribute("type") == "status")
+                    if (child->GetAttribute("type", wxEmptyString) == "status")
                     {
                         computerConfiguration.videoTerminalConfiguration.uartStatus = parseXml_IoPort(*child);
-                        if (child->GetAttribute("busy") == "rev")
+                        if (child->GetAttribute("busy", wxEmptyString) == "rev")
                             computerConfiguration.videoTerminalConfiguration.busyPolarity = true;
                     }
                 }
@@ -8157,24 +8157,24 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
             case TAG_OUT:
                 if (uart16450)
                 {
-                    if (child->GetAttribute("type") == "port" || child->GetAttribute("type") == "write")
+                    if (child->GetAttribute("type", wxEmptyString) == "port" || child->GetAttribute("type", wxEmptyString) == "write")
                         computerConfiguration.videoTerminalConfiguration.uartOut = parseXml_IoPort(*child);
-                    if (child->GetAttribute("type") == "select")
+                    if (child->GetAttribute("type", wxEmptyString) == "select")
                         computerConfiguration.videoTerminalConfiguration.uartControl = parseXml_IoPort(*child);
                 }
                 else
                 {
-                    if (child->GetAttribute("type") == "register")
+                    if (child->GetAttribute("type", wxEmptyString) == "register")
                         computerConfiguration.videoTerminalConfiguration.uartOut = parseXml_IoPort(*child);
-                    if (child->GetAttribute("type") == "control")
+                    if (child->GetAttribute("type", wxEmptyString) == "control")
                         computerConfiguration.videoTerminalConfiguration.uartControl = parseXml_IoPort(*child);
-                    if (child->GetAttribute("thre") == "unchanged")
+                    if (child->GetAttribute("thre", wxEmptyString) == "unchanged")
                         computerConfiguration.videoTerminalConfiguration.threUnchangedAtControl = true;
                 }
             break;
                 
             case TAG_EF:
-                if (child->GetAttribute("type") == "int")
+                if (child->GetAttribute("type", wxEmptyString) == "int")
                     computerConfiguration.videoTerminalConfiguration.efInterrupt = parseXml_EfFlag(*child);
                 else
                 {
@@ -8199,9 +8199,9 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                 number = 0;
                 while (baud < parserBaudRateValue_[number] && parserBaudRateValue_[number] != 50)
                     number++;
-                if (child->GetAttribute("type") == "receive")
+                if (child->GetAttribute("type", wxEmptyString) == "receive")
                     computerConfiguration.videoTerminalConfiguration.baudR = number;
-                if (child->GetAttribute("type") == "transmit")
+                if (child->GetAttribute("type", wxEmptyString) == "transmit")
                     computerConfiguration.videoTerminalConfiguration.baudT = number;
             break;
 
@@ -8419,11 +8419,11 @@ void XmlParser::parseXml_UartVt(wxXmlNode &node, bool uart16450)
                 green = (int)getNextHexDec(&color) & 0xff;
                 blue = (int)getNextHexDec(&color) & 0xff;
                 
-                if (child->GetAttribute("type") == "fore")
+                if (child->GetAttribute("type", wxEmptyString) == "fore")
                     screenInfo.defaultColour[COL_VT_FORE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back")
+                if (child->GetAttribute("type", wxEmptyString) == "back")
                     screenInfo.defaultColour[COL_VT_BACK].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "high")
+                if (child->GetAttribute("type", wxEmptyString) == "high")
                     screenInfo.defaultColour[COL_VT_HIGH].Printf("#%02X%02X%02X", red, green, blue);
             break;
                 
@@ -8610,7 +8610,7 @@ void XmlParser::parseXml_Printer(wxXmlNode &node, int printerType)
                     case PRINTER_BASIC:
                         computerConfiguration.basicPrinterConfiguration.reversePolarityOutput = 0;
                         computerConfiguration.basicPrinterConfiguration.output = parseXml_IoPort(*child, BASIC_PRINTER_OUT);
-                        if (child->GetAttribute("pol") == "rev")
+                        if (child->GetAttribute("pol", wxEmptyString) == "rev")
                             computerConfiguration.basicPrinterConfiguration.reversePolarityOutput = 0xff;
                     break;
 
@@ -8774,17 +8774,17 @@ void XmlParser::parseXml_SwCassette(wxXmlNode &node)
                     computerConfiguration.swTapeConfiguration.ef = parseXml_EfFlag(*child, TAPE_EF);
                 else
                 {
-                    if (child->GetAttribute("type") == "in")
+                    if (child->GetAttribute("type", wxEmptyString) == "in")
                         computerConfiguration.swTapeConfiguration.ef = parseXml_EfFlag(*child, TAPE_EF);
-                    if (child->GetAttribute("type") == "run")
+                    if (child->GetAttribute("type", wxEmptyString) == "run")
                         computerConfiguration.swTapeConfiguration.efRun = parseXml_EfFlag(*child, TAPE_RUNNING_EF);
                 }
             break;
 
             case TAG_OUT:
-                if (child->GetAttribute("type") == "q")
+                if (child->GetAttribute("type", wxEmptyString) == "q")
                     computerConfiguration.swTapeConfiguration.outputQ = parseXml_IoPort(*child, TAPE_Q_OUT);
-                if (child->GetAttribute("type") == "micro")
+                if (child->GetAttribute("type", wxEmptyString) == "micro")
                     computerConfiguration.swTapeConfiguration.output = parseXml_IoPort(*child, TAPE_MICRO_OUT);
                 else
                     computerConfiguration.swTapeConfiguration.output = parseXml_IoPort(*child, TAPE_ON_OFF_OUT);
@@ -8792,7 +8792,7 @@ void XmlParser::parseXml_SwCassette(wxXmlNode &node)
 
             case TAG_STOPDELAY:
                 computerConfiguration.swTapeConfiguration.stopDelay = (int)parseXml_Number(*child);
-                if (child->GetAttribute("flipq") == "yes")
+                if (child->GetAttribute("flipq", wxEmptyString) == "yes")
                     computerConfiguration.swTapeConfiguration.flipq = true;
             break;
 
@@ -8801,17 +8801,17 @@ void XmlParser::parseXml_SwCassette(wxXmlNode &node)
             break;
 
             case TAG_FILENAME:
-                if (child->GetAttribute("cassette") == "0")
+                if (child->GetAttribute("cassette", wxEmptyString) == "0")
                     cassetteNumber = 0;
-                if (child->GetAttribute("cassette") == "1")
+                if (child->GetAttribute("cassette", wxEmptyString) == "1")
                     cassetteNumber = 1;
                 computerConfiguration.wavConfiguration[cassetteNumber].fileName = child->GetNodeContent();
             break;
 
             case TAG_DIRNAME:
-                if (child->GetAttribute("cassette") == "0")
+                if (child->GetAttribute("cassette", wxEmptyString) == "0")
                     cassetteNumber = 0;
-                if (child->GetAttribute("cassette") == "1")
+                if (child->GetAttribute("cassette", wxEmptyString) == "1")
                     cassetteNumber = 1;
                 computerConfiguration.wavConfiguration[cassetteNumber].directory = dataDir_ + child->GetNodeContent();
                 if (computerConfiguration.wavConfiguration[cassetteNumber].directory.Right(1) != pathSeparator_)
@@ -8942,18 +8942,18 @@ void XmlParser::parseXml_HwCassette(wxXmlNode &node)
                 }
                 else
                 {
-                    if (child->GetAttribute("type") == "out")
+                    if (child->GetAttribute("type", wxEmptyString) == "out")
                         computerConfiguration.hwTapeConfiguration.efBufferEmpty = parseXml_EfFlag(*child, TAPE_CV_BUFFER_EMPTY_EF);
-                    if (child->GetAttribute("type") == "in")
+                    if (child->GetAttribute("type", wxEmptyString) == "in")
                     {
                         if (computerConfiguration.hwTapeConfiguration.format == TAPE_FORMAT_CV)
                             computerConfiguration.hwTapeConfiguration.ef = parseXml_EfFlag(*child, TAPE_CV_DATA_READY_EF);
                         else
                             computerConfiguration.hwTapeConfiguration.ef = parseXml_EfFlag(*child, KEY_TAPE_FRED_EF);
                     }
-                    if (child->GetAttribute("type") == "run")
+                    if (child->GetAttribute("type", wxEmptyString) == "run")
                         computerConfiguration.hwTapeConfiguration.efRun = parseXml_EfFlag(*child, TAPE_CONTROL_FRED_EF);
-                    if (child->GetAttribute("type") == "error")
+                    if (child->GetAttribute("type", wxEmptyString) == "error")
                         computerConfiguration.hwTapeConfiguration.efError = parseXml_EfFlag(*child, TAPE_ERROR_FRED_EF);
                 }
             break;
@@ -8971,9 +8971,9 @@ void XmlParser::parseXml_HwCassette(wxXmlNode &node)
             case TAG_OUT:
                 if (child->HasAttribute("type"))
                 {
-                    if (child->GetAttribute("type") == "mode")
+                    if (child->GetAttribute("type", wxEmptyString) == "mode")
                         computerConfiguration.hwTapeConfiguration.outputMode = parseXml_IoPort(*child, TAPE_MODE_FRED_OUT);
-                    if (child->GetAttribute("type") == "sound")
+                    if (child->GetAttribute("type", wxEmptyString) == "sound")
                     {
                         computerConfiguration.hwTapeConfiguration.outputSound = parseXml_IoPort(*child, TAPE_SOUND_FRED_OUT);
                         computerConfiguration.soundConfiguration.type = SOUND_Q_SW;
@@ -8987,19 +8987,19 @@ void XmlParser::parseXml_HwCassette(wxXmlNode &node)
             break;
 
             case TAG_FREQ:
-                if (child->GetAttribute("type") == "0")
+                if (child->GetAttribute("type", wxEmptyString) == "0")
                     computerConfiguration.hwTapeConfiguration.frequency0 = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "1")
+                if (child->GetAttribute("type", wxEmptyString) == "1")
                     computerConfiguration.hwTapeConfiguration.frequency1 = (int)parseXml_Number(*child);
                 computerConfiguration.hwTapeConfiguration.frequencyBorder = (computerConfiguration.hwTapeConfiguration.frequency1 + computerConfiguration.hwTapeConfiguration.frequency0) / 2;
             break;
 
             case TAG_THRESHOLD:
-                if (child->GetAttribute("type") == "8bit")
+                if (child->GetAttribute("type", wxEmptyString) == "8bit")
                     computerConfiguration.hwTapeConfiguration.threshold8Bit = (char)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "16bit")
+                if (child->GetAttribute("type", wxEmptyString) == "16bit")
                     computerConfiguration.hwTapeConfiguration.threshold16Bit  = (wxInt16)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "24bit")
+                if (child->GetAttribute("type", wxEmptyString) == "24bit")
                     computerConfiguration.hwTapeConfiguration.threshold24Bit  = (wxInt32)parseXml_Number(*child);
             break;
 
@@ -9013,7 +9013,7 @@ void XmlParser::parseXml_HwCassette(wxXmlNode &node)
 
             case TAG_STOPBIT:
                 computerConfiguration.hwTapeConfiguration.stopBit = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "ignore")
+                if (child->GetAttribute("type", wxEmptyString) == "ignore")
                     computerConfiguration.hwTapeConfiguration.stopBitIgnore = true;
             break;
 
@@ -9030,13 +9030,13 @@ void XmlParser::parseXml_HwCassette(wxXmlNode &node)
             break;
             
             case TAG_FILENAME:
-                if (child->GetAttribute("cassette") == "1")
+                if (child->GetAttribute("cassette", wxEmptyString) == "1")
                     cassetteNumber = 1;
                 computerConfiguration.wavConfiguration[cassetteNumber].fileName = child->GetNodeContent();
             break;
 
             case TAG_DIRNAME:
-                if (child->GetAttribute("cassette") == "1")
+                if (child->GetAttribute("cassette", wxEmptyString) == "1")
                     cassetteNumber = 1;
                 computerConfiguration.wavConfiguration[cassetteNumber].directory = dataDir_ + child->GetNodeContent();
                 if (computerConfiguration.wavConfiguration[cassetteNumber].directory.Right(1) != pathSeparator_)
@@ -9044,12 +9044,12 @@ void XmlParser::parseXml_HwCassette(wxXmlNode &node)
             break;
 
             case TAG_CHANNEL:
-                if (child->GetAttribute("type") == "audio")
+                if (child->GetAttribute("type", wxEmptyString) == "audio")
                 {
                     if (child->GetNodeContent() == "right")
                         computerConfiguration.hwTapeConfiguration.audioChannelLeft = false;
                 }
-                if (child->GetAttribute("type") == "data")
+                if (child->GetAttribute("type", wxEmptyString) == "data")
                 {
                     if (child->GetNodeContent() == "right")
                         computerConfiguration.hwTapeConfiguration.dataChannelLeft = false;
@@ -9535,9 +9535,9 @@ void XmlParser::parseXml_Diag(wxXmlNode &node)
             break;
 
             case TAG_IN:
-                if (child->GetAttribute("type") == "1")
+                if (child->GetAttribute("type", wxEmptyString) == "1")
                     computerConfiguration.diagnosticBoardConfiguration.input1 = parseXml_IoPort(*child, COMX_DIAGNOSTIC_BOARD_IN1);
-                if (child->GetAttribute("type") == "2")
+                if (child->GetAttribute("type", wxEmptyString) == "2")
                     computerConfiguration.diagnosticBoardConfiguration.input2 = parseXml_IoPort(*child, COMX_DIAGNOSTIC_BOARD_IN2);
             break;
 
@@ -9607,7 +9607,7 @@ void XmlParser::parseXml_Debugger(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_SCRT:
-                computerConfiguration.debuggerConfiguration.mode = (child->GetAttribute("mode") == "on");
+                computerConfiguration.debuggerConfiguration.mode = (child->GetAttribute("mode", wxEmptyString) == "on");
                     parseXml_Scrt (*child);
             break;
 
@@ -9636,7 +9636,7 @@ void XmlParser::parseXml_Debugger(wxXmlNode &node)
 
             case TAG_READ_VALUE:
             {
-                Byte val = (Byte)getHexDec(child->GetAttribute("value"));
+                Byte val = (Byte)getHexDec(child->GetAttribute("value", wxEmptyString));
                 wxString addressList = child->GetNodeContent();
                 while (addressList != "")
                 {
@@ -10105,9 +10105,9 @@ void XmlParser::parseXml_StudioSound(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_FREQ:
-                if (child->GetAttribute("type") == "start")
+                if (child->GetAttribute("type", wxEmptyString) == "start")
                     computerConfiguration.soundConfiguration.beepFrequency = (int)parseXml_Number(*child);
-                if (child->GetAttribute("type") == "end")
+                if (child->GetAttribute("type", wxEmptyString) == "end")
                     computerConfiguration.soundConfiguration.targetBeepFrequency = (int)parseXml_Number(*child);
             break;
 
@@ -10237,7 +10237,7 @@ void XmlParser::parseXml_CoinSound(wxXmlNode &node)
             case TAG_OUT:
                 computerConfiguration.soundConfiguration.type = SOUND_1863_1864;
 
-                if (child->GetAttribute("type") == "switch")
+                if (child->GetAttribute("type", wxEmptyString) == "switch")
                 {
                     if (computerConfiguration.cdp1863Configuration.toneSwitch1.portNumber[0] != -1)
                     {
@@ -10256,7 +10256,7 @@ void XmlParser::parseXml_CoinSound(wxXmlNode &node)
                 if (child->HasAttribute("factor"))
                     computerConfiguration.cdp1863Configuration.toneFactor = (int)parseXml_Number(*child, "factor");
 
-                if (child->GetAttribute("pol") == "rev")
+                if (child->GetAttribute("pol", wxEmptyString) == "rev")
                     computerConfiguration.cdp1863Configuration.toneReversed = true;
 
             break;
@@ -10327,7 +10327,7 @@ void XmlParser::parseXml_Cdp1863Sound(wxXmlNode &node)
             case TAG_OUT:
                 computerConfiguration.soundConfiguration.type = SOUND_1863_1864;
 
-                if (child->GetAttribute("type") == "switch")
+                if (child->GetAttribute("type", wxEmptyString) == "switch")
                 {
                     if (computerConfiguration.cdp1863Configuration.toneSwitch1.portNumber[0] != -1)
                     {
@@ -10346,7 +10346,7 @@ void XmlParser::parseXml_Cdp1863Sound(wxXmlNode &node)
                 if (child->HasAttribute("factor"))
                     computerConfiguration.cdp1863Configuration.toneFactor = (int)parseXml_Number(*child, "factor");
 
-                if (child->GetAttribute("pol") == "rev")
+                if (child->GetAttribute("pol", wxEmptyString) == "rev")
                     computerConfiguration.cdp1863Configuration.toneReversed = true;
 
             break;
@@ -10425,13 +10425,13 @@ void XmlParser::parseXml_AY_3_8912Sound(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_OUT:
-                if (child->GetAttribute("type") == "register")
+                if (child->GetAttribute("type", wxEmptyString) == "register")
                 {
                     if (child->HasAttribute("ay"))
                     {
-                        if (child->GetAttribute("ay") == "1")
+                        if (child->GetAttribute("ay", wxEmptyString) == "1")
                             computerConfiguration.ay_3_8912Configuration.registerAddressAy1 = parseXml_IoPort(*child, AY_3_8912_REGISTER_ADDRESS_1);
-                        if (child->GetAttribute("ay") == "2")
+                        if (child->GetAttribute("ay", wxEmptyString) == "2")
                             computerConfiguration.ay_3_8912Configuration.registerAddressAy2 = parseXml_IoPort(*child, AY_3_8912_REGISTER_ADDRESS_2);
                     }
                     else
@@ -10440,20 +10440,20 @@ void XmlParser::parseXml_AY_3_8912Sound(wxXmlNode &node)
             break;
 
             case TAG_IO:
-                if (child->GetAttribute("type") == "data")
+                if (child->GetAttribute("type", wxEmptyString) == "data")
                     computerConfiguration.ay_3_8912Configuration.dataAddress = parseXml_IoPort(*child, AY_3_8912_DATA);
             break;
           
             case TAG_CHANNEL:
-                if (child->GetAttribute("type") == "a")
+                if (child->GetAttribute("type", wxEmptyString) == "a")
                 {
                     getChannels("a", child->GetNodeContent(), &computerConfiguration.ay_3_8912Configuration.channel_a_1, &computerConfiguration.ay_3_8912Configuration.channel_a_2);
                 }
-                if (child->GetAttribute("type") == "b")
+                if (child->GetAttribute("type", wxEmptyString) == "b")
                 {
                     getChannels("b", child->GetNodeContent(), &computerConfiguration.ay_3_8912Configuration.channel_b_1, &computerConfiguration.ay_3_8912Configuration.channel_b_2);
                 }
-                if (child->GetAttribute("type") == "c")
+                if (child->GetAttribute("type", wxEmptyString) == "c")
                 {
                     getChannels("c", child->GetNodeContent(), &computerConfiguration.ay_3_8912Configuration.channel_c_1, &computerConfiguration.ay_3_8912Configuration.channel_c_2);
                 }
@@ -10620,7 +10620,7 @@ void XmlParser::parseXml_IoGroup(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_OUT:
-                if (child->GetAttribute("type") == "disable")
+                if (child->GetAttribute("type", wxEmptyString) == "disable")
                 {
                     computerConfiguration.ioGroupConfiguration.disable = parseXml_IoPort(*child, IO_PORT_DISABLE);
                     computerConfiguration.ioGroupConfiguration.disableBitMask = parseXml_Number(*child, "bitmask");
@@ -10839,14 +10839,14 @@ void XmlParser::parseXml_Memory(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_ROM:
-                configNumber = getMemConfig(child->GetAttribute("type"));
-                setCartType(configNumber, child->GetAttribute("cart"));
+                configNumber = getMemConfig(child->GetAttribute("type", wxEmptyString));
+                setCartType(configNumber, child->GetAttribute("cart", wxEmptyString));
                 parseXml_RomRam (*child, (int)(ROM + 256*configNumber), configNumber);
                 setMemMask(configNumber, parseXml_Number(*child, "mask"));
             break;
 
             case TAG_DIAG:
-                computerConfiguration.diagnosticBoardConfiguration.active = child->GetAttribute("type") == "on";
+                computerConfiguration.diagnosticBoardConfiguration.active = child->GetAttribute("type", wxEmptyString) == "on";
                 computerConfiguration.memoryConfiguration.resize(memConfigNumber_+1);
                 parseXml_RomRam (*child, (int)(DIAGROM + 256*memConfigNumber_), memConfigNumber_);
                 computerConfiguration.memoryConfiguration[memConfigNumber_].useMemMask = false;
@@ -10854,8 +10854,8 @@ void XmlParser::parseXml_Memory(wxXmlNode &node)
             break;
 
             case TAG_RAM:
-                configNumber = getMemConfig(child->GetAttribute("type"));
-                setCartType(configNumber, child->GetAttribute("cart"));
+                configNumber = getMemConfig(child->GetAttribute("type", wxEmptyString));
+                setCartType(configNumber, child->GetAttribute("cart", wxEmptyString));
                 parseXml_RomRam (*child, (int)(RAM + 256*configNumber), configNumber);
                 setMemMask(configNumber, parseXml_Number(*child, "mask"));
             break;
@@ -10863,11 +10863,11 @@ void XmlParser::parseXml_Memory(wxXmlNode &node)
             case TAG_NVRAM:
                 computerConfiguration.nvRamConfiguration.disable = false;
                 computerConfiguration.nvRamConfiguration.defined = true;
-                if (child->GetAttribute("default") == "off")
+                if (child->GetAttribute("default", wxEmptyString) == "off")
                     computerConfiguration.nvRamConfiguration.disable = true;
                 
-                configNumber = getMemConfig(child->GetAttribute("type"));
-                setCartType(configNumber, child->GetAttribute("cart"));
+                configNumber = getMemConfig(child->GetAttribute("type", wxEmptyString));
+                setCartType(configNumber, child->GetAttribute("cart", wxEmptyString));
                 parseXml_RomRam (*child, (int)(NVRAM + 256*configNumber), configNumber);
                 setMemMask(configNumber, parseXml_Number(*child, "mask"));
             break;
@@ -10876,10 +10876,10 @@ void XmlParser::parseXml_Memory(wxXmlNode &node)
                 computerConfiguration.emsMemoryConfiguration.resize(emsConfigNumber+1);
                 computerConfiguration.emsMemoryConfiguration[emsConfigNumber].emsType = RAM;
 
-                if (child->GetAttribute("type") == "ROM")
+                if (child->GetAttribute("type", wxEmptyString) == "ROM")
                     computerConfiguration.emsMemoryConfiguration[emsConfigNumber].emsType = ROM;
                 
-                if (child->GetAttribute("type") == "multicart")
+                if (child->GetAttribute("type", wxEmptyString) == "multicart")
                 {
                     computerConfiguration.emsMemoryConfiguration[emsConfigNumber].emsType = ROM;
                     computerConfiguration.multicartEmsNumber_ = (int)emsConfigNumber;
@@ -10892,7 +10892,7 @@ void XmlParser::parseXml_Memory(wxXmlNode &node)
             case TAG_MAPPER:
                 computerConfiguration.memoryConfiguration.resize(memConfigNumber_+1);
                 computerConfiguration.memoryMapperConfiguration.defined = true;
-                computerConfiguration.memoryMapperConfiguration.nvram = (child->GetAttribute("type") == "nvram");
+                computerConfiguration.memoryMapperConfiguration.nvram = (child->GetAttribute("type", wxEmptyString) == "nvram");
                 
                 memMask = parseXml_Number(*child, "mask");
                 if (memMask == 0)
@@ -11092,8 +11092,8 @@ void XmlParser::parseXml_RomRam(wxXmlNode &node, int type, size_t configNumber)
                 else
                     computerConfiguration.memoryConfiguration[configNumber].filename = child->GetNodeContent();
 
-                computerConfiguration.memoryConfiguration[configNumber].verifyFileExist = (child->GetAttribute("verify") == "true");
-                computerConfiguration.memoryConfiguration[configNumber].checkFwList = (child->GetAttribute("payphone_fw") == "true");
+                computerConfiguration.memoryConfiguration[configNumber].verifyFileExist = (child->GetAttribute("verify", wxEmptyString) == "true");
+                computerConfiguration.memoryConfiguration[configNumber].checkFwList = (child->GetAttribute("payphone_fw", wxEmptyString) == "true");
             break;
 
             case TAG_DUMP:
@@ -11117,19 +11117,19 @@ void XmlParser::parseXml_RomRam(wxXmlNode &node, int type, size_t configNumber)
                 
                 pulldownString = "";
                 if (child->HasAttribute("mask"))
-                    pulldownString = child->GetAttribute("mask");
+                    pulldownString = child->GetAttribute("mask", wxEmptyString);
                 computerConfiguration.memoryConfiguration[configNumber].pulldownMask.Add(pulldownString);
 
                 pulldownString = "";
                 if (child->HasAttribute("exclude"))
-                    pulldownString = child->GetAttribute("exclude");
+                    pulldownString = child->GetAttribute("exclude", wxEmptyString);
                 if (child->HasAttribute("exclude1"))
-                    pulldownString = child->GetAttribute("exclude1");
+                    pulldownString = child->GetAttribute("exclude1", wxEmptyString);
                 computerConfiguration.memoryConfiguration[configNumber].pulldownExclude.Add(pulldownString);
 
                 pulldownString = "";
                 if (child->HasAttribute("exclude2"))
-                    pulldownString = child->GetAttribute("exclude2");
+                    pulldownString = child->GetAttribute("exclude2", wxEmptyString);
                 computerConfiguration.memoryConfiguration[configNumber].pulldownExclude2.Add(pulldownString);
             break;
 
@@ -11442,7 +11442,7 @@ void XmlParser::parseXml_Slot(wxXmlNode &node, int maxSlots)
 
             case TAG_SLOTSHIFT:
                 computerConfiguration.slotConfiguration.slotOutputShift = (int)parseXml_Number(*child);
-                computerConfiguration.slotConfiguration.slotOutputNumber = (child->GetAttribute("type") == "number");
+                computerConfiguration.slotConfiguration.slotOutputNumber = (child->GetAttribute("type", wxEmptyString) == "number");
                 if (computerConfiguration.slotConfiguration.slotOutputNumber)
                 {
                     if (maxSlots > 255)
@@ -11471,7 +11471,7 @@ void XmlParser::parseXml_Slot(wxXmlNode &node, int maxSlots)
 
             case TAG_BANKSHIFT:
                 computerConfiguration.slotConfiguration.bankOutputShift = (int)parseXml_Number(*child);
-                computerConfiguration.slotConfiguration.bankOutputNumber = (child->GetAttribute("type") == "number");
+                computerConfiguration.slotConfiguration.bankOutputNumber = (child->GetAttribute("type", wxEmptyString) == "number");
                 computerConfiguration.slotConfiguration.bankOutputMask = (int)parseXml_Number(*child, "mask");
             break;
 
@@ -11805,12 +11805,12 @@ void XmlParser::parseXml_Mcr(wxXmlNode &node, int maxMaps)
             break;
 
             case TAG_OUT:
-                if (child->GetAttribute("type") == "mcr")
+                if (child->GetAttribute("type", wxEmptyString) == "mcr")
                     computerConfiguration.mcrConfiguration.output = parseXml_IoPort(*child);
             break;
 
             case TAG_IN:
-                if (child->GetAttribute("type") == "bbat")
+                if (child->GetAttribute("type", wxEmptyString) == "bbat")
                     computerConfiguration.mcrConfiguration.bbat = parseXml_IoPort(*child);
             break;
 
@@ -12087,9 +12087,9 @@ void XmlParser::parseXml_portExt(wxXmlNode &node, int type, size_t configNumber)
                         addrOut.mask = (Byte)parseXml_Number(*child, "mask");
                     computerConfiguration.memoryMapperConfiguration.addressOutputs.push_back(addrOut);
                 }
-                else if (child->GetAttribute("type") == "select")
+                else if (child->GetAttribute("type", wxEmptyString) == "select")
                     computerConfiguration.memoryMapperConfiguration.selectOutput = parseXml_IoPort(*child, PORT_EXTENDER_SELECT_OUT);
-                else if (child->GetAttribute("type") == "write")
+                else if (child->GetAttribute("type", wxEmptyString) == "write")
                     computerConfiguration.memoryMapperConfiguration.writeOutput = parseXml_IoPort(*child, PORT_EXTENDER_WRITE_OUT);
             break;
 
@@ -12409,9 +12409,9 @@ void XmlParser::parseXml_RtcDS12887(wxXmlNode &node)
             break;
 
             case TAG_OUT:
-                if (child->GetAttribute("type") == "select")
+                if (child->GetAttribute("type", wxEmptyString) == "select")
                     computerConfiguration.rtcDs12887Configuration.outputSelectPort = parseXml_IoPort(*child, RTC_SELECT_PORT_OUT);
-                if (child->GetAttribute("type") == "write")
+                if (child->GetAttribute("type", wxEmptyString) == "write")
                     computerConfiguration.rtcDs12887Configuration.outputWritePort = parseXml_IoPort(*child, RTC_WRITE_PORT_OUT);
             break;
 
@@ -12548,9 +12548,9 @@ void XmlParser::parseXml_UsbSuperBoard(wxXmlNode &node)
             break;
 
             case TAG_IN:
-                if (child->GetAttribute("type") == "ef")
+                if (child->GetAttribute("type", wxEmptyString) == "ef")
                     computerConfiguration.superBoardConfiguration.input6 = parseXml_IoPort(*child, SUPERBOARD_RESET_EF_IN);
-                if (child->GetAttribute("type") == "usb")
+                if (child->GetAttribute("type", wxEmptyString) == "usb")
                     computerConfiguration.superBoardConfiguration.input5 = parseXml_IoPort(*child, SUPERBOARD_UART_IN);
             break;
 

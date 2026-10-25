@@ -215,12 +215,12 @@ void Tms9918Config::parseXml_TMS9918Video(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_OUT:
-                if (child->GetAttribute("type") == "register")
+                if (child->GetAttribute("type", wxEmptyString) == "register")
                 {
                     computerConfiguration.tmsConfiguration.registerOutput = parseXml_IoPort(*child, TMS_REGISTER_PORT_OUT);
                     setIoPortConfig(computerConfiguration.tmsConfiguration.registerOutput, registerIdTms9918[TMS9918_REGISTER], registerFunctionTms9918[TMS9918_REGISTER], "B");
                 }
-                if (child->GetAttribute("type") == "data")
+                if (child->GetAttribute("type", wxEmptyString) == "data")
                 {
                     computerConfiguration.tmsConfiguration.dataOutput = parseXml_IoPort(*child, TMS_DATA_PORT_OUT);
                     setIoPortConfig(computerConfiguration.tmsConfiguration.dataOutput, registerIdTms9918[TMS9918_DATA], registerFunctionTms9918[TMS9918_DATA], "B");
@@ -268,37 +268,37 @@ void Tms9918Config::parseXml_TMS9918Video(wxXmlNode &node)
                 green = (int)getNextHexDec(&color) & 0xff;
                 blue = (int)getNextHexDec(&color) & 0xff;
                 
-                if (child->GetAttribute("type") == "transparant")
+                if (child->GetAttribute("type", wxEmptyString) == "transparant")
                     screenInfo.defaultColour[COL_TMS_TRANSPARANT].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "black")
+                if (child->GetAttribute("type", wxEmptyString) == "black")
                     screenInfo.defaultColour[COL_TMS_BLACK].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "medium_green")
+                if (child->GetAttribute("type", wxEmptyString) == "medium_green")
                     screenInfo.defaultColour[COL_TMS_MEDIUM_GREEN].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "light_green")
+                if (child->GetAttribute("type", wxEmptyString) == "light_green")
                     screenInfo.defaultColour[COL_TMS_LIGHT_GREEN].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "dark_blue")
+                if (child->GetAttribute("type", wxEmptyString) == "dark_blue")
                     screenInfo.defaultColour[COL_TMS_DARK_BLUE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "light_blue")
+                if (child->GetAttribute("type", wxEmptyString) == "light_blue")
                     screenInfo.defaultColour[COL_TMS_LIGHT_BLUE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "dark_red")
+                if (child->GetAttribute("type", wxEmptyString) == "dark_red")
                     screenInfo.defaultColour[COL_TMS_DARK_RED].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "aqua_blue")
+                if (child->GetAttribute("type", wxEmptyString) == "aqua_blue")
                     screenInfo.defaultColour[COL_TMS_AQUA_BLUE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "medium_red")
+                if (child->GetAttribute("type", wxEmptyString) == "medium_red")
                     screenInfo.defaultColour[COL_TMS_MEDIUM_RED].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "light_red")
+                if (child->GetAttribute("type", wxEmptyString) == "light_red")
                     screenInfo.defaultColour[COL_TMS_LIGHT_RED].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "dark_yellow")
+                if (child->GetAttribute("type", wxEmptyString) == "dark_yellow")
                     screenInfo.defaultColour[COL_TMS_DARK_YELLOW].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "light_yellow")
+                if (child->GetAttribute("type", wxEmptyString) == "light_yellow")
                     screenInfo.defaultColour[COL_TMS_LIGHT_YELLOW].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "dark_green")
+                if (child->GetAttribute("type", wxEmptyString) == "dark_green")
                     screenInfo.defaultColour[COL_TMS_DARK_GREEN].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "purple")
+                if (child->GetAttribute("type", wxEmptyString) == "purple")
                     screenInfo.defaultColour[COL_TMS_PURPLE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "gray")
+                if (child->GetAttribute("type", wxEmptyString) == "gray")
                     screenInfo.defaultColour[COL_TMS_GRAY].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "white")
+                if (child->GetAttribute("type", wxEmptyString) == "white")
                     screenInfo.defaultColour[COL_TMS_WHITE].Printf("#%02X%02X%02X", red, green, blue);
             break;
 

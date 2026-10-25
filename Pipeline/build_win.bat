@@ -111,7 +111,7 @@ if "%WXVER%"=="2.8" goto line_vc9_w2k
 echo --wx 3.3 ^(vc17 modern^), 3.2 ^(vc9 XP^) or 2.8 ^(vc9 w2k^) required >&2 & exit /b 1
 
 :line_vc9_w2k
-set "EXEFILE=%PLATFORM%-VC9\Release\Emma 02.exe"
+set "EXEFILE=%PLATFORM%-VC9-W2K\Release\Emma 02.exe"
 if not "%ARCH%"=="x86" ( echo --wx 2.8 w2k line is x86 only >&2 & exit /b 1 )
 if "%SRCROOT%"=="" set SRCROOT=%~dp0..
 if "%OUTDIR%"=="" set OUTDIR=%SRCROOT%
@@ -139,7 +139,7 @@ if not defined VCBUILD (
 )
 if not defined VCBUILD ( echo VS2008 vcbuild/devenv not found - bake the XP layer first >&2 & exit /b 1 )
 if not defined WX28 ( echo WX28 not set ^(want C:\wxWidgets-2.8^) >&2 & exit /b 1 )
-if not exist "%WX28%\lib\%WXLIBDIR%\wxmsw28u_core.lib" ( echo missing wx 2.8 %PLATFORM% lib: %WX28%\lib\%WXLIBDIR%\wxmsw28u_core.lib >&2 & exit /b 1 )
+if not exist "%WX28%\lib\%WXLIBDIR%\wxmsw28_core.lib" ( echo missing wx 2.8 %PLATFORM% lib: %WX28%\lib\%WXLIBDIR%\wxmsw28_core.lib >&2 & exit /b 1 )
 if not exist "..\SDL-1.2.15\lib\%SDLLIBDIR%\SDL.dll" ( echo missing dep: ..\SDL-1.2.15\lib\%SDLLIBDIR%\SDL.dll >&2 & exit /b 1 )
 if not exist "..\libserialport\%SPORTDIR%-VS2008\lib\release\libserialport.lib" ( echo missing dep: ..\libserialport\%SPORTDIR%-VS2008\lib\release\libserialport.lib ^(VC9 link lib^) >&2 & exit /b 1 )
 if not exist "..\libserialport\%SPORTDIR%-VS2008\lib\release\libserialport.dll" ( echo missing dep: ..\libserialport\%SPORTDIR%-VS2008\lib\release\libserialport.dll ^(VC9 payload DLL^) >&2 & exit /b 1 )
@@ -155,14 +155,18 @@ REM    restore afterwards. Build legacy before modern: output path collides.)
 if "%BUILD%"=="1" (
   set "WXWIN_SAVED=%WXWIN%"
   set "WXWIN=%WX28%"
+  set "SDL_SAVED=%SDL%"
+  set "SDL=C:\SDL-1.2.15"
   copy /Y Emma02.manifest Emma02.manifest.saved >nul
   copy /Y Emma02_w2k.manifest Emma02.manifest >nul
-  "!VCBUILD!" "Emma 02 vc9.sln" "Release|%PLATFORM%"
+  "!VCBUILD!" "Emma 02 vc9 w2k.sln" "Release|%PLATFORM%"
   set "VC9RC=!errorlevel!"
   copy /Y Emma02.manifest.saved Emma02.manifest >nul
   del Emma02.manifest.saved
   set "WXWIN=!WXWIN_SAVED!"
   set "WXWIN_SAVED="
+  set "SDL=!SDL_SAVED!"
+  set "SDL_SAVED="
   if not "!VC9RC!"=="0" ( echo vc9-w2k build failed >&2 & exit /b 1 )
 )
 if not exist "%EXEFILE%" ( echo missing binary: %EXEFILE% ^(build first or drop --no-build^) >&2 & exit /b 1 )

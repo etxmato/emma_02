@@ -171,12 +171,12 @@ void Vip2KVideoConfig::parseXml_Vip2KVideo(wxXmlNode &node)
             case TAG_IO:
                 if (child->HasAttribute("type"))
                 {
-                    if (child->GetAttribute("type") == "on")
+                    if (child->GetAttribute("type", wxEmptyString) == "on")
 					{
                         computerConfiguration.vip2KVideoConfiguration.input = parseXml_IoPort(*child, VIP2K_VIDEO_ENABLE_IN);
                         setIoPortConfigRadio(computerConfiguration.vip2KVideoConfiguration.input, registerIdVip2KVideo[VIP2K_VIDEO_ENABLE], registerFunctionVip2KVideo[VIP2K_VIDEO_ENABLE], "B");
                     }
-                    if (child->GetAttribute("type") == "off")
+                    if (child->GetAttribute("type", wxEmptyString) == "off")
 					{
                         computerConfiguration.vip2KVideoConfiguration.output = parseXml_IoPort(*child, VIP2K_VIDEO_DISABLE_OUT);
                         setIoPortConfigRadio(computerConfiguration.vip2KVideoConfiguration.output, registerIdVip2KVideo[VIP2K_VIDEO_DISABLE], registerFunctionVip2KVideo[VIP2K_VIDEO_DISABLE], "B");
@@ -192,12 +192,12 @@ void Vip2KVideoConfig::parseXml_Vip2KVideo(wxXmlNode &node)
             case TAG_IN:
                 if (child->HasAttribute("type"))
                 {
-                    if (child->GetAttribute("type") == "off")
+                    if (child->GetAttribute("type", wxEmptyString) == "off")
 					{
                         computerConfiguration.vip2KVideoConfiguration.output = parseXml_IoPort(*child, VIP2K_VIDEO_DISABLE_OUT);
                         setIoPortConfigRadio(computerConfiguration.vip2KVideoConfiguration.output, registerIdVip2KVideo[VIP2K_VIDEO_DISABLE], registerFunctionVip2KVideo[VIP2K_VIDEO_DISABLE], "I");
                     }
-                    if (child->GetAttribute("type") == "on")
+                    if (child->GetAttribute("type", wxEmptyString) == "on")
 					{
                         computerConfiguration.vip2KVideoConfiguration.input = parseXml_IoPort(*child, VIP2K_VIDEO_ENABLE_IN);
                         setIoPortConfigRadio(computerConfiguration.vip2KVideoConfiguration.input, registerIdVip2KVideo[VIP2K_VIDEO_ENABLE], registerFunctionVip2KVideo[VIP2K_VIDEO_ENABLE], "I");
@@ -213,12 +213,12 @@ void Vip2KVideoConfig::parseXml_Vip2KVideo(wxXmlNode &node)
             case TAG_OUT:
                 if (child->HasAttribute("type"))
                 {
-                    if (child->GetAttribute("type") == "off")
+                    if (child->GetAttribute("type", wxEmptyString) == "off")
 					{
                         computerConfiguration.vip2KVideoConfiguration.output = parseXml_IoPort(*child, VIP2K_VIDEO_DISABLE_OUT);
                         setIoPortConfigRadio(computerConfiguration.vip2KVideoConfiguration.output, registerIdVip2KVideo[VIP2K_VIDEO_DISABLE], registerFunctionVip2KVideo[VIP2K_VIDEO_DISABLE], "O");
                     }
-                    if (child->GetAttribute("type") == "on")
+                    if (child->GetAttribute("type", wxEmptyString) == "on")
 					{
                         computerConfiguration.vip2KVideoConfiguration.input = parseXml_IoPort(*child, VIP2K_VIDEO_ENABLE_IN);
                         setIoPortConfigRadio(computerConfiguration.vip2KVideoConfiguration.input, registerIdVip2KVideo[VIP2K_VIDEO_ENABLE], registerFunctionVip2KVideo[VIP2K_VIDEO_ENABLE], "O");
@@ -278,9 +278,9 @@ void Vip2KVideoConfig::parseXml_Vip2KVideo(wxXmlNode &node)
                 green = (int)getNextHexDec(&color) & 0xff;
                 blue = (int)getNextHexDec(&color) & 0xff;
                 
-                if (child->GetAttribute("type") == "fore")
+                if (child->GetAttribute("type", wxEmptyString) == "fore")
                     screenInfo.defaultColour[COL_PIXIE_FORE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back")
+                if (child->GetAttribute("type", wxEmptyString) == "back")
                     screenInfo.defaultColour[COL_PIXIE_BACK].Printf("#%02X%02X%02X", red, green, blue);
             break;
                 

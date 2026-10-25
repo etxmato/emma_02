@@ -178,8 +178,14 @@ void wxCurlTransferDialog::CreateControls(const wxString &url, const wxString &m
         st->SetFont(boldFont);
         downloading->Add(st, 0, (int)wxRIGHT|wxTOP|wxALIGN_CENTER_VERTICAL, BORDER);
 
+#if wxCHECK_VERSION(2, 9, 0)
+        long urlStyle = wxST_ELLIPSIZE_MIDDLE;
+#else
+        // wx 2.8 has no ellipsize styles; a long URL is simply clipped
+        long urlStyle = 0;
+#endif
         m_pURL = new wxStaticText( this, wxID_STATIC, url, wxDefaultPosition,
-                                   wxSize(MINWIDTH, -1), wxST_ELLIPSIZE_MIDDLE);
+                                   wxSize(MINWIDTH, -1), urlStyle);
         downloading->Add(m_pURL, 1, (int)wxALIGN_CENTER_VERTICAL|wxTOP, BORDER);
 
         main->Add(downloading, 0, (int)wxGROW|wxLEFT|wxRIGHT, OUTER_BORDER);

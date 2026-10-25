@@ -303,17 +303,17 @@ void Scn2672Config::parseXml_Scn2672Video(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_IO:
-                if (child->GetAttribute("type") == "screen_start")
+                if (child->GetAttribute("type", wxEmptyString) == "screen_start")
                 {
                     computerConfiguration.scn2672Configuration.screenStart = parseXml_IoPort(*child);
                     setIoPortConfig(computerConfiguration.scn2672Configuration.screenStart, registerIdScn2672[SCN2672_SCREEN_START], registerFunctionScn2672[SCN2672_SCREEN_START], "B", true, "");
                 }
-                if (child->GetAttribute("type") == "cursor")
+                if (child->GetAttribute("type", wxEmptyString) == "cursor")
                 {
                     computerConfiguration.scn2672Configuration.cursor = parseXml_IoPort(*child);
                     setIoPortConfig(computerConfiguration.scn2672Configuration.cursor, registerIdScn2672[SCN2672_CURSOR], registerFunctionScn2672[SCN2672_CURSOR], "B", true, "");
                 }
-                if (child->GetAttribute("type") == "data")
+                if (child->GetAttribute("type", wxEmptyString) == "data")
                 {
                     computerConfiguration.scn2672Configuration.data = parseXml_IoPort(*child);
                     setIoPortConfig(computerConfiguration.scn2672Configuration.data, registerIdScn2672[SCN2672_DATA], registerFunctionScn2672[SCN2672_DATA], "B", false, "");
@@ -321,17 +321,17 @@ void Scn2672Config::parseXml_Scn2672Video(wxXmlNode &node)
             break;
                 
             case TAG_OUT:
-                if (child->GetAttribute("type") == "ir")
+                if (child->GetAttribute("type", wxEmptyString) == "ir")
                 {
                     computerConfiguration.scn2672Configuration.initializationRegister = parseXml_IoPort(*child);
                     setIoPortConfig(computerConfiguration.scn2672Configuration.initializationRegister, registerIdScn2672[SCN2672_INITIALIZATION_REGISTER], registerFunctionScn2672[SCN2672_INITIALIZATION_REGISTER], "O", false, "");
                 }
-                if (child->GetAttribute("type") == "command")
+                if (child->GetAttribute("type", wxEmptyString) == "command")
                 {
                     computerConfiguration.scn2672Configuration.command = parseXml_IoPort(*child);
                     setIoPortConfig(computerConfiguration.scn2672Configuration.command, registerIdScn2672[SCN2672_COMMAND], registerFunctionScn2672[SCN2672_COMMAND], "O", false, "");
                 }
-                if (child->GetAttribute("type") == "pointer")
+                if (child->GetAttribute("type", wxEmptyString) == "pointer")
                 {
                     computerConfiguration.scn2672Configuration.pointer = parseXml_IoPort(*child);
                     setIoPortConfig(computerConfiguration.scn2672Configuration.pointer, registerIdScn2672[SCN2672_POINTER], registerFunctionScn2672[SCN2672_POINTER], "O", true, "");
@@ -339,12 +339,12 @@ void Scn2672Config::parseXml_Scn2672Video(wxXmlNode &node)
             break;
        
             case TAG_IN:
-                if (child->GetAttribute("type") == "status")
+                if (child->GetAttribute("type", wxEmptyString) == "status")
                 {
                     computerConfiguration.scn2672Configuration.status = parseXml_IoPort(*child);
                     setIoPortConfig(computerConfiguration.scn2672Configuration.status, registerIdScn2672[SCN2672_STATUS], registerFunctionScn2672[SCN2672_STATUS], "I", false, "");
                 }
-                if (child->GetAttribute("type") == "interrupt")
+                if (child->GetAttribute("type", wxEmptyString) == "interrupt")
                 {
                     computerConfiguration.scn2672Configuration.interrupt = parseXml_IoPort(*child);
                     setIoPortConfig(computerConfiguration.scn2672Configuration.interrupt, registerIdScn2672[SCN2672_INTERRUPT], registerFunctionScn2672[SCN2672_INTERRUPT], "I", false, "");
@@ -438,9 +438,9 @@ void Scn2672Config::parseXml_Scn2672Video(wxXmlNode &node)
                 green = (int)getNextHexDec(&color) & 0xff;
                 blue = (int)getNextHexDec(&color) & 0xff;
                 
-                if (child->GetAttribute("type") == "fore")
+                if (child->GetAttribute("type", wxEmptyString) == "fore")
                     screenInfo.defaultColour[COL_SCN2672_FORE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "back")
+                if (child->GetAttribute("type", wxEmptyString) == "back")
                     screenInfo.defaultColour[COL_SCN2672_BACK].Printf("#%02X%02X%02X", red, green, blue);
             break;
                 

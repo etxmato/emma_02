@@ -249,16 +249,16 @@ IoPort XmlBase::parseXml_IoPort(wxXmlNode &node, int ioDefinition, Byte defaultM
     }
 
     ioPort.qValue = -1;
-    if (node.GetAttribute("q") == "1")
+    if (node.GetAttribute("q", wxEmptyString) == "1")
         ioPort.qValue = 1;
-    if (node.GetAttribute("q") == "0")
+    if (node.GetAttribute("q", wxEmptyString) == "0")
         ioPort.qValue = 0;
 
     ioPort.mask = defaultMask;
     if (node.HasAttribute("mask"))
         ioPort.mask = (Byte)parseXml_Number(node, "mask");
 
-    if (ioPort.portNumber[0] > 7 || node.GetAttribute("type") == "address")
+    if (ioPort.portNumber[0] > 7 || node.GetAttribute("type", wxEmptyString) == "address")
         ioPort.addressMode = true;
     else
     {
@@ -302,20 +302,20 @@ EfFlag XmlBase::parseXml_EfFlag(wxXmlNode &node, int ioDefinition)
 
     efFlag.flagNumber = (int)parseXml_Number(node);
     efFlag.qValue = -1;
-    if (node.GetAttribute("q") == "1")
+    if (node.GetAttribute("q", wxEmptyString) == "1")
         efFlag.qValue = 1;
-    if (node.GetAttribute("q") == "0")
+    if (node.GetAttribute("q", wxEmptyString) == "0")
         efFlag.qValue = 0;
     
     if (ioDefinition != 0)
         efFlag.ioDefinition = ioDefinition;
 
-    if (node.GetAttribute("pol") == "rev")
+    if (node.GetAttribute("pol", wxEmptyString) == "rev")
         efFlag.reverse = 1;
     else
         efFlag.reverse = 0;
 
-    if (node.GetAttribute("iogroup") == "no")
+    if (node.GetAttribute("iogroup", wxEmptyString) == "no")
         efFlag.excludeIoGroup = true;
 
     return efFlag;
@@ -487,7 +487,7 @@ int XmlBase::parseXml_Mc6847BitSetup(wxXmlNode &node,  int bitNumber, wxString c
 
 long XmlBase::parseXml_Number(wxXmlNode &node, wxString attribute)
 {
-    return getHexDec(node.GetAttribute(attribute));
+    return getHexDec(node.GetAttribute(attribute, wxEmptyString));
 }
 
 bool XmlBase::parseXml_Range(wxXmlNode &node, long *start, long *end)

@@ -272,49 +272,49 @@ void Mc6847Config::parseXml_MC6847Video(wxXmlNode &node)
             break;
 
             case TAG_INV:
-                if (child->GetAttribute("init") == "high")
+                if (child->GetAttribute("init", wxEmptyString) == "high")
                     computerConfiguration.mc6847Configuration.forceHighInv = true;
                 computerConfiguration.mc6847Configuration.inv = parseXml_Mc6847BitSetup(*child, tagTypeInt - TAG_INV + 1, childName);
             break;
 
             case TAG_EXT:
-                if (child->GetAttribute("init") == "high")
+                if (child->GetAttribute("init", wxEmptyString) == "high")
                     computerConfiguration.mc6847Configuration.forceHighExt = true;
                 computerConfiguration.mc6847Configuration.ext = parseXml_Mc6847BitSetup(*child, tagTypeInt - TAG_INV + 1, childName);
             break;
 
             case TAG_CSS:
-                if (child->GetAttribute("init") == "high")
+                if (child->GetAttribute("init", wxEmptyString) == "high")
                     computerConfiguration.mc6847Configuration.forceHighCss = true;
                 computerConfiguration.mc6847Configuration.css = parseXml_Mc6847BitSetup(*child, tagTypeInt - TAG_INV + 1, childName);
             break;
 
             case TAG_AS:
-                if (child->GetAttribute("init") == "high")
+                if (child->GetAttribute("init", wxEmptyString) == "high")
                     computerConfiguration.mc6847Configuration.forceHighAs = true;
                 computerConfiguration.mc6847Configuration.as = parseXml_Mc6847BitSetup(*child, tagTypeInt - TAG_INV + 1, childName);
             break;
 
             case TAG_AG:
-                if (child->GetAttribute("init") == "high")
+                if (child->GetAttribute("init", wxEmptyString) == "high")
                     computerConfiguration.mc6847Configuration.forceHighAg = true;
                 computerConfiguration.mc6847Configuration.ag = parseXml_Mc6847BitSetup(*child, tagTypeInt - TAG_INV + 1, childName);
             break;
 
             case TAG_GM0:
-                if (child->GetAttribute("init") == "high")
+                if (child->GetAttribute("init", wxEmptyString) == "high")
                     computerConfiguration.mc6847Configuration.forceHighGm0 = true;
                 computerConfiguration.mc6847Configuration.gm0 = parseXml_Mc6847BitSetup(*child, tagTypeInt - TAG_INV + 1, childName);
             break;
 
             case TAG_GM1:
-                if (child->GetAttribute("init") == "high")
+                if (child->GetAttribute("init", wxEmptyString) == "high")
                     computerConfiguration.mc6847Configuration.forceHighGm1 = true;
                 computerConfiguration.mc6847Configuration.gm1 = parseXml_Mc6847BitSetup(*child, tagTypeInt - TAG_INV + 1, childName);
             break;
 
             case TAG_GM2:
-                if (child->GetAttribute("init") == "high")
+                if (child->GetAttribute("init", wxEmptyString) == "high")
                     computerConfiguration.mc6847Configuration.forceHighGm2 = true;
                 computerConfiguration.mc6847Configuration.gm2 = parseXml_Mc6847BitSetup(*child, tagTypeInt - TAG_INV + 1, childName);
             break;
@@ -355,27 +355,27 @@ void Mc6847Config::parseXml_MC6847Video(wxXmlNode &node)
                 green = (int)getNextHexDec(&color) & 0xff;
                 blue = (int)getNextHexDec(&color) & 0xff;
                 
-                if (child->GetAttribute("type") == "text_back")
+                if (child->GetAttribute("type", wxEmptyString) == "text_back")
                     screenInfo.defaultColour[COL_MC6847_TEXT_BLACK].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "text_green")
+                if (child->GetAttribute("type", wxEmptyString) == "text_green")
                     screenInfo.defaultColour[COL_MC6847_TEXT_GREEN].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "text_orange")
+                if (child->GetAttribute("type", wxEmptyString) == "text_orange")
                     screenInfo.defaultColour[COL_MC6847_TEXT_ORANGE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "graph_green")
+                if (child->GetAttribute("type", wxEmptyString) == "graph_green")
                     screenInfo.defaultColour[COL_MC6847_GRAPH_GREEN].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "graph_yellow")
+                if (child->GetAttribute("type", wxEmptyString) == "graph_yellow")
                     screenInfo.defaultColour[COL_MC6847_GRAPH_YELLOW].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "graph_blue")
+                if (child->GetAttribute("type", wxEmptyString) == "graph_blue")
                     screenInfo.defaultColour[COL_MC6847_GRAPH_BLUE].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "graph_red")
+                if (child->GetAttribute("type", wxEmptyString) == "graph_red")
                     screenInfo.defaultColour[COL_MC6847_GRAPH_RED].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "graph_buff")
+                if (child->GetAttribute("type", wxEmptyString) == "graph_buff")
                     screenInfo.defaultColour[COL_MC6847_GRAPH_BUFF].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "graph_cyan")
+                if (child->GetAttribute("type", wxEmptyString) == "graph_cyan")
                     screenInfo.defaultColour[COL_MC6847_GRAPH_CYAN].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "graph_magenta")
+                if (child->GetAttribute("type", wxEmptyString) == "graph_magenta")
                     screenInfo.defaultColour[COL_MC6847_GRAPH_MAGENTA].Printf("#%02X%02X%02X", red, green, blue);
-                if (child->GetAttribute("type") == "graph_orange")
+                if (child->GetAttribute("type", wxEmptyString) == "graph_orange")
                     screenInfo.defaultColour[COL_MC6847_GRAPH_ORANGE].Printf("#%02X%02X%02X", red, green, blue);
             break;
 

@@ -196,7 +196,7 @@ void Crt8002Config::parseXml_Crt8002Video(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_IO:
-                if (child->GetAttribute("type") == "attribute")
+                if (child->GetAttribute("type", wxEmptyString) == "attribute")
                 {
                     computerConfiguration.crt8002Configuration.attribute = parseXml_IoPort(*child);
                     setIoPortConfig(computerConfiguration.crt8002Configuration.attribute, registerIdCrt8002[CRT8002_ATTRIBUTE], registerFunctionCrt8002[CRT8002_ATTRIBUTE], "B", false, "");
@@ -204,7 +204,7 @@ void Crt8002Config::parseXml_Crt8002Video(wxXmlNode &node)
             break;
                        
             case TAG_IN:
-                if (child->GetAttribute("type") == "attribute_screen1")
+                if (child->GetAttribute("type", wxEmptyString) == "attribute_screen1")
                 {
                     computerConfiguration.crt8002Configuration.attributeScreen1 = parseXml_IoPort(*child);
                     setIoPortConfig(computerConfiguration.crt8002Configuration.attributeScreen1, registerIdCrt8002[CRT8002_ATTRIBUTE_SCREEN1], registerFunctionCrt8002[CRT8002_ATTRIBUTE_SCREEN1], "I", false, "");
@@ -213,7 +213,7 @@ void Crt8002Config::parseXml_Crt8002Video(wxXmlNode &node)
 
             case TAG_REVERSE:
                 computerConfiguration.crt8002Configuration.reverse.bitNumber = (int)parseXml_Number(*child);
-                if (child->GetAttribute("pol") == "rev")
+                if (child->GetAttribute("pol", wxEmptyString) == "rev")
                 {
                     computerConfiguration.crt8002Configuration.reverse.reversePolarity = 1;
                     polRevText = "R";
@@ -224,7 +224,7 @@ void Crt8002Config::parseXml_Crt8002Video(wxXmlNode &node)
 
             case TAG_BLINK:
                 computerConfiguration.crt8002Configuration.blink.bitNumber = (int)parseXml_Number(*child);
-                if (child->GetAttribute("pol") == "rev")
+                if (child->GetAttribute("pol", wxEmptyString) == "rev")
                 {
                     computerConfiguration.crt8002Configuration.blink.reversePolarity = 1;
                     polRevText = "R";
@@ -235,7 +235,7 @@ void Crt8002Config::parseXml_Crt8002Video(wxXmlNode &node)
 
             case TAG_GRAPHIC_MS0:
                 computerConfiguration.crt8002Configuration.graphic_ms0.bitNumber = (int)parseXml_Number(*child);
-                if (child->GetAttribute("pol") == "rev")
+                if (child->GetAttribute("pol", wxEmptyString) == "rev")
                 {
                     computerConfiguration.crt8002Configuration.graphic_ms0.reversePolarity = 1;
                     polRevText = "R";
@@ -246,13 +246,13 @@ void Crt8002Config::parseXml_Crt8002Video(wxXmlNode &node)
 
             case TAG_GRAPHIC_MS1:
                 computerConfiguration.crt8002Configuration.graphic_ms1.bitNumber = (int)parseXml_Number(*child);
-                if (child->GetAttribute("pol") == "rev")
+                if (child->GetAttribute("pol", wxEmptyString) == "rev")
                     computerConfiguration.crt8002Configuration.graphic_ms1.reversePolarity = 1;
             break;
 
             case TAG_UNDERLINE:
                 computerConfiguration.crt8002Configuration.underline.bitNumber = (int)parseXml_Number(*child);
-                if (child->GetAttribute("pol") == "rev")
+                if (child->GetAttribute("pol", wxEmptyString) == "rev")
                 {
                     computerConfiguration.crt8002Configuration.underline.reversePolarity = 1;
                     polRevText = "R";
@@ -271,7 +271,7 @@ void Crt8002Config::parseXml_Crt8002Video(wxXmlNode &node)
 
             case TAG_STRIKE_THRU:
                 computerConfiguration.crt8002Configuration.strikeThru.bitNumber = (int)parseXml_Number(*child);
-                if (child->GetAttribute("pol") == "rev")
+                if (child->GetAttribute("pol", wxEmptyString) == "rev")
                 {
                     computerConfiguration.crt8002Configuration.strikeThru.reversePolarity = 1;
                     polRevText = "R";
@@ -290,7 +290,7 @@ void Crt8002Config::parseXml_Crt8002Video(wxXmlNode &node)
 
             case TAG_BLANK:
                 computerConfiguration.crt8002Configuration.blank.bitNumber = (int)parseXml_Number(*child);
-                if (child->GetAttribute("pol") == "rev")
+                if (child->GetAttribute("pol", wxEmptyString) == "rev")
                 {
                     computerConfiguration.crt8002Configuration.blank.reversePolarity = 1;
                     polRevText = "R";

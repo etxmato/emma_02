@@ -18,6 +18,8 @@
     #include "wx/wx.h"
 #endif
 
+#include "wx/platinfo.h"
+
 #include "main.h"
 #include "statusbar.h"
 #include "pushbutton.h"
@@ -25,7 +27,67 @@
 EmmaStatusBar::EmmaStatusBar(wxWindow *parent)
 : wxStatusBar(parent, wxID_ANY, 0)
 {
+    ledOffPointer = NULL;
+    ledOnPointer = NULL;
+
+#if defined(__WXMAC__)
+    // wxStatusBarMac creates a transparent, non-opaque view, and since macOS 26
+    // its OnPaint() no longer draws a background ("handled by the OS"). The view
+    // then shows whatever the frame paints behind it, which is the video frames'
+    // emulated screen colour (black) - so the bar stayed black in light mode.
+    // The transparent style can't be changed afterwards and SetBackgroundColour()
+    // is ignored for it, so paint the window background here instead. The event is
+    // skipped so that wxStatusBarMac::OnPaint() still draws the separator and text.
+    // onSysColourChanged() refreshes the bar when the system appearance changes.
+    // See bug_fix_macos_statusbar_black.md.
+    Bind(wxEVT_PAINT, &EmmaStatusBar::onPaint, this);
+    Bind(wxEVT_SYS_COLOUR_CHANGED, &EmmaStatusBar::onSysColourChanged, this);
+#endif
 }
+
+#if defined(__WXMAC__)
+void EmmaStatusBar::onPaint(wxPaintEvent& event)
+{
+    // Only macOS 26 and later need this: wxStatusBarMac no longer paints the bar
+    // background there and uses a very light grey for the text. On older macOS
+    // releases let wx paint the bar exactly as before.
+    if (!wxPlatformInfo::Get().CheckOSVersion(26, 0))
+    {
+        event.Skip();
+        return;
+    }
+
+    wxPaintDC dc(this);
+
+    // Background: the transparent wx view would otherwise show the frame
+    // background (the emulated screen colour, normally black).
+    dc.SetBackground(wxBrush(wxSystemSettings::GetColour(wxSYS_COLOUR_FRAMEBK)));
+    dc.Clear();
+
+    // Separator line at the top of the bar.
+    dc.SetPen(wxPen(wxSystemSettings::GetColour(wxSYS_COLOUR_3DSHADOW)));
+    dc.DrawLine(0, 0, GetSize().x, 0);
+
+    // Text: wxStatusBarMac would use its own light grey (#808080 light /
+    // #9B9F9F dark) and ignores the window foreground colour, so draw the
+    // fields ourselves with the normal window text colour. DrawField() still
+    // does the pane layout, ellipsizing and clipping.
+    dc.SetTextForeground(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+    dc.SetBackgroundMode(wxBRUSHSTYLE_TRANSPARENT);
+
+    const int textHeight = dc.GetCharHeight();
+    for (int field = 0; field < GetFieldsCount(); field++)
+        DrawField(dc, field, textHeight);
+}
+
+void EmmaStatusBar::onSysColourChanged(wxSysColourChangedEvent& event)
+{
+    // Repaint with the colours of the new appearance, then let the base class
+    // (wxStatusBarMac::InitColours) refresh its cached text/separator colours.
+    Refresh();
+    event.Skip();
+}
+#endif
 
 EmmaStatusBar::~EmmaStatusBar()
 {
@@ -187,10 +249,16 @@ void ComxStatusBar::displayLeds()
                                      wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMSW__)
+#if !defined(EMMA_LED_BITMAP_BUTTON_W28)
             ledBitmapPointers [card][i] = new PushButton(this, number, wxEmptyString,
                                      wxPoint((card+offsetField_)*(rect.GetWidth()+ledSpacing_)+i*14+ledOffsetX_, led_pos_y_), wxSize(LED_SIZE_X, LED_SIZE_Y),
                                      wxBORDER_NONE);
             ledBitmapPointers [card][i]->SetBitmap(*ledOffPointer);
+#else
+            ledBitmapPointers [card][i] = new PushBitmapButton(this, number, *ledOffPointer,
+                                     wxPoint((card+offsetField_)*(rect.GetWidth()+ledSpacing_)+i*14+ledOffsetX_, led_pos_y_), wxSize(LED_SIZE_X, LED_SIZE_Y),
+                                     wxBORDER_NONE);
+#endif
 #endif
             if (i == 1)
             {
@@ -678,9 +746,15 @@ void CidelsaStatusBar::displayLeds()
                                                           wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMSW__)
+#if !defined(EMMA_LED_BITMAP_BUTTON_W28)
         ledBitmapPointers [number] = new PushButton(this, number, wxEmptyString,
                                      wxPoint(number*(rect.GetWidth()+ledSpacing_)+3, 9), wxSize(CIDELSA_LED_SIZE_X, CIDELSA_LED_SIZE_Y),
                                      wxBORDER_NONE);
+#else
+        ledBitmapPointers [number] = new PushBitmapButton(this, number, *ledOffPointer,
+                                     wxPoint(number*(rect.GetWidth()+ledSpacing_)+3, 9), wxSize(CIDELSA_LED_SIZE_X, CIDELSA_LED_SIZE_Y),
+                                     wxBORDER_NONE);
+#endif
 #endif
         if (status_[number])
 #if wxCHECK_VERSION(2, 9, 0)
@@ -733,7 +807,7 @@ DiagStatusBar::DiagStatusBar(wxWindow *parent)
     ledsDefined_ = false;
     
     led_pos_y_ = p_Main->getBarLedPosDiagY();
-    leaderString_ = p_Main->getBarLeaderCidelsa();
+    leaderString_ = p_Main->getBarLeaderDiag();
     statusBarElementMeasure0_ = p_Main->getStatusBarElementMeasure(0);
     statusBarElementMeasure1_ = p_Main->getStatusBarElementMeasure(1);
 }
@@ -840,12 +914,16 @@ void DiagStatusBar::displayLeds()
 #endif
 #if defined(__WXMAC__)
         if (ledStatus_[led])
-            diagLedPointer [led] = new PushBitmapButton(this, led, *ledOnPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, 2), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
+            diagLedPointer [led] = new PushBitmapButton(this, led, *ledOnPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
         else
-            diagLedPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, 2), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
+            diagLedPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMSW__)
-        diagLedPointer [led] = new PushButton(this, led, wxEmptyString, wxPoint(led*((int)rect.GetWidth()+1)+led+2, 4), wxSize(DIAG_LED_SIZE_X, DIAG_LED_SIZE_Y), wxBORDER_NONE);
+#if !defined(EMMA_LED_BITMAP_BUTTON_W28)
+        diagLedPointer [led] = new PushButton(this, led, wxEmptyString, wxPoint(led*((int)rect.GetWidth()+1)+led+2, led_pos_y_), wxSize(DIAG_LED_SIZE_X, DIAG_LED_SIZE_Y), wxBORDER_NONE);
+#else
+        diagLedPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(led*((int)rect.GetWidth()+1)+led+2, led_pos_y_), wxSize(DIAG_LED_SIZE_X, DIAG_LED_SIZE_Y), wxBORDER_NONE);
+#endif
 #endif
 
         if (ledStatus_[led])
@@ -885,7 +963,7 @@ void DiagStatusBar::reDrawBar()
 }
 
 VipIIStatusBar::VipIIStatusBar(wxWindow *parent)
-: wxStatusBar(parent, wxID_ANY, 0)
+: EmmaStatusBar(parent)
 {
     wxString linuxExtension = "";
 #if defined (__linux__)
@@ -901,7 +979,7 @@ VipIIStatusBar::VipIIStatusBar(wxWindow *parent)
     ledOffPointer->SetMask(maskOff);
     ledsDefined_ = false;
     
-    leaderString_ = p_Main->getBarLeaderCidelsa();
+    leaderString_ = p_Main->getBarLeaderVIP2();
     statusBarElementMeasure0_ = p_Main->getStatusBarElementMeasure(0);
     statusBarElementMeasure1_ = p_Main->getStatusBarElementMeasure(1);
     ledSpacing_ = 2; //p_Main->getBarLedSpacing();
@@ -1003,9 +1081,15 @@ void VipIIStatusBar::displayLeds()
                                      wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMSW__)
+#if !defined(EMMA_LED_BITMAP_BUTTON_W28)
         ledBitmapPointers [led] = new PushButton(this, led, wxEmptyString,
                                  wxPoint(led*(rect.GetWidth()+ledSpacing_)+2, 6), wxSize(12, 12),
                                  wxBORDER_NONE);
+#else
+        ledBitmapPointers [led] = new PushBitmapButton(this, led, *ledOffPointer,
+                                 wxPoint(led*(rect.GetWidth()+ledSpacing_)+2, 6), wxSize(12, 12),
+                                 wxBORDER_NONE);
+#endif
 #endif
 
         if (ledStatus[led])

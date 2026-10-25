@@ -289,7 +289,7 @@ void GuiXml::writeXmlConfig()
 {
     wxString numberStr, type;
 
-    configPointer->Write("Computer/XmlDirComboSelection", xmlDirComboSelection);
+    configPointer->Write("Computer/XmlDirComboSelection", (long)xmlDirComboSelection);
     configPointer->Write("Computer/XmlDirComboString", xmlDirComboString);
 
     for (size_t number=0; number < dirNameList_.GetCount(); number++)
@@ -1525,7 +1525,7 @@ void GuiXml::setXmlDirDropDown()
         int answer = wxMessageBox("XML directory " + computerConfiguration.xmlFileConfiguration.mainDirectory + " does not exist, install default files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
         if (answer == wxYES)
         {
-            wxDir::Make(computerConfiguration.xmlFileConfiguration.mainDirectory);
+            EMMA_MKDIR(computerConfiguration.xmlFileConfiguration.mainDirectory);
             p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + "Xml" + pathSeparator_,  computerConfiguration.xmlFileConfiguration.mainDirectory, pathSeparator_);
         }
 
@@ -1804,7 +1804,14 @@ void GuiXml::setXmlGui()
 
     XRCCTRL(*this, "PrintFileXml", wxTextCtrl)->ChangeValue(computerConfiguration.printerFileConfiguration.fileName);
     XRCCTRL(*this, "KeyFileXml", wxTextCtrl)->ChangeValue(computerConfiguration.keyFileConfiguration.fileName);
+#if wxCHECK_VERSION(2, 9, 0)
     XRCCTRL(*this, "ScreenDumpFileXml", wxComboBox)->ChangeValue(computerConfiguration.screenDumpFileConfiguration.fileName);
+#else
+    // wx 2.8 wxComboBox has only SetValue(), which also sends wxEVT_TEXT.
+    // onScreenDumpFileText() then reads the value back into the same config
+    // field, so the extra event is a no-op here.
+    XRCCTRL(*this, "ScreenDumpFileXml", wxComboBox)->SetValue(computerConfiguration.screenDumpFileConfiguration.fileName);
+#endif
 
     if (computerConfiguration.videoTerminalConfiguration.hexModem_defined)
         XRCCTRL(*this, "XmodemButtonXml", wxButton)->SetLabel("HEX");

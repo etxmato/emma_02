@@ -13,7 +13,7 @@
 /* Used privately;  index of initialized driver, or -1. */
 static int      audioin_init=-1;
 /* Used by other drivers - status of audio input */
-#if defined (__WXMSW__)
+#if defined (__WXMSW__) && !defined (EMMA_SDL12)
 volatile SDL_AudioStatus audioin_status = SDL_AUDIO_STOPPED;
 #else
 volatile SDL_audiostatus audioin_status=SDL_AUDIO_STOPPED;
@@ -100,7 +100,7 @@ void SDL_QuitAudioIn(void)
   }
   return;
 }
-#if defined (__WXMSW__)
+#if defined (__WXMSW__) && !defined (EMMA_SDL12)
 SDL_AudioStatus SDL_GetAudioInStatus(void)
 {
     return(audioin_status);
