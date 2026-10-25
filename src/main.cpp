@@ -47,9 +47,7 @@
 #endif
 
 #include "main.h"
-#if wxCHECK_VERSION(2, 8, 0) && !wxCHECK_VERSION(2, 9, 0)
-EmmaCallDispatcher28* gEmmaCallDispatcher28 = new EmmaCallDispatcher28();
-#endif
+EmmaCallDispatcher* gEmmaCallDispatcher = new EmmaCallDispatcher();
 
 #include "wx/html/winpars.h"
 

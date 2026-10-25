@@ -45,38 +45,104 @@ typedef unsigned short Word;
 #define WXK_CONTROL_X 24
 #define WXK_CONTROL_Y 25
 #define WXK_CONTROL_Z 26
-// wx 2.8 has no free CallAfter(&Class::method). CallAfter() below queues the member call
-// (thread-safe, callable from the emulator thread) and a pending event runs it on the GUI thread.
+#endif
+// Portable deferred member calls: EmmaCallAfter() queues a member call and a pending
+// event runs it on the GUI thread. Thread-safe and also available on wx 2.8, which
+// has no free CallAfter(&Class::method).
+//
+// The parameters are copied into the queued call. Do NOT stage them in shared
+// members: several calls can be queued before the GUI thread runs them and every
+// call must see the values it was posted with.
 #include "wx/thread.h"
 #include <deque>
-class EmmaDeferredCall28 {
+class EmmaDeferredCall {
 public:
-    virtual ~EmmaDeferredCall28() {}
+    virtual ~EmmaDeferredCall() {}
     virtual void Run() = 0;
 };
-template<class C> class EmmaDeferredMember28 : public EmmaDeferredCall28 {
+template<class C> class EmmaDeferredMember0 : public EmmaDeferredCall {
 public:
-    EmmaDeferredMember28(C* obj, void (C::*fn)()) : obj_(obj), fn_(fn) {}
+    EmmaDeferredMember0(C* obj, void (C::*fn)()) : obj_(obj), fn_(fn) {}
     virtual void Run() { (obj_->*fn_)(); }
 private:
     C* obj_;
     void (C::*fn_)();
 };
-class EmmaCallDispatcher28 : public wxEvtHandler {
+template<class C, class A1> class EmmaDeferredMember1 : public EmmaDeferredCall {
 public:
-    EmmaCallDispatcher28() : type_(wxNewEventType()) {
-        Connect(wxID_ANY, wxID_ANY, type_, wxEventHandler(EmmaCallDispatcher28::OnCall));
+    EmmaDeferredMember1(C* obj, void (C::*fn)(A1), const A1& a1) : obj_(obj), fn_(fn), a1_(a1) {}
+    virtual void Run() { (obj_->*fn_)(a1_); }
+private:
+    C* obj_;
+    void (C::*fn_)(A1);
+    A1 a1_;
+};
+template<class C, class A1, class A2> class EmmaDeferredMember2 : public EmmaDeferredCall {
+public:
+    EmmaDeferredMember2(C* obj, void (C::*fn)(A1, A2), const A1& a1, const A2& a2) : obj_(obj), fn_(fn), a1_(a1), a2_(a2) {}
+    virtual void Run() { (obj_->*fn_)(a1_, a2_); }
+private:
+    C* obj_;
+    void (C::*fn_)(A1, A2);
+    A1 a1_;
+    A2 a2_;
+};
+template<class C, class A1, class A2, class A3> class EmmaDeferredMember3 : public EmmaDeferredCall {
+public:
+    EmmaDeferredMember3(C* obj, void (C::*fn)(A1, A2, A3), const A1& a1, const A2& a2, const A3& a3) : obj_(obj), fn_(fn), a1_(a1), a2_(a2), a3_(a3) {}
+    virtual void Run() { (obj_->*fn_)(a1_, a2_, a3_); }
+private:
+    C* obj_;
+    void (C::*fn_)(A1, A2, A3);
+    A1 a1_;
+    A2 a2_;
+    A3 a3_;
+};
+template<class C, class A1, class A2, class A3, class A4> class EmmaDeferredMember4 : public EmmaDeferredCall {
+public:
+    EmmaDeferredMember4(C* obj, void (C::*fn)(A1, A2, A3, A4), const A1& a1, const A2& a2, const A3& a3, const A4& a4) : obj_(obj), fn_(fn), a1_(a1), a2_(a2), a3_(a3), a4_(a4) {}
+    virtual void Run() { (obj_->*fn_)(a1_, a2_, a3_, a4_); }
+private:
+    C* obj_;
+    void (C::*fn_)(A1, A2, A3, A4);
+    A1 a1_;
+    A2 a2_;
+    A3 a3_;
+    A4 a4_;
+};
+template<class C, class A1, class A2, class A3, class A4, class A5> class EmmaDeferredMember5 : public EmmaDeferredCall {
+public:
+    EmmaDeferredMember5(C* obj, void (C::*fn)(A1, A2, A3, A4, A5), const A1& a1, const A2& a2, const A3& a3, const A4& a4, const A5& a5) : obj_(obj), fn_(fn), a1_(a1), a2_(a2), a3_(a3), a4_(a4), a5_(a5) {}
+    virtual void Run() { (obj_->*fn_)(a1_, a2_, a3_, a4_, a5_); }
+private:
+    C* obj_;
+    void (C::*fn_)(A1, A2, A3, A4, A5);
+    A1 a1_;
+    A2 a2_;
+    A3 a3_;
+    A4 a4_;
+    A5 a5_;
+};
+class EmmaCallDispatcher : public wxEvtHandler {
+public:
+    EmmaCallDispatcher() : type_(wxNewEventType()) {
+        Connect(wxID_ANY, wxID_ANY, type_, wxEventHandler(EmmaCallDispatcher::OnCall));
     }
-    void Enqueue(EmmaDeferredCall28* call) {
+    void Enqueue(EmmaDeferredCall* call) {
         {
             wxCriticalSectionLocker lock(cs_);
             queue_.push_back(call);
         }
+#if wxCHECK_VERSION(2, 9, 0)
+        // QueueEvent() is the thread-safe variant (AddPendingEvent() only is on 2.8).
+        QueueEvent(new wxCommandEvent(type_));
+#else
         wxCommandEvent ev(type_);
         AddPendingEvent(ev);
+#endif
     }
     void OnCall(wxEvent&) {
-        EmmaDeferredCall28* call = NULL;
+        EmmaDeferredCall* call = NULL;
         {
             wxCriticalSectionLocker lock(cs_);
             if (!queue_.empty()) {
@@ -92,13 +158,29 @@ public:
 private:
     wxEventType type_;
     wxCriticalSection cs_;
-    std::deque<EmmaDeferredCall28*> queue_;
+    std::deque<EmmaDeferredCall*> queue_;
 };
-extern EmmaCallDispatcher28* gEmmaCallDispatcher28;
-template<class C> void EmmaCallAfter28(C* obj, void (C::*fn)()) {
-    gEmmaCallDispatcher28->Enqueue(new EmmaDeferredMember28<C>(obj, fn));
+extern EmmaCallDispatcher* gEmmaCallDispatcher;
+template<class C> void EmmaCallAfter(C* obj, void (C::*fn)()) {
+    gEmmaCallDispatcher->Enqueue(new EmmaDeferredMember0<C>(obj, fn));
 }
-#define CallAfter(f) EmmaCallAfter28(this, f)
+template<class C, class A1> void EmmaCallAfter(C* obj, void (C::*fn)(A1), const A1& a1) {
+    gEmmaCallDispatcher->Enqueue(new EmmaDeferredMember1<C, A1>(obj, fn, a1));
+}
+template<class C, class A1, class A2> void EmmaCallAfter(C* obj, void (C::*fn)(A1, A2), const A1& a1, const A2& a2) {
+    gEmmaCallDispatcher->Enqueue(new EmmaDeferredMember2<C, A1, A2>(obj, fn, a1, a2));
+}
+template<class C, class A1, class A2, class A3> void EmmaCallAfter(C* obj, void (C::*fn)(A1, A2, A3), const A1& a1, const A2& a2, const A3& a3) {
+    gEmmaCallDispatcher->Enqueue(new EmmaDeferredMember3<C, A1, A2, A3>(obj, fn, a1, a2, a3));
+}
+template<class C, class A1, class A2, class A3, class A4> void EmmaCallAfter(C* obj, void (C::*fn)(A1, A2, A3, A4), const A1& a1, const A2& a2, const A3& a3, const A4& a4) {
+    gEmmaCallDispatcher->Enqueue(new EmmaDeferredMember4<C, A1, A2, A3, A4>(obj, fn, a1, a2, a3, a4));
+}
+template<class C, class A1, class A2, class A3, class A4, class A5> void EmmaCallAfter(C* obj, void (C::*fn)(A1, A2, A3, A4, A5), const A1& a1, const A2& a2, const A3& a3, const A4& a4, const A5& a5) {
+    gEmmaCallDispatcher->Enqueue(new EmmaDeferredMember5<C, A1, A2, A3, A4, A5>(obj, fn, a1, a2, a3, a4, a5));
+}
+#if wxCHECK_VERSION(2, 8, 0) && !wxCHECK_VERSION(2, 9, 0)
+#define CallAfter(f) EmmaCallAfter(this, f)
 #endif
 #if wxCHECK_VERSION(3, 1, 0)
 #include "wx/html/htmlproc.h"
