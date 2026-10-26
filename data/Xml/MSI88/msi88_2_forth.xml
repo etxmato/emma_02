@@ -105,25 +105,15 @@
   </keyboard>
 
   <frontpanel init="on">
-    <size>480, 600</size>
+    <size>411, 471</size>
 
     <!-- Header -->
-    <item>
-      <type color="red">text</type>
-      <label size="18">MSI/88e Terminal</label>
-      <pos>80, 10</pos>
-    </item>
 
     <!-- Display Outputs (2x MAN2815 16-character LED modules) -->
-    <origin>10, 45</origin>
+    <origin>4, 4</origin>
     <out type="multitil">1</out>
     <out type="multitil_high">4</out>
     <out type="multitil_digit">2</out>
-    <item>
-      <type>text</type>
-      <label size="11">Display Output (2x MAN2815, 16 digits)</label>
-      <pos>0, 0</pos>
-    </item>
     <item>
         <type form="man2815">til</type>
         <value>0</value>
@@ -134,96 +124,96 @@
         <type form="man2815">til</type>
         <value>1</value>
         <function>multitil</function>
-        <pos>26, 20</pos>
+        <pos>25, 20</pos>
     </item>
     <item>
         <type form="man2815">til</type>
         <value>2</value>
         <function>multitil</function>
-        <pos>52, 20</pos>
+        <pos>50, 20</pos>
     </item>
     <item>
         <type form="man2815">til</type>
         <value>3</value>
         <function>multitil</function>
-        <pos>78, 20</pos>
+        <pos>75, 20</pos>
     </item>
     <item>
         <type form="man2815">til</type>
         <value>4</value>
         <function>multitil</function>
-        <pos>104, 20</pos>
+        <pos>100, 20</pos>
     </item>
     <item>
         <type form="man2815">til</type>
         <value>5</value>
         <function>multitil</function>
-        <pos>130, 20</pos>
+        <pos>125, 20</pos>
     </item>
     <item>
         <type form="man2815">til</type>
         <value>6</value>
         <function>multitil</function>
-        <pos>156, 20</pos>
+        <pos>150, 20</pos>
     </item>
     <item>
         <type form="man2815">til</type>
         <value>7</value>
         <function>multitil</function>
-        <pos>182, 20</pos>
+        <pos>175, 20</pos>
     </item>
     <item>
         <type form="man2815">til</type>
         <value>8</value>
         <function>multitil</function>
-        <pos>208, 20</pos>
+        <pos>200, 20</pos>
     </item>
     <item>
         <type form="man2815">til</type>
         <value>9</value>
         <function>multitil</function>
-        <pos>234, 20</pos>
+        <pos>225, 20</pos>
     </item>
     <item>
         <type form="man2815">til</type>
         <value>10</value>
         <function>multitil</function>
-        <pos>260, 20</pos>
+        <pos>250, 20</pos>
     </item>
     <item>
         <type form="man2815">til</type>
         <value>11</value>
         <function>multitil</function>
-        <pos>286, 20</pos>
+        <pos>275, 20</pos>
     </item>
     <item>
         <type form="man2815">til</type>
         <value>12</value>
         <function>multitil</function>
-        <pos>312, 20</pos>
+        <pos>300, 20</pos>
     </item>
     <item>
         <type form="man2815">til</type>
         <value>13</value>
         <function>multitil</function>
-        <pos>338, 20</pos>
+        <pos>325, 20</pos>
     </item>
     <item>
         <type form="man2815">til</type>
         <value>14</value>
         <function>multitil</function>
-        <pos>364, 20</pos>
+        <pos>350, 20</pos>
     </item>
     <item>
         <type form="man2815">til</type>
         <value>15</value>
         <function>multitil</function>
-        <pos>390, 20</pos>
+        <pos>375, 20</pos>
     </item>
     <origin>0, 0</origin>
 
     <!-- Mode Switches (OPER / PRGM and Power OFF / ON) -->
-    <origin>20, 130</origin>
+    <origin>120, 80</origin>
     <item>
       <type>text</type>
       <label size="10">OPER/PRGM</label>
@@ -255,241 +245,236 @@
     <!-- 27-key Data Keypad (ASSY 27409 keyboard MSI/88e-a)
          7 rows x 4 columns, ENTER double-height spanning rows 6-7.
          Key values match the keydef keycodes in the <keyboard> section. -->
-    <origin>20, 200</origin>
-    <item>
-      <type>text</type>
-      <label size="11">Data Keypad (27 keys)</label>
-      <pos>0, 0</pos>
-    </item>
+    <origin>88, 130</origin>
 
     <!-- Row 1: STAT, DOWN, UP, SRCH -->
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>115</value>
       <label>STAT</label>
-      <size>44, 40</size>
+      <size>50, 30</size>
       <pos>0, 25</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>100</value>
       <label>▼</label>
-      <size>44, 40</size>
-      <pos>52, 25</pos>
+      <size>50, 30</size>
+      <pos>62, 25</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>117</value>
       <label>▲</label>
-      <size>44, 40</size>
-      <pos>104, 25</pos>
+      <size>50, 30</size>
+      <pos>124, 25</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>114</value>
       <label>SRCH</label>
-      <size>44, 40</size>
-      <pos>156, 25</pos>
+      <size>50, 30</size>
+      <pos>186, 25</pos>
     </item>
 
     <!-- Row 2: PAGE, DISP ACC, RIGHT, BACK SP -->
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>112</value>
       <label>PAGE</label>
-      <size>44, 40</size>
+      <size>50, 30</size>
       <pos>0, 72</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>97</value>
       <label>DISP</label>
-      <size>44, 40</size>
-      <pos>52, 72</pos>
+      <size>50, 30</size>
+      <pos>62, 72</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>102</value>
       <label>▶</label>
-      <size>44, 40</size>
-      <pos>104, 72</pos>
+      <size>50, 30</size>
+      <pos>124, 72</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>98</value>
       <label>BACK</label>
-      <size>44, 40</size>
-      <pos>156, 72</pos>
+      <size>50, 30</size>
+      <pos>186, 72</pos>
     </item>
 
     <!-- Row 3: CLEAR, SEND, CLR MEM, MOD -->
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>99</value>
       <label>CLR</label>
-      <size>44, 40</size>
+      <size>50, 30</size>
       <pos>0, 119</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>116</value>
       <label>SEND</label>
-      <size>44, 40</size>
-      <pos>52, 119</pos>
+      <size>50, 30</size>
+      <pos>62, 119</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>109</value>
       <label>CLRM</label>
-      <size>44, 40</size>
-      <pos>104, 119</pos>
+      <size>50, 30</size>
+      <pos>124, 119</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>111</value>
       <label>MOD</label>
-      <size>44, 40</size>
-      <pos>156, 119</pos>
+      <size>50, 30</size>
+      <pos>186, 119</pos>
     </item>
 
     <!-- Row 4: =, 7, 8, 9 -->
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>61</value>
       <label>=</label>
-      <size>44, 40</size>
+      <size>50, 30</size>
       <pos>0, 166</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>55</value>
       <label>7</label>
-      <size>44, 40</size>
-      <pos>52, 166</pos>
+      <size>50, 30</size>
+      <pos>62, 166</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>56</value>
       <label>8</label>
-      <size>44, 40</size>
-      <pos>104, 166</pos>
+      <size>50, 30</size>
+      <pos>124, 166</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>57</value>
       <label>9</label>
-      <size>44, 40</size>
-      <pos>156, 166</pos>
+      <size>50, 30</size>
+      <pos>186, 166</pos>
     </item>
 
     <!-- Row 5: -, 4, 5, 6 -->
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>45</value>
       <label>−</label>
-      <size>44, 40</size>
+      <size>50, 30</size>
       <pos>0, 213</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>52</value>
       <label>4</label>
-      <size>44, 40</size>
-      <pos>52, 213</pos>
+      <size>50, 30</size>
+      <pos>62, 213</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>53</value>
       <label>5</label>
-      <size>44, 40</size>
-      <pos>104, 213</pos>
+      <size>50, 30</size>
+      <pos>124, 213</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>54</value>
       <label>6</label>
-      <size>44, 40</size>
-      <pos>156, 213</pos>
+      <size>50, 30</size>
+      <pos>186, 213</pos>
     </item>
 
     <!-- Row 6: ENTER (double height), 1, 2, 3 -->
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>13</value>
       <label>ENTER</label>
-      <size>44, 87</size>
+      <size>50, 77</size>
       <pos>0, 260</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>49</value>
       <label>1</label>
-      <size>44, 40</size>
-      <pos>52, 260</pos>
+      <size>50, 30</size>
+      <pos>62, 260</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>50</value>
       <label>2</label>
-      <size>44, 40</size>
-      <pos>104, 260</pos>
+      <size>50, 30</size>
+      <pos>124, 260</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>51</value>
       <label>3</label>
-      <size>44, 40</size>
-      <pos>156, 260</pos>
+      <size>50, 30</size>
+      <pos>186, 260</pos>
     </item>
 
     <!-- Row 7: CTL CHG, 0, RTN (col 1 is the ENTER continuation) -->
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>103</value>
       <label>CTL</label>
-      <size>44, 40</size>
-      <pos>52, 307</pos>
+      <size>50, 30</size>
+      <pos>62, 307</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>48</value>
       <label>0</label>
-      <size>44, 40</size>
-      <pos>104, 307</pos>
+      <size>50, 30</size>
+      <pos>124, 307</pos>
     </item>
     <item>
-      <type>push</type>
+      <type form="rectangle">push</type>
       <function>hex</function>
       <value>110</value>
       <label>RTN</label>
-      <size>44, 40</size>
-      <pos>156, 307</pos>
+      <size>50, 30</size>
+      <pos>186, 307</pos>
     </item>
     <origin>0, 0</origin>
   </frontpanel>

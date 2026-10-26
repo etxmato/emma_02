@@ -261,7 +261,7 @@
 			<pos>105, 20</pos>
 		</item>
 		<item>
-			<type>push</type>
+			<type form="rectangle">push</type>
 			<function action="both">inp_bitswitch</function>
 			<size>100, 80</size>
 			<label>FOC</label>
@@ -269,6 +269,7 @@
 			<value>4</value>
 			<init>down</init>
 			<pos>155, 20</pos>
+            <size>34, 30</size>
 		</item>
 		
 
@@ -930,12 +931,12 @@
 
 		<!-- ANSWER button - Not on the phone but needed to trigger SPM pulses -->
 		<item>
-			<type>push</type>
+			<type form="rectangle">push</type>
 			<function>payphone</function>
 			<value>0</value>
 			<label>ANS</label>
 			<pos>485, 80</pos>
-			<size>30, 30</size>
+            <size>34, 30</size>
 		</item>		
 
 	</frontpanel>
