@@ -4339,8 +4339,8 @@ W: Write to tape
               <long name="proxy-Height">-1</long>
               <string name="proxy-Help text">""</string>
               <bool name="proxy-Hidden">0</bool>
-              <string name="proxy-Id name">"wxID_STATIC"</string>
-              <long name="proxy-Id value">5105</long>
+              <string name="proxy-Id name">"CompletedMessage"</string>
+              <long name="proxy-Id value">10006</long>
               <string name="proxy-Implementation filename">""</string>
               <string name="proxy-Label">"Re-install 1802 Software completed!"</string>
               <string name="proxy-Member variable name">""</string>

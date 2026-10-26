@@ -23,7 +23,7 @@ private:
 class CompletedSplashScreen : public wxDialog
 {
 public:
-    CompletedSplashScreen(wxWindow *parent);
+    CompletedSplashScreen(wxWindow *parent, const wxString& message = wxString());
     ~CompletedSplashScreen();
     
 private:
