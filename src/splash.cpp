@@ -132,10 +132,32 @@ BEGIN_EVENT_TABLE(CompletedSplashScreen, wxDialog)
     EVT_CLOSE (CompletedSplashScreen::onClose)
 END_EVENT_TABLE()
 
-CompletedSplashScreen::CompletedSplashScreen(wxWindow *parent)
+CompletedSplashScreen::CompletedSplashScreen(wxWindow *parent, const wxString& message)
+    : wxDialog(parent, wxID_ANY, "Emma 02 - Info", wxDefaultPosition, wxDefaultSize,
+               wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxTAB_TRAVERSAL)
 {
-    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
-    wxXmlResource::Get()->LoadDialog(this, parent, "COMPLETED");
+    timerPointer = NULL;
+    SetExtraStyle(wxWS_EX_BLOCK_EVENTS);
+
+    // Same text scaling as the splash XRC files: standard uses the system font,
+    // large uses the point size of the selected font size.
+    long fontSize = 11;
+    p_Main->getFontSize().ToLong(&fontSize);
+    if (fontSize != 11)
+    {
+        wxFont font = GetFont();
+        font.SetPointSize((int)fontSize);
+        SetFont(font);
+    }
+
+    wxString text = message;
+    if (text.empty())
+        text = "Re-install completed!";
+
+    wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
+    sizer->Add(new wxStaticText(this, wxID_ANY, text), 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 10);
+    SetSizerAndFit(sizer);
+    Centre();
 
 #ifdef __WXMSW__
 #if wxCHECK_VERSION(3, 1, 0)
@@ -144,15 +166,20 @@ CompletedSplashScreen::CompletedSplashScreen(wxWindow *parent)
 #endif
 
     Show(true);
-    
+    Raise();
+    SetFocus();
+
     timerPointer = new wxTimer(this, 1000);
     timerPointer->Start(6000, wxTIMER_ONE_SHOT);
 }
 
 CompletedSplashScreen::~CompletedSplashScreen()
 {
-    timerPointer->Stop();
-    delete timerPointer;
+    if ( timerPointer != NULL )
+    {
+        timerPointer->Stop();
+        delete timerPointer;
+    }
 }
 
 void CompletedSplashScreen::onClose(wxCloseEvent&WXUNUSED(event))

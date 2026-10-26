@@ -2940,6 +2940,7 @@ void Main::onReInstallXml(wxCommandEvent&WXUNUSED(event))
     if (answer == wxYES)
     {
        reInstall(applicationDirectory_ + "data" + pathSeparator_ + "Xml" + pathSeparator_, dataDir_ + "Xml" + pathSeparator_, pathSeparator_);
+       completedSplashScreen_ = new CompletedSplashScreen(this, "Re-install XML files completed!");
     }
 }
 
@@ -2958,7 +2959,7 @@ void Main::onReInstallData(wxCommandEvent&WXUNUSED(event))
             removeOldXml(dataDir_ + "Xml" + pathSeparator_, pathSeparator_);
          }
       }
-      completedSplashScreen_ = new CompletedSplashScreen(this);
+      completedSplashScreen_ = new CompletedSplashScreen(this, "Re-install 1802 Software completed!");
    }
 }
 
