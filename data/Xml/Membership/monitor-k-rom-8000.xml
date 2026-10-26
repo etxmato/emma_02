@@ -174,7 +174,7 @@
         <caps />
         <baud type="receive" correction="2">9600</baud>
         <baud type="transmit" correction="2">9600</baud>
-        <border>0x0</border>
+        <border>5x5</border>
         <color type="fore">0, 255, 0</color>
         <color type="back">0, 0x40, 0</color>
         <color type="high">0, 0xff, 0</color>

@@ -90,6 +90,7 @@
         <int />
         <baud type="receive">9600</baud>
         <baud type="transmit">9600</baud>
+        <border>5x5</border>
     </vt>
 
     <locations>

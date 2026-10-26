@@ -257,7 +257,7 @@
         <caps />
         <baud type="receive" correction="-5">300</baud>
         <baud type="transmit" correction="-5">300</baud>
-        <border>0x0</border>
+        <border>5x5</border>
         <characters>64</characters>
         <backspace>0x7f</backspace>
         <color type="fore">0, 255, 0</color>

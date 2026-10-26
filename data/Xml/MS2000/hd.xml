@@ -71,7 +71,7 @@
         <baud type="transmit">19200</baud>
         <caps />
         <characters>80</characters>
-        <border>0x0</border>
+        <border>5x5</border>
         <color type="fore">0, 255, 0</color>
         <color type="back">0, 0x40, 0</color>
         <color type="high">0, 0xff, 0</color>
