@@ -266,13 +266,13 @@ void ComxStatusBar::displayLeds()
 #if wxCHECK_VERSION(2, 9, 0)
                     ledBitmapPointers [card][i]->SetBitmap(*ledOffPointer);
 #else
-                    ledBitmapPointers [card][1]->SetBitmapLabel(*ledOffPointer);
+                    ledBitmapPointers [card][i]->SetBitmapLabel(*ledOffPointer);
 #endif
                 else
 #if wxCHECK_VERSION(2, 9, 0)
                     ledBitmapPointers [card][i]->SetBitmap(*ledDisabledPointer);
 #else
-                    ledBitmapPointers [card][1]->SetBitmapLabel(*ledDisabledPointer);
+                    ledBitmapPointers [card][i]->SetBitmapLabel(*ledDisabledPointer);
 #endif
             }
             else
@@ -282,13 +282,13 @@ void ComxStatusBar::displayLeds()
 #if wxCHECK_VERSION(2, 9, 0)
                     ledBitmapPointers [card][i]->SetBitmap(*ledOffPointer);
 #else
-                    ledBitmapPointers [card][1]->SetBitmapLabel(*ledOffPointer);
+                    ledBitmapPointers [card][i]->SetBitmapLabel(*ledOffPointer);
 #endif
                 else
 #if wxCHECK_VERSION(2, 9, 0)
                     ledBitmapPointers [card][i]->SetBitmap(*ledDisabledPointer);
 #else
-                    ledBitmapPointers [card][1]->SetBitmapLabel(*ledDisabledPointer);
+                    ledBitmapPointers [card][i]->SetBitmapLabel(*ledDisabledPointer);
 #endif
             }
             if (!p_Computer->isXmlSlotCardDefined(card))
