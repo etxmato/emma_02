@@ -33,7 +33,6 @@
 /Helpfiles/macros.db
 /Helpfiles/images_original/*
 /Helpfiles/images/old_images/*
-/IsTool/vccrt.msi
 *.pjd.bak
 .DS_Store
 .clangd
