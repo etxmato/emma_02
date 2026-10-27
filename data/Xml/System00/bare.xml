@@ -151,7 +151,7 @@
         <item><type>push</type><function>hex</function><value>0xc</value><label>C</label><pos>475,146</pos><size>30, 30</size></item>
 
         <!-- Power -->
-        <item><type>push</type><label>Pwr</label><function>stop</function><pos>450,205</pos><size>40, 30</size></item>
+        <item><type form="rectangle">push</type><label>Power</label><function>stop</function><pos>400,205</pos><size>50, 30</size></item>
 
     </frontpanel>
 
