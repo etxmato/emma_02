@@ -212,11 +212,10 @@ HexButton::HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label, w
         break;
    }
 
-    // A rectangle button can be given its own size with <size> in the front panel item; stretch the
-    // artwork instead of leaving it at its native size. Only the rectangle forms are scaled, plain
-    // push items keep ignoring <size> (several configs carry legacy wxButton era sizes).
-    if (((buttonType_ == PUSH_BUTTON_RECTANGLE) || (buttonType_ == PUSH_BUTTON_RECTANGLE_SMALL)) &&
-        upBitmap->IsOk() && downBitmap->IsOk() &&
+    // <size> in the front panel item is authoritative for every bitmap push button; the form only
+    // selects the artwork. Stretch the artwork with a nine slice instead of leaving it at its native
+    // size, so form="rectangle" is not needed just to get a non standard size.
+    if (upBitmap->IsOk() && downBitmap->IsOk() &&
         requestedSize.x > 0 && requestedSize.y > 0 &&
         ((requestedSize.x != buttonSize.x) || (requestedSize.y != buttonSize.y)))
     {
@@ -1316,6 +1315,9 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
             case PUSH_BUTTON_YELLOW:
             case PUSH_BUTTON_GREEN:
             case PUSH_BUTTON_BLUE:
+                button->hexButton = new HexButton(dc, button->type, button->position.x, button->position.y, button->label, button->size);
+            break;
+
             case PUSH_BUTTON_PIO:
                 button->hexButton = new HexButton(dc, button->type, button->position.x, button->position.y, button->label);
             break;
