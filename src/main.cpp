@@ -5147,7 +5147,21 @@ void Main::updateCheckTimeout(wxTimerEvent&WXUNUSED(event))
         updateCheckStarted_ = true;
 
         m_pUpdateCheckThread = new UpdateCheckThread(this);
+#if wxCHECK_VERSION(2, 9, 0)
+        // wx 3.x: Run() creates the thread as well
         m_pUpdateCheckThread->Run();
+#else
+        // wx 2.8: Run() only resumes a thread created with Create(),
+        // without Create() this fails with 'Can not resume thread 0'
+        if (m_pUpdateCheckThread->Create() != wxTHREAD_NO_ERROR)
+        {
+            delete m_pUpdateCheckThread;
+            m_pUpdateCheckThread = NULL;
+            updateCheckStarted_ = false;
+            return;
+        }
+        m_pUpdateCheckThread->Run();
+#endif
         
 /*        if (p_Main->checkUpdateEmma())
         {
@@ -5739,7 +5753,7 @@ static int ShowAddressPopup28(wxWindow* parent, const wxString& address)
     row->Add(new wxButton(&dlg, wxID_YES, wxT("0000")), 0, wxALL, 6);
     row->Add(new wxButton(&dlg, wxID_NO, address), 0, wxALL, 6);
     row->Add(new wxButton(&dlg, wxID_CANCEL, wxT("Cancel")), 0, wxALL, 6);
-    top->Add(row, 0, wxALIGN_CENTER | wxALL, 6);
+    top->Add(row, 0, (int)wxALIGN_CENTER|wxALL, 6);
     dlg.SetSizer(top);
     top->Fit(&dlg);
     dlg.Centre();

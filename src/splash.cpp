@@ -155,7 +155,7 @@ CompletedSplashScreen::CompletedSplashScreen(wxWindow *parent, const wxString& m
         text = "Re-install completed!";
 
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
-    sizer->Add(new wxStaticText(this, wxID_ANY, text), 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 10);
+    sizer->Add(new wxStaticText(this, wxID_ANY, text), 0, (int)wxALIGN_CENTER_HORIZONTAL|wxALL, 10);
     SetSizerAndFit(sizer);
     Centre();
 
