@@ -5,7 +5,7 @@
 
     <system>
         <name>System 00</name>
-        <config>Bare</config>
+        <config>Cassette and video support</config>
         <clock>1.00</clock>
         <cpu>system</cpu>
         <boot dma="out" start="no">0</boot>
