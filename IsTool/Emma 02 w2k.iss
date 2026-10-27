@@ -33,7 +33,8 @@ Name: english; MessagesFile: compiler:Default.isl
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
 
 [Files]
-Source: vccrt.msi; DestDir: {tmp}; Flags: deleteafterinstall; Components: MAIN
+Source: msvcr90.dll; DestDir: {app}; Components: MAIN
+Source: msvcp90.dll; DestDir: {app}; Components: MAIN
 Source: ..\Win32-VC9-W2K\Release\Emma 02.exe; DestDir: {app}; Components: MAIN; Tasks: ; Languages: 
 Source: ..\emma_02.htb; DestDir: {app}; Components: MAIN
 Source: ..\*.def; DestDir: {app}; Components: MAIN
@@ -274,7 +275,6 @@ Name: {group}\{cm:UninstallProgram,Emma 02}; Filename: {uninstallexe}; Component
 Name: {commondesktop}\Emma 02; Filename: {app}\Emma 02.exe; WorkingDir: {app}; Tasks: desktopicon
 
 [Run]
-Filename: msiexec.exe; Parameters: "/i ""{tmp}\vccrt.msi"" /qn"; Components: MAIN
 Filename: {app}\Emma 02.exe; Description: {cm:LaunchProgram,Emma 02}; WorkingDir: {app}; Flags: nowait postinstall skipifsilent; OnlyBelowVersion: 0,6
 
 [Components]

@@ -86,7 +86,7 @@ if "%WXVER%"=="2.8" (
   set ISSFILE=IsTool\Emma 02 w2k.iss
   set ISSOUT=IsTool\x86\emma_02-windows-x86-w2k.exe
   set ARTIFACT=emma_02-windows-x86-w2k.exe
-  set VCREDIST=vccrt.msi
+  set VCREDIST=msvcr90.dll
 ) else if "%WXVER%"=="3.2" (
   set ISSFILE=IsTool\Emma 02 x86_xp.iss
   set ISSOUT=IsTool\x86\emma_02-windows-x86-xp.exe
@@ -143,7 +143,8 @@ if not exist "%WX28%\lib\%WXLIBDIR%\wxmsw28_core.lib" ( echo missing wx 2.8 %PLA
 if not exist "..\SDL-1.2.15\lib\%SDLLIBDIR%\SDL.dll" ( echo missing dep: ..\SDL-1.2.15\lib\%SDLLIBDIR%\SDL.dll >&2 & exit /b 1 )
 if not exist "..\libserialport\%SPORTDIR%-VS2008\lib\release\libserialport.lib" ( echo missing dep: ..\libserialport\%SPORTDIR%-VS2008\lib\release\libserialport.lib ^(VC9 link lib^) >&2 & exit /b 1 )
 if not exist "..\libserialport\%SPORTDIR%-VS2008\lib\release\libserialport.dll" ( echo missing dep: ..\libserialport\%SPORTDIR%-VS2008\lib\release\libserialport.dll ^(VC9 payload DLL^) >&2 & exit /b 1 )
-if not exist "IsTool\%VCREDIST%" ( echo missing payload: IsTool\%VCREDIST% ^(VC9 vcredist, shared with XP line^) >&2 & exit /b 1 )
+if not exist "IsTool\%VCREDIST%" ( echo missing payload: IsTool\%VCREDIST% ^(VC90 CRT^) >&2 & exit /b 1 )
+if not exist "IsTool\msvcp90.dll" ( echo missing payload: IsTool\msvcp90.dll ^(VC90 CRT^) >&2 & exit /b 1 )
 if not exist "Emma02_w2k.manifest" ( echo missing Emma02_w2k.manifest ^(stripped manifest^) >&2 & exit /b 1 )
 set "ISCC_EXE=C:\Inno5\ISCC.exe"
 if exist "!ISCC_EXE!" ( set "ISCC=!ISCC_EXE!" ) else ( set "ISCC=ISCC.exe" )
