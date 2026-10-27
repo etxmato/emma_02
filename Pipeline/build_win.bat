@@ -86,7 +86,7 @@ if "%WXVER%"=="2.8" (
   set ISSFILE=IsTool\Emma 02 w2k.iss
   set ISSOUT=IsTool\x86\emma_02-windows-x86-w2k.exe
   set ARTIFACT=emma_02-windows-x86-w2k.exe
-  set VCREDIST=vcredist9_x86.exe
+  set VCREDIST=vccrt.msi
 ) else if "%WXVER%"=="3.2" (
   set ISSFILE=IsTool\Emma 02 x86_xp.iss
   set ISSOUT=IsTool\x86\emma_02-windows-x86-xp.exe
