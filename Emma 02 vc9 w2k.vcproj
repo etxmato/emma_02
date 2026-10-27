@@ -88,7 +88,7 @@
 				OutputFile="$(SolutionDir)$(PlatformName)-VC9-W2K\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x86&quot;;&quot;$(WXWIN)\lib\vc_lib\&quot;;&quot;$(CURL)\build\Win32\VC9\LIB Release - DLL Windows SSPI&quot;;&quot;$(SERIALPORT)\Win32-VS2008\lib\release&quot;;&quot;%(AdditionalLibraryDirectories)&quot;"
+				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x86&quot;;&quot;$(WXWIN)\lib\vc_lib\&quot;;&quot;$(CURL)\build\Win32\VC9\LIB Release - DLL Windows SSPI - W2K&quot;;&quot;$(SERIALPORT)\Win32-VS2008\lib\release&quot;;&quot;%(AdditionalLibraryDirectories)&quot;"
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames=""
 				ProgramDatabaseFile="$(SolutionDir)$(PlatformName)-VC9-W2K\$(ConfigurationName)\Emma 02.pdb"
