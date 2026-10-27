@@ -24,6 +24,7 @@
 #include "wx/frame.h"
 #include "wx/dir.h"
 #include "wx/graphics.h"
+#include "wx/image.h"
 
 #include "main.h"
 #include "panel.h"
@@ -34,17 +35,114 @@
 #include "app_icon.xpm"
 #endif
 
+// Corner size used when stretching a rectangle button bitmap with a nine slice (hex_button_wide.png
+// is 34x30 with a rounded border of about 4 pixels plus a one pixel outer edge).
+static const int HEX_BUTTON_SLICE_INSET = 6;
+
+// Rectangle push buttons are drawn from a PNG (hex_button_wide.png / hex_button_uc1800.png). When
+// a front panel item asks for a different size, that artwork is stretched with a nine slice: the
+// four corners are copied 1:1, the edges stretch along one axis and the centre along both.
+// Nearest neighbour sampling is deliberate: the edge strips are single row/column gradients, so
+// replicating them keeps the border pixel exact instead of smearing it like wxImage::Rescale does.
+static void copyScaledRegion(wxImage& destination, const wxImage& source, int sourceX, int sourceY,
+                             int sourceWidth, int sourceHeight, int destinationX, int destinationY,
+                             int width, int height)
+{
+    if (width <= 0 || height <= 0 || sourceWidth <= 0 || sourceHeight <= 0)
+        return;
+
+    const unsigned char *sourceData = source.GetData();
+    const unsigned char *sourceAlpha = source.HasAlpha() ? source.GetAlpha() : NULL;
+    unsigned char *destinationData = destination.GetData();
+    unsigned char *destinationAlpha = destination.HasAlpha() ? destination.GetAlpha() : NULL;
+    if (sourceData == NULL || destinationData == NULL)
+        return;
+
+    for (int y = 0; y < height; y++)
+    {
+        int sourceRow = sourceY + ((2 * y + 1) * sourceHeight) / (2 * height);
+
+        for (int x = 0; x < width; x++)
+        {
+            int sourceColumn = sourceX + ((2 * x + 1) * sourceWidth) / (2 * width);
+            int sourcePixel = (sourceRow * source.GetWidth() + sourceColumn) * 3;
+            int destinationPixel = ((destinationY + y) * destination.GetWidth() + destinationX + x) * 3;
+
+            destinationData[destinationPixel] = sourceData[sourcePixel];
+            destinationData[destinationPixel + 1] = sourceData[sourcePixel + 1];
+            destinationData[destinationPixel + 2] = sourceData[sourcePixel + 2];
+
+            if (destinationAlpha != NULL && sourceAlpha != NULL)
+                destinationAlpha[destinationPixel / 3] = sourceAlpha[sourceRow * source.GetWidth() + sourceColumn];
+        }
+    }
+}
+
+static wxImage nineSliceImage(const wxImage& source, int width, int height, int inset)
+{
+    int insetX = inset;
+    int insetY = inset;
+
+    if (insetX > (source.GetWidth() - 1) / 2)
+        insetX = (source.GetWidth() - 1) / 2;
+    if (insetY > (source.GetHeight() - 1) / 2)
+        insetY = (source.GetHeight() - 1) / 2;
+    if (insetX > (width - 1) / 2)
+        insetX = (width - 1) / 2;
+    if (insetY > (height - 1) / 2)
+        insetY = (height - 1) / 2;
+    if (insetX < 0)
+        insetX = 0;
+    if (insetY < 0)
+        insetY = 0;
+
+    wxImage result(width, height);
+    if (source.HasAlpha())
+    {
+        result.InitAlpha();
+        if (result.HasAlpha())
+        {
+            unsigned char *alpha = result.GetAlpha();
+            for (int i = 0; i < width * height; i++)
+                alpha[i] = 255;
+        }
+    }
+
+    const int sourceColumns[3] = { 0, insetX, source.GetWidth() - insetX };
+    const int sourceColumnWidths[3] = { insetX, source.GetWidth() - 2 * insetX, insetX };
+    const int resultColumns[3] = { 0, insetX, width - insetX };
+    const int resultColumnWidths[3] = { insetX, width - 2 * insetX, insetX };
+    const int sourceRows[3] = { 0, insetY, source.GetHeight() - insetY };
+    const int sourceRowHeights[3] = { insetY, source.GetHeight() - 2 * insetY, insetY };
+    const int resultRows[3] = { 0, insetY, height - insetY };
+    const int resultRowHeights[3] = { insetY, height - 2 * insetY, insetY };
+
+    for (int column = 0; column < 3; column++)
+    {
+        for (int row = 0; row < 3; row++)
+        {
+            if ((resultColumnWidths[column] > 0) && (resultRowHeights[row] > 0))
+                copyScaledRegion(result, source, sourceColumns[column], sourceRows[row],
+                                 sourceColumnWidths[column], sourceRowHeights[row],
+                                 resultColumns[column], resultRows[row],
+                                 resultColumnWidths[column], resultRowHeights[row]);
+        }
+    }
+
+    return result;
+}
+
 BEGIN_EVENT_TABLE(HexButton, wxEvtHandler )
     EVT_TIMER(wxID_ANY, HexButton::OnTimer)
 
 END_EVENT_TABLE()
 
-HexButton::HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label)
+HexButton::HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label, wxSize requestedSize)
 {
     wxBitmap *upBitmap;
     wxBitmap *downBitmap;
     wxBitmap *disabledBitmap;
-    wxSize buttonSize;
+    wxSize buttonSize(30, 30);
     
     buttonType_ = type;
     switch (buttonType_)
@@ -113,6 +211,28 @@ HexButton::HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label)
             buttonSize.y = 30;
         break;
    }
+
+    // A rectangle button can be given its own size with <size> in the front panel item; stretch the
+    // artwork instead of leaving it at its native size. Only the rectangle forms are scaled, plain
+    // push items keep ignoring <size> (several configs carry legacy wxButton era sizes).
+    if (((buttonType_ == PUSH_BUTTON_RECTANGLE) || (buttonType_ == PUSH_BUTTON_RECTANGLE_SMALL)) &&
+        upBitmap->IsOk() && downBitmap->IsOk() &&
+        requestedSize.x > 0 && requestedSize.y > 0 &&
+        ((requestedSize.x != buttonSize.x) || (requestedSize.y != buttonSize.y)))
+    {
+        wxImage upImage = upBitmap->ConvertToImage();
+        wxImage downImage = downBitmap->ConvertToImage();
+
+        delete upBitmap;
+        delete downBitmap;
+
+        upBitmap = new wxBitmap(nineSliceImage(upImage, requestedSize.x, requestedSize.y, HEX_BUTTON_SLICE_INSET));
+        downBitmap = new wxBitmap(nineSliceImage(downImage, requestedSize.x, requestedSize.y, HEX_BUTTON_SLICE_INSET));
+
+        buttonSize = requestedSize;
+    }
+    buttonSize_ = buttonSize;
+
     upBitmapPointer = new EMMA_BITMAP_SIZE(buttonSize);
     downBitmapPointer = new EMMA_BITMAP_SIZE(buttonSize);
     
@@ -197,7 +317,7 @@ void HexButton::onPaint(wxDC& dc)
 bool HexButton::onMousePress(wxDC& dc, wxCoord x, wxCoord y)
 {
     focusTimer->Stop();
-    if ((x >= x_) &&(x <= (x_+30)) &&(y >= y_) &&(y <= (y_+30)))
+    if ((x >= x_) && (x < (x_ + buttonSize_.x)) && (y >= y_) && (y < (y_ + buttonSize_.y)))
     {
         state_ = BUTTON_DOWN;
         dc.DrawBitmap(*downBitmapPointer, x_, y_);
@@ -208,7 +328,7 @@ bool HexButton::onMousePress(wxDC& dc, wxCoord x, wxCoord y)
 
 bool HexButton::onMouseRelease(wxDC& WXUNUSED(dc), wxCoord x, wxCoord y)
 {
-    if ((x >= x_) &&(x <= (x_+30)) &&(y >= y_) &&(y <= (y_+30)))
+    if ((x >= x_) && (x < (x_ + buttonSize_.x)) && (y >= y_) && (y < (y_ + buttonSize_.y)))
     {
         focusTimer->Start(50, wxTIMER_ONE_SHOT);
         return true;
@@ -1179,9 +1299,9 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
             case PUSH_BUTTON_RECTANGLE_SMALL:
 //#if defined (__WXMAC__)
                 if (button->function == BUTTON_FUNC_COIN)
-                    button->hexButton = new HexButton(dc, button->type, button->position.x, button->position.y, p_Main->getCoinLogText( button->value));
+                    button->hexButton = new HexButton(dc, button->type, button->position.x, button->position.y, p_Main->getCoinLogText( button->value), button->size);
                 else
-                    button->hexButton = new HexButton(dc, button->type, button->position.x, button->position.y, button->label);
+                    button->hexButton = new HexButton(dc, button->type, button->position.x, button->position.y, button->label, button->size);
 //#else
 //                button->windowsButton = new wxButton(this, button->value, button->label, button->position, button->size, 0, wxDefaultValidator, "");
 //#endif

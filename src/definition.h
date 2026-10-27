@@ -1927,7 +1927,7 @@ private:
 class HexButton : public wxEvtHandler
 {
 public:
-    HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label);
+    HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label, wxSize requestedSize = wxSize(0, 0));
     ~HexButton();
     void onPaint(wxDC& dc);
     bool onMousePress(wxDC& dc, wxCoord x, wxCoord y);
@@ -1947,6 +1947,8 @@ private:
 
     wxCoord x_;
     wxCoord y_;
+
+    wxSize buttonSize_;
  
     bool enabled_;
 
