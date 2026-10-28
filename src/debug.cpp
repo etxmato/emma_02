@@ -688,14 +688,16 @@ void DebugBitmapView::SetBitmap(const wxBitmap& bitmap)
 {
     bitmap_ = bitmap;                 // shallow copy: shares the HBITMAP with the debug buffer
     InvalidateBestSize();
-    if (bitmap_.IsOk() && GetSize() != bitmap_.GetSize())
-        SetSize(bitmap_.GetSize());   // wxStaticBitmap used to resize itself to the image
+    const wxSize bitmapSize(bitmap_.GetWidth(), bitmap_.GetHeight());   // wx 2.8 has no wxBitmap::GetSize()
+    if (bitmap_.IsOk() && GetSize() != bitmapSize)
+        SetSize(bitmapSize);          // wxStaticBitmap used to resize itself to the image
     Refresh(false);                   // coalesced; never Update() from the CPU-step path
 }
 
 wxSize DebugBitmapView::DoGetBestSize() const
 {
-    return bitmap_.IsOk() ? bitmap_.GetSize() : wxPanel::DoGetBestSize();
+    return bitmap_.IsOk() ? wxSize(bitmap_.GetWidth(), bitmap_.GetHeight())
+                          : wxPanel::DoGetBestSize();
 }
 
 void DebugBitmapView::OnPaint(wxPaintEvent& WXUNUSED(event))
