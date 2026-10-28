@@ -773,6 +773,15 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
 #endif
     wxSize charSize = exactFont->GetPixelSize();
     lineSpace_ = charSize.y - 2;
+    if (lineSpace_ < 4)
+    {
+        // wx 2.8's wxFont::GetPixelSize() can return a negative height (from the
+        // LOGFONT lfHeight), which made lineSpace_ negative and every debugger
+        // bitmap negative/zero height. Use the absolute pixel height instead.
+        lineSpace_ = (charSize.y < 0 ? -charSize.y : charSize.y) - 2;
+        if (lineSpace_ < 4)
+            lineSpace_ = 14;
+    }
 
     wxScreenDC dc;
     dc.SetFont(*exactFont);
