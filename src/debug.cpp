@@ -674,6 +674,37 @@ vector<Word> dirAssProgramEndVector(0);
 vector<Word> dirAssDataEndVector(0);
 vector<Byte> dirAssSlotVector(0);
 
+IMPLEMENT_DYNAMIC_CLASS(DebugBitmapView, wxPanel)
+
+DebugBitmapView::DebugBitmapView()
+: wxPanel()
+{
+    // wx 2.8 only has wxBG_STYLE_CUSTOM; wx 3.x aliases it to wxBG_STYLE_PAINT.
+    SetBackgroundStyle(wxBG_STYLE_CUSTOM);
+    Connect(wxEVT_PAINT, wxPaintEventHandler(DebugBitmapView::OnPaint), NULL, this);
+}
+
+void DebugBitmapView::SetBitmap(const wxBitmap& bitmap)
+{
+    bitmap_ = bitmap;                 // shallow copy: shares the HBITMAP with the debug buffer
+    InvalidateBestSize();
+    if (bitmap_.IsOk() && GetSize() != bitmap_.GetSize())
+        SetSize(bitmap_.GetSize());   // wxStaticBitmap used to resize itself to the image
+    Refresh(false);                   // coalesced; never Update() from the CPU-step path
+}
+
+wxSize DebugBitmapView::DoGetBestSize() const
+{
+    return bitmap_.IsOk() ? bitmap_.GetSize() : wxPanel::DoGetBestSize();
+}
+
+void DebugBitmapView::OnPaint(wxPaintEvent& WXUNUSED(event))
+{
+    wxPaintDC dc(this);
+    if (bitmap_.IsOk())
+        dc.DrawBitmap(bitmap_, 0, 0, false);
+}
+
 DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
 : GuiDebugger(title, pos, size, mode, dataDir, iniDir)
 {
@@ -790,8 +821,8 @@ void DebugWindow::readDebugConfig()
     if (!imageList_)
         imageList_ = createDebuggerCheckBoxImageList(chip8BreakPointWindowPointer, applicationDirectory_ + IMAGES_FOLDER, checkedButton_, uncheckButton_);
     chip8BreakPointWindowPointer->SetImageList(imageList_, wxIMAGE_LIST_SMALL);
-    XRCCTRL(*this, "ProfilerBitmap", wxStaticBitmap)->SetSize(profilerWidth_, (numberOfDebugLines_-PROFILER_OFFSET)*lineSpace_+4);
-    XRCCTRL(*this, "AssBitmap", wxStaticBitmap)->SetSize(assWidth_, numberOfDebugLines_*lineSpace_+4);
+    XRCCTRL(*this, "ProfilerBitmap", DebugBitmapView)->SetSize(profilerWidth_, (numberOfDebugLines_-PROFILER_OFFSET)*lineSpace_+4);
+    XRCCTRL(*this, "AssBitmap", DebugBitmapView)->SetSize(assWidth_, numberOfDebugLines_*lineSpace_+4);
 
     XRCCTRL(*this, "ProfilerType", wxChoice)->SetSelection(profilerType_);
     XRCCTRL(*this, "ProfilerCounter", wxChoice)->SetSelection(profilerCounter_);
@@ -7786,11 +7817,11 @@ void DebugWindow::directAss()
     switch (selectedTab_)
     {
         case DIRECTASSTAB:
-            XRCCTRL(*this, "AssBitmap", wxStaticBitmap)->SetBitmap(*assBmp);
+            XRCCTRL(*this, "AssBitmap", DebugBitmapView)->SetBitmap(*assBmp);
         break;
 
         case PROFILERTAB:
-            XRCCTRL(*this, "ProfilerBitmap", wxStaticBitmap)->SetBitmap(*profilerBmp);
+            XRCCTRL(*this, "ProfilerBitmap", DebugBitmapView)->SetBitmap(*profilerBmp);
         break;
     }
     int range = XRCCTRL(*this,"AssRangeType",wxChoice)->GetCurrentSelection();
@@ -13171,8 +13202,8 @@ void DebugWindow::paintDebugBackground()
     dcDebugBackground.SelectObject(wxNullBitmap);
     if (xmlLoaded_)
     {
-        XRCCTRL(*this, "AssBitmap", wxStaticBitmap)->SetBitmap(*assBmp);
-        XRCCTRL(*this, "ProfilerBitmap", wxStaticBitmap)->SetBitmap(*profilerBmp);
+        XRCCTRL(*this, "AssBitmap", DebugBitmapView)->SetBitmap(*assBmp);
+        XRCCTRL(*this, "ProfilerBitmap", DebugBitmapView)->SetBitmap(*profilerBmp);
     }
 }
 

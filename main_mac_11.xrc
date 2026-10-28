@@ -1948,8 +1948,9 @@
 <object class="sizeritem">
 <flag>wxALIGN_TOP|wxALL|wxRESERVE_SPACE_EVEN_IF_HIDDEN</flag>
 <border>0</border>
-<object class="wxStaticBitmap" name="AssBitmap">
+<object class="wxPanel" name="AssBitmap" subclass="DebugBitmapView">
 <size>284,446</size>
+<style>wxTAB_TRAVERSAL</style>
 <bg>#000000</bg>
 </object>
 </object>
@@ -3099,8 +3100,9 @@
 <object class="sizeritem">
 <flag>wxALIGN_TOP|wxALL</flag>
 <border>0</border>
-<object class="wxStaticBitmap" name="ProfilerBitmap">
+<object class="wxPanel" name="ProfilerBitmap" subclass="DebugBitmapView">
 <size>460,367</size>
+<style>wxTAB_TRAVERSAL</style>
 <bg>#000000</bg>
 </object>
 </object>

@@ -335,6 +335,7 @@
 <option>20</option>
 <object class="wxChoice" name="MainDirXml">
 <tooltip>Select Computer</tooltip>
+<help> </help>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -1933,8 +1934,9 @@
 <object class="sizeritem">
 <flag>wxALIGN_TOP|wxALL</flag>
 <border>0</border>
-<object class="wxStaticBitmap" name="AssBitmap">
+<object class="wxPanel" name="AssBitmap" subclass="DebugBitmapView">
 <size>162,-1d</size>
+<style>wxTAB_TRAVERSAL</style>
 </object>
 </object>
 <object class="sizeritem">
@@ -3032,8 +3034,9 @@
 <object class="sizeritem">
 <flag>wxALIGN_TOP|wxALL</flag>
 <border>0</border>
-<object class="wxStaticBitmap" name="ProfilerBitmap">
+<object class="wxPanel" name="ProfilerBitmap" subclass="DebugBitmapView">
 <size>262,-1d</size>
+<style>wxTAB_TRAVERSAL</style>
 </object>
 </object>
 <object class="sizeritem">

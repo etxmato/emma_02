@@ -327,6 +327,7 @@
 <object class="sizeritem">
 <object class="wxChoice" name="MainDirXml">
 <tooltip>Select Computer</tooltip>
+<help> </help>
 <font>
 <size>14</size>
 </font>
@@ -1813,8 +1814,9 @@
 <object class="sizeritem">
 <flag>wxALIGN_TOP|wxALL</flag>
 <border>0</border>
-<object class="wxStaticBitmap" name="AssBitmap">
+<object class="wxPanel" name="AssBitmap" subclass="DebugBitmapView">
 <size>162,-1d</size>
+<style>wxTAB_TRAVERSAL</style>
 </object>
 </object>
 <object class="sizeritem">
@@ -2852,8 +2854,9 @@
 <object class="sizeritem">
 <flag>wxALIGN_TOP|wxALL</flag>
 <border>0</border>
-<object class="wxStaticBitmap" name="ProfilerBitmap">
+<object class="wxPanel" name="ProfilerBitmap" subclass="DebugBitmapView">
 <size>262,-1d</size>
+<style>wxTAB_TRAVERSAL</style>
 </object>
 </object>
 <object class="sizeritem">

@@ -4,6 +4,7 @@
 #include "wx/listctrl.h"
 #include "wx/imaglist.h"
 #include "wx/thread.h"
+#include "wx/panel.h"
 
 #include "guidebugger.h"
 
@@ -186,6 +187,24 @@ public:
     bool branchToFound;
     bool outOfRange;
     Word outOfRangeAddress;
+};
+
+class DebugBitmapView : public wxPanel
+{
+public:
+    DebugBitmapView();
+
+    void SetBitmap(const wxBitmap& bitmap);
+
+protected:
+    void OnPaint(wxPaintEvent& event);
+
+    virtual wxSize DoGetBestSize() const;
+
+private:
+    wxBitmap bitmap_;
+
+    DECLARE_DYNAMIC_CLASS(DebugBitmapView)
 };
 
 class DebugWindow : public GuiDebugger
