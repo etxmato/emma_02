@@ -756,6 +756,19 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
     debugDir_ = readConfigDir("/Dir/Main/Debug", dataDir_);
     fontSize_ = (int)configPointer->Read("/Main/FontSize", 11);
 
+#if defined(__WXMAC__)
+    debuggerFontPointSize_ = fontSize_ + 2;
+#else
+    debuggerFontPointSize_ = fontSize_ + 1;
+#endif
+#if defined(__WXMSW__)
+    int osMajorVersion = 0;
+    int osMinorVersion = 0;
+    wxGetOsVersion(&osMajorVersion, &osMinorVersion);
+    if (osMajorVersion == 5 && osMinorVersion == 0)
+        debuggerFontPointSize_ -= 2;  // Windows 2000: use a smaller debugger font
+#endif
+
     dirAssStart_ = 0;
     dirAssEnd_ = 0;
     lastRange_ = 0;
@@ -765,12 +778,7 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
 
     numberOfDebugLines_ = 35;
 
-	wxFont* exactFont;
-#if defined(__WXMAC__)
-    exactFont = new wxFont(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-#else
-    exactFont = new wxFont(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-#endif
+    wxFont* exactFont = new wxFont(debuggerFontPointSize_, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
     wxSize charSize = exactFont->GetPixelSize();
     lineSpace_ = charSize.y - 2;
     if (lineSpace_ < 4)
@@ -783,16 +791,35 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
             lineSpace_ = 14;
     }
 
+    // Measure the widest printable ASCII glyph instead of wxDC::GetCharWidth(),
+    // which is only an average and can disagree with the advance of the
+    // resolved teletype face. charWidth_ drives both the column positions and
+    // the bitmap widths, so they can no longer disagree.
     wxScreenDC dc;
     dc.SetFont(*exactFont);
-	delete exactFont;
-    charWidth_ = dc.GetCharWidth();
+    delete exactFont;
+    charWidth_ = 0;
+    int maxGlyphHeight = 0;
+    for (int c = 0x20; c <= 0x7e; c++)
+    {
+        wxCoord glyphWidth, glyphHeight;
+        dc.GetTextExtent(wxString((wxChar)c), &glyphWidth, &glyphHeight);
+        if (glyphWidth > charWidth_)
+            charWidth_ = glyphWidth;
+        if (glyphHeight > maxGlyphHeight)
+            maxGlyphHeight = glyphHeight;
+    }
+    if (charWidth_ < 4)
+        charWidth_ = dc.GetCharWidth() > 0 ? dc.GetCharWidth() : 8;
+    if (maxGlyphHeight < 4)
+        maxGlyphHeight = lineSpace_ + 2;
 
-    if (charWidth_ == 0)
-        charWidth_ = 8;
-    
-    assWidth_ = charWidth_ * 35 + charWidth_/2;
-    profilerWidth_ = charWidth_ * 57 + charWidth_/2;
+    // Centre the measured glyph vertically in the 16 px line strip that
+    // ShowStandardCharacter() draws into.
+    charBaselineOffset_ = (16 - maxGlyphHeight) / 2;
+
+    assWidth_ = charWidth_ * 35 + charWidth_/2 + 2;
+    profilerWidth_ = charWidth_ * 57 + charWidth_/2 + 2;
 
     assBmp = new wxBitmap(assWidth_, numberOfDebugLines_*lineSpace_+4, 24);
     profilerBmp = new wxBitmap(profilerWidth_, (numberOfDebugLines_-PROFILER_OFFSET)*lineSpace_+4, 24);
@@ -832,8 +859,9 @@ void DebugWindow::readDebugConfig()
     if (!imageList_)
         imageList_ = createDebuggerCheckBoxImageList(chip8BreakPointWindowPointer, applicationDirectory_ + IMAGES_FOLDER, checkedButton_, uncheckButton_);
     chip8BreakPointWindowPointer->SetImageList(imageList_, wxIMAGE_LIST_SMALL);
-    XRCCTRL(*this, "ProfilerBitmap", DebugBitmapView)->SetSize(profilerWidth_, (numberOfDebugLines_-PROFILER_OFFSET)*lineSpace_+4);
-    XRCCTRL(*this, "AssBitmap", DebugBitmapView)->SetSize(assWidth_, numberOfDebugLines_*lineSpace_+4);
+    XRCCTRL(*this, "ProfilerBitmap", DebugBitmapView)->SetMinSize(wxSize(profilerWidth_, (numberOfDebugLines_-PROFILER_OFFSET)*lineSpace_+4));
+    XRCCTRL(*this, "AssBitmap", DebugBitmapView)->SetMinSize(wxSize(assWidth_, numberOfDebugLines_*lineSpace_+4));
+    Layout();   // sizers honour SetMinSize only after a layout pass
 
     XRCCTRL(*this, "ProfilerType", wxChoice)->SetSelection(profilerType_);
     XRCCTRL(*this, "ProfilerCounter", wxChoice)->SetSelection(profilerCounter_);
@@ -7034,15 +7062,8 @@ void DebugWindow::directAss()
     int bitmapWidth = assWidth_;
     uint64_t executed;
     
-    wxFont* exactFont;
-    wxFont* exactFontBold;
-#if defined(__WXMAC__)
-    exactFont = new wxFont(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-    exactFontBold = new wxFont(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD );
-#else
-    exactFont = new wxFont(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-    exactFontBold = new wxFont(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD );
-#endif
+    wxFont* exactFont = new wxFont(debuggerFontPointSize_, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+    wxFont* exactFontBold = new wxFont(debuggerFontPointSize_, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD );
     
     int numberOfDebugLines = numberOfDebugLines_;
     
@@ -13229,10 +13250,13 @@ void DebugWindow::changeNumberOfDebugLines(int height)
     
     assBmp = new wxBitmap(assWidth_, numberOfDebugLines_*lineSpace_+4, 24);
     XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetSize(-1, numberOfDebugLines_*lineSpace_+4);
+    XRCCTRL(*this, "AssBitmap", DebugBitmapView)->SetMinSize(wxSize(assWidth_, numberOfDebugLines_*lineSpace_+4));
 
     profilerBmp = new wxBitmap(profilerWidth_, (numberOfDebugLines_-PROFILER_OFFSET)*lineSpace_+4, 24);
     XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetSize(-1, (numberOfDebugLines_-PROFILER_OFFSET)*lineSpace_+4);
+    XRCCTRL(*this, "ProfilerBitmap", DebugBitmapView)->SetMinSize(wxSize(profilerWidth_, (numberOfDebugLines_-PROFILER_OFFSET)*lineSpace_+4));
 
+    Layout();
     paintDebugBackground();
     directAss();
 }
@@ -13484,11 +13508,7 @@ void DebugWindow::ShowCharacters(Word address, int y)
 
 void DebugWindow::ShowStandardCharacter(Word address)
 {
-#if defined(__WXMAC__)
-    wxFont exactFont(fontSize_+2, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-#else
-    wxFont exactFont(fontSize_+1, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-#endif
+    wxFont exactFont(debuggerFontPointSize_, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 
     for (int j=0; j<16; j++)
     {
@@ -13513,10 +13533,7 @@ void DebugWindow::ShowStandardCharacter(Word address)
         else
             dcLine.DrawText(character, (j*charWidth_), -1);
     #else
-        if (fontSize_ == 9)
-            dcLine.DrawText(character, (j*charWidth_), 1);
-        else
-            dcLine.DrawText(character, (j*charWidth_), -2);
+        dcLine.DrawText(character, (j*charWidth_), charBaselineOffset_);
     #endif
     }
 }

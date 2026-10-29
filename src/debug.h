@@ -701,8 +701,10 @@ private:
     LabelInfo labelInfo_[65536];
 
     int numberOfDebugLines_;
+    int debuggerFontPointSize_;
     int lineSpace_;
     int charWidth_;
+    int charBaselineOffset_;
     int assWidth_;
     int profilerWidth_;
     
