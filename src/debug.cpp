@@ -15241,7 +15241,7 @@ void DebugWindow::onDebugEmsPage(wxCommandEvent&WXUNUSED(event))
     XRCCTRL(*this, "DebugEmsNumber", HexEdit)->saveNumber((int)emsNumber_);
     XRCCTRL(*this, "DebugEmsPage", HexEdit)->saveNumber((int)page);
 
-    if (emsNumber_ >= computerConfiguration.emsMemoryConfiguration.size())
+    if (emsNumber_ < 0 || (size_t)emsNumber_ >= computerConfiguration.emsMemoryConfiguration.size())
         emsNumber_ = computerConfiguration.emsMemoryConfiguration.size() - 1;
 
     if (page > computerConfiguration.emsMemoryConfiguration[emsNumber_].output.mask)
@@ -15269,7 +15269,7 @@ void DebugWindow::onDebugEmsNumber(wxCommandEvent&WXUNUSED(event))
     XRCCTRL(*this, "DebugEmsNumber", HexEdit)->saveNumber((int)emsNumber_);
     XRCCTRL(*this, "DebugEmsPage", HexEdit)->saveNumber((int)page);
 
-    if (emsNumber_ >= computerConfiguration.emsMemoryConfiguration.size())
+    if (emsNumber_ < 0 || (size_t)emsNumber_ >= computerConfiguration.emsMemoryConfiguration.size())
         emsNumber_ = computerConfiguration.emsMemoryConfiguration.size() - 1;
 
     if (page > computerConfiguration.emsMemoryConfiguration[emsNumber_].output.mask)

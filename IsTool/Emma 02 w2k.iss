@@ -17,7 +17,6 @@ UninstallDisplayIcon={app}\images\app.ico
 DisableDirPage=false
 FlatComponentsList=false
 InfoBeforeFile=..\copyright.rtf
-WizardImageBackColor=clWhite
 WizardImageStretch=true
 WizardImageFile=emma 02 large.bmp
 WizardSmallImageFile=emma 02.bmp

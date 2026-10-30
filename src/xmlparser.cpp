@@ -9190,14 +9190,33 @@ void XmlParser::parseXml_KeyFile(wxXmlNode &node)
     }
 }
 
-// Splash text is shown on the wx 2.8 ANSI W2K build too, where UTF-8 curly quotes
-// render as mojibake. Map them to ASCII before SetLabel().
+// Splash text on the wx 2.8 ANSI W2K build: wx 2.8's XML parser leaves UTF-8
+// content as raw bytes for a UTF-8 document, while Unicode builds store code
+// points. Handle both forms, plus XML already decoded to the ANSI code page.
 static void splashAsciiQuotes(wxString &text)
 {
-    text.Replace(wxString::FromUTF8("\xE2\x80\x98"), "'");   // left single quote
-    text.Replace(wxString::FromUTF8("\xE2\x80\x99"), "'");   // right single quote
-    text.Replace(wxString::FromUTF8("\xE2\x80\x9C"), "\"");  // left double quote
-    text.Replace(wxString::FromUTF8("\xE2\x80\x9D"), "\"");  // right double quote
+    static const struct
+    {
+        const char *utf8;
+        const char *ascii;
+    } quotes[] =
+    {
+        { "\xE2\x80\x98", "'" },   // left single quote
+        { "\xE2\x80\x99", "'" },   // right single quote
+        { "\xE2\x80\x9C", "\"" },  // left double quote
+        { "\xE2\x80\x9D", "\"" },  // right double quote
+    };
+
+    for (size_t i = 0; i < sizeof(quotes) / sizeof(quotes[0]); i++)
+    {
+        // Raw UTF-8 bytes as returned by wxXmlNode::GetNodeContent().
+        text.Replace(wxString::From8BitData(quotes[i].utf8), quotes[i].ascii);
+
+        // Text already converted from UTF-8 to the current (ANSI) code page.
+        wxString decoded = wxString::FromUTF8(quotes[i].utf8);
+        if (!decoded.empty())
+            text.Replace(decoded, quotes[i].ascii);
+    }
 }
 
 void XmlParser::parseXml_Splash(wxXmlNode &node)

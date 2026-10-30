@@ -94,7 +94,7 @@ public:
     CodeBackgroundCell(const wxColour& colour, bool endOfCode = false)
         : m_Colour(colour), m_EndOfCode(endOfCode) {}
 
-    void Draw(wxDC& dc, int x, int y, int, int, wxHtmlRenderingInfo&) override
+    void Draw(wxDC& dc, int x, int y, int, int, wxHtmlRenderingInfo&)
     {
         if (m_EndOfCode)
             return;
@@ -471,6 +471,10 @@ wxImageList *createDebuggerCheckBoxImageList(wxListCtrl *listCtrl, const wxStrin
     wxBitmap unchecked(imagesDir + "/unchecked.png", wxBITMAP_TYPE_PNG);
 
     int height = checked.GetHeight();
+
+#if !defined(__linux__)
+    (void)listCtrl;
+#endif
 
 #if defined(__linux__)
     // Row height is the text height plus 6 and the icon is drawn at the top
