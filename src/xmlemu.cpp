@@ -5715,15 +5715,7 @@ void Computer::startComputer()
     }
     if (p_Main->getClearRtcState() && currentComputerConfiguration.rtcDs12887Configuration.defined)
     {
-        for (int i = 0; i<128; i++)
-        {
-            rtcRam_[i] = 0;
-            p_Main->updateDebugMemory(i);
-        }
-        rtcRam_[0xa] = 0x20;
-        rtcRam_[0xb] = 0x6;
-        rtcRam_[0xc] = 0;
-        rtcRam_[0xd] = 0x80;
+        resetRtcDs12887();
         currentComputerConfiguration.clearRtc = false;
         p_Main->resetClearRtcState();
     }
@@ -7882,15 +7874,7 @@ void Computer::resetPressed()
     }
     if (p_Main->getClearRtcState() && currentComputerConfiguration.rtcDs12887Configuration.defined)
     {
-        for (int i = 0; i<128; i++)
-        {
-            rtcRam_[i] = 0;
-            p_Main->updateDebugMemory(i);
-        }
-        rtcRam_[0xa] = 0x20;
-        rtcRam_[0xb] = 0x6;
-        rtcRam_[0xc] = 0;
-        rtcRam_[0xd] = 0x80;
+        resetRtcDs12887();
         currentComputerConfiguration.clearRtc = false;
         p_Main->resetClearRtcState();
     }
@@ -9379,13 +9363,7 @@ void Computer::OnRtcTimer(wxTimerEvent&WXUNUSED(event))
 
     wxDateTime now = wxDateTime::Now();
     
-    writeRtc(0, now.GetSecond());
-    writeRtc(2, now.GetMinute());
-    writeRtc(4, now.GetHour());
-    writeRtc(6, now.GetWeekDay());
-    writeRtc(7, now.GetDay());
-    writeRtc(8, now.GetMonth()+1);
-    writeRtc(9, now.GetYear()-1972);
+    setRtcDs12887Time(now);
 
     rtcRam_[0xc] |= 0x10;
     p_Main->updateDebugMemory(0xa);
@@ -10234,6 +10212,32 @@ void Computer::saveRtc()
     outputFile.Close();
 }
 
+void Computer::resetRtcDs12887()
+{
+    for (int i = 0; i<128; i++)
+    {
+        rtcRam_[i] = 0;
+        p_Main->updateDebugMemory(i);
+    }
+    rtcRam_[0xa] = 0x20;
+    rtcRam_[0xb] = 0x6;
+    rtcRam_[0xc] = 0;
+    rtcRam_[0xd] = 0x80;
+
+    setRtcDs12887Time(wxDateTime::Now());
+}
+
+void Computer::setRtcDs12887Time(const wxDateTime& now)
+{
+    writeRtc(0, now.GetSecond());
+    writeRtc(2, now.GetMinute());
+    writeRtc(4, now.GetHour());
+    writeRtc(6, now.GetWeekDay());
+    writeRtc(7, now.GetDay());
+    writeRtc(8, now.GetMonth()+1);
+    writeRtc(9, now.GetYear()-1972);
+}
+
 void Computer::loadRtc()
 {
     currentComputerConfiguration = p_Main->getConfiguration();
@@ -10243,15 +10247,7 @@ void Computer::loadRtc()
 
     if (currentComputerConfiguration.clearRtc)
     {
-        for (int i = 0; i<128; i++)
-        {
-            rtcRam_[i] = 0;
-            p_Main->updateDebugMemory(i);
-        }
-        rtcRam_[0xa] = 0x20;
-        rtcRam_[0xb] = 0x6;
-        rtcRam_[0xc] = 0;
-        rtcRam_[0xd] = 0x80;
+        resetRtcDs12887();
         currentComputerConfiguration.clearRtc = false;
         p_Main->setConfiguration(currentComputerConfiguration);
         p_Main->guiSetCheckBox("XmlClearRtc", false);
@@ -10275,6 +10271,8 @@ void Computer::loadRtc()
             inFile.Close();
         }
     }
+    else
+        resetRtcDs12887();
 }
 
 Byte Computer::readDirectRtc(Word address)

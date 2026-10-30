@@ -347,6 +347,8 @@ public:
     void thrStatusSerial(bool data);
     void saveRtc();
     void loadRtc();
+    void resetRtcDs12887();
+    void setRtcDs12887Time(const wxDateTime& now);
     Byte readDirectRtc(Word address);
     void writeDirectRtc(Word address, Byte value);
     void setDosFileName();

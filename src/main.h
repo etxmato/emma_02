@@ -15,8 +15,10 @@ typedef unsigned short Word;
 #include "wx/html/helpwnd.h"
 #include "wx/html/htmlwin.h"
 #if wxCHECK_VERSION(2, 8, 0) && !wxCHECK_VERSION(2, 9, 0)
-// wx 2.8 has no wxS() macro (introduced with the 3.0 string rework) - _T() is equivalent.
+// wx 2.8 may already define wxS() (wx/wxchar.h); only fall back to _T() when it does not.
+#ifndef wxS
 #define wxS(x) _T(x)
+#endif
 // wx 2.8 wxXmlNode only has HasProp() (HasAttribute is the 2.9+ name)
 #define HasAttribute HasProp
 // wx 2.8 lacks the ASCII control key codes (WXK_CONTROL_*) and WXK_NONE.

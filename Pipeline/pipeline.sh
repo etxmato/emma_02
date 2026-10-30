@@ -3,9 +3,9 @@
 # ONE command from the Mac: sync -> compile (right arch/libs) -> package -> copy artifact back.
 #
 # Usage:
-#   ./pipeline.sh --arch amd64|arm64 [--format deb|rpm] [--wx 3.0|3.1|3.2] [--distro fedora|suse] [--jobs N] [--clean] [--no-build] [--out DIR]
-#   ./pipeline.sh --arch arm|x64|x86 --format exe [--wx 3.3|3.2] [--no-build] [--out DIR]
-#   ./pipeline.sh --format dmg [--wx 3.3] [--deploy 12.0|10.13] [--jobs N] [--clean] [--no-build] [--out DIR]
+#   ./pipeline.sh --arch amd64|arm64 [--format deb|rpm] [--wx 3.0|3.1|3.2] [--distro fedora|suse] [--jobs N] [--clean|--full] [--no-build] [--out DIR]
+#   ./pipeline.sh --arch arm|x64|x86 --format exe [--wx 3.3|3.2|2.8] [--clean|--full] [--no-build] [--out DIR]
+#   ./pipeline.sh --format dmg [--wx 3.3] [--deploy 12.0|10.13] [--jobs N] [--clean|--full] [--no-build] [--out DIR]
 #
 #   Linux: --arch amd64 -> Release_x86 | arm64 -> Release
 #   Windows (exe): --arch arm -> ARM64 | x64 -> x64 | x86 -> Win32 (all from one ARM64 Win11 VM)
@@ -25,14 +25,18 @@
 #   --distro  fedora|suse — required with --format rpm; picks the builder VM and the
 #             DEPENDS_RPM_* dependency set (RPM package names differ per distro)
 #   --no-build  skip compile, package the binary already in the VM
-#   --clean   clean rebuild (make clean first; ignored for exe for now)
+#   --clean   clean rebuild: deb/rpm run make clean in the guest, exe deletes the guest
+#             object dirs (Win32, x64, ARM64, Win32-VC9, x64-VC9, Win32-VC9-W2K) first,
+#             dmg runs xcodebuild clean
+#   --full    final/release build: implies --clean for every format, so no stale .o/.obj
+#             survives from an earlier incremental run
 #   --out DIR where to place the artifact on the Mac
 #             (default: the installation repo at $INSTALL_ROOT/v<version>)
 #
 # Reads Pipeline/emma02_package.conf as the single source of truth (PACKAGE/VERSION).
 set -e
 
-ARCH=""; WXVER=""; FORMAT="deb"; DISTRO=""; DEPLOY=""; JOBS=""; CLEAN=0; BUILD=1; OUTDIR=""
+ARCH=""; WXVER=""; FORMAT="deb"; DISTRO=""; DEPLOY=""; JOBS=""; CLEAN=0; FULL=0; BUILD=1; OUTDIR=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --arch) ARCH="$2"; shift 2;;
@@ -42,6 +46,7 @@ while [ $# -gt 0 ]; do
     --deploy) DEPLOY="$2"; shift 2;;
     --jobs) JOBS="$2"; shift 2;;
     --clean) CLEAN=1; shift;;
+    --full) FULL=1; CLEAN=1; shift;;
     --no-build) BUILD=0; shift;;
     --out) OUTDIR="$2"; shift 2;;
     *) echo "unknown arg: $1" >&2; exit 1;;
@@ -250,8 +255,14 @@ for l in sys.stdin:
   SSHCFG="$HOME/.lima/$VM/ssh.config"
   [ -f "$SSHCFG" ] || { echo "missing ssh config: $SSHCFG" >&2; exit 1; }
   win_guest() { ssh -F "$SSHCFG" "lima-$VM" "$1"; }
-  if [ "$CLEAN" = "1" ]; then
-    echo "(--clean ignored for exe for now: MSBuild incremental; delete guest ARM64/Release manually for a clean build)" >&2
+  if [ "$CLEAN" = "1" ] && [ "$BUILD" = "1" ]; then
+    # Clean build: remove every guest object/output dir before compiling so no
+    # stale .obj from an earlier incremental run can link into the binary.
+    # The dirs are build output only; wx/SDL/libserialport live elsewhere on C:\.
+    echo "-- clean: removing guest object dirs ..."
+    for OBJDIR in Win32 x64 ARM64 Win32-VC9 x64-VC9 Win32-VC9-W2K; do
+      win_guest "rmdir /s /q C:\\emma02-build\\$OBJDIR 2>nul & exit 0"
+    done
   fi
   if [ -n "$JOBS" ]; then
     echo "(--jobs ignored for exe for now: MSBuild /m is always parallel)" >&2

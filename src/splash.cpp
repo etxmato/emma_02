@@ -81,6 +81,13 @@ SplashScreen::SplashScreen(wxWindow *parent)
         XRCCTRL(*this,"SplashText",wxStaticText)->SetLabel(p_Main->getSplashText());
 #if wxCHECK_VERSION(2, 9, 0)
         XRCCTRL(*this,"DEFAULT",wxDialog)->DoLayoutAdaptation();
+#else
+        // wx 2.8 (W2K line) has no DoLayoutAdaptation(): re-fit the dialog to the new
+        // label, otherwise the text is clipped to the XRC placeholder size.
+        GetSizer()->SetSizeHints(this);
+        GetSizer()->Fit(this);
+        Layout();
+        Centre();
 #endif
     }
 

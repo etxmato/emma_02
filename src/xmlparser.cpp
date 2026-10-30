@@ -9190,6 +9190,16 @@ void XmlParser::parseXml_KeyFile(wxXmlNode &node)
     }
 }
 
+// Splash text is shown on the wx 2.8 ANSI W2K build too, where UTF-8 curly quotes
+// render as mojibake. Map them to ASCII before SetLabel().
+static void splashAsciiQuotes(wxString &text)
+{
+    text.Replace(wxString::FromUTF8("\xE2\x80\x98"), "'");   // left single quote
+    text.Replace(wxString::FromUTF8("\xE2\x80\x99"), "'");   // right single quote
+    text.Replace(wxString::FromUTF8("\xE2\x80\x9C"), "\"");  // left double quote
+    text.Replace(wxString::FromUTF8("\xE2\x80\x9D"), "\"");  // right double quote
+}
+
 void XmlParser::parseXml_Splash(wxXmlNode &node)
 {
     computerConfiguration.useSplashScreen_ = true;
@@ -9239,6 +9249,7 @@ void XmlParser::parseXml_Splash(wxXmlNode &node)
                 computerConfiguration.splashConfiguration.text = child->GetNodeContent();
                 computerConfiguration.splashConfiguration.text.Replace("\r", "\n");
                 computerConfiguration.splashConfiguration.text.Replace("&","&&");
+                splashAsciiQuotes(computerConfiguration.splashConfiguration.text);
             break;
                 
             case TAG_MAC:
@@ -9246,6 +9257,7 @@ void XmlParser::parseXml_Splash(wxXmlNode &node)
                 computerConfiguration.splashConfiguration.text = child->GetNodeContent();
                 computerConfiguration.splashConfiguration.text.Replace("\r", "\n");
                 computerConfiguration.splashConfiguration.text.Replace("&","&&");
+                splashAsciiQuotes(computerConfiguration.splashConfiguration.text);
 #endif
             break;
 
@@ -9254,6 +9266,7 @@ void XmlParser::parseXml_Splash(wxXmlNode &node)
                 computerConfiguration.splashConfiguration.text = child->GetNodeContent();
                 computerConfiguration.splashConfiguration.text.Replace("\r", "\n");
                 computerConfiguration.splashConfiguration.text.Replace("&","&&");
+                splashAsciiQuotes(computerConfiguration.splashConfiguration.text);
 #endif
             break;
 
@@ -9262,6 +9275,7 @@ void XmlParser::parseXml_Splash(wxXmlNode &node)
                 computerConfiguration.splashConfiguration.text = child->GetNodeContent();
                 computerConfiguration.splashConfiguration.text.Replace("\r", "\n");
                 computerConfiguration.splashConfiguration.text.Replace("&","&&");
+                splashAsciiQuotes(computerConfiguration.splashConfiguration.text);
 #endif
             break;
 
