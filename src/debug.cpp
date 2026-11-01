@@ -861,6 +861,7 @@ void DebugWindow::readDebugConfig()
     chip8BreakPointWindowPointer->SetImageList(imageList_, wxIMAGE_LIST_SMALL);
     XRCCTRL(*this, "ProfilerBitmap", DebugBitmapView)->SetMinSize(wxSize(profilerWidth_, (numberOfDebugLines_-PROFILER_OFFSET)*lineSpace_+4));
     XRCCTRL(*this, "AssBitmap", DebugBitmapView)->SetMinSize(wxSize(assWidth_, numberOfDebugLines_*lineSpace_+4));
+    setW2kDebugEditSizes();
     Layout();   // sizers honour SetMinSize only after a layout pass
 
     XRCCTRL(*this, "ProfilerType", wxChoice)->SetSelection(profilerType_);
@@ -14921,6 +14922,62 @@ void DebugWindow::setMemoryType(int id, int setType)
         (void)wxMessageBox( "Only RAM (.), ROM (R), MAPPED RAM (M.), MAPPED ROM (MR), CDP1870 (PR/CR), MC6845 (M5/MR), MC6847 (M7) or UNDEFINED (space) allowed in Xml emulation\n",
                                     "Emma 02", wxICON_ERROR | wxOK );
     }
+}
+
+#if defined(__WXMSW__)
+static void setW2kBorderlessTextCtrlHeights(wxWindow* parent)
+{
+    wxWindowList& children = parent->GetChildren();
+    for (wxWindowList::compatibility_iterator node = children.GetFirst();
+         node; node = node->GetNext())
+    {
+        wxWindow* child = node->GetData();
+        wxTextCtrl* textCtrl = wxDynamicCast(child, wxTextCtrl);
+        if (textCtrl != NULL &&
+            (textCtrl->GetWindowStyle() & wxNO_BORDER) != 0 &&
+            (textCtrl->GetWindowStyle() & wxTE_MULTILINE) == 0)
+        {
+            wxSize size = textCtrl->GetSize();
+            int textHeight = textCtrl->GetCharHeight();
+            if (size.x > 0 && textHeight >= 4)
+            {
+                // Preserve the XRC width. Passing -1 as the width here resets
+                // the minimum width to the wx 2.8 best-size default, making the
+                // Memory Dump columns much wider than their XRC dimensions.
+                textCtrl->SetMinSize(wxSize(size.x, textHeight));
+            }
+        }
+        setW2kBorderlessTextCtrlHeights(child);
+    }
+}
+#endif
+
+void DebugWindow::setW2kDebugEditSizes()
+{
+#if defined(__WXMSW__)
+    int osMajorVersion = 0;
+    int osMinorVersion = 0;
+    wxGetOsVersion(&osMajorVersion, &osMinorVersion);
+    if (osMajorVersion != 5 || osMinorVersion != 0)
+        return;
+
+    wxPanel* memoryDump = XRCCTRL(*this, "MemoryDump", wxPanel);
+    wxPanel* debugger1802 = XRCCTRL(*this, "PanelTrace", wxPanel);
+    wxPanel* debuggerPseudo = XRCCTRL(*this, "PanelChip8", wxPanel);
+
+    // These pages use borderless single-line text controls for the memory
+    // bytes/address and debugger register, I/O, flag and pseudo-register
+    // fields. wx 2.8 gives them extra vertical space on Windows 2000, leaving
+    // their text high in the control. Match the font height while retaining
+    // each field's XRC width, then lay out the page sizers again.
+    setW2kBorderlessTextCtrlHeights(memoryDump);
+    setW2kBorderlessTextCtrlHeights(debugger1802);
+    setW2kBorderlessTextCtrlHeights(debuggerPseudo);
+
+    memoryDump->Layout();
+    debugger1802->Layout();
+    debuggerPseudo->Layout();
+#endif
 }
 
 void DebugWindow::memoryDisplaySetGuiSize(int offset)

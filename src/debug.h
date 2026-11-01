@@ -445,6 +445,7 @@ public:
 
     void setMemoryType(int id, int setType);
     void memoryDisplaySetGuiSize(int offset);
+    void setW2kDebugEditSizes();
     void memoryDisplay();
     Word getAddressMask();
     void DebugDisplayRtcRam();
