@@ -2078,6 +2078,12 @@ wxSize Main::getDefaultGuiSize()
 #if defined (__WXMSW__)
     size.x += 44;
     size.y += 110;
+
+    int osMajorVersion = 0;
+    int osMinorVersion = 0;
+    wxGetOsVersion(&osMajorVersion, &osMinorVersion);
+    if (osMajorVersion == 5 && osMinorVersion == 0)
+        size.y -= 90;   // Windows 2000: 90 px more reduction for the shorter frame and title bar chrome
 #endif
 
     return size;
