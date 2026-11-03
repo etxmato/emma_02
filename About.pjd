@@ -2388,7 +2388,7 @@ core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley"</string>
                     <string name="proxy-Id name">"wxID_STATIC"</string>
                     <long name="proxy-Id value">5105</long>
                     <string name="proxy-Implementation filename">""</string>
-                    <string name="proxy-Label">"Hagley Museum and Library: Sarnoff/RCA Collection - Joseph A. Weisbecker's archived manuscripts and materials - Accession 2464 -Box Number AVD B41: Chip 8, Coin Arcade, FRED 1, FRED 1.5, VIP and Studio II and III SW. See readme and/or txt files for details"</string>
+                    <string name="proxy-Label">"Hagley Museum and Library: Sarnoff/RCA Collection - Joseph A. Weisbecker’s archived manuscripts and materials - Accession 2464 -Box Number AVD B41: Chip 8, Coin Arcade, FRED 1, FRED 1.5, VIP and Studio II and III SW. See readme and/or txt files for details"</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
                     <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
