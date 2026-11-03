@@ -35,6 +35,19 @@
 #include "xmlparser.h"
 #include "ami_int_controller.h"
 
+// wxXmlDocument keeps parsed text in the input encoding in an ANSI wxWidgets
+// build (UTF-8 by default). wxMSW ANSI text drawing expects the current Windows
+// code page, so convert panel labels before they reach wxDC::DrawText. Unicode
+// builds already have the correct code points and must not be converted again.
+static wxString xmlTextToNative(const wxString& text)
+{
+#if defined(__WXMSW__) && !wxUSE_UNICODE
+    return wxString::FromUTF8(text.c_str());
+#else
+    return text;
+#endif
+}
+
 BEGIN_EVENT_TABLE(XmlParser, Vis1870Config)
 
 END_EVENT_TABLE()
@@ -5584,7 +5597,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
 
             case TAG_LABEL:
             case TAG_LABEL1:
-                computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].label = child->GetNodeContent();
+                computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].label = xmlTextToNative(child->GetNodeContent());
                 if (child->HasAttribute("size"))
 #if defined (__WXMAC__)
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].textSize = (int)parseXml_Number(*child, "size")+4;
@@ -5594,7 +5607,7 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
             break;
 
             case TAG_LABEL2:
-                computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].label2 = child->GetNodeContent();
+                computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].label2 = xmlTextToNative(child->GetNodeContent());
                 if (child->HasAttribute("size"))
 #if defined (__WXMAC__)
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].textSize = (int)parseXml_Number(*child, "size")+4;

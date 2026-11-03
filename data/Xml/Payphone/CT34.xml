@@ -966,7 +966,7 @@
 
   <!-- LCD Display -->
   <frontpanel init="on">
-    <size>300, 160</size>
+    <size>320, 160</size>
     <background color="white_fixed"/>
 	<item>
 	  <type color1="0xF2,0xF2,0xF2" color2="black_fixed">lcd_text</type>
@@ -976,7 +976,7 @@
 		  <label2 size="18">NO CASH CALLS</label2>-->
 		<value>4</value>
 		<out>1</out>
-		<pos>40, 12</pos>
+		<pos>20, 12</pos>
 	</item>
 	  <item>
 		  <type color1="0xF2,0xF2,0xF2" color2="black_fixed">lcd_text</type>
@@ -984,7 +984,7 @@
 		  <label2 size="18">INSERT MONEY</label2>
 		  <value>3</value>
 		  <out>1</out>
-		  <pos>70, 40</pos>
+		  <pos>50, 40</pos>
 	  </item>
 	  <item>
 		  <type color1="0xF2,0xF2,0xF2" color2="black_fixed">lcd_text</type>
@@ -1000,7 +1000,7 @@
 		  <label2 size="18">MINIMUM</label2>
 		  <value>5</value>
 		  <out>1</out>
-		  <pos>40, 68</pos>
+		  <pos>20, 68</pos>
 	  </item>
 	  <item>
 		  <type color1="0xF2,0xF2,0xF2" color2="black_fixed">lcd_text</type>
@@ -1008,7 +1008,7 @@
 		  <label2 size="18">FEE</label2>
 		  <value>5</value>
 		  <out>1</out>
-		  <pos>40, 96</pos>
+		  <pos>20, 96</pos>
 	  </item>
 	  <item>
 		  <type color1="0xF2,0xF2,0xF2" color2="black_fixed">lcd_text</type>
@@ -1016,14 +1016,14 @@
 		  <label2 size="18">REFUND</label2>
 		  <value>7</value>
 		  <out>1</out>
-		  <pos>40, 122</pos>
+		  <pos>20, 122</pos>
 	  </item>
 
 	<!-- Credit display -->
 	<origin>155, 114</origin>
 	<!-- Pounds -->
 	<item>
-      <type>text</type>
+      <type color="black_fixed">text</type>
       <label size="24">£</label>
       <pos>0, 1</pos>
     </item>
@@ -1043,7 +1043,7 @@
     </item>
 	<!-- Pence -->
 	<item>
-      <type>text</type>
+      <type color="black_fixed">text</type>
       <label size="24">:</label>
       <pos>73, 0</pos>
     </item>

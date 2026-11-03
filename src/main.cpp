@@ -79,6 +79,44 @@ static void makeFileWritable( const wxString& path )
 }
 
 
+// Point size used for the main-window chrome: the Panels tab strip and the
+// frame menu bar.
+//
+// /Main/FontSize holds 11 (Standard) or 14 (Large) on macOS, while the Windows
+// menu items store 9 (Standard) or 12 (Large) instead (see onFontSize11 and
+// onFontSize14). A fresh Windows configuration has no value at all, so the
+// macOS default 11 is read back. Used unmapped that made the tab strip and the
+// menu font noticeably larger than the rest of the Windows UI, most visible
+// with the 8 pt MS Sans Serif UI font on Windows 2000. Map the macOS values so
+// both platforms start at their own standard size.
+static int guiFontPointSize(int fontSize)
+{
+#if defined(__WXMAC__)
+    return fontSize;
+#else
+    switch (fontSize)
+    {
+        case 11: return 9;
+        case 14: return 12;
+        default: return fontSize;
+    }
+#endif
+}
+
+static wxFont* createGuiFont(int fontSize)
+{
+    int pointSize = guiFontPointSize(fontSize);
+#if defined(__WXMAC__)
+    if (pointSize == 11)
+    {
+        wxFont* font = new wxFont(wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
+        font->SetPointSize(pointSize);
+        return font;
+    }
+#endif
+    return new wxFont(pointSize, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+}
+
 
 // Paints the background of an inline <code> span as one single rectangle.
 //
@@ -1826,19 +1864,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     if (mode_.gui)
     {
         this->Connect(XRCID(GUICOMPUTERNOTEBOOK), wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, wxNotebookEventHandler(Main::onComputer) );
-        wxFont smallFont(6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-        XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetFont(smallFont);
-        
-        wxFont* defaultFont;
 
-        if (fontSize_ == 11)
-        {
-            defaultFont = new wxFont(wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
-            defaultFont->SetPointSize(fontSize_);
-        }
-        else
-            defaultFont = new wxFont(fontSize_, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-
+        wxFont* defaultFont = createGuiFont(fontSize_);
         XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetFont(*defaultFont);
         delete defaultFont;
 
@@ -2083,7 +2110,10 @@ wxSize Main::getDefaultGuiSize()
     int osMinorVersion = 0;
     wxGetOsVersion(&osMajorVersion, &osMinorVersion);
     if (osMajorVersion == 5 && osMinorVersion == 0)
-        size.y -= 90;   // Windows 2000: 90 px more reduction for the shorter frame and title bar chrome
+    {
+       size.x -= 20;   // Windows 2000: 20 px more reduction
+       size.y -= 90;   // Windows 2000: 90 px more reduction
+    }
 #endif
 
     return size;
@@ -2470,14 +2500,7 @@ void Main::readConfig()
 
     if (mode_.gui)
     {
-        wxFont* defaultFont;
-        if (fontSize_ == 11)
-        {
-            defaultFont = new wxFont(wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
-            defaultFont->SetPointSize(fontSize_);
-        }
-        else
-            defaultFont = new wxFont(fontSize_, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+        wxFont* defaultFont = createGuiFont(fontSize_);
 
         XRCCTRL(*this, "LapTimeTrigger", wxChoice)->SetSelection(lapTimeTrigger_);
         XRCCTRL(*this, "AssSaveDebugFile", wxCheckBox)->SetValue(saveDebugFile_);
@@ -2486,11 +2509,7 @@ void Main::readConfig()
         menubarPointer->Check(XRCID("MI_FullScreenFloat"), fullScreenFloat_);
         menubarPointer->Check(XRCID("MI_FixedWindowPosition"), mode_.window_position_fixed);
         menubarPointer->Check(XRCID("MI_NumPad"), useNumPad_);
-#if defined(__WXMAC__)
-        if (fontSize_ == 11)
-#else
-        if (fontSize_ == 9)
-#endif
+        if (guiFontPointSize(fontSize_) == guiFontPointSize(11))
             menubarPointer->Check(XRCID("MI_FontSize11"), true);
         else
             menubarPointer->Check(XRCID("MI_FontSize14"), true);
@@ -2717,11 +2736,7 @@ void Main::adjustGuiSize()
     {
         int fontFactorX = 0, fontFactorY = 0, debugTraceWindowX = 10;
         
-#if defined(__WXMAC__)
-        if (fontSize_ != 11)
-#else
-        if (fontSize_ != 9)
-#endif
+        if (guiFontPointSize(fontSize_) != guiFontPointSize(11))
         {
             fontFactorX = 8;
             fontFactorY = 6;
