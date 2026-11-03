@@ -1268,22 +1268,22 @@ void Panel::init(vector<GuiItemConfiguration> buttonConfig, wxSize panelSize, in
 
             case ADI_SPINCTRL:
                 spinCtrlAdiDefined = false;
-                spinCtrlAdi = new wxSpinCtrl(this, 0x70, wxEmptyString, button->position, wxDefaultSize, wxSP_ARROW_KEYS, button->rangeLow, button->rangeHigh);
+                spinCtrlAdi = new wxSpinCtrl(this, 0x70, wxEmptyString, button->position, (button->size.x > 0 && button->size.y > 0) ? button->size : wxDefaultSize, wxSP_ARROW_KEYS, button->rangeLow, button->rangeHigh);
             break;
 
             case ADI_VOLT_SPINCTRL:
                 spinCtrlAdiVoltDefined = false;
-                spinCtrlAdiVolt = new wxSpinCtrl(this, 0x71, wxEmptyString, button->position, wxDefaultSize, wxSP_ARROW_KEYS, button->rangeLow, button->rangeHigh);
+                spinCtrlAdiVolt = new wxSpinCtrl(this, 0x71, wxEmptyString, button->position, (button->size.x > 0 && button->size.y > 0) ? button->size : wxDefaultSize, wxSP_ARROW_KEYS, button->rangeLow, button->rangeHigh);
             break;
 
             case ADS_SPINCTRL:
                 spinCtrlAdsDefined = false;
-                spinCtrlAds = new wxSpinCtrl(this, 0x72, wxEmptyString, button->position, wxDefaultSize, wxSP_ARROW_KEYS, button->rangeLow, button->rangeHigh);
+                spinCtrlAds = new wxSpinCtrl(this, 0x72, wxEmptyString, button->position, (button->size.x > 0 && button->size.y > 0) ? button->size : wxDefaultSize, wxSP_ARROW_KEYS, button->rangeLow, button->rangeHigh);
             break;
 
             case ADS_VOLT_SPINCTRL:
                 spinCtrlAdsVoltDefined = false;
-                spinCtrlAdsVolt = new wxSpinCtrl(this, 0x73, wxEmptyString, button->position, wxDefaultSize, wxSP_ARROW_KEYS, button->rangeLow, button->rangeHigh);
+                spinCtrlAdsVolt = new wxSpinCtrl(this, 0x73, wxEmptyString, button->position, (button->size.x > 0 && button->size.y > 0) ? button->size : wxDefaultSize, wxSP_ARROW_KEYS, button->rangeLow, button->rangeHigh);
             break;
                 
             case CPU_SLIDER:

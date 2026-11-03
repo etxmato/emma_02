@@ -195,6 +195,7 @@ Source: ..\data\St2\Visicom-Cartridges\*.*; DestDir: {app}\data\St2\Visicom-Cart
 Source: ..\data\StudioII\*.*; DestDir: {app}\data\StudioII; Components: MAIN
 Source: ..\data\StudioIII\*.*; DestDir: {app}\data\StudioIII; Components: MAIN
 Source: ..\data\StudioIV\*.*; DestDir: {app}\data\StudioIV; Components: MAIN
+Source: ..\data\Studio2020\*.*; DestDir: {app}\data\Studio2020; Components: MAIN
 Source: ..\data\System00\*.*; DestDir: {app}\data\System00; Components: MAIN
 Source: ..\data\TMC600\*.*; DestDir: {app}\data\TMC600; Components: MAIN
 Source: ..\data\TMC1800\*.*; DestDir: {app}\data\TMC1800; Components: MAIN

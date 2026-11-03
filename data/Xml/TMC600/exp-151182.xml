@@ -21,46 +21,50 @@
     </batchwav>
     
     <frontpanel init="on">
-        <size>270, 135</size>
+        <size>320, 140</size>
         <item>
             <type>text</type>
             <label size="12">A/DI Input</label>
-            <pos>10, 30</pos>
+            <pos>10, 32</pos>
         </item>
         <item>
             <type>spin_adi</type>
-            <pos>110, 30</pos>
+            <pos>112, 32</pos>
+            <size>60, 22</size>
             <range>0, 14</range>
         </item>
         <item>
             <type>spin_adi_volt</type>
-            <pos>160, 30</pos>
+            <pos>182, 32</pos>
+            <size>90, 22</size>
             <range>-100, 1000</range>
         </item>
         <item>
             <type>text</type>
             <label size="12">mV</label>
-            <pos>230, 30</pos>
+            <pos>282, 32</pos>
         </item>
         <item>
             <type>text</type>
             <label size="12">A/DS Input</label>
-            <pos>10, 80</pos>
+            <pos>10, 88</pos>
         </item>
         <item>
             <type>spin_ads</type>
-            <pos>110, 80</pos>
+            <pos>112, 88</pos>
+            <size>60, 22</size>
             <range>0, 15</range>
         </item>
         <item>
             <type>spin_ads_volt</type>
-            <pos>160, 80</pos>
+            <pos>182, 88</pos>
+            <size>85, 22</size>
             <range>0, 5100</range>
         </item>
         <item>
             <type>text</type>
             <label size="12">mV</label>
-            <pos>230, 80</pos>
+            <pos>282, 88</pos>
         </item>
     </frontpanel>
 

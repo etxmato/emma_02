@@ -29,6 +29,16 @@
 #include "main.h"
 #include "led.h"
 
+// The LED artwork uses an opaque white background for the transparent area,
+// like the small ledon.png/ledoff.png images, so a white colour-key mask works
+// on every platform. Do not use PNG alpha here: wxMSW draws through the mask
+// only, so an alpha-only image paints its transparent corners opaque on
+// W2K/XP (visible as a dark square around every large LED).
+static wxMask* createLedMask(wxBitmap* bitmap, const wxColour& keyColour)
+{
+    return new wxMask(*bitmap, keyColour);
+}
+
 Led::Led(wxDC& dc, int x, int y, int ledType, bool reversePol)
 {
     status_ = 0;
@@ -53,50 +63,50 @@ Led::Led(wxDC& dc, int x, int y, int ledType, bool reversePol)
         case LED_REAL_RED:
             ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Kredledon.png", wxBITMAP_TYPE_PNG);
             ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Kredledoff.png", wxBITMAP_TYPE_PNG);
-            maskOn = new wxMask(*ledOnBitmapPointer, pink);
-            maskOff = new wxMask(*ledOnBitmapPointer, pink);
+            maskOn = createLedMask(ledOnBitmapPointer, pink);
+            maskOff = createLedMask(ledOffBitmapPointer, pink);
         break;
 
         case LED_REAL_GREEN:
             ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Kgreenledon.png", wxBITMAP_TYPE_PNG);
             ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Kgreenledoff.png", wxBITMAP_TYPE_PNG);
-            maskOn = new wxMask(*ledOnBitmapPointer, pink);
-            maskOff = new wxMask(*ledOnBitmapPointer, pink);
+            maskOn = createLedMask(ledOnBitmapPointer, pink);
+            maskOff = createLedMask(ledOffBitmapPointer, pink);
         break;
 
         case LED_REAL_ORANGE:
             ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Korangeledon.png", wxBITMAP_TYPE_PNG);
             ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Korangeledoff.png", wxBITMAP_TYPE_PNG);
-            maskOn = new wxMask(*ledOnBitmapPointer, pink);
-            maskOff = new wxMask(*ledOnBitmapPointer, pink);
+            maskOn = createLedMask(ledOnBitmapPointer, pink);
+            maskOff = createLedMask(ledOffBitmapPointer, pink);
         break;
 
         case LED_SMALL_RED:
             ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/ledon.png", wxBITMAP_TYPE_PNG);
             ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/ledoff.png", wxBITMAP_TYPE_PNG);
-            maskOn = new wxMask(*ledOnBitmapPointer, white);
-            maskOff = new wxMask(*ledOnBitmapPointer, white);
+            maskOn = createLedMask(ledOnBitmapPointer, white);
+            maskOff = createLedMask(ledOffBitmapPointer, white);
         break;
 
         case LED_LARGE_RED:
             ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledredon.png", wxBITMAP_TYPE_PNG);
             ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledredoff.png", wxBITMAP_TYPE_PNG);
-            maskOn = new wxMask(*ledOnBitmapPointer, white);
-            maskOff = new wxMask(*ledOnBitmapPointer, white);
+            maskOn = createLedMask(ledOnBitmapPointer, white);
+            maskOff = createLedMask(ledOffBitmapPointer, white);
         break;
 
         case LED_LARGE_GREEN:
             ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledgreenon.png", wxBITMAP_TYPE_PNG);
             ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledgreenoff.png", wxBITMAP_TYPE_PNG);
-            maskOn = new wxMask(*ledOnBitmapPointer, white);
-            maskOff = new wxMask(*ledOnBitmapPointer, white);
+            maskOn = createLedMask(ledOnBitmapPointer, white);
+            maskOff = createLedMask(ledOffBitmapPointer, white);
         break;
 
         case LED_LARGE_ORANGE:
             ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledorangeon.png", wxBITMAP_TYPE_PNG);
             ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledorangeoff.png", wxBITMAP_TYPE_PNG);
-            maskOn = new wxMask(*ledOnBitmapPointer, white);
-            maskOff = new wxMask(*ledOnBitmapPointer, white);
+            maskOn = createLedMask(ledOnBitmapPointer, white);
+            maskOff = createLedMask(ledOffBitmapPointer, white);
         break;
 
         case LED_LARGE_COLOR:
@@ -104,10 +114,10 @@ Led::Led(wxDC& dc, int x, int y, int ledType, bool reversePol)
             ledOnGreenBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledgreenon.png", wxBITMAP_TYPE_PNG);
             ledOnOrangeBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledorangeon.png", wxBITMAP_TYPE_PNG);
             ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/largeledcoloroff.png", wxBITMAP_TYPE_PNG);
-            maskOn = new wxMask(*ledOnBitmapPointer, white);
-            maskOnGreen = new wxMask(*ledOnBitmapPointer, white);
-            maskOnOrange = new wxMask(*ledOnBitmapPointer, white);
-            maskOff = new wxMask(*ledOnBitmapPointer, white);
+            maskOn = createLedMask(ledOnBitmapPointer, white);
+            maskOnGreen = createLedMask(ledOnGreenBitmapPointer, white);
+            maskOnOrange = createLedMask(ledOnOrangeBitmapPointer, white);
+            maskOff = createLedMask(ledOffBitmapPointer, white);
         break;
 
         case LED_SMALL_RED_DISABLE:
@@ -115,10 +125,10 @@ Led::Led(wxDC& dc, int x, int y, int ledType, bool reversePol)
             ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/ledoff.png", wxBITMAP_TYPE_PNG);
             ledOnGreenBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/leddisabled.png", wxBITMAP_TYPE_PNG);
             ledOnOrangeBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/leddisabled.png", wxBITMAP_TYPE_PNG);
-            maskOn = new wxMask(*ledOnBitmapPointer, white);
-            maskOnGreen = new wxMask(*ledOnBitmapPointer, white);
-            maskOnOrange = new wxMask(*ledOnBitmapPointer, white);
-            maskOff = new wxMask(*ledOnBitmapPointer, white);
+            maskOn = createLedMask(ledOnBitmapPointer, white);
+            maskOnGreen = createLedMask(ledOnGreenBitmapPointer, white);
+            maskOnOrange = createLedMask(ledOnOrangeBitmapPointer, white);
+            maskOff = createLedMask(ledOffBitmapPointer, white);
         break;
     }
 
