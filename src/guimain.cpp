@@ -3701,6 +3701,7 @@ void GuiMain::checkWavFileDownload(bool downloadIfMissing)
     size_t length = 8;
 
     char* waveHeader = new char[length];
+    memset(waveHeader, 0, length);
     wxString fileName = computerConfiguration.wavConfiguration[0].directory + computerConfiguration.wavConfiguration[0].fileName;
     
     bool fileExists = wxFile::Exists(fileName);
@@ -3732,19 +3733,31 @@ void GuiMain::checkWavFileDownload(bool downloadIfMissing)
                     downloadOk = (downloadDialog.RunModal() == wxCDRF_SUCCESS);
 #endif
                 html_stream.Close();
+
+                // A redirect/error body can be written as a "successful" download,
+                // and a failed transfer can leave a partial file behind. Only
+                // accept the file when it really starts with a WAV header;
+                // otherwise remove it so the next attempt downloads again.
+                wxString wavError;
+                if (downloadOk)
+                {
+                    char riff[4] = { 0, 0, 0, 0 };
+                    wxFFile checkFile;
+                    if (!checkFile.Open(fileName, _("rb")) || checkFile.Read(riff, 4) != 4 ||
+                        riff[0] != 'R' || riff[1] != 'I' || riff[2] != 'F' || riff[3] != 'F')
+                    {
+                        downloadOk = false;
+                        wavError = _("The downloaded file is not a valid WAV file.");
+                    }
+                    checkFile.Close();
+                }
+
                 if (!downloadOk)
                 {
-                    wxFile wavFile(fileName);
-                    if (wavFile.IsOpened())
-                    {
-                        if (wavFile.Length() == 0)
-                        {
-                            wavFile.Close();
-                            wxRemoveFile(fileName);
-                        }
-                        else
-                            wavFile.Close();
-                    }
+                    if (wxFile::Exists(fileName))
+                        wxRemoveFile(fileName);
+                    if (!wavError.IsEmpty())
+                        wxMessageBox(wavError, _("Download failed"), wxOK | wxICON_ERROR, this);
                 }
 
             }

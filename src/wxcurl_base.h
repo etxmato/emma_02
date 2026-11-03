@@ -589,6 +589,7 @@ protected:
     wxCharBuffer            m_szUsername;
     wxCharBuffer            m_szPassword;
     wxCharBuffer            m_szUserPass;
+    wxCharBuffer            m_szCaFile;
 
     long                    m_iHostPort;
 

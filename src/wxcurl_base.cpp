@@ -25,9 +25,11 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 
 #include "wxcurl_base.h"
 #include <wx/filename.h>
+#include <wx/stdpaths.h>
 
 
 //////////////////////////////////////////////////////////////////////
@@ -803,6 +805,27 @@ void wxCurlBase::SetCurlHandleToDefaults(const wxString& relativeURL)
         // Bound the connection phase so a dead/unreachable server is reported
         // in seconds rather than after libcurl's default of 300 s.
         SetOpt(CURLOPT_CONNECTTIMEOUT, wxCURL_CONNECT_TIMEOUT_SECONDS);
+
+#if defined(__WXMSW__)
+        // The VC9 lines (XP / Windows 2000) link a libcurl built with OpenSSL
+        // instead of Schannel, because those OS TLS stacks stop at TLS 1.0 and
+        // the WAV download server no longer accepts that. OpenSSL has no access
+        // to the Windows certificate store, so point it at the CA bundle that
+        // is installed next to the executable. Schannel builds (the modern
+        // Windows line) report a different ssl_version and keep using the store.
+        curl_version_info_data* curlVersion = curl_version_info(CURLVERSION_NOW);
+        if (curlVersion && curlVersion->ssl_version &&
+            strstr(curlVersion->ssl_version, "OpenSSL") != NULL)
+        {
+            wxFileName caFile(wxStandardPaths::Get().GetExecutablePath());
+            caFile.SetFullName(wxS("cacert.pem"));
+            if (caFile.FileExists())
+            {
+                m_szCaFile = wxCURL_STRING2BUF(caFile.GetFullPath());
+                SetStringOpt(CURLOPT_CAINFO, m_szCaFile);
+            }
+        }
+#endif
 
         SetOpt(CURLOPT_HEADERFUNCTION, wxcurl_header_func);
         SetOpt(CURLOPT_WRITEHEADER, &m_szResponseHeader);

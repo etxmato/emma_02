@@ -35,6 +35,7 @@ Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:Ad
 Source: msvcr90.dll; DestDir: {app}; Components: MAIN
 Source: msvcp90.dll; DestDir: {app}; Components: MAIN
 Source: ..\Win32-VC9-W2K\Release\Emma 02.exe; DestDir: {app}; Components: MAIN; Tasks: ; Languages: 
+Source: ..\cacert.pem; DestDir: {app}; Components: MAIN
 Source: ..\emma_02.htb; DestDir: {app}; Components: MAIN
 Source: ..\*.def; DestDir: {app}; Components: MAIN
 Source: ..\*.syntax; DestDir: {app}; Components: MAIN

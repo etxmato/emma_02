@@ -280,7 +280,23 @@ void wxCurlTransferDialog::EndModal(wxCurlDialogReturnFlag retCode)
     // NB: this must be done *after* calling wxDialog::EndModal
     //     so that while we wait we are hidden
     if (m_pThread->IsAlive())
-        HandleCurlThreadError(m_pThread->Wait(), m_pThread);
+    {
+        wxCurlThreadError err = m_pThread->Wait();
+
+        // The worker is created as a detached wxThread (the Create() call in
+        // wxCurlBaseThread::Download does not pass wxTHREAD_JOINABLE), so Wait()
+        // has no exit code to report and always yields 0. Do not turn a
+        // completed transfer into a spurious "Network error: no error"; the
+        // result has already been reported by OnEndPerform.
+        if (err == wxCTE_CURL_ERROR && m_pThread->GetCurlSession())
+        {
+            long code = m_pThread->GetCurlSession()->GetResponseCode();
+            if (code > 199 && code < 300)
+                err = wxCTE_NO_ERROR;
+        }
+
+        HandleCurlThreadError(err, m_pThread);
+    }
 }
 
 void wxCurlTransferDialog::UpdateLabels(wxCurlProgressBaseEvent *ev)

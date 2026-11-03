@@ -397,7 +397,7 @@ core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley</label>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
 </font>
-<label>The following libraries are licensed under the GNU Lesser General Public License (LGPL): wxWidgets, wxCurl, Blargg’s Blip Buffer library, libserialport, SDL (Simple DirectMedia Library) and SDL Audioin. Parts of EMULIB (by Bob Armstrong) are used for TU58 emulation and is licended under the GNU Affero General Public License. Curl and libcurl are licensed under a MIT/X derivate license. </label>
+<label>The following libraries are licensed under the GNU Lesser General Public License (LGPL): wxWidgets, wxCurl, Blargg’s Blip Buffer library, libserialport, SDL (Simple DirectMedia Library) and SDL Audioin. Parts of EMULIB (by Bob Armstrong) are used for TU58 emulation and is licended under the GNU Affero General Public License. Curl and libcurl are licensed under a MIT/X derivate license. OpenSSL (used for the HTTPS downloads in the Windows XP and Windows 2000 builds) is licensed under the OpenSSL License and the original SSLeay License (see the OpenSSL LICENSE file). </label>
 <wrap>400</wrap>
 </object>
 </object>

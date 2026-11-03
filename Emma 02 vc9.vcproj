@@ -84,11 +84,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libserialport.lib comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw32u_xrc.lib wxmsw32u_html.lib wxmsw32u_adv.lib wxmsw32u_core.lib wxbase32u_xml.lib wxbase32u_net.lib wxbase32u.lib wxregexu.lib wxexpat.lib wsock32.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib libcurl.lib ws2_32.lib wldap32.lib crypt32.lib"
+				AdditionalDependencies="libserialport.lib comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw32u_xrc.lib wxmsw32u_html.lib wxmsw32u_adv.lib wxmsw32u_core.lib wxbase32u_xml.lib wxbase32u_net.lib wxbase32u.lib wxregexu.lib wxexpat.lib wsock32.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib libcurl.lib libeay32.lib ssleay32.lib ws2_32.lib wldap32.lib crypt32.lib"
 				OutputFile="$(SolutionDir)$(PlatformName)-VC9\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x86&quot;;&quot;$(WXWIN)\lib\vc_lib\&quot;;&quot;$(CURL)\build\Win32\VC9\LIB Release - DLL Windows SSPI&quot;;&quot;$(SERIALPORT)\Win32-VS2008\lib\release&quot;;&quot;%(AdditionalLibraryDirectories)&quot;"
+				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x86&quot;;&quot;$(WXWIN)\lib\vc_lib\&quot;;&quot;$(CURL)\build\Win32\VC9\LIB Release - OpenSSL - W2K&quot;;&quot;$(SERIALPORT)\Win32-VS2008\lib\release&quot;;&quot;%(AdditionalLibraryDirectories)&quot;"
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames=""
 				ProgramDatabaseFile="$(SolutionDir)$(PlatformName)-VC9\$(ConfigurationName)\Emma 02.pdb"
