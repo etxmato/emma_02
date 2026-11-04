@@ -688,6 +688,7 @@ public:
     int bitness;
     bool arm;
     bool suse;
+    bool fedora;
     
     int red;
     int green;

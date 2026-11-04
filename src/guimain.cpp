@@ -173,6 +173,7 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
     int major, minor;
     
     returnValue.errorMessage = "";
+    returnValue.fedora = false;
     wxGetOsVersion(&major, &minor);
     
     wxConfigBase *windowConfigPointer;
@@ -208,6 +209,7 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
 
     distInfo = wxPlatformInfo::Get().GetLinuxDistributionInfo();
     returnValue.packageDeb = true;
+    returnValue.fedora = (distInfo.Id.Lower().Find("fedora") != wxNOT_FOUND);
 
     if (distInfo.Id == "Ubuntu")
     {
@@ -242,6 +244,7 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
         {
             windowInfoFile = "fedora_" + fontSizeString + ".ini";
             returnValue.suse = false;
+            returnValue.fedora = true;
         }
     }
     

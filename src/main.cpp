@@ -2101,6 +2101,12 @@ wxSize Main::getDefaultGuiSize()
 #if defined (__linux__)
     size.x += 24;
     size.y += 126;
+    if (windowInfo.fedora)
+    {
+        // Fedora needs a slightly taller and less wide default window
+        size.x -= 20;
+        size.y += 20;
+    }
 #endif
 #if defined (__WXMSW__)
     size.x += 44;
