@@ -688,7 +688,6 @@ public:
     int bitness;
     bool arm;
     bool suse;
-    bool fedora;
     
     int red;
     int green;
@@ -700,6 +699,10 @@ public:
     int ledPosY;
     int ledPosDiagY;
     int ledPosVip2Y;
+
+    int profilerOffset;
+    int windowSizeX;
+    int windowSizeY;
     
     int statusBarElementMeasure[5];
 

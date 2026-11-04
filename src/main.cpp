@@ -2094,33 +2094,8 @@ wxSize Main::getDefaultGuiSize()
         number++;
     }
     
-#if defined (__WXMAC__)
-    size.x += 40;
-    size.y += 86;
-#endif
-#if defined (__linux__)
-    size.x += 24;
-    size.y += 126;
-    if (windowInfo.fedora)
-    {
-        // Fedora needs a slightly taller and less wide default window
-        size.x -= 20;
-        size.y += 20;
-    }
-#endif
-#if defined (__WXMSW__)
-    size.x += 44;
-    size.y += 110;
-
-    int osMajorVersion = 0;
-    int osMinorVersion = 0;
-    wxGetOsVersion(&osMajorVersion, &osMinorVersion);
-    if (osMajorVersion == 5 && osMinorVersion == 0)
-    {
-       size.x -= 20;   // Windows 2000: 20 px more reduction
-       size.y -= 90;   // Windows 2000: 90 px more reduction
-    }
-#endif
+    size.x += windowInfo.windowSizeX;
+    size.y += windowInfo.windowSizeY;
 
     return size;
 }

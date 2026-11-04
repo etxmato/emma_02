@@ -173,7 +173,6 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
     int major, minor;
     
     returnValue.errorMessage = "";
-    returnValue.fedora = false;
     wxGetOsVersion(&major, &minor);
     
     wxConfigBase *windowConfigPointer;
@@ -209,7 +208,6 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
 
     distInfo = wxPlatformInfo::Get().GetLinuxDistributionInfo();
     returnValue.packageDeb = true;
-    returnValue.fedora = (distInfo.Id.Lower().Find("fedora") != wxNOT_FOUND);
 
     if (distInfo.Id == "Ubuntu")
     {
@@ -244,7 +242,6 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
         {
             windowInfoFile = "fedora_" + fontSizeString + ".ini";
             returnValue.suse = false;
-            returnValue.fedora = true;
         }
     }
     
@@ -343,7 +340,28 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
     returnValue.red = (int)windowConfigPointer->Read("/Colour/red", 219);
     returnValue.green = (int)windowConfigPointer->Read("/Colour/green", 219);
     returnValue.blue = (int)windowConfigPointer->Read("/Colour/blue", 219);
-        
+
+    // Lines the profiler tab is drawn shorter than the assembler, so the
+    // profiler panel can be tuned per distro/font from the window .ini.
+    // Compile-time default matches the historical PROFILER_OFFSET.
+#if defined (__WXMAC__)
+    returnValue.profilerOffset = (int)windowConfigPointer->Read("/Debug/ProfilerOffset", 5);
+#else
+    returnValue.profilerOffset = (int)windowConfigPointer->Read("/Debug/ProfilerOffset", 6);
+#endif
+
+    // Extra client area added to the widest control extent to form the default
+    // window size. Per-OS (and per-font) values live in the .ini [Window] section.
+#if defined (__WXMAC__)
+    int defWindowSizeX = 40, defWindowSizeY = 86;
+#elif defined (__WXMSW__)
+    int defWindowSizeX = 44, defWindowSizeY = 110;
+#else
+    int defWindowSizeX = 24, defWindowSizeY = 126;
+#endif
+    returnValue.windowSizeX = (int)windowConfigPointer->Read("/Window/SizeX", defWindowSizeX);
+    returnValue.windowSizeY = (int)windowConfigPointer->Read("/Window/SizeY", defWindowSizeY);
+
     delete pConfig;
     wxConfigBase::Set(currentConfigPointer);
 
