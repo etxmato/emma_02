@@ -335,7 +335,6 @@
 <option>20</option>
 <object class="wxChoice" name="MainDirXml">
 <tooltip>Select Computer</tooltip>
-<help> </help>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>

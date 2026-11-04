@@ -327,7 +327,6 @@
 <object class="sizeritem">
 <object class="wxChoice" name="MainDirXml">
 <tooltip>Select Computer</tooltip>
-<help> </help>
 <font>
 <size>14</size>
 </font>
