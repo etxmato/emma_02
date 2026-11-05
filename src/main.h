@@ -701,6 +701,7 @@ public:
     int ledPosVip2Y;
 
     int profilerOffset;
+    int assemblerOffset;
     int windowSizeX;
     int windowSizeY;
     

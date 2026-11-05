@@ -346,14 +346,10 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
     returnValue.green = (int)windowConfigPointer->Read("/Colour/green", 219);
     returnValue.blue = (int)windowConfigPointer->Read("/Colour/blue", 219);
 
-    // Lines the profiler tab is drawn shorter than the assembler, so the
-    // profiler panel can be tuned per distro/font from the window .ini.
-    // Compile-time default matches the historical PROFILER_OFFSET.
-#if defined (__WXMAC__)
-    returnValue.profilerOffset = (int)windowConfigPointer->Read("/Debug/ProfilerOffset", 5);
-#else
+    // Lines the profiler/assembler tabs are drawn shorter than the available
+    // debug area, tunable per distro/font from the window .ini [Debug] section.
     returnValue.profilerOffset = (int)windowConfigPointer->Read("/Debug/ProfilerOffset", 6);
-#endif
+    returnValue.assemblerOffset = (int)windowConfigPointer->Read("/Debug/AssemblerOffset", 0L);
 
     // Extra client area added to the widest control extent to form the default
     // window size. Per-OS (and per-font) values live in the .ini [Window] section.
