@@ -2851,31 +2851,56 @@ bool Main::updateEmma()
     p_Main->eventShowMessageBox( "Emma 02 V" + latestVersion_ + " is available, download now?\n",
                                "Emma 02", wxICON_QUESTION  | wxYES_DEFAULT | wxYES_NO);
 
+    // IDs follow the "Runtime updateEmma() -> V2.01 ID mapping" in the
+    // emma02_ccount skill. Standard packages use the old IDs, which are
+    // repointed at every release; variant packages use their own IDs.
     if (messageBoxAnswer_ == wxYES)
     {
 #if defined(__linux__)
         if (windowInfo.packageDeb)
         {
-           if (windowInfo.arm)
-              ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=20"); // arm deb
-           else
-              ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=11"); // x86 deb
+            // Standard deb is built with wx 3.2, the legacy deb with wx 3.0.
+            if (wxCHECK_VERSION(3, 2, 0))
+            {
+               if (windowInfo.arm)
+                  ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=20"); // arm64 deb
+               else
+                  ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=11"); // amd64 deb
+            }
+            else
+            {
+               if (windowInfo.arm)
+                  ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=40"); // arm64 legacy deb
+               else
+                  ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=39"); // amd64 legacy deb
+            }
         }
         else
         {
            if (windowInfo.suse)
            {
-              if (windowInfo.arm)
-                 ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=23"); // arm rpm
+              // Leap 16 is built with wx 3.2, Leap 15.6 with wx 3.1.
+              if (!wxCHECK_VERSION(3, 2, 0))
+              {
+                 if (windowInfo.arm)
+                    ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=46"); // arm64 Leap 15.6 rpm
+                 else
+                    ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=45"); // amd64 Leap 15.6 rpm
+              }
               else
-                 ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=22"); // x86 rpm
+              {
+                 if (windowInfo.arm)
+                    ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=23"); // arm64 Leap 16 rpm
+                 else
+                    ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=22"); // amd64 Leap 16 rpm
+              }
            }
            else
            {
               if (windowInfo.arm)
-                 ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=21"); // arm rpm
+                 ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=21"); // arm64 Fedora rpm
               else
-                 ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=13"); // x86 rpm
+                 ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=13"); // amd64 Fedora rpm
            }
         }
         return true;
@@ -2883,19 +2908,25 @@ bool Main::updateEmma()
        if (windowInfo.operatingSystem == OS_MAC_PRE_10_10)
            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=15"); // 32 bit & pre 10_10
        else
-           ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=19"); // arm & x86
+           ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=19"); // universal DMG (arm64 & x64)
        return true;
 #else
        if (windowInfo.arm)
-          ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=25"); // arm
-       else
+          ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=25"); // arm64 windows
+       else if (windowInfo.operatingSystem == OS_WINDOWS_2000)
+          ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=35"); // windows x86 2000
+       else if (windowInfo.operatingSystem == OS_WINDOWS_XP)
        {
           if (wxIsPlatform64Bit())
-             ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=17"); // windows 64
+             ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=47"); // windows x64 xp
           else
-             ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=16"); // windows 32
-          return true;
+             ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=34"); // windows x86 xp
        }
+       else if (wxIsPlatform64Bit())
+          ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=17"); // windows x64
+       else
+          ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=16"); // windows x86
+       return true;
 #endif
     }
     return false;

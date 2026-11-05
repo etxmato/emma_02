@@ -265,7 +265,12 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
                 returnValue.operatingSystem = OS_WINDOWS_2000;
             }
             else
+            {
+                // 5.1 = Windows XP x86, 5.2 = Windows XP x64 / Server 2003.
+                // Both use the winxp ini; the bitness selects the update package.
                 windowInfoFile = "winxp_" + fontSizeString + ".ini";
+                returnValue.operatingSystem = OS_WINDOWS_XP;
+            }
         break;
             
         case OS_MAJOR_VISTA_8_1:
