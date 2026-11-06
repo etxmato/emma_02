@@ -1451,6 +1451,9 @@ public:
     void traceTimeout(wxTimerEvent& event);
     void directAssTimeout(wxTimerEvent& event);
     void vuTimeout(wxTimerEvent& event);
+    void ct2425AutoRun();
+    void ct2425AutoRunHelper();
+    void ct2425AutoRunTimeout(wxTimerEvent& event);
     void updateMemoryTab();
     void updateAssTab();
     void updateSlotInfo();
@@ -1543,6 +1546,7 @@ private:
     int treble_;
 
     wxTimer *updateCheckPointer;
+    wxTimer *ct2425AutoRunPointer;
     bool updateCheckStarted_;
     int oldGauge_;
 

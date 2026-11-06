@@ -420,6 +420,7 @@ void Ct2425::setControl(Byte value, int showTrace)
         printBuffer.Printf("      Power break at %04X", p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()));
         p_Main->debugTrace(printBuffer, true);
         p_Computer->setCt2425ResetOnRun(true);
+        p_Main->ct2425AutoRun();
     }
     if ((value & 0x40) == 0)
     {

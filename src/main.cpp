@@ -834,6 +834,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_TIMER(908, Main::guiSizeTimeout)
     EVT_TIMER(909, Main::guiRedrawBarTimeOut)
     EVT_TIMER(910, Main::directAssTimeout)
+    EVT_TIMER(911, Main::ct2425AutoRunTimeout)
 
     EVT_KEY_DOWN(Main::onKeyDown)
     EVT_KEY_UP(Main::onKeyUp)
@@ -2007,6 +2008,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     guiSizeTimeoutPointer = new wxTimer(this, 908);
     guiRedrawBarTimeOutPointer = new wxTimer(this, 909);
     directAssPointer = new wxTimer(this, 910);
+    ct2425AutoRunPointer = new wxTimer(this, 911);
     guiSizeTimerStarted_ = false;
     
     this->connectKeyEvent(this);
@@ -2025,6 +2027,7 @@ Main::~Main()
 {
     delete vuPointer;
     delete directAssPointer;
+    delete ct2425AutoRunPointer;
 //    delete cpuPointer;
     delete updateCheckPointer;
     delete traceTimeoutPointer;
@@ -5948,6 +5951,25 @@ void Main::showChip8Register(int variable, int value, bool chip8register12bit)
 void Main::debounceTimeout(wxTimerEvent&WXUNUSED(event))
 {
     p_Computer->keyClear();
+}
+
+void Main::ct2425AutoRun()
+{
+    EmmaCallAfter(this, &Main::ct2425AutoRunHelper);
+}
+
+void Main::ct2425AutoRunHelper()
+{
+    ct2425AutoRunPointer->Start(1000, wxTIMER_ONE_SHOT);
+}
+
+void Main::ct2425AutoRunTimeout(wxTimerEvent&WXUNUSED(event))
+{
+    p_Computer->consumeCt2425ResetOnRun();
+    p_Computer->resetCpu();
+    p_Computer->resetComputer();
+    p_Computer->setSteps(-1);
+    setPauseState();
 }
 
 void Main::beepTimeout(wxTimerEvent& WXUNUSED(event))
