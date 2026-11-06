@@ -11,6 +11,11 @@
 #   --distro fedora|suse: selects the builder distro family and the artifact name
 #   --wx: wx ABI of the target distro — fedora is 3.2 only; suse 3.2 (Leap 16,
 #         DEPENDS_RPM_SUSE) or 3.1 (Leap 15.6, DEPENDS_RPM_SUSE_WX31, _leap156 suffix)
+#   --sign-key KEYID / --no-sign: override the conf's RPM_SIGN_KEY_ID for this run
+#   --gnupghome DIR: keyring to sign with (default <repo>/Pipeline/signing/gnupg)
+#   --passphrase-file FILE: passphrase for a protected key; the file is deleted
+#         after signing. rpm 4.14 ignores %_gpg_passphrase, so the passphrase is
+#         fed to gpg through %_gpg_sign_cmd_extra_args instead.
 set -e
 ARCH=""
 DISTRO=""
@@ -20,6 +25,10 @@ OUTDIR=""
 BUILD=0
 CLEAN=0
 JOBS=""
+SIGN_KEY=""
+SIGN=1
+GNUPGHOME_ARG=""
+PASS_FILE=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --arch) ARCH="$2"; shift 2;;
@@ -30,9 +39,16 @@ while [ $# -gt 0 ]; do
     --build) BUILD=1; shift;;
     --clean) CLEAN=1; shift;;
     --jobs) JOBS="$2"; shift 2;;
+    --sign-key) SIGN_KEY="$2"; shift 2;;
+    --gnupghome) GNUPGHOME_ARG="$2"; shift 2;;
+    --passphrase-file) PASS_FILE="$2"; shift 2;;
+    --no-sign) SIGN=0; shift;;
     *) echo "unknown arg: $1" >&2; exit 1;;
   esac
 done
+cleanup() { [ -z "$PASS_FILE" ] || rm -f "$PASS_FILE"; }
+# NOTE: bash keeps only one EXIT trap, so the WORK cleanup below must call this
+# function too rather than install a second trap.
 SCRIPTDIR="$(cd "$(dirname "$0")" && pwd)"
 [ -n "$SRCROOT" ] || SRCROOT="$(cd "$SCRIPTDIR/.." && pwd)"
 [ -n "$OUTDIR" ] || OUTDIR="$SRCROOT"
@@ -71,6 +87,8 @@ VERSION="$(get VERSION)"
 MAINTAINER="$(get MAINTAINER)"
 HOMEPAGE="$(get HOMEPAGE)"
 LICENSE="$(get LICENSE)"
+SIGN_CONF="$(get RPM_SIGN_KEY_ID)"
+[ -n "$SIGN_KEY" ] || SIGN_KEY="$SIGN_CONF"
 REQUIRES="$(get $DEPS_KEY)"
 DESC_SHORT="$(get DESC_SHORT)"
 DESC_LONG="$(get DESC_LONG)"
@@ -79,7 +97,7 @@ DESC_LONG="$(get DESC_LONG)"
 [ -x "$SRCROOT/$BIN/emma_02" ] || { echo "missing binary: $SRCROOT/$BIN/emma_02 (build first: make -C $BIN)" >&2; exit 1; }
 
 WORK="$(mktemp -d)"
-trap 'rm -rf "$WORK"' EXIT
+trap 'cleanup; rm -rf "$WORK"' EXIT
 TOP="$WORK/rpmbuild"
 STAGE="$TOP/stage"
 mkdir -p "$TOP/BUILD" "$TOP/BUILDROOT" "$TOP/RPMS" "$TOP/SOURCES" "$TOP/SPECS" "$TOP/SRPMS" "$STAGE"
@@ -200,6 +218,31 @@ rpmbuild -bb --define "_topdir $TOP" "$SPEC"
 RPM="$(find "$TOP/RPMS" -type f -name '*.rpm' | head -n1)"
 [ -n "$RPM" ] || { echo "rpmbuild produced no rpm" >&2; exit 1; }
 
+# --- optional GPG signing (rpm --addsign) ---------------------------------
+# Without a signature openSUSE YaST reports the package as broken:
+#   "Package emma-02 is broken, integrity check has failed."
+# Signing turns that into a one-time "new signing key" prompt for users who
+# import the public key (rpm --import emma_02_rpm_signing.asc).
+if [ "$SIGN" = "1" ] && [ -n "$SIGN_KEY" ]; then
+  GNUPGHOME="${GNUPGHOME_ARG:-$SCRIPTDIR/signing/gnupg}"
+  [ -d "$GNUPGHOME" ] || { echo "signing keyring not found: $GNUPGHOME (create it with Pipeline/create_rpm_signing_key.sh, or pass --no-sign)" >&2; exit 1; }
+  export GNUPGHOME
+  SIGN_ARGS=(--define "_gpg_name $SIGN_KEY")
+  if [ -n "$PASS_FILE" ]; then
+    [ -f "$PASS_FILE" ] || { echo "passphrase file not found: $PASS_FILE" >&2; exit 1; }
+    # rpm 4.14's %__gpg_sign_cmd has no passphrase support; appending these
+    # flags makes gpg read the passphrase from the file (loopback pinentry).
+    SIGN_ARGS+=(--define "_gpg_sign_cmd_extra_args --batch --pinentry-mode loopback --passphrase-file $PASS_FILE")
+  fi
+  echo "--- signing $PACKAGE with $SIGN_KEY ..."
+  if ! rpm "${SIGN_ARGS[@]}" --addsign "$RPM" >/dev/null 2>&1; then
+    echo "ERROR: rpm --addsign failed (keyring $GNUPGHOME, passphrase source ${PASS_FILE:-none})" >&2
+    exit 1
+  fi
+elif [ "$SIGN" = "0" ] || [ -z "$SIGN_KEY" ]; then
+  echo "--- signing disabled (unsigned rpm) ..."
+fi
+
 # Version-free artifact name; the version lives in the v<version> folder and the Version: tag.
 # Naming (2026-10-25): emma_02-<os>-<arch>[-<variant>].<ext> (rpm uses aarch64)
 DEST="$OUTDIR/emma_02-linux-${NAMEARCH}${SUFFIX}.rpm"
@@ -208,3 +251,13 @@ echo "built: $DEST"
 rpm -qp --qf 'Package: %{NAME}\nVersion: %{VERSION}-%{RELEASE}\nArchitecture: %{ARCH}\n' "$DEST"
 echo "Requires:"
 rpm -qp --requires "$DEST" | sed 's/^/  /'
+if [ "$SIGN" = "1" ] && [ -n "$SIGN_KEY" ]; then
+  echo "Signature:"
+  rpm -Kv "$DEST" | sed 's/^/  /'
+  # The builder normally does not import our public key, so rpm reports the
+  # signature as "NOKEY" - that still means the signature is present. Only
+  # require a signature line plus intact digests; a missing signature line is
+  # the real failure.
+  rpm -Kv "$DEST" | grep -q 'Signature, key ID' || { echo "ERROR: $DEST is not signed" >&2; exit 1; }
+  rpm -Kv "$DEST" | grep -q 'digest: OK' || { echo "ERROR: $DEST failed its digest check" >&2; exit 1; }
+fi

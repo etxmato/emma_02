@@ -352,6 +352,7 @@ rsync -a --delete \
   --exclude='.git' \
   --exclude="$OTHER_DIR" \
   --exclude='/build/' \
+  --exclude='Pipeline/signing' \
   --exclude='Debug' --exclude='Debug_x86' \
   --exclude='*.o' --exclude='*.d' --exclude='emma_02' --exclude='*.deb' --exclude='*.rpm' \
   --exclude='.DS_Store' --exclude='**/.DS_Store' --exclude='.AppleDouble' --exclude='**/.AppleDouble' --exclude='.LSOverride' --exclude='**/.LSOverride' \
@@ -359,11 +360,56 @@ rsync -a --delete \
   -e "ssh -F $SSHCFG" \
   "$REPO/" "lima-$VM:$GUEST_DIR/"
 
+# 2b. RPM signing keyring: copied separately because the generic excludes above
+#     drop it (`*.d` matches GnuPG's private-keys-v1.d, so the secret key would
+#     silently not reach the guest and rpmsign would hang). Only for rpm builds
+#     with RPM_SIGN_KEY_ID set in the conf.
+if [ "$FORMAT" = "rpm" ]; then
+  SIGN_KEY_ID="$(grep -E '^RPM_SIGN_KEY_ID=' "$CONF" | head -n1 | cut -d= -f2-)"
+  SIGN_KEYCHAIN="$(grep -E '^RPM_SIGN_KEYCHAIN_SERVICE=' "$CONF" | head -n1 | cut -d= -f2-)"
+  [ -n "$SIGN_KEYCHAIN" ] || SIGN_KEYCHAIN="emma02-rpm-signing"
+  SIGN_HOME="$REPO/Pipeline/signing/gnupg"
+  if [ -n "$SIGN_KEY_ID" ] && [ -d "$SIGN_HOME" ]; then
+    echo "-- syncing rpm signing keyring ..."
+    rsync -a --delete -e "ssh -F $SSHCFG" \
+      "$SIGN_HOME/" "lima-$VM:$GUEST_DIR/Pipeline/signing/gnupg/"
+    # An agent from an earlier run may cache an old/empty keyring; restart it.
+    limactl shell "$VM" -- gpgconf --kill gpg-agent >/dev/null 2>&1 || true
+
+    # The signing key is passphrase-protected. Get the passphrase from the
+    # environment or from the macOS Keychain (name in the conf), copy it into
+    # the guest as a 600 temp file, and let build_rpm.sh delete it after signing.
+    SIGN_PASS=""
+    PASS_SOURCE="none"
+    if [ -n "${EMMA02_RPM_GPG_PASSPHRASE:-}" ]; then
+      SIGN_PASS="$EMMA02_RPM_GPG_PASSPHRASE"; PASS_SOURCE="environment"
+    elif command -v security >/dev/null 2>&1; then
+      SIGN_PASS="$(security find-generic-password -s "$SIGN_KEYCHAIN" -w 2>/dev/null)" && PASS_SOURCE="Keychain item '$SIGN_KEYCHAIN'"
+    fi
+    PASS_ARGS=""
+    if [ -n "$SIGN_PASS" ]; then
+      HOST_PASS="$(mktemp)"
+      chmod 600 "$HOST_PASS"
+      printf '%s' "$SIGN_PASS" > "$HOST_PASS"
+      unset SIGN_PASS
+      GUEST_PASS="/tmp/emma02-rpm-sign-$$.pass"
+      limactl copy --backend=scp "$HOST_PASS" "$VM:$GUEST_PASS"
+      rm -f "$HOST_PASS"
+      limactl shell "$VM" -- chmod 600 "$GUEST_PASS" >/dev/null 2>&1
+      PASS_ARGS="--passphrase-file $GUEST_PASS"
+      echo "-- signing passphrase: $PASS_SOURCE (transient guest file)"
+    else
+      echo "WARNING: RPM_SIGN_KEY_ID is set but no passphrase was found ($SIGN_KEYCHAIN); the signed package build will fail" >&2
+    fi
+  fi
+fi
+
 # 3. build + package inside the guest via the guest-side scripts
 ARGS="$GUEST_ARGS --src $GUEST_DIR --out $GUEST_DIR"
 [ "$BUILD" = "1" ] && ARGS="$ARGS --build"
 [ "$CLEAN" = "1" ] && ARGS="$ARGS --clean"
 [ -n "$JOBS" ] && ARGS="$ARGS --jobs $JOBS"
+[ -n "${PASS_ARGS:-}" ] && ARGS="$ARGS $PASS_ARGS"
 
 echo "-- building + packaging in guest ..."
 GUEST_LOG="$OUTDIR/${ARTIFACT%.$EXT}.build.log"

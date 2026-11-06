@@ -63,3 +63,6 @@ Emma 02 vc9.suo
 *.corupt
 Thumbs.db
 /IsTool/Emma 02/
+
+# RPM signing keyring (private) and local-only artifacts
+/Pipeline/signing/
