@@ -226,6 +226,13 @@ RPM="$(find "$TOP/RPMS" -type f -name '*.rpm' | head -n1)"
 if [ "$SIGN" = "1" ] && [ -n "$SIGN_KEY" ]; then
   GNUPGHOME="${GNUPGHOME_ARG:-$SCRIPTDIR/signing/gnupg}"
   [ -d "$GNUPGHOME" ] || { echo "signing keyring not found: $GNUPGHOME (create it with Pipeline/create_rpm_signing_key.sh, or pass --no-sign)" >&2; exit 1; }
+  # rpm >= 6 (Fedora 44) no longer ships rpmsign in the rpm package; --addsign
+  # execs /usr/bin/rpmsign, so without the rpm-sign package it fails with
+  # "rpm: /usr/bin/rpmsign: No such file or directory".
+  command -v rpmsign >/dev/null 2>&1 || {
+    echo "ERROR: rpmsign not found (Fedora 6.x rpm needs: dnf install rpm-sign)" >&2
+    exit 1
+  }
   export GNUPGHOME
   SIGN_ARGS=(--define "_gpg_name $SIGN_KEY")
   if [ -n "$PASS_FILE" ]; then
@@ -235,7 +242,9 @@ if [ "$SIGN" = "1" ] && [ -n "$SIGN_KEY" ]; then
     SIGN_ARGS+=(--define "_gpg_sign_cmd_extra_args --batch --pinentry-mode loopback --passphrase-file $PASS_FILE")
   fi
   echo "--- signing $PACKAGE with $SIGN_KEY ..."
-  if ! rpm "${SIGN_ARGS[@]}" --addsign "$RPM" >/dev/null 2>&1; then
+  SIGN_LOG="$WORK/sign.log"
+  if ! rpm "${SIGN_ARGS[@]}" --addsign "$RPM" > "$SIGN_LOG" 2>&1; then
+    sed 's/^/    /' "$SIGN_LOG" >&2
     echo "ERROR: rpm --addsign failed (keyring $GNUPGHOME, passphrase source ${PASS_FILE:-none})" >&2
     exit 1
   fi
@@ -258,6 +267,8 @@ if [ "$SIGN" = "1" ] && [ -n "$SIGN_KEY" ]; then
   # signature as "NOKEY" - that still means the signature is present. Only
   # require a signature line plus intact digests; a missing signature line is
   # the real failure.
-  rpm -Kv "$DEST" | grep -q 'Signature, key ID' || { echo "ERROR: $DEST is not signed" >&2; exit 1; }
+  # rpm 4.x prints "Header V4 RSA/SHA256 Signature, key ID", rpm 6.x prints
+  # "Header OpenPGP V4 RSA/SHA512 signature, key ID" - match case-insensitively.
+  rpm -Kv "$DEST" | grep -qi 'signature, key ID' || { echo "ERROR: $DEST is not signed" >&2; exit 1; }
   rpm -Kv "$DEST" | grep -q 'digest: OK' || { echo "ERROR: $DEST failed its digest check" >&2; exit 1; }
 fi

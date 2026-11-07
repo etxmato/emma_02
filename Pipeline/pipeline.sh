@@ -371,6 +371,11 @@ if [ "$FORMAT" = "rpm" ]; then
   SIGN_HOME="$REPO/Pipeline/signing/gnupg"
   if [ -n "$SIGN_KEY_ID" ] && [ -d "$SIGN_HOME" ]; then
     echo "-- syncing rpm signing keyring ..."
+    # 'Pipeline/signing' is excluded from the bulk sync, so its parent directory
+    # may not exist in the guest. rsync does not create missing intermediate
+    # directories (its --mkpath is not available on every builder's rsync), so
+    # create the destination first.
+    limactl shell "$VM" -- sh -c "mkdir -p '$GUEST_DIR/Pipeline/signing/gnupg'" >/dev/null 2>&1 || true
     rsync -a --delete -e "ssh -F $SSHCFG" \
       "$SIGN_HOME/" "lima-$VM:$GUEST_DIR/Pipeline/signing/gnupg/"
     # An agent from an earlier run may cache an old/empty keyring; restart it.
