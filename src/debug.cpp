@@ -762,8 +762,8 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
     int osMajorVersion = 0;
     int osMinorVersion = 0;
     wxGetOsVersion(&osMajorVersion, &osMinorVersion);
-    if (osMajorVersion == 5 && osMinorVersion == 0)
-        debuggerFontPointSize_ -= 2;  // Windows 2000: use a smaller debugger font
+    if (osMajorVersion == 5 && osMinorVersion <= 2)
+        debuggerFontPointSize_ -= 2;  // Windows 2000/XP: use a smaller debugger font
 #endif
 
     dirAssStart_ = 0;
