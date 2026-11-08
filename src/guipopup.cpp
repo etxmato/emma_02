@@ -85,7 +85,7 @@ PopupDialog::~PopupDialog()
 void PopupDialog::init()
 {
     setTape1Type(currentComputerConfiguration.swTapeConfiguration.twoDecks);
-    XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(0));
+    XRCCTRL(*this, "WavFile", wxTextCtrl)->ChangeValue(p_Main->getWaveFile(0));
 
     XRCCTRL(*this, "XmodemButton", wxButton)->Enable(currentComputerConfiguration.videoTerminalConfiguration.xModem_defined || currentComputerConfiguration.videoTerminalConfiguration.hexModem_defined);
     XRCCTRL(*this, "XmodemFile", wxTextCtrl)->Enable(currentComputerConfiguration.videoTerminalConfiguration.xModem_defined || currentComputerConfiguration.videoTerminalConfiguration.hexModem_defined);
@@ -169,58 +169,58 @@ void PopupDialog::onXmlControlWindows(wxCommandEvent& event)
 void PopupDialog::onCassette(wxCommandEvent&event)
 {
     p_Main->onCassette(event);
-    XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(0));
+    XRCCTRL(*this, "WavFile", wxTextCtrl)->ChangeValue(p_Main->getWaveFile(0));
 }
 
 void PopupDialog::onCassetteText(wxCommandEvent&event)
 {
     p_Main->onCassetteText(event);
     if (p_Main->getGuiMode())
-        p_Main->setTextCtrl("WavFileXml", p_Main->getWaveFile(0));
+        p_Main->setTextCtrl("WavFileXml", p_Main->getWaveFile(0), true);
 }
 
 void PopupDialog::onCassetteEject(wxCommandEvent&event)
 {
     p_Main->onCassetteEject(event);
-    XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(0));
+    XRCCTRL(*this, "WavFile", wxTextCtrl)->ChangeValue(p_Main->getWaveFile(0));
 }
 
 void PopupDialog::onCassette1(wxCommandEvent&event)
 {
     p_Main->onCassette1(event);
-    XRCCTRL(*this, "WavFile1", wxTextCtrl)->SetValue(p_Main->getWaveFile(1));
+    XRCCTRL(*this, "WavFile1", wxTextCtrl)->ChangeValue(p_Main->getWaveFile(1));
 }
 
 void PopupDialog::onCassetteText1(wxCommandEvent&event)
 {
     p_Main->onCassette1Text(event);
     if (p_Main->getGuiMode())
-        p_Main->setTextCtrl("WavFile1Xml", p_Main->getWaveFile(1));
+        p_Main->setTextCtrl("WavFile1Xml", p_Main->getWaveFile(1), true);
 }
 
 void PopupDialog::onCassetteEject1(wxCommandEvent&event)
 {
     p_Main->onCassette1Eject(event);
-    XRCCTRL(*this, "WavFile1", wxTextCtrl)->SetValue(p_Main->getWaveFile(1));
+    XRCCTRL(*this, "WavFile1", wxTextCtrl)->ChangeValue(p_Main->getWaveFile(1));
 }
 
 void PopupDialog::onXmodem(wxCommandEvent& event)
 {
     p_Main->onXmodem(event);
-    XRCCTRL(*this, "XmodemFile", wxTextCtrl)->SetValue(p_Main->getXmodemFileFullStr());
+    XRCCTRL(*this, "XmodemFile", wxTextCtrl)->ChangeValue(p_Main->getXmodemFileFullStr());
 }
 
 void PopupDialog::onXmodemEject(wxCommandEvent& event)
 {
     p_Main->onXmodemEject(event);
-    XRCCTRL(*this, "XmodemFile", wxTextCtrl)->SetValue(p_Main->getXmodemFile());
+    XRCCTRL(*this, "XmodemFile", wxTextCtrl)->ChangeValue(p_Main->getXmodemFile());
 }
 
 void PopupDialog::onXmodemText(wxCommandEvent& event)
 {
     p_Main->onXmodemText(event);
     if (p_Main->getGuiMode())
-        p_Main->setTextCtrl("XmodemFileXml", p_Main->getXmodemFile());
+        p_Main->setTextCtrl("XmodemFileXml", p_Main->getXmodemFile(), true);
 }
 
 void PopupDialog::onLoadRunButton(wxCommandEvent&event)
@@ -277,20 +277,20 @@ void PopupDialog::onUseLocation(wxCommandEvent&event)
 void PopupDialog::onDisk0(wxCommandEvent&event)
 {
     p_Main->onDisk0(event);
-    XRCCTRL(*this, "FDC0_FileXml", wxTextCtrl)->SetValue(getFdcName(0));
+    XRCCTRL(*this, "FDC0_FileXml", wxTextCtrl)->ChangeValue(getFdcName(0));
 }
 
 void PopupDialog::onDiskText0(wxCommandEvent&event)
 {
     p_Main->onDiskText0(event);
     if (p_Main->getGuiMode())
-        p_Main->setTextCtrl("FDC0_FileXml", getFdcName(0));
+        p_Main->setTextCtrl("FDC0_FileXml", getFdcName(0), true);
 }
 
 void PopupDialog::onDiskEject0(wxCommandEvent&event)
 {
     p_Main->onDiskEject0(event);
-    XRCCTRL(*this, "FDC0_FileXml", wxTextCtrl)->SetValue(getFdcName(0));
+    XRCCTRL(*this, "FDC0_FileXml", wxTextCtrl)->ChangeValue(getFdcName(0));
 }
 
 void PopupDialog::onDiskDirSwitch0(wxCommandEvent&event)
@@ -302,20 +302,20 @@ void PopupDialog::onDiskDirSwitch0(wxCommandEvent&event)
 void PopupDialog::onDisk1(wxCommandEvent&event)
 {
     p_Main->onDisk1(event);
-    XRCCTRL(*this, "FDC1_FileXml", wxTextCtrl)->SetValue(getFdcName(1));
+    XRCCTRL(*this, "FDC1_FileXml", wxTextCtrl)->ChangeValue(getFdcName(1));
 }
 
 void PopupDialog::onDiskText1(wxCommandEvent&event)
 {
     p_Main->onDiskText1(event);
     if (p_Main->getGuiMode())
-        p_Main->setTextCtrl("FDC1_FileXml", getFdcName(1));
+        p_Main->setTextCtrl("FDC1_FileXml", getFdcName(1), true);
 }
 
 void PopupDialog::onDiskEject1(wxCommandEvent&event)
 {
     p_Main->onDiskEject1(event);
-    XRCCTRL(*this, "FDC1_FileXml", wxTextCtrl)->SetValue(getFdcName(1));
+    XRCCTRL(*this, "FDC1_FileXml", wxTextCtrl)->ChangeValue(getFdcName(1));
 }
 
 void PopupDialog::onDiskDirSwitch1(wxCommandEvent&event)
@@ -327,20 +327,20 @@ void PopupDialog::onDiskDirSwitch1(wxCommandEvent&event)
 void PopupDialog::onDisk2(wxCommandEvent&event)
 {
     p_Main->onDisk2(event);
-    XRCCTRL(*this, "FDC2_FileXml", wxTextCtrl)->SetValue(getFdcName(2));
+    XRCCTRL(*this, "FDC2_FileXml", wxTextCtrl)->ChangeValue(getFdcName(2));
 }
 
 void PopupDialog::onDiskText2(wxCommandEvent&event)
 {
     p_Main->onDiskText2(event);
     if (p_Main->getGuiMode())
-        p_Main->setTextCtrl("FDC2_FileXml", getFdcName(2));
+        p_Main->setTextCtrl("FDC2_FileXml", getFdcName(2), true);
 }
 
 void PopupDialog::onDiskEject2(wxCommandEvent&event)
 {
     p_Main->onDiskEject2(event);
-    XRCCTRL(*this, "FDC2_FileXml", wxTextCtrl)->SetValue(getFdcName(2));
+    XRCCTRL(*this, "FDC2_FileXml", wxTextCtrl)->ChangeValue(getFdcName(2));
 }
 
 void PopupDialog::onDiskDirSwitch2(wxCommandEvent&event)
@@ -352,20 +352,20 @@ void PopupDialog::onDiskDirSwitch2(wxCommandEvent&event)
 void PopupDialog::onDisk3(wxCommandEvent&event)
 {
     p_Main->onDisk3(event);
-    XRCCTRL(*this, "FDC3_FileXml", wxTextCtrl)->SetValue(getFdcName(3));
+    XRCCTRL(*this, "FDC3_FileXml", wxTextCtrl)->ChangeValue(getFdcName(3));
 }
 
 void PopupDialog::onDiskText3(wxCommandEvent&event)
 {
     p_Main->onDiskText3(event);
     if (p_Main->getGuiMode())
-        p_Main->setTextCtrl("FDC3_FileXml", getFdcName(3));
+        p_Main->setTextCtrl("FDC3_FileXml", getFdcName(3), true);
 }
 
 void PopupDialog::onDiskEject3(wxCommandEvent&event)
 {
     p_Main->onDiskEject3(event);
-    XRCCTRL(*this, "FDC3_FileXml", wxTextCtrl)->SetValue(getFdcName(3));
+    XRCCTRL(*this, "FDC3_FileXml", wxTextCtrl)->ChangeValue(getFdcName(3));
 }
 
 void PopupDialog::onDiskDirSwitch3(wxCommandEvent&event)
@@ -401,7 +401,7 @@ void PopupDialog::setDirSwitch(int drive)
         XRCCTRL(*this, textCtrl, wxTextCtrl)->Enable(true);
         XRCCTRL(*this, ejectButton, wxBitmapButton)->Enable(true);
     }
-    XRCCTRL(*this, textCtrl, wxTextCtrl)->SetValue(getFdcName(drive));
+    XRCCTRL(*this, textCtrl, wxTextCtrl)->ChangeValue(getFdcName(drive));
 }
 
 void PopupDialog::setUpdFloppyGui(int drive)
@@ -453,7 +453,7 @@ void PopupDialog::setUpdFloppyGui(int drive)
         wxFileName selectedDirFile = wxFileName(p_Main->getFloppyDirSwitched(currentComputerConfiguration.fdcType_, drive));
         wxArrayString dirArray = selectedDirFile.GetDirs();
         wxString dirName = dirArray.Last();
-        XRCCTRL(*this, wxString("FDC")+driveStr+"_FileXml", wxTextCtrl)->SetValue(dirName);
+        XRCCTRL(*this, wxString("FDC")+driveStr+"_FileXml", wxTextCtrl)->ChangeValue(dirName);
     }
     else
     {
@@ -478,6 +478,6 @@ void PopupDialog::setUpdFloppyGui(int drive)
         XRCCTRL(*this, wxString("FDC")+driveStr+"_ButtonXml", wxButton)->Enable(!deActivateFdc);
         XRCCTRL(*this, wxString("FDC")+driveStr+"_FileXml", wxTextCtrl)->Enable(!deActivateFdc);
         XRCCTRL(*this, wxString("Eject_FDC")+driveStr+"Xml", wxBitmapButton)->Enable(!deActivateFdc);
-        XRCCTRL(*this, wxString("FDC")+driveStr+"_FileXml", wxTextCtrl)->SetValue(p_Main->getFloppyFile(currentComputerConfiguration.fdcType_, drive));
+        XRCCTRL(*this, wxString("FDC")+driveStr+"_FileXml", wxTextCtrl)->ChangeValue(p_Main->getFloppyFile(currentComputerConfiguration.fdcType_, drive));
     }
 }

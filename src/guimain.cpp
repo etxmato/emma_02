@@ -77,6 +77,7 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
 {
     terminalSave_ = false;
     terminalLoad_ = false;
+    dropdownUpdateOngoing_ = false;
     zoomPosition_ = 0;
     printX_ = 0;
 
@@ -481,11 +482,16 @@ void GuiMain::onCharRom(wxCommandEvent& WXUNUSED(event) )
     computerConfiguration.characterRomConfiguration.directory = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
     computerConfiguration.characterRomConfiguration.fileName = FullPath.GetFullName();
 
+    dropdownUpdateOngoing_ = true;
     XRCCTRL(*this, "CharRomXml", wxComboBox)->SetValue(computerConfiguration.characterRomConfiguration.fileName);
+    dropdownUpdateOngoing_ = false;
 }
 
 void GuiMain::onCharRomText(wxCommandEvent& WXUNUSED(event))
 {
+    if (dropdownUpdateOngoing_)
+        return;
+
     computerConfiguration.characterRomConfiguration.fileName = XRCCTRL(*this, "CharRomXml", wxComboBox)->GetValue();
 }
 
@@ -1867,10 +1873,18 @@ void GuiMain::setCheckBox(wxString info, bool status)
         XRCCTRL(*this, info, wxCheckBox)->SetValue(status);
 }
 
-void GuiMain::setTextCtrl(wxString info, wxString value)
+void GuiMain::setTextCtrl(wxString info, wxString value, bool noEvent)
 {
     if (mode_.gui)
-        XRCCTRL(*this, info, wxTextCtrl)->SetValue(value);
+    {
+        // noEvent: refresh a control from state without firing its wxEVT_TEXT
+        // handler, which would write the displayed value back into config and
+        // the per-XML INI keys (see todo 7.5).
+        if (noEvent)
+            XRCCTRL(*this, info, wxTextCtrl)->ChangeValue(value);
+        else
+            XRCCTRL(*this, info, wxTextCtrl)->SetValue(value);
+    }
 }
 
 void GuiMain::setTextCtrl(wxString info, Word value)

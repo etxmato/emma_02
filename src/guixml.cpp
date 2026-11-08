@@ -157,7 +157,6 @@ BEGIN_EVENT_TABLE(GuiXml, GuiVipII)
 GuiXml::GuiXml(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
 : GuiVipII(title, pos, size, mode, dataDir, iniDir)
 {
-    dropdownUpdateOngoing_ = false;
     xmlFileComboSelection = 0;
     xmlDirComboSelection = 0;
     romRamFileComboSelection[0] = 0;
@@ -739,6 +738,9 @@ void GuiXml::onXmodem(wxCommandEvent& WXUNUSED(event))
 
 void GuiXml::onXmodemText(wxCommandEvent&event)
 {
+    if (dropdownUpdateOngoing_)
+        return;
+
     computerConfiguration.videoTerminalConfiguration.xmodemFileName = event.GetString();
     computerConfiguration.videoTerminalConfiguration.xmodemFileName.Trim();
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Xmodem_File", computerConfiguration.videoTerminalConfiguration.xmodemFileName);
@@ -935,6 +937,9 @@ void GuiXml::onCassette1Eject(wxCommandEvent& WXUNUSED(event) )
 
 void GuiXml::onCassetteText(wxCommandEvent&event)
 {
+    if (dropdownUpdateOngoing_)
+        return;
+
     wxString newFile = event.GetString();
     
     if (newFile != computerConfiguration.wavConfiguration[0].fileName)
@@ -951,6 +956,9 @@ void GuiXml::onCassetteText(wxCommandEvent&event)
 
 void GuiXml::onCassette1Text(wxCommandEvent&event)
 {
+    if (dropdownUpdateOngoing_)
+        return;
+
     computerConfiguration.wavConfiguration[1].fileName = event.GetString();
     configPointer->Write(dirNameList_[xmlDirComboSelection]+"/"+dirNameListDefaultFile_[xmlDirComboSelection]+"/Wav_File1", computerConfiguration.wavConfiguration[1].fileName);
 }
@@ -1050,6 +1058,9 @@ void GuiXml::onDiskText3(wxCommandEvent&event)
 
 void GuiXml::onDiskText(int diskNumber, wxString eventString)
 {
+    if (dropdownUpdateOngoing_)
+        return;
+
     wxString diskNumberString;
     diskNumberString.Printf("%d", diskNumber);
 
@@ -1784,11 +1795,10 @@ void GuiXml::setXmlGui()
     dropdownUpdateOngoing_ = true;
     XRCCTRL(*this, "RomRam1Xml", wxComboBox)->SetValue(computerConfiguration.memoryConfiguration[romRamButton1_].filename);
     XRCCTRL(*this, "RomRam0Xml", wxComboBox)->SetValue(computerConfiguration.memoryConfiguration[romRamButton0_].filename);
-    dropdownUpdateOngoing_ = false;
-    
     XRCCTRL(*this, "WavFileXml", wxTextCtrl)->SetValue(computerConfiguration.wavConfiguration[0].fileName);
     XRCCTRL(*this, "WavFile1Xml", wxTextCtrl)->SetValue(computerConfiguration.wavConfiguration[1].fileName);
     XRCCTRL(*this, "XmodemFileXml", wxTextCtrl)->SetValue(computerConfiguration.videoTerminalConfiguration.xmodemFileName);
+    dropdownUpdateOngoing_ = false;
 
     XRCCTRL(*this, "CasButtonXml", wxButton)->Enable(computerConfiguration.swTapeConfiguration.defined || computerConfiguration.hwTapeConfiguration.defined);
     XRCCTRL(*this, "WavFileXml", wxTextCtrl)->Enable(computerConfiguration.swTapeConfiguration.defined || computerConfiguration.hwTapeConfiguration.defined);
@@ -1818,8 +1828,10 @@ void GuiXml::setXmlGui()
     else
         XRCCTRL(*this, "XmodemButtonXml", wxButton)->SetLabel("XMODEM");
     
+    dropdownUpdateOngoing_ = true;
     for (int drive=0; drive <4; drive++)
         setUpdFloppyGui(drive);
+    dropdownUpdateOngoing_ = false;
 
     setBaudChoice();
     setPrintModeXml();

@@ -127,8 +127,9 @@ private:
     wxArrayString romRamDirNameListGui_[2];
     size_t romRamFileComboSelection[2];
 
-    bool dropdownUpdateOngoing_;
-    
+    // dropdownUpdateOngoing_ is declared in GuiMain (guimain.h) so GuiMain's
+    // own control population can test it too.
+
     DECLARE_EVENT_TABLE()
 };
 

@@ -225,7 +225,7 @@ public:
     bool getConfigBool(wxString Item, bool DefaultValue);
     void setConfigBool(wxString Item, bool Value);
     int getChoiceSelection(wxString info);
-    void setTextCtrl(wxString info, wxString value);
+    void setTextCtrl(wxString info, wxString value, bool noEvent = false);
     void setTextCtrl(wxString info, Word value);
     void setTextCtrl(wxString info, Byte value);
     void setRadioButton(wxString info, bool value);
@@ -378,6 +378,14 @@ protected:
     ComputerConfiguration computerConfiguration;
     ComputerInfo computerInfo;
     ScreenInfo screenInfo;
+
+    // Set while controls are populated from config. wxTextCtrl::SetValue() and
+    // wxComboBox::SetValue() emit wxEVT_TEXT, so without this the "text changed"
+    // handlers write the displayed value back into config and the per-XML INI
+    // keys. Lives in GuiMain so both GuiXml's apply code and GuiMain's own
+    // population sites (char ROM combo) can test it. See todo 7.5 and
+    // bug_fix_xml_override_leak.md.
+    bool dropdownUpdateOngoing_;
 
     wxString comxPalClock_;
     wxString comxNtscClock_;
