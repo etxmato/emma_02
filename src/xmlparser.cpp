@@ -8910,12 +8910,12 @@ void XmlParser::parseXml_HwCassette(wxXmlNode &node)
     computerConfiguration.hwTapeConfiguration.ioGroupVector.clear();
     computerConfiguration.hwTapeConfiguration.output = init_IoPort();
     computerConfiguration.hwTapeConfiguration.outputMode = init_IoPort();
-    computerConfiguration.hwTapeConfiguration.outputMode = init_IoPort();
     computerConfiguration.hwTapeConfiguration.outputSound = init_IoPort();
     computerConfiguration.hwTapeConfiguration.input = init_IoPort();
     computerConfiguration.hwTapeConfiguration.ef = init_EfFlag();
     computerConfiguration.hwTapeConfiguration.efRun = init_EfFlag();
     computerConfiguration.hwTapeConfiguration.efError = init_EfFlag();
+    computerConfiguration.hwTapeConfiguration.efBufferEmpty = init_EfFlag();
 
     computerConfiguration.hwTapeConfiguration.stopTone = false;
     computerConfiguration.hwTapeConfiguration.startOnReset = false;
