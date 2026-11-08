@@ -141,8 +141,8 @@ ln -s /Applications "$DMGSTAGE/Applications"
 PLIST="$DMGSTAGE/Emma 02.app/Contents/Info.plist"
 if command -v plutil >/dev/null; then
   plutil -replace CFBundleShortVersionString -string "$VERSION" "$PLIST" >/dev/null
-  plutil -replace CFBundleGetInfoString -string "Emma 02 version $VERSION, (c) 2007-2025 Marcel van Tongeren" "$PLIST" >/dev/null
-  plutil -replace CFBundleLongVersionString -string "$VERSION, (c) 2007-2025 Marcel van Tongeren" "$PLIST" >/dev/null
+  plutil -replace CFBundleGetInfoString -string "Emma 02 version $VERSION, (c) 2007-2026 Marcel van Tongeren" "$PLIST" >/dev/null
+  plutil -replace CFBundleLongVersionString -string "$VERSION, (c) 2007-2026 Marcel van Tongeren" "$PLIST" >/dev/null
 fi
 # Re-seal the bundle after the plist edit (ad-hoc, matching the project setting)
 codesign --force --deep --sign - "$DMGSTAGE/Emma 02.app" >/dev/null 2>&1 || true
