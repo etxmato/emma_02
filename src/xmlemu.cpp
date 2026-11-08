@@ -1313,6 +1313,12 @@ void Computer::initComputer()
     // loadNvRam() skips the NVRAM image while nvRamDisable_ is set.
     nvRamDisable_ = currentComputerConfiguration.nvRamConfiguration.disable;
 
+    // Initialise the 1862 colour mask before the image load below: configureMemory()
+    // can write COLOURRAM (which sets the mask itself), but any reader reached before
+    // that would otherwise use an indeterminate heap value as an address mask.
+    colourMask1862_ = 0xff;
+    colourLatch_ = false;
+
     configureMemory();
 /*    {
         wxFile dbg(p_Main->getDataDir() + "romload_debug.txt", wxFile::write_append);
@@ -1389,7 +1395,6 @@ void Computer::initComputer()
     inpMode_ = INP_MODE_NONE;
     cardSwitchOn_ = false;
     readSwitchOn_ = false;
-    colourMask1862_ = 0xff;
     colourLatch_ = false;
     
     uartVt100Connection_ = -1;
@@ -6356,7 +6361,7 @@ Byte Computer::readMemDebug(Word address, int function)
         break;
 
         case MC6847RAM:
-            return mc6847Pointer->read6847(address);
+            return (mc6847Pointer != NULL) ? mc6847Pointer->read6847(address) : mainMemory_[address];
         break;
 
         case PRAM1870:
@@ -6902,7 +6907,8 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
         break;
 
         case MC6847RAM:
-            mc6847Pointer->write(address, value);
+            if (mc6847Pointer != NULL)
+                mc6847Pointer->write(address, value);
             mainMemory_[address] = value;
             if (address >= memoryStart_ && address<(memoryStart_ + 256))
                 p_Main->updateDebugMemory(address);
@@ -6948,7 +6954,8 @@ void Computer::writeMemDebug(Word address, Byte value, bool writeRom)
 
         case SN76430NRAM:
             mainMemory_[address] = value;
-            sn76430nPointer->writeRam(address, value);
+            if (sn76430nPointer != NULL)
+                sn76430nPointer->writeRam(address, value);
         break;
 
         case UNDEFINED:
