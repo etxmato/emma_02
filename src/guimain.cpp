@@ -351,6 +351,12 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
     // debug area, tunable per distro/font from the window .ini [Debug] section.
     returnValue.profilerOffset = (int)windowConfigPointer->Read("/Debug/ProfilerOffset", 6);
     returnValue.assemblerOffset = (int)windowConfigPointer->Read("/Debug/AssemblerOffset", 0L);
+    // A negative pane offset would make the debugger bitmap taller than the
+    // debug area; treat it as "no offset" (todo 7.21).
+    if (returnValue.profilerOffset < 0)
+        returnValue.profilerOffset = 0;
+    if (returnValue.assemblerOffset < 0)
+        returnValue.assemblerOffset = 0;
 
     // Extra client area added to the widest control extent to form the default
     // window size. Per-OS (and per-font) values live in the .ini [Window] section.

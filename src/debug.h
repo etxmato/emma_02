@@ -415,6 +415,13 @@ public:
     bool findWorkingRang();
     void paintDebugBackground();
     void changeNumberOfDebugLines(int height);
+    // Height/line count of the assembler or profiler drawing area, derived from
+    // the current pane height and the per-distro pane offset. debugAreaLines()
+    // may be 0 (nothing fits); debugAreaHeight() has a 4 px floor because
+    // wxBitmap and SetMinSize need a positive extent. Every consumer uses these
+    // so the bitmap, background, scrollbar and draw loop always agree.
+    int debugAreaLines(int offset) const;
+    int debugAreaHeight(int offset) const;
 
     void onDebugDisplayPage(wxCommandEvent&event); 
     void onDebugDisplayPageSpinUp(wxSpinEvent&event);

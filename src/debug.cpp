@@ -818,8 +818,8 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
     assWidth_ = charWidth_ * 35 + charWidth_/2 + 2;
     profilerWidth_ = charWidth_ * 57 + charWidth_/2 + 2;
 
-    assBmp = new wxBitmap(assWidth_, (numberOfDebugLines_-windowInfo.assemblerOffset)*lineSpace_+4, 24);
-    profilerBmp = new wxBitmap(profilerWidth_, (numberOfDebugLines_-windowInfo.profilerOffset)*lineSpace_+4, 24);
+    assBmp = new wxBitmap(assWidth_, debugAreaHeight(windowInfo.assemblerOffset), 24);
+    profilerBmp = new wxBitmap(profilerWidth_, debugAreaHeight(windowInfo.profilerOffset), 24);
 }
 
 DebugWindow::~DebugWindow()
@@ -856,8 +856,8 @@ void DebugWindow::readDebugConfig()
     if (!imageList_)
         imageList_ = createDebuggerCheckBoxImageList(chip8BreakPointWindowPointer, applicationDirectory_ + IMAGES_FOLDER, checkedButton_, uncheckButton_);
     chip8BreakPointWindowPointer->SetImageList(imageList_, wxIMAGE_LIST_SMALL);
-    XRCCTRL(*this, "ProfilerBitmap", DebugBitmapView)->SetMinSize(wxSize(profilerWidth_, (numberOfDebugLines_-windowInfo.profilerOffset)*lineSpace_+4));
-    XRCCTRL(*this, "AssBitmap", DebugBitmapView)->SetMinSize(wxSize(assWidth_, (numberOfDebugLines_-windowInfo.assemblerOffset)*lineSpace_+4));
+    XRCCTRL(*this, "ProfilerBitmap", DebugBitmapView)->SetMinSize(wxSize(profilerWidth_, debugAreaHeight(windowInfo.profilerOffset)));
+    XRCCTRL(*this, "AssBitmap", DebugBitmapView)->SetMinSize(wxSize(assWidth_, debugAreaHeight(windowInfo.assemblerOffset)));
     setW2kDebugEditSizes();
     Layout();   // sizers honour SetMinSize only after a layout pass
 
@@ -7063,26 +7063,19 @@ void DebugWindow::directAss()
     wxFont* exactFont = new wxFont(debuggerFontPointSize_, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
     wxFont* exactFontBold = new wxFont(debuggerFontPointSize_, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD );
     
-    int numberOfDebugLines = numberOfDebugLines_;
+    int paneOffset = (selectedTab_ == PROFILERTAB) ? windowInfo.profilerOffset : windowInfo.assemblerOffset;
+    int numberOfDebugLines = debugAreaLines(paneOffset);
     
     switch (selectedTab_)
     {
-        case DIRECTASSTAB:
-            bitmapWidth = assWidth_;
-            dcAss.SelectObject(*assBmp);
-            numberOfDebugLines -= windowInfo.assemblerOffset;
-        break;
-            
         case PROFILERTAB:
             bitmapWidth = profilerWidth_;
             dcAss.SelectObject(*profilerBmp);
-            numberOfDebugLines -= windowInfo.profilerOffset;
         break;
 
         default:
             bitmapWidth = assWidth_;
             dcAss.SelectObject(*assBmp);
-            numberOfDebugLines -= windowInfo.assemblerOffset;
         break;
     }
 
@@ -7092,7 +7085,7 @@ void DebugWindow::directAss()
     dcAss.SetPen(wxPen(guiBackGround_));
     dcAss.SetBrush(wxBrush(guiBackGround_));
     dcAss.SetTextBackground(guiBackGround_);
-    dcAss.DrawRectangle(0, 0, bitmapWidth, numberOfDebugLines*lineSpace_+4);
+    dcAss.DrawRectangle(0, 0, bitmapWidth, debugAreaHeight(paneOffset));
 
     if (selectedTab_ == DIRECTASSTAB)
     {
@@ -8911,11 +8904,7 @@ void DebugWindow::onAssSpinPageUp(wxSpinEvent&WXUNUSED(event))
     if (!computerRunning_)
         return;
 
-    int numberOfDebugLines;
-    if (selectedTab_ == PROFILERTAB)
-        numberOfDebugLines = numberOfDebugLines_-windowInfo.profilerOffset;
-    else
-        numberOfDebugLines = numberOfDebugLines_-windowInfo.assemblerOffset;
+    int numberOfDebugLines = debugAreaLines((selectedTab_ == PROFILERTAB) ? windowInfo.profilerOffset : windowInfo.assemblerOffset);
 
     for (int i=0; i<numberOfDebugLines; i++)
         assSpinUp();
@@ -8929,11 +8918,7 @@ void DebugWindow::onAssSpinPageUp(wxScrollEvent&WXUNUSED(event))
     if (!computerRunning_)
         return;
 
-    int numberOfDebugLines;
-    if (selectedTab_ == PROFILERTAB)
-        numberOfDebugLines = numberOfDebugLines_-windowInfo.profilerOffset;
-    else
-        numberOfDebugLines = numberOfDebugLines_-windowInfo.assemblerOffset;
+    int numberOfDebugLines = debugAreaLines((selectedTab_ == PROFILERTAB) ? windowInfo.profilerOffset : windowInfo.assemblerOffset);
 
     for (int i=0; i<numberOfDebugLines; i++)
         assSpinUp();
@@ -8949,11 +8934,7 @@ void DebugWindow::onProfilerSpinPageUp(wxScrollEvent&WXUNUSED(event))
     if (!computerRunning_)
         return;
 
-    int numberOfDebugLines;
-    if (selectedTab_ == PROFILERTAB)
-        numberOfDebugLines = numberOfDebugLines_-windowInfo.profilerOffset;
-    else
-        numberOfDebugLines = numberOfDebugLines_-windowInfo.assemblerOffset;
+    int numberOfDebugLines = debugAreaLines((selectedTab_ == PROFILERTAB) ? windowInfo.profilerOffset : windowInfo.assemblerOffset);
 
     for (int i=0; i<numberOfDebugLines; i++)
         assSpinUp();
@@ -8966,11 +8947,7 @@ void DebugWindow::onProfilerSpinPageUp(wxScrollEvent&WXUNUSED(event))
 
 void DebugWindow::onAssSpinPageUp()
 {
-    int numberOfDebugLines;
-    if (selectedTab_ == PROFILERTAB)
-        numberOfDebugLines = numberOfDebugLines_-windowInfo.profilerOffset;
-    else
-        numberOfDebugLines = numberOfDebugLines_-windowInfo.assemblerOffset;
+    int numberOfDebugLines = debugAreaLines((selectedTab_ == PROFILERTAB) ? windowInfo.profilerOffset : windowInfo.assemblerOffset);
 
     for (int i=0; i<numberOfDebugLines; i++)
         assSpinUp();
@@ -13218,8 +13195,8 @@ void DebugWindow::paintDebugBackground()
     dcDebugBackground.SetPen(wxPen(guiBackGround_));
     dcDebugBackground.SetBrush(wxBrush(guiBackGround_));
 
-    dcDebugBackground.DrawRectangle(0, 0, assWidth_, (numberOfDebugLines_-windowInfo.assemblerOffset)*lineSpace_+4);
-    XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetSize(-1, (numberOfDebugLines_-windowInfo.assemblerOffset)*lineSpace_+4);
+    dcDebugBackground.DrawRectangle(0, 0, assWidth_, debugAreaHeight(windowInfo.assemblerOffset));
+    XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetSize(-1, debugAreaHeight(windowInfo.assemblerOffset));
     
     dcDebugBackground.SelectObject(*profilerBmp);
 //    dcDebugBackground.SetPen(wxPen(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
@@ -13227,8 +13204,8 @@ void DebugWindow::paintDebugBackground()
     dcDebugBackground.SetPen(wxPen(guiBackGround_));
     dcDebugBackground.SetBrush(wxBrush(guiBackGround_));
     
-    dcDebugBackground.DrawRectangle(0, 0, profilerWidth_, (numberOfDebugLines_-windowInfo.profilerOffset)*lineSpace_+4);
-    XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetSize(-1, (numberOfDebugLines_-windowInfo.profilerOffset)*lineSpace_+4);
+    dcDebugBackground.DrawRectangle(0, 0, profilerWidth_, debugAreaHeight(windowInfo.profilerOffset));
+    XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetSize(-1, debugAreaHeight(windowInfo.profilerOffset));
 
     
     dcDebugBackground.SelectObject(wxNullBitmap);
@@ -13237,6 +13214,18 @@ void DebugWindow::paintDebugBackground()
         XRCCTRL(*this, "AssBitmap", DebugBitmapView)->SetBitmap(*assBmp);
         XRCCTRL(*this, "ProfilerBitmap", DebugBitmapView)->SetBitmap(*profilerBmp);
     }
+}
+
+int DebugWindow::debugAreaLines(int offset) const
+{
+    int lines = numberOfDebugLines_ - offset;
+    return lines < 0 ? 0 : lines;
+}
+
+int DebugWindow::debugAreaHeight(int offset) const
+{
+    int height = debugAreaLines(offset) * lineSpace_ + 4;
+    return height < 4 ? 4 : height;
 }
 
 void DebugWindow::changeNumberOfDebugLines(int height)
@@ -13250,12 +13239,8 @@ void DebugWindow::changeNumberOfDebugLines(int height)
     if (numberOfDebugLines_ < 1)
         numberOfDebugLines_ = 1;
 
-    int assemblerHeight = (numberOfDebugLines_-windowInfo.assemblerOffset)*lineSpace_+4;
-    if (assemblerHeight < 4)
-        assemblerHeight = 4;
-    int profilerHeight = (numberOfDebugLines_-windowInfo.profilerOffset)*lineSpace_+4;
-    if (profilerHeight < 4)
-        profilerHeight = 4;
+    int assemblerHeight = debugAreaHeight(windowInfo.assemblerOffset);
+    int profilerHeight = debugAreaHeight(windowInfo.profilerOffset);
 
     assBmp = new wxBitmap(assWidth_, assemblerHeight, 24);
     XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetSize(-1, assemblerHeight);
