@@ -1832,7 +1832,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
             windowInfo.mainwX = (int)configPointer->Read("/Main/Window_Size_X_133", defaultGuiSize_.x);
             windowInfo.mainwY = (int)configPointer->Read("/Main/Window_Size_Y_133", defaultGuiSize_.y);
         }
-        
+
         this->SetSize(wxSize(windowInfo.mainwX, windowInfo.mainwY));
     }
 
@@ -2641,6 +2641,20 @@ void Main::windowSizeChanged(wxSizeEvent& WXUNUSED(event))
     }
 
 }
+#elif defined(__linux__)
+void Main::windowSizeChanged(wxSizeEvent& event)
+{
+    // wxGTK runs the sizer layout during the size event; a synchronous
+    // adjustGuiSize() is then overwritten by the sizer (seen on Leap 15.6
+    // with wxGTK2, where the Startup Message_Window stayed at its 329x274
+    // best size). Defer it like the Windows path so the explicit sizes win.
+    if (xmlLoaded_ && !guiSizeTimerStarted_)
+    {
+        guiSizeTimeoutPointer->Start(20, wxTIMER_ONE_SHOT);
+        guiSizeTimerStarted_ = true;
+    }
+    event.Skip();
+}
 #else
 void Main::windowSizeChanged(wxSizeEvent& event)
 {
@@ -2653,7 +2667,14 @@ void Main::windowSizeChanged(wxSizeEvent& event)
 void Main::adjustGuiSize()
 {
     wxSize mainWindowSize = this->GetClientSize();
-    
+
+    // GTK can emit a size event with a zero/tiny client size while windows are
+    // being shown, hidden or destroyed. Do not push those sizes into the
+    // controls: negative widths/heights make wxBitmap::Create() assert (and
+    // abort in release builds) in the debugger bitmaps.
+    if (mainWindowSize.x < 100 || mainWindowSize.y < 100)
+        return;
+
     if (mainWindowSize.x > 2000)
         mainWindowSize.x = 2000;
     if (mainWindowSize.y > 2000)
@@ -5034,6 +5055,13 @@ void Main::traceTimeout(wxTimerEvent&WXUNUSED(event))
 
 void Main::directAssTimeout(wxTimerEvent&WXUNUSED(event))
 {
+    // A pending timer event can still be delivered after stopComputer() /
+    // killComputer() deleted p_Computer. The Memory Dump branch below reads
+    // p_Computer through updateSlotinfo_/updateMemory_, even though
+    // memoryDisplay() already guards on computerRunning_.
+    if (!computerRunning_ || p_Computer == NULL)
+        return;
+
     switch (selectedTab_)
     {
        case DIRECTASSTAB:

@@ -46091,7 +46091,7 @@
                   <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
                   <string name="proxy-Foreground colour">""</string>
                   <string name="proxy-Header filename">""</string>
-                  <long name="proxy-Height">2000</long>
+                  <long name="proxy-Height">300</long>
                   <string name="proxy-Help text">""</string>
                   <bool name="proxy-Hidden">0</bool>
                   <string name="proxy-Id name">"DebuggerChoiceBook"</string>
@@ -46104,7 +46104,7 @@
                   <bool name="proxy-Separate files">0</bool>
                   <long name="proxy-Stretch factor">0</long>
                   <string name="proxy-Tooltip text">""</string>
-                  <long name="proxy-Width">2000</long>
+                  <long name="proxy-Width">400</long>
                   <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                   <bool name="proxy-wxBORDER_THEME">0</bool>
                   <bool name="proxy-wxBOTTOM">1</bool>
@@ -62185,7 +62185,7 @@
                   <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
                   <string name="proxy-Foreground colour">""</string>
                   <string name="proxy-Header filename">""</string>
-                  <long name="proxy-Height">2000</long>
+                  <long name="proxy-Height">300</long>
                   <string name="proxy-Help text">""</string>
                   <bool name="proxy-Hidden">0</bool>
                   <string name="proxy-Id name">"IoChoiceBook"</string>
@@ -62198,7 +62198,7 @@
                   <bool name="proxy-Separate files">0</bool>
                   <long name="proxy-Stretch factor">0</long>
                   <string name="proxy-Tooltip text">""</string>
-                  <long name="proxy-Width">2000</long>
+                  <long name="proxy-Width">400</long>
                   <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                   <bool name="proxy-wxBORDER_THEME">0</bool>
                   <bool name="proxy-wxBOTTOM">1</bool>

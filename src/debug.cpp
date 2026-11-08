@@ -13246,15 +13246,24 @@ void DebugWindow::changeNumberOfDebugLines(int height)
     delete assBmp;
     delete profilerBmp;
 
-    numberOfDebugLines_ = (int) (height / lineSpace_);
-    
-    assBmp = new wxBitmap(assWidth_, (numberOfDebugLines_-windowInfo.assemblerOffset)*lineSpace_+4, 24);
-    XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetSize(-1, (numberOfDebugLines_-windowInfo.assemblerOffset)*lineSpace_+4);
-    XRCCTRL(*this, "AssBitmap", DebugBitmapView)->SetMinSize(wxSize(assWidth_, (numberOfDebugLines_-windowInfo.assemblerOffset)*lineSpace_+4));
+    numberOfDebugLines_ = height / lineSpace_;
+    if (numberOfDebugLines_ < 1)
+        numberOfDebugLines_ = 1;
 
-    profilerBmp = new wxBitmap(profilerWidth_, (numberOfDebugLines_-windowInfo.profilerOffset)*lineSpace_+4, 24);
-    XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetSize(-1, (numberOfDebugLines_-windowInfo.profilerOffset)*lineSpace_+4);
-    XRCCTRL(*this, "ProfilerBitmap", DebugBitmapView)->SetMinSize(wxSize(profilerWidth_, (numberOfDebugLines_-windowInfo.profilerOffset)*lineSpace_+4));
+    int assemblerHeight = (numberOfDebugLines_-windowInfo.assemblerOffset)*lineSpace_+4;
+    if (assemblerHeight < 4)
+        assemblerHeight = 4;
+    int profilerHeight = (numberOfDebugLines_-windowInfo.profilerOffset)*lineSpace_+4;
+    if (profilerHeight < 4)
+        profilerHeight = 4;
+
+    assBmp = new wxBitmap(assWidth_, assemblerHeight, 24);
+    XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetSize(-1, assemblerHeight);
+    XRCCTRL(*this, "AssBitmap", DebugBitmapView)->SetMinSize(wxSize(assWidth_, assemblerHeight));
+
+    profilerBmp = new wxBitmap(profilerWidth_, profilerHeight, 24);
+    XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetSize(-1, profilerHeight);
+    XRCCTRL(*this, "ProfilerBitmap", DebugBitmapView)->SetMinSize(wxSize(profilerWidth_, profilerHeight));
 
     Layout();
     paintDebugBackground();

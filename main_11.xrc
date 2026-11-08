@@ -7683,7 +7683,7 @@
 </font>
 <style>wxNO_BORDER|wxTAB_TRAVERSAL</style>
 <object class="wxNotebook" name="DebuggerChoiceBook">
-<size>2000,2000d</size>
+<size>400,300d</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
@@ -10766,7 +10766,7 @@
 </font>
 <style>wxNO_BORDER|wxTAB_TRAVERSAL</style>
 <object class="wxNotebook" name="IoChoiceBook">
-<size>2000,2000d</size>
+<size>400,300d</size>
 <font>
 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
 <size>-1</size>
