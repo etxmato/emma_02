@@ -66,7 +66,7 @@ HD44780::HD44780(const wxString& title, const wxPoint& pos, const wxSize& size, 
     videoWidth_ = screenW;
     videoHeight_ = screenH;
 
-    screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
+    screenCopyPointer = new wxBitmap(minSize(videoWidth_), minSize(videoHeight_));
     dcMemory.SelectObject(*screenCopyPointer);
 
     // The software framebuffer is enabled on ALL platforms (see video.h/

@@ -188,7 +188,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     initScreen();
     videoScreenPointer->setRepeat(SetUpFeature_[VTREPEAT]);
 
-    screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
+    screenCopyPointer = new wxBitmap(minSize(videoWidth_), minSize(videoHeight_));
     dcMemory.SelectObject(*screenCopyPointer);
 
     // The software framebuffer is enabled on ALL platforms (see video.h/

@@ -153,7 +153,7 @@ VIS1870::VIS1870(const wxString& title, const wxPoint& pos, const wxSize& size, 
 
     videoScreenPointer = new VideoScreen(this, wxSize(videoWidth_, videoHeight_), zoom, videoNumber_);
     
-    screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
+    screenCopyPointer = new wxBitmap(minSize(videoWidth_), minSize(videoHeight_));
     dcMemory.SelectObject(*screenCopyPointer);
 
     // The software framebuffer is enabled on ALL platforms (see video.h/
@@ -496,7 +496,7 @@ void VIS1870::out5_1870(Word address)
             else
                 videoHeight_ = height;
             
-            screenCopyPointer = new wxBitmap(2*offsetX_+videoWidth_, 2*offsetY_+videoHeight_);
+            screenCopyPointer = new wxBitmap(minSize(2*offsetX_+videoWidth_), minSize(2*offsetY_+videoHeight_));
             dcMemory.SelectObject(*screenCopyPointer);
 
             setScreenSize();

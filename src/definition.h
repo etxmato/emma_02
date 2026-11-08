@@ -2,6 +2,14 @@
 #ifndef DEFINITION_H
 #define DEFINITION_H
 
+// Minimum width/height for a wxBitmap or wxImage allocation. wx asserts on a
+// zero or negative size (and DebugBitmapView/wxImage indexing assumes a real
+// buffer), while the video sizes are derived from XML configuration and window
+// geometry and can reach 0 with a malformed config or a degenerate window.
+// Wrap only the allocation; the logical videoWidth_/offsetX_ values and all
+// drawing arithmetic stay as they are (todo 7.7).
+inline int minSize(int value) { return value < 1 ? 1 : value; }
+
 #define MAXROM 6
 #define VIDEOXMLMAX 15
 

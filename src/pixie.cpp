@@ -126,7 +126,7 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
         SetStatusBar(vipIIStatusBarPointer);
     }
 
-    screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
+    screenCopyPointer = new wxBitmap(minSize(videoWidth_), minSize(videoHeight_));
     dcMemory.SelectObject(*screenCopyPointer);
     
     fullScreenSet_ = false;

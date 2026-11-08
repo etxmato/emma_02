@@ -149,7 +149,7 @@ Scn2672::Scn2672(const wxString& title, const wxPoint& pos, const wxSize& size, 
     offsetX_ = borderX_[videoType_];
     offsetY_ = borderY_[videoType_];
 
-    screenCopyPointer = new wxBitmap(2*offsetX_+size.x, 2*offsetY_+size.y);
+    screenCopyPointer = new wxBitmap(minSize(2*offsetX_+size.x), minSize(2*offsetY_+size.y));
     dcMemory.SelectObject(*screenCopyPointer);
 
     // The software framebuffer is enabled on ALL platforms (see video.h/
@@ -1471,7 +1471,7 @@ void Scn2672::resetScreenCopyPointer()
     dcMemory.SelectObject(wxNullBitmap);
     delete screenCopyPointer;
     
-    screenCopyPointer = new wxBitmap(2*offsetX_+videoWidth_, 2*offsetY_+videoHeight_);
+    screenCopyPointer = new wxBitmap(minSize(2*offsetX_+videoWidth_), minSize(2*offsetY_+videoHeight_));
     dcMemory.SelectObject(*screenCopyPointer);
 
     memoryDCvalid_ = true;

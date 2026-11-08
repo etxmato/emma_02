@@ -78,7 +78,7 @@ SN76430N::SN76430N(const wxString& title, const wxPoint& pos, const wxSize& size
     setCycle();
     defineColours();
 
-    screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
+    screenCopyPointer = new wxBitmap(minSize(videoWidth_), minSize(videoHeight_));
     dcMemory.SelectObject(*screenCopyPointer);
 
     // The software framebuffer is enabled on ALL platforms (see video.h/

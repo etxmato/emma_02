@@ -651,7 +651,7 @@ void Video::changeScreenSize()
 
     dcMemory.SelectObject(wxNullBitmap);
     delete screenCopyPointer;
-    screenCopyPointer = new wxBitmap(2*offsetX_+videoWidth_, 2*offsetY_+videoHeight_);
+    screenCopyPointer = new wxBitmap(minSize(2*offsetX_+videoWidth_), minSize(2*offsetY_+videoHeight_));
     
     dcMemory.SelectObject(*screenCopyPointer);
     
@@ -1004,8 +1004,8 @@ void Video::drawRectangleFramebuffer(wxCoord x, wxCoord y, wxCoord width, wxCoor
 
 void Video::ensureFramebuffer(int plane)
 {
-    int w = 2 * offsetX_ + videoWidth_;
-    int h = 2 * offsetY_ + videoHeight_;
+    int w = minSize(2 * offsetX_ + videoWidth_);
+    int h = minSize(2 * offsetY_ + videoHeight_);
     if (macFrameImage_[plane] != NULL && macFrameImage_[plane]->GetWidth() == w && macFrameImage_[plane]->GetHeight() == h)
         return;
     // Framebuffer must match the dcMemory/screenCopyPointer size, which is

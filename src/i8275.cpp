@@ -81,7 +81,7 @@ i8275::i8275(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     videoWidth_ = i8275Configuration_.screenSize.x*i8275Configuration_.charSize.x;
     videoHeight_ = i8275Configuration_.screenSize.y*i8275Configuration_.charSize.y*2;
 
-    screenCopyPointer = new wxBitmap(videoWidth_*zoom_, videoHeight_*zoom_);
+    screenCopyPointer = new wxBitmap(minSize(videoWidth_*zoom_), minSize(videoHeight_*zoom_));
     dcMemory.SelectObject(*screenCopyPointer);
 
     // The software framebuffer is enabled on ALL platforms (see video.h/

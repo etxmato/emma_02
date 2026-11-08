@@ -88,7 +88,7 @@ MC6845::MC6845(const wxString& title, const wxPoint& pos, const wxSize& size, do
     SetIcon(wxICON(app_icon));
 #endif
 
-    screenCopyPointer = new wxBitmap(size.x, size.y);
+    screenCopyPointer = new wxBitmap(minSize(size.x), minSize(size.y));
     dcMemory.SelectObject(*screenCopyPointer);
 
     // The software framebuffer is enabled on ALL platforms (see video.h/
@@ -806,7 +806,7 @@ void MC6845::resetScreenCopyPointer()
     dcMemory.SelectObject(wxNullBitmap);
     delete screenCopyPointer;
     
-    screenCopyPointer = new wxBitmap(2*offsetX_+videoWidth_, 2*offsetY_+rows_*scanLine_*videoM_);
+    screenCopyPointer = new wxBitmap(minSize(2*offsetX_+videoWidth_), minSize(2*offsetY_+rows_*scanLine_*videoM_));
 //    screenCopyPointer = new wxBitmap(videoWidth_, rows_*scanLine_*videoM_);
     dcMemory.SelectObject(*screenCopyPointer);
 
