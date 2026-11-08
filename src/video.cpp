@@ -596,21 +596,39 @@ void Video::changeScreenSize()
     }
     destinationWidth_ = size.x;
     destinationHeight_ = size.y;
-    
+
+    // A hidden, iconified or not-yet-laid-out window can report a zero client
+    // size, and the offset computation below divides by the zoom factor. Keep
+    // the previous geometry; the next real resize event rebuilds everything
+    // (todo 7.20).
+    int screenWidth = videoWidth_ + 2*borderX_[videoType_];
+    int screenHeight = videoHeight_ + 2*borderY_[videoType_];
+    if (destinationWidth_ <= 0 || destinationHeight_ <= 0 || screenWidth <= 0 || screenHeight <= 0 || xZoomFactor_ <= 0)
+        return;
+
     if (p_Main->isFullScreenFloat())
     {
-        zoomx = (double)destinationWidth_/(double)((videoWidth_+2*borderX_[videoType_])*xZoomFactor_);
-        zoomy = (double)destinationHeight_/(double)(videoHeight_+2*borderY_[videoType_]);
+        zoomx = (double)destinationWidth_/(double)(screenWidth*xZoomFactor_);
+        zoomy = (double)destinationHeight_/(double)screenHeight;
     }
     else
     {
-        zoomx = (int)(destinationWidth_/((videoWidth_+2*borderX_[videoType_])*xZoomFactor_));
-        zoomy = (int)(destinationHeight_/(videoHeight_+2*borderY_[videoType_]));
+        zoomx = (int)(destinationWidth_/(screenWidth*xZoomFactor_));
+        zoomy = (int)(destinationHeight_/screenHeight);
+        // A client area smaller than the native screen truncates the integer
+        // zoom to 0, which divides by zero in the offset computation below.
+        // Clamp to 1: the bitmap is then built at the client size and the
+        // excess picture is cropped instead of crashing (todo 7.20).
+        if (zoomx < 1)
+            zoomx = 1;
+        if (zoomy < 1)
+            zoomy = 1;
     }
     if (zoomx <= zoomy)
         zoom_ = zoomx;
     else
         zoom_ = zoomy;
+    wxASSERT(zoom_ > 0);
     offsetX_ = (destinationWidth_/(zoom_*xZoomFactor_) - videoWidth_) / 2;
     offsetY_ = (destinationHeight_/zoom_ - videoHeight_) / 2;
 
