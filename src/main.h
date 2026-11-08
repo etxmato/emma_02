@@ -157,6 +157,20 @@ public:
             delete call;
         }
     }
+    // Discard every queued call without running it. Used by killComputer():
+    // calls queued by the emulation thread before it exited must not run against
+    // the deleted computer (todo 7.8). Safe to call from inside OnCall: the
+    // running call has already been removed from the queue. wxCommandEvents
+    // already posted for dropped calls find an empty queue and do nothing.
+    void DropPending() {
+        std::deque<EmmaDeferredCall*> dropped;
+        {
+            wxCriticalSectionLocker lock(cs_);
+            dropped.swap(queue_);
+        }
+        for (size_t i = 0; i < dropped.size(); i++)
+            delete dropped[i];
+    }
 private:
     wxEventType type_;
     wxCriticalSection cs_;

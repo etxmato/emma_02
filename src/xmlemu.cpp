@@ -687,21 +687,25 @@ Computer::~Computer()
     {
         p_Printer->closeFrames();
         delete p_Printer;
+        p_Printer = NULL;
     }
     if (currentComputerConfiguration.parallelPrinterConfiguration.defined)
     {
         p_PrinterParallel->closeFrames();
         delete p_PrinterParallel;
+        p_PrinterParallel = NULL;
     }
     if (currentComputerConfiguration.serialPrinterConfiguration.defined)
     {
         p_PrinterSerial->closeFrames();
         delete p_PrinterSerial;
+        p_PrinterSerial = NULL;
     }
     if (currentComputerConfiguration.thermalPrinterConfiguration.defined)
     {
         p_PrinterThermal->closeFrames();
         delete p_PrinterThermal;
+        p_PrinterThermal = NULL;
     }
 
     for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)

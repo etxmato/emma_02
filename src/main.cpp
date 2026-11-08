@@ -4606,6 +4606,17 @@ void Main::killComputer()
     if (saveDebugFile_)
         saveAll();
 
+    // The emulation thread has stopped, but its deferred calls and any armed
+    // one-shot timers can still be delivered afterwards and would then run
+    // against the deleted computer. Disarm everything before the delete
+    // (todo 7.8). Stop() is idempotent, and ct2425AutoRunPointer is not
+    // stopped by stopComputer() at all.
+    ct2425AutoRunPointer->Stop();
+    beepTimerPointer->Stop();
+    keyDebounceTimeoutPointer->Stop();
+    guiRedrawBarTimeOutPointer->Stop();
+    gEmmaCallDispatcher->DropPending();
+
     delete p_Computer;
     p_Computer = NULL;
     p_Video[VIDEOMAIN] = NULL;
