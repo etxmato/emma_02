@@ -338,6 +338,8 @@ bool HexButton::onMouseRelease(wxDC& WXUNUSED(dc), wxCoord x, wxCoord y)
 void HexButton::OnTimer(wxTimerEvent& WXUNUSED(event))
 {
     state_ = BUTTON_UP;
+    if (p_Computer == NULL)
+        return;
     p_Computer->releaseButtonOnScreen(this);
 }
 
@@ -379,6 +381,8 @@ HexButtonCdp1851::HexButtonCdp1851(wxDC& dc, int type, wxCoord x, wxCoord y, wxS
 void HexButtonCdp1851::OnTimer(wxTimerEvent& WXUNUSED(event))
 {
     state_ = BUTTON_UP;
+    if (p_Computer == NULL)
+        return;
     p_Computer->releaseButtonOnScreen1851(this, buttonType_, pioNumber_);
 }
 
@@ -395,6 +399,8 @@ HexButtonCdp1852::HexButtonCdp1852(wxDC& dc, int type, wxCoord x, wxCoord y, wxS
 void HexButtonCdp1852::OnTimer(wxTimerEvent& WXUNUSED(event))
 {
     state_ = BUTTON_UP;
+    if (p_Computer == NULL)
+        return;
     p_Computer->releaseButtonOnScreen1852(this, buttonType_, pioNumber_);
 }
 

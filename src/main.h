@@ -1542,6 +1542,12 @@ public:
     
     bool emuClosing() { return emuClosing_; };
 
+    // True only while the emulation objects exist. Deferred calls and one-shot
+    // timers can still be delivered after killComputer() deleted p_Computer,
+    // so every late handler tests this instead of p_Computer directly
+    // (todo 7.8).
+    bool computerAlive();
+
     UpdateCheckThread *m_pUpdateCheckThread;
     wxCriticalSection m_pUpdateCheckThreadCS;    // protects the m_pUpdateCheckThread pointer
 

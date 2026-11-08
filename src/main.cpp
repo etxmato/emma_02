@@ -4601,6 +4601,11 @@ void Main::stopComputer()
     }
 }
 
+bool Main::computerAlive()
+{
+    return computerRunning_ && p_Computer != NULL;
+}
+
 void Main::killComputer()
 {
     if (saveDebugFile_)
@@ -5989,6 +5994,8 @@ void Main::showChip8Register(int variable, int value, bool chip8register12bit)
 
 void Main::debounceTimeout(wxTimerEvent&WXUNUSED(event))
 {
+    if (!computerAlive())
+        return;
     p_Computer->keyClear();
 }
 
@@ -5999,11 +6006,15 @@ void Main::ct2425AutoRun()
 
 void Main::ct2425AutoRunHelper()
 {
+    if (!computerAlive())
+        return;
     ct2425AutoRunPointer->Start(1000, wxTIMER_ONE_SHOT);
 }
 
 void Main::ct2425AutoRunTimeout(wxTimerEvent&WXUNUSED(event))
 {
+    if (!computerAlive())
+        return;
     p_Computer->consumeCt2425ResetOnRun();
     p_Computer->resetCpu();
     p_Computer->resetComputer();
@@ -6013,6 +6024,8 @@ void Main::ct2425AutoRunTimeout(wxTimerEvent&WXUNUSED(event))
 
 void Main::beepTimeout(wxTimerEvent& WXUNUSED(event))
 {
+    if (!computerAlive())
+        return;
     p_Computer->toneBeep(-1, false);
 }
 
@@ -6024,6 +6037,8 @@ void Main::guiSizeTimeout(wxTimerEvent&WXUNUSED(event))
 
 void Main::guiRedrawBarTimeOut(wxTimerEvent&WXUNUSED(event))
 {
+    if (p_Video[VIDEOMAIN] == NULL)
+        return;
     p_Video[VIDEOMAIN]->reDrawBar();
 }
 

@@ -347,7 +347,8 @@ void GuiUpdate::guiPrintParallel(Byte value)
 
 void GuiUpdate::guiPrintParallelHelper(Byte value)
 {
-    p_PrinterParallel->outParallel(value);
+    if (p_PrinterParallel != NULL)
+        p_PrinterParallel->outParallel(value);
     if (statusLedUpdate_)
         p_Main->statusLedOffDirect();
 }
@@ -359,7 +360,8 @@ void GuiUpdate::guiPrintParallelFinished()
 
 void GuiUpdate::guiPrintParallelFinishedHelper()
 {
-    p_PrinterParallel->printFinished();
+    if (p_PrinterParallel != NULL)
+        p_PrinterParallel->printFinished();
 }
 
 void GuiUpdate::guiPrintThermal(Byte value, Byte Qflag)
@@ -372,7 +374,8 @@ void GuiUpdate::guiPrintThermal(Byte value, Byte Qflag)
 
 void GuiUpdate::guiPrintThermalHelper(Byte value, Byte Qflag)
 {
-    p_PrinterThermal->outThermal(value, Qflag);
+    if (p_PrinterThermal != NULL)
+        p_PrinterThermal->outThermal(value, Qflag);
     thermalEf_ = false;
     if (statusLedUpdate_)
         p_Main->statusLedOffDirect();
@@ -385,7 +388,8 @@ void GuiUpdate::guiPrintThermalFinished()
 
 void GuiUpdate::guiPrintThermalFinishedHelper()
 {
-    p_PrinterThermal->printFinished();
+    if (p_PrinterThermal != NULL)
+        p_PrinterThermal->printFinished();
     thermalEf_ = false;
 }
 
@@ -398,7 +402,8 @@ void GuiUpdate::guiPrintSerial(Byte value)
 
 void GuiUpdate::guiPrintSerialHelper(Byte value)
 {
-    p_PrinterSerial->outSerial(value);
+    if (p_PrinterSerial != NULL)
+        p_PrinterSerial->outSerial(value);
     if (statusLedUpdate_)
         p_Main->statusLedOffDirect();
 }
@@ -410,7 +415,8 @@ void GuiUpdate::guiPrintSerialFinished()
 
 void GuiUpdate::guiPrintSerialFinishedHelper()
 {
-    p_PrinterSerial->printFinished();
+    if (p_PrinterSerial != NULL)
+        p_PrinterSerial->printFinished();
 }
 
 void GuiUpdate::guiPrintPecom(Byte value)
@@ -420,7 +426,8 @@ void GuiUpdate::guiPrintPecom(Byte value)
 
 void GuiUpdate::guiPrintPecomHelper(Byte value)
 {
-    p_Printer->printerOut(value);
+    if (p_Printer != NULL)
+        p_Printer->printerOut(value);
 }
 
 void GuiUpdate::guiZoomChange(double zoom, int videoNumber)
@@ -452,7 +459,8 @@ void GuiUpdate::guiZoomVtChange(double zoom, int uartNumber)
 
 void GuiUpdate::guiZoomVtChangeHelper(double zoom, int uartNumber)
 {
-    p_Vt100[uartNumber]->setZoom(zoom);
+    if (p_Vt100[uartNumber] != NULL)
+        p_Vt100[uartNumber]->setZoom(zoom);
 //        if (runningComputer_ != ELF2K && runningComputer_ != MEMBER)
 //            p_Vt100[UART1]->copyScreen();
     p_Main->zoomVtEventFinished();
@@ -518,6 +526,8 @@ void GuiUpdate::guiSetFandMBasicGui()
 
 void GuiUpdate::guiSetFandMBasicGuiHelper()
 {
+    if (!p_Main->computerAlive())
+        return;
     p_Main->setFandMBasicGui();
 }
 
@@ -528,6 +538,8 @@ void GuiUpdate::guiPauseState()
 
 void GuiUpdate::guiPauseStateHelper()
 {
+    if (!p_Main->computerAlive())
+        return;
     p_Main->setPauseState();
 }
 
@@ -543,9 +555,15 @@ void GuiUpdate::guiRefreshVideo(bool isVt, int uart_video_Number)
 void GuiUpdate::guiRefreshVideoHelper(bool isVt, int uart_video_Number)
 {
     if (isVt)
-        p_Vt100[uart_video_Number]->refreshVideo();
+    {
+        if (p_Vt100[uart_video_Number] != NULL)
+            p_Vt100[uart_video_Number]->refreshVideo();
+    }
     else
-        p_Video[uart_video_Number]->refreshVideo();
+    {
+        if (p_Video[uart_video_Number] != NULL)
+            p_Video[uart_video_Number]->refreshVideo();
+    }
     videoRefreshOngoing_[uart_video_Number] = false;
 }
 
@@ -560,7 +578,8 @@ void GuiUpdate::guiRefreshPanel()
 
 void GuiUpdate::guiRefreshPanelHelper()
 {
-    p_Computer->refreshPanel();
+    if (p_Computer != NULL)
+        p_Computer->refreshPanel();
     panelRefreshOngoing_ = false;
 }
 
@@ -571,7 +590,7 @@ void GuiUpdate::guiUpdateLedStatus(bool status, int card, int i)
 
 void GuiUpdate::guiUpdateLedStatusHelper(bool status, int card, int i)
 {
-    if (computerRunning_)
+    if (computerRunning_ && p_Video[computerConfiguration.vis1870Configuration.videoNumber] != NULL)
         p_Video[computerConfiguration.vis1870Configuration.videoNumber]->updateStatusLed(status, card, i);
 }
 
@@ -582,7 +601,8 @@ void GuiUpdate::guiUpdateVipIILedStatus(int led, bool status)
 
 void GuiUpdate::guiUpdateVipIILedStatusHelper(int led, bool status)
 {
-    p_Computer->updateStatusBarLedStatus(status, led);
+    if (p_Computer != NULL)
+        p_Computer->updateStatusBarLedStatus(status, led);
 }
 
 void GuiUpdate::guiDebounceTimer()
