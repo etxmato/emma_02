@@ -674,33 +674,33 @@ vector<Byte> dirAssSlotVector(0);
 IMPLEMENT_DYNAMIC_CLASS(DebugBitmapView, wxPanel)
 
 DebugBitmapView::DebugBitmapView()
-: wxPanel()
+: wxPanel(), bitmapSizeValid_(false)
 {
     // wx 2.8 only has wxBG_STYLE_CUSTOM; wx 3.x aliases it to wxBG_STYLE_PAINT.
     SetBackgroundStyle(wxBG_STYLE_CUSTOM);
     Connect(wxEVT_PAINT, wxPaintEventHandler(DebugBitmapView::OnPaint), NULL, this);
 }
 
-void DebugBitmapView::SetBitmap(const wxBitmap& bitmap)
+void DebugBitmapView::SetBitmap(const wxBitmap& bitmap, const wxSize& bitmapSize)
 {
     bitmap_ = bitmap;                 // shallow copy: shares the HBITMAP with the debug buffer
     InvalidateBestSize();
-    const wxSize bitmapSize(bitmap_.GetWidth(), bitmap_.GetHeight());   // wx 2.8 has no wxBitmap::GetSize()
-    if (bitmap_.IsOk() && GetSize() != bitmapSize)
-        SetSize(bitmapSize);          // wxStaticBitmap used to resize itself to the image
+    bitmapSize_ = bitmapSize;
+    bitmapSizeValid_ = true;
+    if (GetSize() != bitmapSize_)
+        SetSize(bitmapSize_);         // wxStaticBitmap used to resize itself to the image
     Refresh(false);                   // coalesced; never Update() from the CPU-step path
 }
 
 wxSize DebugBitmapView::DoGetBestSize() const
 {
-    return bitmap_.IsOk() ? wxSize(bitmap_.GetWidth(), bitmap_.GetHeight())
-                          : wxPanel::DoGetBestSize();
+    return bitmapSizeValid_ ? bitmapSize_ : wxPanel::DoGetBestSize();
 }
 
 void DebugBitmapView::OnPaint(wxPaintEvent& WXUNUSED(event))
 {
     wxPaintDC dc(this);
-    if (bitmap_.IsOk())
+    if (bitmapSizeValid_)
         dc.DrawBitmap(bitmap_, 0, 0, false);
 }
 
@@ -7842,11 +7842,11 @@ void DebugWindow::directAss()
     switch (selectedTab_)
     {
         case DIRECTASSTAB:
-            XRCCTRL(*this, "AssBitmap", DebugBitmapView)->SetBitmap(*assBmp);
+            XRCCTRL(*this, "AssBitmap", DebugBitmapView)->SetBitmap(*assBmp, wxSize(assWidth_, debugAreaHeight(windowInfo.assemblerOffset)));
         break;
 
         case PROFILERTAB:
-            XRCCTRL(*this, "ProfilerBitmap", DebugBitmapView)->SetBitmap(*profilerBmp);
+            XRCCTRL(*this, "ProfilerBitmap", DebugBitmapView)->SetBitmap(*profilerBmp, wxSize(profilerWidth_, debugAreaHeight(windowInfo.profilerOffset)));
         break;
     }
     int range = XRCCTRL(*this,"AssRangeType",wxChoice)->GetCurrentSelection();
@@ -13211,8 +13211,8 @@ void DebugWindow::paintDebugBackground()
     dcDebugBackground.SelectObject(wxNullBitmap);
     if (xmlLoaded_)
     {
-        XRCCTRL(*this, "AssBitmap", DebugBitmapView)->SetBitmap(*assBmp);
-        XRCCTRL(*this, "ProfilerBitmap", DebugBitmapView)->SetBitmap(*profilerBmp);
+        XRCCTRL(*this, "AssBitmap", DebugBitmapView)->SetBitmap(*assBmp, wxSize(assWidth_, debugAreaHeight(windowInfo.assemblerOffset)));
+        XRCCTRL(*this, "ProfilerBitmap", DebugBitmapView)->SetBitmap(*profilerBmp, wxSize(profilerWidth_, debugAreaHeight(windowInfo.profilerOffset)));
     }
 }
 

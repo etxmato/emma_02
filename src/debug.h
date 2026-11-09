@@ -194,7 +194,11 @@ class DebugBitmapView : public wxPanel
 public:
     DebugBitmapView();
 
-    void SetBitmap(const wxBitmap& bitmap);
+    // The size is passed in by the owner: it must not be read back from the
+    // bitmap. wxBitmap::GetWidth()/GetHeight() dereference bitmap ref data that
+    // is not reliably present after a plain wxBitmap assignment, and the
+    // wxGDIObject::IsOk() inherited by wxBitmap does not guard that pointer.
+    void SetBitmap(const wxBitmap& bitmap, const wxSize& bitmapSize);
 
 protected:
     void OnPaint(wxPaintEvent& event);
@@ -203,6 +207,8 @@ protected:
 
 private:
     wxBitmap bitmap_;
+    wxSize bitmapSize_;
+    bool bitmapSizeValid_;
 
     DECLARE_DYNAMIC_CLASS(DebugBitmapView)
 };
