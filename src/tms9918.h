@@ -30,6 +30,7 @@ public:
     void setClock(double clock);
     void setCycle();
     void copyScreen();
+    void setZoom(double zoom);
     
     void drawSprites();
     void drawSprite(Byte namePointer, Word spritePatternTableAddress, wxCoord x, wxCoord y, int numberOfLines, bool earlyClock);
@@ -54,6 +55,8 @@ public:
     void reBlit(wxDC &dc);
 
 private:
+    void onScreenSizeChanged();
+
     TmsConfiguration tmsConfiguration_;
     
     Byte tmsMemory_[16384];

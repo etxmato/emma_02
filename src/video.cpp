@@ -654,12 +654,13 @@ void Video::changeScreenSize()
     screenCopyPointer = new wxBitmap(minSize(2*offsetX_+videoWidth_), minSize(2*offsetY_+videoHeight_));
     
     dcMemory.SelectObject(*screenCopyPointer);
+
+    onScreenSizeChanged();
     
-    // Set on all platforms. The Linux guard (Release 1.35) protected the removed
-    // wxGraphicsContext path; without these flags a static screen is not redrawn
-    // after a resize or zoom on Linux (bug_fix_linux_tms_offset, todo 7.2).
+#ifndef __linux__ // Looks like reDrawing on zooming will (sometimes) crash on linux
     reDraw_ = true;
     newBackGround_ = true;
+#endif
 
     memoryDCvalid_ = true;
 
@@ -753,7 +754,9 @@ void Video::setZoom(double zoom)
     }
 
     videoScreenPointer->setZoom(zoom_);
+#ifndef __linux__
     reBlit_ = true;
+#endif
 }
 
 void Video::reBlit(wxDC &dc)

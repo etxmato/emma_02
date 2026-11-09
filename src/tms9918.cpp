@@ -183,6 +183,59 @@ Tms9918::~Tms9918()
     delete videoScreenPointer;
 }
 
+void Tms9918::onScreenSizeChanged()
+{
+    int bitmapWidth = minSize(videoWidth_ + 2*offsetX_);
+    int bitmapHeight = minSize(videoHeight_ + 2*offsetY_);
+    bool resizePlanes = mainAndSpritePlanePointer == NULL || mainPlanePointer == NULL || spritePlanePointer == NULL;
+
+    if (!resizePlanes)
+    {
+        resizePlanes = mainAndSpritePlanePointer->GetWidth() != bitmapWidth ||
+                       mainAndSpritePlanePointer->GetHeight() != bitmapHeight ||
+                       mainPlanePointer->GetWidth() != bitmapWidth ||
+                       mainPlanePointer->GetHeight() != bitmapHeight ||
+                       spritePlanePointer->GetWidth() != bitmapWidth ||
+                       spritePlanePointer->GetHeight() != bitmapHeight;
+    }
+
+    if (resizePlanes)
+    {
+        dcMemoryMainAndSpritePlane.SelectObject(wxNullBitmap);
+        dcMemoryMainPlane.SelectObject(wxNullBitmap);
+        dcMemorySpritePlane.SelectObject(wxNullBitmap);
+
+        delete mainAndSpritePlanePointer;
+        delete mainPlanePointer;
+        delete spritePlanePointer;
+
+        mainAndSpritePlanePointer = new wxBitmap(bitmapWidth, bitmapHeight);
+        mainPlanePointer = new wxBitmap(bitmapWidth, bitmapHeight);
+        spritePlanePointer = new wxBitmap(bitmapWidth, bitmapHeight, 32);
+
+        dcMemoryMainAndSpritePlane.SelectObject(*mainAndSpritePlanePointer);
+        dcMemoryMainPlane.SelectObject(*mainPlanePointer);
+        dcMemorySpritePlane.SelectObject(*spritePlanePointer);
+    }
+
+    // Video::changeScreenSize recreates its output bitmap on every successful
+    // resize. Recompose the TMS multi-plane image even when rounded geometry
+    // leaves the three plane bitmap dimensions unchanged.
+    reDraw_ = true;
+    reBlit_ = true;
+    newBackGround_ = true;
+}
+
+void Tms9918::setZoom(double zoom)
+{
+    Video::setZoom(zoom);
+    // EVT_SIZE is ignored while Main's zoom event is active. Ensure the new
+    // scale is presented on the next emulation cycle without changing the
+    // shared Linux redraw policy for other video types.
+    reBlit_ = true;
+    newBackGround_ = true;
+}
+
 void Tms9918::configure()
 {
     changeScreenSize();

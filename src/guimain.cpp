@@ -625,14 +625,14 @@ void GuiMain::onFullScreenFloat(wxCommandEvent&WXUNUSED(event))
     correctZoomVtAndValue(SET_SPIN);
 }
 
-void GuiMain::correctZoomAndValue(bool setSpin, int videoNumber)
+void GuiMain::correctZoomAndValue(bool setSpin, int videoNumber, bool applyZoom)
 {
-    correctZoom(setSpin, videoNumber);
+    correctZoom(setSpin, videoNumber, applyZoom);
     if (videoNumber == computerConfiguration.videoNumber_)
         XRCCTRL(*this, "ZoomValueXml", wxTextCtrl)->ChangeValue(computerConfiguration.zoom_[videoNumber]);
 }
 
-void GuiMain::correctZoom(bool setSpin, int videoNumber)
+void GuiMain::correctZoom(bool setSpin, int videoNumber, bool applyZoom)
 {
     double zoom;
     int zoomInt;
@@ -664,7 +664,7 @@ void GuiMain::correctZoom(bool setSpin, int videoNumber)
             XRCCTRL(*this, "ZoomSpinXml", wxSpinButton)->SetValue(zoomInt);
         computerConfiguration.zoom_[videoNumber].Printf("%2.2f", zoom);
     }
-    if (computerRunning_)
+    if (computerRunning_ && applyZoom)
         p_Main->guiZoomChange(zoom, videoNumber);
     else
     {
@@ -722,13 +722,13 @@ void GuiMain::onZoomValue(wxCommandEvent&event)
     }
 }
 
-void GuiMain::correctZoomVtAndValue(bool setSpin)
+void GuiMain::correctZoomVtAndValue(bool setSpin, bool applyZoom)
 {
-    correctZoomVt(setSpin);
+    correctZoomVt(setSpin, applyZoom);
     XRCCTRL(*this, "ZoomValueVtXml", wxTextCtrl)->ChangeValue(computerConfiguration.videoTerminalConfiguration.zoom);
 }
 
-void GuiMain::correctZoomVt(bool setSpin)
+void GuiMain::correctZoomVt(bool setSpin, bool applyZoom)
 {
     double zoom;
     int zoomInt;
@@ -760,11 +760,11 @@ void GuiMain::correctZoomVt(bool setSpin)
             XRCCTRL(*this, "ZoomSpinVtXml", wxSpinButton)->SetValue(zoomInt);
         computerConfiguration.videoTerminalConfiguration.zoom.Printf("%2.2f", zoom);
     }
-    if (computerRunning_ && p_Vt100[UART1] != NULL)
+    if (computerRunning_ && applyZoom && p_Vt100[UART1] != NULL)
         p_Main->guiZoomVtChange(zoom, UART1);
     else
     {
-        if (computerRunning_ && p_Vt100[UART2] != NULL)
+        if (computerRunning_ && applyZoom && p_Vt100[UART2] != NULL)
             p_Main->guiZoomVtChange(zoom, UART2);
         else
         {

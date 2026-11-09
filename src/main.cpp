@@ -5001,8 +5001,11 @@ void Main::zoomEvent(double zoom, int videoNumber)
 //    zoomStr.Printf("%2.2f", zoom);
 //    XRCCTRL(*this, "ZoomValueXml", wxTextCtrl)->ChangeValue(zoomStr);
 
+    // changeScreenSize() already applied this zoom to the video surface. Update
+    // only the GUI value here; applying it again calls setZoom(), which snaps
+    // the user's manually dragged window back to an integer-size multiple.
     computerConfiguration.zoom_[videoNumber].Printf("%2.2f", zoom);
-    correctZoomAndValue(SET_SPIN, videoNumber);
+    correctZoomAndValue(SET_SPIN, videoNumber, false);
 }
 
 void Main::zoomEventVt(double zoom)
@@ -5018,7 +5021,8 @@ void Main::zoomEventVt(double zoom)
 //    XRCCTRL(*this, "ZoomValueVtXml", wxTextCtrl)->ChangeValue(zoomStr);
 
     computerConfiguration.videoTerminalConfiguration.zoom.Printf("%2.2f", zoom);
-    correctZoomVtAndValue(SET_SPIN);
+    // The terminal resize already applied this zoom; update its controls only.
+    correctZoomVtAndValue(SET_SPIN, false);
 }
 
 void Main::traceTimeout(wxTimerEvent&WXUNUSED(event))

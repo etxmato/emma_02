@@ -164,6 +164,9 @@ protected:
     // copyScreenHeight() and copyScreenBackgroundColour() define the blit
     // geometry and the extra-background colour.
     void updateReColour();
+    // Derived video types can resize auxiliary backing surfaces before the
+    // screen memory DC is made valid again.
+    virtual void onScreenSizeChanged() {};
     virtual void eventRefreshScreen();
     virtual void applyScaleFactor();
     virtual int copyScreenHeight() {return videoHeight_+2*offsetY_;};

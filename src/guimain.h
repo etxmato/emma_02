@@ -312,10 +312,10 @@ public:
     ScreenInfo getScreenInfo();
     bool isFullScreenFloat() {return fullScreenFloat_;};
     void onFullScreenFloat(wxCommandEvent&event);
-    void correctZoomAndValue(bool setSpin, int videoNumber);
-    void correctZoom(bool setSpin, int videoNumber);
-    void correctZoomVtAndValue(bool setSpin);
-    void correctZoomVt(bool setSpin);
+    void correctZoomAndValue(bool setSpin, int videoNumber, bool applyZoom = true);
+    void correctZoom(bool setSpin, int videoNumber, bool applyZoom = true);
+    void correctZoomVtAndValue(bool setSpin, bool applyZoom = true);
+    void correctZoomVt(bool setSpin, bool applyZoom = true);
     int getCpuType();
     void setCpuType(wxString type);
     bool isXmlRomRamOptionGui() {return XmlRomRamOptionGui_;};
