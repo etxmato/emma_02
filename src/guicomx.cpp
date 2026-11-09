@@ -158,7 +158,14 @@ void GuiComx::statusLedOn(wxCommandEvent&WXUNUSED(event))
 
 void GuiComx::statusLedOnDirect()
 {
-    p_Video[computerConfiguration.vis1870Configuration.videoNumber]->updateComxStatusLed(true);
+    // These Direct functions are also reached from wx events posted by the
+    // emulation thread (STATUS_LED_ON/OFF, EXP_LED_ON/OFF, STATUS_BAR_1870).
+    // Such an event can still be delivered after killComputer() deleted the
+    // computer and set p_Video[VIDEOMAIN] to NULL, so guard the dereference.
+    // The flags must still be updated: the posting thread may wait on them.
+    int videoNumber = computerConfiguration.vis1870Configuration.videoNumber;
+    if (p_Video[videoNumber] != NULL)
+        p_Video[videoNumber]->updateComxStatusLed(true);
     isStatusLedOn_ = true;
 }
 
@@ -170,7 +177,9 @@ void GuiComx::statusLedOff(wxCommandEvent&WXUNUSED(event))
 
 void GuiComx::statusLedOffDirect()
 {
-    p_Video[computerConfiguration.vis1870Configuration.videoNumber]->updateComxStatusLed(false);
+    int videoNumber = computerConfiguration.vis1870Configuration.videoNumber;
+    if (p_Video[videoNumber] != NULL)
+        p_Video[videoNumber]->updateComxStatusLed(false);
     isStatusLedOn_ = false;
 }
 
@@ -181,7 +190,9 @@ void GuiComx::expLedOn(wxCommandEvent&WXUNUSED(event))
 
 void GuiComx::expLedOnDirect()
 {
-    p_Video[computerConfiguration.vis1870Configuration.videoNumber]->updateComxExpansionLed(true);
+    int videoNumber = computerConfiguration.vis1870Configuration.videoNumber;
+    if (p_Video[videoNumber] != NULL)
+        p_Video[videoNumber]->updateComxExpansionLed(true);
     isExpLedOn_ = true;
 }
 
@@ -192,13 +203,17 @@ void GuiComx::expLedOff(wxCommandEvent&WXUNUSED(event))
 
 void GuiComx::expLedOffDirect()
 {
-    p_Video[computerConfiguration.vis1870Configuration.videoNumber]->updateComxExpansionLed(false);
+    int videoNumber = computerConfiguration.vis1870Configuration.videoNumber;
+    if (p_Video[videoNumber] != NULL)
+        p_Video[videoNumber]->updateComxExpansionLed(false);
     isExpLedOn_ = false;
 }
 
 void GuiComx::v1870BarSize(wxCommandEvent&WXUNUSED(event))
 {
-    p_Video[computerConfiguration.vis1870Configuration.videoNumber]->reDrawBar();
+    int videoNumber = computerConfiguration.vis1870Configuration.videoNumber;
+    if (p_Video[videoNumber] != NULL)
+        p_Video[videoNumber]->reDrawBar();
 }
 
 void GuiComx::setFandMBasicGui()
