@@ -228,8 +228,12 @@ void ComxStatusBar::displayText()
 
 void ComxStatusBar::displayLeds()
 {
-    deleteBitmaps();
-
+    // The buttons are created once and only moved afterwards. The previous
+    // version deleted and recreated these child windows on every call, and
+    // displayLeds() is reached from reDrawBar() on every status-bar redraw.
+    // Manually deleting child windows on GTK corrupts the GDI refcounts (see
+    // the comment on ~EmmaStatusBar), which surfaces at shutdown as
+    // "m_count > 0 failed in DecRef()" from wxStockGDI::DeleteAll().
     wxRect rect;
     int number = 0;
     this->GetFieldRect (1, rect);
@@ -238,63 +242,72 @@ void ComxStatusBar::displayLeds()
     {
         for (int i = 0; i < 2; i++)
         {
-#if defined(__linux__)
-            ledBitmapPointers [card][i] = new PushBitmapButton(this, number, *ledOffPointer,
-                                     wxPoint((card+offsetField_)*((int)rect.GetWidth()+ledSpacing_)+i*14+ledOffsetX_+(card*3), led_pos_y_), wxSize(-1, -1),
-                                     wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
+            wxPoint position;
+#if defined(__linux__) || defined(__WXMAC__)
+            position = wxPoint((card+offsetField_)*((int)rect.GetWidth()+ledSpacing_)+i*14+ledOffsetX_+(card*3), led_pos_y_);
+#else
+            position = wxPoint((card+offsetField_)*(rect.GetWidth()+ledSpacing_)+i*14+ledOffsetX_, led_pos_y_);
 #endif
-#if defined(__WXMAC__)
-            ledBitmapPointers [card][i] = new PushBitmapButton(this, number, *ledOffPointer,
-                                     wxPoint((card+offsetField_)*((int)rect.GetWidth()+ledSpacing_)+i*14+ledOffsetX_+(card*3), led_pos_y_), wxSize(-1, -1),
-                                     wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
+            if (!ledsDefined_)
+            {
+#if defined(__linux__) || defined(__WXMAC__)
+                ledBitmapPointers [card][i] = new PushBitmapButton(this, number, *ledOffPointer,
+                                         position, wxSize(-1, -1),
+                                         wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMSW__)
 #if !defined(EMMA_LED_BITMAP_BUTTON_W28)
-            ledBitmapPointers [card][i] = new PushButton(this, number, wxEmptyString,
-                                     wxPoint((card+offsetField_)*(rect.GetWidth()+ledSpacing_)+i*14+ledOffsetX_, led_pos_y_), wxSize(LED_SIZE_X, LED_SIZE_Y),
-                                     wxBORDER_NONE);
-            ledBitmapPointers [card][i]->SetBitmap(*ledOffPointer);
+                ledBitmapPointers [card][i] = new PushButton(this, number, wxEmptyString,
+                                         position, wxSize(LED_SIZE_X, LED_SIZE_Y),
+                                         wxBORDER_NONE);
+                ledBitmapPointers [card][i]->SetBitmap(*ledOffPointer);
 #else
-            ledBitmapPointers [card][i] = new PushBitmapButton(this, number, *ledOffPointer,
-                                     wxPoint((card+offsetField_)*(rect.GetWidth()+ledSpacing_)+i*14+ledOffsetX_, led_pos_y_), wxSize(LED_SIZE_X, LED_SIZE_Y),
-                                     wxBORDER_NONE);
+                ledBitmapPointers [card][i] = new PushBitmapButton(this, number, *ledOffPointer,
+                                         position, wxSize(LED_SIZE_X, LED_SIZE_Y),
+                                         wxBORDER_NONE);
 #endif
 #endif
-            if (i == 1)
-            {
-                if (statusLedUpdate_)
+                if (i == 1)
+                {
+                    if (statusLedUpdate_)
 #if wxCHECK_VERSION(2, 9, 0)
-                    ledBitmapPointers [card][i]->SetBitmap(*ledOffPointer);
+                        ledBitmapPointers [card][i]->SetBitmap(*ledOffPointer);
 #else
-                    ledBitmapPointers [card][i]->SetBitmapLabel(*ledOffPointer);
+                        ledBitmapPointers [card][i]->SetBitmapLabel(*ledOffPointer);
 #endif
+                    else
+#if wxCHECK_VERSION(2, 9, 0)
+                        ledBitmapPointers [card][i]->SetBitmap(*ledDisabledPointer);
+#else
+                        ledBitmapPointers [card][i]->SetBitmapLabel(*ledDisabledPointer);
+#endif
+                }
                 else
+                {
+                    ledStatus_[card] = false;
+                    if (slotLedUpdate_)
 #if wxCHECK_VERSION(2, 9, 0)
-                    ledBitmapPointers [card][i]->SetBitmap(*ledDisabledPointer);
+                        ledBitmapPointers [card][i]->SetBitmap(*ledOffPointer);
 #else
-                    ledBitmapPointers [card][i]->SetBitmapLabel(*ledDisabledPointer);
+                        ledBitmapPointers [card][i]->SetBitmapLabel(*ledOffPointer);
 #endif
+                    else
+#if wxCHECK_VERSION(2, 9, 0)
+                        ledBitmapPointers [card][i]->SetBitmap(*ledDisabledPointer);
+#else
+                        ledBitmapPointers [card][i]->SetBitmapLabel(*ledDisabledPointer);
+#endif
+                }
             }
             else
-            {
-                ledStatus_[card] = false;
-                if (slotLedUpdate_)
-#if wxCHECK_VERSION(2, 9, 0)
-                    ledBitmapPointers [card][i]->SetBitmap(*ledOffPointer);
-#else
-                    ledBitmapPointers [card][i]->SetBitmapLabel(*ledOffPointer);
-#endif
-                else
-#if wxCHECK_VERSION(2, 9, 0)
-                    ledBitmapPointers [card][i]->SetBitmap(*ledDisabledPointer);
-#else
-                    ledBitmapPointers [card][i]->SetBitmapLabel(*ledDisabledPointer);
-#endif
-            }
+                ledBitmapPointers [card][i]->SetPosition(position);
+
             if (!p_Computer->isXmlSlotCardDefined(card))
                 ledBitmapPointers[card][i]->Hide();
-            if ((!expansionConfiguration_defined_) &&(card >0))
+            else if ((!expansionConfiguration_defined_) && (card > 0))
                 ledBitmapPointers[card][i]->Hide();
+            else
+                ledBitmapPointers[card][i]->Show();
             number++;
         }
     }
