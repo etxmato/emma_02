@@ -376,9 +376,19 @@ Video::~Video()
     delete macFrameImage_[2];
 }
 
-void Video::onClose(wxCloseEvent&WXUNUSED(event) )
+void Video::onClose(wxCloseEvent&event )
 {
-    p_Main->stopComputer();
+    // This frame is owned by the emulated computer: ~Computer() calls
+    // Destroy() on it (after saving the window position). If we let wx destroy
+    // the frame here as well, it is destroyed twice - the second destruction
+    // runs on freed memory, which shows up as an intermittent crash or as
+    // corrupted GDI ref counts at shutdown. So veto this close while the
+    // machine is running and let stopComputer()/killComputer() do the teardown.
+    if (p_Main->isComputerRunning())
+    {
+        event.Veto();
+        p_Main->stopComputer();
+    }
 }
 
 void Video::onSize(wxSizeEvent&event)
