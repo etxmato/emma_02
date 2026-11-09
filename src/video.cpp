@@ -35,7 +35,7 @@
 // Runtime delivery choice, see video.h. macOS always paints from the paint
 // handler; on Linux it depends on the GDK backend selected at startup; Windows
 // keeps the emulation-thread client-DC blit.
-#if defined(__WXMAC__)
+#if defined(__WXMAC__) || defined(__linux__)
 bool videoPaintFromPaintHandler_ = true;
 #else
 bool videoPaintFromPaintHandler_ = false;
@@ -44,19 +44,12 @@ bool videoPaintFromPaintHandler_ = false;
 void videoInitPaintDelivery()
 {
 #if defined(__linux__)
-    // Which backend GDK will use, without pulling in GTK headers (wx-config
-    // does not add the GTK include path on all distros). main() has already set
-    // GDK_BACKEND=x11 when a usable X display was found, so:
-    //   - GDK_BACKEND set   -> that is the backend (x11, or a user override);
-    //   - GDK_BACKEND unset -> the X probe failed and GDK falls back to Wayland
-    //                          when WAYLAND_DISPLAY is present.
-    // GTK3/Wayland cannot composite emulation-thread wxClientDC draws, so the
-    // video window must be painted from the paint handler there.
-    const char *gdkBackend = getenv("GDK_BACKEND");
-    if (gdkBackend != NULL)
-        videoPaintFromPaintHandler_ = strncmp(gdkBackend, "wayland", 7) == 0;
-    else
-        videoPaintFromPaintHandler_ = getenv("WAYLAND_DISPLAY") != NULL;
+    // wxGTK is not thread-safe, on X11 as well as Wayland and for GTK2 as
+    // well as GTK3: blitting a wxClientDC from the emulation thread races
+    // GTK's own idle and repaint work and crashes inside GDK. Always paint
+    // from VideoScreen::onPaint on the GUI thread; the emulation thread only
+    // queues the refresh (see videoPaintFromPaintHandler_).
+    videoPaintFromPaintHandler_ = true;
 #endif
 }
 
