@@ -2016,6 +2016,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     wxSystemOptions::SetOption("msw.window.no-clip-children", 0);
     
     updateCheckStarted_ = false;
+    updateCheckHasUpdate_ = false;
     if (mode_.update_check) 
         updateCheckPointer->Start(10000, wxTIMER_ONE_SHOT);
 
@@ -2025,6 +2026,13 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 
 Main::~Main()
 {
+    // The update check runs on a detached thread. Stop it before anything is
+    // torn down, and on every exit path (the saveOnExit_ early return below
+    // used to skip the wait entirely), otherwise the thread can still touch
+    // this half-destructed frame (todo 7.9).
+    emmaClosing_ = true;
+    stopUpdateCheckThread();
+
     delete vuPointer;
     delete directAssPointer;
     delete ct2425AutoRunPointer;
@@ -2049,15 +2057,19 @@ Main::~Main()
 
     this->GetPosition(&mainWindowX_, &mainWindowY_);
     writeConfig();
-    
+}
+
+void Main::stopUpdateCheckThread()
+{
+    updateCheckPointer->Stop();
+
     if (updateCheckStarted_)
     {
+        updateCheckStarted_ = false;
         {
             wxCriticalSectionLocker enter(m_pUpdateCheckThreadCS);
             if (m_pUpdateCheckThread)         // does the thread still exist?
-            {
                 m_pUpdateCheckThread->Delete();
-            }
         }
         // exit from the critical section to give the thread
         // the possibility to enter its destructor
@@ -2069,9 +2081,13 @@ Main::~Main()
                 if (!m_pUpdateCheckThread) break;
             }
             // wait for thread completion
-            wxThread::This()->Sleep(1);
+            wxThread::Sleep(1);
         }
     }
+
+    // The thread is gone, so no new result can be queued; drop one that was
+    // queued but not yet dispatched, it must not run against a dying frame.
+    gEmmaCallDispatcher->DropPending();
 }
 
 wxSize Main::getPosition(wxString control, wxSize size)
@@ -2826,23 +2842,36 @@ wxString Main::downloadString(wxString urlString)
 
 bool Main::checkUpdateEmma()
 {
+    wxString latestVersion;
+    bool hasUpdate = checkUpdateEmmaRemote(latestVersion);
+
+    if (latestVersion != "")
+        latestVersion_ = latestVersion;
+
+    return hasUpdate;
+}
+
+// Network only. Called on the update check thread, so it must not touch the
+// GUI or any member the GUI thread reads (todo 7.9).
+bool Main::checkUpdateEmmaRemote(wxString& latestVersion)
+{
 //    wxString version = configPointer->Read("/Main/Version", EMMA_VERSION);
     wxString version;
     version.Printf("%1.2f", EMMA_VERSION);
 
-    latestVersion_ = downloadString("https://www.emma02.hobby-site.com/Emma_02_version.txt");
+    latestVersion = downloadString("https://www.emma02.hobby-site.com/Emma_02_version.txt");
 
-    if (latestVersion_ == "")
+    if (latestVersion == "")
         return false;
 
-    int urlStart=latestVersion_.Find("HREF=");
+    int urlStart=latestVersion.Find("HREF=");
     if (urlStart != wxNOT_FOUND)
     {    
         urlStart+=6;
-        latestVersion_ = latestVersion_.Mid(urlStart);
-        int urlEnd=latestVersion_.Find((char)34);
-        latestVersion_ = latestVersion_.Mid(0, urlEnd);
-        latestVersion_ = downloadString(latestVersion_);
+        latestVersion = latestVersion.Mid(urlStart);
+        int urlEnd=latestVersion.Find((char)34);
+        latestVersion = latestVersion.Mid(0, urlEnd);
+        latestVersion = downloadString(latestVersion);
     }
 
     double latestVersionDouble;
@@ -2850,13 +2879,13 @@ bool Main::checkUpdateEmma()
     
     if (version.ToDouble(&versionDouble))
     {
-        latestVersion_.ToDouble(&latestVersionDouble);
+        latestVersion.ToDouble(&latestVersionDouble);
     }
     else
     {
-        latestVersion_.Replace(".",",");
+        latestVersion.Replace(".",",");
         version.Replace(".",",");
-        latestVersion_.ToDouble(&latestVersionDouble);
+        latestVersion.ToDouble(&latestVersionDouble);
         version.ToDouble(&versionDouble);
     }
 
@@ -2864,10 +2893,50 @@ bool Main::checkUpdateEmma()
     versionDouble = (int)(ceil(versionDouble*100));
 
 
-    if (versionDouble >= latestVersionDouble || latestVersion_ == "")
+    if (versionDouble >= latestVersionDouble || latestVersion == "")
         return false;
     else
         return true;
+}
+
+void Main::postUpdateCheckResult(bool hasUpdate, const wxString& latestVersion)
+{
+    {
+        wxCriticalSectionLocker lock(updateCheckResultCS_);
+        updateCheckHasUpdate_ = hasUpdate;
+        updateCheckVersion_ = latestVersion;
+    }
+    // Show the dialog on the GUI thread. stopUpdateCheckThread() drops the
+    // call if the application is closing before it is dispatched.
+    EmmaCallAfter(this, &Main::updateCheckResultHelper);
+}
+
+void Main::updateCheckResultHelper()
+{
+    bool hasUpdate;
+    wxString latestVersion;
+
+    {
+        wxCriticalSectionLocker lock(updateCheckResultCS_);
+        hasUpdate = updateCheckHasUpdate_;
+        latestVersion = updateCheckVersion_;
+    }
+
+    updateCheckStarted_ = false;
+
+    if (!hasUpdate || latestVersion == "" || emmaClosing_)
+        return;
+
+    latestVersion_ = latestVersion;
+    if (updateEmma())
+    {
+        // Same teardown as onQuit(): a running machine has to be stopped before
+        // the frame goes away, the kill path then does the Destroy().
+        emmaClosing_ = true;
+        stopComputer();
+        if (!computerRunning_)
+            Destroy();
+    }
 }
 
 bool Main::updateEmma()
@@ -2958,6 +3027,9 @@ bool Main::updateEmma()
 
 void Main::onQuit(wxCommandEvent&WXUNUSED(event))
 {
+    // Set before stopComputer(): a deferred update check result must not show
+    // its dialog while the application is going away (todo 7.9).
+    emmaClosing_ = true;
     stopComputer();
     if (!computerRunning_)
         Destroy();
@@ -2973,6 +3045,7 @@ void Main::onSaveOnExit(wxCommandEvent&event)
 
 void Main::onClose(wxCloseEvent&event)
 {
+    emmaClosing_ = true;
     stopComputer();
     if (!computerRunning_)
         Destroy();
@@ -6731,11 +6804,14 @@ void Main::storeDefaultCoinArcadeKeys(int keysA[], int keysB[], int coin)
 
 wxThread::ExitCode UpdateCheckThread::Entry()
 {
-    if (p_Main->checkUpdateEmma())
-    {
-        if (p_Main->updateEmma())
-            p_Main->Destroy();
-    }
+    // Network only, and never any GUI work (todo 7.9). A modal dialog or
+    // Destroy() from here would run on the worker thread and can deadlock
+    // against Main::~Main()'s Delete() wait.
+    wxString latestVersion;
+    bool hasUpdate = p_Main->checkUpdateEmmaRemote(latestVersion);
+
+    if (!TestDestroy())
+        p_Main->postUpdateCheckResult(hasUpdate, latestVersion);
 
     return (wxThread::ExitCode)0;     // success
 }

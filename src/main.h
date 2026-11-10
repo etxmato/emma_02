@@ -1353,6 +1353,15 @@ public:
     void onClose(wxCloseEvent&event );
 
     bool checkUpdateEmma();
+    // Network only: no GUI, no modal dialog, no member writes. Safe to call
+    // from the update check thread (todo 7.9).
+    bool checkUpdateEmmaRemote(wxString& latestVersion);
+    // Hands the update check result to the GUI thread. Called from the
+    // update check thread.
+    void postUpdateCheckResult(bool hasUpdate, const wxString& latestVersion);
+    // Runs on the GUI thread via EmmaCallAfter; shows the dialog and closes
+    // the application when the user accepts the download (todo 7.9).
+    void updateCheckResultHelper();
     bool updateEmma();
     wxString downloadString(wxString url);
 
@@ -1552,6 +1561,10 @@ public:
     wxCriticalSection m_pUpdateCheckThreadCS;    // protects the m_pUpdateCheckThread pointer
 
 private:
+    // Waits for the update check thread and drops a result that has not been
+    // delivered yet. Called first in ~Main(), before any teardown (todo 7.9).
+    void stopUpdateCheckThread();
+
     MyHtmlHelpController *help_;
     wxHtmlTagsModule *codeTagModule_;
     wxString latestVersion_;
@@ -1568,6 +1581,9 @@ private:
     wxTimer *updateCheckPointer;
     wxTimer *ct2425AutoRunPointer;
     bool updateCheckStarted_;
+    bool updateCheckHasUpdate_;      // result of the update check thread (todo 7.9)
+    wxString updateCheckVersion_;
+    wxCriticalSection updateCheckResultCS_;   // protects the two above
     int oldGauge_;
 
     wxString message_;
