@@ -45,6 +45,14 @@
 // downloads on a slow link are unaffected once the connection is up.
 #define wxCURL_CONNECT_TIMEOUT_SECONDS      15L
 
+// Abort a transfer whose throughput stays below this floor for this long. The
+// connect timeout above does not cover a server that accepts the connection and
+// then stops sending, where libcurl would otherwise wait indefinitely (or until
+// its own 300 s default). One byte per second is low enough that a large wave
+// file on a slow link still completes.
+#define wxCURL_LOW_SPEED_LIMIT              1L
+#define wxCURL_LOW_SPEED_TIME_SECONDS       30L
+
 //////////////////////////////////////////////////////////////////////
 // C Functions for LibCURL
 //////////////////////////////////////////////////////////////////////
@@ -541,8 +549,16 @@ bool wxCurlBase::Perform()
         wxPostEvent(m_pEvtHandler, endEvent);
     }
 
+    // An HTTP status of 400 or above (404 for a missing file, 500 for a server
+    // error, ...) is a failed request even though libcurl reports CURLE_OK: the
+    // error page body has been transferred successfully, so without this check
+    // the error page would be handed to the caller as the requested content.
+    // Only >= 400 is rejected: libcurl also reports FTP reply codes here (150,
+    // 226, ...) and those must keep their existing behaviour.
+    bool failed = (res != CURLE_OK || m_iResponseCode >= 400);
+
     DumpErrorIfNeed(res);
-    return (res == CURLE_OK);
+    return !failed;
 }
 
 bool wxCurlBase::InitHandle()
@@ -803,8 +819,11 @@ void wxCurlBase::SetCurlHandleToDefaults(const wxString& relativeURL)
         SetStringOpt(CURLOPT_URL, m_szCurrFullURL);
 
         // Bound the connection phase so a dead/unreachable server is reported
-        // in seconds rather than after libcurl's default of 300 s.
+        // in seconds rather than after libcurl's default of 300 s, and abort a
+        // transfer that stalls after the connection is up.
         SetOpt(CURLOPT_CONNECTTIMEOUT, wxCURL_CONNECT_TIMEOUT_SECONDS);
+        SetOpt(CURLOPT_LOW_SPEED_LIMIT, wxCURL_LOW_SPEED_LIMIT);
+        SetOpt(CURLOPT_LOW_SPEED_TIME, wxCURL_LOW_SPEED_TIME_SECONDS);
 
 #if defined(__WXMSW__)
         // The VC9 lines (XP / Windows 2000) link a libcurl built with OpenSSL

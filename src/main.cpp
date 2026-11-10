@@ -2836,7 +2836,12 @@ wxString Main::downloadString(wxString urlString)
 
     wxCurlHTTP http(urlString);
 
-    http.Get(html_stream);
+    // Get() only returns true for a 2xx response. Without this check an error
+    // page (404/500) was returned as if it were the requested document, and the
+    // version check then compared against the error page text (todo 7.10).
+    if (!http.Get(html_stream))
+        returnString = "";
+
     return returnString;
 }
 
@@ -2874,19 +2879,21 @@ bool Main::checkUpdateEmmaRemote(wxString& latestVersion)
         latestVersion = downloadString(latestVersion);
     }
 
-    double latestVersionDouble;
-    double versionDouble;
-    
-    if (version.ToDouble(&versionDouble))
+    // The published file ends with a newline. wxString::ToDouble() returns
+    // false for "2.00\n" but still assigns the parsed value, so trim first and
+    // require the conversion to succeed instead of relying on that side effect.
+    latestVersion.Trim();
+
+    double latestVersionDouble = 0.0;
+    double versionDouble = 0.0;
+
+    if (!version.ToDouble(&versionDouble) || !latestVersion.ToDouble(&latestVersionDouble))
     {
-        latestVersion.ToDouble(&latestVersionDouble);
-    }
-    else
-    {
+        // Some locales use a comma as decimal separator.
         latestVersion.Replace(".",",");
         version.Replace(".",",");
-        latestVersion.ToDouble(&latestVersionDouble);
-        version.ToDouble(&versionDouble);
+        if (!version.ToDouble(&versionDouble) || !latestVersion.ToDouble(&latestVersionDouble))
+            return false;
     }
 
     latestVersionDouble = (int)(ceil(latestVersionDouble*100));
