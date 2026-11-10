@@ -45,14 +45,6 @@
 // downloads on a slow link are unaffected once the connection is up.
 #define wxCURL_CONNECT_TIMEOUT_SECONDS      15L
 
-// Abort a transfer whose throughput stays below this floor for this long. The
-// connect timeout above does not cover a server that accepts the connection and
-// then stops sending, where libcurl would otherwise wait indefinitely (or until
-// its own 300 s default). One byte per second is low enough that a large wave
-// file on a slow link still completes.
-#define wxCURL_LOW_SPEED_LIMIT              1L
-#define wxCURL_LOW_SPEED_TIME_SECONDS       30L
-
 //////////////////////////////////////////////////////////////////////
 // C Functions for LibCURL
 //////////////////////////////////////////////////////////////////////
@@ -819,11 +811,8 @@ void wxCurlBase::SetCurlHandleToDefaults(const wxString& relativeURL)
         SetStringOpt(CURLOPT_URL, m_szCurrFullURL);
 
         // Bound the connection phase so a dead/unreachable server is reported
-        // in seconds rather than after libcurl's default of 300 s, and abort a
-        // transfer that stalls after the connection is up.
+        // in seconds rather than after libcurl's default of 300 s.
         SetOpt(CURLOPT_CONNECTTIMEOUT, wxCURL_CONNECT_TIMEOUT_SECONDS);
-        SetOpt(CURLOPT_LOW_SPEED_LIMIT, wxCURL_LOW_SPEED_LIMIT);
-        SetOpt(CURLOPT_LOW_SPEED_TIME, wxCURL_LOW_SPEED_TIME_SECONDS);
 
 #if defined(__WXMSW__)
         // The VC9 lines (XP / Windows 2000) link a libcurl built with OpenSSL

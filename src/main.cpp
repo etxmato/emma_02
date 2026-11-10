@@ -2836,6 +2836,14 @@ wxString Main::downloadString(wxString urlString)
 
     wxCurlHTTP http(urlString);
 
+    // The update check runs unattended and has no dialog to cancel it, so bound
+    // a transfer that stalls after the connection was made (a server that
+    // accepts and then stops sending). Deliberately not set in the curl
+    // defaults: the wave file downloads are pausable, and a pause longer than
+    // the low-speed window would abort them on resume.
+    http.SetOpt(CURLOPT_LOW_SPEED_LIMIT, 1L);
+    http.SetOpt(CURLOPT_LOW_SPEED_TIME, 30L);
+
     // Get() only returns true for a 2xx response. Without this check an error
     // page (404/500) was returned as if it were the requested document, and the
     // version check then compared against the error page text (todo 7.10).
