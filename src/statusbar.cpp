@@ -814,7 +814,7 @@ DiagStatusBar::DiagStatusBar(wxWindow *parent)
     ledOffPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/diagledoff.png", wxBITMAP_TYPE_PNG);
     ledOnPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/diagledon.png", wxBITMAP_TYPE_PNG);
     maskOn = new wxMask(*ledOnPointer, white);
-    maskOff = new wxMask(*ledOnPointer, white);
+    maskOff = new wxMask(*ledOffPointer, white);
     ledOnPointer->SetMask(maskOn);
     ledOffPointer->SetMask(maskOff);
     ledsDefined_ = false;
@@ -987,7 +987,7 @@ VipIIStatusBar::VipIIStatusBar(wxWindow *parent)
     ledOffPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/ledoff.png", wxBITMAP_TYPE_PNG);
     ledOnPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/ledon.png", wxBITMAP_TYPE_PNG);
     maskOn = new wxMask(*ledOnPointer, white);
-    maskOff = new wxMask(*ledOnPointer, white);
+    maskOff = new wxMask(*ledOffPointer, white);
     ledOnPointer->SetMask(maskOn);
     ledOffPointer->SetMask(maskOff);
     ledsDefined_ = false;

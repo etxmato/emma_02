@@ -627,9 +627,6 @@
 		99A3115F21A75B98003CB022 /* Chip8Vip2K.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8Vip2K.syntax; sourceTree = "<group>"; };
 		99AB90C228A8C82E00BCF5B3 /* emma_02_arm_x64_osx_12.pkgproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = emma_02_arm_x64_osx_12.pkgproj; sourceTree = "<group>"; };
 		99AB90C328A8C82E00BCF5B3 /* emma_02_x64_osx_10.10.pkgproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = emma_02_x64_osx_10.10.pkgproj; sourceTree = "<group>"; };
-		99ACA8591F42330C00788104 /* Emma 02 vc14.sln */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02 vc14.sln"; sourceTree = "<group>"; };
-		99ACA85A1F42330C00788104 /* Emma 02 vc14.vcxproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02 vc14.vcxproj"; sourceTree = "<group>"; };
-		99ACA85B1F42330C00788104 /* Emma 02 vc14.vcxproj.filters */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02 vc14.vcxproj.filters"; sourceTree = "<group>"; };
 		99AD30E92E90E6C7001D1920 /* studioiv_video_config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = studioiv_video_config.h; path = src/studioiv_video_config.h; sourceTree = "<group>"; };
 		99AD30EA2E90E6C7001D1920 /* studioiv_video_config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = studioiv_video_config.cpp; path = src/studioiv_video_config.cpp; sourceTree = "<group>"; };
 		99AD5DF229315FFB0060EC01 /* keybmatrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = keybmatrix.h; path = src/keybmatrix.h; sourceTree = "<group>"; };
@@ -864,9 +861,6 @@
 				9943A6691F3E42F2001F0222 /* Emma 02.rc */,
 				99E6EA951F40E0AA0030F125 /* Emma 02 vc9.sln */,
 				99E6EA961F40E0AA0030F125 /* Emma 02 vc9.vcproj */,
-				99ACA8591F42330C00788104 /* Emma 02 vc14.sln */,
-				99ACA85A1F42330C00788104 /* Emma 02 vc14.vcxproj */,
-				99ACA85B1F42330C00788104 /* Emma 02 vc14.vcxproj.filters */,
 				99368910305C685700939BA4 /* Emma 02 vc17.sln */,
 				99368911305C685700939BA4 /* Emma 02 vc17.vcxproj */,
 				99F3746E1CADBBC2000DA615 /* COPYING - curl */,
