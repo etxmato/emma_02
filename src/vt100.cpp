@@ -2256,7 +2256,6 @@ void Vt100::escapeVT100(Byte byt)
             if ((escBuffer_[0] == '#') && (escBuffer_[1] == '5'))
             {
                 doubleWidth_[cursorLine_] = 1;
-                doubleWidth_[cursorLine_] = 1;
                 doubleHeight_[cursorLine_] = 1;
                 reDraw_ = true;
                 escPosition_ = -1;

@@ -1394,7 +1394,6 @@ void Computer::initComputer()
     runPressed_ = false;
 
     tapeRunSwitch_ = 0x2;
-    tapeRunSwitch_ = 0x2;
     tapeError_ = 1;
     inpMode_ = INP_MODE_NONE;
     cardSwitchOn_ = false;

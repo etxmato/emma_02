@@ -339,6 +339,7 @@ Video::Video(const wxString& title, const wxPoint& pos, const wxSize& size)
     xZoomFactor_ = 1;
     zoomChanged_ = 0;
     videoType_ = 0;
+    videoNumber_ = 0;
     videoSyncCount_ = 0;
 //    memoryDCvalid_ = true;
     memoryDCvalid_ = false;
