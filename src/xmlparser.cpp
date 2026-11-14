@@ -1332,11 +1332,11 @@ void XmlParser::parseXml_System(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_NAME:
-                computerInfo.name = child->GetNodeContent();
+                computerInfo.name = xmlTextToNative(child->GetNodeContent());
             break;
 
             case TAG_CONFIG:
-                computerInfo.configuration = child->GetNodeContent();
+                computerInfo.configuration = xmlTextToNative(child->GetNodeContent());
             break;
                 
             case TAG_CPU:
@@ -4493,6 +4493,19 @@ void XmlParser::parseXml_FrontPanel(wxXmlNode &node, int frontNumber)
     computerConfiguration.frontPanelConfiguration[frontNumber].backgroundColorCode = -1;
     computerConfiguration.frontPanelConfiguration[frontNumber].frontPanelNumberBitText = -1;
 
+    // Resolve the panel background before parsing item text colors so the fallback
+    // is independent of the order of <background> and <item> in the XML.
+    wxXmlNode *backgroundNode = node.GetChildren();
+    while (backgroundNode)
+    {
+        if (backgroundNode->GetName() == "background")
+        {
+            computerConfiguration.frontPanelConfiguration[frontNumber].backgroundColorCode =
+                textToColorCode(backgroundNode->GetAttribute("color", wxEmptyString), true);
+        }
+        backgroundNode = backgroundNode->GetNext();
+    }
+
     wxXmlNode *child = node.GetChildren();
     while (child)
     {
@@ -5056,6 +5069,11 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                 {
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = PANEL_TEXT;
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 = textToColorCode(child->GetAttribute("color", wxEmptyString));
+                    if (!child->HasAttribute("color") &&
+                        computerConfiguration.frontPanelConfiguration[frontNumber].backgroundColorCode == GUI_COL_WHITE_FIXED)
+                    {
+                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 = GUI_COL_BLACK_FIXED;
+                    }
 
                     if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 == -1)
                     {
@@ -5085,6 +5103,11 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
                 {
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].type = THUMB_TEXT;
                     computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 = textToColorCode(child->GetAttribute("color", wxEmptyString));
+                    if (!child->HasAttribute("color") &&
+                        computerConfiguration.frontPanelConfiguration[frontNumber].backgroundColorCode == GUI_COL_WHITE_FIXED)
+                    {
+                        computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 = GUI_COL_BLACK_FIXED;
+                    }
 
                     if (computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].systemColor1 == -1)
                     {
