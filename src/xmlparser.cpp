@@ -35,6 +35,16 @@
 #include "xmlparser.h"
 #include "ami_int_controller.h"
 
+// Front-panel <label> and <label2> sizes from the XML are increased by this
+// amount on macOS only. macOS fonts render at a different size than on
+// Windows/Linux for the same point size, so the XML value is adjusted there.
+// Zero elsewhere, so Windows and Linux are unchanged.
+#if defined(__WXMAC__)
+#define EMMA_LABEL_SIZE_ADJUST 4
+#else
+#define EMMA_LABEL_SIZE_ADJUST 0
+#endif
+
 // wxXmlDocument keeps parsed text in the input encoding in an ANSI wxWidgets
 // build (UTF-8 by default). wxMSW ANSI text drawing expects the current Windows
 // code page, so convert panel labels before they reach wxDC::DrawText. Unicode
@@ -5599,21 +5609,13 @@ void XmlParser::parseXml_FrontPanelItem(wxXmlNode &node, int frontNumber, wxPoin
             case TAG_LABEL1:
                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].label = xmlTextToNative(child->GetNodeContent());
                 if (child->HasAttribute("size"))
-#if defined (__WXMAC__)
-                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].textSize = (int)parseXml_Number(*child, "size")+4;
-#else
-                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].textSize = (int)parseXml_Number(*child, "size");
-#endif
+                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].textSize = (int)parseXml_Number(*child, "size") + EMMA_LABEL_SIZE_ADJUST;
             break;
 
             case TAG_LABEL2:
                 computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].label2 = xmlTextToNative(child->GetNodeContent());
                 if (child->HasAttribute("size"))
-#if defined (__WXMAC__)
-                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].textSize = (int)parseXml_Number(*child, "size")+4;
-#else
-                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].textSize = (int)parseXml_Number(*child, "size");
-#endif
+                    computerConfiguration.frontPanelConfiguration[frontNumber].guiItemConfiguration[guiItemConfigNumber_].textSize = (int)parseXml_Number(*child, "size") + EMMA_LABEL_SIZE_ADJUST;
             break;
                 
             case TAG_INIT:
