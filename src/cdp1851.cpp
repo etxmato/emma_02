@@ -375,6 +375,7 @@ void Cdp1851Screen::init(Cdp1851Instance *cdp1851InstancePointer)
     for (int i=0; i<8; i++)
     {
         ledPointer[i] = new Led(dc, 33+23*(7-i), 30, LED_SMALL_RED_DISABLE);
+        ledPointerDefined[i] = true;
         updateLed_[i]=true;
         setLed(i, 2);
         dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL_PIO, wxColour(255, 255, 255), BUTTON_DOWN, 27+23*(7-i), 50, "");
@@ -384,6 +385,7 @@ void Cdp1851Screen::init(Cdp1851Instance *cdp1851InstancePointer)
     for (int i=8; i<16; i++)
     {
         ledPointer[i] = new Led(dc, 33+23*(15-i), 90, LED_SMALL_RED_DISABLE);
+        ledPointerDefined[i] = true;
         updateLed_[i]=true;
         setLed(i, 2);
         dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL_PIO, wxColour(255, 255, 255), BUTTON_DOWN, 27+23*(15-i), 110, "");
@@ -393,6 +395,7 @@ void Cdp1851Screen::init(Cdp1851Instance *cdp1851InstancePointer)
     for (int i=16; i<18; i++)
     {
         ledPointer[i] = new Led(dc, 229+37*(i-16), 30, LED_SMALL_RED_DISABLE);
+        ledPointerDefined[i] = true;
         updateLed_[i]=true;
         setLed(i, 2);
         dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL_PIO, wxColour(255, 255, 255), BUTTON_DOWN, 223+37*(i-16), 50, "");
@@ -403,6 +406,7 @@ void Cdp1851Screen::init(Cdp1851Instance *cdp1851InstancePointer)
     for (int i=18; i<20; i++)
     {
         ledPointer[i] = new Led(dc, 229+37*(i-18), 90, LED_SMALL_RED_DISABLE);
+        ledPointerDefined[i] = true;
         updateLed_[i]=true;
         setLed(i, 2);
         dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL_PIO, wxColour(255, 255, 255), BUTTON_DOWN, 223+37*(i-18), 110, "");
@@ -456,9 +460,10 @@ void Cdp1851Screen::onPaint(wxPaintEvent&WXUNUSED(event))
 
     dc.SetTextForeground(colour.Find("GREY"));
     
-#if defined (__WXMAC__)
-    rePaintLeds(dc);
-#endif
+    // Dirty LED/TIL items set by Panel::setLed() on the paint-handler path (macOS and Linux)
+    // are brought up to date here, on the GUI thread, before the item loop below.
+    if (videoPaintFromPaintHandler_)
+        rePaintLeds(dc);
     
     for (int i=0; i<20; i++)
     {
@@ -479,6 +484,7 @@ void Cdp1851Screen::onMousePress(wxMouseEvent&event)
     
     wxClientDC dc(this);
 
+#if defined (__WXMAC__)
     if (cdp1851InstancePointer_->getPioAInterruptEnabled())
     {
         if (osx_ardyButtonPointer->onMousePress(dc, x, y))
@@ -490,6 +496,7 @@ void Cdp1851Screen::onMousePress(wxMouseEvent&event)
         if (osx_brdyButtonPointer->onMousePress(dc, x, y))
             onBrdyButton();
     }
+#endif
 }
 
 void Cdp1851Screen::onMouseRelease(wxMouseEvent&event)
@@ -513,6 +520,11 @@ void Cdp1851Screen::onMouseRelease(wxMouseEvent&event)
     if (cdp1851InstancePointer_->getPioBInterruptEnabled())
         osx_brdyButtonPointer->onMouseRelease(dc, x, y);
 #endif
+
+    // blitting the new state only draws where the new artwork is opaque, and a switch
+    // artwork has transparent areas that move between states (the knob, the white top),
+    // so the pixels it vacated are left behind. Repaint from the item states to erase them.
+    Refresh();
 }
 
 void Cdp1851Screen::releaseButtonOnScreen(HexButton* buttonPoint)

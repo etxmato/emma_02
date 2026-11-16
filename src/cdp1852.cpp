@@ -61,6 +61,7 @@ void Cdp1852Screen::init()
     for (int i=0; i<8; i++)
     {
         ledPointer[i] = new Led(dc, 56+27*(7-i), 60, LED_SMALL_RED_DISABLE);
+        ledPointerDefined[i] = true;
         updateLed_[i]=true;
         setLed(i, 0);
         dataSwitchButton[i] = new SwitchButton(dc, SWITCH_BUTTON_VERTICAL_PIO, wxColour(255, 255, 255), BUTTON_DOWN, 50+27*(7-i), 94, "");
@@ -110,9 +111,10 @@ void Cdp1852Screen::onPaint(wxPaintEvent&WXUNUSED(event))
 
     dc.SetTextForeground(colour.Find("GREY"));
     
-#if defined (__WXMAC__)
-    rePaintLeds(dc);
-#endif
+    // Dirty LED items set by Panel::setLed() on the paint-handler path (macOS and Linux)
+    // are brought up to date here, on the GUI thread, before the item loop below.
+    if (videoPaintFromPaintHandler_)
+        rePaintLeds(dc);
 
     for (int i=0; i<8; i++)
     {
@@ -132,8 +134,10 @@ void Cdp1852Screen::onMousePress(wxMouseEvent&event)
     
     wxClientDC dc(this);
 
+#if defined (__WXMAC__)
     if (osx_stbButtonPointer->onMousePress(dc, x, y))
         onStbButton();
+#endif
 }
 
 void Cdp1852Screen::onMouseRelease(wxMouseEvent&event)
@@ -151,6 +155,11 @@ void Cdp1852Screen::onMouseRelease(wxMouseEvent&event)
 #if defined (__WXMAC__)
     osx_stbButtonPointer->onMouseRelease(dc, x, y);
 #endif
+
+    // blitting the new state only draws where the new artwork is opaque, and a switch
+    // artwork has transparent areas that move between states (the knob, the white top),
+    // so the pixels it vacated are left behind. Repaint from the item states to erase them.
+    Refresh();
 }
 
 void Cdp1852Screen::releaseButtonOnScreen(HexButton* buttonPoint)

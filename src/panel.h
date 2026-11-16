@@ -89,6 +89,9 @@ public:
     void ledTimeout();
     void ledTimeoutGui();
     void rePaintLeds(wxDC& dc);
+    void refreshItem(void (Panel::*update)(wxDC&));
+    void refreshItem(void (Panel::*update)(wxDC&, int), int i);
+    void refreshItem(void (Panel::*update)(wxDC&, int, int), int output, int i);
     void setLedMs(long ms);
 
     void setReadyLed(int status);

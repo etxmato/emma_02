@@ -925,6 +925,16 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
 
     functionKeyReleaseTwo_ = false;
     xmlButtonDefined_ = false;
+
+    // PIO push buttons are platform specific: the text_* wxButtons are created on
+    // Windows/Linux and the osx_* HexButtons on macOS, never both. Start all six at NULL
+    // so an unguarded use is a predictable null instead of an indeterminate value.
+    text_stbButtonPointer = NULL;
+    text_ardyButtonPointer = NULL;
+    text_brdyButtonPointer = NULL;
+    osx_stbButtonPointer = NULL;
+    osx_ardyButtonPointer = NULL;
+    osx_brdyButtonPointer = NULL;
 }
 
 Panel::~Panel()
@@ -1585,9 +1595,13 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
         gc->SetInterpolationQuality(wxINTERPOLATION_NONE);
 #endif
 
-#if defined(__WXMAC__)
-    rePaintLeds(dc);
+    // On the paint-handler path (macOS and Linux) the LED/segment setters only mark an item
+    // dirty and ask for a refresh. Bring those items up to date here, on the GUI thread,
+    // before the panel is painted from the item states below. Windows draws in the setter.
+    if (videoPaintFromPaintHandler_)
+        rePaintLeds(dc);
 
+#if defined(__WXMAC__)
     // rePaintLeds() blits the dirty LED/TIL bitmaps. On macOS our wxGCDC DoStretchBlit
     // patch (dcgraph.cpp) forces ANTIALIAS_NONE for the blit but only restores it in the
     // XOR branch, so it leaks. The panel's labels are drawn below, after rePaintLeds, so
@@ -2002,6 +2016,11 @@ void Panel::onMouseRelease(wxMouseEvent&event)
             break;
         }
     }
+
+    // blitting the new state only draws where the new artwork is opaque, and a switch
+    // artwork has transparent areas that move between states (the knob, the white top),
+    // so the pixels it vacated are left behind. Repaint from the item states to erase them.
+    Refresh();
 }
 
 void Panel::onMouseRightRelease(wxMouseEvent&event)
@@ -2428,6 +2447,41 @@ void Panel::setLedMs(long ms)
     ms_ = ms;
 }
 
+// Immediate repaint of one item, called by the setters when ms_ == 0. On the paint-handler
+// path the GUI thread repaints the panel; otherwise the item is drawn on a client DC here.
+void Panel::refreshItem(void (Panel::*update)(wxDC&))
+{
+    if (videoPaintFromPaintHandler_)
+        p_Main->guiRefreshPanel();
+    else
+    {
+        wxClientDC dc(this);
+        (this->*update)(dc);
+    }
+}
+
+void Panel::refreshItem(void (Panel::*update)(wxDC&, int), int i)
+{
+    if (videoPaintFromPaintHandler_)
+        p_Main->guiRefreshPanel();
+    else
+    {
+        wxClientDC dc(this);
+        (this->*update)(dc, i);
+    }
+}
+
+void Panel::refreshItem(void (Panel::*update)(wxDC&, int, int), int output, int i)
+{
+    if (videoPaintFromPaintHandler_)
+        p_Main->guiRefreshPanel();
+    else
+    {
+        wxClientDC dc(this);
+        (this->*update)(dc, output, i);
+    }
+}
+
 void Panel::updateReadyLed(wxDC& dc)
 {
     if (updateReadyLed_)
@@ -2447,14 +2501,7 @@ void Panel::setReadyLed(int status)
         readyLedStatus = status;
         updateReadyLed_ = true;
         if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->guiRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateReadyLed(dc);
-#endif
-        }
+            refreshItem(&Panel::updateReadyLed);
     }
 }
 
@@ -2468,14 +2515,7 @@ void Panel::setStopLed(int status)
         stopLedStatus = status;
         updateStopLed_ = true;
         if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->guiRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateStopLed(dc);
-#endif
-        }
+            refreshItem(&Panel::updateStopLed);
     }
 }
 
@@ -2498,14 +2538,7 @@ void Panel::setMnLed(int status)
         mnLedStatus = status;
         updateMnLed_ = true;
         if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->guiRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateMnLed(dc);
-#endif
-        }
+            refreshItem(&Panel::updateMnLed);
     }
 }
 
@@ -2528,14 +2561,7 @@ void Panel::setNbLed(int status)
         nbLedStatus = status;
         updateNbLed_ = true;
         if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->guiRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateNbLed(dc);
-#endif
-        }
+            refreshItem(&Panel::updateNbLed);
     }
 }
 
@@ -2558,14 +2584,7 @@ void Panel::setPowerLed(int status)
         powerLedStatus = status;
         updatePowerLed_ = true;
         if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->guiRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updatePowerLed(dc);
-#endif
-        }
+            refreshItem(&Panel::updatePowerLed);
     }
 }
 
@@ -2588,14 +2607,7 @@ void Panel::setErrorLed(int status)
         errorLedStatus = status;
         updateErrorLed_ = true;
         if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->guiRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateErrorLed(dc);
-#endif
-        }
+            refreshItem(&Panel::updateErrorLed);
     }
 }
 
@@ -2618,14 +2630,7 @@ void Panel::setQLed(int status)
         qLedStatus = status;
         updateQLed_ = true;
         if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->guiRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateQLed(dc);
-#endif
-        }
+            refreshItem(&Panel::updateQLed);
     }
 }
 
@@ -2648,14 +2653,7 @@ void Panel::setLed(int i, int status)
         ledStatus[i] = status;
         updateLed_[i] = true;
         if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->guiRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateLed(dc, i);
-#endif
-        }
+            refreshItem(&Panel::updateLed, i);
     }
 }
 
@@ -2688,14 +2686,7 @@ void Panel::setOutLeds(int output, Byte value)
                 ledOutStatus[output][led] = status;
                 updateOutLed_[output][led] = true;
                 if (ms_ == 0)
-                {
-#if defined(__WXMAC__)
-                    p_Main->guiRefreshPanel();
-#else
-                    wxClientDC dc(this);
-                    updateOutLed(dc, output, led);
-#endif
-                }
+                    refreshItem(&Panel::updateOutLed, output, led);
             }
         }
     }
@@ -2742,14 +2733,7 @@ void Panel::setNibbleLed(int i, int status)
         nibbleLedStatus[i] = status;
         updateNibbleLed_[i] = true;
         if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->guiRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateNibbleLed(dc, i);
-#endif
-        }
+            refreshItem(&Panel::updateNibbleLed, i);
     }
 }
 
@@ -2772,14 +2756,7 @@ void Panel::setMathLed(int i, int status)
         mathLedStatus[i] = status;
         updateMathLed_[i] = true;
         if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->guiRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateMathLed(dc, i);
-#endif
-        }
+            refreshItem(&Panel::updateMathLed, i);
     }
 }
 
@@ -2802,14 +2779,7 @@ void Panel::setStateLed(int i, int status)
         stateLedStatus[i] = status;
         updateStateLed_[i] = true;
         if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->guiRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateStateLed(dc, i);
-#endif
-        }
+            refreshItem(&Panel::updateStateLed, i);
     }
 }
 
@@ -2829,14 +2799,7 @@ void Panel::setTilOut(int output, Byte value)
         tilOutStatus[output] = value;
         updateTilOut_[output] = true;
         if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->guiRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateTilOut(dc, output);
-#endif
-        }
+            refreshItem(&Panel::updateTilOut, output);
     }
 }
 
@@ -2859,14 +2822,7 @@ void Panel::showData(Byte value)
         dataStatus = value;
         updateData_ = true;
         if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->guiRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateData(dc);
-#endif
-        }
+            refreshItem(&Panel::updateData);
     }
 }
 
@@ -2892,14 +2848,7 @@ void Panel::showDp313Italic(bool status, int i)
         dpStatus[i] = status;
         updateDp313_[i] = true;
         if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->guiRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateDp313Italic(dc);
-#endif
-        }
+            refreshItem(&Panel::updateDp313Italic);
     }
 }
 
@@ -2939,14 +2888,7 @@ void Panel::showSeg(int number, Byte value)
         segStatus[number] = value;
         updateSeg_[number] = true;
         if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->guiRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateSeg(dc, number);
-#endif
-        }
+            refreshItem(&Panel::updateSeg, number);
     }
 }
 
@@ -2969,14 +2911,7 @@ void Panel::showMulti(int number, Word value)
         multiStatus[number] = value;
         updateMulti_[number] = true;
         if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->guiRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateMulti(dc, number);
-#endif
-        }
+            refreshItem(&Panel::updateMulti, number);
     }
 }
 
@@ -2997,14 +2932,7 @@ void Panel::showAddress(Word address)
         addressStatus = address;
         updateAddress_ = true;
         if (ms_ == 0)
-        {
-#if defined(__WXMAC__)
-            p_Main->guiRefreshPanel();
-#else
-            wxClientDC dc(this);
-            updateAddress(dc);
-#endif
-        }
+            refreshItem(&Panel::updateAddress);
     }
 }
 

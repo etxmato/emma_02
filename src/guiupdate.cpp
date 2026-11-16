@@ -578,9 +578,12 @@ void GuiUpdate::guiRefreshPanel()
 
 void GuiUpdate::guiRefreshPanelHelper()
 {
+    // Clear the flag before painting, not after: a change made by the emulation thread while
+    // the panel is painted then queues another refresh instead of being skipped, and any item
+    // it marked dirty is painted by this refresh or the next one.
+    panelRefreshOngoing_ = false;
     if (p_Computer != NULL)
         p_Computer->refreshPanel();
-    panelRefreshOngoing_ = false;
 }
 
 void GuiUpdate::guiUpdateLedStatus(bool status, int card, int i)

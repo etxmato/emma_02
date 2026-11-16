@@ -4709,6 +4709,9 @@ void Main::killComputer()
     keyDebounceTimeoutPointer->Stop();
     guiRedrawBarTimeOutPointer->Stop();
     gEmmaCallDispatcher->DropPending();
+    // A queued guiRefreshPanelHelper dropped above would never clear panelRefreshOngoing_,
+    // and every later guiRefreshPanel() would then return early. Nothing is queued now.
+    panelRefreshOngoing_ = false;
 
     delete p_Computer;
     p_Computer = NULL;
