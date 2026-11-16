@@ -4621,6 +4621,7 @@ void Main::onStart()
 
    p_Computer->initSound(percentageClock_, bass_, treble_, toneChannels, noiseChannels, stereo, computerConfiguration);
    
+    p_Computer->createFrontPanels();
     p_Computer->initComputer();
     AssInitConfig();
 

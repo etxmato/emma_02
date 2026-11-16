@@ -1300,6 +1300,26 @@ void Computer::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
     }
 }
 
+void Computer::createFrontPanels()
+{
+    // One PanelFrame per front-panel config entry, created once per computer. initComputer()
+    // is re-entered by powerOn(); creating panels there added a panel on every power-on.
+    if (numberOfFrontPanels_ > 0)
+        return;
+
+    for (std::vector<FrontPanelConfiguration>::iterator frontPanel = currentComputerConfiguration.frontPanelConfiguration.begin (); frontPanel != currentComputerConfiguration.frontPanelConfiguration.end (); ++frontPanel)
+    {
+        panelPointer.resize(numberOfFrontPanels_+1);
+        
+        panelPointer[numberOfFrontPanels_] = new PanelFrame(title_, frontPanel->pos, frontPanel->size);
+        panelPointer[numberOfFrontPanels_]->init(frontPanel->guiItemConfiguration, frontPanel->size, frontPanel->picInterrupt, frontPanel->backgroundColorCode);
+        numberOfFrontPanels_++;
+    }
+
+    for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
+        panelPointer[frontPanel]->Show(p_Main->showFrontPanel());
+}
+
 void Computer::initComputer()
 {
     monitor_ = false;
@@ -1336,18 +1356,6 @@ void Computer::initComputer()
 //    Show(p_Main->showFrontPanel());
     for (int i=0; i<8; i++)
         inpSwitchState_[i]=0;
-
-    for (std::vector<FrontPanelConfiguration>::iterator frontPanel = currentComputerConfiguration.frontPanelConfiguration.begin (); frontPanel != currentComputerConfiguration.frontPanelConfiguration.end (); ++frontPanel)
-    {
-        panelPointer.resize(numberOfFrontPanels_+1);
-        
-        panelPointer[numberOfFrontPanels_] = new PanelFrame(title_, frontPanel->pos, frontPanel->size);
-        panelPointer[numberOfFrontPanels_]->init(frontPanel->guiItemConfiguration, frontPanel->size, frontPanel->picInterrupt, frontPanel->backgroundColorCode);
-        numberOfFrontPanels_++;
-    }
-
-    for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
-        panelPointer[frontPanel]->Show(p_Main->showFrontPanel());
 
     waitButtonState_ = 0;
     loadButtonState_ = 1;

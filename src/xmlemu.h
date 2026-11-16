@@ -102,6 +102,7 @@ public:
     void reDefineKeysA(int *, int *);
     void reDefineKeysB(int *, int *);
     void initComputer();
+    void createFrontPanels();
     void resetComputer();
     Byte ef(int flag);
     Byte in(Byte port, Word address);
