@@ -711,6 +711,14 @@ void SwitchButton::setState(wxDC& dc, bool state)
     }
 }
 
+// State-only variant, used on the paint-handler path (macOS and Linux): the caller asks
+// the GUI thread for a repaint and onPaint() draws the item from the current state. The
+// wxDC variant above still draws immediately, which is what Windows keeps using.
+void SwitchButton::setState(bool state)
+{
+    state_ = state;
+}
+
 void SwitchButton::enable(wxDC& dc, bool enabled)
 {
     enabled_ = enabled;
@@ -2482,6 +2490,26 @@ void Panel::refreshItem(void (Panel::*update)(wxDC&, int, int), int output, int 
     }
 }
 
+// Front-panel switch state, same split as refreshItem(): when painting is deferred, only
+// the state changes and the GUI thread repaints the panel from the item states; otherwise
+// the switch is blitted here on the calling thread as before.
+void Panel::refreshSwitchItem(SwitchButton* button, bool state)
+{
+    if (button == NULL)
+        return;
+
+    if (videoPaintFromPaintHandler_)
+    {
+        button->setState(state);
+        p_Main->guiRefreshPanel();
+    }
+    else
+    {
+        wxClientDC dc(this);
+        button->setState(dc, state);
+    }
+}
+
 void Panel::updateReadyLed(wxDC& dc)
 {
     if (updateReadyLed_)
@@ -2965,8 +2993,7 @@ void Panel::inSetState(bool state)
     if (!inButtonDefined)
         return;
 
-    wxClientDC dc(this);
-    inButton->switchButton->setState(dc, state);
+    refreshSwitchItem(inButton->switchButton, state);
 }
 
 void Panel::amSetState(bool state)
@@ -2974,8 +3001,7 @@ void Panel::amSetState(bool state)
     if (!amButtonDefined)
         return;
 
-    wxClientDC dc(this);
-    amButton->switchButton->setState(dc, state);
+    refreshSwitchItem(amButton->switchButton, state);
 }
 
 void Panel::clearSetState(bool state)
@@ -2983,8 +3009,7 @@ void Panel::clearSetState(bool state)
     if (!clearButtonDefined)
         return;
 
-    wxClientDC dc(this);
-    clearButton->switchButton->setState(dc, state);
+    refreshSwitchItem(clearButton->switchButton, state);
 }
 
 void Panel::clearResetSetState(bool state)
@@ -2992,8 +3017,7 @@ void Panel::clearResetSetState(bool state)
     if (!clearResetButtonDefined)
         return;
 
-    wxClientDC dc(this);
-    clearResetButton->switchButton->setState(dc, state);
+    refreshSwitchItem(clearResetButton->switchButton, state);
 }
 
 //void Panel::resetSetState(bool state)
@@ -3010,9 +3034,8 @@ void Panel::waitSetState(bool state)
 {
     if (!waitButtonDefined)
         return;
-    
-    wxClientDC dc(this);
-    waitButton->switchButton->setState(dc, state);
+
+    refreshSwitchItem(waitButton->switchButton, state);
 }
 
 void Panel::runSetState(bool state)
@@ -3020,17 +3043,15 @@ void Panel::runSetState(bool state)
     if (!runButtonDefined)
         return;
 
-    wxClientDC dc(this);
-    runButton->switchButton->setState(dc, state);
+    refreshSwitchItem(runButton->switchButton, state);
 }
 
 void Panel::powerSetState(bool state)
 {
     if (!powerButtonDefined)
         return;
-    
-    wxClientDC dc(this);
-    powerButton->switchButton->setState(dc, state);
+
+    refreshSwitchItem(powerButton->switchButton, state);
 }
 
 void Panel::releaseButtonOnScreen(HexButton* buttonPoint)

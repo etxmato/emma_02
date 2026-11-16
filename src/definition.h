@@ -1885,6 +1885,7 @@ public:
     bool onMousePress(wxDC& dc, wxCoord x, wxCoord y);
     bool onMouseRelease(wxDC& dc, wxCoord x, wxCoord y);
     void setState(wxDC& dc, bool state);
+    void setState(bool state);              // state only; onPaint() draws it later
     void enable(wxDC& dc, bool enabled);
     void maskBitmap(wxString label, wxBitmap *upBitmap, wxBitmap *downBitmap);
     void maskBitmap();
