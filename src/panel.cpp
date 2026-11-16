@@ -3026,7 +3026,7 @@ void Panel::runSetState(bool state)
 
 void Panel::powerSetState(bool state)
 {
-    if (powerButtonDefined)
+    if (!powerButtonDefined)
         return;
     
     wxClientDC dc(this);
