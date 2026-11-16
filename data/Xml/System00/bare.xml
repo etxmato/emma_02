@@ -118,14 +118,14 @@
         <item><type>switch</type><function>cm_sys00</function><pos>188,177</pos></item>
 
         <!-- Status Lamps: SP, ID, MN, NB -->
-        <item><type>text</type><label size="8">SP</label><pos>219,167</pos></item>
-        <item><type form="large">led</type><function>waitled</function><pos>215,178</pos></item>
+        <item><type>text</type><label size="8">SP</label><pos>220,167</pos></item>
+        <item><type form="large">led</type><function>waitled</function><pos>215,180</pos></item>
         <item><type>text</type><label size="8">ID</label><pos>248,167</pos></item>
-        <item><type form="large">led</type><function>idleled</function><pos>242,178</pos></item>
+        <item><type form="large">led</type><function>idleled</function><pos>242,180</pos></item>
         <item><type>text</type><label size="8">MN</label><pos>271,167</pos></item>
-        <item><type form="large">led</type><function>mnled</function><pos>269,178</pos></item>
+        <item><type form="large">led</type><function>mnled</function><pos>269,180</pos></item>
         <item><type>text</type><label size="8">NB</label><pos>300,167</pos></item>
-        <item><type form="large">led</type><function>nbled</function><pos>296,178</pos></item>
+        <item><type form="large">led</type><function>nbled</function><pos>296,180</pos></item>
 
         <!-- RIGHT SECTION: Entry Interface & Main Power -->
 
