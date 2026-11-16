@@ -2313,6 +2313,10 @@ wxPoint GuiMain::getFrontPanelPos(int number)
 
 void GuiMain::setFrontPanelPos(wxPoint position, int number)
 {
+    // Guard against a panel count that does not match the front-panel config (aborts on exit otherwise).
+    if (number < 0 || number >= (int)computerConfiguration.frontPanelConfiguration.size())
+        return;
+
     if (!mode_.window_position_fixed)
     {
         computerConfiguration.frontPanelConfiguration[number].pos.x = -1;
