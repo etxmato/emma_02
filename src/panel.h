@@ -185,67 +185,10 @@ protected:
     std::vector<GuiItemConfiguration>::iterator clearRunButton;
     bool clearRunButtonDefined;
 
-#if wxCHECK_VERSION(2, 9, 0)
-    wxButton *inButtonPointer;
-    wxButton *resetButtonPointer;
-    wxButton *runButtonPointer;
-    wxButton *mpButtonPointer;
-    wxButton *powerButtonPointer;
-    wxButton *loadButtonPointer;
-    wxButton *ramButtonPointer;
-    wxButton *dataSwitchPointer[8];
-    wxButton *efSwitchPointer[4];
-#else
-    wxBitmapButton *inButtonPointer;
-    wxBitmapButton *resetButtonPointer;
-    wxBitmapButton *runButtonPointer;
-    wxBitmapButton *mpButtonPointer;
-    wxBitmapButton *powerButtonPointer;
-    wxBitmapButton *loadButtonPointer;
-    wxBitmapButton *ramButtonPointer;
-    wxBitmapButton *dataSwitchPointer[8];
-    wxBitmapButton *efSwitchPointer[4];
-#endif
-    wxButton *buttonPointer[16];
-    wxButton *pauseButtonPointer;
-    wxButton *stepButtonPointer;
-    wxButton *monitorButtonPointer;
-    wxButton *clearButtonPointer;
-    wxButton *enterButtonPointer;
-    wxButton *reqButtonPointer;
-    wxButton *seqButtonPointer;
-    wxButton *decButtonPointer;
-    wxButton *retButtonPointer;
-    wxButton *push_inButtonPointer;
-    wxButton *text_readButtonPointer;
-    wxButton *text_resetButtonPointer;
-    wxButton *text_loadButtonPointer;
-    wxButton *text_runButtonPointer;
-    wxButton *text_runPButtonPointer;
-    wxButton *text_mpButtonPointer;
-    wxButton *text_dataSwitchPointer[8];
     wxButton *text_stbButtonPointer;
     wxButton *text_ardyButtonPointer;
     wxButton *text_brdyButtonPointer;
 
-    HexButton *osx_pauseButtonPointer;
-    HexButton *osx_monitorButtonPointer;
-    HexButton *osx_stepButtonPointer;
-    HexButton *osx_push_inButtonPointer;
-    HexButton *osx_text_readButtonPointer;
-    HexButton *osx_text_resetButtonPointer;
-    HexButton *osx_text_loadButtonPointer;
-    HexButton *osx_text_runButtonPointer;
-    HexButton *osx_text_runPButtonPointer;
-    HexButton *osx_text_mpButtonPointer;
-    HexButton *osx_text_dataSwitchPointer[8];
-    HexButton *osx_buttonPointer[16];
-    HexButton *osx_clearButtonPointer;
-    HexButton *osx_enterButtonPointer;
-    HexButton *osx_reqButtonPointer;
-    HexButton *osx_seqButtonPointer;
-    HexButton *osx_decButtonPointer;
-    HexButton *osx_retButtonPointer;
     HexButton *osx_stbButtonPointer;
     HexButton *osx_ardyButtonPointer;
     HexButton *osx_brdyButtonPointer;

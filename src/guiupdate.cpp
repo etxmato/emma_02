@@ -569,10 +569,14 @@ void GuiUpdate::guiRefreshVideoHelper(bool isVt, int uart_video_Number)
 
 void GuiUpdate::guiRefreshPanel()
 {
-    if (panelRefreshOngoing_)
-        return;
+    {
+        wxCriticalSectionLocker lock(panelRefreshCriticalSection_);
+        if (panelRefreshOngoing_)
+            return;
 
-    panelRefreshOngoing_ = true;
+        panelRefreshOngoing_ = true;
+    }
+
     EmmaCallAfter(this, &GuiUpdate::guiRefreshPanelHelper);
 }
 
@@ -581,7 +585,10 @@ void GuiUpdate::guiRefreshPanelHelper()
     // Clear the flag before painting, not after: a change made by the emulation thread while
     // the panel is painted then queues another refresh instead of being skipped, and any item
     // it marked dirty is painted by this refresh or the next one.
-    panelRefreshOngoing_ = false;
+    {
+        wxCriticalSectionLocker lock(panelRefreshCriticalSection_);
+        panelRefreshOngoing_ = false;
+    }
     if (p_Computer != NULL)
         p_Computer->refreshPanel();
 }

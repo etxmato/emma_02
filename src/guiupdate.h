@@ -3,6 +3,7 @@
 
 #include "guimain.h"
 #include "computerconfig.h"
+#include "wx/thread.h"
 
 class GuiUpdate: public GuiMain
 {
@@ -55,6 +56,7 @@ public:
 
 protected:
     bool thermalEf_;
+    wxCriticalSection panelRefreshCriticalSection_;
     bool panelRefreshOngoing_;
     bool videoRefreshOngoing_[VIDEOXMLMAX];
 

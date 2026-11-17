@@ -2392,11 +2392,10 @@ void Panel::executeMouseRightReleaseFunction(std::vector<GuiItemConfiguration>::
 
 void Panel::ledTimeout()
 {
-#if defined(__WXMAC__)
-    p_Main->guiRefreshPanel();
-#else
-    CallAfter(&Panel::ledTimeoutGui);
-#endif
+    if (videoPaintFromPaintHandler_)
+        p_Main->guiRefreshPanel();
+    else
+        CallAfter(&Panel::ledTimeoutGui);
 }
 
 void Panel::ledTimeoutGui()
