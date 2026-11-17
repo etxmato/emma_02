@@ -405,32 +405,14 @@ void PrinterCanvas::thermalLine(Byte value)
         value = value >> 1;
     }
 
-    wxSize clientSize = GetClientSize();
-    int xbegin, ybegin;
-    GetViewStart(&xbegin, &ybegin);
-    int xunit, yunit;
-    GetScrollPixelsPerUnit(&xunit, &yunit);
-    xbegin*=xunit;
-    ybegin*=yunit;
-
-    wxClientDC dc(this);
-    dc.Blit(0, 0, clientSize.GetWidth(), clientSize.GetHeight(), &dcPreview, xbegin, ybegin);
+    Refresh(false);
 }
 
 void PrinterCanvas::thermalLine2()
 {
     dcPreview.DrawRectangle(thermalX_, thermalY_+16, 2, 2);
 
-    wxSize clientSize = GetClientSize();
-    int xbegin, ybegin;
-    GetViewStart(&xbegin, &ybegin);
-    int xunit, yunit;
-    GetScrollPixelsPerUnit(&xunit, &yunit);
-    xbegin*=xunit;
-    ybegin*=yunit;
-
-    wxClientDC dc(this);
-    dc.Blit(0, 0, clientSize.GetWidth(), clientSize.GetHeight(), &dcPreview, xbegin, ybegin);
+    Refresh(false);
 }
 
 void PrinterCanvas::plotterLine(wxString printline)
@@ -456,16 +438,7 @@ void PrinterCanvas::plotterLine(wxString printline)
         plotterX_ = 0;
         checkXandY();
     }
-    wxSize clientSize = GetClientSize();
-    int xbegin, ybegin;
-    GetViewStart(&xbegin, &ybegin);
-    int xunit, yunit;
-    GetScrollPixelsPerUnit(&xunit, &yunit);
-    xbegin*=xunit;
-    ybegin*=yunit;
-
-    wxClientDC dc(this);
-    dc.Blit(0, 0, clientSize.GetWidth(), clientSize.GetHeight(), &dcPreview, xbegin, ybegin);
+    Refresh(false);
 }
 
 void PrinterCanvas::setFont(int font)
@@ -520,16 +493,7 @@ void PrinterCanvas::matrixLine(wxString printline)
     }
     matrixX_ = 0;
     checkY();
-    wxSize clientSize = GetClientSize();
-    int xbegin, ybegin;
-    GetViewStart(&xbegin, &ybegin);
-    int xunit, yunit;
-    GetScrollPixelsPerUnit(&xunit, &yunit);
-    xbegin*=xunit;
-    ybegin*=yunit;
-
-    wxClientDC dc(this);
-    dc.Blit(0, 0, clientSize.GetWidth(), clientSize.GetHeight(), &dcPreview, xbegin, ybegin);
+    Refresh(false);
 }
 
 void PrinterCanvas::doGraphics()
@@ -1673,7 +1637,8 @@ void Printer::printerOut(Byte value)
 
         if (value == 0xd || value == 0xa)
         {
-            printerFramePointer->matrixLine(line_);
+            // This path can run on the emulation thread; defer wx drawing to the GUI thread.
+            EmmaCallAfter(this, &Printer::printWindowLineGui, line_);
             line_ = "";
         }
         else
@@ -1693,6 +1658,12 @@ void Printer::printerOut(Byte value)
         }
     }
     p_Computer->setPrinterEf();
+}
+
+void Printer::printWindowLineGui(wxString line)
+{
+    if (printerFrameOpen_ && printerFramePointer != NULL)
+        printerFramePointer->matrixLine(line);
 }
 
 void Printer::startPecomChar()

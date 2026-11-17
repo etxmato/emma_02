@@ -196,6 +196,8 @@ public:
     void printPreview();
 
 private:
+    void printWindowLineGui(wxString line);
+
     Printer *printerPointer;
     PrinterFrame *printerFramePointer;
     wxStaticText* fontTextPointer;
