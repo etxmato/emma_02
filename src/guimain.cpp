@@ -2337,7 +2337,7 @@ int GuiMain::pload()
     size_t length, arrayLength;
     int address, start, startAddress, dataEnd, stringStart, fAndMBasicOffset;
 //    Byte slot;
-    char buffer[65536];
+    Byte buffer[65536];
     Byte highRamAddress;
 
     computerConfiguration.memAccessConfiguration.saveExec = 0;
