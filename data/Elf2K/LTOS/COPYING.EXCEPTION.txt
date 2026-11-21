@@ -1,0 +1,21 @@
+Stellar C Compiler Exception
+
+Copyright (C) 2026 Craig Ledbetter
+
+This is an additional permission under section 7 of the GNU General Public
+License, version 3 ("GPLv3"). It applies to the Stellar C compiler, scc.py,
+and the files it uses.
+
+The compiler is licensed under GPLv3 or any later version. When you compile a
+program, the output (the .lst file and the STELLAR commands, data and native
+code in it) contains your program and may also contain library routines and
+other material copied from the compiler.
+
+You may use, copy, change and distribute that output under terms of your own
+choice, as if the copied material were not covered by the GPL. This permission
+covers the output of the compiler only. It does not cover the compiler itself
+or any changed version of it.
+
+If you change the compiler, you may extend this exception to your version, but
+you are not obliged to. If you do not wish to, delete this exception from your
+version.
