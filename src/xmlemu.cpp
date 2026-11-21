@@ -9409,7 +9409,7 @@ void Computer::cid1Bit8(bool set)
 void Computer::changeDiskName(int disk, wxString dirName, wxString fileName)
 {
     if (currentComputerConfiguration.fdcConfiguration.wd1770_defined || currentComputerConfiguration.fdcConfiguration.wd1793_defined)
-        setFdcDiskname(disk, dirName + fileName);
+        setFdcDiskname(disk+1, dirName + fileName);
     if (currentComputerConfiguration.tu58Configuration.defined && disk > 1)
         setTu58Diskname(disk-2, dirName + fileName);
     if (currentComputerConfiguration.ideConfiguration.defined && disk < 2)
