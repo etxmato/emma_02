@@ -93,6 +93,7 @@ public:
     void refreshItem(void (Panel::*update)(wxDC&, int), int i);
     void refreshItem(void (Panel::*update)(wxDC&, int, int), int output, int i);
     void refreshSwitchItem(SwitchButton* button, bool state);
+    void refreshSwitchEnableItem(SwitchButton* button, bool enabled);
     void setLedMs(long ms);
 
     void setReadyLed(int status);

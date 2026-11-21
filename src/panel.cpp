@@ -368,6 +368,13 @@ void HexButton::enable(wxDC& dc, bool enabled)
     }
 }
 
+// State-only variant for the paint-handler path. onPaint() chooses the
+// enabled or disabled bitmap from enabled_.
+void HexButton::enable(bool enabled)
+{
+    enabled_ = enabled;
+}
+
 BEGIN_EVENT_TABLE(HexButtonCdp1851, wxEvtHandler )
     EVT_TIMER(wxID_ANY, HexButtonCdp1852::OnTimer)
 END_EVENT_TABLE()
@@ -744,6 +751,13 @@ void SwitchButton::enable(wxDC& dc, bool enabled)
             dc.DrawBitmap(*disabledDownBitmapPointer, x_, y_, true);
         }
     }
+}
+
+// State-only variant, used on the paint-handler path. The next onPaint() draws
+// the enabled/disabled artwork from this stored state.
+void SwitchButton::enable(bool enabled)
+{
+    enabled_ = enabled;
 }
 
 RotButton::RotButton(wxDC& dc, int state, wxCoord x, wxCoord y)
@@ -2506,6 +2520,24 @@ void Panel::refreshSwitchItem(SwitchButton* button, bool state)
     {
         wxClientDC dc(this);
         button->setState(dc, state);
+    }
+}
+
+// Switch enable state, with the same paint-handler split as refreshSwitchItem().
+void Panel::refreshSwitchEnableItem(SwitchButton* button, bool enabled)
+{
+    if (button == NULL)
+        return;
+
+    if (videoPaintFromPaintHandler_)
+    {
+        button->enable(enabled);
+        p_Main->guiRefreshPanel();
+    }
+    else
+    {
+        wxClientDC dc(this);
+        button->enable(dc, enabled);
     }
 }
 

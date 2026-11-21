@@ -1887,6 +1887,7 @@ public:
     void setState(wxDC& dc, bool state);
     void setState(bool state);              // state only; onPaint() draws it later
     void enable(wxDC& dc, bool enabled);
+    void enable(bool enabled);               // state only; onPaint() draws it later
     void maskBitmap(wxString label, wxBitmap *upBitmap, wxBitmap *downBitmap);
     void maskBitmap();
 
@@ -1944,6 +1945,7 @@ public:
     virtual void OnTimer(wxTimerEvent& event);
     void releaseButtonOnScreen(wxDC& dc);
     void enable(wxDC& dc, bool enabled);
+    void enable(bool enabled);               // state only; onPaint() draws it later
 
 protected:
     bool state_;

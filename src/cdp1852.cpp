@@ -190,13 +190,11 @@ void Cdp1852Screen::ioSwitch(int i)
 
 void Cdp1852Screen::reset()
 {
-    wxClientDC dc(this);
-
     outPutValue_ = 0;
     inPutValue_ = 0;
     for (int i=0; i<8; i++)
     {
-        dataSwitchButton[i]->setState(dc, 0);
+        refreshSwitchItem(dataSwitchButton[i], false);
         ioSwitchState_[i] = 0;
     }
 }
@@ -221,6 +219,12 @@ Byte Cdp1852Screen::readPort()
 
 void Cdp1852Screen::refreshLeds()
 {
+    if (videoPaintFromPaintHandler_)
+    {
+        p_Main->guiRefreshPanel();
+        return;
+    }
+
     wxClientDC dc(this);
 
     for (int i=0; i<8; i++)

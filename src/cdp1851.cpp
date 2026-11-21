@@ -579,58 +579,61 @@ void Cdp1851Screen::ioSwitch(int i)
 
 void Cdp1851Screen::reset()
 {
-    wxClientDC dc(this);
-    
     pioAInterruptButtonEnabled_ = false;
     pioBInterruptButtonEnabled_ = false;
     pioAInterruptButtonState_ = false;
     pioBInterruptButtonState_ = false;
 
+    if (videoPaintFromPaintHandler_)
+    {
 #if defined (__WXMAC__)
-    osx_ardyButtonPointer->enable(dc, false);
-    osx_brdyButtonPointer->enable(dc, false);
-#else
-    text_ardyButtonPointer->Disable();
-    text_brdyButtonPointer->Disable();
+        osx_ardyButtonPointer->enable(false);
+        osx_brdyButtonPointer->enable(false);
 #endif
+        p_Main->guiRefreshPanel();
+    }
+    else
+    {
+#if defined (__WXMAC__)
+        wxClientDC dc(this);
+        osx_ardyButtonPointer->enable(dc, false);
+        osx_brdyButtonPointer->enable(dc, false);
+#else
+        text_ardyButtonPointer->Disable();
+        text_brdyButtonPointer->Disable();
+#endif
+    }
 }
 
 void Cdp1851Screen::clearA()
 {
-    wxClientDC dc(this);
-
     for (int i=0; i<8; i++)
     {
-        dataSwitchButton[i]->setState(dc, 0);
+        refreshSwitchItem(dataSwitchButton[i], false);
         ioSwitchState_[i] = 0;
     }
 }
 
 void Cdp1851Screen::clearB()
 {
-    wxClientDC dc(this);
-    
     for (int i=8; i<16; i++)
     {
-        dataSwitchButton[i]->setState(dc, 0);
+        refreshSwitchItem(dataSwitchButton[i], false);
         ioSwitchState_[i] = 0;
     }
 }
 
 void Cdp1851Screen::clearStbRdy()
 {
-    wxClientDC dc(this);
-    
     for (int i=16; i<20; i++)
     {
-        dataSwitchButton[i]->setState(dc, 0);
+        refreshSwitchItem(dataSwitchButton[i], false);
         ioSwitchState_[i] = 0;
     }
 }
 
 void Cdp1851Screen::writeControlRegister(Byte value, int commandByteNumber)
 {
-    wxClientDC dc(this);
     Byte outputValue, inputValue;
     
     if (commandByteNumber == PIO_COMMAND_NONE)
@@ -645,9 +648,9 @@ void Cdp1851Screen::writeControlRegister(Byte value, int commandByteNumber)
                     for (int i=0; i<8; i++)
                     {
                         setLed(i, 2);
-                        dataSwitchButton[i]->enable(dc, true);
+                        refreshSwitchEnableItem(dataSwitchButton[i], true);
                         ioSwitchEnabled_[i] = true;
-                        dataSwitchButton[i]->setState(dc, (outputValue&1) == 1);
+                        refreshSwitchItem(dataSwitchButton[i], (outputValue&1) == 1);
                         ioSwitchState_[i] = outputValue&1;
                         outputValue = outputValue >> 1;
                    }
@@ -658,9 +661,9 @@ void Cdp1851Screen::writeControlRegister(Byte value, int commandByteNumber)
                     for (int i=8; i<16; i++)
                     {
                         setLed(i, 2);
-                        dataSwitchButton[i]->enable(dc, true);
+                        refreshSwitchEnableItem(dataSwitchButton[i], true);
                         ioSwitchEnabled_[i] = true;
-                        dataSwitchButton[i]->setState(dc, (outputValue&1) == 1);
+                        refreshSwitchItem(dataSwitchButton[i], (outputValue&1) == 1);
                         ioSwitchState_[i] = outputValue&1;
                         outputValue = outputValue >> 1;
                     }
@@ -676,7 +679,7 @@ void Cdp1851Screen::writeControlRegister(Byte value, int commandByteNumber)
                     {
                         setLed(i, outputValue&1);
                         outputValue = outputValue >> 1;
-                        dataSwitchButton[i]->enable(dc, false);
+                        refreshSwitchEnableItem(dataSwitchButton[i], false);
                         ioSwitchEnabled_[i] = false;
                     }
                 }
@@ -687,7 +690,7 @@ void Cdp1851Screen::writeControlRegister(Byte value, int commandByteNumber)
                     {
                         setLed(i, outputValue&1);
                         outputValue = outputValue >> 1;
-                        dataSwitchButton[i]->enable(dc, false);
+                        refreshSwitchEnableItem(dataSwitchButton[i], false);
                         ioSwitchEnabled_[i] = false;
                     }
                 }
@@ -702,19 +705,19 @@ void Cdp1851Screen::writeControlRegister(Byte value, int commandByteNumber)
                     for (int i=0; i<8; i++)
                     {
                         setLed(i, outputValue&1);
-                        dataSwitchButton[i]->enable(dc, true);
+                        refreshSwitchEnableItem(dataSwitchButton[i], true);
                         ioSwitchEnabled_[i] = true;
-                        dataSwitchButton[i]->setState(dc, (inputValue&1) == 1);
+                        refreshSwitchItem(dataSwitchButton[i], (inputValue&1) == 1);
                         ioSwitchState_[i] = inputValue&1;
                         outputValue = outputValue >> 1;
                         inputValue = inputValue >> 1;
                     }
-                    disableStbRdyA(dc);
-                    disableStbRdyB(dc);
+                    disableStbRdyA();
+                    disableStbRdyB();
                 }
             break;
         }
-        enableInterruptButton(dc);
+        enableInterruptButton();
         if ((value & 0x1) == 0) // STB and RDY Control
         {
             cdp1851InstancePointer_->readStatusRegister();
@@ -740,8 +743,6 @@ void Cdp1851Screen::writeControlRegister(Byte value, int commandByteNumber)
 
 void Cdp1851Screen::setProgBitsA(Byte value)
 {
-    wxClientDC dc(this);
-
     Byte outPutValue = cdp1851InstancePointer_->getOutputValueA();
     
     for (int i=0; i<8; i++)
@@ -749,15 +750,15 @@ void Cdp1851Screen::setProgBitsA(Byte value)
         if (value&1)
         {
             setLed(i, outPutValue&1);
-            dataSwitchButton[i]->enable(dc, false);
+            refreshSwitchEnableItem(dataSwitchButton[i], false);
             ioSwitchEnabled_[i] = false;
         }
         else
         {
             setLed(i, 2);
-            dataSwitchButton[i]->enable(dc, true);
+            refreshSwitchEnableItem(dataSwitchButton[i], true);
             ioSwitchEnabled_[i] = true;
-            dataSwitchButton[i]->setState(dc, (outPutValue&1) == 1);
+            refreshSwitchItem(dataSwitchButton[i], (outPutValue&1) == 1);
             ioSwitchState_[i] = outPutValue&1;
         }
         outPutValue = outPutValue >> 1;
@@ -767,8 +768,6 @@ void Cdp1851Screen::setProgBitsA(Byte value)
 
 void Cdp1851Screen::setProgBitsB(Byte value)
 {
-    wxClientDC dc(this);
-
     Byte outPutValue = cdp1851InstancePointer_->getOutputValueB();
 
     for (int i=8; i<16; i++)
@@ -776,15 +775,15 @@ void Cdp1851Screen::setProgBitsB(Byte value)
         if (value&1)
         {
             setLed(i, outPutValue&1);
-            dataSwitchButton[i]->enable(dc, false);
+            refreshSwitchEnableItem(dataSwitchButton[i], false);
             ioSwitchEnabled_[i] = false;
         }
         else
         {
             setLed(i, 2);
-            dataSwitchButton[i]->enable(dc, true);
+            refreshSwitchEnableItem(dataSwitchButton[i], true);
             ioSwitchEnabled_[i] = true;
-            dataSwitchButton[i]->setState(dc, (outPutValue&1) == 1);
+            refreshSwitchItem(dataSwitchButton[i], (outPutValue&1) == 1);
             ioSwitchState_[i] = outPutValue&1;
         }
         outPutValue = outPutValue >> 1;
@@ -802,73 +801,65 @@ void Cdp1851Screen::enableStbRdy(int port, Byte pioStatus, int pioStbMode, int p
 
 void Cdp1851Screen::enableStbRdyA(Byte pioStatus, int pioStbAMode, int pioRdyAMode)
 {
-    wxClientDC dc(this);
-
     Byte mode = ((pioStbAMode^1) << 1) & 0x3;
     if (mode == 0)
         mode = (pioStatus & 0x20) >> 5;
     setLed(PIO_STB_A, mode);
-    dataSwitchButton[PIO_STB_A]->enable(dc, pioStbAMode == PIO_INPUT);
+    refreshSwitchEnableItem(dataSwitchButton[PIO_STB_A], pioStbAMode == PIO_INPUT);
     ioSwitchEnabled_[PIO_STB_A] = (pioStbAMode == PIO_INPUT);
-    dataSwitchButton[PIO_STB_A]->setState(dc, (pioStatus & 0x20) == 0x20);
+    refreshSwitchItem(dataSwitchButton[PIO_STB_A], (pioStatus & 0x20) == 0x20);
     ioSwitchState_[PIO_STB_A] = (pioStatus & 0x20) >> 5;
     mode = ((pioRdyAMode^1) << 1) & 0x3;
     if (mode == 0)
         mode = (pioStatus & 0x10) >> 4;
     setLed(PIO_RDY_A, mode);
-    dataSwitchButton[PIO_RDY_A]->enable(dc, pioRdyAMode == PIO_INPUT);
+    refreshSwitchEnableItem(dataSwitchButton[PIO_RDY_A], pioRdyAMode == PIO_INPUT);
     ioSwitchEnabled_[PIO_RDY_A] = (pioRdyAMode == PIO_INPUT);
-    dataSwitchButton[PIO_RDY_A]->setState(dc, (pioStatus & 0x10) == 0x10);
+    refreshSwitchItem(dataSwitchButton[PIO_RDY_A], (pioStatus & 0x10) == 0x10);
     ioSwitchState_[PIO_RDY_A] = (pioStatus & 0x10) >> 4;
 }
 
 void Cdp1851Screen::enableStbRdyB(Byte pioStatus, int pioStbBMode, int pioRdyBMode)
 {
-    wxClientDC dc(this);
-
     Byte mode = ((pioStbBMode^1) << 1) & 0x3;
     if (mode == 0)
         mode = (pioStatus & 0x80) >> 7;
     setLed(PIO_STB_B, mode);
-    dataSwitchButton[PIO_STB_B]->enable(dc, pioStbBMode == PIO_INPUT);
+    refreshSwitchEnableItem(dataSwitchButton[PIO_STB_B], pioStbBMode == PIO_INPUT);
     ioSwitchEnabled_[PIO_STB_B] = (pioStbBMode == PIO_INPUT);
-    dataSwitchButton[PIO_STB_B]->setState(dc, (pioStatus & 0x80) == 0x80);
+    refreshSwitchItem(dataSwitchButton[PIO_STB_B], (pioStatus & 0x80) == 0x80);
     ioSwitchState_[PIO_STB_B] = (pioStatus & 0x80) >> 7;
     mode = ((pioRdyBMode^1) << 1) & 0x3;
     if (mode == 0)
         mode = (pioStatus & 0x40) >> 6;
     setLed(PIO_RDY_B, mode);
-    dataSwitchButton[PIO_RDY_B]->enable(dc, pioRdyBMode == PIO_INPUT);
+    refreshSwitchEnableItem(dataSwitchButton[PIO_RDY_B], pioRdyBMode == PIO_INPUT);
     ioSwitchEnabled_[PIO_RDY_B] = (pioRdyBMode == PIO_INPUT);
-    dataSwitchButton[PIO_RDY_B]->setState(dc, (pioStatus & 0x40) == 0x40);
+    refreshSwitchItem(dataSwitchButton[PIO_RDY_B], (pioStatus & 0x40) == 0x40);
     ioSwitchState_[PIO_RDY_B] = (pioStatus & 0x40) >> 6;
 }
 
-void Cdp1851Screen::disableStbRdyA(wxDC& dc)
+void Cdp1851Screen::disableStbRdyA()
 {
     setLed(PIO_STB_A, 2);
-    dataSwitchButton[PIO_STB_A]->enable(dc, false);
+    refreshSwitchEnableItem(dataSwitchButton[PIO_STB_A], false);
     ioSwitchEnabled_[PIO_STB_A] = false;
     setLed(PIO_RDY_A, 2);
-    dataSwitchButton[PIO_RDY_A]->enable(dc, false);
+    refreshSwitchEnableItem(dataSwitchButton[PIO_RDY_A], false);
     ioSwitchEnabled_[PIO_RDY_A] = false;
 }
 
-void Cdp1851Screen::disableStbRdyB(wxDC& dc)
+void Cdp1851Screen::disableStbRdyB()
 {
     setLed(PIO_STB_B, 2);
-    dataSwitchButton[PIO_STB_B]->enable(dc, false);
+    refreshSwitchEnableItem(dataSwitchButton[PIO_STB_B], false);
     ioSwitchEnabled_[PIO_STB_B] = false;
     setLed(PIO_RDY_B, 2);
-    dataSwitchButton[PIO_RDY_B]->enable(dc, false);
+    refreshSwitchEnableItem(dataSwitchButton[PIO_RDY_B], false);
     ioSwitchEnabled_[PIO_RDY_B] = false;
 }
 
-#if defined (__WXMAC__)
-void Cdp1851Screen::enableInterruptButton(wxDC& dc)
-#else
-void Cdp1851Screen::enableInterruptButton(wxDC& WXUNUSED(dc))
-#endif
+void Cdp1851Screen::enableInterruptButton()
 {
     switch (cdp1851InstancePointer_->getPioBMode())
     {
@@ -881,49 +872,90 @@ void Cdp1851Screen::enableInterruptButton(wxDC& WXUNUSED(dc))
             pioBInterruptButtonEnabled_ = false;
         break;
     }
-    
+
     switch (cdp1851InstancePointer_->getPioAMode())
     {
         case PIO_OUTPUT:
         case PIO_INPUT:
             pioAInterruptButtonEnabled_ = cdp1851InstancePointer_->getPioAInterruptEnabled();
         break;
-            
+
         case PIO_BIT_PROG:
             pioAInterruptButtonEnabled_ = false;
         break;
-            
+
         case PIO_BI_DRECT:
             pioAInterruptButtonEnabled_ = cdp1851InstancePointer_->getPioAInterruptEnabled();
             pioBInterruptButtonEnabled_ = cdp1851InstancePointer_->getPioAInterruptEnabled();
         break;
     }
 
+    bool repaintPanel = false;
     if (pioAInterruptButtonEnabled_ != pioAInterruptButtonState_)
     {
+        if (videoPaintFromPaintHandler_)
+        {
 #if defined (__WXMAC__)
-        osx_ardyButtonPointer->enable(dc, pioAInterruptButtonEnabled_);
-#else
-        if (pioAInterruptButtonEnabled_)
-            text_ardyButtonPointer->Enable();
-        else
-            text_ardyButtonPointer->Disable();
+            osx_ardyButtonPointer->enable(pioAInterruptButtonEnabled_);
 #endif
+            repaintPanel = true;
+        }
+        else
+        {
+#if defined (__WXMAC__)
+            wxClientDC dc(this);
+            osx_ardyButtonPointer->enable(dc, pioAInterruptButtonEnabled_);
+#else
+            if (pioAInterruptButtonEnabled_)
+                text_ardyButtonPointer->Enable();
+            else
+                text_ardyButtonPointer->Disable();
+#endif
+        }
         pioAInterruptButtonState_ = pioAInterruptButtonEnabled_;
     }
 
     if (pioBInterruptButtonEnabled_ != pioBInterruptButtonState_)
     {
+        if (videoPaintFromPaintHandler_)
+        {
 #if defined (__WXMAC__)
-        osx_brdyButtonPointer->enable(dc, pioBInterruptButtonEnabled_);
-#else
-        if (pioBInterruptButtonEnabled_)
-            text_brdyButtonPointer->Enable();
-        else
-            text_brdyButtonPointer->Disable();
+            osx_brdyButtonPointer->enable(pioBInterruptButtonEnabled_);
 #endif
+            repaintPanel = true;
+        }
+        else
+        {
+#if defined (__WXMAC__)
+            wxClientDC dc(this);
+            osx_brdyButtonPointer->enable(dc, pioBInterruptButtonEnabled_);
+#else
+            if (pioBInterruptButtonEnabled_)
+                text_brdyButtonPointer->Enable();
+            else
+                text_brdyButtonPointer->Disable();
+#endif
+        }
         pioBInterruptButtonState_ = pioBInterruptButtonEnabled_;
     }
+
+    if (repaintPanel)
+        p_Main->guiRefreshPanel();
+}
+
+// Called by Cdp1851Instance::refreshPanel() on the GUI thread. Native wxButtons
+// are child windows and cannot be repainted by Cdp1851Screen::onPaint().
+void Cdp1851Screen::updateInterruptButtons()
+{
+#if !defined (__WXMAC__)
+    if (text_ardyButtonPointer != NULL &&
+        text_ardyButtonPointer->IsEnabled() != pioAInterruptButtonEnabled_)
+        text_ardyButtonPointer->Enable(pioAInterruptButtonEnabled_);
+
+    if (text_brdyButtonPointer != NULL &&
+        text_brdyButtonPointer->IsEnabled() != pioBInterruptButtonEnabled_)
+        text_brdyButtonPointer->Enable(pioBInterruptButtonEnabled_);
+#endif
 }
 
 void Cdp1851Screen::writePortA(Byte value)
@@ -997,6 +1029,12 @@ Byte Cdp1851Screen::readStatusRegister(Byte pioStatus)
 
 void Cdp1851Screen::refreshLeds()
 {
+    if (videoPaintFromPaintHandler_)
+    {
+        p_Main->guiRefreshPanel();
+        return;
+    }
+
     wxClientDC dc(this);
 
     for (int i=0; i<20; i++)
@@ -1550,7 +1588,10 @@ void Cdp1851Instance::releaseButtonOnScreen(HexButton* buttonPoint)
 void Cdp1851Instance::refreshPanel()
 {
     if (cdp1851Configuration_.connection == PIO_CONNECTION_WINDOW)
+    {
+        pioScreenPointer->updateInterruptButtons();
         pioScreenPointer->refreshPanel();
+    }
 }
 
 void Cdp1851Instance::clearA()

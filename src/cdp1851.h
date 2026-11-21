@@ -100,9 +100,10 @@ public:
     void enableStbRdy(int port, Byte pioStatus, int pioStbMode, int pioRdyMode);
     void enableStbRdyA(Byte pioStatus, int pioStbAMode, int pioRdyAMode);
     void enableStbRdyB(Byte pioStatus, int pioStbBMode, int pioRdyBMode);
-    void disableStbRdyA(wxDC& dc);
-    void disableStbRdyB(wxDC& dc);
-    void enableInterruptButton(wxDC& dc);
+    void disableStbRdyA();
+    void disableStbRdyB();
+    void enableInterruptButton();
+    void updateInterruptButtons();
     
     void reset();
     void clearA();
