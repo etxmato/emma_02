@@ -487,6 +487,9 @@ Computer::Computer(const wxString& title, double clock, int tempo, const Compute
         mpButtonState[i] = false;
     nvramWriteProtected_ = false;
     diagRomActive_ = false;
+    // monitor_ and bootstrap_ are read by the memory access paths; define them before initComputer() / configureMemory().
+    monitor_ = false;
+    bootstrap_ = 0;
 
     rtcTimerPointer = new wxTimer(this, 900);
 //    computerTimerPointer[0] = new wxTimer(this, 901);
