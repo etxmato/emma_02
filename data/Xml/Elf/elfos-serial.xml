@@ -17,7 +17,7 @@
     </system>
     
     <splash>
-        <dialog>ELFOS</dialog>
+        <text>To start ElfOs:&#xD;- Press 'return' to set default baud rate</text>
     </splash>
 
     <frontpanel type="io">

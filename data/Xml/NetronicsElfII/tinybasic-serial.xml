@@ -17,7 +17,7 @@
     </system>
     
     <splash>
-        <dialog>TINY_VT</dialog>
+        <text>To start TINY BASIC:&#xD;- Wait a few seconds to allow start-up&#xD;- Press 'return' twice</text>
     </splash>
 
     <frontpanel init="off">

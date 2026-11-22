@@ -16,7 +16,9 @@
     </system>
     
     <splash>
-        <dialog>SBV1_VT</dialog>
+        <mac>To start Quest Super BASIC:&#xD;- Press 'control F12'&#xD;- Press 'return' to set default baud rate&#xD;- Press 'C' for a cold or 'W' for a warm start</mac>
+        <windows>To start Quest Super BASIC:&#xD;- While keeping 'Insert' pressed, press 'F12'&#xD;- Press 'return' to set default baud rate&#xD;- Press 'C' for a cold or 'W' for a warm start</windows>
+        <linux>To start Quest Super BASIC:&#xD;- While keeping 'Insert' pressed, press 'F12'&#xD;- Press 'return' to set default baud rate&#xD;- Press 'C' for a cold or 'W' for a warm start</linux>
     </splash>
     
     <frontpanel type="io">

@@ -17,7 +17,7 @@
     </system>
     
     <splash>
-        <dialog>RCA_BASIC</dialog>
+        <text>To start RCA BASIC:&#xD;- Press 'return'&#xD;- Press 'C' for a cold or 'W' for a warm start</text>
     </splash>
 
     <frontpanel type="io">

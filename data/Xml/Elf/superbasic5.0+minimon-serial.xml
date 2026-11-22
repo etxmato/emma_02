@@ -17,7 +17,7 @@
     </system>
     
     <splash>
-        <dialog>Monitor</dialog>
+        <text>To start the Monitor:&#xD;- Press 'return' to set default baud rate</text>
     </splash>
 
     <frontpanel type="io">
@@ -32,10 +32,10 @@
             <filename verify="true">mini.monitor.and.super.basic.hex</filename>
         </rom>
 
-        <guiram>
+        <ram type="gui">
             <start>0</start>
             <end>0xBFFF</end>
-        </guiram>
+        </ram>
     </memory>
     
     <vt type="vt100" connection="serial">

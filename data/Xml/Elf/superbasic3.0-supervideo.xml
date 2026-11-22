@@ -17,7 +17,7 @@
     </system>
     
     <splash>
-        <dialog>SBV3_SUPER</dialog>
+        <text>To start Quest Super BASIC:&#xD;- Press 'C' for a cold start</text>
     </splash>
 
     <memory>

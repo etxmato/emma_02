@@ -16,7 +16,7 @@
     </system>
 
     <splash>
-        <dialog>Elf2K_VT</dialog>
+        <text>To start the Elf2K for the first time:&#xD;- Wait for the hexadecimal display to show 16&#xD;- Press 'return' to set default baud rate&#xD;- Baud rate will be stored in non-volatile RAM</text>
     </splash>
 
     <iogroup>

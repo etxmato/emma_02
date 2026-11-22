@@ -17,7 +17,7 @@
     </system>
     
     <splash>
-        <dialog>TINY</dialog>
+        <text>To start TINY BASIC:&#xD;- Press 'return'</text>
     </splash>
 
     <frontpanel init="off">

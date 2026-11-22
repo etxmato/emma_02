@@ -17,7 +17,7 @@
     </system>
     
     <splash>
-        <dialog>Monitor</dialog>
+        <text>To start the Monitor:&#xD;- Press 'return' to set default baud rate</text>
     </splash>
 
     <frontpanel type="io">
