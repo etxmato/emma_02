@@ -1717,22 +1717,6 @@ void Cdp1802::cpuCycleStep()
             playSaveLoad();
         
         p_Computer->checkComputerFunction();
-
-/*        // DEBUG: Log D register value every time PC hits 0x0FD2
-          if (scratchpadRegister_[programCounter_] == 0x0F76)
-          {
-              static FILE* debugFile = nullptr;
-              if (debugFile == nullptr)
-              {
-                  debugFile = fopen("/Users/etxmato/workspace/emma_02/debug_d_at_f76.bin", "wb");
-              }
-              if (debugFile != nullptr)
-              {
-                  unsigned char d = (unsigned char)accumulator_;
-                  fwrite(&d, 1, 1, debugFile);
-                  fflush(debugFile);
-              }
-          }*/
     }
     
     if (resetPressed_)
@@ -4498,14 +4482,6 @@ bool Cdp1802::readFile(wxString fileName, int memoryType, Word address, long end
     wxFFile inFile;
     char buffer[4];
 
-/*    {
-        wxFile dbg(p_Main->getDataDir() + "romload_debug.txt", wxFile::write_append);
-        if (dbg.IsOpened()) {
-            wxString msg;
-            msg.Printf("readFile: [%s] exists=%d addr=0x%04X\n", fileName, (int)wxFile::Exists(fileName), address);
-            dbg.Write(msg); dbg.Close();
-        }
-    }*/
     if (wxFile::Exists(fileName))
     {
         if (inFile.Open(fileName, _("rb")))

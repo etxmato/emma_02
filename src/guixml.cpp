@@ -165,11 +165,6 @@ GuiXml::GuiXml(const wxString& title, const wxPoint& pos, const wxSize& size, Mo
 
 void GuiXml::readXmlConfig()
 {
-/*    {
-        wxFile dbg(dataDir_ + "romload_debug.txt", wxFile::write_append);
-        if (dbg.IsOpened()) { dbg.Write("\n--- NEW SESSION ---\n"); dbg.Close(); }
-    }*/
-
     selectedTab_ = XML;
 
     xmlDirComboSelection = (int)configPointer->Read("Computer/XmlDirComboSelection", 2);
@@ -184,11 +179,6 @@ void GuiXml::readXmlConfig()
     dropdownUpdateOngoing_ = false;
 
     parseXmlFile(computerConfiguration.xmlFileConfiguration.directory, computerConfiguration.xmlFileConfiguration.fileName);
-
-/*    {
-        wxFile dbg(dataDir_ + "romload_debug.txt", wxFile::write_append);
-        if (dbg.IsOpened()) { dbg.Write("readXmlConfig after parse: rom0=[" + computerConfiguration.memoryConfiguration[0].filename + "] rom1=[" + computerConfiguration.memoryConfiguration[1].filename + "]\n"); dbg.Close(); }
-    }*/
 
     setRomRamButtonOrder();
     
@@ -232,11 +222,6 @@ void GuiXml::readXmlConfig()
         
     setRealCas();
     setXmlGui();
-    
-/*    {
-        wxFile dbg(dataDir_ + "romload_debug.txt", wxFile::write_append);
-        if (dbg.IsOpened()) { dbg.Write("readXmlConfig after setXmlGui: rom0=[" + computerConfiguration.memoryConfiguration[romRamButton0_].filename + "] dir0=[" + computerConfiguration.memoryConfiguration[romRamButton0_].dirname + "]\n"); dbg.Close(); }
-    }*/
 
     computerConfiguration.soundConfiguration.tempo = (int)configPointer->Read("/Computer/Tempo", 100l);
 
