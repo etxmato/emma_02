@@ -59,6 +59,8 @@ public:
     
 private:    
     bool upsideDown_;
+    bool turnedOff_;
+    bool dpStatus_;
     
     wxBitmap *til313BitmapPointer_led_off;
     wxBitmap *til313BitmapPointer_led_on;

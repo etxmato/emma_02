@@ -4256,6 +4256,9 @@ void Computer::onRunButtonPress0(wxCommandEvent&WXUNUSED(event))
 
 void Computer::onRunButtonPress(bool run0)
 {
+    if (!powerButtonState_)
+        return;
+
     if (currentComputerConfiguration.stepPressType == STEP_TYPE_SWITCH_PUSH && singleStateStep_)
     {
         setWait(1);
@@ -4417,6 +4420,9 @@ void Computer::dmaOnBoot()
 
 void Computer::onRunButtonRelease()
 {
+    if (!powerButtonState_)
+        return;
+
     runButtonState_ = 1;
     for (int frontPanel=0; frontPanel<numberOfFrontPanels_; frontPanel++)
         panelPointer[frontPanel]->runSetState(BUTTON_UP);

@@ -150,6 +150,9 @@ Til313Italic::Til313Italic(bool upsideDown)
 :Til()
 {
     upsideDown_ = upsideDown;
+    turnedOff_ = false;
+    dpStatus_ = false;
+    til313BitmapPointer_off = NULL;
     if (upsideDown_)
     {
         til313BitmapPointer_led_off = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til313_upside_down_led_off.png", wxBITMAP_TYPE_PNG);
@@ -183,29 +186,37 @@ void Til313Italic::init(wxDC& dc, int x, int y)
 
 void Til313Italic::onPaint(wxDC& dc)
 {
-    int ox = (displayedNumber_ & 3) * 29;
-    int oy = ((displayedNumber_>>2) & 3) * 37;
+    // The power-off bitmap is a single cell; retain the digit value so it can be restored later.
+    int ox = turnedOff_ ? 0 : (displayedNumber_ & 3) * 29;
+    int oy = turnedOff_ ? 0 : ((displayedNumber_>>2) & 3) * 37;
     dc.Blit(x_, y_, 28 , 36, &dcMemory, ox, oy);
 }
 
 void Til313Italic::update(wxDC& dc, int NewNumber)
 {
     if (displayedNumber_ == NewNumber)  return;
-    
-    int ox = (NewNumber & 3) * 29;
-    int oy = ((NewNumber>>2) & 3) * 37;
-    dc.Blit(x_, y_, 28 , 36, &dcMemory, ox, oy);
-    
+
+    if (!turnedOff_)
+    {
+        int ox = (NewNumber & 3) * 29;
+        int oy = ((NewNumber>>2) & 3) * 37;
+        dc.Blit(x_, y_, 28 , 36, &dcMemory, ox, oy);
+    }
+
     displayedNumber_ = NewNumber;
 }
 
 void Til313Italic::dp(wxDC& dc, bool status)
 {
+    dpStatus_ = status;
+    if (turnedOff_)
+        return;
+
     if (status)
         dcMemory.SelectObject(*til313BitmapPointer_led_on);
     else
         dcMemory.SelectObject(*til313BitmapPointer_led_off);
-    
+
     int ox = (displayedNumber_ & 3) * 29;
     int oy = ((displayedNumber_>>2) & 3) * 37;
     dc.Blit(x_, y_, 28 , 36, &dcMemory, ox, oy);
@@ -213,15 +224,15 @@ void Til313Italic::dp(wxDC& dc, bool status)
 
 void Til313Italic::turnOff(wxDC& dc, bool status)
 {
-    if (status)
-    {
+    turnedOff_ = status;
+    if (turnedOff_ && til313BitmapPointer_off != NULL)
         dcMemory.SelectObject(*til313BitmapPointer_off);
-        displayedNumber_ = 0;
-    }
+    else if (dpStatus_ && !turnedOff_)
+        dcMemory.SelectObject(*til313BitmapPointer_led_on);
     else
         dcMemory.SelectObject(*til313BitmapPointer_led_off);
-    
-    int ox = (displayedNumber_ & 3) * 29;
-    int oy = ((displayedNumber_>>2) & 3) * 37;
+
+    int ox = turnedOff_ ? 0 : (displayedNumber_ & 3) * 29;
+    int oy = turnedOff_ ? 0 : ((displayedNumber_>>2) & 3) * 37;
     dc.Blit(x_, y_, 28 , 36, &dcMemory, ox, oy);
 }
