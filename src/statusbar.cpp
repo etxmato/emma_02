@@ -36,8 +36,9 @@ EmmaStatusBar::EmmaStatusBar(wxWindow *parent)
     // then shows whatever the frame paints behind it, which is the video frames'
     // emulated screen colour (black) - so the bar stayed black in light mode.
     // The transparent style can't be changed afterwards and SetBackgroundColour()
-    // is ignored for it, so paint the window background here instead. The event is
-    // skipped so that wxStatusBarMac::OnPaint() still draws the separator and text.
+    // is ignored for it, so on macOS 26 and later onPaint() paints the background,
+    // separator and text itself and does not skip the event. On older macOS it
+    // skips, so wxStatusBarMac::OnPaint() draws the bar exactly as before.
     // onSysColourChanged() refreshes the bar when the system appearance changes.
     // See bug_fix_macos_statusbar_black.md.
     Bind(wxEVT_PAINT, &EmmaStatusBar::onPaint, this);
