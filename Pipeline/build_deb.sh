@@ -133,6 +133,16 @@ chmod 755 "$STAGE/usr/bin/emma_02"
 # that rsync -a copies through, which would ship unreadable data. git only tracks the
 # executable bit, so a polluted checkout is invisible in the commit.
 chmod -R a+rX "$STAGE"
+# macOS metadata (.DS_Store, AppleDouble ._*, .AppleDouble, .LSOverride) is never packaged (todo 12.6).
+# It is stripped from this staging copy only (the source tree is not touched); the build fails if any survives.
+: "${STAGE:?}"
+find "$STAGE" \( -name .DS_Store -o -name '._*' -o -name .AppleDouble -o -name .LSOverride \) -prune -exec rm -rf {} +
+META="$(find "$STAGE" \( -name .DS_Store -o -name '._*' -o -name .AppleDouble -o -name .LSOverride \))"
+if [ -n "$META" ]; then
+  echo "ERROR: macOS metadata survived staging:" >&2
+  echo "$META" >&2
+  exit 1
+fi
 
 # Naming (2026-10-25): emma_02-<os>-<arch>[-<variant>].<ext>
 DEB="$OUTDIR/emma_02-linux-${DEBARCH}${SUFFIX}.deb"

@@ -125,6 +125,16 @@ done < "$CONF"
 # desktop entry (parity with .dbp <<MENU>> and build_deb.sh)
 mkdir -p "$STAGE/usr/share/applications"
 cp -a "$SRCROOT/Pipeline/emma_02.desktop" "$STAGE/usr/share/applications/emma_02.desktop"
+# macOS metadata (.DS_Store, AppleDouble ._*, .AppleDouble, .LSOverride) is never packaged (todo 12.6).
+# It is stripped from this staging copy only (the source tree is not touched); the build fails if any survives.
+: "${STAGE:?}"
+find "$STAGE" \( -name .DS_Store -o -name '._*' -o -name .AppleDouble -o -name .LSOverride \) -prune -exec rm -rf {} +
+META="$(find "$STAGE" \( -name .DS_Store -o -name '._*' -o -name .AppleDouble -o -name .LSOverride \))"
+if [ -n "$META" ]; then
+  echo "ERROR: macOS metadata survived staging:" >&2
+  echo "$META" >&2
+  exit 1
+fi
 
 # --- one-release compatibility shim: CyberVision ROM filename case change ---
 # The previous payload shipped .../data/Cybervision/Cybervision2001.bin (capital

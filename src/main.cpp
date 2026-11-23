@@ -1929,7 +1929,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         int answer = wxMessageBox("New release detected: \n\nRe-install of XML files recommended\n\nThis will overwrite files in the XML directory:\n"+dataDir_+"Xml"+pathSeparator_+"\n\nContinue to install default XML files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
         if (answer == wxYES)
         {
-           reInstall(applicationDirectory_ + "data" + pathSeparator_ + "Xml" + pathSeparator_, dataDir_ + "Xml" + pathSeparator_, pathSeparator_);
+           if (!reInstall(applicationDirectory_ + "data" + pathSeparator_ + "Xml" + pathSeparator_, dataDir_ + "Xml" + pathSeparator_, pathSeparator_))
+               reportReInstallFailure();
 
            if (wxFile::Exists(dataDir_ + "CosmacElf"  + pathSeparator_+ "cosmac-elf,bare.xml") || wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "FRED1" + pathSeparator_+ "21 I.xml") || wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "FRED1_5" + pathSeparator_+ "bare.xml"))
            {
@@ -1944,7 +1945,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         answer = wxMessageBox("New release detected: \n\nRe-install of 1802 software files recommended\n\nThis will overwrite files in the 1802 software directory:\n"+dataDir_+"\n\nContinue to install default 1802 software files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
         if (answer == wxYES)
         {
-            reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_, "Xml");
+            if (!reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_, "Xml"))
+                reportReInstallFailure();
         }
     }
 
@@ -1968,7 +1970,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
                 if (answer == wxYES)
                 {
                     EMMA_MKDIR(dataDir + dirName);
-                    p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + dirName + pathSeparator_,  dataDir + dirName + pathSeparator_, pathSeparator_);
+                    if (!p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + dirName + pathSeparator_,  dataDir + dirName + pathSeparator_, pathSeparator_))
+                        p_Main->reportReInstallFailure();
                 }
                 configPointer->Write(dirName + "/SoftwareDirInstalled", true);
             }
@@ -1978,7 +1981,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
                 int answer = wxMessageBox("1802 Software directory " + dirName + " is empty, install default files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
                 if (answer == wxYES)
                 {
-                    p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + dirName + pathSeparator_,  dataDir + dirName + pathSeparator_, pathSeparator_);
+                    if (!p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + dirName + pathSeparator_,  dataDir + dirName + pathSeparator_, pathSeparator_))
+                        p_Main->reportReInstallFailure();
                 }
                 configPointer->Write(dirName + "/SoftwareDirInstalled", true);
             }
@@ -3088,8 +3092,10 @@ void Main::onReInstallXml(wxCommandEvent&WXUNUSED(event))
     int answer = wxMessageBox("This will overwrite files in the XML directory:\n"+dataDir_+"Xml"+pathSeparator_+"\n\nContinue to install default XML files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
     if (answer == wxYES)
     {
-       reInstall(applicationDirectory_ + "data" + pathSeparator_ + "Xml" + pathSeparator_, dataDir_ + "Xml" + pathSeparator_, pathSeparator_);
-       completedSplashScreen_ = new CompletedSplashScreen(this, "Re-install XML files completed!");
+       if (reInstall(applicationDirectory_ + "data" + pathSeparator_ + "Xml" + pathSeparator_, dataDir_ + "Xml" + pathSeparator_, pathSeparator_))
+           completedSplashScreen_ = new CompletedSplashScreen(this, "Re-install XML files completed!");
+       else
+           reportReInstallFailure();
     }
 }
 
@@ -3098,7 +3104,11 @@ void Main::onReInstallData(wxCommandEvent&WXUNUSED(event))
    int answer = wxMessageBox("This will overwrite files in the 1802 software directory:\n"+dataDir_+"\n\nContinue to install default 1802 software files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
    if (answer == wxYES)
    {
-      reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_, "Xml");
+      if (!reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_, "Xml"))
+      {
+          reportReInstallFailure();
+          return;
+      }
 
       if (wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "CosmacElf" + pathSeparator_+ "cosmac-elf,bare.xml") || wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "Cosmac Elf" + pathSeparator_+ "cosmac-elf,bare.xml") || wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "FRED1" + pathSeparator_+ "21 I.xml") || wxFile::Exists(dataDir_ + "Xml" + pathSeparator_+ "FRED1_5" + pathSeparator_+ "bare.xml") )
       {
@@ -3197,32 +3207,95 @@ void Main::deleteDir(wxString directory)
     delete dir;
 }
 
+// macOS metadata that must never be copied into, or left in, a data directory (todo 12.6).
+static bool isMacMetadataName(const wxString& name)
+{
+    return name.StartsWith("._") || name == ".DS_Store" || name == ".AppleDouble" || name == ".LSOverride";
+}
+
+// Deletes macOS metadata under dirName (stale copies from earlier installs). With wholeTree,
+// everything under dirName is deleted (used for metadata directories such as .AppleDouble).
+void Main::removeMacMetadata(wxString dirName, bool wholeTree)
+{
+    wxDir dir(dirName);
+    if (!dir.IsOpened())
+        return;
+
+    wxString filename;
+    bool cont = dir.GetFirst(&filename);
+    while (cont)
+    {
+        wxString path = dirName + filename;
+        bool metadata = isMacMetadataName(filename);
+        if (wxDir::Exists(path))
+        {
+            if (wholeTree || metadata)
+            {
+                removeMacMetadata(path + pathSeparator_, true);
+                wxRmdir(path);
+            }
+            else
+                removeMacMetadata(path + pathSeparator_, false);
+        }
+        else if (wholeTree || metadata)
+            wxRemoveFile(path);
+
+        cont = dir.GetNext(&filename);
+    }
+}
+
+void Main::reportReInstallFailure()
+{
+    wxMessageBox("Re-install incomplete. The first file that could not be copied is:\n" + reInstallFailedPath_ +
+                 "\n\nThe remaining files were still copied. Check that the destination is writable and run the re-install again.",
+                 "Emma 02", wxICON_ERROR | wxOK);
+}
+
 bool Main::reInstall(wxString sourceDir, wxString destinationDir, wxString pathSep, wxString doNotCopy)
 {
    wxString filename;
 
+   reInstallFailedPath_ = "";
    wxFileName destination(destinationDir);
    wxDir dir (sourceDir);
    if (!dir.IsOpened())
+   {
+       reInstallFailedPath_ = sourceDir;
        return false;
+   }
 
+   // Every entry is attempted; a failure is recorded (first one only) and the rest still copied (todo 12.6).
+   bool allCopied = true;
    bool cont = dir.GetFirst(&filename);
 
    while ( cont )
    {
      if (filename == doNotCopy)
+     {
          cont = dir.GetNext(&filename);
-     if (!cont)
-         return true;
-     if (wxDir::Exists(sourceDir + filename))
+         if (!cont)
+             break;
+     }
+     if (isMacMetadataName(filename))
+     {
+         cont = dir.GetNext(&filename);
+         continue;
+     }
+
+     bool isDir = wxDir::Exists(sourceDir + filename);
+     if (isDir)
          filename += pathSep;
      
      wxFileName source(sourceDir + filename);
      
-     copyTree(&source, &destination, pathSep);
+     if (!copyTree(&source, &destination, pathSep))
+         allCopied = false;
+     // Remove stale metadata from the destination copy of this directory (todo 12.6).
+     if (isDir)
+         removeMacMetadata(destinationDir + filename, false);
      cont = dir.GetNext(&filename);
    }
-   return true;
+   return allCopied;
 }
 
 void Main::removeOldXml(wxString dirName, wxString pathSep)
@@ -3564,8 +3637,10 @@ void Main::reInstallOnNotFound(wxString fileTypeString)
            destDir = dataDir_ + computerConfiguration.mainComputerFolder_ + pathSeparator_;
         }
            
-        if (!p_Main->reInstall(sourceDir,  destDir, pathSeparator_))
+        if (!wxDir::Exists(sourceDir))
             wxMessageBox("Default " + fileTypeString + " files were not found in:\n" + sourceDir + "\n\nInstall the Emma 02 data files or set the data directory to a location containing them.", "Emma 02", wxICON_EXCLAMATION | wxOK);
+        else if (!p_Main->reInstall(sourceDir,  destDir, pathSeparator_))
+            p_Main->reportReInstallFailure();
     }
 }
 
@@ -3586,7 +3661,11 @@ bool Main::copyTree( wxFileName* source, wxFileName* destination, wxString pathS
         wxString destinationFile = destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetFullName();
         makeFileWritable( destinationFile );
         if ( ! wxCopyFile(source->GetFullPath(), destinationFile ) )
+        {
+            if (reInstallFailedPath_.IsEmpty())
+                reInstallFailedPath_ = destinationFile;
             return false;
+        }
         
         wxYield ();
         return true;
@@ -3594,23 +3673,42 @@ bool Main::copyTree( wxFileName* source, wxFileName* destination, wxString pathS
     else
     {
 #if defined (__WXMAC__)
-        if( ! wxFileName::Mkdir(destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetDirs()[source->GetDirCount() - 1], 0777, wxPATH_MKDIR_FULL) )
-            return false;
+        wxString newDirectory = destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetDirs()[source->GetDirCount() - 1];
 #else
-        if( ! wxFileName::Mkdir(destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetDirs()[source->GetDirCount() - 1] + pathSep, 0777, wxPATH_MKDIR_FULL) )
-            return false;
+        wxString newDirectory = destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetDirs()[source->GetDirCount() - 1] + pathSep;
 #endif
+        // wxPATH_MKDIR_FULL: an existing directory is not an error.
+        if( ! wxFileName::Mkdir(newDirectory, 0777, wxPATH_MKDIR_FULL) )
+        {
+            if (reInstallFailedPath_.IsEmpty())
+                reInstallFailedPath_ = newDirectory;
+            return false;
+        }
     }
     
     // Deal sequentially with each child file & subdir.
     wxDir dir( source->GetPath() );
-    if ( !dir.IsOpened() )        return false;
+    if ( !dir.IsOpened() )
+    {
+        if (reInstallFailedPath_.IsEmpty())
+            reInstallFailedPath_ = source->GetPath();
+        return false;
+    }
     
-    // Go thru the dir, cloning 1 child @ a time.
+    // Go thru the dir, cloning 1 child @ a time. A child that fails is recorded and
+    // skipped; the remaining children are still copied (todo 12.6).
+    bool allCopied = true;
     wxString filename;
     bool cont = dir.GetFirst( &filename );
     while ( cont )
     {
+        // macOS metadata is never copied (todo 12.6).
+        if ( isMacMetadataName(filename) )
+        {
+            cont = dir.GetNext(&filename);
+            continue;
+        }
+
         wxString childPath = source->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + filename;
         wxString newDestinationPath = destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetDirs()[source->GetDirCount() - 1] + pathSep;
 
@@ -3630,12 +3728,11 @@ bool Main::copyTree( wxFileName* source, wxFileName* destination, wxString pathS
         
         // Clone it by recursion, whether it's a dir or file.
         if ( ! copyTree( &child, &newDestination, pathSep ) )
-            // If this fails, bug out.
-            return false;
+            allCopied = false;
         
         cont = dir.GetNext(&filename);
     } 
-    return true;
+    return allCopied;
 } 
 
 void Main::onFunctionKeys(wxCommandEvent&WXUNUSED(event))
