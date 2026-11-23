@@ -168,8 +168,6 @@
 		99B2ABBD27863E2500C73EB9 /* keymap_tmc_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABBB27863E2400C73EB9 /* keymap_tmc_11.xrc */; };
 		99B2AC1427863EDA00C73EB9 /* sb_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1227863EDA00C73EB9 /* sb_11.xrc */; };
 		99B2AC1527863EDA00C73EB9 /* sb_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1327863EDA00C73EB9 /* sb_14.xrc */; };
-		99B2AC1A27863EE600C73EB9 /* splash_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1827863EE600C73EB9 /* splash_11.xrc */; };
-		99B2AC1B27863EE600C73EB9 /* splash_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1927863EE600C73EB9 /* splash_14.xrc */; };
 		99B2AC1F27863EEC00C73EB9 /* vt_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1D27863EEB00C73EB9 /* vt_11.xrc */; };
 		99B2AC2027863EEC00C73EB9 /* vt_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1E27863EEC00C73EB9 /* vt_14.xrc */; };
 		99B6430C2E8AFEF7004081A0 /* cdp1862_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99B6430B2E8AFEF7004081A0 /* cdp1862_config.cpp */; };
@@ -316,7 +314,6 @@
 		99F37EEC285D1D9200C57417 /* sb_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1227863EDA00C73EB9 /* sb_11.xrc */; };
 		99F37EEE285D1D9200C57417 /* GPL-4.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99F8CF02211A1567002F02C6 /* GPL-4.syntax */; };
 		99F37EEF285D1D9200C57417 /* keymap_tmc_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2ABBA27863E2400C73EB9 /* keymap_tmc_14.xrc */; };
-		99F37EF0285D1D9200C57417 /* splash_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1927863EE600C73EB9 /* splash_14.xrc */; };
 		99F37EF1285D1D9200C57417 /* STK-1.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 996FCAE721430C240051F294 /* STK-1.syntax */; };
 		99F37EF5285D1D9200C57417 /* GPL-A_ROM.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9960FF22211953CE00DB2EDD /* GPL-A_ROM.syntax */; };
 		99F37EF7285D1D9200C57417 /* emma_02.htb in Resources */ = {isa = PBXBuildFile; fileRef = 999899A31F96A72600870480 /* emma_02.htb */; };
@@ -354,7 +351,6 @@
 		99F37F2A285D1D9200C57417 /* Quest_CC_Lic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 99F3746C1CADBBC2000DA615 /* Quest_CC_Lic.jpg */; };
 		99F37F2C285D1D9200C57417 /* main_mac_14.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99952FDD277E5CAF0068CD27 /* main_mac_14.xrc */; };
 		99F37F2D285D1D9200C57417 /* FPL-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99090B0E2118CFD7008B16DA /* FPL-2.syntax */; };
-		99F37F2E285D1D9200C57417 /* splash_11.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99B2AC1827863EE600C73EB9 /* splash_11.xrc */; };
 		99F828032E945A4A0007D2B0 /* mc6847_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F828022E945A4A0007D2B0 /* mc6847_config.cpp */; };
 		99F828042E945A4A0007D2B0 /* mc6847_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F828022E945A4A0007D2B0 /* mc6847_config.cpp */; };
 		99F8CF01211A155E002F02C6 /* FEL-1.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99F8CF00211A155E002F02C6 /* FEL-1.syntax */; };
@@ -391,7 +387,6 @@
 		9909A21C1F2144D200B17E58 /* FunctionKey.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = FunctionKey.pjd; sourceTree = "<group>"; };
 		9909A21D1F2144D200B17E58 /* About.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = About.pjd; sourceTree = "<group>"; };
 		9909A21E1F2144D200B17E58 /* Vt.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Vt.pjd; sourceTree = "<group>"; };
-		9909A21F1F2144D200B17E58 /* Splash.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Splash.pjd; sourceTree = "<group>"; };
 		9909A2231F2144D200B17E58 /* Cassette.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Cassette.pjd; sourceTree = "<group>"; };
 		9909A22F1F2144D200B17E58 /* Datadir.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Datadir.pjd; sourceTree = "<group>"; };
 		990CB2FD2FC2DD6E00E13C2C /* libserialport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = libserialport.h; path = src/libserialport.h; sourceTree = "<group>"; };
@@ -439,7 +434,6 @@
 		991A43D7279C56920049C544 /* keymap_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = keymap_12.xrc; sourceTree = "<group>"; };
 		991A43D8279C56A00049C544 /* keymap_tmc_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = keymap_tmc_12.xrc; sourceTree = "<group>"; };
 		991A43E9279CA7E50049C544 /* sb_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = sb_12.xrc; sourceTree = "<group>"; };
-		991A43EA279CA7F10049C544 /* splash_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = splash_12.xrc; sourceTree = "<group>"; };
 		991A43EB279CA7FA0049C544 /* vt_12.xrc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = vt_12.xrc; sourceTree = "<group>"; };
 		991CA4FD2EF34EA30005D09A /* crt8002_config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = crt8002_config.h; path = src/crt8002_config.h; sourceTree = "<group>"; };
 		991CA4FE2EF34EA30005D09A /* crt8002_config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = crt8002_config.cpp; path = src/crt8002_config.cpp; sourceTree = "<group>"; };
@@ -652,8 +646,6 @@
 		99B2ABBB27863E2400C73EB9 /* keymap_tmc_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = keymap_tmc_11.xrc; sourceTree = "<group>"; };
 		99B2AC1227863EDA00C73EB9 /* sb_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sb_11.xrc; sourceTree = "<group>"; };
 		99B2AC1327863EDA00C73EB9 /* sb_14.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sb_14.xrc; sourceTree = "<group>"; };
-		99B2AC1827863EE600C73EB9 /* splash_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = splash_11.xrc; sourceTree = "<group>"; };
-		99B2AC1927863EE600C73EB9 /* splash_14.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = splash_14.xrc; sourceTree = "<group>"; };
 		99B2AC1D27863EEB00C73EB9 /* vt_11.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = vt_11.xrc; sourceTree = "<group>"; };
 		99B2AC1E27863EEC00C73EB9 /* vt_14.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = vt_14.xrc; sourceTree = "<group>"; };
 		99B5DE4F1F4A228400674C05 /* images_linux */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images_linux; sourceTree = "<group>"; };
@@ -788,7 +780,6 @@
 				9909A2191F2144D200B17E58 /* KeyMap_TMC.pjd */,
 				99C23A272BEAC2AF00DEC8B0 /* MenuXml.pjd */,
 				9909A21B1F2144D200B17E58 /* SB.pjd */,
-				9909A21F1F2144D200B17E58 /* Splash.pjd */,
 				9909A21E1F2144D200B17E58 /* Vt.pjd */,
 				996C1614212F3F130061C30B /* pseudo.def */,
 				999F67A224B8975A00863075 /* amvbas.syntax */,
@@ -852,9 +843,6 @@
 				99B2AC1227863EDA00C73EB9 /* sb_11.xrc */,
 				991A43E9279CA7E50049C544 /* sb_12.xrc */,
 				99B2AC1327863EDA00C73EB9 /* sb_14.xrc */,
-				99B2AC1827863EE600C73EB9 /* splash_11.xrc */,
-				991A43EA279CA7F10049C544 /* splash_12.xrc */,
-				99B2AC1927863EE600C73EB9 /* splash_14.xrc */,
 				99B2AC1D27863EEB00C73EB9 /* vt_11.xrc */,
 				991A43EB279CA7FA0049C544 /* vt_12.xrc */,
 				99B2AC1E27863EEC00C73EB9 /* vt_14.xrc */,
@@ -1271,7 +1259,6 @@
 				99B2AC1427863EDA00C73EB9 /* sb_11.xrc in Resources */,
 				99F8CF03211A1567002F02C6 /* GPL-4.syntax in Resources */,
 				99B2ABBC27863E2500C73EB9 /* keymap_tmc_14.xrc in Resources */,
-				99B2AC1B27863EE600C73EB9 /* splash_14.xrc in Resources */,
 				996FCAE821430C240051F294 /* STK-1.syntax in Resources */,
 				9960FF23211953CE00DB2EDD /* GPL-A_ROM.syntax in Resources */,
 				999899A41F96A72600870480 /* emma_02.htb in Resources */,
@@ -1317,7 +1304,6 @@
 				99F374711CADBBC2000DA615 /* Quest_CC_Lic.jpg in Resources */,
 				99952FDE277E5CB00068CD27 /* main_mac_14.xrc in Resources */,
 				99090B0F2118CFD7008B16DA /* FPL-2.syntax in Resources */,
-				99B2AC1A27863EE600C73EB9 /* splash_11.xrc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1343,7 +1329,6 @@
 				99F37EEC285D1D9200C57417 /* sb_11.xrc in Resources */,
 				99F37EEE285D1D9200C57417 /* GPL-4.syntax in Resources */,
 				99F37EEF285D1D9200C57417 /* keymap_tmc_14.xrc in Resources */,
-				99F37EF0285D1D9200C57417 /* splash_14.xrc in Resources */,
 				99F37EF1285D1D9200C57417 /* STK-1.syntax in Resources */,
 				99F37EF5285D1D9200C57417 /* GPL-A_ROM.syntax in Resources */,
 				99F37EF7285D1D9200C57417 /* emma_02.htb in Resources */,
@@ -1389,7 +1374,6 @@
 				99F37F2A285D1D9200C57417 /* Quest_CC_Lic.jpg in Resources */,
 				99F37F2C285D1D9200C57417 /* main_mac_14.xrc in Resources */,
 				99F37F2D285D1D9200C57417 /* FPL-2.syntax in Resources */,
-				99F37F2E285D1D9200C57417 /* splash_11.xrc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

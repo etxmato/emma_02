@@ -371,6 +371,7 @@ void XmlParser::parseXmlFile(wxString xmlDir, wxString xmlFile)
     computerConfiguration.videoTerminalConfiguration.xmodemFileName = "";
 
     computerConfiguration.useSplashScreen_ = false;
+    computerConfiguration.splashConfiguration.text = "";
     computerConfiguration.debuggerConfiguration.videoLog_active = false;
     computerConfiguration.debuggerConfiguration.videoLog_defined = false;
     computerConfiguration.debuggerConfiguration.pseudoVariant = "";
@@ -9286,7 +9287,6 @@ void XmlParser::parseXml_Splash(wxXmlNode &node)
     int tagTypeInt;
 
     wxXmlNode *child = node.GetChildren();
-    computerConfiguration.splashConfiguration.dialog = "DEFAULT";
     
     while (child)
     {
@@ -9299,7 +9299,9 @@ void XmlParser::parseXml_Splash(wxXmlNode &node)
         switch (tagTypeInt)
         {
             case TAG_DIALOG:
-                computerConfiguration.splashConfiguration.dialog = child->GetNodeContent();
+                // Deprecated: named splash dialogs were replaced by the text
+                // elements below. Kept in the tag list so old configurations
+                // load without an unknown tag warning; content is ignored.
             break;
                 
             case TAG_TEXT:
@@ -9348,6 +9350,11 @@ void XmlParser::parseXml_Splash(wxXmlNode &node)
         
         child = child->GetNext();
     }
+
+    // Legacy configurations with only a (now ignored) <dialog> element have no
+    // text; do not create an empty splash window for them.
+    if (computerConfiguration.splashConfiguration.text.empty())
+        computerConfiguration.useSplashScreen_ = false;
 }
 
 void XmlParser::parseXml_VideoDump(wxXmlNode &node)

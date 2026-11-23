@@ -167,7 +167,6 @@ public:
     wxArrayString getTerminalFiles() {return computerConfiguration.videoTerminalConfiguration.terminalFiles;}
     size_t getNumberOfTerminalFiles() {return computerConfiguration.videoTerminalConfiguration.numberOfTerminalFiles;}
 
-    wxString getSplashDialog() {return computerConfiguration.splashConfiguration.dialog;};
     wxString getSplashText() {return computerConfiguration.splashConfiguration.text;};
 
     wxString getSelectedComputerText() {return computerInfo.name;};

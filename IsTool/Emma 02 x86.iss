@@ -56,8 +56,6 @@ Source: ..\menuXml_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuXml_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\sb_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\sb_12.xrc; DestDir: {app}; Components: MAIN
-Source: ..\splash_11.xrc; DestDir: {app}; Components: MAIN
-Source: ..\splash_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\vt_11.xrc; DestDir: {app}; Components: MAIN
 Source: ..\vt_12.xrc; DestDir: {app}; Components: MAIN
 Source: ..\win7_11.ini; DestDir: {app}; Components: MAIN

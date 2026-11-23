@@ -66,22 +66,12 @@
     </system>
     
     <splash>
-        <!-- splash screen shown on computer emulator startup, if dialog is not used DEFAULT splash window is shown.
-        <dialog>: select pre-defined dialog:
-        Vip: Show VIP message for ROM Mode and FPB
-        SBV1_VT: Show SuperBasic V1.4 message on VT
-        SBV1_SUPER: Show SuperBasic V1.4 message on Super Video
-        SBV3_SUPER: Show SuperBasic V3 message on Super Video
-        RCA_BASIC: Show RCA BASIC message
-        ELFOS: Show Elf/Os message on VT
-        Monitor: Show MINIMON and GOLDMON message
-        TINY: Show TINY BASIC message
-        TINY_VT: Show TINY BASIC message on VT
-        Elf2K_VT: Show Elf2K message on VT
-        MCDS: Show MCDS UT62 message
-        When dialog DEFAULT is selected use <mac>, <windows> and <linux> if you need differetn text to be shown per OS, use <text> if it can be the same on any OS. Use &#xD; for a carriage return character
+        <!-- splash screen shown on computer emulator startup.
+        Use <text> if the message is the same on all platforms, or <mac>, <windows> and <linux>
+        for platform specific messages. Use &#xD; for a carriage return character.
+        <dialog> is deprecated: it is still accepted so old configurations load without a warning,
+        but its content is ignored. A splash without <text>, <mac>, <windows> or <linux> is not shown.
         -->
-        <dialog>DEFAULT</dialog>
     </splash>
     
     <gui>

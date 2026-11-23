@@ -1871,7 +1871,6 @@ public:
 class SplashConfiguration
 {
 public:
-    wxString dialog;
     wxString text;
 };
 

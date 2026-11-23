@@ -14,6 +14,7 @@ private:
     void onTimer(wxTimerEvent&event);
       
     wxTimer *timerPointer;
+    wxButton *noCloseButton_;
     
     bool vt100_;
     

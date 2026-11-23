@@ -22,14 +22,9 @@
 #include "wx/msw/private.h"
 #endif
 
-#if !wxUSE_COMBOCTRL
-    #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
-#endif
-
 #include "splash.h"
 #include "main.h"
 #include "wx/xrc/xmlres.h"
-#include "xrc_compat.h"
 
 BEGIN_EVENT_TABLE(SplashScreen, wxDialog)
     EVT_BUTTON(XRCID("NoShow"), SplashScreen::noShow)
@@ -68,33 +63,42 @@ static void ApplySplashDarkTitleBar(wxWindow* splashWin)
 #endif
 
 SplashScreen::SplashScreen(wxWindow *parent)
+    : wxDialog(parent, wxID_ANY, "Emma 02 - Info", wxDefaultPosition, wxDefaultSize,
+               wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxTAB_TRAVERSAL)
 {
-    wxString dialog;
     vt100_ = false;
-    
-    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash_" + p_Main->getFontSize() + ".xrc");
-    dialog = p_Main->getSplashDialog();
-    wxXmlResource::Get()->LoadDialog(this, parent, dialog);
-    
-    if (dialog == "DEFAULT")
+    noCloseButton_ = NULL;
+    SetExtraStyle(wxWS_EX_BLOCK_EVENTS);
+
+    // The splash window is built in code; splash_<fontsize>.xrc is no longer
+    // loaded. Same text scaling as before: 11 (standard) uses the system font,
+    // 12/14 set the point size on the dialog, the children inherit it.
+    long fontSize = 11;
+    p_Main->getFontSize().ToLong(&fontSize);
+    if (fontSize != 11)
     {
-        XRCCTRL(*this,"SplashText",wxStaticText)->SetLabel(p_Main->getSplashText());
-#if wxCHECK_VERSION(2, 9, 0)
-        XRCCTRL(*this,"DEFAULT",wxDialog)->DoLayoutAdaptation();
-#else
-        // wx 2.8 (W2K line) has no DoLayoutAdaptation(): re-fit the dialog to the new
-        // label, otherwise the text is clipped to the XRC placeholder size.
-        GetSizer()->SetSizeHints(this);
-        GetSizer()->Fit(this);
-        Layout();
-        Centre();
-#endif
+        wxFont font = GetFont();
+        font.SetPointSize((int)fontSize);
+        SetFont(font);
     }
+
+    wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
+    sizer->Add(new wxStaticText(this, wxID_ANY, p_Main->getSplashText()), 0, (int)wxALIGN_LEFT|wxALL, 5);
+
+    wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
+    noCloseButton_ = new wxButton(this, XRCID("NoClose"), "Don't close");
+    buttonSizer->Add(noCloseButton_, 1, (int)wxGROW, 5);
+    buttonSizer->AddSpacer(5);
+    buttonSizer->Add(new wxButton(this, XRCID("NoShow"), "Don't show again"), 1, (int)wxGROW, 5);
+    sizer->Add(buttonSizer, 0, (int)wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
+    SetSizerAndFit(sizer);
+    Centre();
 
 #ifdef __WXMSW__
     // Force the dark immersive title bar (wx pushes dark mode onto the frame's
-    // controls, but a LoadDialog-loaded wxDialog from the memory template can
-    // keep the light title bar / border).
+    // controls, but a dialog created in code can keep the light title bar /
+    // border).
 #if wxCHECK_VERSION(3, 1, 0)
     ApplySplashDarkTitleBar(this);
 #endif
@@ -120,7 +124,8 @@ void SplashScreen::noShow(wxCommandEvent&WXUNUSED(event))
 
 void SplashScreen::noClose(wxCommandEvent&WXUNUSED(event))
 {
-    XRCCTRL(*this,"NoClose",wxButton)->Enable(false);
+    if (noCloseButton_ != NULL)
+        noCloseButton_->Enable(false);
     timerPointer->Stop();
 }
 
@@ -146,7 +151,7 @@ CompletedSplashScreen::CompletedSplashScreen(wxWindow *parent, const wxString& m
     timerPointer = NULL;
     SetExtraStyle(wxWS_EX_BLOCK_EVENTS);
 
-    // Same text scaling as the splash XRC files: standard uses the system font,
+    // Same text scaling as SplashScreen above: standard uses the system font,
     // large uses the point size of the selected font size.
     long fontSize = 11;
     p_Main->getFontSize().ToLong(&fontSize);

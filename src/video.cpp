@@ -341,6 +341,7 @@ Video::Video(const wxString& title, const wxPoint& pos, const wxSize& size)
     videoType_ = 0;
     videoNumber_ = 0;
     videoSyncCount_ = 0;
+    splashScreen_ = NULL;
 //    memoryDCvalid_ = true;
     memoryDCvalid_ = false;
     reBlink_ = false;
