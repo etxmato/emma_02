@@ -19,7 +19,9 @@
 #endif
 
 #ifdef __WXMSW__
-#include "wx/msw/private.h"
+// windows.h for GetOsVersion() below (RTL_OSVERSIONINFOEXW, GetModuleHandleW,
+// GetProcAddress). wrapwin.h is the wx-cleaned wrapper, as used in main.cpp.
+#include "wx/msw/wrapwin.h"
 #endif
 
 #if !wxUSE_COMBOCTRL
