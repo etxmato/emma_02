@@ -1373,6 +1373,7 @@ public:
     void removeRedundantFiles();
     void deleteDir(wxString directory);
     bool reInstall(wxString source, wxString destination, wxString pathSep, wxString doNotCopy="");
+    void checkInstallDefaultData();
     void removeMacMetadata(wxString dirName, bool wholeTree);
     void reportReInstallFailure();
     wxString reInstallFailedPath_;

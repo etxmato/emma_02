@@ -1803,6 +1803,13 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     xmlLoaded_ = false;
     configurationMenuOn_ = false;
     guiInitialized_ = false;
+
+    // First thing in the body, so it still runs before the per-directory install prompts below
+    // and before any code needs the software directories. It cannot move back into the GuiMain
+    // constructor: reInstall() uses Main members that are not constructed yet at that point
+    // (todo 12.6 crash).
+    checkInstallDefaultData();
+
     
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
@@ -1970,8 +1977,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
                 if (answer == wxYES)
                 {
                     EMMA_MKDIR(dataDir + dirName);
-                    if (!p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + dirName + pathSeparator_,  dataDir + dirName + pathSeparator_, pathSeparator_))
-                        p_Main->reportReInstallFailure();
+                    if (!reInstall(applicationDirectory_ + "data" + pathSeparator_ + dirName + pathSeparator_,  dataDir + dirName + pathSeparator_, pathSeparator_))
+                        reportReInstallFailure();
                 }
                 configPointer->Write(dirName + "/SoftwareDirInstalled", true);
             }
@@ -1981,8 +1988,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
                 int answer = wxMessageBox("1802 Software directory " + dirName + " is empty, install default files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
                 if (answer == wxYES)
                 {
-                    if (!p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + dirName + pathSeparator_,  dataDir + dirName + pathSeparator_, pathSeparator_))
-                        p_Main->reportReInstallFailure();
+                    if (!reInstall(applicationDirectory_ + "data" + pathSeparator_ + dirName + pathSeparator_,  dataDir + dirName + pathSeparator_, pathSeparator_))
+                        reportReInstallFailure();
                 }
                 configPointer->Write(dirName + "/SoftwareDirInstalled", true);
             }
@@ -3249,6 +3256,32 @@ void Main::reportReInstallFailure()
     wxMessageBox("Re-install incomplete. The first file that could not be copied is:\n" + reInstallFailedPath_ +
                  "\n\nThe remaining files were still copied. Check that the destination is writable and run the re-install again.",
                  "Emma 02", wxICON_ERROR | wxOK);
+}
+
+// Offers to install the default 1802 software when the data directory is empty. Called at the
+// start of the Main constructor body: it must run before the per-directory install prompts, and
+// it cannot run in the GuiMain constructor because reInstall() uses Main members that are not
+// constructed yet at that point (both were null-this crashes, todo 12.6).
+void Main::checkInstallDefaultData()
+{
+   wxDir checkDirForFiles;
+   bool dataDirEmpty = true;
+   if (wxDir::Exists(dataDir_))
+   {
+       checkDirForFiles.Open(dataDir_);
+       if (checkDirForFiles.HasFiles() || checkDirForFiles.HasSubDirs())
+           dataDirEmpty = false;
+   }
+
+   if (dataDirEmpty)
+   {
+       if (!wxDir::Exists(dataDir_))
+           EMMA_MKDIR(dataDir_);
+
+       int answer = wxMessageBox("1802 Software directory is empty, install default files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+       if (answer == wxYES)
+           reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_);
+   }
 }
 
 bool Main::reInstall(wxString sourceDir, wxString destinationDir, wxString pathSep, wxString doNotCopy)
