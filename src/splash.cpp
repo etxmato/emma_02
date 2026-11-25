@@ -19,7 +19,7 @@
 #endif
 
 #ifdef __WXMSW__
-#include "wx/msw/private.h"
+#include "wx/msw/wrapwin.h"
 #endif
 
 #include "splash.h"

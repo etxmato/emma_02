@@ -28,10 +28,6 @@
     #include "wx/wx.h"
 #endif
 
-#ifdef __WXMSW__
-#include "wx/msw/private.h"
-#endif
-
 #if !wxUSE_COMBOCTRL
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
