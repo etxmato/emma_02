@@ -24,6 +24,13 @@
 #include "statusbar.h"
 #include "pushbutton.h"
 
+// Horizontal LED position: count pitches of (width + spacing), rounded to whole
+// pixels. Spacing may be fractional (e.g. /Bar/ledSpacingDiag=4.5).
+static int ledPitch(int count, int width, double spacing)
+{
+    return (int)(count*(width+spacing)+0.5);
+}
+
 EmmaStatusBar::EmmaStatusBar(wxWindow *parent)
 : wxStatusBar(parent, wxID_ANY, 0)
 {
@@ -126,22 +133,19 @@ ComxStatusBar::ComxStatusBar(wxWindow *parent)
     ledsDefined_ = false;
     statusLedUpdate_ = true;
     slotLedUpdate_ = true;
-        
-#if defined(__WXMSW__)
-    led_pos_y_ = 9;
-#else
-    led_pos_y_ = p_Main->getBarLedPosY();
-#endif
-    ledPosX1_ = p_Main->getBarLedPosX1();
-    ledPosX2_ = p_Main->getBarLedPosX2();
-    ledSpacing_ = 2; //p_Main->getBarLedSpacing();
+
+    // Y comes from /Bar/ledPosComxY (Windows default 9 is in the platform ini files).
+    led_pos_y_ = p_Main->getBarLedPosComxY();
+    ledPosX1_ = p_Main->getBarLedPosComxX1();
+    ledPosX2_ = p_Main->getBarLedPosComxX2();
+    ledSpacing_ = p_Main->getBarLedSpacingComx();
 
     offsetField_ = 1;
 
     ledOffsetX_ = ledPosX2_;
     lastLedPosX_ = -1;
 
-    leaderString_ = p_Main->getBarLeader();
+    leaderString_ = p_Main->getBarLeaderComx();
     
     for (int i=0; i<5; i++)
         statusBarElementMeasure[i] = p_Main->getStatusBarElementMeasure(i);
@@ -245,9 +249,9 @@ void ComxStatusBar::displayLeds()
         {
             wxPoint position;
 #if defined(__linux__) || defined(__WXMAC__)
-            position = wxPoint((card+offsetField_)*((int)rect.GetWidth()+ledSpacing_)+i*14+ledOffsetX_+(card*3), led_pos_y_);
+            position = wxPoint(ledPitch(card+offsetField_, (int)rect.GetWidth(), ledSpacing_)+i*14+ledOffsetX_+(card*3), led_pos_y_);
 #else
-            position = wxPoint((card+offsetField_)*(rect.GetWidth()+ledSpacing_)+i*14+ledOffsetX_, led_pos_y_);
+            position = wxPoint(ledPitch(card+offsetField_, rect.GetWidth(), ledSpacing_)+i*14+ledOffsetX_, led_pos_y_);
 #endif
             if (!ledsDefined_)
             {
@@ -588,7 +592,7 @@ CidelsaStatusBar::CidelsaStatusBar(wxWindow *parent)
     ledOnPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/comxledon.png", wxBITMAP_TYPE_PNG);
 
     ledsDefined_ = false;
-    led_pos_y_ = p_Main->getBarLedPosY();
+    led_pos_y_ = p_Main->getBarLedPosCidelsaY();
 
     for (int i=0; i<5; i++)
         status_[i] = false;
@@ -596,7 +600,7 @@ CidelsaStatusBar::CidelsaStatusBar(wxWindow *parent)
     leaderString_ = p_Main->getBarLeaderCidelsa();
     statusBarElementMeasure0_ = p_Main->getStatusBarElementMeasure(0);
     statusBarElementMeasure1_ = p_Main->getStatusBarElementMeasure(1);
-    ledSpacing_ = 2; //p_Main->getBarLedSpacing();
+    ledSpacing_ = p_Main->getBarLedSpacingCidelsa();
 }
 
 CidelsaStatusBar::~CidelsaStatusBar()
@@ -751,22 +755,24 @@ void CidelsaStatusBar::displayLeds()
     {
 #if defined(__linux__)
         ledBitmapPointers [number] = new PushBitmapButton(this, number, *ledOnPointer,
-                                     wxPoint(number*(rect.GetWidth()+ledSpacing_)+3+number*3, led_pos_y_), wxSize(-1, -1),
+                                     wxPoint(ledPitch(number, rect.GetWidth(), ledSpacing_)+3+number*3, led_pos_y_), wxSize(-1, -1),
                                      wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMAC__)
         ledBitmapPointers [number] = new PushBitmapButton(this, number, *ledOnPointer,
-                                                          wxPoint(number*(rect.GetWidth()+ledSpacing_)+3+number*3, led_pos_y_), wxSize(-1, -1),
+                                                          wxPoint(ledPitch(number, rect.GetWidth(), ledSpacing_)+3+number*3, led_pos_y_), wxSize(-1, -1),
                                                           wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMSW__)
+        // Y comes from /Bar/ledPosCidelsaY; the fixed 9 here made the key dead on
+        // Windows 2000 and XP (9 is still the Windows default when it is absent).
 #if !defined(EMMA_LED_BITMAP_BUTTON_W28)
         ledBitmapPointers [number] = new PushButton(this, number, wxEmptyString,
-                                     wxPoint(number*(rect.GetWidth()+ledSpacing_)+3, 9), wxSize(CIDELSA_LED_SIZE_X, CIDELSA_LED_SIZE_Y),
+                                     wxPoint(ledPitch(number, rect.GetWidth(), ledSpacing_)+3, led_pos_y_), wxSize(CIDELSA_LED_SIZE_X, CIDELSA_LED_SIZE_Y),
                                      wxBORDER_NONE);
 #else
         ledBitmapPointers [number] = new PushBitmapButton(this, number, *ledOffPointer,
-                                     wxPoint(number*(rect.GetWidth()+ledSpacing_)+3, 9), wxSize(CIDELSA_LED_SIZE_X, CIDELSA_LED_SIZE_Y),
+                                     wxPoint(ledPitch(number, rect.GetWidth(), ledSpacing_)+3, led_pos_y_), wxSize(CIDELSA_LED_SIZE_X, CIDELSA_LED_SIZE_Y),
                                      wxBORDER_NONE);
 #endif
 #endif
@@ -803,6 +809,13 @@ void CidelsaStatusBar::reDrawBar()
     displayLeds();
 }
 
+// X of diag LED `led`: led*(width+spacing)+2, rounded to whole pixels so a
+// fractional /Bar/ledSpacingDiag (e.g. 4.5) lands on the nearest pixel.
+static int diagLedX(int led, int width, double spacing)
+{
+    return ledPitch(led, width, spacing)+2;
+}
+
 DiagStatusBar::DiagStatusBar(wxWindow *parent)
 : EmmaStatusBar (parent)
 {
@@ -821,6 +834,7 @@ DiagStatusBar::DiagStatusBar(wxWindow *parent)
     ledsDefined_ = false;
     
     led_pos_y_ = p_Main->getBarLedPosDiagY();
+    ledSpacingDiag_ = p_Main->getBarLedSpacingDiag();
     leaderString_ = p_Main->getBarLeaderDiag();
     statusBarElementMeasure0_ = p_Main->getStatusBarElementMeasure(0);
     statusBarElementMeasure1_ = p_Main->getStatusBarElementMeasure(1);
@@ -922,21 +936,23 @@ void DiagStatusBar::displayLeds()
     {
 #if defined(__linux__)
        if (ledStatus_[led])
-           diagLedPointer [led] = new PushBitmapButton(this, led, *ledOnPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
+           diagLedPointer [led] = new PushBitmapButton(this, led, *ledOnPointer, wxPoint(diagLedX(led, (int)rect.GetWidth(), ledSpacingDiag_), led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
         else
-            diagLedPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
+            diagLedPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(diagLedX(led, (int)rect.GetWidth(), ledSpacingDiag_), led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMAC__)
         if (ledStatus_[led])
-            diagLedPointer [led] = new PushBitmapButton(this, led, *ledOnPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
+            diagLedPointer [led] = new PushBitmapButton(this, led, *ledOnPointer, wxPoint(diagLedX(led, (int)rect.GetWidth(), ledSpacingDiag_), led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
         else
-            diagLedPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
+            diagLedPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(diagLedX(led, (int)rect.GetWidth(), ledSpacingDiag_), led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMSW__)
+        // LED pitch = field width + ledSpacingDiag_ (/Bar/ledSpacingDiag, default 4,
+        // may be fractional, e.g. 4.5), the same on every platform.
 #if !defined(EMMA_LED_BITMAP_BUTTON_W28)
-        diagLedPointer [led] = new PushButton(this, led, wxEmptyString, wxPoint(led*((int)rect.GetWidth()+1)+led+2, led_pos_y_), wxSize(DIAG_LED_SIZE_X, DIAG_LED_SIZE_Y), wxBORDER_NONE);
+        diagLedPointer [led] = new PushButton(this, led, wxEmptyString, wxPoint(diagLedX(led, (int)rect.GetWidth(), ledSpacingDiag_), led_pos_y_), wxSize(DIAG_LED_SIZE_X, DIAG_LED_SIZE_Y), wxBORDER_NONE);
 #else
-        diagLedPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(led*((int)rect.GetWidth()+1)+led+2, led_pos_y_), wxSize(DIAG_LED_SIZE_X, DIAG_LED_SIZE_Y), wxBORDER_NONE);
+        diagLedPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(diagLedX(led, (int)rect.GetWidth(), ledSpacingDiag_), led_pos_y_), wxSize(DIAG_LED_SIZE_X, DIAG_LED_SIZE_Y), wxBORDER_NONE);
 #endif
 #endif
 
@@ -996,7 +1012,7 @@ VipIIStatusBar::VipIIStatusBar(wxWindow *parent)
     leaderString_ = p_Main->getBarLeaderVIP2();
     statusBarElementMeasure0_ = p_Main->getStatusBarElementMeasure(0);
     statusBarElementMeasure1_ = p_Main->getStatusBarElementMeasure(1);
-    ledSpacing_ = 2; //p_Main->getBarLedSpacing();
+    ledSpacing_ = p_Main->getBarLedSpacingVip2();
 
     led_pos_y_ = p_Main->getBarLedPosVip2Y();
 }
@@ -1077,31 +1093,33 @@ void VipIIStatusBar::displayLeds()
 #if defined(__linux__)
         if (ledStatus[led])
             ledBitmapPointers [led] = new PushBitmapButton(this, led, *ledOnPointer,
-                                     wxPoint(led*((int)rect.GetWidth()+ledSpacing_)+2+(led*3), led_pos_y_), wxSize(-1, -1),
+                                     wxPoint(ledPitch(led, (int)rect.GetWidth(), ledSpacing_)+2+(led*3), led_pos_y_), wxSize(-1, -1),
                                      wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
         else
             ledBitmapPointers [led] = new PushBitmapButton(this, led, *ledOffPointer,
-                                     wxPoint(led*((int)rect.GetWidth()+ledSpacing_)+2+(led*3), led_pos_y_), wxSize(-1, -1),
+                                     wxPoint(ledPitch(led, (int)rect.GetWidth(), ledSpacing_)+2+(led*3), led_pos_y_), wxSize(-1, -1),
                                      wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMAC__)
         if (ledStatus[led])
             ledBitmapPointers [led] = new PushBitmapButton(this, led, *ledOnPointer,
-                                     wxPoint(led*((int)rect.GetWidth()+ledSpacing_)+2+(led*3), led_pos_y_), wxSize(-1, -1),
+                                     wxPoint(ledPitch(led, (int)rect.GetWidth(), ledSpacing_)+2+(led*3), led_pos_y_), wxSize(-1, -1),
                                      wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
         else
             ledBitmapPointers [led] = new PushBitmapButton(this, led, *ledOffPointer,
-                                     wxPoint(led*((int)rect.GetWidth()+ledSpacing_)+2+(led*3), led_pos_y_), wxSize(-1, -1),
+                                     wxPoint(ledPitch(led, (int)rect.GetWidth(), ledSpacing_)+2+(led*3), led_pos_y_), wxSize(-1, -1),
                                      wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMSW__)
+        // Y must come from /Bar/ledPosVip2Y like the other platforms; the fixed 6
+        // here made the ini key dead on Windows 2000 and XP.
 #if !defined(EMMA_LED_BITMAP_BUTTON_W28)
         ledBitmapPointers [led] = new PushButton(this, led, wxEmptyString,
-                                 wxPoint(led*(rect.GetWidth()+ledSpacing_)+2, 6), wxSize(12, 12),
+                                 wxPoint(ledPitch(led, rect.GetWidth(), ledSpacing_)+2, led_pos_y_), wxSize(12, 12),
                                  wxBORDER_NONE);
 #else
         ledBitmapPointers [led] = new PushBitmapButton(this, led, *ledOffPointer,
-                                 wxPoint(led*(rect.GetWidth()+ledSpacing_)+2, 6), wxSize(12, 12),
+                                 wxPoint(ledPitch(led, rect.GetWidth(), ledSpacing_)+2, led_pos_y_), wxSize(12, 12),
                                  wxBORDER_NONE);
 #endif
 #endif

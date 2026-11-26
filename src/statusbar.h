@@ -76,7 +76,7 @@ private:
     int lastLedPosX_;
     
     int offsetField_;
-    int ledSpacing_;
+    double ledSpacing_;
 
     int ledOffsetX_;
     
@@ -128,7 +128,7 @@ private:
     int led_pos_y_;
     int statusBarElementMeasure0_;
     int statusBarElementMeasure1_;
-    int ledSpacing_;
+    double ledSpacing_;
     wxString leaderString_;
 
     DECLARE_EVENT_TABLE()
@@ -164,6 +164,7 @@ private:
     wxMask *maskOn;
     
     int led_pos_y_;
+    double ledSpacingDiag_;
     int statusBarElementMeasure0_;
     int statusBarElementMeasure1_;
     wxString leaderString_;
@@ -204,7 +205,7 @@ private:
     int led_pos_y_;
     int statusBarElementMeasure0_;
     int statusBarElementMeasure1_;
-    int ledSpacing_;
+    double ledSpacing_;
     wxString leaderString_;
 
 

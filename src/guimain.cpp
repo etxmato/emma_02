@@ -31,6 +31,8 @@
 #include "wx/xrc/xmlres.h"
 #include "xrc_compat.h"
 #include "wx/spinctrl.h"
+#include <locale>
+#include <sstream>
 
 #include "main.h"
 #include "guimain.h"
@@ -148,6 +150,21 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
     turboOn_ = false;
     oldXmlFileName_ = "";
     batchConvertActive_ = false;
+}
+
+// Parses a decimal number independent of the system locale. Accepts "4.5" and
+// "4,5". Falls back to defaultValue if the text is not a complete number.
+static double parseDecimalSetting(const wxString& text, double defaultValue)
+{
+    wxString t = text;
+    t.Trim(true).Trim(false);
+    t.Replace(wxT(","), wxT("."));
+    std::istringstream in(std::string(t.ToAscii()));
+    in.imbue(std::locale::classic());
+    double value = 0.0;
+    if ((in >> value) && (in >> std::ws).eof())
+        return value;
+    return defaultValue;
 }
 
 WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
@@ -297,10 +314,13 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
     returnValue.yBorder2 = (int)windowConfigPointer->Read("/Border/y2", 24);
     returnValue.xPrint = (int)windowConfigPointer->Read("/Print/x", 19);
     
-    returnValue.ledPosY = (int)windowConfigPointer->Read("/Bar/ledPosY", 2);
-    returnValue.ledPosX1 = (int)windowConfigPointer->Read("/Bar/ledPosX1", 0l);
-    returnValue.ledPosX2 = (int)windowConfigPointer->Read("/Bar/ledPosX2", 19);
-    returnValue.ledSpacing = (int)windowConfigPointer->Read("/Bar/ledSpacing", 1);
+    returnValue.ledPosComxY = (int)windowConfigPointer->Read("/Bar/ledPosComxY", 2);
+    returnValue.ledPosComxX1 = (int)windowConfigPointer->Read("/Bar/ledPosComxX1", 0l);
+    returnValue.ledPosComxX2 = (int)windowConfigPointer->Read("/Bar/ledPosComxX2", 19);
+    returnValue.ledSpacingComx = parseDecimalSetting(windowConfigPointer->Read("/Bar/ledSpacingComx", "2"), 2.0);
+    returnValue.ledSpacingCidelsa = parseDecimalSetting(windowConfigPointer->Read("/Bar/ledSpacingCidelsa", "2"), 2.0);
+    returnValue.ledSpacingVip2 = parseDecimalSetting(windowConfigPointer->Read("/Bar/ledSpacingVip2", "2"), 2.0);
+    returnValue.ledSpacingDiag = parseDecimalSetting(windowConfigPointer->Read("/Bar/ledSpacingDiag", "4"), 4.0);
 #if defined(__WXMAC__)
     returnValue.ledPosDiagY = (int)windowConfigPointer->Read("/Bar/ledPosDiagY", 2);
 #elif defined(__WXMSW__)
@@ -309,9 +329,10 @@ WindowInfo GuiMain::getWinSizeInfo(wxString appDir, wxString fontSizeString)
     returnValue.ledPosDiagY = (int)windowConfigPointer->Read("/Bar/ledPosDiagY", -2);
 #endif
     returnValue.ledPosVip2Y = (int)windowConfigPointer->Read("/Bar/ledPosVip2Y", -1);
+    returnValue.ledPosCidelsaY = (int)windowConfigPointer->Read("/Bar/ledPosCidelsaY", 2);
     
-    returnValue.statusBarLeader = windowConfigPointer->Read("/Bar/leader", "%d:           X");
-    returnValue.statusBarLeader = returnValue.statusBarLeader.Left (returnValue.statusBarLeader.Len()-1);
+    returnValue.statusBarLeaderComx = windowConfigPointer->Read("/Bar/leaderComx", "%d:           X");
+    returnValue.statusBarLeaderComx = returnValue.statusBarLeaderComx.Left (returnValue.statusBarLeaderComx.Len()-1);
 
     wxString leaderCidelsa = windowConfigPointer->Read("/Bar/leaderCidelsa", "      X");
     returnValue.statusBarLeaderCidelsa = leaderCidelsa.Mid (1, leaderCidelsa.Len()-2);

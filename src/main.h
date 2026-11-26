@@ -707,12 +707,16 @@ public:
     int green;
     int blue;
     
-    int ledPosX1;
-    int ledPosX2;
-    int ledSpacing;
-    int ledPosY;
+    int ledPosComxX1;
+    int ledPosComxX2;
+    double ledSpacingComx;
+    double ledSpacingCidelsa;
+    double ledSpacingVip2;
+    double ledSpacingDiag;
+    int ledPosComxY;
     int ledPosDiagY;
     int ledPosVip2Y;
+    int ledPosCidelsaY;
 
     int profilerOffset;
     int assemblerOffset;
@@ -721,7 +725,7 @@ public:
     
     int statusBarElementMeasure[5];
 
-    wxString statusBarLeader;
+    wxString statusBarLeaderComx;
     wxString statusBarLeaderCidelsa;
     wxString statusBarLeaderDiag;
     wxString statusBarLeaderVIP2;
