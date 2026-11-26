@@ -183,7 +183,7 @@ void Cdp1802::resetCpu()
     ctrRunning_ = 0;
     ctrMode_ = 0;
     idle_ = 0;
-    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
+    p_Computer->showStatusLed(IDLELED, idle_);
     address_ = 0;
     colourMask_ = 0;
     bus_ = 0;
@@ -271,7 +271,7 @@ void Cdp1802::setWait(int value)
 void Cdp1802::setIdle(bool value)
 {
     idle_= (value)?1:0;
-    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
+    p_Computer->showStatusLed(IDLELED, idle_);
 }
 
 void Cdp1802::setSys00Rpt(bool value)
@@ -302,7 +302,7 @@ void Cdp1802::holdIdle()
     instructionCode_ = 0;
     cpuState_ = STATE_EXECUTE_1;
     idle_ = 1;
-    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
+    p_Computer->showStatusLed(IDLELED, idle_);
 }
 
 #define DMA_READ_WRITE true
@@ -326,7 +326,7 @@ Byte Cdp1802::dmaIn(Byte value)
     dmaInValue = readMem(scratchpadRegister_[0]);
     address_ = scratchpadRegister_[0]++;
     idle_=0;
-    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
+    p_Computer->showStatusLed(IDLELED, idle_);
     cpuState_ = STATE_FETCH_1;
     cpuCycles_++;
     instructionCounter_++;
@@ -353,7 +353,7 @@ Byte Cdp1802::dmaOut()
     ret=readMem(scratchpadRegister_[0], DMA_READ_WRITE);
     address_ = scratchpadRegister_[0]++;
     idle_=0;
-    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
+    p_Computer->showStatusLed(IDLELED, idle_);
     cpuState_ = STATE_FETCH_1;
     cpuCycles_++;
     instructionCounter_++;
@@ -439,7 +439,7 @@ Byte Cdp1802::pixieDmaOut(int *color, int colourType)
 
     address_ = scratchpadRegister_[0]++;
     idle_=0;
-    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
+    p_Computer->showStatusLed(IDLELED, idle_);
     cpuState_ = STATE_FETCH_1;
     cpuCycles_++;
     instructionCounter_++;
@@ -468,7 +468,7 @@ void Cdp1802::visicomDmaOut(Byte *vram1, Byte *vram2)
 
     scratchpadRegister_[0]++;
     idle_=0;
-    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
+    p_Computer->showStatusLed(IDLELED, idle_);
     cpuState_ = STATE_FETCH_1;
     cpuCycles_++;
     instructionCounter_++;
@@ -489,7 +489,7 @@ Byte Cdp1802::pixieDmaOut()
     ret=readMem(scratchpadRegister_[0], DMA_READ_WRITE);
     address_ = scratchpadRegister_[0]++;
     idle_=0;
-    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
+    p_Computer->showStatusLed(IDLELED, idle_);
     cpuState_ = STATE_FETCH_1;
     cpuCycles_++;
     instructionCounter_++;
@@ -636,11 +636,11 @@ bool Cdp1802::interrupt()
             singleStateStep();
         }
         idle_=0;
-        p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
+        p_Computer->showStatusLed(IDLELED, idle_);
         return true;
     }
     idle_=0;
-    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
+    p_Computer->showStatusLed(IDLELED, idle_);
     return false;
 }
 
@@ -694,7 +694,7 @@ void Cdp1802::pixieInterrupt()
             singleStateStep();
     }
     idle_=0;
-    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
+    p_Computer->showStatusLed(IDLELED, idle_);
 }
 
 void Cdp1802::cpuCycleExecute1_1805()
@@ -1901,7 +1901,7 @@ void Cdp1802::cpuCycleExecute1()
                 // executing, i.e. no wake was serviced during this cycle.
                 if (cpuState_ == STATE_EXECUTE_1)
                     idle_=1;
-                p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
+                p_Computer->showStatusLed(IDLELED, idle_);
             }
             else
             {
@@ -1916,7 +1916,7 @@ void Cdp1802::cpuCycleExecute1()
                     if (idle_)
                         traceBuffer_ = ".";
                     idle_=1;
-                    p_Computer->showStatusLed(IDLELED, idle_ ^ 1);
+                    p_Computer->showStatusLed(IDLELED, idle_);
                 }
                 else
                 {
