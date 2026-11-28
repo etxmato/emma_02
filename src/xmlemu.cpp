@@ -8532,6 +8532,11 @@ void Computer::configureVideoExtensions()
         pixiePointer->initPixie();
         pixiePointer->setZoom(zoom);
         pixiePointer->Show(true);
+        // Same post-Show layout issue as the VIS1870 bars: the VIP II status
+        // bar builds its LEDs from the status-bar field width, which is only
+        // final after the frame has been shown.
+        if (currentComputerConfiguration.statusBarType == STATUSBAR_VIP2)
+            EmmaCallAfter(pixiePointer, &Pixie::reDrawBar);
 
         p_Main->setPixieRegister(PIXIE_DISABLE, true, DO_NOT_SHOW_ANY_TRACE);
         p_Main->setPixieRegister(PIXIE_ENABLE, false, DO_NOT_SHOW_ANY_TRACE);
@@ -8704,6 +8709,13 @@ void Computer::configureV1870Extension()
         defineMemoryType(0xf400, 0xf7ff, CRAM1870);
         defineMemoryType(0xf800, 0xffff, PRAM1870);
         vis1870Pointer->Show(true);
+        // The bar LEDs are laid out from the status-bar field width. Show() has
+        // not necessarily delivered the final size yet, so the init-time layout
+        // can use a different field width than the settled window. Queue the
+        // redraw for the GUI thread after Show() so every VIS1870 bar (COMX,
+        // DIAG and Cidelsa) is positioned against the final geometry.
+        if (currentComputerConfiguration.statusBarType != STATUSBAR_NONE)
+            EmmaCallAfter(vis1870Pointer, &VIS1870::reDrawBar);
         visRunning_ = true;
     }
 }
